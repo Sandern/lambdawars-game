@@ -1,0 +1,105 @@
+"wars.ruins"
+{
+
+	"playlooping"
+	{
+		"volume"	"0.55"
+		"pitch"		"100"
+		"wave"		"scapes/wars/synth/synth_loop1.wav"
+	}
+
+	"playrandom" // citadel stuff 1
+	{
+		"time"		"8,18"
+		"volume"	"0.1,0.34"
+		"pitch"		"70"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_140db"
+
+		"rndwave"
+		{
+			"wave"	"ambient/levels/citadel/citadel_5sirens3.wav"
+			"wave"	"ambient/levels/citadel/citadel_5sirens.wav"
+		}
+	}
+	
+	
+	"playrandom" // citadel stuff 2
+	{
+		"time"		"20,40"
+		"volume"	"0.1,0.4"
+		"pitch"		"100"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_140db"
+
+		"rndwave"
+		{
+			"wave"	"ambient/levels/citadel/fcitadel_alert.wav"
+			"wave"	"ambient/levels/citadel/fcitadel_alert.wav"
+			"wave"	"ambient/levels/citadel/fcitadel_deploydiagnose.wav"
+			"wave"	"ambient/levels/citadel/fcitadel_restrictorsdisengaged.wav"
+		}
+	}
+	
+	"playrandom"  // street stuff 1
+	{
+		"time"		"8.0,17.0"
+		"volume"	"0.3,0.5"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/city/city_battle1.wav"
+			"wave"		"scapes/wars/city/city_battle2.wav"
+			"wave"		"scapes/wars/city/city_battle3.wav"
+			"wave"		"scapes/wars/city/city_battle4.wav"
+			"wave"		"scapes/wars/city/city_battle5.wav"
+			"wave"		"scapes/wars/city/city_battle6.wav"
+			"wave"		"scapes/wars/city/city_battle7.wav"
+		}
+	}
+	
+		"playrandom"  // street stuff 2
+	{
+		"time"		"8.0,16.0"
+		"volume"	"0.3,0.5"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/city/city_battle8.wav"
+			"wave"		"scapes/wars/city/city_battle9.wav"
+			"wave"		"scapes/wars/city/city_battle10.wav"
+			"wave"		"scapes/wars/city/city_battle11.wav"
+			"wave"		"scapes/wars/city/city_battle12.wav"
+			"wave"		"scapes/wars/city/city_battle13.wav"
+			"wave"		"scapes/wars/city/city_battle14.wav"
+			"wave"		"scapes/wars/city/city_battle16.wav"
+			"wave"		"scapes/wars/city/city_battle17.wav"
+			"wave"		"scapes/wars/city/city_battle18.wav"
+			"wave"		"scapes/wars/city/city_battle19.wav"
+		}
+	}	
+	
+		"playrandom" // strider's sounds
+	{
+		"time"		"10.0,25.0"
+		"volume"	"0.3,0.45"
+		"pitch"		"75,100"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/synth/synth_strider_alert.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant_walk1.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant1.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant2.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant3.wav"
+		}
+	}
+}

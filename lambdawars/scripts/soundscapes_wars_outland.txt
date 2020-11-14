@@ -1,0 +1,74 @@
+"wars.outland"
+{
+		"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"
+	}
+	
+		"playrandom"
+	{
+		"time"		"4.0,12.0"
+		"volume"	"0.2,0.35"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_95dB"
+
+		"rndwave"
+		{
+			"wave"		"ambient/creatures/seagull_idle1.wav"
+			"wave"		"ambient/creatures/seagull_idle2.wav"
+			"wave"		"ambient/creatures/seagull_idle3.wav"
+		}
+	}
+	
+		"playrandom"
+	{
+		"time"		"8,20.0"
+		"volume"	"0.15,0.25"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+
+			"wave"		"ambient/levels/canals/windchine1.wav"
+			"wave"		"ambient/levels/canals/windchime2.wav"
+			"wave"		"ambient/levels/canals/windchime4.wav"
+			"wave"		"ambient/levels/canals/windchime5.wav"
+		}
+	}
+	
+		"playrandom"
+	{
+		"time"		"10.0,30.0"
+		"volume"	"0.15,0.35"
+		"pitch"		"90,100"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/misc/flap_stereo.wav"
+		}
+	}
+	
+		"playrandom"									
+	{											
+		"time"		"5,12"							
+		"volume"	"0.2,0.4"							
+		"pitch"		"60,125"
+		"position"	"random"
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient/wind/wind_hit1.wav"
+			"wave"		"ambient/wind/wind_hit2.wav"
+			"wave"		"ambient/wind/wind_hit3.wav"
+		}
+	}
+	
+	
+}

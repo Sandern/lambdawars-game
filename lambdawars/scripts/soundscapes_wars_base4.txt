@@ -1,0 +1,39 @@
+"wars.base4"
+{	
+	"dsp" "1"
+
+	"playlooping"										
+	{																	
+		"volume"	"0.4"							
+		"pitch"		"100"												
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"														
+	}
+											
+	"playrandom"										
+	{											
+		"time"		"3.0,8.0"							
+		"volume"	"0.15,0.25"							
+		"pitch"		"80,125"							
+		"position"	"random"							
+		"soundlevel"	"SNDLVL_110db"							
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient\wind\wind_hit1.wav"
+			"wave"		"ambient\wind\wind_hit2.wav"					
+		}										
+	}
+	
+	"playrandom"
+	{
+		"time"		"4.0, 15.0"
+		"volume"	"0.1,0.3"
+		"pitch"		"85,110"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/misc/industrial_signal1.wav"
+		}
+	}											
+}

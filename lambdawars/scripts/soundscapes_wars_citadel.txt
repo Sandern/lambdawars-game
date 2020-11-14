@@ -1,0 +1,36 @@
+"wars.citadel_looping"				
+{												
+	"playlooping"										
+	{																		
+		"volume"	"0.2"														
+		"pitch"		"100"													
+		"wave"		"ambient/levels/citadel/citadel_drone_loop4.wav"						
+	}
+
+	"playlooping"										
+	{																		
+		"volume"	"0.2"													
+		"pitch"		"100"																																				
+		"wave"		"ambient/levels/citadel/citadel_drone_loop2.wav"						
+	}
+
+	"playrandom"
+	{
+		"time"		"3.0,8.0"
+		"volume"	"0.2,0.6"
+		"pitch"		"70,100"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_140db"
+		"attenuation"	"0.2"
+		
+		"rndwave"
+		{
+			"wave"		"ambient\atmosphere\hole_hit5.wav"
+			"wave"		"ambient\machines\floodgate_stop1.wav"
+			"wave"		"ambient\machines\thumper_startup1.wav"
+			"wave"		"ambient\materials\metal4.wav"
+			"wave"		"ambient\materials\metal5.wav"
+			"wave"		"ambient\materials\shipgroan1.wav"
+		}										
+	}											
+}	

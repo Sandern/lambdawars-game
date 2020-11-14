@@ -1,0 +1,21 @@
+{
+    "name": "extreme_health_mod",
+    "dependencies": [
+        "wars_game"
+    ],
+    "defs": {
+        "units": {
+            "unit_rebel_commander": {
+                "__base__": "unit_rebel",
+                "health": 5000,
+                "scale": 1.05,
+                "weapons": ["weapon_ar2"]
+            },
+            "unit_combine_commander": {
+                "__base__": "unit_combine_elite",
+                "scale": 1.05,
+                "health": 5000
+            }
+        }
+    }
+}

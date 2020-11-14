@@ -1,0 +1,188 @@
+"lang"
+{
+
+	"Language" "English"
+	"Tokens"
+	{
+		// Generic strings
+		"Dialog_Confirm" "OK"
+		"Dialog_Cancel" "Cancel"
+		"Button_Next" "Next"
+		"Button_Previous" "Previous"
+		"Button_Back" "Back"
+
+		// Main Menu top bar
+		"MenuOnline" "Online"
+		"MenuInGame" "In Game"
+		"MenuOffline" "Offline"
+		"MenuSettings" "Settings"
+		"MenuWorkshop" "Workshop"
+		"MenuQuit" "Quit"
+		"MenuBonusSwarmKeeper_Tooltip" "Launch bonus Swarm Keeper map!"
+		"Menu_TooltipOpenProfile" "Open profile"
+		
+		// Online menu
+		"MP_HeadLine" "Play Multiplayer Lambda Wars"
+		"MP_FindOnlineGame" "Find Online Games"
+		"MP_FindOnlineGame_Desc" "Join an existing Lambda Wars multiplayer game lobby."
+		"MP_CreateGame" "Create Game"
+		"MP_CreateGame_Desc" "Create a new public Lambda Wars multiplayer game lobby."
+		"MP_DedicatedServer" "Dedicated Server Browser"
+		
+		// In Game Menu
+		"IG_HeadLine" "You are currently In-Game"
+		"IG_ReturnToGame" "Return to Game"
+		"IG_ReturnToGame_Desc" "Return to your active game."
+		"IG_Forfeit" "Forfeit"
+		"IG_Forfeit_Desc" "Forfeit your active game and become a spectator."
+		"IG_Disconnect" "Forfeit & Disconnect"
+		"IG_Disconnect_Desc" "Forfeit and Disconnect from your active game."
+		"IG_DisconnectHost_Desc" "Disconnect from your active game. WARNING: You are hosting the server, so this will disconnect everybody in the game and end it."
+		"IG_DisconnectHostConfirm" "Are you sure you want to disconnect? You are hosting the game and there are still players connected. Disconnecting will end the game for everyone."
+		"IG_DisconnectOffline_Desc" "End your active game."
+		
+		// Offline Menu
+		"SP_HeadLine" "Play Singleplayer Lambda Wars"
+		"SP_Missions" "Singleplayer Missions"
+		"SP_Missions_Desc" "Play a singleplayer Lambda Wars custom mission."
+		"SP_AISkirmish" "AI Skirmish"
+		"SP_AISkirmish_Desc" "Play offline on multiplayer maps against AI opponents."
+		"SP_Tutorial" "Tutorial"
+		"SP_Tutorial_Desc" "A brief introductory tutorial mission for players new to Lambda Wars or real-time strategy games."
+		
+		"Mission_Desc" "DESCRIPTION: "
+		"Mission_Launch" "Launch Mission"
+		"Mission_Easy" "Easy"
+		"Mission_Normal" "Normal"
+		"Mission_Hard" "Hard"
+		
+		// Load/save panel
+		"LG_LoadMenu" "Load saved game"
+		"LG_LoadMenu_Desc" "Loads a saved game from file."
+		"LG_SaveMenu" "Save game"
+		"LG_SaveMenu_Desc" "Saves a game to file."
+		"LG_Title" "Load game"
+		"LG_Load" "Load"
+		"LG_Save" "Save"
+		
+		// Chat
+		"Chat_Global" "Global Chat"
+		"Chat_PlayersOnline" "players online"
+		"Chat_WelcomeMsg" "Welcome to Lambda Wars! #br Never tell your password to anyone."
+		"Chat_UserEntered" "User entered"
+		"Chat_UserLeft" "User left"
+		"Chat_UserKicked" "User kicked"
+		"Chat_Send" "Send"
+		"Chat_OpenProfile"  "Profile"
+		"Chat_UnmutePlayer"  "Unmute"
+		"Chat_MutePlayer"  "Mute"
+		
+		// Settings
+		"Settings_Headline" "Settings & Options"
+		"Settings_Video" "Video Settings"
+		"Settings_Video_Desc" "Change resolution and other graphics settings."
+		"Settings_Brightness" "Brightness"
+		"Settings_Brightness_Desc" "Change the game brightness."
+		"Settings_Sound" "Sound Settings"
+		"Settings_Sound_Desc" "Adjust the game audio settings."
+		"Settings_KeyboardMouse" "Keyboard and Mouse"
+		"Settings_KeyboardMouse_Desc" "Configure your mouse and keyboard settings."
+		"Settings_Multiplayer" "Multiplayer Settings"
+		"Settings_Multiplayer_Desc" "Change your in-game options."
+		
+		// Online games
+		"OG_NoLobbies" "No lobbies available"
+		"OG_OneLobbyFound" "lobby found"
+		"OG_LobbiesFound" "lobbies found"
+		"OG_OneGameInProgress" "game in progress"
+		"OG_MultipleGamesInProgress" "games in progress"
+		"OG_Player" "player"
+		"OG_Players" "players"
+		"OG_Join" "Join"
+		"OG_BackToMenu" "Back to Menu"
+		"OG_CreateLobby" "Create Lobby"
+		"OG_RefreshList" "Refresh List"
+
+		// Match results
+		"MA_MatchHistory" "Match history"
+		"MA_Scores" "Scores"
+		"MA_Units" "Units"
+		"MA_Graphs" "Graphs"
+		"MA_Fetching" "Fetching..."
+
+		// Gamelobby
+		"GL_WelcomeGameLobby" "Entered game lobby"
+		"GL_Public" "Public"
+		"GL_FriendsOnly" "Friends Only"
+		"GL_Private" "Private"
+		
+		"GL_Kick" "Kick"
+		"GL_Kicked" "You've been kicked!"
+		"GL_ConfirmKickTitle" "Kick Player"
+		"GL_ConfirmKick" "Are you sure you want to kick this player? The player will not be able to join this lobby again."
+		
+		"GL_VersionMismatch" "The game version of the lobby owner does not match your game version. Make sure you or the lobby owner are up to date and not opt-in to any beta."
+		
+		"GL_Status" "Status"
+		"GL_StatusCreating" "Creating Steam Lobby..."
+		"GL_StatusJoining" "Joining Steam Lobby..."
+		"GL_StatusFindingServer" "Finding a Lambda Wars server..."
+		"GL_StatusStartingLocal" "Starting local server..."
+		"GL_StatusHostStartingLocal" "Unable to find a dedicated server. Lobby host is starting a local server..."
+		"GL_StatusInProgress" "Game in progress."
+		"GL_StatusGameEnded" "Game ended. You can leave the lobby."
+		"GL_StatusGameEndedContinue" "Game ended. You can leave the lobby or start a new game."
+		"GL_StatusFailedFindServer" "Failed to find a dedicated server."
+		"GL_StatusFailedFindReservedServer" "Failed to find reserved server, check the server password. Clear the field to find free available servers instead."
+		"GL_SpectatorsLabel" "Spectators:"
+		"GL_LeaveLobby" "Leave Game"
+		"GL_Spectate" "Spectate"
+		"GL_Invite" "Invite"
+		"GL_Launch" "Launch"
+		"GL_Ready" "Ready"
+		"GL_Unready" "Unready"
+		"GL_JoinGame" "Join Game"
+		"GL_Scores" "Scores"
+		
+		"GL_TakeSlot" "Take Slot"
+		"GL_AddCPU" "Add CPU"
+		"GL_RemoveCPU" "Remove CPU"
+		
+		"GL_GameSettings" "Game Settings"
+		"GL_GameMode" "Game Mode"
+		"GL_Map" "Map"
+		"GL_Team" "Team"
+		"GL_Teams" "Teams"
+		"GL_LobbyChat" "Lobby Chat"
+		"GL_FreeForAll" "Free for All"
+		"GL_MMPassword" "Server Password"
+		
+		// Steam errors
+		"Steam_NotAvailable" "Steam client missing or out of date. Try restarting Steam to fix the problem."
+		"Steam_Unknown" "Unknown Steam error"
+		"Steam_IOFailure" "IO Failure"
+		"Steam_NoConnection" "Unable to connect to Steam servers"
+		"Steam_Timeout" "Steam server failed to respond"
+		"Steam_Fail" "Steam server responded with unknown internal error"
+		"Steam_AccessDenied" "Access denied"
+		"Steam_LimitExceeded" "Exceeded Steam lobby limit"
+		
+		// ================================================================
+		// Viewport/ingame translation strings follow here
+		// ================================================================
+		// Player statuses panel
+		"PlayerStatus_Players" "Players"
+		
+		// Waiting for players panel, shown before the start of a match
+		"WFP_LobbyName" "Lobby Name"
+		"WFP_WaitText" "Waiting for Players..."
+		
+		// Overrun HUD
+		"Overrun_Ready" "Ready"
+		
+		// Chat
+		"Chat_SendLineText" "Chat"
+		"Chat_SendButton" "Send"
+		"Chat_SendTeamButton" "Send Team"
+	}
+}

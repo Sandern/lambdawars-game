@@ -1,0 +1,215 @@
+"soldiers"
+{
+	"Combine SMG1 vs Rebel SMG1" 
+	{
+		// Create a combine soldier named "combine"
+		"0"
+		{
+			"type"			"spawn"
+			"name"			"combine"
+			"unit"
+			{
+				"origin"		"128 0 0"
+				"unittype"		"unit_combine"
+				"amount"		"1"
+				"owner"			"2"
+			}
+		}
+		// Create a rebel soldier named "rebel"
+		"1"
+		{
+			"type"			"spawn"
+			"name"			"rebel"
+			"unit"
+			{
+				"origin"		"-128 0 0"
+				"unittype"		"unit_rebel"
+				"amount"		"1"
+				"owner"			"3"
+			}
+		}
+		// Wait until one dies
+		"2"
+		{
+			"type"			"run_until_one_is_left"
+		}
+		// Set some expected conditions
+		"3"
+		{
+			"type"					"expectations"
+			"winner"				"combine"
+			"winner_condition"		"0.15<posthealth_fract<0.35"
+			"winner_condition"		"-1.5<costeffectiveness_requisition<1.5"
+		}
+	}
+	
+	"6 Combine SMG1 vs 8 Rebel SMG1" 
+	{
+		// Create 6 combine soldiers named "combine"
+		"0"
+		{
+			"type"			"spawn"
+			"name"			"combine"
+			"unit"
+			{
+				"origin"		"128 0 0"
+				"unittype"		"unit_combine"
+				"amount"		"6"
+				"owner"			"2"
+			}
+		}
+		// Create 8 rebel soldiers named "rebel"
+		"1"
+		{
+			"type"			"spawn"
+			"name"			"rebel"
+			"unit"
+			{
+				"origin"		"-128 0 0"
+				"unittype"		"unit_rebel"
+				"amount"		"8"
+				"owner"			"3"
+			}
+		}
+		// Wait until one dies
+		"2"
+		{
+			"type"			"run_until_one_is_left"
+		}
+		// Set some expected conditions
+		"3"
+		{
+			"type"					"expectations"
+			"winner"				"rebel"
+			"winner_condition"		"0.3<posthealth_fract<0.5"
+			"winner_condition"		"4<costeffectiveness_requisition<7"
+		}
+	}
+	
+	
+	"Combine SMG1 vs Rebel Engineer" 
+	{
+		// Create a combine soldier named "combine"
+		"0"
+		{
+			"type"			"spawn"
+			"name"			"combine"
+			"unit"
+			{
+				"origin"		"128 0 0"
+				"unittype"		"unit_combine"
+				"amount"		"1"
+				"owner"			"2"
+			}
+		}
+		// Create a rebel soldier named "rebel"
+		"1"
+		{
+			"type"			"spawn"
+			"name"			"rebel"
+			"unit"
+			{
+				"origin"		"-128 0 0"
+				"unittype"		"unit_rebel_engineer"
+				"amount"		"1"
+				"owner"			"3"
+			}
+		}
+		// Wait until one dies
+		"2"
+		{
+			"type"			"run_until_one_is_left"
+		}
+		// Set some expected conditions
+		"3"
+		{
+			"type"					"expectations"
+			"winner"				"combine"
+			"winner_condition"		"0.77<posthealth_fract<0.95"
+			"winner_condition"		"10<costeffectiveness_requisition<20"
+		}
+	}
+	
+	"Combine AR2 vs Combine Elite" 
+	{
+		"0"
+		{
+			"type"			"spawn"
+			"name"			"combine ar2"
+			"unit"
+			{
+				"origin"		"128 0 0"
+				"unittype"		"unit_combine_ar2"
+				"amount"		"1"
+				"owner"			"2"
+			}
+		}
+		"1"
+		{
+			"type"			"spawn"
+			"name"			"combine elite"
+			"unit"
+			{
+				"origin"		"-128 0 0"
+				"unittype"		"unit_combine_elite"
+				"amount"		"1"
+				"owner"			"3"
+			}
+		}
+		// Wait until one dies
+		"2"
+		{
+			"type"			"run_until_one_is_left"
+		}
+		// Set some expected conditions
+		"3"
+		{
+			"type"					"expectations"
+			"winner"				"combine elite"
+			"winner_condition"		"0.5<posthealth_fract<0.7"
+			"winner_condition"		"5<costeffectiveness_requisition<10"
+		}
+	}
+	
+	"Hunter vs Rebel Veteran" 
+	{
+		"0"
+		{
+			"type"			"spawn"
+			"name"			"hunter"
+			"unit"
+			{
+				"origin"		"128 0 0"
+				"unittype"		"unit_hunter"
+				"amount"		"1"
+				"owner"			"2"
+			}
+		}
+		
+		"1"
+		{
+			"type"			"spawn"
+			"name"			"rebel veteran"
+			"unit"
+			{
+				"origin"		"-128 0 0"
+				"unittype"		"unit_rebel_veteran"
+				"amount"		"1"
+				"owner"			"3"
+			}
+		}
+		// Wait until one dies
+		"2"
+		{
+			"type"			"run_until_one_is_left"
+		}
+		// Set some expected conditions
+		"3"
+		{
+			"type"					"expectations"
+			"winner"				"hunter"
+			"winner_condition"		"0.7<posthealth_fract<0.9"
+			"winner_condition"		"18<costeffectiveness_requisition<24"
+		}
+	}
+}

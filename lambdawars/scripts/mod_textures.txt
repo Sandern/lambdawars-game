@@ -1,0 +1,458 @@
+"sprites/640_hud"
+{
+	TextureData
+	{	
+		"voice_player"
+		{
+			"file"		"voice/icntlk_sv"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+		"voice_self"
+		{
+			"file"		"voice/icntlk_local"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+		
+		// Old "classic" hud
+		"hud_panel_old"
+		{
+				"file"		"vgui/hud_panel"
+				"x"			"0"
+				"y"			"32"
+				"width"		"1024"
+				"height"	"224"
+		}
+
+		"hud_panel_wide_old"
+		{
+				"file"		"vgui/hud_panel_wide"
+				"x"			"0"
+				"y"			"70"
+				"width"		"1024"
+				"height"	"186"
+		}
+		"hud_classic_unitbutton"
+		{
+				"file"		"vgui/hud_unitbutton"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		"hud_classic_button_selected"
+		{
+				"file"		"vgui/button_selected"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		"hud_classic_button_hover"
+		{
+				"file"		"vgui/button_hover"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		"hud_classic_portrait"
+		{
+				"file"      "VGUI/background_portrait"
+				"x"			"0"
+				"y"			"0"
+				"width"		"64"
+				"height"	"128"
+		}
+        
+		// Rebels hud
+		"hud_rebels_minimap"
+		{
+				"file"      "VGUI/rebels/hud_minimap"
+				"x"			"0"
+				"y"			"52"
+				"width"		"505"
+				"height"	"460"
+		}
+		
+		"hud_rebels_population"
+		{
+				"file"      "VGUI/rebels/hud_popcap"
+				"x"			"0"
+				"y"			"120"
+				"width"		"440"
+				"height"	"136"
+		}
+		
+		"hud_rebels_resource"
+		{
+				"file"      "VGUI/rebels/hud_resource"
+				"x"			"0"
+				"y"			"36"
+				"width"		"256"
+				"height"	"220"
+		}
+		
+		"hud_rebels_abilities"
+		{
+				"file"      "VGUI/rebels/hud_ability"
+				"x"			"0"
+				"y"			"56"
+				"width"		"512"
+				"height"	"456"
+		}
+		
+		"hud_rebels_units"
+		{
+				"file"      "VGUI/rebels/hud_unitselection"
+				"x"			"821"
+				"y"			"188"
+				"width"		"1227"
+				"height"	"324"
+		}
+		
+		"hud_rebels_portrait"
+		{
+				"file"      "VGUI/rebels/hud_portrait"
+				"x"			"8"
+				"y"			"188"
+				"width"		"248"
+				"height"	"324"
+		}
+		"hud_rebels_portrait_bg"
+		{
+				"file"      "VGUI/rebels/hud_portrait_bg"
+				"x"			"8"
+				"y"			"188"
+				"width"		"248"
+				"height"	"324"
+		}
+		
+		hud_rebels_button_enabled
+		{
+				"file"      "VGUI/rebels/hud_button_enabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_button_disabled
+		{
+				"file"      "VGUI/rebels/hud_button_dis"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_button_pressed
+		{
+				"file"      "VGUI/rebels/hud_button_pressed"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_button_hover
+		{
+				"file"      "VGUI/rebels/hud_button_hover"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_unitbutton_enabled
+		{
+				"file"      "VGUI/rebels/hud_unitslot_enabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_unitbutton_hover
+		{
+				"file"      "VGUI/rebels/hud_unitslot_hover"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_unitbutton_pressed
+		{
+				"file"      "VGUI/rebels/hud_unitslot_pressed"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_unitbutton_disabled
+		{
+				"file"      "VGUI/rebels/hud_unitslot_disabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_rebels_groupbutton
+		{
+				"file"      "VGUI/rebels/hud_groupbutton"
+				"x"			"42"
+				"y"			"33"
+				"width"		"86"
+				"height"	"95"
+		}
+		hud_rebels_button_toggleteamcolor
+		{
+				"file"      "VGUI/buttons/teamcolortoggle"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		hud_rebels_button_toggleteamcolorhover
+		{
+				"file"      "VGUI/buttons/teamcolortogglehover"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		"hud_rebels_button_autocastoverlay"
+		{
+				"file"		"VGUI/rebels/hud_button_autocast"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		"hud_rebels_button_autocastoverlay_off"
+		{
+				"file"		"VGUI/rebels/hud_button_autocast_off"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+        
+		// Combine hud
+		"hud_combine_minimap"
+		{
+				"file"      "VGUI/combine/hud_minimap"
+				"x"			"0"
+				"y"			"26"
+				"width"		"508"
+				"height"	"486"
+		}
+		
+		"hud_combine_populationandresource"
+		{
+				"file"      "VGUI/combine/hud_minimap_side"
+				"x"			"0"
+				"y"			"50"
+				"width"		"428"
+				"height"	"440"
+		}
+		
+		"hud_combine_abilities"
+		{
+				"file"      "VGUI/combine/hud_ability"
+				"x"			"450"
+				"y"			"0"
+				"width"		"574"
+				"height"	"512"
+		}
+		
+		"hud_combine_units"
+		{
+				"file"      "VGUI/combine/hud_unitselection"
+				"x"			"895"
+				"y"			"104"
+				"width"		"1153"
+				"height"	"408"
+		}
+		"hud_combine_units_small"
+		{
+				"file"      "VGUI/combine/hud_unitselection_small"
+				"x"			"1033"
+				"y"			"104"
+				"width"		"1015"
+				"height"	"408"
+		}
+		
+		"hud_combine_portrait"
+		{
+				"file"      "VGUI/combine/hud_portrait"
+				"x"			"196"
+				"y"			"96"
+				"width"		"316"
+				"height"	"400"
+		}
+		"hud_combine_portrait_bg"
+		{
+				"file"      "VGUI/combine/hud_portrait_bg"
+				"x"			"196"
+				"y"			"96"
+				"width"		"316"
+				"height"	"400"
+		}
+		
+		hud_combine_button_enabled
+		{
+				"file"      "VGUI/combine/hud_button_enabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_button_disabled
+		{
+				"file"      "VGUI/combine/hud_button_dis"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_button_pressed
+		{
+				"file"      "VGUI/combine/hud_button_pressed"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_button_hover
+		{
+				"file"      "VGUI/combine/hud_button_hover"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_unitbutton_enabled
+		{
+				"file"      "VGUI/rebels/hud_unitslot_enabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_unitbutton_hover
+		{
+				"file"      "VGUI/rebels/hud_unitslot_hover"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_unitbutton_pressed
+		{
+				"file"      "VGUI/rebels/hud_unitslot_pressed"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_unitbutton_disabled
+		{
+				"file"      "VGUI/rebels/hud_unitslot_disabled"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		hud_combine_groupbutton
+		{
+				"file"      "VGUI/combine/hud_groupbutton"
+				"x"			"42"
+				"y"			"33"
+				"width"		"86"
+				"height"	"95"
+		}
+		hud_combine_button_toggleteamcolor
+		{
+				"file"      "VGUI/combine/hud_teamcolor"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		hud_combine_button_toggleteamcolorhover
+		{
+				"file"      "VGUI/combine/hud_teamcolor_hover"
+				"x"			"0"
+				"y"			"0"
+				"width"		"128"
+				"height"	"128"
+		}
+		"hud_combine_button_autocastoverlay"
+		{
+				"file"		"vgui/combine/hud_button_autocast"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		"hud_combine_button_autocastoverlay_off"
+		{
+				"file"		"vgui/combine/hud_button_autocast_off"
+				"x"			"13"
+				"y"			"0"
+				"width"		"115"
+				"height"	"128"
+		}
+		
+		// Icons
+		"hud_minimap_flag"
+		{
+				"file"		"vgui/hud_minimap_flag"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+		"hud_minimap_objective"
+		{
+				"file"		"vgui/hud_minimap_objective"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+		"hud_minimap_scrap"
+		{
+				"file"		"vgui/hud_minimap_scrap"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+		"hud_minimap_crate"
+		{
+				"file"		"vgui/hud_minimap_crate"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+		"hud_minimap_rift"
+		{
+				"file"		"vgui/hud_minimap_rift"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+		"hud_minimap_hq"
+		{
+				"file"		"vgui/hud_minimap_hq"
+				"x"			"0"
+				"y"			"0"
+				"width"		"16"
+				"height"	"16"
+		}
+	}
+}

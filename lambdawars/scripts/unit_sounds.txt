@@ -1,0 +1,2346 @@
+ //-----------------------------------------------------------------------------
+// common attenuation values
+//-----------------------------------------------------------------------------
+//
+// DON'T USE THESE - USE SNDLVL_ INSTEAD!!!
+//	ATTN_NONE		0.0f	
+//	ATTN_NORM		0.8f
+//	ATTN_IDLE		2.0f
+//	ATTN_STATIC		1.25f 
+//	ATTN_RICOCHET	1.5f
+//	ATTN_GUNFIRE	0.27f
+//
+//	SNDLVL_NONE		= 0,
+//	SNDLVL_25dB		= 25,
+//	SNDLVL_30dB		= 30,
+//	SNDLVL_35dB		= 35,
+//	SNDLVL_40dB		= 40,
+//	SNDLVL_45dB		= 45,
+//	SNDLVL_50dB		= 50,	= 3.9
+//	SNDLVL_55dB		= 55,	= 3.0
+//	SNDLVL_IDLE		= 60,	= 2.0
+//	SNDLVL_TALKING		= 60,	= 2.0
+//	SNDLVL_60dB		= 60,	= 2.0
+//	SNDLVL_65dB		= 65,	= 1.5
+//	SNDLVL_STATIC		= 66,	= 1.25
+//	SNDLVL_70dB		= 70,	= 1.0
+//	SNDLVL_NORM		= 75,
+//	SNDLVL_75dB		= 75,	= 0.8
+//	SNDLVL_80dB		= 80,	= 0.7
+//	SNDLVL_85dB		= 85,	= 0.6
+//	SNDLVL_90dB		= 90,	= 0.5
+//	SNDLVL_95dB		= 95,
+//	SNDLVL_100dB	= 100,	= 0.4
+//	SNDLVL_105dB	= 105,
+//	SNDLVL_120dB	= 120,
+//	SNDLVL_130dB	= 130,
+//	SNDLVL_GUNFIRE	= 140, = 0.27
+//	SNDLVL_140dB	= 140,	= 0.2
+//	SNDLVL_150dB	= 150,	= 0.2
+//
+
+// ANTLION UNITS
+"unit_antlion_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/idle1.wav"
+		"wave"	"npc/antlion/idle2.wav"
+		"wave"	"npc/antlion/idle3.wav"
+		"wave"	"npc/antlion/idle4.wav"
+		"wave"	"npc/antlion/idle5.wav"
+	}
+}
+
+"unit_antlion_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/antlion_preburst_scream1.wav"
+		"wave"	"npc/antlion/antlion_preburst_scream2.wav"
+		"wave"	"npc/antlion/distract1.wav"
+	}
+}
+
+"unit_antlion_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/attack_single1.wav"
+		"wave"	"npc/antlion/attack_single2.wav"
+		"wave"	"npc/antlion/attack_single3.wav"
+		"wave"	"npc/antlion/attack_double1.wav"
+		"wave"	"npc/antlion/attack_double2.wav"
+		"wave"	"npc/antlion/attack_double3.wav"
+	}
+}
+
+"unit_antlionworker_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/idle1.wav"
+		"wave"	"npc/antlion/idle2.wav"
+		"wave"	"npc/antlion/idle3.wav"
+		"wave"	"npc/antlion/idle4.wav"
+		"wave"	"npc/antlion/idle5.wav"
+	}
+}
+
+"unit_antlionworker_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/antlion_preburst_scream1.wav"
+		"wave"	"npc/antlion/antlion_preburst_scream2.wav"
+		"wave"	"npc/antlion/distract1.wav"
+	}
+}
+
+"unit_antlionworker_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion/attack_single1.wav"
+		"wave"	"npc/antlion/attack_single2.wav"
+		"wave"	"npc/antlion/attack_single3.wav"
+		"wave"	"npc/antlion/attack_double1.wav"
+		"wave"	"npc/antlion/attack_double2.wav"
+		"wave"	"npc/antlion/attack_double3.wav"
+	}
+}
+
+"unit_antlionguard_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion_guard/angry2.wav"
+	}
+}
+
+"unit_antlionguard_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion_guard/angry1.wav"
+		"wave"	"npc/antlion_guard/angry3.wav"
+	}
+}
+
+"unit_antlionguard_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/antlion_guard/antlion_guard_pain1.wav"
+		"wave"	"npc/antlion_guard/antlion_guard_pain2.wav"	
+	}
+}
+// COMBINE UNITS
+"unit_combine_hurt"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+	
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/pain1.wav"
+		"wave"	"npc/combine_soldier/pain2.wav"
+		"wave"	"npc/combine_soldier/pain3.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+	}
+}
+
+"unit_metropolice_hurt"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+	
+	"rndwave"
+	{
+		"wave"	"npc/metropolice/pain1.wav"
+		"wave"	"npc/metropolice/pain2.wav"
+		"wave"	"npc/metropolice/pain3.wav"
+		"wave"	"npc/metropolice/pain4.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+	}
+}
+
+"unit_combine_citizen_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\male01\hi01.wav"
+		"wave"	"vo\npc\male01\hi02.wav"
+		"wave"	"vo\npc\male01\question06.wav"
+		"wave"	"vo\npc\male01\question27.wav"
+		"wave"	"vo\npc\male01\question28.wav"
+		"wave"	"vo\npc\male01\question02.wav"
+	}
+}
+
+"unit_combine_citizen_f_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\female01\hi01.wav"
+		"wave"	"vo\npc\female01\hi02.wav"
+		"wave"	"vo\npc\female01\question06.wav"
+		"wave"	"vo\npc\female01\question27.wav"
+		"wave"	"vo\npc\female01\question28.wav"
+		"wave"	"vo\npc\female01\question02.wav"
+	}
+}
+
+"unit_combine_citizen_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\male01\excuseme01.wav"
+		"wave"	"vo\npc\male01\excuseme02.wav"
+		"wave"	"vo\npc\male01\answer36.wav"
+		"wave"	"vo\npc\male01\answer26.wav"
+		"wave"	"vo\npc\male01\answer16.wav"
+		"wave"	"vo\npc\male01\answer03.wav"
+	}
+}
+
+"unit_combine_citizen_f_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\female01\excuseme01.wav"
+		"wave"	"vo\npc\female01\excuseme02.wav"
+		"wave"	"vo\npc\female01\answer36.wav"
+		"wave"	"vo\npc\female01\answer26.wav"
+		"wave"	"vo\npc\female01\answer16.wav"
+		"wave"	"vo\npc\female01\answer03.wav"
+	}
+}
+
+"unit_combine_citizen_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\male01\answer29.wav"
+		"wave"	"vo\npc\male01\gordead_ans01.wav"
+		"wave"	"vo\npc\male01\gordead_ans04.wav"
+		"wave"	"vo\npc\male01\gordead_ques10.wav"
+		"wave"	"vo\npc\male01\ohno.wav"
+		"wave"	"vo\npc\male01\question21.wav"
+		"wave"	"vo\npc\male01\squad_affirm06.wav"
+	}
+}
+
+"unit_combine_citizen_f_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo\npc\female01\answer29.wav"
+		"wave"	"vo\npc\female01\gordead_ans01.wav"
+		"wave"	"vo\npc\female01\gordead_ans04.wav"
+		"wave"	"vo\npc\female01\gordead_ques10.wav"
+		"wave"	"vo\npc\female01\ohno.wav"
+		"wave"	"vo\npc\female01\question21.wav"
+		"wave"	"vo\npc\female01\squad_affirm06.wav"
+	}
+}
+
+"unit_combine_metropolice_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/metropolice/vo/on1.wav"
+		"wave"	"npc/metropolice/vo/on2.wav"
+		"wave"	"npc/metropolice/vo/off1.wav"
+		"wave"	"npc/metropolice/vo/off4.wav"		
+	}
+}
+
+"unit_combine_metropolice_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/metropolice/vo/affirmative.wav"
+		"wave"	"npc/metropolice/vo/affirmative2.wav"
+		"wave"	"npc/metropolice/vo/copy.wav"
+		"wave"	"npc/metropolice/vo/patrol.wav"	
+		"wave"	"npc/metropolice/vo/examine.wav"	
+	}
+}
+
+"unit_combine_metropolice_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/metropolice/vo/cauterize.wav"	
+		"wave"	"npc/metropolice/vo/administer.wav"
+		"wave"	"npc/metropolice/vo/dontemove.wav"
+		"wave"	"npc/metropolice/vo/prosecute.wav"
+
+	
+	}
+}
+
+"unit_combine_metropolice_death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+	
+	"rndwave"
+	{
+		"wave"	"npc/metropolice/die1.wav"
+		"wave"	"npc/metropolice/die2.wav"
+		"wave"	"npc/metropolice/die3.wav"
+		"wave"	"npc/metropolice/die4.wav"
+	}
+}
+
+"unit_combine_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/on1.wav"
+		"wave"	"npc/combine_soldier/vo/off1.wav"
+		"wave"	"npc/combine_soldier/vo/off2.wav"
+		"wave"	"npc/combine_soldier/vo/off3.wav"		
+	}
+}
+
+"unit_combine_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/affirmative.wav"
+		"wave"	"npc/combine_soldier/vo/affirmative2.wav"
+		"wave"	"npc/combine_soldier/vo/copy.wav"
+		"wave"	"npc/combine_soldier/vo/copythat.wav"	
+		"wave"	"npc/combine_soldier/vo/coverme.wav"	
+	}
+}
+
+"unit_combine_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/contact.wav"	
+		"wave"	"npc/combine_soldier/vo/contactconfim.wav"
+		"wave"	"npc/combine_soldier/vo/movein.wav"
+		"wave"	"npc/combine_soldier/vo/engaging.wav"
+
+	
+	}
+}
+
+"unit_combine_sg_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/on1.wav"
+		"wave"	"npc/combine_soldier/vo/off1.wav"
+		"wave"	"npc/combine_soldier/vo/off2.wav"
+		"wave"	"npc/combine_soldier/vo/off3.wav"		
+	}
+}
+
+"unit_combine_sg_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/affirmative.wav"
+		"wave"	"npc/combine_soldier/vo/affirmative2.wav"
+		"wave"	"npc/combine_soldier/vo/copy.wav"
+		"wave"	"npc/combine_soldier/vo/copythat.wav"	
+		"wave"	"npc/combine_soldier/vo/coverme.wav"	
+	}
+}
+
+"unit_combine_sg_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/contact.wav"	
+		"wave"	"npc/combine_soldier/vo/contactconfim.wav"
+		"wave"	"npc/combine_soldier/vo/movein.wav"
+		"wave"	"npc/combine_soldier/vo/engaging.wav"
+
+	
+	}
+}
+
+"unit_combine_ar2_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/on1.wav"
+		"wave"	"npc/combine_soldier/vo/off1.wav"
+		"wave"	"npc/combine_soldier/vo/off2.wav"
+		"wave"	"npc/combine_soldier/vo/off3.wav"		
+	}
+}
+
+"unit_combine_ar2_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/affirmative.wav"
+		"wave"	"npc/combine_soldier/vo/affirmative2.wav"
+		"wave"	"npc/combine_soldier/vo/copy.wav"
+		"wave"	"npc/combine_soldier/vo/copythat.wav"	
+		"wave"	"npc/combine_soldier/vo/coverme.wav"	
+	}
+}
+
+"unit_combine_ar2_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/contact.wav"	
+		"wave"	"npc/combine_soldier/vo/contactconfim.wav"
+		"wave"	"npc/combine_soldier/vo/movein.wav"
+		"wave"	"npc/combine_soldier/vo/engaging.wav"
+
+	
+	}
+}
+
+"unit_combine_elite_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/on1.wav"
+		"wave"	"npc/combine_soldier/vo/off1.wav"
+		"wave"	"npc/combine_soldier/vo/off2.wav"
+		"wave"	"npc/combine_soldier/vo/off3.wav"		
+	}
+}
+
+"unit_combine_elite_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/affirmative.wav"
+		"wave"	"npc/combine_soldier/vo/affirmative2.wav"
+		"wave"	"npc/combine_soldier/vo/copy.wav"
+		"wave"	"npc/combine_soldier/vo/copythat.wav"	
+		"wave"	"npc/combine_soldier/vo/coverme.wav"	
+	}
+}
+
+"unit_combine_elite_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/combine_soldier/vo/contact.wav"	
+		"wave"	"npc/combine_soldier/vo/contactconfim.wav"
+		"wave"	"npc/combine_soldier/vo/movein.wav"
+		"wave"	"npc/combine_soldier/vo/engaging.wav"
+
+	
+	}
+}
+
+
+"unit_stalker_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/stalker/stalker_alert3b.wav"
+		"wave"	"npc/stalker/stalker_ambient01.wav"	
+	}
+}
+
+
+"unit_stalker_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/stalker/stalker_alert1b.wav"
+		"wave"	"npc/stalker/stalker_alert2b.wav"
+		"wave"	"npc/stalker/stalker_pain3.wav"
+	}
+}
+
+
+"unit_stalker_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/stalker/stalker_laser_flesh.wav"
+	}
+}
+
+"unit_stalker_death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+	
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/stalker/go_alert1.wav"
+		"wave"	"npc/stalker/stalker_die1.wav"
+		"wave"	"npc/stalker/stalker_die2.wav"
+		"wave"	"npc/stalker/stalker_scream3.wav"
+		"wave"	"npc/stalker/stalker_scream4.wav"
+	}
+}
+
+"unit_hunter_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/ministrider/hunter_foundenemy_ack1.wav"
+		"wave"	"npc/ministrider/hunter_foundenemy_ack2.wav"
+		"wave"	"npc/ministrider/hunter_foundenemy_ack3.wav"	
+	}
+}
+
+"unit_hunter_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/ministrider/hunter_alert2.wav"
+		"wave"	"npc/ministrider/hunter_alert3.wav"
+		"wave"	"npc/ministrider/hunter_flank_announce1.wav"
+		"wave"	"npc/ministrider/hunter_idle2.wav"		
+	}
+}
+
+"unit_hunter_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/ministrider/hunter_foundenemy1.wav"	
+		"wave"	"npc/ministrider/hunter_foundenemy2.wav"
+		"wave"	"npc/ministrider/hunter_foundenemy3.wav"
+	}
+}
+
+"unit_strider_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/strider/striderx_pain5.wav"
+		"wave"	"npc/strider/striderx_alert6.wav"
+		"wave"	"npc/strider/striderx_pain5.wav"	
+	}
+}
+
+"unit_strider_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/strider/striderx_alert4.wav"
+		"wave"	"npc/strider/striderx_alert5.wav"		
+	}
+}
+
+"unit_scanner_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/scanner/combant_scan2.wav"
+		"wave"	"npc/scanner/combant_scan3.wav"
+		"wave"	"npc/scanner/combant_scan4.wav"	
+	}
+}
+
+"unit_scanner_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/scanner/scanner_scan1.wav"
+		"wave"	"npc/scanner/scanner_scan2.wav"	
+		"wave"	"npc/scanner/scanner_scan4.wav"		
+	}
+}
+
+"unit_strider_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/strider/striderx_alert2.wav"	
+		"wave"	"npc/strider/striderx_pain8.wav"
+	}
+}
+
+// REBEL UNITS
+
+"unit_vortigaunt_hurt"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/ware.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese04.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese07.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese08.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+	}
+}
+
+"unit_rebel_hurt"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/pain01.wav"
+		"wave"	"vo/npc/male01/pain02.wav"
+		"wave"	"vo/npc/male01/pain03.wav"
+		"wave"	"vo/npc/male01/pain04.wav"
+		"wave"	"vo/npc/male01/pain05.wav"
+		"wave"	"vo/npc/male01/pain06.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+	}
+}
+
+"unit_rebel_flamer_ignited"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/no01.wav"
+		"wave"	"vo/npc/male01/no02.wav"
+		"wave"	"vo/npc/male01/runforyourlife01.wav"
+		"wave"	"vo/npc/male01/runforyourlife02.wav"
+		"wave"	"vo/npc/male01/runforyourlife03.wav"
+	}
+}
+
+"unit_vortigaunt_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/beofservice.wav"
+		"wave"	"vo/npc/vortigaunt/here.wav"
+		"wave"	"vo/npc/vortigaunt/livetoserve.wav"
+		"wave"	"vo/npc/vortigaunt/stillhere.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese02.wav"
+		"wave"	"vo/npc/vortigaunt/weareyours.wav"
+		"wave"	"vo/npc/vortigaunt/wehonored.wav"
+		"wave"	"vo/npc/vortigaunt/wewillhelp.wav"
+	}
+}
+
+"unit_vortigaunt_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/affirmed.wav"
+		"wave"	"vo/npc/vortigaunt/asyouwish.wav"
+		"wave"	"vo/npc/vortigaunt/certainly.wav"
+		"wave"	"vo/npc/vortigaunt/forward.wav"
+		"wave"	"vo/npc/vortigaunt/gladly.wav"
+		"wave"	"vo/npc/vortigaunt/leadon.wav"
+		"wave"	"vo/npc/vortigaunt/onward.wav"
+		"wave"	"vo/npc/vortigaunt/passon.wav"
+		"wave"	"vo/npc/vortigaunt/thatisall.wav"
+		"wave"	"vo/npc/vortigaunt/vanswer05.wav"
+		"wave"	"vo/npc/vortigaunt/vanswer12.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese05.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese09.wav"
+		"wave"	"vo/npc/vortigaunt/vques03.wav"
+		"wave"	"vo/npc/vortigaunt/yes.wav"
+		"wave"	"vo/npc/vortigaunt/yesforward.wav"
+	}
+}
+
+
+"unit_vortigaunt_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/allowme.wav"
+		"wave"	"vo/npc/vortigaunt/caution.wav"
+		"wave"	"vo/npc/vortigaunt/done.wav"
+		"wave"	"vo/npc/vortigaunt/forfreedom.wav"
+		"wave"	"vo/npc/vortigaunt/gladly.wav"
+		"wave"	"vo/npc/vortigaunt/pleasure.wav"
+		"wave"	"vo/npc/vortigaunt/standclear.wav"
+		"wave"	"vo/npc/vortigaunt/tothevoid.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese03.wav"
+		"wave"	"vo/npc/vortigaunt/yes.wav"
+	}
+}
+
+"unit_vortigaunt_death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/vortigese02.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese03.wav"
+		"wave"	"vo/npc/vortigaunt/vortigese05.wav"
+	}
+}
+
+"unit_vortigaunt_attack_dyn"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/vortigaunt/vortigese09.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+		"wave"	"null.wav"
+	}
+}
+
+"unit_rebel_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/answer30.wav"
+		"wave"	"vo/npc/male01/question22.wav"
+		"wave"	"vo/npc/male01/heydoc01.wav"
+		"wave"	"vo/npc/male01/heydoc02.wav"
+		"wave"	"vo/npc/male01/squad_affirm02.wav"
+	}
+}
+
+"unit_rebel_f_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/female01/answer30.wav"
+		"wave"	"vo/npc/female01/question22.wav"
+		"wave"	"vo/npc/female01/heydoc01.wav"
+		"wave"	"vo/npc/female01/heydoc02.wav"
+		"wave"	"vo/npc/female01/squad_affirm02.wav"
+	}
+}
+
+"unit_rebel_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/squad_affirm01.wav"
+		"wave"	"vo/npc/male01/squad_affirm03.wav"
+		"wave"	"vo/npc/male01/squad_affirm07.wav"
+		"wave"	"vo/npc/male01/squad_affirm08.wav"
+		"wave"	"vo/npc/male01/squad_approach03.wav"
+		"wave"	"vo/npc/male01/answer37.wav"
+		"wave"	"vo/npc/male01/yougotit02.wav"
+	}
+}
+
+"unit_rebel_f_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/female01/squad_affirm01.wav"
+		"wave"	"vo/npc/female01/squad_affirm03.wav"
+		"wave"	"vo/npc/female01/squad_affirm07.wav"
+		"wave"	"vo/npc/female01/squad_affirm08.wav"
+		"wave"	"vo/npc/female01/squad_approach03.wav"
+		"wave"	"vo/npc/female01/answer37.wav"
+		"wave"	"vo/npc/female01/yougotit02.wav"
+	}
+}
+
+"unit_rebel_death"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/pain07.wav"
+		"wave"	"vo/npc/male01/pain08.wav"
+		"wave"	"vo/npc/male01/pain09.wav"
+		"wave"	"vo/npc/male01/startle01.wav"
+	}
+}
+
+"unit_rebel_f_death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/female01/ow01.wav"
+		"wave"	"vo/npc/female01/ow02.wav"
+		"wave"	"vo/npc/female01/pain01.wav"
+		"wave"	"vo/npc/female01/pain02.wav"
+		"wave"	"vo/npc/female01/pain03.wav"
+		"wave"	"vo/npc/female01/pain04.wav"
+		"wave"	"vo/npc/female01/pain05.wav"
+		"wave"	"vo/npc/female01/pain06.wav"
+		"wave"	"vo/npc/female01/pain07.wav"
+		"wave"	"vo/npc/female01/pain08.wav"
+		"wave"	"vo/npc/female01/pain09.wav"
+		"wave"	"vo/npc/female01/startle02.wav"
+	}
+}
+
+"unit_rebel_dog_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/dog_idle1.wav"
+		"wave"	"npc/dog/dog_idle2.wav"
+		"wave"	"npc/dog/dog_idle3.wav"
+		"wave"	"npc/dog/dog_idle4.wav"
+		"wave"	"npc/dog/dog_idle5.wav"
+	}
+}
+
+"unit_rebel_dog_move"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/dog_playfull1.wav"
+		"wave"	"npc/dog/dog_playfull3.wav"
+		"wave"	"npc/dog/dog_playfull4.wav"
+		"wave"	"npc/dog/dog_playfull5.wav"
+	}
+}
+
+"unit_rebel_dog_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/dog_growl2.wav"
+		"wave"	"npc/dog/dog_growl3.wav"
+	}
+}
+
+"unit_rebel_dog_angry"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/dog_angry1.wav"
+		"wave"	"npc/dog/dog_angry2.wav"
+		"wave"	"npc/dog/dog_angry3.wav"
+	}
+}
+
+"unit_rebel_dog_slam"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/car_impact1.wav"
+		"wave"	"npc/dog/car_impact2.wav"
+	}
+}
+
+"unit_rebel_dog_death"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/dog/dog_alarmed1.wav"
+		"wave"	"npc/dog/dog_alarmed3.wav"
+		"wave"	"npc/dog/dog_on_dropship.wav"
+	}
+}
+
+// REBEL BUILDINGS
+"build_reb_barracks"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Barracks.mp3"
+	}
+}
+
+"build_reb_barreltrap"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Barrel.mp3"
+	}
+}
+
+"build_reb_barreltrap_destruction"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R BarrelTrapDestroy.wav"
+	}
+}
+
+"build_reb_billet"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Billet.mp3"
+	}
+}
+
+"build_reb_billet_destruction"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R BilletDestroy.wav"
+	}
+}
+
+"build_reb_hq"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R HQ.mp3"
+	}
+}
+
+"build_reb_junkyard"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Junkyard2.wav"
+	}
+}
+
+"build_reb_munitiondepot"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Munitions Depot.mp3"
+	}
+}
+
+"build_reb_radiotower"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Radio Tower.mp3"
+	}
+}
+
+"build_reb_specialops"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Special Operations.mp3"
+	}
+}
+
+"build_reb_triagecenter"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Triage Center.mp3"
+	}
+}
+
+"build_reb_vortigauntden"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Vortigaunt Den.mp3"
+	}
+}
+
+"build_reb_bunker"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Bunker.wav"
+	}
+}
+
+
+
+// COMBINE BUILDINGS
+"build_comb_armory"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Armory.mp3"
+	}
+}
+
+"build_comb_energycell"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Energy Cell.mp3"
+	}
+}
+
+"build_comb_garrison"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Garrison.mp3"
+	}
+}
+
+
+"build_comb_headcrabcanisterlauncher"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Headcrab Launcher.mp3"
+	}
+}
+
+"build_comb_hq"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C HQ.mp3"
+	}
+}
+
+"build_comb_powergenerator"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Power Generator.mp3"
+	}
+}
+
+"build_comb_specialops"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Special Operations.mp3"
+	}
+}
+
+"build_comb_synthfactory"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Synth Factory.mp3"
+	}
+}
+
+"build_generic_explode1"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"physics/metal/metal_large_debris1.wav"
+	}
+}
+
+"build_reb_mturret_explode"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Turret1.wav"
+	}
+}
+
+"build_comb_mturret_explode"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Turret1.wav"
+	}
+}
+
+"build_comb_hq_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C HQDestroy.wav"
+	}
+}
+
+"build_reb_hq_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R HQDestroy.wav"
+	}
+}
+
+"build_comb_gen_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C GeneratorDestroy.wav"
+	}
+}
+
+"build_reb_bar_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R BarracksDestroy.wav"
+	}
+}
+
+"build_comb_armory_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C ArmoryDestroy.wav"
+	}
+}
+
+"build_comb_battery_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C BatteryDestroy.wav"
+	}
+}
+
+"build_comb_synthfactory_destroy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C SynthFactoryDestroy.wav"
+	}
+}
+
+"build_comb_bunker"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Bunker.wav"
+	}
+}
+
+// COMBINE ABILITIES
+"ability_comb_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_soldier_attack.wav"
+	}
+}
+
+"ability_comb_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_soldier_holdposition.wav"
+	}
+}
+
+"ability_comb_mp_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_metropolice_attack.wav"
+	}
+}
+
+"ability_comb_mp_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_metropolice_holdposition.wav"
+	}
+}
+
+"ability_comb_hunter_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_hunter_attack.wav"
+	}
+}
+
+"ability_comb_hunter_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_hunter_holdposition.wav"
+	}
+}
+
+"ability_comb_strider_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_strider_attack.wav"
+	}
+}
+
+"ability_comb_strider_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_strider_holdposition.wav"
+	}
+}
+
+"ability_comb_scanner_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/scanner/cbot_servoscared.wav"	
+	}
+}
+
+"ability_comb_stalker_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_stalker_attack.wav"
+	}
+}
+
+"ability_comb_stalker_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_stalker_holdposition.wav"
+	}
+}
+
+
+"ability_reb_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/letsgo01.wav"
+		"wave"	"vo/npc/male01/letsgo02.wav"
+	}
+}
+
+"ability_reb_attackmove_f"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/female01/letsgo01.wav"
+		"wave"	"vo/npc/female01/letsgo02.wav"
+	}
+}
+
+"ability_reb_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/male01/holddownspot01.wav"
+		"wave"	"vo/npc/male01/holddownspot02.wav"
+	}
+}
+
+"ability_reb_holdposition_f"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"vo/npc/female01/holddownspot01.wav"
+		"wave"	"vo/npc/female01/holddownspot02.wav"
+	}
+}
+
+"ability_reb_vortigaunt_attackmove"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/rebel_vortigaunt_attack.wav"
+	}
+}
+
+"ability_reb_vortigaunt_holdposition"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/rebel_vortigaunt_holdposition.wav"
+	}
+}
+
+"ability_c4exposive"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/rebel/C4.mp3"
+	}
+}
+
+"ability_infiltrate"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_60dB"
+
+	"rndwave"
+	{
+		"wave"	"abilities/rebel/Infiltrate.mp3"
+	}
+}
+
+"ability_sabotage"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_60dB"
+
+	"rndwave"
+	{
+		"wave"	"abilities/rebel/Sabotage.mp3"
+	}
+}
+
+"ability_smoke_grenade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_100dB"
+
+	"rndwave"
+	{
+		"wave"	"abilities/rebel/Smoke Grenade.mp3"
+	}
+}
+
+"ability_revolutionary_fervor"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_60dB"
+
+	"rndwave"
+	{
+		"wave"	"abilities/rebel/Revolutionary Fervor.mp3"
+	}
+}
+
+"ability_scan"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Radio Tower Scan.mp3"
+	}
+}
+
+"ability_combine_grenade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/combine/combine_grenade1.wav"
+		"wave"	"abilities/combine/combine_grenade2.wav"
+		"wave"	"abilities/combine/combine_grenade3.wav"
+	}
+}
+
+"ability_combine_deployturret"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/combine/deployturret1.wav"
+		"wave"	"abilities/combine/deployturret2.wav"
+		"wave"	"abilities/combine/deployturret3.wav"
+	}
+}
+
+"ability_combine_energyball"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/combine/combine_ball1.wav"
+		"wave"	"abilities/combine/combine_ball2.wav"
+		"wave"	"abilities/combine/combine_ball3.wav"
+	}
+}
+
+"ability_combine_deploymine"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/combine/combine_deploymine1.wav"
+		"wave"	"abilities/combine/combine_deploymine2.wav"
+		"wave"	"abilities/combine/combine_deploymine3.wav"
+	}
+}
+
+"ability_combine_deploymanhacks"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"abilities/combine/combine_deploymanhack1.wav"
+		"wave"	"abilities/combine/combine_deploymanhack2.wav"
+		"wave"	"abilities/combine/combine_deploymanhack3.wav"
+	}
+}
+
+"ability_combine_shotgun_upgrade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/shotgun_upgrade.wav"
+	}
+}
+
+"ability_combine_ar2_upgrade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/AR2_upgrade.wav"
+	}
+}
+
+"ability_combine_smg1_upgrade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/smg_upgrade.wav"
+	}
+}
+
+"combine_unit_complete"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/unitcomplete.wav"
+	}
+}
+
+"unit_controlpoint_select"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Control Point.mp3"
+	}
+}
+
+"combine_cp_captured"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_sectorsecured.wav"
+	}
+}
+
+"combine_cp_lost"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_sectorlost.wav"
+	}
+}
+
+"combine_cp_underattack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_sectorcontact.wav"
+	}
+}
+
+"rebels_cp_captured"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/rebel_capturing_op_point.wav"
+		"wave"	"misc/rebel_capturing_op_point02.wav"
+	}
+}
+
+"rebels_cp_lost"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/rebel_op_point_lost.wav"
+		"wave"	"misc/rebel_op_point_lost02.wav"
+	}
+}
+
+"rebels_cp_underattack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/rebel_op_point_under_attack.wav"
+		"wave"	"misc/rebel_op_point_under_attack02.wav"
+	}
+}
+
+"combine_unit_researchcomplete"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"misc/combine_researchcomplete.wav"
+	}
+}
+
+"combine_power_on"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Generator on.wav"
+	}
+}
+
+"combine_power_off"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+
+	"soundlevel"	"SNDLVL_120dB"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C Generator off.wav"
+	}
+}
+
+
+"build_neutral_rock_barricade"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/N RockBuilding1.wav"
+		"wave"	"Buildings/N RockBuilding2.wav"
+	}
+}
+
+"build_rebel_teleporter"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R Teleporter.wav"
+	}
+}
+"build_combine_mech_factory"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/C MechFactory.wav"
+	}
+}

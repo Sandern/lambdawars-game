@@ -1,0 +1,97 @@
+"wars.airstation"
+{
+	"playlooping"
+	{
+		"volume"	"0.5"							
+		"pitch"		"100"								
+		"wave"		"ambient/wind/wasteland_wind.wav"
+	}
+
+	"playrandom"
+	{
+		"time"		"5,12"							
+		"volume"	"0.15,0.45"							
+		"pitch"		"60,125"
+		"position"	"random"
+
+		"rndwave"									
+		{										
+			"wave"		"ambient/wind/wind_hit1.wav"
+			"wave"		"ambient/wind/wind_hit2.wav"
+			"wave"		"ambient/wind/wind_hit3.wav"
+			"wave"		"ambient/atmosphere/city_skypass1.wav"
+		}
+	}
+
+	"playrandom"									
+	{											
+		"time"		"22,32"							
+		"volume"	"0.1,0.45"							
+		"pitch"		"60,105"
+		"position"	"random"
+												
+		"rndwave"									
+		{										
+
+			"wave"		"ambient/atmosphere/city_skypass1.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"30,60"
+		"volume"	"0.35,0.5"
+		"pitch"		"90,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/alarms/manhack_alert_pass1.wav"
+			"wave"		"ambient/alarms/scanner_alert_pass1.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"21,32"
+		"volume"	"0.25,0.5"
+		"pitch"		"88,110"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/citadel/fcitadel_alert.wav"
+			"wave"		"ambient/levels/citadel/fcitadel_alert2.wav"
+			"wave"		"ambient/levels/citadel/fcitadel_deploydiagnose.wav"
+			"wave"		"ambient/levels/citadel/fcitadel_deploysterilizers.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"14,25"
+		"volume"	"0.3,0.6"
+		"pitch"		"80,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/machines/heli_pass1.wav"
+			"wave"		"ambient/machines/heli_pass2.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"20,30"
+		"volume"	"0.3,0.6"
+		"pitch"		"80,110"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/machines/aircraft_distant_flyby1.wav"
+			"wave"		"ambient/machines/aircraft_distant_flyby3.wav"
+		}
+	}
+}

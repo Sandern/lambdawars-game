@@ -1,0 +1,134 @@
+"wars.thicket_waterfall"
+{
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"		"100"
+		"wave"		"ambient/water/lake_water.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"		"100"
+		"wave"		"ambient/water/water_run1.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"		"100"
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"
+	}
+
+}
+
+"wars.thicket_river"
+{
+	"playlooping"
+	{
+		"volume"	"0.10"
+		"pitch"		"100"
+		"wave"		"ambient/water/lake_water.wav"
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.10"
+		"pitch"		"100"
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"
+	}
+
+	"playrandom"
+	{
+		"time"		"2.0,6.0"
+		"volume"	"0.08,0.15"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+
+			"wave"		"ambient/water/wave1.wav"
+			"wave"		"ambient/water/wave2.wav"
+			"wave"		"ambient/water/wave3.wav"
+			"wave"		"ambient/water/wave4.wav"
+			"wave"		"ambient/water/wave5.wav"
+			"wave"		"ambient/water/wave6.wav"
+		}
+	}
+}
+
+"wars.thicket" // were taken from the forest map and edited a little
+{												
+	"playlooping"										
+	{																	
+		"volume"	"0.15"							
+		"pitch"		"100"								
+		"wave"		"ambient/levels/canals/swamp_frogs_loop2.wav"												
+	}
+
+	"playrandom"									
+	{											
+		"time"		"9.0,14.0"							
+		"volume"	"0.08,0.15"							
+		"pitch"		"90,105"
+		"position"	"random"
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient/levels/forest/treewind1.wav"
+			"wave"		"ambient/levels/forest/treewind2.wav"
+			"wave"		"ambient/levels/forest/treewind3.wav"
+			"wave"		"ambient/levels/forest/treewind4.wav"
+		}
+	}
+
+	
+		"playrandom"
+	{
+		"time"		"6.0,12.0"
+		"volume"	"0.08,0.15"
+		"pitch"		"80,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/canals/swamp_bird2.wav"
+			"wave"		"ambient/levels/canals/swamp_bird3.wav"
+
+		}
+	}
+	
+	"playrandom"
+	{
+		"time"		"7.0,13.0"
+		"volume"	"0.08,0.15"
+		"pitch"		"80,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/canals/swamp_bird1.wav"
+			"wave"		"ambient/levels/canals/swamp_bird4.wav"
+			"wave"		"ambient/levels/canals/swamp_bird5.wav"
+			"wave"		"ambient/levels/canals/swamp_bird6.wav"
+		}
+	}
+
+	"playrandom" 
+	{
+		"time"		"7.0,12.0"
+		"volume"	"0.08,0.15"
+		"pitch"		"80,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/forest/peckr1.wav"
+			"wave"		"ambient/levels/forest/peckr2.wav"
+		}
+	}
+
+}

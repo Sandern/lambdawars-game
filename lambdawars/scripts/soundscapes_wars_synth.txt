@@ -1,0 +1,47 @@
+"wars.synth"
+{
+	//"playlooping"
+	"playlooping"
+	{
+		"volume"	"0.35"
+		"pitch"		"100"
+		"wave"		"scapes/wars/synth/synth_loop1.wav"
+	}
+
+	"playrandom"
+	{
+		"time"		"2.0,8.0"
+		"volume"	"0.15,0.35"
+		"pitch"		"85,110"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/synth/synth_hit.wav"
+			"wave"		"scapes/wars/synth/synth_strider_alert.wav"
+			"wave"		"npc/combine_gunship/gunship_moan.wav"
+			"wave"		"npc/combine_gunship/gunship_ping_search.wav"
+			"wave"		"npc/combine_gunship/ping_search.wav"
+			"wave"		"npc/combine_gunship/ping_patrol.wav"
+		}
+	}
+	
+	
+		"playrandom" // CMBDL TUSJEFS
+	{
+		"time"		"20.0,45.0"
+		"volume"	"0.1,0.35"
+		"pitch"		"85,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/streetwar/strider_distant_walk1.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant1.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant2.wav"
+			"wave"		"ambient/levels/streetwar/strider_distant3.wav"
+		}
+	}
+}

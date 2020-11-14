@@ -1,0 +1,68 @@
+"wars.bridge"
+{
+	"playlooping"
+	{
+		"volume"	"0.3"
+		"pitch"		"100"
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"
+	}
+	
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"		"100"
+		"wave"		"scapes/wars/water/rain_distant_loop.wav"
+	}
+	
+	"playrandom"
+	{
+		"time"		"0.5,4.0"
+		"volume"	"0.5,1.0"
+		"pitch"		"70,110"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_70dB"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/water/wave1.wav"
+			"wave"		"ambient/water/wave2.wav"
+			"wave"		"ambient/water/wave3.wav"
+			"wave"		"ambient/water/wave4.wav"
+			"wave"		"ambient/water/wave5.wav"
+			"wave"		"ambient/water/wave6.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"time"		"10.0,19.0"
+		"volume"	"0.4,0.7"
+		"pitch"		"85,115"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_NORM"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/materials/shipgroan1.wav"
+			"wave"		"ambient/materials/shipgroan2.wav"
+			"wave"		"ambient/materials/shipgroan3.wav"
+			"wave"		"ambient/materials/shipgroan4.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"time"		"2.0,6.0"
+		"volume"	"0.4,0.9"
+		"pitch"		"75,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_NORM"
+
+		"rndwave"
+		{
+			"wave"		"ambient/materials/rustypipes1.wav"
+			"wave"		"ambient/materials/rustypipes2.wav"
+			"wave"		"ambient/materials/metal_stress4.wav"
+		}
+	}
+}

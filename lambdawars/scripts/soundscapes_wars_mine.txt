@@ -1,0 +1,53 @@
+"wars.mine"
+{												
+	"playlooping"										
+	{																	
+		"volume"	"0.1"							
+		"pitch"		"100"								
+		"wave"		"ambient/levels/forest/frogs_loop1.wav"	// has to be a file with cue points!!!															
+	}
+	
+	"playrandom"										
+	{											
+		"time"		"12.0,9.0"							
+		"volume"	"0.08,0.15"							
+		"pitch"		"90,105"
+		"position"	"random"
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient/levels/forest/treewind1.wav"
+			"wave"		"ambient/levels/forest/treewind2.wav"
+			"wave"		"ambient/levels/forest/treewind3.wav"
+			"wave"		"ambient/levels/forest/treewind4.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"3.0,3.0"
+		"volume"	"0.10,0.15"
+		"pitch"		"90,110"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/forest/dist_birds5.wav"
+			"wave"		"ambient/levels/forest/dist_birds6.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"time"		"1.0,4.0"
+		"volume"	"0.08,0.15"
+		"pitch"		"80,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/forest/peckr1.wav"
+			"wave"		"ambient/levels/forest/peckr2.wav"
+		}
+	}
+}

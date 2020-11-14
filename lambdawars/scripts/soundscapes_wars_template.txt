@@ -1,0 +1,31 @@
+//Template for soundscapes
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+"wars.template"	//Do not use this soundscape, this is just a template				
+{												
+	"playrandom"										
+	{											
+		"time"		"2.0,2.0"							
+		"volume"	"0.15,0.25"							
+		"pitch"		"80,125"							
+		"position"	"random"							
+		"soundlevel"	"SNDLVL_140db"							
+												
+		"rndwave"									
+		{										
+			"wave"		"null.wav"						
+		}										
+	}											
+}												
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//Template for looping soundscapes
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+"wars.template_looping"	//Do not use this soundscape, this is just a template				
+{												
+	"playlooping"										
+	{																	
+		"volume"	"1"							
+		"pitch"		"100"								
+		"wave"		"null.wav"	// has to be a file with cue points!!!															
+	}											
+}												
+/////////////////////////////////////////////////////////////////////////////////////////////////////

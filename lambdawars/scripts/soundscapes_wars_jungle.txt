@@ -1,0 +1,99 @@
+"wars.jungle"
+{	
+	"playlooping"										
+	{																	
+		"volume"	"0.4"							
+		"pitch"		"100"												
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"														
+	}
+											
+	"playrandom"										
+	{											
+		"time"		"3.0,8.0"							
+		"volume"	"0.15,0.25"							
+		"pitch"		"80,125"							
+		"position"	"random"							
+		"soundlevel"	"SNDLVL_110db"							
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient\wind\wind_hit1.wav"
+			"wave"		"ambient\wind\wind_hit2.wav"					
+		}										
+	}											
+}
+
+"wars.jungle_swamp"
+{	
+	"playlooping"										
+	{																	
+		"volume"	"0.4"							
+		"pitch"		"100"												
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"														
+	}
+
+	"playlooping"										
+	{																	
+		"volume"	"0.2"							
+		"pitch"		"100"												
+		"wave"		"ambient/water/lake_water.wav"														
+	}
+
+	"playlooping"
+	{
+		"volume"	"0.1"
+		"pitch"		"100"
+		"wave"		"ambient/levels/canals/swamp_stereo_frogs_loop1.wav"
+	}
+											
+	"playrandom"										
+	{											
+		"time"		"3.0,8.0"							
+		"volume"	"0.15,0.25"							
+		"pitch"		"80,125"							
+		"position"	"random"							
+		"soundlevel"	"SNDLVL_110db"							
+												
+		"rndwave"									
+		{										
+			"wave"		"ambient\wind\wind_hit1.wav"
+			"wave"		"ambient\wind\wind_hit2.wav"					
+		}										
+	}
+
+	"playrandom"
+	{
+		"time"		"4.0,8.0"
+		"volume"	"0.3,0.6"
+		"pitch"		"90,110"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_80dB"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/canals/swamp_bird1.wav"											
+			"wave"		"ambient/levels/canals/swamp_bird2.wav"
+			"wave"		"ambient/levels/canals/swamp_bird3.wav"
+			"wave"		"ambient/levels/canals/swamp_bird4.wav"
+			"wave"		"ambient/levels/canals/swamp_bird5.wav"
+			"wave"		"ambient/levels/canals/swamp_bird6.wav"
+		}
+	}
+	
+	"playrandom"
+	{
+		"time"		"1.0,1.0"
+		"volume"	"0.6,1.0"
+		"pitch"		"90,105"
+		"poisition"	"random"
+		"soundlevel"	"SNDLVL_75dB"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/canals/shore1.wav"
+			"wave"		"ambient/levels/canals/shore2.wav"
+			"wave"		"ambient/levels/canals/shore3.wav"
+			"wave"		"ambient/levels/canals/shore4.wav"
+		}
+	}
+}

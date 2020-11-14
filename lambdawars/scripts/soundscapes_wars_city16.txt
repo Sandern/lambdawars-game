@@ -1,0 +1,87 @@
+"wars.city16"
+{
+
+	"playlooping"
+	{
+		"volume"	"0.30"
+		"pitch"		"100"
+		"wave"		"scapes/wars/wind/wind_generic_loop1.wav"
+	}
+	
+		"playrandom"
+	{
+		"time"		"20,40"
+		"volume"	"0.5,0.6"
+		"pitch"		"90,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/alarms/manhack_alert_pass1.wav"
+			"wave"		"ambient/alarms/scanner_alert_pass1.wav"
+		}
+	}
+	
+			"playrandom"
+	{
+		"time"		"15,24"
+		"volume"	"0.5,0.65"
+		"pitch"		"90,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/levels/streetwar/apc_distant1.wav"
+			"wave"		"ambient/levels/streetwar/apc_distant2.wav"
+			"wave"		"ambient/levels/streetwar/apc_distant3.wav"
+		}
+	}
+	
+		"playrandom"  // street stuff 1
+	{
+		"time"		"8.0,17.0"
+		"volume"	"0.3,0.45"
+		"pitch"		"90,105"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_90db"
+		
+		"rndwave"
+		{
+			"wave"		"scapes/wars/city/city_battle1.wav"
+			"wave"		"scapes/wars/city/city_battle2.wav"
+			"wave"		"scapes/wars/city/city_battle3.wav"
+			"wave"		"scapes/wars/city/city_battle4.wav"
+			"wave"		"scapes/wars/city/city_battle5.wav"
+			"wave"		"scapes/wars/city/city_battle6.wav"
+			"wave"		"scapes/wars/city/city_battle7.wav"
+		}
+	}
+	
+		"playrandom"
+	{
+		"time"		"14,25"
+		"volume"	"0.5,0.65"
+		"pitch"		"85,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/machines/heli_pass1.wav"
+			"wave"		"ambient/machines/heli_pass2.wav"
+		}
+	}
+
+	"playrandom"
+	{
+		"time"		"20,30"
+		"volume"	"0.5,0.65"
+		"pitch"		"85,105"
+		"position"	"random"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/machines/aircraft_distant_flyby1.wav"
+			"wave"		"ambient/machines/aircraft_distant_flyby3.wav"
+		}
+	}
+}
