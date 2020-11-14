@@ -1,0 +1,14 @@
+patch
+{
+include "materials/models/aliens/genericAlien.vmt"
+insert
+{
+$baseTexture "models/aliens/drone/droneK_colors"
+$bumpmap "models/aliens/drone/droneK_normal"
+
+$phong 1
+$phongexponent 120
+$phongboost 6
+$phongfresnelranges "[.1 .5 1]"
+}
+}

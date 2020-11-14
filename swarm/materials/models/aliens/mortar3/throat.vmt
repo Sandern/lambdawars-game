@@ -1,0 +1,30 @@
+VertexLitGeneric
+{
+$baseTexture "models/aliens/mortar3/throat_color"
+
+$phong 1
+$phongexponent 1
+$phongboost 20
+
+
+
+
+
+
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+Proxies
+{
+AlienSurfaceFX
+{
+}
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+}
+}

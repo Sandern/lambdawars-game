@@ -1,0 +1,45 @@
+Flesh
+{
+$baseTexture "models/aliens/shieldbug/shieldBug_color"
+$normalmap "models/aliens/shieldbug/shieldBug_normals"
+$transMatMasksTexture "models/aliens/shieldbug/shieldBug_transmat"
+$effectMasksTexture "models/aliens/shieldbug/shieldBug_fx"
+
+
+
+$translucentfresnelminmaxexp "[1.0 1.0 1.5]"
+$translucent 0
+
+$phongexponent 4
+$phongscale 0.1
+$phongfresnel "[0 0.5 1]"
+$phongcolortint "[0.5 0.85 1.0]"
+$phongexponent2 512
+$phongscale2 3
+$phongfresnel2 "[1 1 1]"
+
+$bumpstrength 2
+$normal2softness 1
+$diffusescale 1
+$diffuseexponent 1.8
+
+$backscatter 0.2
+$forwardscatter 0.1
+$SStintbyAlbedo 0.5
+$SSdepth 0.8
+$SSbentNormalIntensity 0.7
+
+$SSColorTint "[1 0.27 0.05]"
+
+$hueShiftIntensity 0.7
+$hueShiftFresnelExponent 2
+
+$iridescenceExponent 3
+$iridescenceBoost 0.5
+
+$rimlightscale 4
+$rimlightexponent 2
+
+$ambientboost 0.7
+$ambientboostmaskmode 0
+}

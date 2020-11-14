@@ -1,0 +1,34 @@
+VertexLitGeneric
+{
+$baseTexture "models/aliens/mortar3/nail_color"
+$bumpmap "models/aliens/mortar3/nail_normals"
+
+$phong 1
+$phongexponent 2
+
+$phongfresnelranges "[.1 .5 1]"
+
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+
+
+
+
+
+
+
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+}
+}

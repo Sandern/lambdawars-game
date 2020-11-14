@@ -1,0 +1,18 @@
+patch
+{
+include "materials/models/aliens/genericAlien_selfIllum.vmt"
+insert
+{
+$baseTexture "models/aliens/shaman/shaman_color"
+$bumpmap "models/aliens/shaman/shaman_normals"
+
+$phong 1
+$phongexponent 250
+$phongboost 5
+$phongfresnelranges "[.1 .5 1]"
+$selfIllumFresnel 1
+$selfIllumFresnelMinMaxExp "[0.1 1.75 5.0]" 
+$selfillumtint "[.3 1 .1]"
+$selfillummask "models/aliens/shaman/shaman_selfIllum"
+}
+}

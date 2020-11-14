@@ -1,0 +1,28 @@
+patch
+{
+include "materials/models/aliens/genericAlien_selfIllum.vmt"
+insert
+{
+$baseTexture "models/aliens/egg/egg_color"
+$bumpmap "models/aliens/egg/egg_normal"
+
+$phong 1
+$phongexponent 115
+$phongboost 18
+$phongfresnelranges "[.1 .5 1]"
+$phongwarptexture "models/aliens/drone/drone_specColor"
+
+$selfillum 1
+
+
+$selfillumtint "[0.2 0.1 0.1]"
+$selfillummask "models/aliens/egg/egg_color"
+$selfillumtint_dark "[0.1 0.05 0.05]"
+$envmap "models/env/lights/env_multiPoint"
+$envmaptint "[.42 .425 .43]"
+
+$rimlight 1
+$rimlightexponent 4
+$rimlightboost 1.5
+}
+}

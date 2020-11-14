@@ -1,0 +1,79 @@
+Flesh
+{
+$baseTexture "models/aliens/drone/droneJ_color"
+$normalmap "models/aliens/drone/droneJ_normal"
+
+
+
+$fresnelColorWarpTexture "models/aliens/shieldbug/shieldBug_blueshift"
+
+$translucentfresnelminmaxexp "[1.0 1.0 1.5]"
+$translucent 0
+
+$phongexponent 20
+$phongscale .2
+$phongfresnel "[.6 2 5]"
+$phongcolortint "[0.2 0.4 .6]"
+
+$phongexponent2 40
+$phongscale2 0.1
+$phongfresnel2 "[1 1 1]"
+
+$bumpstrength 1.2
+$normal2softness .7 
+$diffusescale 1 
+$diffuseexponent 1.8 
+
+$backscatter .8 
+$forwardscatter 0.05
+$SSdepth 20.5
+$SSbentNormalIntensity 0.7
+$SSColorTint "[1 0.27 0.05]"
+$SStintbyAlbedo 0.9
+
+$hueShiftIntensity 0.7
+$hueShiftFresnelExponent 3
+
+
+
+
+
+
+
+$ambientboost 0.7
+$ambientboostmaskmode 0
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+Proxies
+{
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[0]"
+}
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[1]"
+}
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[2]"
+}
+Add
+{
+srcvar1 $baseselfillumtint
+srcvar2 $alienhurtflash
+resultvar $selfillumtint
+}
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+}
+}

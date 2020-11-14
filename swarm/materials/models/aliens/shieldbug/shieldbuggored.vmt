@@ -1,0 +1,14 @@
+patch
+{
+include "materials/models/aliens/genericAlien.vmt"
+insert
+{
+$baseTexture "models/aliens/shieldbug/shieldbugGored_color"
+$bumpmap "models/aliens/shieldbug/shieldbugGored_normal"
+
+$phong 1
+$phongexponent 115
+$phongboost 18
+$phongfresnelranges "[.1 .5 1]"
+}
+}

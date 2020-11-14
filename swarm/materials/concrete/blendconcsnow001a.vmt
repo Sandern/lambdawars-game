@@ -1,0 +1,21 @@
+
+WorldVertexTransition
+{
+$basetexture "concrete/concretefloor050b"
+$basetexture2 "concrete/concretefloor050a"
+$bumpmap "concrete/concretefloor050a_normal"
+
+
+
+"%tooltexture" "nature/blendsnowfloor003a_tooltexture"
+$surfaceprop concrete
+$basetexturetransform "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+$basetexturetransform2 "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+
+$blendmodulatetexture "nature/snowblendtexture"
+$envmap env_cubemap
+$envmapsaturation 1
+$envmapcontrast 1
+$envmaptint "[ .02 .02 .02]"
+$normalmapalphaenvmapmask 1
+}

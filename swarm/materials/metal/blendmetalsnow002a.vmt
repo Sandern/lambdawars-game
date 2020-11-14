@@ -1,0 +1,18 @@
+
+WorldVertexTransition
+{
+$basetexture "metal/metalfloor011b"
+$basetexture2 "nature/snowfloor006a"
+$bumpmap "metal/metalfloor011b"
+$bumpmap2 "Nature/snowfloor006a_normal"
+"%tooltexture" "metal/blendmetalsnow001a_tooltexture"
+$surfaceprop concrete
+$surfaceprop2 snow
+$basetexturetransform "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+$basetexturetransform2 "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+
+$blendmodulatetexture "nature/snowblendtexture"
+$envmap env_cubemap
+
+$envmaptint "[ .01 .01 .01 ]"
+}

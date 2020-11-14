@@ -1,0 +1,42 @@
+vertexLitGeneric
+{
+$basetexture "models/aliens/shieldbug/shieldBug_brain"
+$bumpmap "dev/flat_normal"
+$phong 1
+$phongboost 2
+$phongexponent 10
+$phongfresnelranges "[.1 .5 1]"
+$rimlight 1
+$rimlightboost 5
+$rimlightexponent 1
+$translucent 0
+
+$selfillum 1
+$selfIllumFresnel 1
+$selfIllumFresnelMinMaxExp "[0.0 1 5]" 
+$selfillumtint "[1.0 .75 .25]"
+$color2 "[.5 .25 .25]"
+$alienhurtflash "[0 0 0]"
+$baseselfillumtint "[1.0 .75 .25]"
+Proxies
+{
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[0]"
+}
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[1]"
+}
+AlienHurtFlash
+{
+resultVar "$alienhurtflash[2]"
+}
+Add
+{
+srcvar1 $baseselfillumtint
+srcvar2 $alienhurtflash
+resultvar $selfillumtint
+}
+}
+}

@@ -1,0 +1,48 @@
+VertexLitGeneric
+{
+$baseTexture "models/aliens/drone/droneK_dead"
+$bumpmap "models/aliens/drone/droneK_normal"
+
+$phong 1
+$phongexponent 120
+$phongboost 6
+$phongfresnelranges "[.1 .5 1]"
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+$selfIllum 0
+$selfIllumMaskScale 1
+$nightVisionStrength 0
+$zero 0
+$one 1
+Proxies
+{
+AlienSurfaceFX
+{
+}
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+NightVisionSelfIllum
+{
+resultVar $nightVisionStrength
+}
+Equals
+{
+srcVar1 $nightVisionStrength
+resultVar $selfIllumTint
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $zero
+greaterVar $one
+resultVar $selfIllumMaskScale
+}
+}
+}

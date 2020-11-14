@@ -1,0 +1,47 @@
+
+
+
+
+VertexLitGeneric
+{
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+$selfillum 1
+$nightVisionStrength 0
+$zero 0
+$one 1
+Proxies
+{
+AlienSurfaceFX
+{
+}
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+NightVisionSelfIllum
+{
+resultVar $nightVisionStrength
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $selfillumtint_dark
+greaterVar $nightVisionStrength
+resultVar $selfIllumTint
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $zero
+greaterVar $one
+resultVar $selfIllumMaskScale
+}
+}
+}

@@ -1,0 +1,19 @@
+
+WorldVertexTransition
+{
+$basetexture "metal/metalgrate012a"
+$basetexture2 "metal/metalgrate012b"
+$bumpmap "metal/metalgrate012_normal"
+"%tooltexture" "metal/blendmetalsnow001a_tooltexture"
+$surfaceprop concrete
+$basetexturetransform "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+$basetexturetransform2 "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+
+$blendmodulatetexture "nature/snowblendtexture"
+$envmap env_cubemap
+$envmapmask "metal/metalgrate012_env"
+$envmapsaturation 1
+$envmapcontrast 1
+$envmaptint "[ .03 .03 .03 ]"
+$normalmapalphaenvmapmask 1
+}

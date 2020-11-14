@@ -1,0 +1,53 @@
+VertexLitGeneric
+{
+$basetexture "swarm\models\Grubs\Grub_tex"
+$bumpmap "swarm\models\Grubs\Grub_tex_normal"
+$surfaceprop alienflesh
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+
+
+$selfillum 1
+$selfIllumFresnel 1
+$selfIllumFresnelMinMaxExp "[0.1 1.25 5.0]" 
+$selfillumtint "[0.01 0.01 0.01]"
+$selfillummask "swarm/models/grubs/grub_tex"
+$selfillumtint_dark "[0.01 0.01 0.01]"
+$nightVisionStrength 0
+$zero 0
+$one 1
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+NightVisionSelfIllum
+{
+resultVar $nightVisionStrength
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $selfillumtint_dark
+greaterVar $nightVisionStrength
+resultVar $selfIllumTint
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $zero
+greaterVar $one
+resultVar $selfIllumMaskScale
+}
+}
+}

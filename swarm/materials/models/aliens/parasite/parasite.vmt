@@ -1,0 +1,17 @@
+patch
+{
+include "materials/models/aliens/genericAlien_selfIllum.vmt"
+insert
+{
+$baseTexture "models/aliens/parasite/parasite_color"
+$bumpmap "models/aliens/parasite/parasite_normals"
+
+$phong 1
+$phongexponent 100
+$phongboost 3
+$phongfresnelranges "[.1 .5 1]"
+$selfillummask "models/aliens/parasite/parasite_selfIllum"
+$selfillumtint "[1 1 1]"
+$selfillumtint_dark "[1 1 1]"
+}
+}

@@ -1,0 +1,28 @@
+patch
+{
+include "materials/models/aliens/genericAlien_selfIllum.vmt"
+insert
+{
+$baseTexture "models/aliens/biomass/bio_color"
+$bumpmap "models/aliens/biomass/bio_normal"
+
+$phong 1
+$phongexponent 150
+$phongboost 1.5
+$phongfresnelranges "[.1 .5 1]"
+
+
+$selfIllumFresnel 1
+
+$selfIllumFresnelMinMaxExp "[0 1.0 3.0]"
+$selfillumtint "[.4 .8 .6]"
+
+$alienhurtflash "[0 0 0]"
+$selfillummask "models/aliens/biomass/bio_selfIllum"
+$selfillumtint_dark "[.4 .8 .6]"
+
+$rimlight 1
+$rimlightexponent 4
+$rimlightboost 1.5
+}
+}

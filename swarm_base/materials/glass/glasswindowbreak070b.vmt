@@ -1,0 +1,35 @@
+ShatteredGlass
+{
+$basetexture "Glass/glasswindowbreak070b"
+$detail "Glass/glasswindowbreak070b"
+$envmap env_cubemap
+$surfaceprop glass
+"%keywords" c17industrial
+$envmapmask "glass/glasswindowbreak070b_mask"
+$translucent 1
+$basetexturetransform "scale .7 .7"
+$detailscale 0.7
+$unlitfactor 0.0
+ShatteredGlass_DX8
+{
+$unlitfactor 0.3
+
+$envmaptint "{201 201 201}"
+}
+
+ShatteredGlass_DX7
+{
+
+$lightmaptint "{128 128 128}"
+
+
+$envmaptint "{100 100 100}"
+}
+$nocull 1
+Proxies
+{
+BreakableSurface
+{
+}
+}
+}

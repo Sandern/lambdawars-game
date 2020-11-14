@@ -1,0 +1,46 @@
+LightmappedGeneric
+{
+$abovewater 0
+"%compilewater" 1
+$basetexture "dev/water"
+$scale "[1 1]"
+$translucent 1
+$nocull 1
+
+$surfaceprop water
+
+$fogenable 1
+
+
+
+$fogcolor "{25 25 15}"
+
+
+$fogstart 0.00
+
+$fogend 450.00
+$texoffset "[0 0]"
+
+$texscale "0.5"
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $basetexture
+animatedtextureframenumvar $frame
+animatedtextureframerate 20.00
+}
+TextureScroll
+{
+texturescrollvar $texoffset
+texturescrollrate .025
+texturescrollangle 45.00
+}
+TextureTransform
+{
+translateVar $texoffset
+scaleVar $texscale
+resultVar $basetexturetransform
+}
+}
+}

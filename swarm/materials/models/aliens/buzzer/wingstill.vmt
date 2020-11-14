@@ -1,0 +1,45 @@
+VertexLitGeneric
+{
+$baseTexture "models/aliens/buzzer/wingStill_color"
+$bumpmap "models/aliens/buzzer/wingStill_normal"
+
+$phong 1
+$phongexponent 70
+$phongboost 100
+$phongfresnelranges "[.1 .5 1]"
+
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+
+$envmap "models/env/lights/env_multiPoint"
+$envmaptint "[.05 .05 .05]"
+$translucent 1
+
+
+
+$selfillum 1
+$selfIllumFresnel 1
+$selfIllumFresnelMinMaxExp "[0.1 1.25 5.0]" 
+$selfillumtint "[.5 1 1]"
+$baseselfillumtint "[.5 0 0]"
+$alienhurtflash "[0 0 0]"
+$selfillummask "models/aliens/buzzer/buzzer_selfIllum"
+
+
+
+
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+}
+}

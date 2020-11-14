@@ -1,0 +1,14 @@
+patch
+{
+include "materials/models/aliens/genericAlien.vmt"
+insert
+{
+$baseTexture "models/aliens/harvester/harvester_colors"
+$bumpmap "models/aliens/harvester/harvester_normals"
+
+$phong 1
+$phongexponent 115
+$phongboost 6
+$phongfresnelranges "[ .1 .5 1 ]"
+}
+}

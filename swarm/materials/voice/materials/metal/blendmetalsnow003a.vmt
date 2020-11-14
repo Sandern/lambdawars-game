@@ -1,0 +1,19 @@
+
+WorldVertexTransition
+{
+$basetexture "metal/bridge_02a"
+$basetexture2 "nature/snowfloor006a"
+$bumpmap "metal/bridge_normal"
+$bumpmap2 "nature/snowfloor006d_normal"
+"%tooltexture" "metal/blendmetalsnow001a_tooltexture"
+$surfaceprop concrete
+$surfaceprop2 snow
+$basetexturetransform "center 1 1 scale .5 .5 rotate 0 translate 0 0"
+$bumptransform "center 1 1 scale .5 .5 rotate 0 translate 0 0"
+$basetexturetransform2 "center 1 1 scale 1 1 rotate 0 translate 0 0"
+
+$blendmodulatetexture "nature/snowblendtexture"
+$envmap env_cubemap
+$envmapmask "metal/metalgrate012_env"
+$envmaptint "[ .01 .01 .01 ]"
+}

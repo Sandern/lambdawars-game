@@ -1,0 +1,21 @@
+patch
+{
+include "materials/models/aliens/genericAlien_selfIllum.vmt"
+insert
+{
+$baseTexture "models/aliens/mortar/mortar_color"
+$bumpmap "models/aliens/mortar/mortar_normal"
+
+$phong 1
+$phongexponent 120
+$phongboost 4
+$phongfresnelranges "[.1 .5 1]"
+$selfillum 1
+$selfIllumFresnel 1
+
+$selfIllumFresnelMinMaxExp "[0 .5 5]"
+$selfillumtint "[2 2 2]"
+$selfillummask "models/aliens/mortar/mortar_selfIllum"
+$selfillumtint_dark "[2 2 2]"
+}
+}

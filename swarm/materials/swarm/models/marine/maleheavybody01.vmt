@@ -1,0 +1,23 @@
+VertexLitGeneric
+{
+$basetexture "swarm\models\Marine\maleHeavyBody01"
+$surfaceprop metal
+$bumpmap "swarm\models\Marine\NEWSoldierTexbody_normal"
+
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+}
+}

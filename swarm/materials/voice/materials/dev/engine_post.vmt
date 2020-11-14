@@ -1,0 +1,45 @@
+engine_post
+{
+
+$AllowVignette 1
+$AllowNoise 1
+$AllowLocalContrast 1
+$AAEnable 1
+$DepthBlurEnable 1
+
+$basetexture _rt_SmallFB0
+$fbtexture _rt_FullFrameFB
+$additive 0
+$ignorez 1
+$nocull 1
+"%noToolTexture" 1
+
+$noiseScale "1.0"
+$noiseTexture "dev/noise_post"
+
+$localcontrastenable 1
+$noiseEnable 1
+$vignetteEnable 1
+$internal_vignetteTexture "dev/circle_vignette"
+Proxies
+{
+Engine_Post
+{
+}
+ConVar
+{
+resultVar $localcontrastenable
+convar mat_local_contrast_enable
+}
+ConVar
+{
+resultVar $noiseEnable
+convar mat_grain_enable
+}
+ConVar
+{
+resultVar $vignetteEnable
+convar mat_vignette_enable
+}
+}
+}

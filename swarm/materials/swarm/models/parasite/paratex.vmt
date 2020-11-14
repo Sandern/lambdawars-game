@@ -1,0 +1,21 @@
+VertexLitGeneric
+{
+$basetexture "swarm\models\Parasite\paraTEX"
+$surfaceprop alienflesh
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+}
+}

@@ -1,0 +1,68 @@
+VertexLitGeneric
+{
+$baseTexture "models/aliens/mortar3/mortar_color"
+$bumpmap "models/aliens/mortar3/mortar_normals"
+
+$phong 1
+$phongexponent 150
+$phongboost 1.5
+$phongfresnelranges "[.1 .5 1]"
+
+$detail "effects/model_layer_ice_1.vtf"
+$detailscale 5
+$detailblendfactor 0.0
+$detailblendmode 5
+
+
+
+
+
+$selfillum 1
+$selfIllumFresnel 1
+$selfIllumFresnelMinMaxExp "[0.1 1.25 5.0]" 
+$selfillumtint "[1.0 .5 .5]"
+$alienhurtflash "[0 0 0]"
+$selfillummask "models/aliens/mortar3/mortar_selfIllum"
+$selfillumtint_dark "[1.0 .5 .5]"
+$selfIllumMaskScale_dark 1
+$selfIllumMaskScale 1
+$nightVisionStrength 0
+$zero 0
+$one 1
+
+$rimlight 1
+$rimlightexponent 4
+$rimlightboost 1.5
+Proxies
+{
+AnimatedTexture
+{
+animatedtexturevar $detail
+animatedtextureframenumvar $detailframe
+animatedtextureframerate 30
+}
+AlienSurfaceFX
+{
+}
+NightVisionSelfIllum
+{
+resultVar $nightVisionStrength
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $selfillumtint_dark
+greaterVar $nightVisionStrength
+resultVar $selfIllumTint
+}
+LessOrEqual
+{
+srcVar1 $nightVisionStrength
+srcVar2 $zero
+lessEqualVar $selfIllumMaskScale_dark
+greaterVar $one
+resultVar $selfIllumMaskScale
+}
+}
+}
