@@ -1,0 +1,31 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models/mortarsynth/tail"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[ .1 .1 .1 ]"
+	"$envmapconstrast" "1"
+	"$model" "1"
+	"$selfillum" "1"
+	"$selfillumtint" "[4 4 4]"
+	// -- From here down is new stuff which will only be applied if $phong is set to 1 --
+
+	"$phong"     "1"
+	"$phongexponent"  "10"
+	"$phongexponenttexture" "models/mortarsynth/tail_phongmask"
+	"$phongboost"   "4"
+	"$phongfresnelranges"   "[1 .7 .3]"
+	"$phongwarptexture"  "models/mortarsynth/mortar_phong"
+		"$teamcolormap" "Models/mortarsynth/tail_color"	
+        "Proxies"
+        {
+                "IsNPC"
+                {
+                        "scale" "4.0"
+                        "resultvar" "$selfillumtint"
+                }
+       
+                "TeamColor"
+                {
+                }
+        }
+}

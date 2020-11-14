@@ -1,0 +1,34 @@
+"vertexlitgeneric"
+{
+	"$baseTexture" "models\PG_props\pg_buildings/rebels/pg_armory_glass"
+	"$bumpmap" "models\PG_props\pg_buildings/rebels/pg_armory_glass_bump"
+	"$model" "1"
+
+	"$phong"     "1"
+	"$phongexponent"  "1"
+	"$phongboost"   "1.5"
+	"$phongfresnelranges"   "[1 0.5 10]"
+	"$phongalbedotint" "1"
+	"$phongtint" "[0 0.5 0]"
+	
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" "1"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+	"$envmaptint" "[ 0.95 0.95 0.95 ]"
+	
+	"$teamcolormap" "models\PG_props\pg_buildings/rebels/pg_armory_glass"
+	"Proxies"
+	{
+		"TeamColor"
+		{
+		}
+		
+		"TextureScroll"
+		{
+			"texturescrollvar"	"$baseTextureTransform"
+			"texturescrollrate"	0.05
+			"texturescrollangle"	180
+		}
+	}
+}

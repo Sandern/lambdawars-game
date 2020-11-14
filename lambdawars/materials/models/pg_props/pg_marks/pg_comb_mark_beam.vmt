@@ -1,0 +1,64 @@
+"Unlittwotexture"
+{
+	"$basetexture" "models\PG_props\pg_marks/pg_comb_mark_beam"
+	"$texture2" "models\PG_props\pg_marks/pg_comb_mark_beam_alpha"
+	"$model" "1"
+	"$gnoise" "1"
+	"$playerdistance" "0"
+	"$nocull" "1"
+
+	"$alpharesult" "1"
+	"$smallamount" ".6"
+	"$alpharesultmin" ".1"
+	"$alpharesultmax" "3"
+
+	"$hundred" "100"
+	"$largeamount" "1"
+	"$playerdistance2" "1"
+	"$ten" "24"
+	"$frameminusten" "1"
+
+	"Proxies"
+	{
+
+		
+		"GaussianNoise"
+		{
+			"minVal" .5
+			"maxVal" 1	
+ 			"mean" .1
+			"halfwidth" .1
+			"resultVar" "$gnoise"
+		}
+		"Subtract"
+		{
+			"srcVar1" "$gnoise"
+			"srcVar2" "$playerdistance"
+			"resultVar" "$alpharesultmin"
+		}
+		"Multiply"
+		{
+			"srcVar1" "$hundred"
+			"srcVar2" "$playerdistance"
+			"resultVar" "$largeamount"
+		}
+		"Equals"
+		{
+			"srcVar1" "$playerdistance"
+			"resultVar" "$envmaptint[1]"
+		}	
+		"Add"
+		{
+			"srcVar1" "$alpharesultmin"
+			"srcVar2" "$smallamount"
+			"resultVar" "$alpharesultmax"
+		}	
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .3
+			"texturescrollangle" 270
+		}
+	}
+}

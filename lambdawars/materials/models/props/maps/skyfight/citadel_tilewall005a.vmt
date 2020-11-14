@@ -1,0 +1,33 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "tile/tilewall005a"
+	"$surfaceprop" "tile"
+	"%keywords" "c17downtown"
+
+	// note: even though env_cubemap is here, it will turned off for dx6
+	// because $multipass 1 isn't defined
+	"$envmap" "env_cubemap"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+	//"$envmaptint" "[ 0.75 0.75 1 ]"
+
+	"vertexlitgeneric_dx9"
+	{
+		"$bumpmap" "tile/tilewall005a_normal"
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"vertexlitgeneric_dx8"
+	{
+		"$bumpmap" "tile/tilewall005a_normal"
+		"$nodiffusebumplighting" 1
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"vertexlitgeneric_nobump_dx8"
+	{
+		"$basetexture" "tile/citadel_tilewall005a"
+		"$basealphaenvmapmask" 1
+	}
+
+}

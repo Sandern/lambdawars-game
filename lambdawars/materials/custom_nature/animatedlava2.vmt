@@ -1,0 +1,33 @@
+"LightmappedGeneric"
+{
+$fullbright 1
+$selfillum 1
+$selfillumtint 251 75 0
+
+	 "$color" "{251 75 0}"
+	"$basetexture" "custom_nature/animatedlava2"
+
+	"Proxies"
+	{
+
+
+
+		"AnimatedTexture"
+		{
+			"animatedtexturevar" "$basetexture"
+			"animatedtextureframenumvar" "$frame"
+			"animatedtextureframerate" 30
+
+		}
+		"TextureScroll"
+		{	
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" 0.01
+			"texturescrollangle" 90
+		}
+
+
+	}
+
+	
+}

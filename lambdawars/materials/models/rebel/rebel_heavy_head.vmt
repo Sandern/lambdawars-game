@@ -1,0 +1,33 @@
+vertexlitgeneric
+{
+$basetexture "models\rebel\rebel_heavy_head"
+
+$bumpmap "models\rebel\rebel_heavy_head_normal"
+$phong 1
+$phongboost ".2"
+
+$phongexponent 3
+$phongtint "[.85 .85 1]"
+$phongfresnelranges "[.2 .5 5]"
+$nodecal 1
+$ambientocclusion 1
+$halflambert 0
+$diffuseexp "1.5"
+$rimlight 0
+$surfaceprop flesh
+
+		"$teamcolormap" "models\rebel\rebel_heavy_head_color"	
+        "Proxies"
+        {
+                "IsNPC"
+                {
+                        "scale" "4.0"
+                        "resultvar" "$selfillumtint"
+                }
+       
+                "TeamColor"
+                {
+                }
+        }
+
+}

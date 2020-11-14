@@ -1,0 +1,37 @@
+// envmaptint_fix
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete\concretefloor039a"
+	"$surfaceprop" "concrete"
+	"%keywords" "c17downtown"
+	"$envmap" "env_cubemap"
+	"$envmapsaturation" 1
+	"$envmapcontrast" 1
+	"$envmaptint" "[ .85 .85 .85 ]"
+
+	"LightmappedGeneric_DX9"
+	{
+		"$bumpmap" "concrete\concretefloor039a_normal"
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"LightmappedGeneric_DX8"
+	{
+		"$bumpmap" "concrete\concretefloor039a_normal"
+		"$normalmapalphaenvmapmask" 1
+		"$envmaptint" "[ .7 .7 .7 ]"
+	}
+
+	"LightmappedGeneric_NoBump_DX8"
+	{
+		"$basetexture" "concrete\concretefloor039a_specmask"
+		"$basealphaenvmapmask" 1
+	}
+	"lightmappedgeneric_HDR_dx9"
+	{
+		"$envmaptint" "[.21 .21 .21]"
+		"$bumpmap" "concrete\concretefloor039a_normal"
+		"$normalmapalphaenvmapmask" 1
+	} 
+}
+

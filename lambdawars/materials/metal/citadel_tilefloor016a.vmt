@@ -1,0 +1,32 @@
+// envmaptint_fix
+"LightmappedGeneric"
+{
+	"$basetexture" "Tile/tilefloor016a"
+	"$surfaceprop" "metal"
+	"%keywords" "combine"
+
+	// NOTE: Even though env_cubemap is here, it will turned off for DX6
+	// because $multipass 1 isn't defined
+	"$envmap" "env_cubemap"
+	"ldr?$envmaptint" "[ .6 .6 .6 ]"
+	"hdr?$envmaptint" "[.01 .01 .01]"
+
+	"LightmappedGeneric_DX9"
+	{
+		"$bumpmap" "Tile/tilefloor021a_normal"
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"LightmappedGeneric_DX8"
+	{
+		"$bumpmap" "Tile/tilefloor021a_normal"
+		"$nodiffusebumplighting" 1
+		"$normalmapalphaenvmapmask" 1
+	}
+
+//	"LightmappedGeneric_NoBump_DX8"
+//	{
+//		"$basetexture" "Tile/citadel_tilefloor016a"
+//		"$basealphaenvmapmask" 1
+//	}
+}

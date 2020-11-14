@@ -1,0 +1,35 @@
+"VertexlitGeneric"
+{
+"$basetexture" "models/structures/combine/Citidel_sheet"
+"$bumpmap" "models/structures/combine/Citidel_sheet_bump"
+"$surfaceprop" "MetalPanel"
+"$model"	1
+
+
+	"$phong"     "1"
+	"$phongexponent"  "20"
+	"$phongboost"   "1.5"
+	"$phongfresnelranges"   "[1 9 3]"
+	"$phongalbedotint" "1"
+	"$halflambert" "1"
+
+	"$rimlight" "1"
+	"$rimlightexponent" "30"
+	"$rimlightboost" "0.5"
+	
+	
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" "1"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+	"$envmaptint" "[ 0.25 0.25 0.25 ]"
+
+
+"$teamcolormap" "models/structures/combine/Citidel_sheet_color"
+"Proxies"
+{
+    "TeamColor"
+    {
+    }
+}
+}

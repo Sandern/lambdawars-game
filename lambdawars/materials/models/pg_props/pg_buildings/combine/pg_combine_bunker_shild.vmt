@@ -1,0 +1,30 @@
+"Unlittwotexture"
+{
+	"$basetexture" "Effects/Combineshield/comshieldwall"
+//	"$texture2" "Effects/com_shield002b"
+	"$texture2" "Effects/Combineshield/comshieldwall"
+
+	"$translucent" "1"
+	"$additive" 1
+
+	"$alpharesultmin" 0.5
+	"$alpharesultmax" 1.0
+			
+	"Proxies"
+	{
+	
+		"Sine"
+		{
+			"sineperiod"	1.08
+			"sinemin"	"$alpharesultmin"
+			"sinemax"	"$alpharesultmax"
+			"resultVar"	"$alpha"
+		}
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" .1
+			"texturescrollangle" -45
+		}
+	}
+}

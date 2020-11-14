@@ -1,0 +1,80 @@
+"Unlittwotexture"
+{
+	"$basetexture" "models\PG_props\pg_marks/pg_granate_radius_sphere"
+	"$texture2" "models\PG_props\pg_marks/pg_granate_radius_fx"
+	"$model" "1"
+
+	"$translucent" "1"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[1 1 1]"
+	"$gnoise" "1"
+	"$playerdistance" "0"
+	"$nocull" "1"
+
+	"$additive" 1
+	"$alpharesult" "1"
+	"$smallamount" ".6"
+	"$alpharesultmin" ".1"
+	"$alpharesultmax" "3"
+	
+	"$nodecal" 1
+	"$hundred" "100"
+	"$largeamount" "1"
+	"$playerdistance2" "1"
+	"$ten" "24"
+	"$frameminusten" "1"
+
+	"Proxies"
+	{
+
+		
+		"GaussianNoise"
+		{
+			"minVal" .2
+			"maxVal" .8
+ 			"mean" .1
+			"halfwidth" .1
+			"resultVar" "$gnoise"
+		}
+
+
+		"Subtract"
+		{
+			"srcVar1" "$gnoise"
+			"srcVar2" "$playerdistance"
+			"resultVar" "$alpharesultmin"
+		}
+		"Multiply"
+		{
+			"srcVar1" "$hundred"
+			"srcVar2" "$playerdistance"
+			"resultVar" "$largeamount"
+		}
+		"Equals"
+		{
+			"srcVar1" "$playerdistance"
+			"resultVar" "$envmaptint[1]"
+		}	
+		"Add"
+		{
+			"srcVar1" "$alpharesultmin"
+			"srcVar2" "$smallamount"
+			"resultVar" "$alpharesultmax"
+		}	
+		"Sine"
+		{
+			"sineperiod"	1.08
+			"sinemin"	"$alpharesultmin"
+			"sinemax"	"$alpharesultmax"
+			"resultVar"	"$alpha"
+		}
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" ".1"
+			"texturescrollangle" "0"
+		}
+
+	}
+}

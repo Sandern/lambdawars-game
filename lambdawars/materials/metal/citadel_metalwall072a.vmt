@@ -1,0 +1,33 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "Metal/metalwall072a"
+	"$surfaceprop" "metal"
+	"%keywords" "combine"
+
+	"$envmap" "env_cubemap"
+	"ldr?$envmaptint" "[ .56 .56 .75 ]"
+	"$envmapcontrast" 1
+	"$envmapsaturation" 1
+	"hdr?$envmaptint" "[.09 .1 .12]"
+
+	"LightmappedGeneric_DX9"
+	{
+		"$bumpmap" "metal/metalwall072a_normal"
+		"$parallaxmap" "Metal/metalwall072a_height"
+		"$parallaxmapscale" ".05"
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"LightmappedGeneric_DX8"
+	{
+		"$bumpmap" "metal/metalwall072a_normal"
+		"$nodiffusebumplighting" 1
+		"$normalmapalphaenvmapmask" 1
+	}
+
+	"LightmappedGeneric_NoBump_DX8"
+	{
+		"$basetexture" "metal/citadel_metalwall072a"
+		"$basealphaenvmapmask" 1
+	}
+}
