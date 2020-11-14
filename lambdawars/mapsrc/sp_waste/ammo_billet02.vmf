@@ -1,0 +1,129 @@
+versioninfo
+{
+	"editorversion" "400"
+	"editorbuild" "5032"
+	"mapversion" "3"
+	"formatversion" "100"
+	"prefab" "0"
+}
+visgroups
+{
+}
+viewsettings
+{
+	"bSnapToGrid" "0"
+	"bShowGrid" "1"
+	"bShowLogicalGrid" "0"
+	"nGridSpacing" "64"
+	"bShow3DGrid" "0"
+}
+world
+{
+	"id" "1"
+	"mapversion" "3"
+	"classname" "worldspawn"
+	"detailmaterial" "detail/detailsprites"
+	"detailvbsp" "detail.vbsp"
+	"maxpropscreenwidth" "-1"
+	"skyname" "sky_day01_01"
+}
+entity
+{
+	"id" "2"
+	"classname" "build_reb_billet"
+	"angles" "0 0 0"
+	"autoconstruct" "0"
+	"constructed" "-1"
+	"constructprogress" "0.0"
+	"constructtime" "5.0"
+	"disablereceiveshadows" "0"
+	"disableshadows" "0"
+	"health" "5"
+	"ownernumber" "0"
+	"renderamt" "255"
+	"rendercolor" "255 255 255"
+	"renderfx" "0"
+	"rendermode" "0"
+	"skin" "0"
+	"Uncontrollable" "0"
+	"unittype" "build_reb_billet"
+	connections
+	{
+		"OnDestroyed" "makerEnable0-1"
+	}
+	"origin" "0 0 0"
+	editor
+	{
+		"color" "0 200 200"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "4"
+	"classname" "unit_maker"
+	"MaxLiveChildren" "1"
+	"MaxNPCCount" "1"
+	"NPCType" "unit_rebel_ar2"
+	"origin" "-11.11 29.7 8"
+	"ownernumber" "2"
+	"StartDisabled" "1"
+	"targetname" "maker"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1000]"
+	}
+}
+entity
+{
+	"id" "7"
+	"classname" "unit_maker"
+	"MaxLiveChildren" "1"
+	"MaxNPCCount" "1"
+	"NPCType" "unit_rebel_medic"
+	"origin" "11.17 -29.78 8"
+	"ownernumber" "2"
+	"spawnflags" "0"
+	"StartDisabled" "1"
+	"targetname" "maker"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1000]"
+	}
+}
+entity
+{
+	"id" "22"
+	"classname" "unit_maker"
+	"MaxLiveChildren" "1"
+	"MaxNPCCount" "1"
+	"NPCType" "unit_rebel_scout"
+	"origin" "-25 -19 8"
+	"ownernumber" "2"
+	"spawnflags" "0"
+	"StartDisabled" "1"
+	"targetname" "maker"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1000]"
+	}
+}
+cameras
+{
+	"activecamera" "-1"
+}
+cordons
+{
+	"active" "0"
+}

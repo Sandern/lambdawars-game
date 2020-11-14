@@ -1,0 +1,100 @@
+versioninfo
+{
+	"editorversion" "400"
+	"editorbuild" "5032"
+	"mapversion" "38"
+	"formatversion" "100"
+	"prefab" "0"
+}
+visgroups
+{
+}
+viewsettings
+{
+	"bSnapToGrid" "1"
+	"bShowGrid" "1"
+	"bShowLogicalGrid" "0"
+	"nGridSpacing" "64"
+	"bShow3DGrid" "0"
+}
+world
+{
+	"id" "1"
+	"mapversion" "38"
+	"classname" "worldspawn"
+	"detailmaterial" "detail/detailsprites"
+	"detailvbsp" "detail.vbsp"
+	"maxpropscreenwidth" "-1"
+	"skyname" "sky_day01_01"
+}
+entity
+{
+	"id" "166"
+	"classname" "logic_timer"
+	"RefireTime" "3"
+	"spawnflags" "1"
+	"StartDisabled" "0"
+	"targetname" "timed_beam_timer"
+	connections
+	{
+		"OnTimerHigh" "timed_beamTurnOn0-1"
+		"OnTimerHigh" "timed_beam_particleStart0-1"
+		"OnTimerLow" "timed_beamTurnOff0-1"
+		"OnTimerLow" "timed_beam_particleStop0-1"
+	}
+	"origin" "0 16 0"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1500]"
+	}
+}
+entity
+{
+	"id" "181"
+	"classname" "info_target"
+	"angles" "0 0 0"
+	"targetname" "timed_beam_end"
+	"origin" "0 768 0"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "206"
+	"classname" "env_laser"
+	"damage" "300"
+	"dissolvetype" "-1"
+	"LaserTarget" "timed_beam_end"
+	"NoiseAmplitude" "8"
+	"renderamt" "255"
+	"rendercolor" "255 255 255"
+	"spawnflags" "48"
+	"targetname" "timed_beam"
+	"texture" "sprites/bluelight1.vmt"
+	"TextureScroll" "35"
+	"width" "4"
+	"origin" "0 0 0"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+cameras
+{
+	"activecamera" "-1"
+}
+cordons
+{
+	"active" "0"
+}

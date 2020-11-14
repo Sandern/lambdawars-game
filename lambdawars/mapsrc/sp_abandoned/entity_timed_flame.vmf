@@ -1,0 +1,228 @@
+versioninfo
+{
+	"editorversion" "400"
+	"editorbuild" "5032"
+	"mapversion" "13"
+	"formatversion" "100"
+	"prefab" "0"
+}
+visgroups
+{
+}
+viewsettings
+{
+	"bSnapToGrid" "1"
+	"bShowGrid" "1"
+	"bShowLogicalGrid" "0"
+	"nGridSpacing" "256"
+	"bShow3DGrid" "0"
+}
+world
+{
+	"id" "1"
+	"mapversion" "13"
+	"classname" "worldspawn"
+	"detailmaterial" "detail/detailsprites"
+	"detailvbsp" "detail.vbsp"
+	"maxpropscreenwidth" "-1"
+	"skyname" "sky_day01_01"
+	group
+	{
+		"id" "73"
+		editor
+		{
+			"color" "198 211 0"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+}
+entity
+{
+	"id" "74"
+	"classname" "prop_static"
+	"angles" "0 90 -90"
+	"fademindist" "-1"
+	"fadescale" "0"
+	"model" "models/props_pipes/pipe02_lcurve01_long.mdl"
+	"renderamt" "255"
+	"rendercolor" "255 255 255"
+	"skin" "2"
+	"solid" "6"
+	"origin" "-8 4 20.1543"
+	editor
+	{
+		"color" "198 211 0"
+		"groupid" "73"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1000]"
+	}
+}
+entity
+{
+	"id" "78"
+	"classname" "prop_static"
+	"angles" "0 270 90"
+	"fademindist" "-1"
+	"fadescale" "0"
+	"model" "models/props_pipes/pipe02_lcurve01_long.mdl"
+	"renderamt" "255"
+	"rendercolor" "255 255 255"
+	"skin" "2"
+	"solid" "6"
+	"origin" "-8 4 -51.8457"
+	editor
+	{
+		"color" "198 211 0"
+		"groupid" "73"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1000]"
+	}
+}
+entity
+{
+	"id" "3"
+	"classname" "logic_timer"
+	"RefireTime" "1.5"
+	"spawnflags" "1"
+	"StartDisabled" "0"
+	connections
+	{
+		"OnTimerHigh" "timed_flame_particleStart0-1"
+		"OnTimerHigh" "timed_flame_hurtSetDamage350-1"
+		"OnTimerLow" "timed_flame_hurtSetDamage00-1"
+		"OnTimerLow" "timed_flame_particleStop0-1"
+	}
+	"origin" "0.469971 4.62988 7.3213"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1500]"
+	}
+}
+entity
+{
+	"id" "5"
+	"classname" "trigger_hurt"
+	"damage" "100"
+	"damagecap" "20"
+	"damagemodel" "0"
+	"damagetype" "8"
+	"nodmgforce" "0"
+	"origin" "115.21 4.62 31.32"
+	"spawnflags" "4113"
+	"StartDisabled" "0"
+	"targetname" "timed_flame_hurt"
+	solid
+	{
+		"id" "6"
+		side
+		{
+			"id" "1"
+			"plane" "(-12.7808 -27.3711 63.3216) (-12.7908 36.625 63.3216) (243.21 36.6289 63.3216)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 -10.335] 0.25"
+			"vaxis" "[0 -1 0 56.79] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "2"
+			"plane" "(-12.7908 36.6289 -0.678696) (-12.7808 -27.3701 -0.678696) (243.21 -27.3711 -0.678696)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 -10.335] 0.25"
+			"vaxis" "[0 -1 0 56.79] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "3"
+			"plane" "(-12.7798 -27.3711 -0.678192) (-12.7898 36.6289 -0.678192) (-12.7898 36.6289 63.3241)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[0 1 0 -10.335] 0.25"
+			"vaxis" "[0 0 -1 61.2863] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "4"
+			"plane" "(243.21 36.6289 -0.678238) (243.21 -27.3701 -0.678238) (243.21 -27.3711 63.3243)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[0 1 0 -10.335] 0.25"
+			"vaxis" "[0 0 -1 61.2863] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5"
+			"plane" "(-12.793 36.6299 -0.678192) (243.21 36.6299 -0.678192) (243.211 36.6299 63.3241)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 -56.79] 0.25"
+			"vaxis" "[0 0 -1 61.2863] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "6"
+			"plane" "(243.211 -27.3701 -0.678238) (-12.7813 -27.3701 -0.678238) (-12.7852 -27.3701 63.3243)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 -56.79] 0.25"
+			"vaxis" "[0 0 -1 61.2863] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 2500]"
+	}
+}
+entity
+{
+	"id" "8"
+	"classname" "info_particle_system"
+	"angles" "0 0 0"
+	"effect_name" "wars_flamethrower"
+	"start_active" "1"
+	"targetname" "timed_flame_particle"
+	"origin" "0.469971 4.62988 29.4213"
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
+	}
+}
+cameras
+{
+	"activecamera" "-1"
+}
+cordons
+{
+	"active" "0"
+}
