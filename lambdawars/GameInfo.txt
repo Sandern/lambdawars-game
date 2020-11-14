@@ -1,0 +1,25 @@
+"GameInfo"
+{
+	"game"		"Lambda Wars"
+	"title"		"Lambda Wars"	// Leave blank in case of a texture logo
+	"type"		"multiplayer_only"
+	GameData	"lambdawars.fgd"
+	InstancePath "tilegen/instances/"
+	icon		"icon"
+	
+	SupportsDX8     0
+	
+	"FileSystem"
+	{
+		"SteamAppId"	"270370"
+		"ToolsAppId"	"211"
+		
+		"SearchPaths"
+		{
+			"Game"	"|gameinfo_path|."
+			"Game"	"swarm"
+			"Game"	"swarm_base"
+			"Game"	"platform"
+		}
+	}
+}

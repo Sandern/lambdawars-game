@@ -1,0 +1,4391 @@
+=================================================================================================================================
+|Changelog															|
+|===============================================================================================================================|
+|Version numbers:														|
+|#.??*																|
+|===============================================================================================================================|
+|# is the biggest number (changes for engine, major gameplay changes) 								|
+|?? are the numbers for main version changes (new models, units, maps, big map changes, any gameplay changes, new game modes)	|
+|* is the letter for marking the minor changes (like bug fixes, small balance changes, chromium + python updates and such)     	|
+=================================================================================================================================
+Lambda Wars Patch XX August 2020 (3.17a)
+
+Fixes:
+- Security fixes to client/server file transfers
+- Fixed "Out of thread ids" error when launching Alien Swarm on a computer with 32 or more logical processors 
+
+Balance:
+
+Units with AR2:
+- Attack speed increased from 0.11 to 0.09.
+
+Rebels:
+Mount. turret:
+- Cost changed from 17/10 to 27/0.
+
+Combine:
+Mount. turret:
+- Cost changed from 15/8 to 23/0.
+Combine Elite:
+- Energyball recharge increased from 20 sec. to 35.
+- Energyball lifetime reduced from 2.67 to 1.34.
+Energy ball:
+- Ability recharge time increased from 20 sec. to 50.
+- Ability cost changed from 30/15 to 30/30.
+- Research time increased from 38 sec. to 67.
+
+
+
+
+Lambda Wars Patch XX June 2020(3.16a)
+
+Maps:
+- Added new 1v1 map: hlw_ruins.
+- Updated or_desert.
+
+Balance:
+
+Upgrades:
+Rebel AR2 weapon upgrade:
+- Price changed from 20/35 to 20/25.
+Rebel SG weapon upgrade:
+- Price changed from 25/25 to 25/15.
+Combine SG weapon upgrade:
+- Price changed from 25/15 to 25/10.
+Combine AR2 weapon upgrade:
+- Price changed from 20/30 to 20/20.
+Explosive bolt upgrade:
+- Price reduced from 30/20 to 25/20.
+Medic SMG upgrade:
+- Price reduce from 30/20 to 20/15.
+Flamethrower:
+- Health reduced from 350 to 270.
+- Attack range increased from 320 to 384.
+- Can now attack while moving.
+
+Smoke grenade:
+- Recharge time reduced from 30 sec. to 20.
+- Throw range reduced from 1000 to 896.
+- Removed cost to use smoke grenade.
+Units with SG:
+- Damage reduced from 50 to 40.
+- Amount of bullets reduced from 10 to 8.
+Synth attribute:
+- Damage from 'bullet' and 'ar2' reduced from 0.5 to 0.25.
+
+Rebels:
+Partisan with molotov:
+- Build time increased from 16 sec. to 17.
+Partisan with SMG:
+- Build time increased from 15 sec. to 19.
+Rebel with SMG:
+- Build time reduced from 24 sec. to 22.
+Rebel with SG:
+- Price changed from 30/5 to 35/5.
+- Build time increased from 22 sec. to 24.
+- View distance reduced from 832 to 768.
+Rebel with AR2:
+- Build time reduced from 26 sec. to 24.
+- View distance reduced from 896 to 832.
+Rebel Medic:
+- Price changed from 15/20 to 30/10.
+- Build time reduced from 24 sec. to 22.
+Rebel Veteran:
+- Attack distance reduced from 1216 to 1157.
+- View distance reduced from 960 to 896.
+- Damage reduced from 55 to 50.
+- Removed bonus damage against heavy units(elites flamers).
+- Removed cost to launch explosive bolt.
+- Explosive bolt recharge reduced from 30 sec. to 18.
+- Explosive bolt damage reduced from 200 to 150.
+Rebel Saboteur:
+- View distance reduced from 960 to 896.
+Rebel Flamer:
+- Removed bonus damage against buildings.
+
+Combine:
+Metro riot:
+- Build time increased from 15 sec. to 17.
+- View distance reduced from 832 to 768.
+Metrocop with pistol:
+- Build time increased from 17 sec. to 19.
+Metrocop with SMG:
+- Build time increased from 17 sec. to 21.
+Floor turret:
+- Removed 'building' attribute.
+- Added 'defence' attribute.
+- Added 'pulse' attribute.
+Combine with SMG:
+- Build time reduced from 25 sec. to 23.
+Combine with SG:
+- Price changed from 40/10 to 45/7.
+- Build time increased from 23 sec. to 25.
+- View distance reduced from 832 to 768.
+Combine with AR2:
+- Price changed from 45/15 to 45/12
+- Build time reduced from 26 sec. to 25.
+- View distance reduced from 896 to 832.
+Sniper:
+- Health increased from 160 to 190.
+- Change attack speed from 3.2 to 2.23.
+- Damage reduced from 80 to 70.
+- Removed damage against light units.
+- Bonus damage against medium units reduced from 20 to 10.
+- Damage against heavy units changed from 40 to 20.
+Combine Elite:
+- View distance reduced from 960 to 896.
+- Cost increased from 50/20 to 50/30.
+- Removed cost to launch energyball.
+- Increased energy ball speed from 1000 to 1500.
+- Reduced ball life time from 4 sec. to 2.67.
+Hunter:
+- Jump recharge increased from 3.5 sec. to 6.
+- Health reduced from 400 to 300.
+- View distance reduced from 1024 to 896.
+Strider:
+- View distance increased from 832 to 896.
+- Health reduced from 1250 to 1125.
+- Cannon ability: damage radius reduced from 192 to 128.
+- Cannon ability: damage increased from 325 to 350.
+- Cannon ability: range reduced from 1152 to 1024.
+
+Buildings:
+Barrel Trap:
+- Ability recharge changed from 8 sec. to 12
+- Removed launch cost.
+Mortar:
+- View distance increased from 640 to 768.
+- Attack distance reduced from 1792 to 1280.
+- Initial amount of energy increased from 30 energy to 35.
+- Ability cost increased from 35 energy to 40.
+Combine mount. turret:
+- Priced reduced from 20/8 to 15/8.
+- Build time reduced from 12 sec. to 9.
+Rebel mount. turret:
+- Price reduced from 25/10 to 17/10.
+
+Misc:
+- Added death sound to mortar.
+
+Lambda Wars Patch 27 May 2020(3.15c)
+
+Balance:
+
+Control points:
+- Level 1: price reduced from 30/20 to 30/15.
+- Level 2: price reduced from 40/55 to 40/30.
+
+Bullet attribute:
+- Damage increased from 3 to 4.
+Mech. Factory:
+- Build time increased from 28 sec. to 45(To not allow players easily spam with manhacks).
+- Price reduced from 35/15 to 35/0.
+Manhacks:
+- Health reduced from 30 to 25.
+- Build time increased from 12 sec. to 14.
+- Priced reduced from 12/3 to 10/0.
+Partisans:
+- Build time increased from 14 sec. 16.
+Units with pistol:
+- Attack range reduced from 704 to 640(The same range as SMG).
+Rebel Scout(Need to make them less agressive):
+- Damage reduced from 4 to 3.
+- Build time reduced from 12 sec. to 10.
+- Unit price increased from 10 req. to 12.
+Partisans:
+- health increased from 50 to 60.
+Metrocops:
+- Health increased from 140 to 150.
+
+Lambda Wars Patch 26 May 2020(3.15b)
+
+Maps:
+hlw_uzvara:
+- Added a little detail.
+- Added new lighting.
+- Fixed minor bugs.
+
+Balance:
+- Reb. Barracks now require billet instead of junkyard.
+
+Misc:
+- Fixed: unable to move Vortigaunt when doing dispel ability during attack animation.
+- Fixed glow effects not directly disappearing when a Vortigaunt is killed.
+- Fixed: units could attack not fortified control points.
+
+Lambda Wars Patch 25 May 2020(3.15a)
+
+Maps:
+- Added new community map or_desert (Made by Akos223).
+- Fixed rebel level turorial.
+- Updated: hlw_skyfight, or_hot_sand.
+
+Balance:
+
+Medic: Heal ability can no longer be used on the unit itself.
+Acid antlion: Attack range reduced from 750 to 704.
+Vort: Dispel range increased from 448 to 512.(More chances now to stun units with SG).
+Removed view distance for combine dropships.
+barricade: added "defense" attribute.
+Metropolice: price for weapon switch from pistol to SMG changed from 15/7 to 12/0.
+
+Misc:
+- Fixed lag spike when attacking certain units or buildings, or when ordering constructors to repair a building.
+- Fixed Rebel veteran not being able to switch enemy targets while in steady position as well as not being able to shoot from garrisoned buildings.
+- Fixed various units not waiting for their attack animations to finish before switching orders.
+- Added death sounds to shield generator.
+
+Localization:
+- Updated Czech translations, provided by Lukyn150.
+- Updated Russian localization.
+
+Lambda Wars Patch 16 May 2020(3.14a)
+Maps:
+- Updated: hlw_uzvara, hlw_skyfight.
+- hlw_city16: Added cover points and improved map gameplay.
+
+Models:
+- Updated combine garrison model.
+- New combine Special Ops building model with animations. (Made by Spok).
+
+Balance:
+
+Control points:
+- Level 1 now gives you 2 requisition again instead 1.
+
+Upgrades:
+AR2 Upgrade:
+- Research time reduced from 82 to 72.
+Medic healrate upgrade:
+- Research time reduced from 80 sec. to 35.
+- Price reduced from 50/0 to 25/10.
+Medic regenerate upgrade:
+- Research time reduced from 80 sec. to 35.
+- Price reduced from 50/0 to 25/10.
+Medic maxenergy upgrade:
+- Research time reduced from 80 sec. to 35.
+- Price reduced from 50/0 to 25/10.
+New Medic upgrade:
+- Medics can equip an SMG1.
+
+Combine Pop. Upgrade:
+- Level 1 price reduced from 50 to 40.
+- Level 1 now will take 10 seconds to be researched.
+- Level 2 price reduced from 100 to 70.
+- Level 2 now will take 12 seconds to be researched.
+- Level 3 price reduced from 200 to 125.
+- Level 3 now will take 15 seconds to be researched.
+- Level 4 price reduced from 200 to 125.
+- Level 4 now will take 19 seconds to be researched.
+
+Attributes:
+metal(dog, rollermines): removed bonus damage against light units.
+plasma(snipers, veterans): reduced damage against meduim unitsfrom 35 to 20; reduced damage against heavy units from 25 to 20.
+
+Units:
+
+Units with SG:
+- Damage increased from 40 to 50.
+Units with AR2:
+- Attack speed reduced from 0.1 to 0.11.
+- Units with ar2 make now 3 shots.
+
+Rebels:
+
+Partisans:
+- Health reduced from 70 to 50.
+Partisan with SMG:
+- Price changed from 12/3 to 12/0.
+Partisan with molotov:
+- Price changed from 10/2 to 10/0.
+Medic:
+- Unit build time increased from 23 sec. to 24.
+- Unit view distance reduced from 896 to 768.
+Veteran:
+- Pop. cap. reduced from 3 to 2.
+- Health increased from 150 to 180.
+- Preparation time before unit can attack reduced from 3.51 sec. to 1.8 sec.
+- Doesn't now require triage center. 
+- Explosive Bolt price reduced from 6 scrap to 5.
+- Explosive bolt damage reduced from 240 to 200.
+- Explosive bolt now requires to be researched in munition depot.
+RPG:
+- Unit price reduced from 40/40 to 40/30.
+Dog:
+- Moved from Vort. den to junkyard.
+- Requires now Vort. den.
+- Price reduced from 80/100 to 80/80
+- Damage insreased from 35 to 45.
+- Removed bonus damage against light units.
+
+Combine:
+
+Metropolice with SMG:
+- Deploy manhack ability: reduced recharge time from 120 sec. to 30.
+- Price changed from 25/5 to 20/0.
+- Build time reduced from 20 sec. to 17.
+- Health reduced from 160 to 140
+Metropolice with pistol:
+- Price changed from 18/1 to 15/0.
+- View distance reduced from 832 to 768.
+- Build time reduced from 20 sec. to 17.
+- Health reduced from 160 to 140
+Hopper mine:
+- Health reduced from 100 to 90.
+Roller mine:
+- Health reduced from 135 to 115.
+Manhack:
+- Health increased from 30 to 35.
+ClawScanner:
+- View distance increased from 1152 to 1280.
+Elite combine:
+- Cost reduced from 60/20 to 50/20.
+- Doesn't require now SG unlock.
+- Weapon switch time reduced from 2 sec. to 1 sec.
+- Energy sphere now requires to be researched in munition depot.
+Sniper:
+- Preparation time before unit can attack reduced from 4.98 sec. to 3.51 sec.
+- Attack speed increased from 2.75 sec. to 2.63 sec.
+Strider:
+- Unit price reduced from 100/100 to 100/80.
+
+Buildings:
+
+Rebels:
+Junkyard:
+- Scrap generation interval increased from 5 sec. to 8.
+Triage center:
+- Added new upgrade for medics. Allows them to change their weapon to SMG. It takes 38 seconds to be researched; 30/20 upgrade price.
+Munition Depot:
+- Added new ability upgrade: explosive bolt for veterans. It takes 44 seconds to be researched; 30/20 upgrade price.
+Radio Tower:
+- Auto-detection range increased from 192 to 256.
+Rebel barracks:
+- Now requires junkyard.
+Barrel Trap Tower:
+- Range increased from 1152 to 1408.
+Triage Center:
+- New SMG1 weapon upgrade for Rebel Medic, costs 30/20 and takes 38 seconds to research.
+
+Combine:
+Combine armory:
+- Added new ability upgrade: energy sphere for elite soldiers. It takes 38 seconds to be researched; 30/15 upgrade price.
+- Energy ball requires special ops to be researched.
+Mortar:
+- Damage against light units increased from 150 to 180.
+- Damage against medium units increased from 180 to 240.
+- Damage against heavy units increased from 200 to 280.
+
+Misc:
+- Fixed junkyard hp difference in annihilation and destroyHQ modes.
+- Fixed model collisions for some buildings.
+- Fixed population check for deploying manhacks by the metropolice.
+- Fixed c4explosive ability not placing at target entity position when targeting an unit.
+- When a player loses, they can no longer abuse the reconnection issue that allowed them to continue playing in DestroyHQ/Competitive mode
+- When a player loses, their buildings no longer become neutral.
+- Some units didn't die after player loss. This has been fixed.
+- The units now respond more actively to the game mechanic that could be abused with units by running around other units. The reaction speed was increased from 1/10 to 1/20.
+- Stunned units won't be able to use their abilities.
+
+Localization:
+- Updated Czech translations. Provided by Lukyn150.
+- Added Latin America Spanish support.
+
+Lambda Wars Patch 21 April 2020(3.13c)
+Colors:
+- Replaced skyblue with cyan.
+Radio Tower:
+- Added auto-detection with 192 range.
+Combine and Rebel shotgun:
+- Damage reduced from 50 to 40.
+- Amount of bullets reduced from 10 to 8.
+RPG:
+- Increased damage from 20 to 35.
+- Min. attack range reduced from 228 to 128.
+- Attack range reduced from 1088 to 1024.
+- Removed bonus damage against "creature" units(vort, zombies, antlions).
+- Reduced bonus damage against heavy units(flamer, elites) from 60 to 35.
+- Reduced bonus damage against synth units from 100 to 90.
+Rollermine:
+- Increased population cost from 1 to 2.
+- Increased stun duration from 0.89 to 1.34
+Mortar:
+- Increased damage against light units from 100 to 150.
+- Increased damage against medium units from 150 to 180.
+- Increased damage against heavy units from 180 to 200.
+
+Lambda Wars Patch 5 April 2020(3.13b)
+- C4 Damage increased from 190 to 220.
+- Hunter splash damage radius reduced from 96 to 48.
+- Fixed frag grenade damage.
+- Some improvements to or_village.
+
+Lambda Wars Patch 4 April 2019 (3.13a)
+
+Fixed:
+- Veteran could not attack property.
+- Combine mine's attribute didn't work property.
+- Mines didn't take resources on its use.
+
+Updated team colors.
+- Updated hl2 orange, purple  colors.
+- Dark cyan replaced with teal.
+- Red color replaced with dark red.
+- Violet replaced with brown.
+- Orange replaced with sky blue/white.
+
+
+Maps:
+
+Added new maps: or_village, hlw_ruins.
+
+Fixed hlw_fortress: players couldn't build strutures at one part of map.
+
+hlw_city16, hlw_outland: added ambient sounds.
+
+hlw_canals: updated map clipping.
+
+hlw_breakout:
+- Updated map boundary.
+
+hlw_antartica, hlw_city16:
+- Fixed scrap areas.
+
+hlw_bridge:
+- Optimization.
+
+or_bridge:
+- Optimization.
+- Changed map center.
+
+Balance:
+
+Flags:
+- Imporved abilities to upgrade flag, now you see only one, price depends on you race.
+- 1st level: 
+* Cost reduced from 30/30 for rebels to 30/20.
+* Cost reduced from 30/25 for combine to 30/15.
+* Amount of req. reduced from 2 to 1.
+
+Attibutes:
+Pulse(AR2):
+- Bonus damage against light units is now 4.
+- Bonus damage against medium units increased from 4 to 5.
+
+Metal units:
+- Bonus damage against medium units reduced from 15 to 8.
+
+Fast zombie:
+- Added creature attribute.
+- Removed slash attribute.
+
+Zombie Boss:
+- Added creature attribute.
+- Removed slash attribute.
+
+Frag grenade:
+- Damage radius reduced from 350 to 320.
+- Damage reduced from 200 to 100.
+- Bonus damage against light units increased from 30 to 100.
+- Bonus damage against medium units increased from 15 to 130.
+- Added bonus damage against heavy units: 100.
+
+Rebels:
+
+Partisan with SMG:
+- Health reduced from 75 to 70.
+
+Partisan with molotov:
+- Health reduced from 75 to 70.
+- Increased unit price from 10/1 to 10/2.
+- Stink bomb effect duration increased from 1.0 sec. to 1.32.
+- Stink bomb cooldown increased from 0.5 sec to 1.82.
+
+Vortigaunt:
+- Antlion recall time increased from 1 sec. to 22.
+- Bugbait cooldown increased from 1 sec. to 6.
+- Unit speed reduced from 248 to 216.
+- Dispel damage reduced from 200 to 125.
+- Damage reduced from 30 to 26.
+- Price reduced from 70/55 to 60/55.
+- Health reduced from 320 to 280.
+- Fixed attack range.
+
+Rebel Flamer:
+- Damage increased from 2 to 3.
+- Will not die when shoting his back.
+- Damage against light, medium, heavy units is now +11.
+- Added bonus damage against creature units (vort, zombies, antlions): +6.
+
+Saboteur:
+- Time to sabotage building increased from 12 sec. to 14.
+- C4 cost reduced from 15 scrap to 10.
+- C4 damage reduced from 400 to 190.
+- C4 cooldown reduced from 10 sec. to 7.
+
+RPG:
+- Bonus damage against synth units increased from 90 to 100.
+- Added bonus damage against vort: 80.
+
+Combine:
+
+Combine elite:
+- Removed 'pulse_elite' as it doesn't work.
+
+Metropolice:
+- Health reduced from 180 to 160.
+Metro riot:
+- Health reduced from 210 to 200.
+
+Combine mine:
+- View distance reduced from 415.5 to 384.
+- Detonation radius changed from 100 to 96.
+- Warn radius changed from 200 to 192.
+- Damage reduced from 150 to 100.
+- Removed scale damage against buildings, now it deals full damage.
+
+Hunter:
+- If jump range is too large then hunter will go to closest position to jump.
+- Health reduced from 450 to 400.
+
+Rollermine:
+- Stun chance is now 100%.
+- Stun effect duration changed from 4.0 sec. to 0.89.
+
+Manhack:
+- Bonus damage against medium reduced from 7 to 5.
+- Bonus damage against light units increased from 18 to 19.
+
+Buildings:
+
+Rebels:
+
+Reb. barricade:
+- Health reduced from 200 to 125.
+Reb. mountable turret:
+- Health reduced from 400 to 175.
+
+Reb. Bunker:
+- Units inside bunkers will get +192 attack range.
+- Health reduced from 1900 to 800.
+- Build time reduced from 60 sec. to 46.
+- Sense distance reduced from 1500 to 1280.
+
+Barrel trap:
+- Ability recharge changed from 5 sec. to 8
+- Attack range reduced from 2176 to 1152.
+- View distance reduced from 1024 to 896.
+
+Combine:
+
+Mortar:
+- Bonus damage replaced with scale damage.
+- Attack range reduced from 2176 to 1280.
+- Damage reduced from 500 to 100.
+- Added bonus damage against light units: 100.
+- Added bonus damage against medium units: 150.
+- Added bonus damage against heavy units: 180.
+- Added bonus damage against metal units: 250.
+- Added bonus damage against synth units : 250.
+- Removed scale damage against buildings, now it will deal full damage.
+
+Comb. shield gen:
+- Price changed from 30/15 to 15/15.
+- Damage on touch increased from 1 to 12.
+- View distance reduced from 1024 to 640.
+- Overrun: view distance reduced from 1024 to 896.
+
+Comb. barricade:
+-Health changed from 400 to 150.
+Comb. mountable turret:
+-Health changed from 400 to 200.
+
+Comb. Bunker:
+- Units inside bunkers will get +192 attack range.
+- Health changed from 1800 to 1000.
+- Build time reduced from 60 sec. to 46.
+- Sense distance changed from 1500 to 1280.
+
+Power generator:
+- Power range increased from 720 to 768.
+
+Headcrab canister:
+- Building price changed from 40/50 to 40/65.
+- Headcrab canister range reduced from 4500 to 4480.
+- Fast headcrab canister range reduced from 4500 to 4480.
+- Poison headcrab canister range increased from 6500 to 6528.
+- Price for canister with headcrabs changed from 25/35 to 30/25.
+- Price for canister with fast headcrabs changed from 40/40 to 40/25.
+- Price for canister with posion headcrabs changed from 25/35 to 25/25.
+- Empty canister recharge increased from 8 sec. to 12.
+
+Overrun:
+
+Combine:
+Sniper:
+- Price reduced from 5 req. to 4.
+
+
+Lambda Wars Patch 22 October 2019 (3.12d)
+
+Attributes:
+Slash:
+- Damage against medium units reduced from 10 to 7.
+
+Units:
+
+Rebels:
+
+Engineer:
+- Salvage now takes 8.25(11 sec. before) seconds and returns 2(3 before) scrap per collection.
+
+Scout:
+- Max energy reduced from 50 to 30.
+- Start energy increased from 0 to 5.
+- Infiltrate ability cost changed from 20 to 10.
+
+Vortigaunt:
+- Antlion cost reduced from 40 energy to 30.
+- Max energy changed from 200 to 160.
+- Start energy changed from 100 to 80.
+- Attack cost reduced from 5 energy to 4.
+- Energy regeneration changed from 4 to 3.
+- Energy regeneration in battle changed from 2 to 1.
+- "Dispel" will stun units with 100% chance and effect will last 2.1 sec.(3 before)
+- "Dispel" ability cost changed from 30 energy to 80.
+- "Dispel" ability radius reduced from 900 to 448.
+
+Small Antlion:
+- HP reduced from 90 to 70.
+
+Combine:
+
+Metro Riot:
+- Changed price from 20/0 to 15/0.
+- Build time reduced from 20 sec. to 15.
+
+Manhack:
+- Build time changed from 8 sec. to 12.
+- Price increased from 10/2 to 12/3.
+
+Floor turret:
+- Health changed from 85 to 100.
+- Reduced research time from 40 sec. to 30.
+- Attack range reduced from 832 to 704.
+- View distance reduced from 896 to 768.
+- Removed "pulse" attribute.
+
+Sniper:
+- Infiltrate ability cost changed from 20 to 25.
+
+Buildings:
+
+Vort. den:
+- Build time increased from 50 sec. to 54.
+
+Mech. factory:
+- Doesn't require garrison.
+- Buld time reduced from 38 sec. to 28.
+
+
+Lambda Wars Patch 14 October 2019 (unversioned)
+Maps:
+Rebel turorial:
+- Fixed the problem when you couldn't fortify first control point.
+
+Sp_valley:
+- Some more optimization.
+- Now you won't lose if you have lost one billet.
+
+Weapons:
+
+SMG: Difference between shots (delay min. max.) is now 25%.
+AR2: Difference between shots (delay min. max.) is now 25%.
+RPG: Attack speed changed from 3.15 sec. to 2.99.
+
+Control points:
+- 1 lvl: interval of req. changed from 5.62 sec. to 5.63.
+- 2 lvl: Interval of req. changed from 3.09 sec. to 3.10.
+- 1 lvl: upgrade time reduced from 32 sec. to 27.
+- 2 lvl: upgrade price changed:
+	Reb. - from 40/45 to 40/55.
+	Comb. - from 40/35 to 40/50.
+
+Attibutes:
+
+Metal:
+- Removed scale damage from "plasma" units.
+- Damage against light units is now 5.
+- Damage against medium units is now 15.
+
+Plasma:
+- Increased damage against light units from 35 to 40.
+- Increased damage against medium units from 20 to 35.
+- Increased damage against heavy units from 20 to 25.
+- Scale damage against "defence" is now 1.5.
+
+RPG:
+- Bonus damage against synth increased from 75 to 90.
+
+Synth:
+- Bonus damage against medium units reduced from 5 to 4.
+
+Units:
+
+Rebels:
+
+Partisan with molotov:
+- Stink bomb doesn't affect now to ally units.
+Partisan:
+- Price changed from 12/3 to 14/3.
+
+Veteran:
+- Changed attack speed from 2.46 to 2.34.
+- Preparation time changed from 3 sec. to 3.51.
+
+Flamer:
+- Build time reduced from 38 sec. to 32.
+
+Dog:
+- Damage reduced from 45 to 35.
+- Jump range changed from 960 to 896.
+- Start energy reduced from 100 to 50.
+- Slam cost changed from 15 to 25 energy.
+- Slam cooldown changed from 3 sec. to 4.5.
+- Slam damage radius changed from 200 to 192.
+
+Combine:
+
+Rollermine:
+- Health increased from 120 to 135.
+
+Hunter:
+- Jump range changed from 1024 to 768.
+- Health changed from 525 to 450.
+- Build time reduced from 50 sec. to 43.
+- Radius for splash damage increased from 64 to 96.
+- Pop. cap increased from 3 to 4.
+
+Strider:
+- Now has 12 bullets.
+- Reload will last ~1.4 sec.
+
+Sniper:
+- Damage changed from 75 to 80.
+- Build time reduced from 45 sec. to 38.
+- Changed attack speed from 2.89 to 3.32.
+- Preparation time changed from 3 sec. to 4.98.
+
+Elite Combine:
+- Build time reduced from 38 sec. to 35.
+
+
+
+Lambda Wars Patch 10 October 2019 (3.12b)
+Maps:
+- Some fixes.
+
+Balance:
+
+- Players now will start with 100 req. (150 before).
+
+Control points:
+- Lvl 0: Amount of req. changed from 0.2 to 1.0.
+- Lvl 0: Interval of req. changed from 1.5 sec. to 7.5 sec.
+
+- Lvl 1: Amount of req. changed from 1.5 to 2.0.
+- Lvl 1: Interval of req. changed from 1.5 sec. to 5.62 sec.
+
+- Lvl 2: Amount of req. changed from 1.5 to 4.0.
+- Lvl 2: Interval of req. changed from 1.5 sec. to 3.09 sec.
+
+- First lvl upgrade time changed from 45 sec. to 32.
+- Second lvl upgrade time changed from 30 sec. to 44.
+
+- Now cost req. AND Power/Scrap:
+
+ReB 1 lvl - 30/30.
+Reb 2 lvl - 40/45.
+
+Comb 1 lvl - 30/25.
+Comb 2 lvl - 40/40.
+
+Attributes:
+
+BuiLding:
+- Removed damage scAle from RPG.
+- Damage from "synth" units reduced to 0.5.
+
+RPG:
+- Bonus damage against buildings changed to 60.
+- Bonus damage against heavy changed to 60.
+- Bonus damage against synth changed to 75.
+- Removed sCale damage against "light".
+- Removed scale damage against "medium".
+
+Slash:
+- Changed bonus damage from against light units from 30 to 18.
+
+Light:
+- Increased attacK against light from 2 to 3.
+
+Synth:
+- BonuS damage against medium units is now 5.
+- Bonus damage againsT heavy units is now 3.
+- Scale damage from "bullet" set to 0.5.
+- Scale damage from "pulse" set to 0.5.
+- Removed scale damage from "pulse".
+- Removed scale damage from "pulse_elite".
+- Removed scale damage from "plasma".
+- Removed scale damage from "explosive".
+- Removed scale damage from "slash".
+- Removed scale damage from "bite".
+
+Metal:
+- Scale damage from "bullet" changed from 0.4 to 0.5.
+- Removed scale damage from "explosive".
+- Removed scale damage from "fire".
+- Removed scale damage from "slash".
+- Removed scale damage from "bite".
+
+Pulse:
+- Bonus damage against medium units is now 4.
+- Bonus damage against metal units is now 3.
+- Removed bonus damage against light units.
+
+Plasma:
+- Bonus damage against light units is now 35.
+- Bonus damage against medium units is now 20.
+- Scale damage against building changed from 0.1 to 0.2.
+- Removed scale damage against defence.
+
+Weapons:
+- AR2 attack range Reduced from 832 to 768.
+- Pistol attack speed changed from 0.5 to 0.59.
+CombIne and rebel with AR2:
+- Sense Distance set to 960.
+
+Upgrades:
+
+Rebel AR2: changed price from 10/30 to 20/35.
+Rebel SG: changed price from 10/15 to 25/25.
+
+Combine AR2: changed price from 10/30 to 20/30.
+Combine SG: changed price from 10/15 to 25/20.
+
+Units:
+
+- Disabled tiers for all units.
+
+Rebels:
+Scout:
+- Damage Reduced from 4 to 3.
+
+Partisan with molotov:
+- Build time changed from 12 sec. to 14 sec.
+Partisan:
+- Build time changed from 12 sec. to 14 sec.
+
+Rebel with SMG:
+- Build time increased from 22 sec. to 24 sec.
+Rebel with AR2:
+- Build time increased from 22 sec. to 26 sec.
+
+Medic:
+- Build time increased from 22 sec. to 23 sec.
+
+Veteran:
+- Damage changed from 160 to 55.
+- Explosive blot splash damage radius changed from 128 to 64.
+- Minimum attack range changed from 320 to 128.
+- Attack speed changed from 2.9 to 2.46.
+
+RPG:
+- Attack speed changed from 3.5 sec to 3.15.
+- Bouns damage against "synth" units changed from 150 to 80
+- Build time decreased from 45 sec. to 38 sec.
+- Splash damage radius changed from 128 to 96.
+
+Dog:
+- Build time changed from 90 sec. to 76.
+- Price changed from 90/90 to 80/100.
+- Health changed from 1600 to 1400.
+- Attack speed changed from 1.35 to 1.14.
+
+Combine:
+
+Metropolice with pistol:
+- Damage reduced from 5 to 4.
+
+Combine with SMG:
+- Build time increased from 23 sec. to 25 sec.
+Combine with AR2:
+- Build time increased from 23 sec. to 26 sec.
+
+Manhack:
+- Bonus damage against light units reduced from 30 to 18.
+
+Sniper:
+- Start energy reduced to 30.
+- Can now take cover positions.
+- Minimum attack range changed from 500 to 128.
+- Damage changed from 150 to 75.
+- Attack speed changed from 3.4 to 2.89.
+
+Hunter:
+- Added splash damage 64 radius.
+- Damage reduced from 10 to 7.
+- Attack range changed from 512 to 640.
+- Removed "pulse_elite" attribute.
+- Reduced HP from 600 to 525.
+
+Strider:
+- Build time changed from 90 sec. to 84.
+- Price changed from 90/90 to 100/100.
+- Removed "pulse_elite" attribute.
+- Attack speed changed from 0.1 to 0.19.
+- HP changed from 1500 to 1250.
+- Cannon cost changed from 30 energy to 45.
+
+Buildings:
+
+Barracks:
+- Reduced price from 60/0 to 50/0.
+
+Garrison:
+- Reduced price from 60/0 to 50/0.
+
+Floor Turret:
+- Cooldown to place floor turret changed from 27 sec. to 36 sec.
+- Floor turret price changed from 15/25 to 20/25.
+
+Mortar:
+- Building price changed from 125/0 to 60/50.
+- Now has energy, 100 max.
+- Starting energy is 30.
+- One shot costs 35 energy.
+- Recharge time reduced from 8 sec. to 6.
+- Damage radius reduced from 350 to 320.
+
+Updated russian localization.
+
+Lambda Wars Patch 29 September 2019 (unversioned)
+Maps:
+hlw_citadel:
+- Removed billets at the center of the map.
+hlw_skyfight, hlw_thicket:
+- Fixed sky glitch on high settings.
+
+Balance:
+
+Rebels:
+
+Engineer:
+- Reduced viewdistance from 896 to 768.
+
+Scout:
+- Vision reduced from 1024 to 960.
+
+Rebel with SMG:
+- SG weapon switch price changed from 15/15 to 10/15.
+
+Flamer:
+- View distance increased from 704 to 768.
+
+Saboteur:
+- Can now capture triage center.
+
+Radio tower:
+- Scan vision increased from 832 to 896.
+
+Combine:
+
+Stalker:
+- Viewdistance changed from 896 to 832.
+
+Loyal:
+- Viewdistance changed from 896 to 768.
+
+Combine with SMG:
+- SG weapon switch price changed from 15/20 to 10/20.
+
+Localization:
+- Updated russian localization.
+
+Lambda Wars Patch 26 September 2019 (unversioned)
+Maps:
+- New map hlw_uzvara by vadimhalo
+
+Maps:
+hlw_dump:
+- More optimization.
+- Fixed map preview.
+
+hlw_thicket:
+- Decreased sound level for ambient sounds.
+- Added missing models.
+
+hlw_canals:
+- More optimization.
+- Fixed fence brushes.
+- Fixed ramp near main spawn, rollermines can now more easily climb it.
+
+hlw_skyfight:
+- The map was greatly optimized.
+- Fixed glowing textures for high settings. (very bright floor, glass textures etc).
+- Fixed map rendering when big parts of map disappear on high settings.
+- Fixed the inability to make a 2v2v2v2 game
+
+Lambda Wars Update 23 September 2019 (3.12a)
+Maps:
+[*] Fixed bugs.
+[*] New maps:
+  hlw_skyfight - FFA, 8 players.
+  hlw_dump - 1 vs 1.
+  hlw_thicket - 1 vs 1.
+  hlw_canals - 1 vs 1.
+[*] New map by Vadimhalo:
+  hlw_uzvara
+
+hlw_forest, hlw_slums, hlw_city16, hlw_breakout:
+[*] Updated scrap areas.
+[*] Added fow blockers.
+
+Balance:
+Control Points:
+[*] Control Point refund modifier now set from 0.65 to 0.75.
+[*] Level 0 view distance changed from 700 to 704.
+[*] Level 1 view distance changed from 1080 to 1024.
+[*] Level 2 view distance changed from 1440 to 1280.
+Weapons:
+[*] Pistol range attack changed from 750 to 704.
+[*] SMG range attack changed from 650 to 640.
+[*] SG range attack changed from 500 to 512.
+[*] AR2 range attack increased from 800 to 832.
+
+Upgrades:
+[*] AR2 research time reduced from 90 sec. to 82 sec.
+
+Units:
+Units with grenade:
+* Range to throw grenade changed from 300 to 320.
+
+Rebels:
+Engineer:
+[*] Vision reduced from 1024 to 896.
+Scout:
+[*] Vision reduced from 1300 to 1024.
+[*] Speed reduced from 300 to 282.
+Partisan with molotov:
+[*] Reduced vision from 800 to 768.
+[*] Molotov range changed from 748 to 704.
+[*] Stink bomb range changed from 952 to 896.
+Partisan with SMG:
+[*] Reduced vision from 800 to 768.
+Rebel:
+[*] SG weapon switch price changed from 15/10 to 15/15.
+[*] AR2 weapon switch price changed from 20/20 to 15/20.
+[*] Vision reduced from 800 to 768.
+SG rebel:
+[*] Increased vision from 800 to 832.
+AR2 rebel:
+[*] Reduced vision from 1140 to 896.
+Veteran:
+[*] Changed attack speed from 3.25 to 2.9.
+[*] Reduced vision from 1000 to 960.
+[*] Reduced attack range from 1400 to 1216.
+[*] Explosive bolt range changed from 870 to 896.
+RPG:
+[*] Reduced attack range from 1100 to 1088.
+Flamer:
+[*] Attack range changed from 352 to 320.
+Saboteur:
+[*] Reduced vision from 1000 to 960.
+[*] Now can capture more buildings:
+Reb/Comb Special ops;
+Reb - Billet;
+Reb - Vort. den;
+Reb - Munitiondepot;
+Comb - armory;
+Comb - synth factory.
+Dog:
+[*] Reduced damage attack from 50 to 45.
+[*] Reduced HP from 1900 to 1600.
+[*] Increased vision from 752 to 832.
+[*] Jump range changed from 1000 to 960.
+Vortigaunt:
+[*] Reduced vision from 1200 to 960.
+[*] Bugbait range reduced from 3000 to 1792.
+
+Combine:
+Stalker:
+[*] Vision changed from 1024 to 896.
+[*] Attack range changed from 820 to 768.
+Metrocop with Pistol:
+[*] Cooldown to place floor turret decreased from 120 sec. to 27 sec.
+[*] Reduced vision from 1005 to 832.
+Metro Riot:
+[*] Increased vision from 800 to 832.
+Metro with SMG:
+[*] Cooldown to place floor turret decreased from 120 sec. to 27 sec.
+[*] Reduced vision from 824 to 768.
+Combine with SMG:
+[*] Reduced vision from 800 to 768.
+[*] SG weapon switch price changed from 10/20 to 15/20.
+[*] AR2 weapon switch price changed from 15/30 to 15/25.
+Combine with SG:
+[*] Price changed from 35/5 to 35/10.
+[*] increased vision from 800 to 832.
+Sniper:
+[*] Attack speed changed from 3.75 to 3.4.
+[*] Reduced vision from 950 to 896.
+[*] Reduced attack range from 1470 to 1280.
+[*] Pop cap reduced from 3 to 2.
+Combine Elite:
+[*] Increased vision from 900 to 960.
+[*] Energy ball range increased from 870 to 896.
+Rollermine:
+[*] No longer can capture control points.
+[*] Reduced HP from 200 to 120.
+[*] Reduced vision from 800 to 640.
+Manhack:
+[*] Reduced vision from 700 to 640.
+[*] Price changed from 10/3 to 10/2.
+Scanner:
+[*] Flash effect duration reduced from 30 sec. to 8 sec.
+[*] Flash ability cooldown changed from 25 to 20 sec.
+[*] Reduced vision from 1250 to 1024.
+[*] Price changed from 5/5 to 5/12.
+[*] Constr. time changed from 8 sec. to 15 seconds.
+ClawScanner:
+[*] Reduced vision from 1250 to 1152.
+Hunter:
+[*] Reduced vision from 1100 to 1024.
+[*] Jump ability range reduced from 1200 to 1024.
+[*] Increased attack range from 550 to 576.
+Strider:
+[*] Increased vision from 780 to 832.
+[*] Attack range reduced from 950 to 896.
+[*] Cannon ability range reduced from 1300 to 1216.
+[*] Cannon damage range changed from 160 to 192.
+[*] Cannon damage changed from 400 to 325.
+[*] Cannon recharge time changed from 1 sec. to 3.0 sec.
+
+Buildings:
+
+Rebels:
+Barricade:
+[*] Changed view distance from 1024 to 192.
+Mountable turret:
+[*] Changed view distance from 1024 to 192.
+Radio Tower:
+[*] Removed auto-detection.
+[*] Scan ability price changed from 35 power to 50 power.
+[*] Scan ability vision changed from 900 to 832.
+[*] Building vision reduced from 1400 to 1280.
+Barrel Trap:
+[*] Barrels now cost 2 scrap.
+[*] Vision changed from 1200 to 1024.
+[*] Attack range changed from 2200 to 2176.
+Billet:
+[*] Building vision reduced from 1024 to 896.
+[*] Cost increased from 10 to 15.
+[*] Pop. increased from 4 to 5.
+
+Combine:
+Floor turret:
+[*] Research price changed from 40/40 to 30/35
+[*] Build time increased from 5 sec. to 11 sec.
+[*] Build price changed from 40/20 to 15/25. 
+[*] Health changed from 100 to 85.
+[*] Attack range changed from 800 to 832.
+[*] Sense distance changed from 870 to 896(Now it will aim for targets in its vision).
+Barricade:
+[*] Changed view distance from 1024 to 192.
+Mountable turret:
+[*] Changed view distance from 1024 to 192.
+[*] Changed price from 25/10 to 20/8.
+Heal Station:
+[*] Changed view distance from 1024 to 896
+Scrap Generator:
+[*] Changed view distance from 1024 to 896.
+[*] Reduced price from 50 to 35.
+[*] Increased interval for power from 1.75 to 2.3.
+Mortar:
+[*] Mortar does no longer deal any damage to units inside bunkers
+[*] View distance changed from 500 to 640.
+Power generator:
+[*] Increased amount of power from 0.2 to 1.00.
+[*] Increased interval for power from 4 sec. to 20 sec.
+Mechanics:
+[*] When a player is defeated, their buildings become neutral and their units die.
+[*] Reduced Zombie (0.35) and RPG (0.5) damage vs buildings.
+[*] Disabled "kill selected units" and "spread selected units" keyboard commands for Competitive mods
+[*] Canceling construction now returns requisition AND scrap/power.
+Fixes:
+[*] Rebel mountable turret deal wrong damage.
+[*] Turret no longer has infinite range.
+[*] Scanner flash no longer affects buildings or control points.
+Misc:
+[*] Changed sv_pure from default to "2"
+[*] Added unassigned functions for selecting economy (engineers/stalkers) units and combat units (Work in Progress)
+[*] Added 'medaid" attribute for future use with aid stations.
+<<<<<<< .mine
+||||||| .r6675
+[*] Added new badges for players that participated in the New Year's tournament // It was already released
+=======
+[*] Added new badges for players that participated in the New Year's tournament
+>>>>>>> .r6685
+
+Lambda Wars Update 09 November 2018 (3.11a)
+Balance:
+[*] Antlion population requirement removed
+[*] Shotgun unlock time increased from 20 to 45 seconds
+[*] AR2 unlock time increased from 20 to 90 seconds
+[*] Weapon upgrade price for Combine SG changed from 10/25 to 10/30
+[*] Rescaled AR2 and SG combine prices from 50/10 and 45/5 to 45/15 and 40/5
+[*] Manhack price increased from 10/0 to 10/3
+[*] Rescaled Power Generator generation frequency from 0.15 per 3 sec tick to 0.2 per 4 sec tick
+[*] Rebel Partisan health increased from 50 to 75
+[*] Rebel Marksman/Veteran (should I just rename it back to Veteran?) pop increased to 3
+[*] Population from Combine Elite and Rebel Flamer increased from 2 to 3
+[*] Metropolice and Metropolice SMG movement speeds were swapped (pistol runs faster now)
+[*] Added synth factory requirement for researching Strider upgrade
+[*] Barrels from barrel trap tower now cost 1 scrap
+[*] Reduced bonus damage from RPG and Flamethrower against building
+[*] Sniper attack speed slightly increased 
+
+Frag grenade:
+[*] Grenade now doesn't cost anything to toss
+[*] Reduced cooldown from 120 to 40 seconds
+
+Bugs:
+[*] Mortar no longer fires after death
+[*] Medic being able to heal globally
+[*] Dog being healed by Combine aid station
+[*] Stalker attack working in bursts instead of continuous attacks
+[*] Rollermine bleed effect
+[*] Dog & Hunter jump fix
+[*] Strider showing bleed effects
+[*] Dog having weird bleed effects and loop sounds
+
+Rollermine:
+[*] Now attempts to hit its enemy
+
+Maps:
+[*] Various changes for 90% of the maps. Mostly navigation and balance-wise though.
+
+Misc:
+[*] New Veteran/Marksman unit icon
+
+
+Lambda Wars Update 27 May 2018 (3.10c)
+Balance:
+[*] Summoning dropships now has a price of 200 requisition and requires vision.
+[*] Snipers and Riot Metrocops can no longer take cover.
+
+Tutorial:
+[*] Added voice acting by Trivvy (he voiced Frank from Underhell btw) for the tutorial level - dialog messages have a voice cover now
+
+Maps:
+[*] hlw_city16, hlw_slums, hlw_slums_winter, hlw_mine, hlw_mine_winter, hlw_village_winter, hlw_bridge, hlw_breakout, hlw_jungle, hlw_snow_wasteland, hlw_thirst, or_base4:
+- Removed collision with some of the props
+- More Nodraw
+- Some scrap points were Fixed
+- Added fade to props
+- Fixed spots where NPC's wouldn't move
+- Other fixes
+[*] New 5 player overrun map or_bridge
+
+Misc:
+[*] Added random damage values (RandomBonusDamage(dmgmin, dmgmax)) for later use in Squad Wars and other game modes.
+
+Fixed:
+[*] Veteran's (Support marksman's) explosive bolt ability not available in competitive or overrun.
+[*] RPG deal more damage in Overrun now
+
+Lambda Wars Update XX April 2018 (3.10b)
+Balance:
+[*] Reduced RPG damage vs infantry units:
+-Light armor units - from 1.0 to 0.2
+-Medium armor units - from 0.4 to 0.1
+-Heavy armor units - from 0.7 to 0.35
+[*] Fixed Mortar attributes. By default it dealt 500 dmg to everything:
+-Mortar now deals only 2% dmg to buildings
+-Mortar now deals 200% dmg to DOGs
+
+Misc:
+[*] Updated visual effects for Rebel Flamer - gets ignited when shot in the back
+
+Lambda Wars Update 23 December 2017 (3.10a)
+Balance:
+[*] Reworked Headcrab Cannister Launcher launch range: 
+-Empty Shell now has global range
+-Headcrab Cannisters now have 0.65 of Map's maximum range (If your headcrab cannister launcher is located in the middle of the map, it can launch up to 0.65 range, that's more than 1/2 map range).
+-Poison Headcrab range changed to 0.8 range
+[*] Reduced Headcrab cannister prices
+[*] Increased amount of deployed poison headcrabs from 5 to 6
+[*] Normal headcrab price: from 25/40 to 25/35; Fast headcrab price: from 40/50 to 40/40; Poison: 40/25 to 35/25
+[*] Rescaled rollermine stats: Health - from 100 to 200, Damage - from 4 to 2, Stun chance - from 0.5 to 0.7, Explosion damage - from 50 to 65
+
+Units:
+[*] Vortigaunts no longer turn into zombies
+[*] Rebel Flamers no longer turn into zombies
+
+Maps:
+[*] Added a new 1 vs 1 community map by Mr. Lazy - hlw_breakout
+[*] Added a new 4 player 1v1v1v1 map by Mr. Lazy - hlw_citadel
+[*] Updated the following maps with soundscapes for a nicer atmospheric touch:
+-hlw_breakout
+-hlw_citadel
+-hlw_synth
+-hlw_village
+-hlw_woodland_winter
+-hlw_slums_winter
+-hlw_mine_winter
+-hlw_village_winter
+-hlw_snow_wasteland
+-hlw_aurora
+-hlw_antarctica
+
+Misc:
+[*] Updated dependencies main menu and HTML UI viewport
+[*] New flamethrower model by TrinityVincent (aka CrazyMongoose). The old model was a default Flamethrower model from ALien Swarm.
+
+Lambda Wars Patch XX October 2017 (3.08)
+Balance:
+[*] Increased Synth Scanner speed from 140 to 250
+[*] Reduced Headcrab Cannister range from 9000 to 6000
+[*] Empty shell range kept at 9000 range
+[*] Normal Headcrab cannister price from 35/20 to 25/40
+[*] Empty shell price changed from 25/15 to 25/25
+[*] Empty shel now also goes on cooldown, together with other cannisters
+[*] Reduced costs on shooting Annihilation Mortar - from 30 power to 20
+[*] Annihilation mortar now supports Autocast
+[*] Barrel Trap tower - Increased autocast range
+[*] Reduced Strider health from 1700 to 1500
+[*] Reduced City Scanner health from 50 to 30
+[*] Reduced Rollermine build time from 20 to 14
+[*] Reduced explosive barrel ignite time from 4 to 3 seconds
+[*] Increased crossbow max range from 1300 to 1400
+[*] Reduced damage dealt by 'plasma' attribute to buildings from 0.25 to 0.1
+
+AI:
+[*] AI now builds Annihilation Mortars to protect themselves from Rebel TP's (well, not yet really)
+[*] A few other improvements.
+
+New:
+[*] Combine Faction ability - Call Combine dropships to dispatch soldiers. The dropships will dispatch 15 soldiers. The ability isn't polished very well however (sometimes dropships may get stuck or not spawn soldiers when landing - this is due to bad landing positions)
+
+Localization:
+[*] Updated Localization. Lines, such as "Costs" "Requirements" "Recharge time" can now be translated via resource files.
+
+Maps:
+[*] Updated maps with slightly better lighting.
+[*] Winter maps fog reduced.
+[*] hlw_synth: 
+- added fow_blockers which block Fog of War vision between player bases
+[*] hlw_snow_wasteland: 
+- added fow_blockers in various places
+- the 5 central flags now belong to enemy team (zombies) by default
+
+
+Misc:
+[*] Crossbow bolt particle effects
+[*] Updated portal rift end particles a bit
+
+Chromium:
+[*] Updated Chromium embedded from version 49 to version 61. With this, Windows XP users will no longer be able to launch the game. See minimum requirements.
+
+Lambda Wars Patch XX October 2017 (3.07h)
+Balance:
+[*] Increased Bunker sense distance to 1500 (from 1000)
+[*] Increased Bunker shooting range from 90 degrees to 270 degrees
+[*] Rebel Bunker incoming unit damage increased from 0.3 to 0.35
+[*] Combine Bunker incoming unit damage reduced from 0.3 to 0.2
+[*] Reduced Rebel Bunker price from 20 req 45 scrap to 20 req 35 scrap
+[*] Increased Combine Bunker price from 20 req 45 scrap to 20 req 50 power
+[*] Defense structures receive less damage from bullets (from 0.65 to 0.5) and pulse (from 0.7 to 0.6)
+[*] Increased stun chance for Combine Elite combine ball from 0.4 to 0.5
+
+Units:
+[*] Removed 'mechanic' attribute from Dog attributes (this should allow us to stun Dog now)
+[*] Sniper view range reduced from 1400 to 950
+[*] Rollermine: Increased stun chance for from 0.1 to 0.5
+[*] Medics now heal on a wide range. Though gotta admit it's bugged. For now.
+[*] Medic costs increased from 15 requisition 10 scrap to 15 requisition 20 scrap.
+[*] Stalker makes death sounds now
+[*] Reduced build time, costs and health for partisans: 12 secs to make. Costs: 12/3 for SMG, 10/1 for Molotov. Health: 50 (from 100)
+[*] Reduced build time for all metrocops: 17 seconds to make.
+
+Weapons:
+[*] Crossbow attack range increased from 1100 to 1200
+[*] RPG attack range increased from 1000 to 1200
+[*] Increased stun chance for RPG against striders from 0.2 to 0.33
+
+New:
+[*] Junkyard, like the headquarters, now generates scrap every 5 seconds. Only one junk yard at a time.
+
+Gamemodes:
+[*] Overrun: Wave 10 - increased amount of partisans that will attack the players from 50 to 90 minimum.
+
+Lambda Wars Patch XX August 2017 (3.07f)
+Balance:
+[*] Reduced Strider's view range from 811 to 780
+[*] Reduced Dog's vision from 900 to 750
+[*] Increased Sniper Rifle minimum range from 150 to 350
+[*] Increased Crossbow minimum range from 64 to 320
+[*] Increased RPG minimum range from 0 to 192. This does apply for Squad Wars too, however. Will be changed in future.
+[*] Shieldgen now only requires an armory. Removed the advanced defenses for now.
+
+Fixes:
+[*] Rebel Assault's smg should now appear in the game.
+[*] Fixed Rebel waves in overrun. The unit distribution was incorrect.
+
+Misc:
+[*] Updated DLL's, as well as fixes for recast navigation mesh.
+
+Lambda Wars Update XX August 2017 (3.07e)
+Balance:
+[list][*] Added a balance sheet in Microsoft Excel format in development branch so it is easier to see what units need adjustments, and in what cases. (This took a l o t of time to make)
+[*] Dog's health increased from 1100 to 1900
+[*] Dog's attributes have been rescaled. Dog now receives more damage from bullet, pulse and combine ball attributes. Combine balls take the same amount of shots to kill a dog as before.
+[*] Reduced Strider cannon cooldown from 2 to 1.
+[*] Increased Strider Cannon damage from 350 to 400
+[*] Increased Riot Metrocop health from 150 to 210
+[*] Reduced Riot Metrocop movement speed from 260 to 235
+[/list]
+
+Maps:
+[list][*] sp_abandoned: Added an introduction tutorial to the map. 
+[*] Added a few starter combat units, so player doesn't instantly lose to a headcrab at spawn. 
+[*] Changed some triggers in the map: the middle flag used to be un-capturable because of the ally units.[/list]
+
+Squad Wars:
+[list][*] Combine Ball no longer kills tanks, only stuns them and deals damage. It does insta-kill other chars however, but the combine ball itself won't bounce, it will instantly explode.
+[*] Added a large clip SMG1 to char_rebel_assault (Assault). He will shoot it almost like a minigun :)
+[*] Medic's passive healing ability now has an icon. [/list]
+
+Music:
+[list][*] New track: YIA - Synthesis Of Life[/list]
+
+Bugfixes:
+[list][*] Fixed Rebel HQ generating resources if there are more than one HQ's present.
+
+AI:
+As requested by some of the players, AI was reworked a bit. The construction order and units were also affected a bit. AI works a bit different now, tho still makes random choices and makes its own preferences.
+[list][*] Adjusted AI. Medium AI was simplified a bit and should no longer rush like crazy. Might still give problems though.
+[*] Made Easy AI a bit stronger.
+[*] AI's frequency of ability usage now matches their difficulty (hopefully).
+[*] Combine Elites will now shoot their combine balls at the first visible target by default.
+[*] If either Rebels or Combine build a Vort Den or a Synth Factory, one of their priorities will be making a Dog or Strider. This applies to all difficulties.
+
+Misc:
+[*] Adjusted Rebel turret a bit, so the barricade the turret stands on matches the turret position (as requsted and done by Super Noob ;])
+[*] Fixed Czech localization. It should work properly now.
+[*] Updated Russian localization. Some words looked as if someone smashed their face at the keyboard in order to type that out...
+
+Lambda Wars ????? XX July 2017 (3.07d)
+//Game Modes:
+//* Overrun: Reduced unit_rebel_sg spawns on wave 4 from 0.5 to 0.3 (increased regular rebels from 0.5 to 0.7) [Need to see if it's actually a problem]
+
+
+Lambda Wars Patch 27 June 2017 (3.07c)
+Fixed:
+* Deploying manhacks gave errors in console, some people even experienced crashes because of them. Scanner (Char) deploys manhacks instead of scanners. For now.
+
+AI (Combine):
+* unit_scanner was used by bots as a scouting unit (which in turn is ordered to capture flags). This was now fixed.
+
+Game Modes:
+* Overrun: Added 'rebel' wave type. It is fresh, so it might need adjustments.
+
+Lambda Wars Update 26 June 2017 (3.07a)
+Game modes:
+* Work-in-Progress game mode "Squad Wars". This game mode is far from done, so don't expect it to be exceptionally finished, playable and balanced. Also, IT DOES NOT SUPPORT CPU!!!
+
+Character Units:
+* "Chars" - units specifically for "Squad Wars" game mode. They have unique abilities, attributes and stats.
+
+Balance:
+* Explosive bolt now requires a munition depot.
+* "Fire" attribute now deals more damage against "creature" attribute (all non-human units, except synths and mechanical units).
+* Floor Turrets no longer require population. Previously they required 2 population.
+* Floor turret damage increased from 6 to 8.
+* Combine Elites now require both AR2 and Shotgun to be used.
+* Damage taken by units inside bunker was reduced even more now.
+
+Maps:
+* hlw_outland and hlw_waste - added manned turrets and floor turrets as early defenses. They become owned by the player that captures the closest control point.
+* sw_woodland, map hlw_woodland, but made for Squad Wars.
+
+Improvements:
+* Improved veteran steady positioning. 
+* Shield Generator can now be destroyed if it's unpowered.
+* Annihilation: No longer require useless structures like billets and energy cells to be destroyed. Only buildings that can produce units are required to be destroyed. The rest can be ignored.
+
+Chars (Squad Wars):
+* Commando - Can shoot while running and tosses grenades. Can switch between a shotgun or an AR2. Very slightly reduced movement speed. 1000 HP. ASSAULT unit.
+* Elite - Equipped with an AR2. Can shoot energy balls that may harm his team. Deals increased damage. Slightly reduced movement speed. 800 HP. DPS unit.
+* Mechanic - Equipped with a pistol. Can produce manhacks, place floor turrets, set mines and place automatically constructed aid stations. 900 HP. SUPPORT unit.
+* Riot Tank (WIP) - Equipped with a stunstick. Can switch to SMG1. Can make cover spot for his allies to use. Is fast with his stunstick out and slow and more vulnerable with SMG1. TANK unit.
+* Scanner - Equipped with an SMG. Has abilities to deploy scanners and scan an area in the map for 15 seconds, as well as reveal invisible units. SCOUT unit.
+* Scout (WIP) - Equipped with an SMG. Can go invisible and stab enemies (doesn't work yet). Large view distance. Fast speed. 900 HP. SCOUT unit.
+* Flamer - Equipped with a flamethrower. Can toss smoke grenades. Slow speed. Short view distance. 1200 HP. TANK unit.
+* Veteran - Equipped with a crossbow. Can shoot explosive bolts. Has 800 HP. DPS unit.
+* RPG - Equipped with an RPG. Has slightly reduced speed. Can toss stink bombs. Deals more damage against bosses. 1000 HP. TANK unit.
+* Engineer - Equipped with a shotgun. Builds turrets, barrel trap towers and barricades. 900 HP. SUPPORT unit.
+* Medic - Equipped with an SMG. Can heal allies with his abilities. 1100 HP. MEDIC unit.
+* Assault (WIP) - Can shoot while running and tosses grenades. Has 1000 HP. ASSAULT unit.
+
+Misc:
+* Units no longer make pain sounds if they don't take damage (e.g. stink bomb).
+* More team colors - you now have 13 team colors to choose from.
+* Veteran renamed to Support Marksman.
+* "They Will Never Make A Stalker Out Of Me!" achievement was now fixed.
+
+Lambda Wars Patch 20 April 2017 (3.04d)
+* Fixed and improved AI. It was broken due to some abilities completely breaking the AI mechanics.
+* All the units now use abilities. Striders shoot their cannons, hunters charge in, 
+* Fixed sp_waste, soldiers stuck underground issue.
+* Reduced Riot Metrocop price from 25 to 20
+
+Lambda Wars Patch 16 April 2017 (3.04c)
+* Fixed hunter being able to jump on places with no navigation meshes
+* Fixed precaching of Rebel units at the start of the game
+* Update viewport html UI tech:
+	- use webpack for bundling. No longer dynamically load js files.
+	- Remove dojo library which was used for emulating classes. Now use ES6 classes.
+
+Lambda Wars Hotfix 15 April 2017 (3.04b)
+* Vortigaunts got fixed (they were not meant to be THAT powerful).
+* Overrun Shield generator now works once again.
+
+Lambda Wars Update 15 April 2017 (3.04a)
+Balance:
+* Mortar now deals only 10% of its damage to buildings
+* Vortigaunt Den requires Munition Depot + Triage center
+* Vortigaunts: Buffed Dispel damage and stun chance, increased dispel cast animation time by x2.
+* Vortigaunt price increased to 70/55
+* Partisan molotov health reduced from 140 to 100;
+* Changed antlions from suicide antlions to regular antlions. Antlion count per Vortigaunt increased to 3 (from 2);
+* Dog deals more damage to Synths;
+* Dog now stuns striders and deals more damage to them with his Jump;
+* Mechanical Factory requires a Garrison
+* Stink bomb duration reduced to 1 second (from 5)
+* Stink bomb effect duration increased from 0.1 secs to 3.0 secs.
+
+Maps:
+* hlw_city16 is now (finally) out. Enjoy :)
+
+Effects:
+* Updated c4 explosion effect (looks fancy now);
+* Updated nuke effect (also looks fancy now);
+
+Units:
+* Added death sounds to rebels, citizens, vortigaunts, metrocops
+* Added voice lines for loyal citizens, different from Rebels
+* Added hurt sounds for units - they have a chance to make pain sounds when hurt
+* Added warning sound for rebel flamer when he gets shot in the back. He yells "Run for your life!" or "No, nooo!" when that happens.
+
+Fixed:
+* Fixed the issue with rebel flamer standing still after getting shot in the back. The flamer was supposed to explode and die. This is fixed now.
+
+Music:
+* Added a new main menu track by YIA. YIA - Dangerous Streets. Both original and the new track play in the main menu randomly.
+
+Translations:
+* Added Czech translations by PsychoParek.
+
+Lambda Wars Update 10 April 2017 (3.02b - Hotfix)
+* Added player receiving scrap on sp_valley when reaching the barracks.
+* Fixed sp_valley barracks not making units (required an armory) - placed an armory hidden outside the map and set some npc spawn points higher angles so they don't fall through the ground.
+* Fixed sp_abandoned - Units can no longer walk through the electrical line. And if they do, they get rekt.
+
+Lambda Wars Update XX March 2017 (3.01c)
+Balance:
+* Increase stunstick attack speed (from 1.5 to 1 sec)
+* Increase stunstick damage (from 10 to 15)
+* Increase Metropolice Riot health (from 120 to 150)
+* Increase Metropolice Riot price (from 20 requisition to 25) [Comment: early game requisition gain is a problem, but should be ok for stopping early rushes]
+* Set Rebel Engineer tier to 1
+* Reduce Engineer health to 50
+* Increase Headcrab Cannister launcher launch cooldowns (from 8 to 30 seconds)
+* Increase Fast Headcrab Cannister price
+* New Cannister type - Empty shell (Cheap price, 8 sec cooldown)
+* Reduce the amount of fast headcrabs to 4 (from 6)
+* Increase the amount of poison headcrabs to 5 (from 4)
+* Increase cannister flight time (from 1 to 2 seconds)
+* Increase cannister land damage (from 75 to 150 damage)
+* Set Combine Shieldgen to be untargettable by troops (guys, aim for the power generators instead).
+* Update mortar sound effect
+* Reduced Mortar price, mortar ability cost and reduced cooldown.
+* Reduced the damage taken by bunker units to 30% (from 50%)
+* Changed bunker prices (require more power/scrap than requisition)
+
+
+Lambda Wars Update 25 February 2017 (3.01b)
+Fixed:
+* Error model inside combine bunker
+* Tutorial now works properly
+* Shieldgen no longer requires power in Overrun
+
+AI:
+* Rebel CPU now builds junkyards near scrap
+* they are now more aggressive early game
+
+Balance:
+* Rescaled price for veterans by a bit
+* Reduced health for veterans to 130 (from 180)
+* Increased crossbow damage from 100 to 160
+* Increased crossbow explosive bolt damage from 100 to 240
+* Partisans with molotov and partisans with smg now share the same passive "Revolutionary Fervor"
+* Metropolice with pistols now require additional 1 power for production.
+
+Optimization:
+* Reduce max particle count for a few particle effects
+
+Misc:
+* Modified mortar effect a bit.
+
+
+Lambda Wars Update 11 February 2017 (3.01a)
+Balance:
+* Competitive rebel billet now costs 10 requisition and gives 4 population.
+* Competitive resources - added "power" to resources table.
+
+Maps:
+* hlw_thirst - Small changes for highground - units can't get on them anymore.
+* hlw_outland - Added trigger_hurt beneath the map that kills units, which may get stuck (headcrabs, etc).
+
+New:
+* New structures - Bunkers for Rebels&Combine and Combine Forcefield preveiously seen in Overrun now in Annihilation and Competitive modes. The force frields require power generators.
+* New ability for Saboteur - Plant Mines (they also have stripes on them for convenience)
+
+Units:
+* Rebel flamer now throws smoke grenades
+* Partisan with SMG was added back to the barracks (with increased cost and production time)
+* Partisan with Molotov now has the same passive as Partisan with SMG
+* Rebel soldier and Combine soldier now have to be unlocked by constructing a Munition Depot/Armory
+* When a fast headcrab kills a human unit, it gets turned into a fast zombie
+* Metrocop with pistol was added back to the game. Upgrading to metrocop to SMG costs 15 req 7 power, while making a metrocop with SMG1 is cheaper
+* Tier system, where lower tier units do less damage against higher tier units
+
+Sounds:
+* Added work sounds for buildings when in process of making units and researching upgrades.
+
+Misc:
+* Munition depot/Armory price was increased (40/20 - 40/40; 40/30 - 40/50)
+* Rebels and Combine have to unlock grenades individually per unit.
+* Grenade explosion timer was increased.
+
+Lambda Wars Update XX June 2016 (2.8.0)
+Fixed:
+* Rebel Saboteur Sabotage ability can change enemy floor turret rotation again 
+* Rebel Saboteur Sabotage ability now takes energy when channeling starts
+* Main menu news pointing to old expired url
+
+Balance:
+* Increase aidstation health from 400 to 500
+* Salvage collection time from 11 to 9
+* Dog health increased from 850 to 1100
+
+Maps:
+* hlw_aurora - For each scrap area, one scrap marker spawns for each player in game.
+
+Lambda Wars Update 16 June 2016
+Balance:
+* Reworked and improved Destroy HQ game mode:
+	- Renamed to "Competitive"
+	- Added units and buildings limits:
+		Combine:
+		-- Striders limited to 5 units
+		-- Hunter limited to 8
+		-- Scanner limited to 8
+		-- Combine Snipers limited to 12
+		-- Combine Elite limited to 15
+		-- Clawscanner limited to 12
+		-- Headcrab Canister launchers limited to 3
+		-- Annihilation Mortar limited to 5
+		Rebels:
+		-- DOG limited to 5
+		-- Vortigaunt limited to 10
+		-- Veteran limited to 14
+		-- RPG limited to 10
+		-- Flamer limited to 12
+		-- Saboteur limited to 8
+		-- Medic limited to 12
+		-- Radio tower limited to 4
+		-- Teleporter limited to 3
+	- Original Headquarters now works in the old way - spawns engineers and scouts
+	- Junkyard spawns engineers, no longer works as headquarters
+	- Vortigaunt den has made its return and now spawns vortigaunts with DOG.
+* Rebels Aid Station capacity increased from 6 to 8
+* Rebels Aid Station health increased from 300 to 400
+
+Maps:
+* Reworked cover points on most of the maps and completely removed from maps such as hlw_synth which don't have any legit cover positions.
+* Fixed sp_radio_tower start scene not playing properly
+* New sp_abandoned mission by JJ
+
+New:
+* Soldiers now channel when switching from SMG to AR2 and SG. Same works for Combine Elites.
+
+Models:
+* New updated models for Combine Garrison by Brad Staley and Jack Staley.
+
+Lambda Wars Update 10 April 2016 (2.7.3.4)
+* Fix match result not uploaded when host disconnects from game.
+* Fix navigation mesh tile not being build properly in some cases due a too small buffer size
+* Fix number of memory leaks
+
+Lambda Wars Update 3 April 2016 (2.7.3.3)
+* Fixed memory leak on map change in navigation mesh allocation
+* Add Dog to Rebels Overrun game mode units
+* Change Overrun main resource name to requisition
+* Updated Russian translations
+* Updated French translations (provided by Gabriel Losson)
+* Update Chromium Embedded Framework (html ui) to version 3.2623.1396.g0451528
+
+Lambda Wars Update 28 Februari 2016 (2.7.3.2)
+* Add Vortal Storm intro movie
+* Reduce frequency at which unit order and selection sounds are played
+* Add option to completely disable unit order and selection sounds (available in audio settings)
+* Update Chromium Embedded Framework (html ui) to version 3.2526.1366.g8617e7c and add dgbhelp.dll to fix startup crash for that one Windows XP user
+
+Lambda Wars Update 2 Januari 2016 (2.7.3.1)
+Improvements:
+* Spectators now see the winners/losers dialog after game ends
+* Better mission image for sp_valley
+
+Fixed:
+* Profile/mute options not showing when clicking the username of a player in global/lobby chat
+* Various memory leaks
+
+Misc:
+* Update Embedded Python to version 3.4.4
+
+Lambda Wars Update 27 December 2015 (2.7.3)
+Maps:
+* New map hlw_fortress (by Pufulet)
+* Winter versions of hlw_forest, hlw_slums, hlw_village, hlw_mine, hlw_woodland_winter
+
+Improvements:
+* Abilities can now pick a target unit by left clicking the unit portrait/slot in the hud
+* Add key binding option to cycle throught the active unit type of the ability hud
+* No longer show disconnect/5 minutes reconnect warning message when player disconnects after the game ended
+
+Fixed:
+* Fix manhack getting stuck on enemies, not moving back for next attack 
+* Fix manhack not attacking correctly at all when being ordered to attack an enemy
+
+Misc:
+* Update CEF to version 3.2526.1364.gf6bf57b (Chromium 47)
+
+Lambda Wars Update 19 December 2015 (2.7.2)
+Fixed:
+* Global chat broken
+* Strider becoming stuck during executing the Cannon ability when trying to execute another Cannon ability in some cases
+* Sabotage ability not taking energy
+* Captured buildings by Sabotage ability not functioning correctly (Combine energy cell/power generator)
+
+Maps:
+* hlw_abandoned - spawn scrap markers based on number of players
+
+Lambda Wars Update 12 December 2015 (2.7.1)
+Gameplay & Balance:
+* Scrap power generator decreased from 40 power per minute to ~34
+* Two engineers salvaging increased from ~26 scrap per minute to ~32
+* Increased barrel cost scrap cost from 20 to 30
+* Decreased Rebel AR2 upgrade cost from 15 to 10 scrap.
+
+Maps:
+* hlw_village, hlw_woodland: Each scrap area spawns 1 scrap marker for every player in game
+* hlw_mine: less scrap markers at start location if there is only player
+* tutorial, sp_valley, sp_radio_tower, sp_waste - Replaced HQ with junkyard.
+
+Fixed:
+* Combine Elite energy ball not hitting the Combine Strider
+* Main menu tutorial button not working (broken in update of 2 December)
+* Improve display of news in ingame main menu
+* Strider Impale and Flinch animations not playing fully
+
+Announcer:
+* Updated Combine Announcer sounds
+
+Cover:
+* Less strict filtering on map placed static cover, meaning more cover spots are available for soldiers
+
+Misc:
+* Update CEF to version 3.2526.1358.gd153a2c (Chromium 47)
+
+Lambda Wars Update 2 December 2015 (2.7.0)
+Match results & history:
+* Match history is now tracked. You can view your recent matches by clicking your profile name
+* For each match basic statistics and graphs are available, such as unit kill/lost counts and spent resources (more are planned)
+
+UI:
+* New animated main menu background
+
+Announcer:
+* New Combine Announcer sounds
+
+Gameplay & Balance:
+	REBELS
+
+	Junkyard:
+	* Replaces HQ as Rebel starting building.
+	* Builds Engineers and Scouts, no longer builds DOG.
+	* Provides 3 population.
+
+	HQ:
+	* Requires Triage Center.
+	* Cost decreased from (300 req, 100 sec) to (70 req, 40 scrap, 70 sec).
+	* Builds Vortigaunt and Dog, Vortigaunt Den removed.
+	* Provides no population.
+	* Set health to 1000.
+
+	DOG:
+	* Cost and build time reduced from (90 req, 150 scrap, 120 sec) to (90 req, 90 scrap, 90 sec).
+	* Damaged reduced from 100 to 50.
+	* View distance decreased from 1000 to 900.
+	* Dog unlock removed.  Builds at HQ but requires Munitions Depot.
+	* Slam:
+		- Damage increased from 200 to 230.
+		- Radius increased from 160 to 200.
+		- Recharge time decreased from 10 to 2.
+		- Energy decrased from 25 to 15.
+		- Autocasts if 2 enemies range instead of 4.
+		- Constant bonus damage vs Strider increased from 50 to 100.
+	* Jump:
+		- Recharge time decreased from 10 to 0.
+		- Energy cost increased from 25 to 40.
+
+	Saboteur Sabotage ability:
+	* Time increased from 5 seconds to 12 seconds.
+	* Can take control of all enemy structures except:
+		- Starting buildings: Junkyard and Combine HQ.
+		- Late game production structures: Spec Ops, Rebel HQ, Synth Factory.
+		- Tech Structures: Armory, Munitions Depot, Triage Center.
+
+	Vortigaunt:
+	* Population count reduced from 3 to 2.
+	* Cost and build time reduced from (50 req, 36 scrap, 42 sec) to (40 req, 40 scrap, 40 sec).
+	* Bugbait ability:
+		- Throw range increased from 1000 to 3000.
+		- Recharge time decreased from 30 to 12.
+	* Bugbait antlions:
+		- Changed attack attribute from slash to shock.
+		- Melee attack damage reduced from 10 to 2.
+		- Melee attack delay reduced from 1.5 to 1.
+		- Leap attack damage increased from 15 to 120.
+		- Leap attack minimum and maximum range increased from (256 and 720) to (1200 and 2200).
+		- Health increased from 80 to 90.
+		- Viewdistance decreased from 730 to 600.
+		- Maxspeed decreased from 450 to 354.
+		- Scale decreased from 0.8 to 0.75.
+
+	Teleporter:
+	* Reduce recharge time from 80 to 16 seconds.
+	* Reduced teleport cost from (100 req, 45 scrap) to (30 req).
+	* Reduced build time from 80 to 50.
+	* Changed requirements from (Munitions Depot and Radio Tower) to (Triage Center).
+	* Reduced build cost from (60 req, 100 scrap) to (60 scrap).
+	* Reduced teleport time from 40 to 16 seconds (including windup time).
+
+	Radio Tower:
+	* Initial energy decreased from 100 to 50.
+	* Scan radius reduced from 1200 to 900.
+	* Scan energy reduced from 50 to 35.
+
+	Barracks:
+	* Tech requirement changed from HQ to Junkyard.
+
+	Billet:
+	* Population provided increased from 6 to 9.
+
+	Flamer:
+	* Increased explosion radius from 128 to 320.
+	* Increased view distance from 500 to 700.
+
+	Barrel trap:
+	* Launch cost reduced from 2 scrap to 0 scrap.
+
+	View distances simplified:
+	* Scout increased from 1215 to 1300.
+	* Saboteur decreased from 1320 to 1000.
+	* Partisan reduced from 825 to 800.
+	* Rebel soldier reduced from 818 to 800.
+	* Rebel SG increased from 710 to 800.
+	* Medic decreased from 1000 to 900.
+	* Rpg decreased from 1250 to 900.
+
+	Scrap gathering:
+	* Reduced salvage time from 12 to 9.
+	* Reduced salvage scrap count from 3 to 2.
+		- (Scrap gathered per minute decreased from 15 to 13.33).
+
+	Engineer build menu:
+	* Added support structures to defense submenu. (Aid station, Radio Tower, Teleporter).
+	* Organized economic, production, and tech structures into different rows.
+
+	COMBINE
+
+	Strider:
+	* Removed Strider Unlock, having Mechanical Factory unlocks Strider.
+	* Cost and build time reduced from (90 req, 120 power, 120 sec) to (90 req, 90 power, 90 sec).
+	* Reduced health from 2000 to 1700.
+	* Dark Energy Cannon:
+		- Increased range from 1000 to 1300.
+		- Decreased recharge time from 10 to 2.
+		- Decreased damage from 2500 to 350.
+		- Decreased radius from 220 to 150.
+		- Decreased energy cost from 75 to 30.
+
+	Mines:
+	* Explosion radius increased from 320 to 450.
+	* Damage decreased from 320 to 150.
+
+	Rollermine:
+	* Increased stun duration from 3 to 4 seconds.
+	* Set viewdistance to 800.
+	* Increased explosion radius from 128 to 160.
+
+	Elite:
+	* Accuracy reduced from High to Medium.
+	* Removed AR2 unlock requirement.
+	* Combineball recharge time decreased from 30 to 20.
+	* Combineball damage increased from 250 to 300.
+	* Reduced speed from 210 to 190.
+	* Decreased viewdstance from 1100 to 900.
+
+	Scrap powered generator:
+	* Power generation amount every 1.5 seconds decreased from 1.25 to 1.0.
+		- (Power generated per minute decreased from 50 to 40.)
+
+	View distances simplified:
+	* Hunter increased from 1056 to 1100.
+	* Riot Metrocop decreased from 821 to 800.
+	* Combine SG increased from 712 to 800.
+	* Manhack increased from 634 to 700.
+
+	BOTH FACTIONS
+
+	Grenade:
+	* Damage radius increased from 220 to 300.
+	* Damage decreased from 320 to 200.
+	* Unlock cost changed from (40 req) to (30 scrap) for Rebels and (30 power) for Combine.
+
+	* Multiple workers constructing becomes less efficient with more than 2 workers instead of 4.
+
+	AR2 Weapon:
+	* Range decreased from 820 to 800.
+	* Attack delay increased from 0.1 to 0.15.
+
+	Attributes:
+	* Metal:
+		- Bullet ScaleBonusDamage increased from 0.2 to 0.3.
+		- Pulse ScaleBonusDamage increased from 0.3 to 0.4.
+	* Synth: Bullet damagescale increased from 0.3 to 0.4.
+	* Removed Stun effect from Dog Slam attack.
+	
+Fixed:
+* Dedicated Server getting in a stuck state when lobby/players request a missing map on the server
+
+Translations:
+* Add Ukranian translations
+* Updated Russian translations
+
+Lambda Wars Update 28 September 2015 (2.6.2)
+Maps:
+* hlw_waste:
+	- Blocked ground units, besides Strider, from going up and down cliffs.
+	- Added custom cover points.
+	- Replaced neutral billets with destructible barricades.
+
+Networking:
+* Strongly reduced sending number of reliable messages when a player connects to the server, causing a "overflowed reliable channel" error when reconnecting mid game
+* Small reduction of number of reliable message data send during the game itself
+
+Fixed:
+* Rebel Engineer and Combine Metro police stuck in constructing/t-pose animation respectively in some cases
+* Rare case where a player would connect too early from lobby to a dedicated server, causing a "Server is shutting down" error message
+* Scrap salvaging Rebel Engineer not doing anything after the last nearby scrap marker depleted
+
+Lambda Wars Update 24 September 2015 (2.6.1.6)
+Matches:
+* Disconnected players now automatically forfeit the game after 5 minutes
+
+UI:
+* Improve support for resolutions below 1024x768
+
+Misc:
+* Remove override music play list option
+
+Lambda Wars Update 20 September 2015 (2.6.1.5)
+Matchmaking:
+* Dedicated servers can now set a password through the convar wars_gameserver_password. Players can set the password in the lobby, reserving the server for the player.
+
+Fixed:
+* Potential crash in unit path finding on certain maps (or_trapped and in particular or_washedaway/hlw_washedaway)
+* Fixed broken animations which could occur for some units
+
+Lambda Wars Update 7 September 2015 (2.6.1.4)
+Fixed:
+* Rebel Mountable turret not shooting enemies
+* Rebel Engineer constructing animation not always starting
+
+Misc:
+* sv_allowupload and sv_allowdownload are now disabled by default
+* Removed non-functional "customize combat music" from audio options. 
+  If you want to customize the play list, you can create a file lambdawars/scripts/default_playlist.txt with one track per line.
+* Updated Russian Translations
+
+Lambda Wars Update 3 September 2015 (2.6.1.3)
+Fixed:
+* Rebel Veteran broken/unusable after first shot
+* Offline game restarting after a short duration if there is no internet connection
+
+Lambda Wars Update 31 Augustus 2015 (2.6.1.2)
+* Fix Strider not attacking enemies and enemies not attacking Strider unless ordered to do so (caused by last update)
+* Order particle effect follows the target unit
+* Badges
+
+Lambda Wars Update 29 Augustus 2015 (2.6.1.1)
+Fixed:
+* Various cases where you can't place scrap power generators
+* Not connecting automatically to player hosted games in some cases (still showing as "starting")
+* Sometimes the lobby not re-usable after the hosting player disconnects
+
+Lambda Wars Update 29 Augustus 2015
+Fixed:
+* Lag spike/performance issues when an unit tries to attack an unreachable enemy
+* Preview position of placing buildings not always being the same as the actual place position
+* Being able to place buildings partially on edges. Building placement is more strict now.
+* Missing fallback for Steam avatar image in HTML UI
+* Rollermine not exploding when killed under water
+
+Maps:
+* sp_waste: Prevented AI from reaching undesired part of map.
+
+Improvements:
+* When game is unable to find the Steam client, a dialog is displayed with "Steam client missing or out of date..." with a suggestion to restart Steam.
+
+Lambda Wars Update 26 Augustus 2015 (2.6.1)
+Gameplay & Balance:
+* Combine Loyal Citizen now has a basic melee attack
+* Combine Soldier: Build time reduced from 27 to 23.
+* Rollermine: Reduced health from 120 to 100.
+* Power Generator: Increased health from 150 to 220.
+* Mechanical Factory: Removed Garrison requirement.
+* Veteran: Change attack attribute from pulse to plasma.
+* Claw Scanner:
+	- Increased build time from 10 to 15 seconds.
+	- Reduced power cost from 40 to 30.
+	- Deploy mine cost requires 1 power.
+* City Scanner:
+	- Health increased from 30 to 50.
+	- Removed light attribute.
+	- Increased view distance from 1250 to 1600.
+* Hunter:
+	- Changed cost from 50r, 30p to 40r, 40p.
+	- Reduced health from 350 to 300.
+	- Increased jump height, able to jump over walls.
+* Barrel Trap:
+	- Requires Munitions Depot.
+	- Increased attack range from 1200 to 2200.
+	- Increased vision range to 1200.
+	- Increased cost from 20req, 15 seconds to 30req, 20scrap, 24 seconds.
+	- Increased health from 200 to 300.
+	- Changed launch cost from 5req, 5scrap, 9 sec cooldown to 2scrap, 5 sec cooldown.
+* Synth attribute:
+	- Increased bullet damage scale from 0.2 to 0.3.
+	- Increased pulse damage scale from 0.4 to 0.5.
+	- Increased plasma damage scale from 0.5 to 0.8.
+	- Increased explosive damage scale from 0.6 to 0.8.
+	
+
+Fixed:
+* 1vs1 option missing for various maps in game lobby
+* Player hosted games limited to 8 clients (including spectators). Limit is now 33.
+* Units not properly getting around buildings due a bug introduced in the update of 19 Augustus
+* Upgraded AR2 or Shotgun soldiers moving too fast when doing the upgrade while being affected by the stinkbomb attack
+* Strider legs no longer collide with physic objects on the map, which caused various problems
+
+UI & Lobby:
+* Cleanup lobby and show error dialog when Steam lobby creation fails, rather than show a broken lobby with the error message in the chat
+
+Maps:
+* Added sp_waste
+* hlw_waste: Changed large scrap markers to small versions.
+
+Translations:
+* Updated French translations (provided by Adrien ESTEVE)
+
+Lambda Wars Update 20 Augustus 2015 (2.6.0.1)
+Fixed:
+* Missing texture Rollermine
+* Memory leak in path finding to buildings/obstacle entities, causing game instability
+
+Lambda Wars Update 19 Augustus 2015 (2.6.0)
+Gameplay & Balance
+* Added Combine Metro Police Riot:
+	- Replaces Combine early unit Metro Police with Pistol
+	- Equiped with Stunstick and Shield
+* Added Rebels Partisan wtih Molotov:
+	- Replaces Rebels Partisan unit
+	- Autocasting ability Molotov, setting the target units on fire
+	- Ability stink-bomb, temporary slowing down the movement of hit units
+* Added Combine rollermine: shocks enemy units with a small chance to stun
+* Headcrab Canister launcher:
+	- Now has three launch abilities for regular, fast and poison headcrabs
+	- Reduced Canister health from 550 to 300
+	- Increased range from 5000 to 9000.
+	- Increased crawl out speed of Headcrabs
+	- Spawned Headcrabs roam the map to find enemies
+* Added Combine Mechanical Factory building:
+	- Builds Scanners, Manhacks, and Rollermines
+* Added Rebel Teleporter building
+* Infested zombies now roam the map to find enemies
+* Headcrabs can now damage buildings.
+* BugBait:
+	- Increased throw range from 800 to 1000.
+	- Increased recharge time from 1 to 30.
+	- Increased energy 30 to 50.
+	- Uses smaller, faster antlion version.
+* Dispel:
+	- Increased recharge time from 2 to 3.
+	- Increased energy from 30 to 50.
+	- Increased range from 800 to 900.
+* VortAttack:
+	- Decreased energy from 10 to 5.
+	- Decreased recharge time from 1.8 to 1.5
+	- Decreased damage from 60 to 30.
+	- Increased range from 575 to 590.
+* Vortigaunt:
+	- Increased in combat energy regeneration rate from 1 to 2.
+	- Increased speed from 242 to 245.
+	- Decreased build time from 48 to 42.
+	- Decreased health from 300 to 250.
+	- Decreased max energy from 370 to 200.
+	- Changed cost from 45req, 50scrap to 50req, 36scrap
+* Vortigaunt Den:
+	- Decreased scrap cost from 40 to 30.
+	- Decreased build time from 54 to 50.
+* Manhack:
+	- Removed light attribute.
+	- Reduced health from 40 to 30.
+* Veteran:
+	- Requires Steady Position to attack.
+	- Added Smoke Grenade ability.
+	- Increased range from 870 to 1100.
+	- Increased build time from 32 to 35.
+	- Decreased health from 210 to 170.
+	- Decreased view distance from 1200 to 1000.
+	- Increased requisition cost from 45 to 50.
+* Saboteur - Removed Smoke Grenade.
+* Combine Sniper - Increased health from 110 to 160.
+* Hunter - Reduced power cost from 50 to 30.
+* Synth Factory - Reduced power cost from 50 to 40.
+* Claw Scanner:
+	- Mine automatically recharges after being deployed.
+	- Mine is uncloaked, health increased from 40 to 100.
+	- Mines no longer bounce and roll after being dropped.
+	- Mines hop towards enemy.
+*Attributes:
+	- Disabled bullet 2 bonus damage vs creature.
+	- Disabled pulse 0.6 damage scale vs creature.
+	- Disabled shock 50 bonus damage vs heavy.
+	- Disabled shock 0.5 damage scale vs synth.
+* Rebel & Combine Barricade - Added 1 extra cover point.
+* Improved reliability of Dog Jump ability
+* Hunter jump ability: Behaves more predictable and now acts on all Hunters in player selection
+* Combine Manhacks can now be build at the Headquarters, with Armory building as requirement
+* Replaced Combine Observer by not cloaked, faster and cheaper Scanner unit
+* RPG attribute now has reduced damage against medium (-50%) and heavy (-30%) types of units
+* Reduce flash ability recharge time from 60 to 25
+
+Overrun:
+* Vortigaunt starts at full energy when spawned
+* Energy of all units is replenished between waves now
+
+Maps:
+* hlw_synth, hlw_antarctica and hlw_aurora: update scrap points to use small versions
+* hlw_thirst: mountains are now impassable and removed (confusing) day/night cycle
+* Added: or_village (Overrun mode)
+* sp_valley - Combine attack your flag on hard difficulty
+* hlw_mine: tweak scrap marker position to fix an issue where engineers could get stuck
+
+UI & Lobby:
+* New loading backgrounds;
+	- Metrocop loading background by Revvylo
+* Show game mode for found online games
+* Improved speed of creating or joining a lobby
+* Fail to join lobbies on different game version (through friend invites), which would result in not joinable games
+* Small performance improvements html UI
+
+Unit Navigation:
+* Simplified navigation meshes, preventing several issues and resulting in better performance
+* Some unreachable cover spots are now filtered from being displayed
+
+Fixed:
+* Ability being cancelled before the player can target something due units dying in the selection
+* Unable to place mountable turrets properly on some map spots (hlw_slums)
+* Fix units not following a target unit properly after the target unit hold a position or was in cover
+* Melee units (e.g. Zombies) not getting close enough to hit buildings 
+* Fog of War toggle in Sandbox showing incorrect behavior
+* Strider minigun shooting at feet of infantary rather than body
+* Rebel rpg attribute not being applied to enemy units, resulting in missing bonus damage against synth type of units (Strider and Hunter)
+* Potential exit crash due cleaning up CEF panels
+* Fix (online) game lobby empty and unusable upon creation in some cases
+* Fix black terrain, only in Simple lighting mode (e.g. Geforce 7 cards)
+* Fix checkmark font character not displayed in game lobby on Windows 10
+
+Misc:
+* Add Hungarian translations, provided by Bence Gercuj
+* Russian translation updated by Chiffer
+
+Lambda Wars Update 12 June 2015 (2.5.8)
+Gameplay & Balance:
+* Vortigaunt:
+	- Reduced dispel energy from 75 to 50
+	- Reduced dispel range from 900 to 800
+	- Increased dispel animation speed
+	- Reduced vortattack range from 750 to 575
+	- Reduced vortattack energy from 18 to 10
+	- Increased vortigaunt speed from 226 to 242
+	- Removed bullet bonus damage vs creature attribute
+* Vortigaunt Den: Decreased cost from 50r/45s, to 45r/30s
+* Synth Factory: Reduced power cost from 70 to 50
+* Hunter: Reduced power cost from 60 to 50.
+* Combine Sniper:
+	- Decreased power cost from 40 to 35.
+	- Decreased steady position time from 4 seconds to 3.
+* Explosive Barrel Trap:
+	- Increased explosion radius from 128 to 256.
+	- Increased explosion damage from 120 to 170.
+* Rebel AR2: Decreased from 20 scrap to 15.
+* Headcrab Canister Launcher:
+	- Increased range from 4000 to 5000.
+	- Increased launch power cost from 15 to 20.
+* Reduced sniper damage vs metal attribute from 0.7 to 0.5.
+* Dog: Increased health from 750 to 850.
+
+Maps:
+* sp_valley: Fixed problems with Combine base unable to be destroyed.
+* hlw_base4: Used black sky to fix bright cubemaps.
+
+Sandbox:
+* Add option to toggle fog of war on and off
+
+UI & Game Lobby:
+* Add cancel button when launching a game
+* Fix a case where game lobby could be stuck finding a server
+* Fix a case where you could press the launch button multiple times, causing the map to be loaded mutliple times
+* Re-enable the lobby for a new game after game ends, so no new lobby needs to be made
+
+Translations:
+* Updated Spanish translations, provided by Senor Ernst.
+* Added French translations, provided by Bill Steelman
+
+Fixed:
+* Friendly fire achievement broken
+* Being able to launch headcrab canister at some invalid locations
+* Fix sv_cheats not being set to 0 when starting a game through matchmaking as host
+
+Lambda Wars Update 31 May 2015 (2.5.7)
+Gameplay & Balance:
+* Increased base income from unfortified control point from 0.15 to 0.2 requisition per 1.5 seconds
+* Reduced sniper steady position time from 5 to 4.
+* Reduced sniper power cost from 50 to 40
+* Increased metal attribute damage bonuses for plasma, explosive, pulse, and fire.
+* Reduced power generator cost from 20 req to 15.
+* Increased headcrab launcher cost from 30r/40p to 40r/50p
+* Reduced launch headcrab ability range from 6000 to 4000, reduced cost from 30r/60p to 35r/15p
+* Increased dispel range from 800 to 900 slightly lowered animation speed.
+* Reduced dispel cooldown from 10 seconds to 2.
+* Barrel trap:
+	- Added oildrum model with 128 explosion radius instead of 256.
+	- Increased launch speed from 450 to 600.
+	- Lowered reload time from 15 seconds to 9 seconds.
+	- Increased range from 1024 to 1200.
+	- Reduced requisition cost from 10 to 5.
+* Barrel and mortar disabled required rotation.
+* Stalkers start constructing a placed building as soon as in construct range, rather than when at the edge of the building to be placed
+* Dog Slam/Jump attack is now applied as splash/radius damage, rather than fixed damage
+
+Maps:
+* Remove buggy day/night cycle from hlw_outland, hlw_slums and hlw_thirst
+* hlw_jungle: fix unreachable scrap marker
+
+Visuals:
+* Update destruction effects Combine Scrap Power Generator building
+
+UI:
+* Display a confirm dialog When player is hosting a game and other players are connected and presses disconnect to prevent accidentally shutting down the server
+* Display different "invalid position" message for when a Combine building can't be placed due no nearby of power generators
+* Fix empty CPU difficulty selection entry in lobby
+
+Fixed:
+* Various cases where units could get stuck under rocks/cliffs, in particular on or_crashed and or_hill (Overrun Antlions wave type)
+* Strider moving at wrong height
+
+CPU Player:
+* Fix easy CPU player being too aggressive. No longer attacks player directly and production of units is more limited.
+* Scout will now use infiltrate ability when encountering enemies
+
+Misc:
+* Add fortification hint when capturing a control point the first time (game instructor option), added for PCreeper1
+
+Lambda Wars Update 22 May 2015 (2.5.6)
+Fixed:
+* Unable to place Combine Generation Post building
+* Incorrect rally point visualization in some cases
+* "Let's Watch Some Fireworks Go Kaboom!" achievement not working correctly
+* Possible to start a Overrun or Annihilation game with the wrong start building
+
+Overrun:
+* Headcrab Canister disappears after 60 seconds if not destroyed (zombie wave type)
+
+Visuals:
+* Add team colors to Combine Scrap Power Generator building
+* Updated partial effect for combine scrap generator
+
+Lambda Wars Update 14 May 2015 (2.5.6)
+Maps:
+* hlw_jungle - changes to prevent Striders from falling beneath the map
+* hlw_waste, hlw_thirst, hlw_slums, hlw_outland - updated scrap points to multiple smaller versions
+
+Fixed:
+* Various improvements and fixes for Combine CPU Player
+* Incorrect unit Strider movement around certain places on maps
+* Being able to place buildings through other buildings in some cases
+* Incorrect behavior for friendly fire achievement
+
+Gameplay & Balance:
+* Increased base income from unfortified control point from 0.1 to 0.15 requisition per 1.5 seconds
+
+Lambda Wars Update 9 May 2015 (2.5.5)
+Achievements:
+* Added 20 achievements: http://steamcommunity.com/stats/270370/achievements/
+
+Gameplay & Balance:
+* Update Combine Resource system:
+	- Remove scrap collection and replace everything by power again
+	- Regular Power generator generates the power resource again, but at a much lower rate
+	- Introduce Scrap Power Generator, placed on scrap piles
+* Increase requisition cost of Rebel Partisan from 10 to 12
+* Increase requisition cost of Combine Metropolice from 15 to 18
+* Increase scrap cost Rebel Veteran from 15 to 20.
+* Decrease damage of Dog from 175 to 100 and decrease health from 800 to 750.
+* Reduce Revolutionary Fervor ability accuracy bonus from 0.25 to 0.1
+* Combine Elite alt fire ability now ignores friendly units for the first 0.35 seconds
+
+Maps:
+* Added hlw_jungle - A shanty town with 8 individual spawns, an open centre, and 3 narrow bridges over trenches along the outer parts of the map.
+* Updated hlw_snow_wasteland - Added reoccurring snow tornado and closed off centre area with destructible fences.
+* Updated hlw_village - Fixed units unable to use bridge on right side of map.
+
+Fixed:
+* Broken/bad navigation of soldier/human sized units around Headquarters buildings
+* Air units (Observer, Strider) get stuck at towers on hlw_base4 (and similar cases on other maps)
+* Metropolice deploy manhack ability requires the Armory in Overrun
+
+Lambda Wars Update 26 April 2015 (2.5.4.1)
+Gameplay & Balance:
+* Decrease cooldown Strider Cannon ability from 25 to 10 seconds
+
+Maps:
+* hlw_village: Added npc clips over holes in wooden dock and pier area, fixing some navigation problems.
+
+Fixed:
+* Crash in unit pathfinding on some maps: or_trapped, or_washedaway, or_hill, hlw_base4
+* Player ending up in empty map after host player disconnects from game
+* Lobby players not auto-joining lobby host in some cases
+* Launched Headcrab canisters in Overrun getting stuck in the headquarters building
+* Headquarter buildings exploding after a player rejoins the game on hlw_base4
+
+Lambda Wars Update 24 April 2015 (2.5.4)
+Gameplay & Balance:
+* Increased cost Combine Loyal Citizen from 5 to 8 requisition
+* Add Combine Armory requirement to Deploy Manhack ability
+
+Fixed:
+* Being able to place buildings at various invalid locations, such as wall edges
+* Being unable to place buildings at various spots
+* Incorrect unit path finding for long distance move orders
+* Rebel Engineers and Loyal Citizens instantly delivering Scrap in some cases
+* CPU Player not producing any units in Overrun game mode
+* Unable to queue the following abilities as orders when the ability is automatically executed on a target: construct, garrison, mount turret and salvage abilities 
+* Missing Rebel Engineer select/move/attack order sounds
+
+Lambda Wars Update 18 April 2015 (2.5.3)
+Gameplay & Balance:
+* Control Points only generate a limited amount of requisition
+* Scrap points can now run out of scrap
+* Small scrap marker - Reduced max number of workers from 3 to 2
+* Control Point income is no longer reduced based on the number of players in a team game
+* Add "Speed" ability to Strider, draining energy in return for higher movement speed
+* Combine Elite Energy Ball ability now does friendly damage
+* Combine Elite Energy Ball ability now bounces off all buildings
+* Reduced RPG range from 1000 to 900.
+* Hunter:
+	- Add jump ability to Hunter. Does no damage, just quickly moves to target location.
+	- Reduce Hunter attack range to 550 (from 820) and increase flechette damage from 8 to 10.
+* Veteran:
+	- Lowered attack speed from 1.8 to 2.
+	- Increased damage from 90 to 100.
+* Flamer:
+	- Increased burning status effect duration from 1 second to 10 seconds.
+	- Reduced damage from 5 to 2.
+	- Reduced range from 370 to 350.
+	- Increased burning damage from 5 to 10.
+	- Removed smoke grenade.
+	- Increased view distance from 475 to 500.
+* Saboteur:
+	- Changed smoke grenade cost from 5 scrap to 40 energy.
+	- Reduced smoke grenade cooldown from 9 seconds to 1 second.
+	- Reduced smoke duration from 15 seconds to 10 seconds.
+	- Changed initial unit energy from 100 to 40.
+	- Reduced C4 cost from 20 scrap to 15 scrap.
+* Fire attribute:
+	- Reduced from 20 to 12 vs light.
+	- Reduced from 12 to 6 vs medium.
+	- Added 3 constant bonus damage vs buildings.
+
+Maps:
+hlw_village, abandoned, metro, woodland, forest, base4, mine - Scrap markers now in groups of 4 and 5.
+
+Visuals:
+* New Combine energy ball particle effect
+
+CPU Player:
+* Retweaked CPU player to have better balance for fortifying control points, base building and producing units
+* Fixed CPU player not placing any buildings in some cases, in particular the Combine CPU Player
+* Fixed bug where CPU Players would not compute the correct resource income in team games (affecting their unit production)
+* Rebel CPU Player placing too many unneeded billets at the start of the game
+
+Fixed:
+* Missing unit navigation on tutorial map
+* Units running into walls or buildings in some cases
+* Incorrect select/move/attack sounds for female rebel soldier model
+* Potential "CUtlRBTree overflow!" crash to desktop error, which could occur on long running instances of Lambda Wars (dedicated servers)
+
+Lambda Wars Update 12 March 2015 (2.5.2)
+Gameplay & Balance:
+* Decrease damage Rebel Veteran crossbow from 110 to 90
+* increased Rebel SG build time from 18 to 22
+* increased Combine SG build time from 22 to 27
+* Vortigaunt now regenerates at 4 energy per second outside of combat and 1 energy per second in combat
+
+Sounds:
+* Two new songs "Fight and Flight" and "Transmission" (by SBeast)
+* Sounds for abilities Place C4 Explosive, Infiltrate, Detection Tower Scan, Sabotage, and Smoke Grenade
+* Selection sound for Control Point 
+
+Fixed:
+* Fix wrong not altered damage applied for weapons shotgun, crossbow, flamethrower, sniper rifle and rpg, caused by updated of 7 March (resulting in balance issues)
+* Potential crash when attacking brush based enemy units
+* Units getting stuck below terrain on some maps (or_hill, or_city)
+
+Lambda Wars Update 7 March 2015 (2.5.1)
+Gameplay & Balance:
+* Vortigaunt can now only summon Antlions using the Recall ability with a cost of 35 energy. Summon rate is limited by the amount of energy
+* Change Vortigaunt initial energy from 300 to 150
+* Change Vortigaunt energy replenish rate from 3 to 1.5 per second
+* Reduce Rebel Scout energy from 100 to 50 with a initial energy pool of zero
+* Strider max energy upgrade now requires Strider unlock
+* Strider max energy is now 75 basic and 150 upgraded, cannon shot consuming 75 energy
+* Add Dog jumping attack ability
+* Dog now has 100 energy, with 25 energy cost for Slam ability and 25 energy cost for Jump ability
+* Changed Dog hp to 800
+* Dog is no longer instant killed by the Combine Elite alt fire ability. Now takes fixed damage and a stun chance of 20%
+* Combine Elite alt fire ability now has a 40% chance to stun a Strider for 3 seconds
+* Rebel RPG now has 20% chance to stun a Strider for 1.5 seconds
+* Rebel Medic can no longer heal synth type units (Strider, Hunter)
+
+Fixed:
+* Overrun Zombie wave type possible getting stuck/slow progressing on or_trapped and or_washedaway
+* Strider cannon cancelling with other order not working, charging up while not facing the target, other fixes
+* Unable to stun units in some cases
+* Floor turret not hit by bullets in some cases (now uses bounding box instead of vphysics)
+* Rebel Medic not moving to the right spot when trying to heal a moving unit
+* Potential crash on exiting the game
+* Potential crash in path finding
+
+UI/Lobby:
+* A green/red bar is now added in front of the player's avatar, indicating the Steam P2P connection status to the host/lobby owner
+* Map list now shows the number of players supported on the map
+
+Visual & Animation:
+* Strider now ducks to charge up and fire the cannon
+
+Lambda Wars Update 27 February 2015 (2.5.0)
+Gameplay & Balance:
+* Strider:
+	- Reduced unlock time from 240 to 90 seconds
+	- Replaced Dark Energy power requirement by energy cost of 50
+	- Add energy to Strider, max 50 and initial on spawn 25
+	- Add max energy upgrade for Strider to Combine Armory, increasing it to 125
+	- Reduce recharge rate of Strider Dark Energy cannon ability from 30 to 25 seconds
+* Add max energy upgrade to Rebels Triage Center, increasing the max energy of the Rebel Medic
+* Units with mechanic attribute can no longer be stunned (Dog and Manhacks)
+* Increase Vortigaunt Dispel ability speed 2.5 times
+* Increased RPG scrap cost from 40 to 50.
+* Reduced DOG unlock time from 240 to 120 seconds.
+* Combine Elite now requires unlocked AR2 to be recruited
+* Switching to shotgun now requires unlocked shotgun in non-Overrun gamemodes
+
+Maps:
+* hlw_village: Fixed units not using bridge on right side of map.
+* hlw_synth: Fixed map having no navigation.
+
+Fixed:
+* Certain unit/ability properties modified using Attribute Editor in Sandbox not reset after map change
+* Crash in unit navigtion when no path was found to certain buildings
+* Engineers not properly moving back and forth to scrap points when the scrap collection point is very close
+* Engineers not playing any animation when repairing buildings
+* Units not switching to enemy with higher attack priority when the current active enemy is close to the other enemy
+* Fix several issues in Overrun wave progress
+
+Misc:
+* Updated Russian Translations
+
+Lambda Wars Update 22 February 2015 (2.4.9)
+Updated unit navigation with improvements in the following areas:
+* Path-finding around mountable turrets and barricades
+* Path-finding around units in cover
+* Path-finding of air units (observer, claw scanner, strider)
+* General improvements in resolving blocked situations
+* Bonus Crates and Overrun Headcrab Cannisters are now always launched on a reachable spot for soldiers
+
+Gameplay & Balance:
+* Added Rebels Junkyard building, producing Dog
+* Added Combine Mortar defence building
+* Vortigaunt:
+	- Increased Energy Blast damage from 50 to 80 per beam (fires 2 beams).
+	- Increased Energy Blast energy from 15 to 18.
+	- Decreased Energy Blast range from 950 to 750.
+	- Removed damage bonus against 'medium' from 'shock' Vort attack attribute
+	- Added -40% scaling damage from 'pulse' attacks to Vort's 'creature' attribute
+	- Decreased health from 450 to 370.
+	- Increased knockback of Dispel ability and Zap Beam attack
+	- Dispel knockback only affects enemies now
+	- Added Stun chance of 33% to Dispel ability
+	- Added Stun chance of 5% to Zap Beam attack
+	- Increased damage radius of Dispel ability from 200 to 225
+	- Reduced Antlion summon rate
+* Floor Turret:
+  - Decreased range from 870 to 800
+* Combine mines no longer show up on minimap
+
+Maps:
+* hlw_village:
+	- Changed capture areas into large zones.
+	- Manually placed cover spots.
+	- Replaced normal scrap markers with small ones.
+* hlw_woodland:
+	- Added 3 more small scrap markers.
+	- Made cars and other large props physics objects.
+* hlw_slumdoll: Renamed to hlw_metro.
+* or_trapped: enemy units that don't fit the map are now filtered from the Overrun wave (Antlion Guard Boss and Strider)
+
+Menu/UI:
+* You can mute players in lobby/global chat by clicking their name and press mute. You can also visit their Steam profile through the dropdown
+* Updated "Waiting for Players" screen, shown pre-match when other players are still loading
+* Randomize default 8 player map selection in gamelobby
+
+Visuals:
+* Added team color textures to Vortigaunt Den
+
+Fixed:
+* CPU Players only spending resources on cheapest units
+* CPU Players computing their shared team income incorrectly (used for decision making)
+* Overrun mode sometimes not progressing to the next wave
+* New Combine sniper beam effect being displayed wrongly
+* Charge ability charging at the nearest enemy instead of targeted enemy/unit
+* Charge ability not doing any damage against neutral barricades
+* Charge ability not stopping the charge after hitting an enemy building
+* Mission items showing up as error models on sp_radio_tower
+* Missing foot step sounds Strider
+* Missing death sound Hunter
+* Units without attack move ability (e.g. observers.) not doing anything when targeting neutral barricades
+* Rare crash related to unit selection/camera unit following
+* Fix start-up crash when path to Lambda Wars folder contained certain characters
+* Dedicated server resuming from hibernation potentially hanging after a player rejoins an active game
+
+Misc:
+* Screen shake is now applied to players for various effects, such as building explosions
+* Updated Swarm Keeper bonus map. Added missing sounds, various particle effects and some minor improvements.
+
+Lambda Wars Update 5 February 2015 (2.4.8)
+Balance/gameplay:
+* Antlions summoned by Vortigaunt can no longer capture control points
+* Increased small scrap marker maxworkers from 2 to 3.
+
+Fixed:
+* Texture corruption/instability due a bug in the html ui rendering, usually occurs at the start of a map
+* Groups of Vortigaunts using the dispel ability causing enemy units to fly to the other side of the map
+* Strider's Impale ability failing in some cases
+
+Visuals:
+* New Combine Sniper fire beam effect
+* Updated "waiting for players" screen at start of a match
+
+Maps:
+* Updated: hlw_snow_wasteland (tweaks)
+* Updated: hlw_slumdoll, hlw_woodland, hlw_abandoned
+			- Changed capture areas into large zones.
+			- All cover points remade and manually placed.
+			- Replaced normal scrap markers with small scrap markers.
+
+Lambda Wars Update 24 January 2015 (2.4.7)
+Balance/gameplay:
+* Reduce rate at which the Vortigaunt can spawn Antlions
+* Added autocast for the rebel radio tower scan ability, if on, it will automatically scan the last scanned position
+* Hunter flechette damage increased from 5 to 8, cost is now 50r 60p and build time 45s
+* Reduced Rebel shotgun health from 180 to 160.
+* Reduced Combine shotgun health from 240 to 220.
+* Reduced shotgun range from 550 to 500.
+* Reduced Rebel shotgun cost from 10 scrap to 5 scrap.
+* Increased Rebel shotgun movement speed from 231 to 250.
+* Increased Combine shotgun movement speed from 227 to 247.
+* Reduced flamer maxrange from 450 to 370.
+* Crossbow now has proper reload time after shooting an explosive bolt
+
+Fixed:
+* Combine Elite alt-fire ability not hitting Striders
+* Cooldown incorrectly set on Metrocops that did not deploy a Manhack because of not enough resources
+* Rebels radio tower taking population while scan is active
+* Unable to switch target firing buildings with Metrocop, Engineer and Stalker
+* Various menu/chat/lobby graphics layout issues
+
+Maps:
+* hlw_camp: Removed.
+* hlw_woodland: Added. Remake of hlw_camp.
+
+Visual:
+* Added team color textures to Dog, Vortigaunt, Hunter and Claw Scanner
+* Improved team color textures of all Combine infantry
+
+Misc:
+* Added new gamemode called "Destroy HQ", you win by destroying all enemy HQ buildings
+* Added ? behind gamemode dropdown box, displays gamemode description tooltip on mouse hover.
+ 
+Lambda Wars Update 14 January 2015 (2.4.6)
+Balance/gameplay:
+* Combine Sniper Steady position ability is now autocasted when encountering an enemy
+* Increased setup time of Combine Sniper Steady position ability from 2 to 5 seconds
+* Combine Sniper Steady position ability is no longer canceled when manually targeting an enemy
+* Combine Hunter charge ability is no longer autocasted by default
+* Strider Impale ability is no longer autocasted by default
+* Vortigaunt Dispel ability is no longer autocasted by default
+* Disabled scrap drops for metrocops
+* Increase Antlion base melee damage to 10
+
+Fixed:
+* Add back fix for reliable channel overflow error, now fixed fixed
+* Potential crash related to units following other friendly units
+* Potential crash related to unit path finding and placing buildings
+* Engine precache error when spawning a poison zombie and kill it in Sandbox
+* Strider Minigun visually aiming at the wrong spot when shooting
+* Combine Mortar impact sound is now played at the impact spot
+* Units shooting at friendlies until they detect a valid new enemy (but not doing any damage) on sp_valley
+* Soldiers mounting turrets are no longer immune to stunning when headcrab canisters are launched at them
+
+Visual:
+* Added autocast off overlay for ability icons, so now one can see that the ability supports autocast even if it's off by default
+
+Misc:
+* Lowered volumes of smg1, ar2, crossbow, shotgun and pistol weapon fire sounds and switched pistol and SMG sounds to NPC versions
+* Added Portuguese translation (by rui_troia)
+* Updated Romanian translation (by Meat Hoxton)
+
+Lambda Wars Update 6 January 2015
+* Revert fix for "reliable overflow error" due unexpected side effects
+* Add option to kick spectators
+* Increased Hunter health to 500
+* Took the smoke grenade from Veteran
+
+Lambda Wars Update 5 January 2015 (2.4.5)
+Balance:
+* Added ability "Steady Position" to Combine Sniper, required for attacking (deploying the Sniper at the spot)
+* Headcrab canister launcher now requires fog of war vision
+* Reduced stun radius of Headcrab canister from 450 to 250
+* Added 33% stun chance to Headcrab canister instead of always stun
+* Decreased bugbait count from 5 to 3 antlions.
+* Citizen speed increased from 209 to 217, view distance increased from 800 to 900
+* Combine SMG health increased from 200 to 220
+* Combine SG health increased from 200 to 240
+* Combine AR health increased from 200 to 220
+* Combine Sniper health increased from 100 to 110
+* Rebel SG health increased from 160 to 180
+* Crossbow bolt damage increased from 100 to 110
+
+Matchmaking/lobby:
+* Team setup is now auto selected in game lobby if map supports this, instead of always defaulting to Free for All
+
+Fixed:
+* Snapshot error/reliable snapshot overflow upon joining a game in progress or after much packet loss
+* Startup crash in loading screen on some system configurations
+* Mountable turrets applying the damage attributes of the unit mounting the turret, instead of always pulse (applying too much damage in some cases)
+* Return to single-player menu after leaving the offline lobby
+* Smoke grenade not disappearing in some cases
+* Improve hit location of Headcrab Cannister to prevent getting stuck in the air
+* Manhacks not hitting their enemies because of flying too high
+* Being able to pickup scrap using weapon projectiles or other player owned objects (e.g. explosive barrels)
+* Strider selection circle not being drawn properly
+
+Maps:
+* hlw_thirst: new
+* hlw_meltdown: fixed some navigation problems
+* hlw_snow_wasteland: removed buggy no build areas
+* sp_valley: refugees can now be armed at the weapons cache + other fixes and features
+
+Visual:
+* Added team color to the Strider
+* Updated Hunter attack particle effects
+
+Misc:
+* Added Video setting option to switch between lighting modes (performance)
+* Added Romanian translations (by Meat Hoxton)
+* Added Combine Annihilation Mortar to Sandbox
+* Updated Dog punch animations
+* Added Slam Ground ability to Dog, stunning enemies in radius
+
+--------------------- 
+Lambda Wars Update 26st December 2014 (2.4.3)
+Gameplay:
+* Decreased health of combine power generator form 450 to 150
+* Added back strider unlock
+* Added min range of 150 to combine snipers, so they can't fight melee
+* Increased strider population to 10
+* Increased population provided by Billet to 6
+* Gave rebel veteran and flamer the smoke grenade
+* Decreased fire range of floor turrets from 1024 to 870
+* Changed Vortigaunt scrap to 50 (recruiting them is as lengthy as 55 seconds, so larger scrap cost is too expensive)
+* Made metrocops cheaper (15r pistol and 25r SMG) but made their armor 'light' again (as they don't wear shields on their legs and arms, unlike Rebels)
+
+Fixed:
+* Clicking on own/allied unit while ordering Patrol resulted in attacking that unit
+* Shotgunners missing the first shot when aiming for the enemy behind
+* Chat input does not work for certain language (e.g. Korean)
+
+Misc:
+* Global chat is now disabled when in-game
+* Updates to game text, some of them by Alex_Black_Raven to Russian translation
+* Update Korean translations
+
+--------------------- 
+Lambda Wars Update 21 December 2014 (2.4.2)
+Fixed:
+* Fog of war not being updated (or anything really) if you joined an online game after playing an offline game (caused by fixes/hacks made for the totally broken pause behavior in Alien Swarm engine...)
+* Empty online lobby upon joining after leaving an offline lobby
+* Strider Impale ability broken
+* Hunters and Striders getting stuck at their spawn if the player did not move them and the next unit was spawned
+* Striders getting stuck when moving along each other
+* Veteran/RPG-man leg animation not working when reloading on the move as the animations don't blend correctly (reload animation is now disabled on the move, looks better than legs not running)
+
+Gameplay:
+* Replace Rebels Veteran grenade ability by new ability to fire an explosive crossbow bolt (hello HL1 DM ;)
+* Changed Combine Elite energy ball recharge time to 30 seconds.
+* Set different radius for Vortigaunt Dispel ability's sensing (700) and dispel force (1680)
+Now it works on units that approach to SMG distance but sends them away flying further and faster!
+* Weapon range tweaks:
+  -Flamer -> 420
+  -SMG -> 650
+  -Pistol, Antlion Worker acid attack -> 750
+  -AR2 -> 820
+  -Crossbow, Combine energy ball -> 870
+  -Vort attack -> 950 (for Veterans not to deal with Vorts easily by outranging them in RvR)
+* Decreased Antlion health from 150 to 90 and Antlion Worker health from 185 to 120 (should be more balanced with Vorts in Annihilation and as enemies in Overrun) 
+* Decreased Vortiguant Den scrap from 60 to 45
+* Vortigaunt scrap increased from 45 to 60, build time increased from 45 to 55
+* Decreased Antlion health from 150 to 90
+* Raised salvaging Engineer limit to 5 on large scrap points and to 2 on small ones
+* Hold position ability now ignores units in cover
+
+Lobby/Matchmaking improvements:
+* Visualize time-out countdown in "Waiting for Players" screen and change time-out from 5 minutes to 1 minute and 30 seconds. Game will start after this time period, regardless of whether everybody is loaded yet. Still possible to late join.
+
+Visual: 
+* New male and female Combine loyal citizen skins.
+* Updated male and female Rebel citizen (Refugee/Partisan) skins.
+* Improved metrocop's colour mask.
+* New icons for Combine loyal citizen, Refugee (Rebel citizen) and Partisan to match the new skins.
+
+Maps:
+* Added new map hlw_snow_wasteland made by Mr. Darkness
+* sp_valley - Set Combine CPU team color blue, player Rebel team color orange and allied CPU Rebel color green
+* sp_valley, (yet to do sp_radio_tower) - Now use new entity wars_player_setup for CPU players to have faction-correct control point fortification models in singleplayer.
+
+Misc:
+* Updates of game text
+* Added korean tranlation made by ???_KOR] Plan
+
+--------------------- 
+Lambda Wars Update 16 December 2014 (2.4.1)
+Fixed:
+* Soldiers unable to mount Rebels mountable turret 
+
+Gameplay:
+* Combine cost changes:
+  -Strider -> 100r 120p
+  -Hunter -> 50r 40p
+  -Elite -> 60r 20p
+  -AR2 soldier-> 50r 10p
+  -Shotgun soldier-> 45r 5p
+  -AR2 upgrade ->10r 10p
+  -Shotgun upgrade -> 5r 5p
+* Rebel cost changes:
+  -Veteran -> 45r 15s
+  -RPG -> 40r 40s
+* Added patrol command to Citizens.
+* New icon for rebel citizen and partisan.
+  
+Maps:
+* sp_abandoned:
+  - Added unit buy zone hint.
+  - Fixed certain captured flags not giving player requisition.
+  
+Other:
+* Add correct labels for zoom in/out key bindings (instead of being named "swim up/down")
+  
+--------------------- 
+Lambda Wars Update 15 December 2014 (2.4.0)
+Gameplay:
+* Added 10 scrap/power cost to mountable turrets (all powerful pulse weapons have scrap/power cost)
+* Reduced rate at which Vortigaunt can summon Antlions ('antlion summon ticket' regenerate mechanic, you have to wait 2*N seconds to re-summon N antlions, N<=5)
+* Increased bugbait throw/squeeze cooldown to 5 seconds
+* Add maximum number of 30 Antlions a player can summon by using Vortigaunts
+* Increased Strider health to 2000 and cannon damage from 200 to 600 (it's a cannon, after all, long cooldown but the punch should be proper!)
+* Increased Vortigaunt Dispel range from 400 to 600 (Antlions no longer being such an impenetrable defense, Vort should be able to try and scatter surrounding shotgunners).
+* Increased C4 damage from 300 to 400.
+* Reduced sniper rifle base damage from 120 to 100 (with sniper's accuracy of 1.5 it gets 180->150).
+
+
+Updated:
+* New Rebel control point capture/lost lines by GreyMind
+
+Fixed:
+* Slow rendering of html UI on some system (and general performance improvements)
+* Removed deferred lights from or_trapped due causing texture corruption issues
+* Reduced console messages regarding ENTITY_CHANGE_NONE on server
+* On Swarm Keeper bonus map, creatures not behaving correctly and added missing particle effect (causing red crosses)
+* Spanish menu/UI text not shown because of wrong file encoding
+* Clamp too long player names from breaking the main menu top bar
+* Long player names (> 32 bytes) with trailing unicode characters breaking game
+* Unicode characters not displayed in unit and ability descriptions
+* Error model appearing at map origin when throwing a grenade
+* Units getting stuck around Rebels barricade/mountable turret
+* Units unable to shoot Combine Synth factory building
+
+Maps:
+* sp_abandoned:
+	- Re-enabled deferred lighting and added flora.
+	- Enemies spawn dynamically now, fixing low framerates.
+	- All items can now be selected and target fired.
+	- Replaced production structures with text based unit buying.
+* hlw_synth - Stopped Striders from walking between bases.
+* hlw_mine – added 2 scrap points.
+* hlw_abandoned - Replaced rock barricades with new stone wall barricades.
+* hlw_meltdown - Fixed missing map boundary
+
+--------------------- 
+Lambda Wars Update 12 December 2014 (2.3.8)
+Fixed:
+* Game lobby still saying the game is in progress with an unusable "Join Game" button after disconnecting as server host
+* Game sometimes not properly ending due a problem with certain unicode characters in player names
+
+Maps:
+* sp_abandoned:
+	- Added working difficulty settings.
+	- Added fire sprite to molotovs.
+	- Stopped important models from fading out on low graphics settings.
+	- Increased size of takeout container and health charger.
+	- Stopped map from restarting after loss.
+	- Some detail updates.
+* hlw_synth - Lowered npc clips so observers can fly between bases.
+
+Improvements:
+* Hide ready button in offline lobby. Player is always ready now.
+* Add tooltips for lobby names in "Find Online Games" page (for long names)
+* Lowered render framerate of main menu to reduce some performance problems for some people
+
+Gameplay:
+* Claw scanner mine cost increased from 10 to 15 req, lowered mine recharge time from 10 to 5 seconds.
+* C4 explosion radius increased from 220 to 350, lowered damage from 400 to 300.
+* C4 cost increased from 10 req to 20 scrap, recharge time increased from 5 to 10 seconds.
+* C4 placement time increased from 2.5 seconds to 3 seconds.
+* RPG building bonus decreased from 180 to 70.
+* Hunter charge damage increased from 500 to 600.
+
+Other:
+* Added descriptions for AR2, Shotgun, and Frag Grenades unlocks (in English).
+
+--------------------- 
+Lambda Wars Update 9 December 2014 (2.3.7)
+Menu & Lobby improvements:
+* Add kick option to game lobby
+* General improvements for resolutions with a lower wide than 1200px
+* Hide "User entered/left" messages in global chat
+* Fix players potentially being shown multiple times in a lobby
+* Fix "Waiting for Players" screen not showing before the game is started
+* Upon next game start after an unexpected game exit, do not auto-rejoin server. Instead only rejoin the lobby, from where you can choose to rejoin the server.
+
+Maps:
+* Updated sp_abandoned, sp_valley
+* Updated hlw_abandoned (fix unwalkable stairs)
+* Updated hlw_aurora, camp, slumdoll, village, waste (lowered camera height 128 units)
+
+--------------------- 
+Lambda Wars Steam Release 8 December 2014
+* Complete overhaul of the in-game menu UI systems 
+* Revising our multiplayer matchmaking system to take advantage of what Steamworks offers
+* Many updated maps
+* Gameplay balancing
+* Bug fixes
+* Etc, etc, etc
+
+--------------------- 
+Lambda Wars 2.3.6 changes
+Improvements and Balance:
+* Reduced Strider's Dark energy cannon damage radius from 200 to 100
+* Reduced Strider's Dark energy cannon cooldown from 30 to 20 seconds
+* Reduced black and regular headcrabs HP to 80
+* Reduced fast headcrabs HP to 60
+* Unit selection interface: control + left click unit type in hud unit selection will filter selection on that type, while control + right will do the inverse.
+
+Visuals:
+* Add combine victory and defeat effects
+
+Maps:
+* UPDATED: hlw_base4 (flora)
+* UPDATED: hlw_meltdown (flora, various)
+* UPDATED: hlw_slums (flora)
+* UPDATED: hlw_synth (various)
+* UPDATED: hlw_village (flora, various)
+* UPDATED: hlw_waste (flora, various)
+* UPDATED: or_base4 (flora)
+* UPDATED: or_hill (flora)
+* UPDATED: or_washedaway (flora)
+
+CPU Player:
+* Rebel CPU Player now collects scrap
+
+Overrun:
+* Improve cleanup of stuck enemies
+* Headcrab cannisters are no longer launched between waves
+* Scaled down bounding box of Headcrab Poison boss to prevent navigation issues on or_trapped
+
+Fixed:
+* Potentially broken buildings when the client requested a full game update due packet loss
+* Combine Elite  AR2 alt fire ability firing at wrong target due faulty aim code
+* CPU player placing too many barracks, while not producing any units
+* CPU player is now always ready in overrun
+* Incorrect unit navigation when jumping off cliffs/edges (e.g. getting stuck)
+* Headcrabs flying up to an unreachable location after being spawned from a killed zombie (in particular or_base4)
+* Overrun game mode endless wave type not working
+* Overrun game mode waves not progressing
+* Strider's Dark energy cannon ability not taking resources
+* Fix fog of war incorrectly revealed around control points in some cases due mismatch between server and client parameters
+* Tooltips of units and abilities not disappearing on machines with a low framerate
+* Upgrade energy fields of medic being shared with saboteur and scout, due which they can stay invisible forever
+* Fortification of control point not removed after becoming neutral due a player being defeated
+* When a zombie dies "chopped", it would potentially not be removed and become invisible and not solid
+
+Misc:
+* Add name and description for "Ungarrison All" Ability
+* Updated Python from 2.7.6 to Python 3.4.1
+* Updated spanish translation, thanks to JLMCYT
+
+--------------------- 
+Lambda Wars 2.3.5 changes
+Improvements and Balance:
+* Control Points can now be fortified, preventing capturing until fortification is destroyed and increases income
+* Added Rebel Radio Tower detecting cloaked enemies in a radius of 500 and performing Scan ability (moved from HQ)
+* Limited number of engineers which can salvage scrap at the same time
+* Raised population limit from 75 to 100
+* Added one additional Combine Population upgrade and updated existing population upgrades
+* Replaced Rebel Engineer smg1 weapon by pistol
+* Replaced Rebel Veteran weapons by Crossbow
+* Increased build time Barracks/Garrison to 80 seconds
+* Increased cooldown time of manhack deploy ability from 20 to 120 seconds
+* Turrets, barricades and sub-component buildings no longer count as valid main buildings in Annihilation mode for victory conditions
+* Reduce costs headcrab canister launcher builder from 40 req + 60 pow to 30 req and 40 pow.
+* Reduce costs of launching headcrab canisters from 50 req + 50 pow to 30 req and 60 pow 
+* Reduce cooldown launching headcrab canisters from 30 to 8 seconds
+
+Visuals:
+* Replaced sprite based detail props by flora models
+* Updated unit glow effect (less obtrusive)
+* Units now get a green tint when detected while cloaked. Additionally the team color glow is enabled again from the enemies point of view and can be targeted by the enemy player.
+
+CPU Player:
+* Various adjustments in resource management
+* Added Hard difficulty
+
+Maps:
+* NEW: hlw_synth (8p FFA)
+* UPDATED: hlw_waste (complete revamp & added flora) 
+* UPDATED: sp_radio_tower (flora)
+* UPDATED: sp_valley (flora)
+* UPDATED: hlw_forest (flora)
+* UPDATED: hlw_washedaway (flora)
+* UPDATED: hlw_mine (flora)
+* UPDATED: hlw_aurora
+* REMOVED: hlw_battlemounds
+
+Unit AI & Navigation:
+* Right clicking a barricade now makes selected units go into cover around the barricade
+* Improvements in navigation around barricades/mountable turrets
+
+Overrun:
+* Now defaults to 10 waves to win the game
+* Increased preparing time between waves
+* Added button to indicate the player is ready for the next wave (skipping remaining prepare time)
+* Wave progress bar displaying the number of enemies left to kill
+* Player now starts with 25 population. Tier 2 increases it with 25 and tier 3 increases it with 50.
+* Tier 2 upgrade now costs 12 kills and tier 3 upgrade costs 15 kills (both were 20)
+* During Leap attacks of Antlion and Headcrabs, they no longer collide with units of their same team
+* Made various costs changes for Overrun. Hunter and Vortigaunt now cost 5 kills instead of 8 kills. AR2 soldier now costs 2 kills.
+* Added two bosses for Zombies wave mode. They start appearing at wave 7. One is a larger version of the poison zombie, which throws more black headcrabs at once. The other one is a giant black headcrab, which spits acid.
+* Boss type like units must be killed to progress to the next wave
+
+Fixed:
+* Enemy fire/tracer/sound effects not visible/played when they shoot at your units from a position hidden in the fog of war
+* Soldiers holding weapon models incorrectly
+* Annihilation game mode does not directly ends after destroying the last building (waits until the destruction animation finished playing)
+* Unable to target Fuel or Explosive barrels using Attack Move ability
+* Hunter blood effects not stopping after being healed
+* Engineers not auto-casting "construct" ability after turning on autocast while being near a building needing construction or repairing.
+* Unit not shooting enemies while being in cover and uncloaking
+* Units going into cover at incorrect places when returning to idle position.
+* Weapons of cloaked units were visually not cloaked
+* Headcrab Cannister launcher still spawning headcrabs for a moment after being destroyed
+* Single moving units sometimes getting stuck along a wall
+* CPU difficulty not shown correctly to new players joining the game lobby
+* Improved behavior of pausing the game in single player (broken due an Alien Swarm engine bug)
+
+Misc:
+* No longer required to own Half-Life 2: Episode Two. A free installation of Alien Swarm is now enough to play the mod!
+* Added partial Spanish translations
+* User Steam avatar is displayed in the to top left corner of main menu.
+
+--------------------- 
+Lambda Wars 2.3.4 changes
+Improvements and Balance:
+* Split Regular buildings and defensive buildings in two sub menus
+* Increased Synth toughness against Slash and Bite (minor antlion/zombie/headcrab attacks)
+* Added Metal attribute (tougher than Synth) for Dog
+* Added Crush attribute for Antlion Guard attacks, like Slash but dealing full damage to Synth and Metal
+* Damage adjustments of Hunter charge and Strider impale attacks
+* Reduced Strider health from 2500 to 2000
+* Increased range Combine Headcrab Canister Launcher from 4000 to 6000
+* Combine Headcrab Canister Launcher must now be powered to launch canisters
+
+Maps:
+* UPDATED: hlw_village
+
+Overrun:
+* Randomized attack building target of enemies to prevent enemies from attacking the same player all the time on some maps
+
+Fixed:
+* Building construction animations not playing correctly
+* Auto-construction animation of Combine Power Generator looking laggy/choppy
+* Various animations not played when first playing a local game and then joining a multiplayer game
+* Late precache of buildings and units occurring after starting a game from the lobby
+* Air units (e.g. Manhack, Strider) not moving to their exact waypoints on a route to a goal, causing navigation issues
+* Combine Metro Police does not play correct animation when falling (T-pose)
+* Combine Hunter visually not aiming at enemies
+* Combine Hunter not playing the attack animation when firing flechettes
+
+Sandbox:
+* Updated the tool bar style
+
+--------------------- 
+Lambda Wars 2.3.3 changes
+Improvements and Balance:
+* Reduced cover damage reduction from 60% to 50%
+* Changed population cost of Combine and Rebel Soldier (SMG/Ar2/shotgun) to 2 (excluding the Engineer)
+* Changed population cost of Vortigaunt from 1 to 3
+* Changed population cost of Hunter from 2 to 3
+
+Visuals:
+* Air unit selection circles are now projected on the ground
+* Added range indicators to Headcrab Canister Launcher, Barrel Trap, Regeneration Post and Rebel Scan ability
+
+Maps:
+* UPDATED: hlw_abandoned (added new neutral wood fence barricade)
+* UPDATED: hlw_village
+
+Fixed:
+* Unable to type text in Game Lobby chat
+* Control Points are sometimes incorrectly updated after an enemy captures it
+* Units not finding the correct path to a Rock Barricade. They would would go around the obstacle depending on which side the units are (hlw_abandoned)
+* Cached paths of the unit navigator were not cleared in some cases, causing incorrect navigation
+* Just spawned units at a building moving in a random direction when no rally point is set yet
+* Sometimes units keeps playing the fall animation
+* Ability cancel notification messages not being shown
+* Info box/tooltip of abilities incorrectly made visible after leaving unit direct control
+* Being able to select Combine Mines while they are carried by a Combine Claw Scanner
+* Explosive barrels from Rebels Barrel Trap visible in fog of war
+* "Release barrels" ability sometimes disabled, even though barrels are loaded
+
+Misc:
+* Updated Chromium Embedded Framework to branch 1750 (Chromium 33)
+* Updated JQWidgets to version 3.2.0
+
+--------------------- 
+Lambda Wars 2.3.2 changes
+Improvements and Balance:
+* Rescaled all costs of units to 10 times higher, while control points and power generators now generate income 10 times faster
+* Scrap can now be collected to Rebel Billets, but lowered the amount of collected scrap per run
+* Scaled down shared income from allied control points in team games
+
+* Added Combine Headcrab Cannister launcher
+* Added Rebel Barrel Trap
+* Added new unit Claw Scanner to Combine (buildable at Synth factory) with the ability to deploy and produce Combine Mines
+* Removed Combine Mine from metro police (moved to Claw Scanner)
+* Added Antlion to Rebels Vortigaunt Den
+* Added "Flash" ability to Combine Observer/Scanner, which reduces vision from enemies for a duration of time
+* Added "Smoke Grenade" ability to Rebel Saboteur, which blocks the Fog of War around the area of effect
+
+* Scaled down Strider to 75% of it's original size
+* Hunter's charge ability no longer stops on hitting an enemy and also stuns any enemy along the path
+* Hunter now uses a melee attack when close to the enemy
+* Increased recharge time grenade ability from 5 to 15 seconds
+* Decreased throw range of grenade ability from 1000 to 800
+* Building construction progress is now visualized through a progress bar above the building
+* Increased Combine Synth factory health to 800
+* Combine Elite alt fire (energy ball) now does 250 damage against Strider on hit, similar to buildings
+* Headcrabs can now turn human like units into zombies when their health is low enough
+* Increased Combine Mine detonate radius from 150 to 175
+* Added cost of 75 power to strider cannon shot
+* Reduced unlock times of AR2/SG to 20 seconds and grenade to 40 seconds
+* Reduced floor turrets costs and lowered health and construction time
+* Floor turrets deployment now requires a metro police to construct the turret
+* Random crates are now turned off by default
+
+Models:
+* New Combine Synth factory model (including work and destruction animations)
+* New Rebels Billet model (including construct and destruction animations)
+
+HUD and UI:
+* Abilities tool-tip now shows the full name of resource costs, instead of just the first character
+* New minimap icons for Control Points, Scrap points and crates, to better separate them from other units
+
+Maps:
+* UPDATED: hlw_slumdoll
+* UPDATED: hlw_mine (added two new control points)
+* UPDATED: hlw_abandoned (added neutral rock barricades)
+* UPDATED: hlw_camp
+* UPDATED: hlw_village
+* UPDATED: or_trapped
+* UPDATED: or_city
+
+CPU Player:
+* Easy CPU is now less aggressive when capturing control points
+* Single player difficulty is now applied to the CPU player
+
+Overrun:
+* Added "Antlion Guard Boss" to Antlions wave mode (larger and stronger version of Antlion Guard)
+
+Unit AI and Navigation:
+* All map navigation meshes are more simplified now, fixing various navigation issues
+
+Sounds:
+* Combine Observer move order
+* Decreased stalker laser sound volume
+* New Rebel Billet destruction sound
+
+Fixed:
+* Spawning a Combine Energy Cell building directly in Sandbox mode does not show the electricity particle effect
+* Combine Observers revealing friendly cloaked units
+* Recharge/resources not taken when throwing a grenade cancelling the order during the throw animation
+* Units sometimes ignore enemies because they move back to their idle position
+* Manhacks get stuck on walls and cliffs, while they should move upwards
+* Manhacks keep moving backwards sometimes after slicing an enemy
+* Grenade ability: No resources taken and recharge not set when moving the unit during animation before the grenade is thrown
+* Grenade ability: Being able to move the unit during the throw animation by giving a new order
+* Combine Elite Energy Ball ability taking resources twice
+* Rally lines incorrectly drawn when targeting buildings/units
+* Death sound incorrectly played while dissolving
+* Old player positions not cleared in game lobby when selecting a different map
+* Unable to select another CPU difficulty when there is already a CPU is a gamelobby slot
+* Movement keys might be in a "stuck" state after leaving direct unit control, causing the player to move into a direction forever
+* Key bindings configurations not always correctly saved after switching rts and fps configs
+* Powered combine buildings always playing powered up/down sounds when a new power generator is spawned
+* Added missing player control group key bindings for 7, 8, 9 and 0
+
+Misc:
+* Updated unit descriptions
+* Started on initial translations for German and Russian (WIP)
+* Added entity "fow_blocker" for manipulating the fog of war
+* Added entity "wars_ability_manager" for manipulating the available abilities in single player
+* Added entity "wars_music_controller" for controlling music in single player
+* Added entity "wars_population_listener", which fires output events for population changes (single player)
+* Updated JQWidgets to version 3.1.0
+* Renamed browser helper process from cef.exe to lambdawars_browser.exe
+* Game now detects if the Browser helper process fails to start (for example due being sand-boxed by security software)
+
+--------------------- 
+Lambda Wars 2.3.1 changes
+Improvements and Balance:
+* Added easy difficulty option to CPU Players
+* Channel bars are no longer visible to enemies
+* Strider Dark Energy Cannon ability must now be unlocked at the Combine Armory
+* Rebel Saboteur C4 Explosive ability must now be unlocked at the Rebel Munition Depot
+* Reduced build time Combine Observer from 35 to 20 seconds
+* Better visualization of rally lines
+* Changing unit selection while targeting an ability now cancels the ability (if applicable)
+* Rebel Engineer can no longer place combine mines (except in Overrun)
+
+Maps:
+* ADDED: hlw_aurora
+* ADDED: hlw_slumdoll
+* UPDATED: hlw_mine
+* UPDATED: hlw_abandoned (navigation mesh changes)
+* UPDATED: hlw_camp (minor details)
+* UPDATED: sp_radio_tower
+
+Fixed:
+* High CPU load on map start due the deferred lighting changes
+* Deferred lighting mode is now disabled on low system settings
+* Health bars (and other progress bars) are now drawn after post screen space effects, preventing unit glow from being drawn above the health bars
+* Added missing weapon switch abilities to Overrun versions of Combine Elite and Rebel Veteran
+* Swarm Keeper gamemode showing up in gamelobby after playing the bonus map
+* Being able to place buildings/objects at unreachable locations by the builder
+
+Unit Navigation:
+* Improved resolving blocked situations
+
+Sounds:
+* Mountable turrets now use a different fire sound than regular turrets
+* Move and hold position sounds for Combine Scanner/Observer
+
+Misc:
+* Added missing Steam icon
+* Removed _sqlite3 Python module because it causes a false positive on Norton virus scanner (and is only needed in the developer build)
+* Removed cheat flag from cl_strategic_cam_delta_snap and added archive flag (player camera related setting)
+
+--------------------- 
+Lambda Wars 2.3.0 changes
+NEW:
+* Name change to "Lambda Wars"
+* Updated lighting: a mix of lightmaps and swarm-deferred project
+* Rebel unit "Saboteur" with new abilities "Sabotage" and "C4 Explosive"
+* Added Main Menu background music track "Divorce"
+* Added "Patrol" ability
+
+Maps:
+* NEW: hlw_abandoned (4 vs 4 player map)
+* NEW: hlw_camp (4 vs 4 player map)
+* NEW: hlw_waste (4 vs 4 player map)
+* NEW: sp_radio_tower
+* UPDATED: Tutorial map (redesigned from scratch)
+* UPDATED: hlw_mine
+* RENAMED: hlw_synth to hlw_antarctica
+
+Balance and Gameplay:
+* Reduced range Antlion Worker from 1024 to 820
+* Reduced costs of Shotgun to 1 requisition + 1 power for Combine and 1 scrap for Rebels
+* Reduced costs of AR2 to 2 requisition + 1 power for Combine
+* Reduced damage of "plasma" attribute (Combine Sniper) from -50% to -75% against buildings
+* Reduced damage of "shock" attribute (Vortigaunt) to -50% against buildings and synth
+* Increased bonus damage "rpg" attribute against buildings and synth to 180 and 150
+* Reduced bullet damage against synth to -85% and pulse against synth to -55%
+* Increased flame thrower damage against light and medium
+* Increased explosive attribute damage against light and building to 30 and 100
+* Reduced damage explosive attribute against synth by 25%
+* Reduced costs Combine Armory to 4 requisition and 2 power
+* Reduced costs Rebel Armory to 4 requisition and 2 scrap
+* Reduced costs Combine Spec Ops to 6 requisition and 6 power
+* Reduced costs Rebel Spec Ops to 6 requisition and 6 scrap
+* Reduced costs Combine Synth Factory to 6 requisition and 7 power
+* Reduced costs Vortigaunt Den to 5 requisition and 6 scrap
+* Increased costs of Combine Elite to 6 requisition and 2 power and reduced build time from 70s to 65s
+* Reduced population cost of Combine Sniper to 2
+* Increased damage of Strider cannon from 200 to 1000
+* Increased damage Hunter charge from 200 to 500
+* Increased Charge speed by 20% for both Antlion Guard and Hunter
+* Increased Stalker construct range from 150 to 320 and slightly increased movement speed
+* Reduced costs Hunter to 5 requisition and 6 power and reduced build time from 60s to 50s
+* Reduced costs Strider to 10 requisition and 12 power and reduced build time from 120s to 100s
+* Reduced costs Combine Sniper to 5 requisition and 5 power
+* Increased base damage of Rebel Flamer from 5 to 7 damage
+* Reduced build time Combine Soldier from 40s to 36s
+* Increased Rebel Scout view distance to 1200
+* Increased costs Rebel RPG from 2 scrap to 4 scrap
+* Changed costs Vortigaunt to 5 requisition and 7 scrap
+* Added "infiltrate" ability to Combine Sniper
+* Rebel Engineer now requires time to salvage scrap and in return carries more scrap back to the HQ
+* Units now have a 50% scrap drop chance and buildings and combine mines no longer drop scrap at all
+* Removed unlock requirement Combine Elite and Combine Sniper
+* Removed unlock requirement Rebel Veteran and Rebel RPG
+* Grenade ability now applies explosive attribute (more damage against buildings, less against synth)
+* Increased healing rate of Vortigaunt Inward Focus ability to 200 hp per second
+* Grenades and Combine Mines now do friendly damage
+
+Improvements:
+* Cloaked units are now less noticeable
+* Units now move back to their last idle position by inserting a move order. This ensures they will go in cover again after autocasting an ability (e.g. heal)
+* Units are now always drawn on top of control points on the minimap
+* Replaced old VGUI based sandbox panels by HTML based versions
+* Updated main menu mission list
+* Updated Combine Power Generator radius overlay
+* Updated Turret direction overlay indicator during placing
+* Added direction indicator overlay for placing Barricades
+* Replaced selection circles by Particle based versions
+
+Fixed:
+* Crash on exit in fullscreen mode
+* Units play the grenade throw animation but they do not actually throw a grenade. Also it does use resources and the ability needs to recharge
+* Control Points initially not visible/explored in multiplayer matches due receiving full network updates
+* Main Menu cut off partially at 800x600 resolution
+* No longer possible to repair/construct neutral buildings
+* Neutral medics incorrectly healing units from other owners
+* If you try to upgrade the unit's weapon (metrocop SMG/Rebel or soldier shotgun and AR2), the upgrade sound is played even if the upgrade failed due to unsatisfied requirements
+* Cannot deactivate rebel scouts infiltrate ability if the energy is below 20
+* Glow Team coloring is not updated when toggling team coloring modes
+* Incorrect population count displayed in hud
+* Silhouette of combine hopper mine might still be shown after cancel placing the mine
+* Lasers of enemy stalkers can be seen through the fog of war
+* Missing Combine soldier die sound
+* Activate sound incorrectly played when requirements are not fulfilled
+* Damage of Strider Cannon ability incorrectly applies using the "pulse" attribute, doing too little damage against buildings
+* Rebel scout does not shoot the active enemy after deactivating the infiltrate ability
+* Fixed missing textures on combine bridge model, used on or_city
+
+Misc:
+* Updated Chromium Embedded Framework
+* Updated embedded Python to 2.7.6
+* The main menu "offline" tab now shows a tutorial video
+* Added a "Bonus" button the Main Menu
+* Added icons to steam
+* Added commands "spectator_freeroam" and "spectator_strategicmode" for in Spectator mode
+
+--------------------- 
+Wars 2.2.0 changes
+NEW:
+* New HTML based Main Menu
+* Single Player Missions
+* Added a notification for "Control Point under attack" (sound and hud message)
+* The player can jump to locations of the most recent events by pressing space bar
+* Control points now flash on the minimap when captured, lost or under attack
+* Units under attack now flash on the minimap
+* Replaced unit portrait videos by 3d render of units
+* Cover spots are now visualized by particle effects. Units in cover now have a cover icon floating above their heads
+
+Maps:
+* Updated: or_trapped
+* NEW: sp_valley (Single Player)
+
+Balance and Gameplay:
+* Unit glow outline is now always enabled to improve the visibility of units to the player
+* Combine mine is now cloaked. The mine can be destroyed when detected. The mine will also detonate faster now
+* Rebel Medic will no longer autocast heal unless the unit is at least for 30 hp damage, to avoid wasting unnecessary healing
+* Reduced cost of deploying manhacks from 2 to 1 requisition.
+* Increased Hunter flechette damage from 3 to 5 and charge damage from 120 to 200
+* Buildings now take only 15% damage from "bullet" and only 35% damage from "pulse" weapons
+* Decreased amount of population provided by rebels headquarters from 10 to 6, to force building billet buildings more early in the game
+* "Spread Units" command now clears all active orders before spreading out the selected units
+* You must now click much closer on cover spots to activate them
+
+Models:
+* New Combine Headquarters model (including work and destruction animations)
+
+Unit Navigation:
+* Giving a move order at a friendly unit will now make the selection follow that unit, instead of going to the last position of that unit
+
+Network Optimizaton:
+* Reduced entity load upon spawning new units (reduced lag a lot in Overrun in particular)
+* Units out of screen of players now send less data and are updated at a lower rate (just enough for the minimap)
+
+Fixed:
+* Potential crash when receiving chat lines up on joining a multiplayer match
+* Building rally points sometimes incorrectly drawn
+* Unit sensing code not using the attack priority applied to "objects" when using attack move (i.e. force attack explosive barrel)
+* Gamelobby: already chosen positions of players not send to new players entering the gamelobby
+* Initially alpha of notifier messages being incorrect, causing a short flash while fading in
+* Units not moving to the next queued order if the previous order was a move order to another friendly unit
+* Ropes not rendered correctly, due incorrect files from Episode Two
+* Crash when starting at a resolution of 1080p, then change it to 720p and finally load a map
+* Order sound times not reset on map change, causing order sounds not to play when changing maps
+
+Misc:
+* New experimental lighting mode using swarm-deferred. Mixes lightmaps and deferred lighting. Can be start with adding "-deferred" to the launch options
+* Water shader now supports Fog of War (darkens water in fow)
+* Updated Chromium Embedded Framework to revision 1442
+* Updated jqWidgets to 3.0.2
+* Added cheat command "unit_scale_selection", which scales the model sizes of the unit selection
+
+--------------------- 
+Wars 2.1.2 changes
+Balance and Gameplay:
+* Slightly increased time for building a rebel barricade (from 5 to 8 seconds)
+* Decreased time for constructing a rebel/combine Mountable turret (from 25 to 15 seconds)
+* Lowered cost of constructing Mountable turret from 5 to 4 requisition
+* Increased heal rate of rebel aid station from 4 to 6 per second
+* Increased damage grenade from 200 to 320
+* Increased damage hopper mine from 200 to 350
+* Increased detonation range hopper mine from 100 to 150
+* Increased damage Zombine grenade from 200 to 250
+
+Overrun:
+* Zombie Wave Type: Decreased income grow rate to 1% after wave 10 and 0% after wave 20 (instead of 15%)
+* Antlion Wave Type: Decreased income grow rate to 10% after wave 10 and 0% after wave 20 (instead of 15%)
+* Added Rebel Flamer to Overrun Rebels faction
+
+Maps:
+* NEW: or_washedaway (Overrun version)
+* UPDATED: hlw_washedaway
+
+Improvements:
+* Holding down the queue key (default shift) will now automatically recast the ability for target type abilities (e.g. place mulitple billets more easily)
+* Releasing the hotkey or queue key after automatically being recast will now stop the ability (target type abilities)
+* Better spawning locations for random bonus crates
+* Building rallypoints can now be set to units
+* Removed default building rallypoint locations; units will just spawn next to the building now, unless the player changes the rallypoint
+
+Interface/Hud:
+* Added command "select_all_army", which selects all units of the player (can be bound in the keyboard options menu)
+* Replaced scoreboard by new (html based) player status board, which appears at the top right corner (can be bound in the keyboard options menu)
+
+Fixed:
+* Text might appear untranslated (e.g. chat text looks broken)
+* Rebel HQ is at the start of the game in the preconstructed state animation when playing in a multiplayer game where the player is not the host
+* Bonus crates are too frequently dropped at unreachable places
+* Engineers/Stalkers incorrectly first placing further queued "place building" orders, while they should first construct the first placed buildings
+* Attack Move (and several other abilities) does not function correctly when activated through the minimap
+* Rebel Engineers are sometimes stuck at the Headquarters building when returning Salvage
+* Incorrect cached length between connection of navigation areas after a split edit, performed by buildings. This causes problems with the path finding of units (choosing longer routes for example)
+* Potential crash when unit is at the border of the fog of war grid
+
+Game Lobby Fixes:
+* Player avatars not shown
+* Spectators not being shown in spectator list
+* Fonts in gamelobby might look incorrect
+* Text appearing in color combobox after making a color choice
+* Game launch canceled when a player didn't picked a start spot yet (due the lobby automatically assigning a start position)
+
+Misc:
+* Added entity wars_cpu_player, which allows enabling/disabling a CPU Player (Hammer/SP)
+* Added entity wars_player_relation, which allows changing the relations between players (Hammer/SP)
+* Added entity wars_mission_objective, which allows displaying objectives (Hammer/SP)
+* Added entity wars_win_condition, which allows ending the game and either displaying victory or defeat (Hammer/SP)
+
+--------------------- 
+Wars 2.1.1 changes
+Balance and Gameplay:
+* Changed costs of Combine Elite "Energy Ball" ability from 1 requisition to 1 power
+* Reduced attack range of Combine Energy Ball ability from 1024 to 820
+* Units in cover now get an attack range bonus applied of 120
+* Construct/Repair ability autocast now prefers the closest target and buildings of the own player
+* Metro Police unit can now deploy a maximum of one active Manhack
+* Increased damage of Rebel flamer against light and medium units
+
+Maps:
+* UPDATED: hlw_washedaway
+
+Models:
+* New scrap pile model
+* New small scrap pile model
+
+Interface and HUD:
+* Selection box now selects units based on the bounding box of unit, instead of just the origin
+
+Improvements:
+* Autocast of abilities can now also be triggered while units are attack moving a position
+
+Fixed:
+* Crash when loading a map on systems with a DirectX 9 card
+* AutoCast of Rebel medic "heal" ability incorrectly functioning
+* Salvage ability does not work on the "small" versions of scrap markers
+* Electricity effect of Combine energy cell is now activated when fully constructed
+
+Misc:
+* Removed Desura version checker from Main Menu
+
+--------------------- 
+Wars 2.1.0 changes
+Balance and Gameplay:
+* Added new unit "Rebel Flamer" to Rebel barracks. Requires Rebels Munition Depot.
+* Combine "power" resource is now capped. This maximum amount of power can be increased by placing "energy cells"
+* Reduced requisition income from Headquarters building (only 1 per 30 seconds, instead of 1 per 10 seconds)
+* Reduced costs smg1 upgrade Metro Police from "1 Requisition and 1 Scrap" to "1 Requisition"
+* Added placable barricades to construct options of Rebel Engineer and Combine Stalker. Barricades provide cover for units.
+* Dropped scrap is now only visible for the player who killed the unit 
+
+Overrun:
+* Headcrab cannisters are no longer launched on indoor maps
+* Current active enemies of the wave are automatically killed when no activity is detected (to prevent the game from getting stuck in certain cases)
+
+Models:
+* New Rebels Headquarters building (including construction, build progress and destruction animations)
+* Combine Energy Cell (including construction, build progress and destruction animations)
+
+Maps:
+* NEW: hlw_washedaway (8 players)
+* UPDATED: hlw_meltdown
+* UPDATED: tutorial 
+* UPDATED: or_hill (more cover and an extra way up)
+* UPDATED: or_trapped (added kill trigger beneath ground)
+
+Interface:
+* New Victory and Defeat screens
+* Ability sub menus (i.e. buildings menu) are now cleared after selecting an ability
+* Improved existing mouse cursors
+* New "Unit Select" mouse cursor
+* Resource notifications now have icons
+* Updated Unit and Ability icons
+
+Fixed:
+* Units are sometimes unable to shoot enemy buildings 
+* The player is able to place buildings at the same spot in some cases
+* Stalkers/Engineers trying to repair/construct destroyed buildings
+* Building selection circle still showing during building explode animation when hovering the mouse on some spots
+* Placing of a building by the player gets canceled after the selected engineer finishes the current active construction of a building
+* Gamelobby dropdown menus not disappearing in some cases
+* HUD incorrectly changes to rebels hud when another player joins the game
+* Incorrect pixel shader model being used for some users, even though pixel shader 3.0 is available (only on low-end machines)
+* Non explored parts of the map not being darkened for some materials
+* Tutorial map no longer uses the game mode "Sandbox", but instead a new "Single Player" game mode
+* "Game" key input is now disabled when a HTML panel has key focus
+* Added missing Antlion Hive models (Sandbox Antlion faction)
+* Build time in tooltip of Factory buildings keeps going higher when the factory is unable to spawn an unit due the population limit
+
+Unit AI and Navigation:
+* Updated target distance code regarding large units (e.g. buildings)
+* Various navigation changes
+
+CPU Player:
+* Improved resource spending of CPU Player
+* Improved building placement
+* Added base defending behavior
+* CPU Player will always first produce a builder in case it has no builders yet
+
+Misc:
+* It is now possible to multi select units in the unitpanel (SandBox) and randomly spawn units from the item selection
+* Custom mouse cursor is now almost used everywhere in the game (instead of the default windows cursor)
+* Improved shutdown time
+* Dropped support for pixel shader 2.0b
+* Updated embedded Python to 2.7.5
+
+--------------------- 
+Wars 2.0.9 changes
+Balance and Gameplay:
+* Added Rebel Partisan to Rebels Headquarters
+* Changes costs of deploying Manhacks to 1 requisition and 1 power
+* Added "Upgrade to SMG1" option to Combine Metro Police
+* Rebel soldiers must now enter the Rebel aid station be healed (no longer healed in radius)
+* Autocast of Heal ability now selects the unit with the lowest health
+* Added Charge ability to Hunter
+* Added Autocast to the charge ability of Hunter and Antlion Guard
+* Reduced Grenade damage radius
+* Soldiers now move to their closest cover/hiding spot when possible
+
+Maps:
+* NEW: Tutorial map (startable from the main menu)
+* NEW: hlw_mine
+* UPDATED: hlw_outland (multiblend shader)
+* UPDATED: hlw_trapped (more space)
+* UPDATED: hlw_base4
+
+Models and Visuals:
+* New bonus crate model, including a parachute landing and destruction animation
+* Revolutionary Fervor Particle Effect, shown around the Rebel Partisan when the passive ability is active
+* Heal Particle Effect, shown when an unit is healed by either the Rebel Medic or Cobmine Regeneration building
+* Grenade target area and damage radius is now visualized by a sphere
+* New Alternative model for Control Points
+
+Interface and HUD:
+* Autocast icon/visual indication on the ability icon
+* Tooltip of abilities now shows if the ability supports auto casting and if it is on or off
+* Many new and updated unit and ability icons
+* Unit and ability icons now fade out properly in the notification messages
+* Added a notification to the hud when a control point is lost or captured
+
+Sounds:
+* Barracks destruction sound
+* Armory destruction sound
+* New and updated Move/attack/select/hold position sounds for rebel soldier, combine soldier, Hunter, Strider, Vortigaunt, Metropolice
+
+Fixed:
+* Incorrect eye offset combine armory and rebels barracks models, resulting in incorrect LOS checks (e.g. units not shooting the building)
+* Potential crash/freeze when right clicking the minimap due faulty position input from the minimap, which in turn triggered an infinitive while loop in a navigation mesh query function
+* Progress bar of Control points still being shown in the Fog of War
+* State of control points pontentially being incorrect when going in/out the fog of war
+* Soldiers trying to move to the same cover/hiding spot
+* Units being spawned below the ground in Overrun
+* Building animations (e.g. construction/destruction) not being played when the client/player is not the same as the server
+* Unit soldiers trying to mount a turret which is already mounted in some cases
+* Progress animations/effects of factories not stopped during the building exploding.
+
+Unit Navigation:
+* Improved resolving navigation around blocking obstacles
+
+Shaders:
+* New lightmapped generic shader variant with team color support (LightmappedBrushGeneric), used by brush based buildings
+
+Misc:
+* Added entity "wars_player_follow_entity", which can be used to override and control the player's camera
+* Added entity "wars_generic_item", placable and configurable in Hammer (Single Player)
+* Added entity "trigger_nobuildings", which denies placable objects/buildings from being placed within this trigger
+* Updated Swarm Keeper gamepackage (startable from the console using the command "map dk_map")
+* Updated embedded Python to 2.7.4
+* Updated CEF Library
+
+--------------------- 
+Wars 2.0.8 changes
+Balance:
+* Rebel/Combine soldier AR2/SG upgrade now requires the Munition Depot/Armory. Removed unlock upgrade abilities.
+* Reduced costs Rebel Medic from 4 req & 2 scrap to 2 req & 1 scrap
+* Reduced research time of Rebel Medic upgrades from 150 to 80 seconds
+* Reduced provided population of Headquarter buildings from 20 to 10
+* First Combine population upgrade now increases the pop by 10, second by 25 and third by 40 (costs resp. 10, 15 and 25)
+* Reduced DPS hunter from 18 to 12, and burst size from 10 to 8
+
+Updated:
+* Capture progress of control points is no longer directly lost
+* Combine Armory and Rebel barracks now have progress animations/particle effects while producing something
+
+Maps:
+* NEW: hlw_base4
+* NEW: or_base4
+* Updated: hlw_meltdown
+
+Interface/UI:
+* Updated move order particle effect
+* Units can now be removed from the selection by right clicking the unit in the units panel
+* Combine Hud: added combine themed control group button texture
+* Info/tooltip box now shows the population an upgrade (Combine) or building (headquarters, billet) provides
+
+Models:
+* Updated Combine Armory (visuals + construction, destruction and working animations)
+* Updated Rebels Barrack (visuals + construction, destruction and working animations)
+* Combine Shotgunner now uses the alternative EP2 skin
+
+CPU Player:
+* Combine CPU builds less power generators now
+
+Fixed:
+* Hunters incorrectly dealing too high damage
+* Player can no longer select scrap carried by Rebel Engineers
+* Incorrect Manhack model angles
+* HUD abilities panel not being updated directly when clicking an unit in the units panel
+* Dissolving units being able to still shoot and fight 
+* Kills not being displayed in hud of single selected units
+
+Performance:
+* Improved hiding/cover spot detection speed when there are many navigation areas
+
+Misc:
+* Added nav mesh edit commands "nav_coverspot_create" and "nav_coverspot_delete", to manually create and delete cover/hide spots
+* Fixed several problems with mounting other games
+* Added binding option for "kill_units" in the keyboard options (kills selected units)
+* Added option "units_spread", which makes the selected units spread. Can be bound in the keyboard options
+* Added material for infected unit with better phong settings
+* Updated CEF Library
+
+--------------------- 
+Wars 2.0.7 changes
+Balance:
+* Removed Rebel Partisan from recruitable units
+* Added attribute Bite, used by headcrabs
+* Added attribute Burn, used by Stalker
+* Added attribute Medium, used by basic soldiers with SMG1, AR2 and shotgun
+* Added attribute Pulse, bonus against light and medium
+* Added attribute Plasma, used by Combine Sniper
+* Added attribute Mechanic, used by Combine Manhack (cannot be healed anymore)
+* Units with attribute "synth" now receive a damage reduction against units with attack attribute "bullet" and "pulse"
+* Removed Strider unlock requirement
+* Increased Vortigaunt energy from 150 to 300
+* Decreased Vortigaunt attack energy requirement from 20 to 15
+* Increased Power Generator health from 200 to 450
+* Units in cover now receive a damage reduction of 50%
+* Increased health of Antlions
+* Increased Grenade damage and radius
+* Reduced research time Grenade from 120 to 50 seconds
+* Reduced research time Combine Mine from 120 to 60 seconds
+* Added Combine Mine place ability to Rebel Engineer
+
+Maps:
+* NEW: hlw_meltdown
+
+Models:
+* New power generator model
+
+Textures/Interface:
+* New Game Icon
+* New custom loading bar and progress icon
+* New Combine Hud
+* New rallypoint (model) for factory buildings
+* New ground overlay texture for Combine Power Generators
+* Updated unit selection circle texture
+* Unit/Ability icons are now colored in the faction color (blue or orange) or red when unavailable (recharging, costs, other requirements, etc)
+* Updated main menu colors
+* Updated player chat box (chat history is now properly shown)
+
+New:
+* Strider's Dark Energy cannon ability 
+* Added Autocasting to Strider's Impale ability
+* Added Autocasting to Zombine's Pull Grenade ability
+
+Updated:
+* Soldiers now shoot in "bursts", roughly keeping the same DPS
+* Canceling a building will now refund half the requisition costs
+* It's no longer possible to select the Overrun Combine and Rebels factions in Sandbox (still possible to spawn their buildings)
+* Better relaxed idle animations for Rebel Soldiers
+
+Unit AI an Navigation:
+* Units now wait until their enemy is into the "engage" distance, instead of automatically trying to move closer
+* Added support for entering a garrisoned building from a specified direction
+* Units now move away from target if needed for attacking (Combine Helicopter)
+* Throttled number of path recomputations when the target changes navigation areas (performance)
+* Overrun: Initial spawned enemies now use a precomputed path (performance)
+* Combine Manhacks now temporary ignore collisions with other units after slicing (to avoid getting stuck around the target unit)
+* Soldiers are no longer selected using the Selection box if they are mounting a gun and the target player selection is bigger than one.
+
+Fog Of War:
+* Now keeps track of the explored parts. Non explored parts of the map are made darker.
+
+Optimization:
+* Improved speed Fog of War rendering
+
+Overrun:
+* Max active enemies at the same time is reduced from 120 to 85 (performance)
+* Spawned headcrabs from cannisters now attack move the enemy in Overrun
+
+Fixed:
+* Crash/hanging on exit
+* Weapon fire effects not displayed when attacking your own or allied units using "Attack Move"
+* Attack Move: units still running to target after the target died
+* Fixed units being faded out when "Effects Detail" option is set to medium or low
+* Unit Portrait video not switching when selecting a different unit in some cases
+* Incorrect names and descriptions for Grenade, Combine Mine and Floor Turret unlocks
+* Fixed queueing up move orders along cover spots not working correctly (the unit would stop moving at the cover spot)
+* "Deploy Manhack" ability can deploy too many manhacks when executing it on groups of metro polices (did not honor the population limit and cooldown times)
+* Added missing explosive oil drum model (Sandbox ability "explosivebarrel")
+* Factory not showing what's in the build queue when scheduling an ability/unit while the factory is on hold (i.e. powered off)
+* Units in cover sometimes not shooting their enemies
+
+Misc:
+* Added Alien Swarm Marine with Flamer weapon
+
+--------------------- 
+Wars 2.0.6 changes
+
+Balance:
+* Rebel aid station now requires the Triage Center
+* Rebel engineer must now walk up close to start constructing a building
+* Reduced range at which Stalkers start constructing buildings
+* Lowered cost of soldier with shotgun in Overrun to 1 kill
+* Raised shotgun bonus damage against light from 3 to 21
+* Team games: players now receive resources from their allied control points
+
+New:
+* Control point model with flag
+* Rebels themed mountable turret model
+* Scrap model (used by Engineer when carrying scrap)
+* Rebel engineer construction animation
+* Combine Sniper rifle model
+
+Interface:
+* New icons for units, abilities and buildings
+* New experimental html based Unit Spawn panel in Sandbox
+* Mouse cursor now changes to the capture icon when hovering above a control point
+
+Maps:
+* Updated hlw_forest (displacements, multiblend shader and tree sway)
+* Updated hlw_slums (removed color correction)
+* Updated hlw_battlemounds (multiblend shader)
+* Updated or_crashed (multiblend shader)
+* Updated or_hill (multiblend shader and tree sway)
+* Updated or_trapped (fixed navigation around edges)
+
+Updated:
+* Player camera height is now limited to a fixed height, instead of map defined
+* Increased search radius of cover spots when ordering units to move to a location
+* Better identifiable Rebel Engineer model
+
+Unit Navigation:
+* Units now temporary ignore checking for a valid nav mesh below their feet when jumping down an edge, so they don't stop moving (or_trapped navigation problem)
+* Units now ignore checking for a valid nav mesh below their feet temporary at the start of following a path, until they find a valid nav area (to avoid problems when starting in an invalid navigation area)
+
+Fixed:
+* Incorrect blood color of various units (zombies, manhack, antlions)
+* Reliable overflow error message when trying to select around 200 or more units using a selection box
+* Player camera height limits are sometimes ignored on map start of "or_hill"
+* Combine Elite alt ar2 fire animation not played
+* Combine Elite alt ar2 fire broken until you switch weapons
+* Units not shooting back at mountable turrets (instead do nothing)
+* Buildings incorrectly taking damage during construction
+* Incorrect default mouse cursor used ingame
+* Headcrab cannisters being launched at invalid locations in Overrun
+* Incorrect resource bonus received from random bonus crates in Overrun
+* Units sometimes incorrectly trying to shoot while the los is blocked
+* Ability Infiltrate cooldown not set after using it
+* Team color of unit circle not always updated correctly
+
+Performance:
+* Reduced lag when ordering large groups of units
+
+Sounds:
+* New building destruction sounds
+* Engineer sounds
+
+Misc:
+* Hotkeys no longer automatically overwrite the rts config. The bindings are instead part of the default config.
+* Replaced Awesomium by Chromium Embedded Framework
+
+--------------------- 
+Wars 2.0.5 changes
+Balance:
+* Increased costs Combine Metropolice from 2 to 3 requisition
+* Reduced costs Rebel soldier from 4 to 3 requisition
+* Increased DPS Rebel Partisan from 5 to 10
+* Reduced hp Rebel Scout from 75 to 35
+* Reduced DPS Rebel Scout from 10 to 5
+* Reduced Rebel Partisan bonus accuracy from passive ability Revolutionary Fervor
+* Reduced Slash attribute damage bonus from 30 to 25
+* Reduced Black Headcrab damage from 80 to 40
+* Reduced Headcrab damage from 30 to 20
+* Reduced Fast Headcrab damage from 15 to 12
+* Reduced Poison Headcrab damage from 80 to 40
+* Reduced Zombie damage from 80 to 60
+* Reduced Fast Zombie leap attack damage from 75 to 15
+
+Overrun:
+* Added Zombine from wave 5 and onward
+* Added Poison Zombie from wave 7 and onward
+* Added Rebel Veteran to Overrun (Rebels)
+* Headcrab Cannister now contains 3 to 6 headcrabs, instead of a fixed number of 6
+* Reduced frequency of Headcrab Cannister launches (Zombie wave type)
+* Reduced costs Combine/Rebel AR2 soldier from 4 to 3
+* Reduced costs Rebel Medic from 3 to 2
+* Removed tier2 requirement Combine Mine
+
+Added:
+* Support for garrisonable buildings (Sandbox)
+* Always show unit health bars using the command "toggle_alwaysshowhealthbars", with default key binding "\"
+* Relationship based team colors (cl_teamcolor_relationbased)
+* Option for random bonus crates (any game mode, enabled by default)
+* Poison Zombie (Sandbox & Overrun)
+* Zombine (Sandbox & Overrun), including a pull grenade ability
+* Combine Gunship (Sandbox)
+* Combine Helicopter (Sandbox)
+* Dog (Sandbox)
+
+CPU Player:
+* CPU Player no longer sends groups of units to the same control point
+
+Unit AI and Navigation:
+* Units now have a max chase distance when auto attacking an enemy. When exceeded, they return to their idle position
+* Units no longer auto chase after enemies if they have no line of sight and are not under attack by that enemy
+* Units return to their idle position after finishing an auto casted ability
+* Air units now build their routes directly to their goal position, except when they are stuck/blocked
+
+Fixed:
+* Fixed RTS/FPS config being mixed up due asynchronous write of host_writeconfig
+* Minimap sometimes incorrectly showing enemy units
+* Soldiers no longer try to move to the same cover spot
+* Fixed "single unit" type cast abilities not checking for all units in the selection, but only for a single type (e.g. grenade ability).
+* Fixed incorrect client side gun position used, resulting in incorrect weapon tracer effects
+* Fixed broken Rebel Medic heal upgrade abilities
+* Broken AR2 alt fire ability Combine Elite when the shotgun is equipped (no longer possible to use the ability in this case)
+* Unable to switch the autocast setting of abilities (right click ability button)
+* Vortigaunt dispel ability now also applies damage to other units than antlions
+
+Misc:
+* Updated unit names and descriptions
+* RTS Keyboard binding config page now shows more appropriate descriptions for RTS mode
+* Added filter entities for player owner "filter_owner" and unit type "filter_unittype" (Hammer)
+* Added entity "event_building_listener", which fires events when a building construction is started or finished (Hammer)
+
+--------------------- 
+Wars 2.0.4 changes
+
+Balance:
+* Manhacks can no longer capture control points
+* Decreased cost rebel shotgun from "5 requisition + 1 scrap" to "2 scrap"
+* Decreased cost rebel ar2 from "5 requisition + 1 scrap" to "2 scrap"
+* Decreased cost combine shotgun from "2 requisition" to "1 requisition + 2 power"
+* Decreased cost combine ar2 from "3 requisition" to "2 requisition + 2 power"
+
+Overrun:
+* Added option to spawn enemies at wavepoints more nearby the player, on the condition the spawn points are not hidden in the fog of war
+* Added fast and poision headcrabs to zombie wave type
+* Increased maximum number of enemies alive from 75 to 120
+* Various changes in wave type settings
+* Zombie mode now randomly fires headcrab cannisters around the players
+
+Maps:
+* or_trapped: removed brush based buildings, now uses the regular buildings
+* or_city: removed brush based buildings, now uses the regular buildings
+* or_hill: added wave spawn points more nearby the player bases
+
+CPU Player:
+* No longer places power generators directly next to other power generators
+
+Updated:
+* Increased jump/attack range of headcrabs
+
+Added:
+* Fast headcrab
+* Black headcrab
+* Leap attack to Fast Zombie
+* Leap attack to Antlion
+
+Fixed:
+* Incorrect PVS used, results in units not being displayed sometimes (in particular on or_trapped)
+* Broken nuke ability (sandbox)
+* Broken launch headcrab cannister ability (sandbox)
+* HUD displaying firerate with 2 decimal precision, instead of 1
+* Disabled some unit navigation code which was causing problems around certain terrain type
+
+Misc:
+* Added back shader model 2.0b shaders (caused a crash at loading a map for some users)
+* Added moddefaults.txt from CSGO, which contain better and more up to date default settings
+
+--------------------- 
+Wars 2.0.3 changes
+
+Balance:
+* Lowered accuracy Rebel Partisan (changed DPS from 10 to 5)
+* Decreased accuracy bonus Rebel Partisan from the passive ability Revolutionary Fervor
+* Increased damage shotgun from 8 to 32, resulting in a DPS of 40
+* Slightly decreased range of strider minigun from 1024 to 950
+* Rebels Mountable Turret now requires the Rebels Barracks instead of Rebels HQ
+* Weapon range is now limited to unit attack range, instead of using the max trace distance
+* Increased capture time control points from 24 to 30 seconds
+* Added "bullet" attribute to turrets (bonus damage of 3 against "light" units)
+* Removed requirement for first researching Shotgun and AR2 unlock before you can switch weapons with the Elite and Veteran units
+* Added "Grenade" ability to Rebel Veteran unit
+* Increased DPS zombie from 5.7 to 42
+* Increased health zombie from 150 to 220
+* Increased DPS fast zombie from 6 to 50
+* Increased bonus damage slash attribute from 3 to 30
+* Added recharge time of 15 seconds for deploying a hopper mine
+* Added recharge time of 25 seconds for deploying a floor turret
+* Reduced speed at which builders can repair buildings (now fixed at 10 hp per second per builder)
+
+CPU Player:
+* Reduced number of scouts produced
+* Reduced number of initial builders produced
+
+Maps:
+* Updated or_hill (fixed various displacements)
+
+Added:
+* Mount turret ability to Combine Metro Police
+* Antlion Suicider to Overrun Antlions wave type
+
+Updated:
+* Combine Elite energy ball ability no longer bounces against your own units (no collision)
+* Turrets now display their damage statistics in the hud when you select a single turret
+* Increased turrets firerate and lowered damage (DPS stays the same)
+* Damage displayed in hud is now adjusted to unit accuracy (shown when selecting a single unit)
+* AR2 tracer effect is now blue instead of orange
+* Descriptions of various units and abilities
+
+Unit Navigation:
+* Improved detection of units being stuck
+* Units will no longer try to move into an area without a navigation area beneath them (no longer jump off cliffs when it is not a valid route)
+* Stricter check for navigation area slope (sometimes units were selecting areas which were too steep, resulting in them gliding down)
+
+Fixed:
+* Entities/units incorrectly shown when being spectator
+* CPU Player not constructing buildings on some maps
+* Fast zombies falling through ground when climbing walls (or_hill)
+* Outlands map overview material missing a border
+* Unit not shooting the enemy in hold position when the unit already has an existing enemy
+* Hud showing text cut off when having a single unit selected
+* Game now displays an error if you try to launch with GPU that does not (seem) to support Shader Model 3.0 or higher
+* Camera height not clamped to map boundary limits when playing offline
+* No description for AR2 Unlock ability and incorrect description for Shotgun unlock ability
+* Removed duplicate tracer effect sniper rifle.
+* Engineers not following the shortest path when collecting scrap
+* Selected (enemy) units hidden in the fog of war are now deselected automatically
+* Mouse no longer detects entities in the fog of war which are supposed to be hidden/not shown
+
+Misc:
+* "Call Vote" button in main menu now brings up the "Return to gamelobby" vote dialog
+* Removed unused "#asw_button..." button from the "play offline" main menu
+* Gamelobby music is now limited to "Atmospheric Disturbances"
+* You can now select the position of CPU players in the gamelobby as game master
+* Rebel Shotgun + AR2 is no longer hidden in the unit panel.
+* Added delay between playing the select unit sound
+
+--------------------- 
+Wars 2.0.2 changes
+
+New:
+* Added initial version of CPU players, supported in all gamemodes
+
+Overrun:
+* Health of zombies now increases from wave 3 and onward
+* Added Vortigaunt to Rebels
+* Added Aid Station to Rebels
+* Added Hunter to Combine
+
+Balance:
+* Hunter now shoots in bursts
+* Hunter shooting range is now the same as soldiers (from 1024 to 820)
+* Increased range power generators to make it easier to place buildings as Combine
+* Doubled capture time control points from 12 to 24 seconds
+
+Textures:
+* Improved Team color shader
+* Updated various team color masks
+* New skins rebel partisan
+
+Maps
+* Updated hlw_synth (improved navigation and other tweaks)
+
+Fixed:
+* Potential crash on level shutdown
+* Unit navigation incorrectly simplying climb/drop down paths
+* RPG missile sound looping bug
+* Control points now become neutral when the owning player is defeated
+* Defeated players are now moved to spectator
+* Possible to collect scrap to unfinished HQ buildings
+* View offset of capture points is too low, which might result in the fog of war hiding most of the things around the point
+* Incorrect Antlion Guard Cavern model (used in Overrun)
+* You can no longer start an Annihilation game with all players on the same team
+* You are no longer able to place (mounted) turrets in the air
+* Place building type abilities not cleared when the unit executing the ability dies
+* Potentially incorrect animations (t-posing) when soldiers are mounting turrets
+* Right click attack enemy with stalker broken
+
+New Commands and ConVars:
+* wars_build_instant (cheat) - build units instantly (ignoring build times)
+* wars_strategic_enable (cheat) - Enable CPU Player for specific player
+* wars_strategic_disable (cheat) - Enable CPU Player for specific player
+* wars_strategic_debugprint (cheat) - Prints debug information about a CPU player
+
+Sounds:
+* Combine faction now plays a "Research Complete" sound when an upgrade finished
+
+Misc:
+* Updated to Awesomium 1.7 RC3 (used for displaying news in the main menu)
+* Removed attribute and player editor buttons from sandbox (currently broken) 
+
+--------------------- 
+Wars 2.0.1 changes
+Balance:
+* Increased floor turret health from 150 to 300
+* Increased floor turret damage from 6 to 12
+* Increased health mountable turret from 150 to 400
+* Increased damage mountable turret from 12 to 20
+* Increased cooldown deploying manhacks from 15 to 35 seconds
+* Increased damage rebel rpg unit from 60 to 120
+
+Music:
+* New track: Atmospheric Disturbances
+* New track: Now is the Hour
+* New track: Uprising
+
+Maps:
+* Improved navigation mesh hlw_synth
+
+Fixed:
+* Public games matchmaking now searches for games world wide, instead of the default Alien Swarm region based behavior
+* Default number of slots in matchmaking is now 16 (instead of 4)
+* Public games panel now shows the map name instead of "Unknown Mission"
+* Cannot build mounted turret as rebels in Overrun 
+* Rebel soldier with AR2 weapon is missing the running animation while shooting (T-Pose)
+* Overrun offers the infected option as enemy, which should only be shown if Left 4 Dead 1 is mounted
+* Unable to move using the arrow keys in spectator mode
+* Broken "Cancel" ability buildings while constructing
+* Fixed empty rts key config resulting in a broken game
+* Combine energy ball now does a fixed amount of damage against buildings
+* Combine elite soldier not attacking after executing the combine energy ball ability
+* Cloaked units can no longer capture control points
+* Manhacks no longer emit sparks when bumping into friendly or neutral units
+
+Overrun:
+* Initial prepare time is now much shorter and keeps increasing until wave 7, at which it starts decreasing again
+
+--------------------- 
+Wars 2.0.0 changes (very incomplete due the high number of changes)
+New:
+* Rebels and combine faction, including a complete tech tree and base building.
+* New resource system with as main resource requisition (gained through control points) and a secondary faction specific resource
+* New attribute system, which allows to give units a bonus against other type of units
+
+Balance:
+* Increased build times
+* Lower firerates
+* Increased health of all units
+* Increased capture times of control points
+
+New Maps:
+* hlw_slum (1 vs 1 Annihilation map)
+* hlw_synth (2 vs 2 Annihilation map)
+* or_hill (4 player Overrun map)
+* or_city (2 player Overrun map)
+
+Updated maps:
+* hlw_forest
+* hlw_outlands
+* hlw_battlemounds
+
+Removed:
+* Antlion related game modes (replaced by Rebels vs Combine)
+
+Overrun:
+* Units are now instantly spawned (no build times)
+* Players now receive an equal amount of resources at the start of each new wave
+* Health of enemies slowly increases each wave
+* Wave interval slowly decreases each wave
+* Removed wave interval option from gamelobby
+* Added difficulty option to the gamelobby, which changes the number of enemies, wave intervals and health of enemies
+
+Fog of war:
+* Height differences and objects now block the fog of war
+
+HUD:
+* A newly designed rebel themed HUD
+* Unit Groups are now shown in the UI
+* The different sections of the HUD now shows more information about units (attacks, attributes, etc)
+
+Camera and controls:
+* The camera now adjusts to height differences
+* Camera can be panned by holding down the middle mouse button and moving the mouse
+* Camera can now be alternatively rotated using keys (instead of alt + mouse)
+* Camera can now be resetted to the default rotation by hitting the home key (default)
+* The camera can now follow or snap to units by either double pressing a control group key or clicking the portrait
+* Key for adding units to your existing selection changed from control (duck) to shift (sprint) key
+* New units can now be added to an existing control group by holding the control key
+* Selection box now shows a preview of the units that are going to be selected by drawing selection circles around the target units
+* Control + left click the minimap will dispatch a ping signal to your allies
+* Target type abilities can now be activated using the minimap by left clicking a location (e.g. attack move)
+* Target type abilities with rotation can now be activated by either directly dragging in a direction in one click or by two clicks (location + rotation).
+
+Updated:
+* Headcrab unit
+* HeadCrab cannister, including an ability to launch one in sandbox mode
+* Mountable turrets can now be placed on walls
+
+Optimizations:
+* Game now runs on the Alien Swarm engine, which includes rendering and networking optimizations
+* Team color shader is now integrated in the base shaders, instead of being a second pass. Lighting is now correctly applied.
+* VGUI painting code in Python is now buffered in the C code, so it only needs to repaint in Python in case a change happens
+
+Fixed:
+* Team colors of ragdolls no longer turn black
+* Unit face action never completing due a too strict facing tolerance. 
+* Networked Python entity classes being incorrectly linked between the server and client in some cases
+* Fixed dead unit control groups not being cleaned up
+
+Python:
+* Updated to Python 2.7.2
+* New documentation available at http://docs.hl2wars.com/
+* Reorganization of the code structure
+* Support for calling methods from the server to client (internally using usermessages)
+* Support for server defined gamepackages (to a limited extent)
+* Support for easily defining input methods callable from Hammer using the @input decorator
+* Fixed replacing existing ConVars resulting in potentially broken ConVars
+
+Misc:
+* Rally points are now visualized
+* Added gamepackage with a gamemode providing Dungeon Keeper like gameplay (experimental).
+* Keyboard customization menu now offers the option to choose which config file you want to edit (rts or fps)
+* Main Menu now shows the latest news from the hl2wars website
+* Source code is now available at: https://github.com/Sandern/hl2wars_asw_dev
+
+--------------------- 
+Wars 1.0.4 changes
+Fixed:
+* Server infinite changing maps due the old Python gamerules not always being cleaned up properly
+* Stalker unit sometimes not responding to orders after doing the repair/construct ability
+* "Destroy all links" ability of the Combine Shield Generator broken
+
+Added:
+* Combine soldier death sound
+
+Updated:
+* Navigation mesh tweaks or_trapped, or_crashed and or_hot_sand
+* Abilities that are not usable from the abilitypanel are now filtered
+
+Overrun:
+* Removed maximum wave size limit of 500
+
+--------------------- 
+Wars 1.0.3 changes
+Balance:
+* Reduced Antlion Guard speed 20%
+
+Added:
+* New map or_trapped (Overrun)
+* Map boundaries
+* Secondary fire ability AR2 (Combine elite soldier)
+* Mountable turret
+* Rebel soldier (sandbox)
+* Shield and heal station ability icons
+
+Updated:
+* Group type abilities like "Attack move" and "Burrow" are now applied across the whole selection, instead of just the specific unit type
+* Construct ability now also serves as a repair ability
+* Creation of abilities is now predicted on the client
+* Better loading and scoreboard fonts
+* The color of the stalker laser now uses the team color, instead of red
+
+Removed:
+* Nest Maintenance ability (replaced by construct/repair ability)
+
+Unit navigation:
+* Improved unit group goal arrival
+* Fixed incorrect paths found by not considering the unit sizes correctly
+
+Fixed:
+* Being able to set the rally point of buildings you do not own
+* Unable to select a player as lobby leader in case the player name contained spaces
+* Player not spawned in the map when a skirmish game was started in some specific cases
+* Portraits not changing when selecting a different unit while you already have an unit selected with a portrait
+* "Attack move" sometimes failing due a bug in the unit ai, causing units to stop moving towards their move attack goal
+* "Leave control" button in sandbox broken when cheats are not on
+* Recharge time not set for the ability in the top left slot after using it
+* Incorrect run animation combine soldier in case equipped with a shotgun
+* Wrong font used for displaying the player names above units that are directly controlled
+* Weapon not drawn of the unit when directly controlled by a player
+* Move and attack sounds played for each unit in the selection, while only the first unit should do this
+* No resources taken when executing the grenade ability
+* Move order behaving like "Atack Move" (not ignoring enemies)
+* Changes made with the attribute editor are now reset on map change (sandbox)
+* Antlion guard pose parameters incorrectly initialized, resulting in incorrect animations
+* Queued ability orders not being cleared in case the order was canceled.
+
+--------------------- 
+Wars 1.0.2 changes
+Balance:
+* Decreased damage done by smg1, shotgun and ar2
+* Increased damage grenade ability
+* Decreased health Antlion Guards with 50%
+* Decreased damage antlion melee attacks
+
+* Overrun mode
+  - "Next wave" timer will not be activated until only 20% enemies are left to be killed or spawned
+  - Added option to defend against incoming waves of combine instead of antlions
+
+Added:
+* Combine medic station
+* Combine shield generator
+* Stalker attack/repair/construct laser
+* Dispel ability Vortigaunt
+* Strider (sandbox)
+* Unit portraits
+* Unit selection is now additionally sorted on unit priority
+* Description of each gamemode in the gamelobby
+* Sandbox mode now provides a button for directly controlling an unit
+* You can now order around units while holding shift in direct unit control mode
+* You can now specify the unit arrival direction by dragging the right mouse in the direction you want
+* New music track "A New Revolution"
+
+Updated:
+* or_crashed
+* or_hot_sands
+* Improved direct unit control (sandbox mode)
+* Reduced amount of data send from servers to client resulting in less lag when a lot of units are moving around
+* Unit navigation, movement and ai
+
+Fixes:
+* Incorrect movement speed units (about 50% too fast)
+* Units spawning at the wrong position after being produced at a building
+* Several unit animations not be being played on dedicated servers
+* Skirmish: being unable to queue orders or group units
+* Replicated ConVars created in Python not behaving correctly on dedicated servers
+* No muzzle flashes appearing from weapons
+
+Misc:
+* Version checker to notify the user about future releases
+* A notification is now shown on game startup if you do not have Episode Two installed
+* Gamelobby chat now uses the default chat system, so chat is visible in the console
+* Additional game content is now mounted on game startup if present (ep2, ep1, tf2, hl1, css)
+
+--------------------- 
+Wars 1.0.1 changes
+
+Balancing changes:
+* Combine:
+    - Added Tier 2 and Tier 3 research.
+    - Shotgunner and AR2 soldier now require Tier 2 research.
+    - Elite soldier now requires Tier 3 research.
+    - Combine mine and floor turret now require Tier 2 research.
+    - Slowed down firerate Combine Shotgunner.
+    
+* Antlions:
+    - Added Tier 2 and Tier 3 research.
+    - Antlion Suicider now requires Tier 2 research.
+    - Antlion Guard now requires Tier 3 research.
+    - Increased Antlion Colony HP from 5000 to 6000.
+
+* Overrun Game Mode:
+    - Number of antlions will now keep growing each wave (not limited to 100 anymore).
+    - Reduced starting resources from 20 to 15.
+    
+Added:
+* wmp_ancient
+* or_hot_sands
+* Commonly used bindings are now showed in the loading screen.
+* Vortigaunt unit (sandbox mode).
+* Combine and Stalker select, move and attack sounds.
+
+Modified:
+* Updated or_crashed
+
+Fixes:
+* Several stability issue's.
+* Burrowed antlions no longer block other units.
+* Crash when using the "Control Unit" ability in sandbox mode as spectator on the ground.
+* Crash when moving the player to one of the corners of the map/world.
+* Players unable to join a listened server.
+* Being able to execute an ability as global power when the unit died while the ability is active.
+* Old active ability not being canceled when selecting a new ability from an unit.
+* Upgrades not taking resources from the player.
+* Resources not being refunded if you cancel placing a turret or mine.
+* Combine Shotgunner not using the correct skin due the wrong order of the search paths.
+* Rallypoint flag not disappearing when a building is destroyed while you have it selected.
+* Antlion Workers not automatically starting construction after placing a building.
+* Build target position being too far off the Mini Hive, causing the antlions to spawn below the ground in some cases.
+* Missing move sounds Antlions.
+* Names of players not visible when directly controlling an unit.
+* Being able to select a position as spectator in the gamelobby.
+
+Misc:
+* Updated Python to 2.7.1
+* There is now a small delay of 3 seconds before changing to the gamelobby after a successful vote.
+* In sandbox mode players are no longer assigned to spectator when joining in the middle of the game.
+* HUD not longer shows abilities if you select an unit you do not own
+* Double clicking an unit you do not own no longer results in selecting your units of that type (this still does work for your own units).
+* It is no longer possible to mix units you do not own in your selection.
+
+--------------------- 
+Wars 1.0.0 changes
+
+* Multiplayer and skirmish support
+
+* Two playable factions: Antlions and Combine
+
+* Four maps
+
+* Four gamemodes:
+    - Sandbox, an environment to just play around
+    - Annihilation, destroy all enemy antlion colonies
+    - Capture the flag, hold the middle point for 2 minutes
+    - Overrun, defend as combine against incoming waves of antlions
+    
+* Complete rewrite of the unit code
+    - Improved navigation
+    - Custom AI purely written in Python
+
+* Improved fog of war
+* Support for team colors
+
+* Extensive Python support
+    - Nearly all game code is now written in Python
+    - This includes:
+    - The HUD/Interface
+    - All units
+    - Unit abilities
