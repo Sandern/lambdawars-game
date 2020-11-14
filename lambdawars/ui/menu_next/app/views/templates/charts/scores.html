@@ -1,0 +1,22 @@
+<table class="table-chart scores-chart">
+    <tr>
+        <th>Team</th>
+        <th>Player</th>
+        <th>Resources</th>
+        <th>Army</th>
+        <!--<th>Structures</th>-->
+        <th>Technology</th>
+        <th>Overview</th>
+    </tr>
+
+    <tr ng-repeat="(id, scoreInfo) in scores">
+        <td>{{scoreInfo.team}}</td>
+        <td>{{scoreInfo.name}}</td>
+        <td>{{scoreInfo.resources}}</td>
+        <td>{{scoreInfo.army}}</td>
+        <td>{{scoreInfo.technology}}</td>
+        <!--<td>0</td>-->
+        <td>{{scoreInfo.overview}}</td>
+    </tr>
+
+</table>

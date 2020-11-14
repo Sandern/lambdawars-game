@@ -1,0 +1,23 @@
+<br />
+
+<div ng-if="matchData">
+    <h1>{{matchData.map}} | {{durationMinutes}}:{{durationSeconds}}</h1>
+
+    <a class="btn" href ng-click="selectChart('scores');">{{ 'MA_Scores' | translate }}</a>
+    <a class="btn" href ng-click="selectChart('units');">{{ 'MA_Units' | translate }}</a>
+    <a class="btn" href ng-click="selectChart('time_charts');">{{ 'MA_Graphs' | translate }}</a>
+
+    <!--<a class="btn" href ng-click="selectChart('resources_collected');">Resources Collected</a>
+    <a class="btn" href ng-click="selectChart('requisition_over_time');">Requisition over time</a>-->
+
+    <div ng-switch="selectedChart">
+        <scores-chart match-data="matchData" ng-switch-when="scores"></scores-chart>
+        <units-chart match-data="matchData" ng-switch-when="units"></units-chart>
+        <time-charts match-data="matchData" ng-switch-when="time_charts"></units-chart>
+        <resource-collection-chart match-data="matchData" ng-switch-when="resources_collected"></resource-collection-chart>
+        <requisition-time-chart match-data="matchData" ng-switch-when="requisition_over_time"></requisition-time-chart>
+    </div>
+</div>
+<div ng-if="!matchData">
+<p>{{ 'MA_Fetching' | translate }}</p>
+</div>

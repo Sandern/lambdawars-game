@@ -1,0 +1,125 @@
+#unitpanel_footer
+{
+	display: block;
+	height: 20px;
+}
+
+#unitpanel_placeButton
+{
+	padding: 0;
+	margin-top: 5px;
+}
+
+#unitpanel_playersDropdown
+{
+	display: inline-block;
+	margin-top: 5px;
+	float: right;
+}
+
+#abilitypanel_executeButton
+{
+	padding: 0;
+	margin-top: 5px;
+}
+
+#editor_toolbox
+{
+	float: left;
+	margin-top: 100px;
+	margin-left: 25px;
+	width: 200px;
+}
+
+#editor_toolbox_mapname
+{
+	color: white;
+	display: block;
+}
+
+.editor_toolbox_button
+{
+	display: block;
+	width: 100px;
+}
+
+#editor_florapanel
+{
+}
+
+.editor_windowcontainer
+{
+	height: 100%;
+	box-sizing: border-box;
+	margin: 5px;
+}
+
+.editor_treegridcontainer
+{
+	width: 45%;
+	height: 100%;
+	float: left;
+	overflow: auto;
+}
+
+.editor_properties_container
+{
+	width: 52%;
+	height: 100%;
+	float: right;
+	margin-right: 10px;
+	overflow: auto;
+}
+
+#editor_propertiespanel
+{
+	display: none;
+}
+#editor_navmeshpanel
+{
+	display: none;
+}
+#editor_coverpanel
+{
+	display: none;
+}
+
+#editor_density_slider
+{
+}
+
+.editor_treegrid_cell
+{
+	height: 15px;
+	color: black;
+	background-color: yellow;
+	width: 100%;
+}
+
+/* =========== TOOLBAR ===========*/
+
+#editor_toolbox div
+{
+	height: 40px;
+	width: 40px;
+	margin-top: 2px;
+}
+
+#editor_toolbox div img
+{
+	height: 40px;
+	width: 40px;
+}
+
+#editor_toolbox div img:nth-child(2)
+{
+	position:relative;
+	top: -40px;
+	pointer-events:none;
+}
+
+.spacer
+{
+	width: 40px;
+	height: 10px;
+}

@@ -1,0 +1,1656 @@
+@import "_normalize.min";
+
+// utilities
+@import "compass/reset";
+@import "compass/css3";
+
+// lambda wars
+@import "vars";
+
+// Create with: https://google-webfonts-helper.herokuapp.com/fonts/
+@import "font_open_sans";
+@import "font_roboto_condensed";
+@import "font_roboto";
+
+@import "_angular-chart";
+
+@import "_ngDialog";
+@import "_ngDialog-theme-wars";
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body, html {
+	height: 100%;
+	min-width: 1024px;
+	font-size: $rem-base;
+	line-height: 1;
+	overflow: hidden;
+}
+
+a {
+	text-decoration: none;
+}
+
+body {
+	background: rgb( 0, 0, 0);
+	background-color: transparent;
+	/*background: url(../img/bg1.jpg);
+	background-attachment: fixed;
+	background-size: cover;*/
+	font-family: 'Open Sans';
+}
+
+.linkDisabled {
+	cursor: not-allowed;
+	pointer-events: none;
+	background: $darkgray;
+}
+
+/* Scroll BAR*/
+::-webkit-scrollbar {
+-webkit-border-image: url(../../../mainmenu/window_bg.jpg) 0 2 0 2;
+	width: 15px;
+	height:80px;
+	background-image: url(../../../mainmenu/window_bg.jpg);
+	background-repeat: repeat;
+}
+
+::-webkit-scrollbar-button:vertical:decrement {
+	background-image: url(../../../mainmenu/arrow_scroll_up.jpg);
+	background-repeat: no-repeat;
+	background-position: 0px 0px, 0 0;
+	height:15px;
+}
+
+::-webkit-scrollbar-button:vertical:decrement:active {
+	background-image: url(../../../mainmenu/arrow_scroll_up_press.jpg);
+	background-repeat: no-repeat;
+	background-position: 0 0, 0 0;
+	height:15px;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+	background-image:  url(../../../mainmenu/arrow_scroll_down.jpg);
+	background-repeat: no-repeat;
+	height:15px;
+	border-top-width: 0;
+	background-position: 0 0, 0 0;
+}
+
+::-webkit-scrollbar-button:vertical:increment:active {
+	background-image:  url(../../../mainmenu/arrow_scroll_down_press.jpg);
+	background-repeat: no-repeat;
+	height:15px;
+	border-top-width: 0;
+	background-position: 0 0, 0 0;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+	background-color: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+	-webkit-border-image: url(../../../mainmenu/scrollBar.jpg) 15 0 15 0;
+	border-color: transparent;
+	border-width: 15px 0;
+	min-height: 68px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+	-webkit-border-image: url(../../../mainmenu/scrollBar_press.jpg) 15 0 15 0;
+	border-color: transparent;
+	border-width: 15px 0;
+	min-height: 68px;
+}
+
+.select-style {
+	border: 1px solid $white40;
+	//width: 120px;
+	overflow: hidden;
+	background: $darkgray80;
+	outline: none;
+	color: $orange;
+	padding: 0.2rem;
+	margin: 0.2rem;
+	cursor: pointer;
+
+	&:disabled{
+		color: $white40;
+	}
+	
+	// -webkit-appearance: none;
+	// padding-right: 2rem;
+	// position: relative;
+
+	// doesn't work because of select tag, needs to be added to wrapper element
+
+	&::after {
+		content: ">";
+		transform: rotate(90deg);
+		color: $white;
+		pointer-events: none;
+		position: absolute;
+		right: 0.8rem;
+		top: 0.4em;
+	}
+}
+
+.select-style select {
+	padding: 5px 8px;
+	width: 130%;
+	border: none;
+	box-shadow: none;
+	background: transparent;
+	-webkit-appearance: none;
+}
+
+.select-style select:focus {
+}
+
+#bg-overlay {
+	min-width: 1024px;
+	width: 100%;
+	height: 100%;
+	background: $black20;
+	position: fixed;
+}
+
+.chat-line{
+	color: $white;
+	font-size: 1.4rem;
+	//line-height: 1.5;
+	//padding: 0;
+
+	@media (max-width: 1180px) {
+		font-size: 1.2rem;
+		//line-height: 1.3;
+	}
+
+	span:hover{
+		text-decoration: underline;
+	}
+
+	section{
+		padding: 0;
+		margin: 0;
+		display:inline;
+		word-wrap: break-word;
+	}
+
+	.chatdropdown{
+		top:0.3rem;
+		position: absolute;
+		padding: 0;
+		display: inline;
+		text-decoration: none;
+		list-style: none;
+		@media (max-width: 1180px) {
+			top:0.3rem;
+		}
+		li {
+			float: none;
+			a{
+				text-decoration: none;
+				display: block;
+				color: $lightbrown;
+				font-weight:bold;
+				background-color: $black60;
+				padding: 1px 1px 1px 1px;
+			}
+
+			a:link {
+				color: $lightbrown;
+			}
+
+			a:hover {
+				color: $orange;
+			}
+
+			a:visited {
+				color: $lightbrown;
+			}
+
+			a:active {
+				color: $lightbrown;
+			}
+		}
+		li:first-child{
+			white-space: nowrap;
+			width:100%;
+			display: inline;
+			background-color: $black60;
+		}
+	}
+	.upwards{
+		li:nth-child(n+2) {
+			bottom:270%;
+		}
+	}
+}
+
+#top-bar {
+	min-width: 1024px;
+	width: 100%;
+	background: $darkgray90;
+	position: relative;
+	overflow: hidden;
+}
+
+.left-float {
+	float: left;
+}
+
+.right-float {
+	float: right;
+}
+
+/* ng-Tooltip */
+.tooltip {
+	position: absolute;
+	color: $orange;
+	background: #111;
+	border-radius: 3px;
+	padding: 10px 16px;
+	display: inline-block;
+	opacity: 0.9;
+	font-size: 1.1rem;
+	line-height: 1.4rem;
+	font-family: 'Roboto';
+	z-index: 100;
+	max-width: 40rem;
+}
+
+.tooltip.ng-enter {
+	opacity: 0;
+	transition: opacity 1s;
+}
+
+.tooltip.ng-enter-active {
+	opacity: 0.9;
+}
+
+.tooltip-icon {
+	cursor: pointer;
+}
+
+
+//The lambda wars logo at the top left
+a#menu-logo {
+	margin: 1rem 0 0 2rem;
+	float: left;
+	opacity: 0.85;
+	transition: all .2s;
+
+	img {
+		float: left;
+	}
+
+	&:hover {
+		opacity: 1;
+	}
+
+	@media (max-width: 1180px) {
+		width: 64px;
+		overflow: hidden;
+	}
+}
+
+.inner {
+	width: 1200px;
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+#main-menu {
+	margin: 0;
+	float: left;
+
+	li {
+		display: inline-block;
+	}
+}
+
+#swarm_keeper_bonus{
+	float: right;
+	margin-left: 1rem;
+}
+
+#dev-text {
+	color: red;
+	float: right;
+	font-size: 20px;
+	position: fixed;
+	right: 65px;
+	top: 0;
+}
+
+#player-info {
+	float: right;
+	color: $lightbrown;
+	text-align: left;
+	font-size: 1.1rem;
+	height: 7.2rem;
+	line-height: 1.4rem;
+	font-family: 'Roboto';
+	text-transform: uppercase;
+	position: relative;
+	padding-right: 6.2rem;
+	padding-top: 1.6rem;
+	padding-left: 1rem;
+
+	span {
+		color: $orange;
+
+		&.player-name {
+			color: $white;
+			font-size: 2.2rem;
+			line-height: 2.6rem;
+			text-transform: none;
+			display: block;
+			max-width: 20rem;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+			@media (max-width: 1300px) {
+				max-width: 15rem;
+			}
+		}
+	}
+
+	img {
+		position: absolute;
+		top: 1rem;
+		right: 0;
+		width: 5.2rem;
+		height: 5.2rem;
+	}
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+
+	&.menu {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
+
+	&.submenu {
+
+		li {
+			margin-bottom: 1rem;
+
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+		}
+
+
+
+		a {
+			display: block;
+			background: $darkgray80;
+			color: $orange;
+			border-left: 0.4rem solid $orange;
+			font-size: 2.8rem;
+			font-family: 'Roboto Condensed';
+			text-transform: uppercase;
+			line-height: 1.2;
+			padding: 1.6rem 2.4rem;
+			opacity: 0.8;
+			transition: all .2s;
+
+			@media (max-width: 1180px) {
+				font-size: 2.0rem;
+			}
+			@media (max-width: 1024px) {
+				font-size: 1.2rem;
+			}
+
+			p {
+				color: $lightbrown;
+				font-size: 1.8rem;
+				line-height: 1.5;
+				margin: 0;
+				font-family: 'Open Sans';
+				text-transform: none;
+				transition: all .3s;
+
+				@media (max-width: 1180px) {
+					font-size: 1.2rem;
+				}
+
+				@media (max-width: 1024px) {
+					font-size: 1.0rem;
+				}
+			}
+
+			&:hover {
+				background: $darkgray;
+				border-left: 1rem solid $orange;
+				opacity: 1;
+
+				p {
+					color: $white;
+				}
+			}
+
+		}
+
+
+	}
+}
+
+a.menu-btn {
+	position: relative;
+	display: block;
+	font-family: 'Roboto Condensed';
+	font-size: 2.8rem;
+	line-height: 2.8rem;
+	padding: 2.2rem 0;
+	margin: 0 2rem;
+
+	@media (max-width: 1600px) {
+		max-width: 15rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	text-transform: uppercase;
+	background: transparent;
+	color: $lightbrown;
+
+	transition: all .4s;
+
+	&:hover {
+		color: $orange;
+
+		&::after {
+			width: 100%;
+			left: 0;
+		}
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: 0;
+		border-bottom: 0.4rem solid $orange;
+		transition: all .4s;
+	}
+}
+
+// the main content like news, options, singleplayer
+#content, #gamelobby {
+	margin: 2rem auto 0;
+	width: 100%;
+	max-width: 1200px;
+	position: relative;
+	height: calc(100% - 11.2rem); // topbar 7.2rem - 8rem vertical margin
+	overflow: hidden;
+}
+
+#content-onlinegames, #content-loadgame {
+	main {
+		height: 100%;
+	}
+
+	.gamesinprogress {
+		float: right;
+		color: $white80;
+		font-size: 1.8rem;
+	}
+}
+
+#gamelobby {
+}
+
+.content {
+	display: inline-block;
+	width: calc(1200px - 48rem);
+	height: 100%;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	@media (max-width: 1180px) {
+		width: calc(1200px - 51rem);
+		overflow-y: auto;
+	}
+	@media (max-width: 1024px) {
+		width: calc(1200px - 65rem);
+	}
+}
+
+.content-full {
+	display: inline-block;
+	width: calc(1200px);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.content-all.ng-enter {
+	-webkit-transition: opacity 0.18s ease-in 0.2s;
+	opacity: 0;
+}
+.content-all.ng-enter-active {
+	opacity: 1;
+}
+.content-all.ng-leave {
+	-webkit-transition: opacity 0.18s ease-out;
+	opacity: 1;
+}
+.content-all.ng-leave-active {
+	opacity: 0;
+}
+
+
+#chat-menu {
+
+	h1 {
+		color: $orange;
+
+		span {
+			float: right;
+			font-size: 1.4rem;
+			padding-top: 0.5rem;
+
+			@media (max-width: 1180px) {
+				font-size: 1.0rem;
+			}
+		}
+	}
+}
+
+#content-news {
+	display: block;
+	overflow-y: auto;
+	height: 100%;
+
+	h1 {
+		color: $orange;
+	}
+
+	section.post {
+		font-size: 1.4rem;
+		line-height: 2rem;
+		color: $white80;
+		margin-bottom: 4rem;
+
+		@media (max-width: 1180px) {
+			font-size: 1.0rem;
+		}
+
+		a {
+			color: $orange;
+			transition: all .2s;
+
+			&:hover {
+				color: $white;
+			}
+		}
+
+		img {
+			max-width: 100%;
+		}
+	}
+}
+
+#content-news ul {
+	list-style-type: disc;
+	margin-left: 2em;
+}
+
+main, .box {
+	display: block;
+	position: relative;
+	background: $darkgray80;
+	font-size: 2rem;
+	padding: 2rem;
+	color: $white;
+
+	@media (max-width: 1180px) {
+			font-size: 1.0rem;
+	}
+
+	h1 {
+		font-size: 2.4rem;
+		font-family: 'Roboto Condensed';
+		font-weight: 400;
+		line-height: 2.4rem;
+		padding: 1rem 2rem;
+		margin: -2rem -2rem 2rem;
+		background: $darkgray80;
+		border-bottom: 0.4rem solid $white20;
+		color: $white80;
+		text-transform: uppercase;
+
+		#content-onlinegames & {
+			color: $orange;
+		}
+		@media (max-width: 1180px) {
+			font-size: 1.4rem;
+		}
+	}
+
+	.box-header {
+		margin: -2rem -2rem 2rem;
+		font-size: 2rem;
+		line-height: 3.6rem;
+		padding: 0 2rem;
+		color: $orange;
+		text-transform: uppercase;
+		background: $darkgray80;
+		border-bottom: 0.4rem solid $white20;
+		font-family: 'Roboto Condensed';
+		@media (max-width: 1180px) {
+				font-size: 1.1rem;
+		}
+	}
+
+	.box-footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 0 2rem 2rem;
+	}
+
+	&.box-right {
+		float: right;
+		width: 46rem;
+	}
+}
+
+.player-meta {
+	display: none;
+}
+
+#chat-global {
+	display: none;
+}
+// the buttons in the lobby and chat
+a.btn {
+	background: $lightbrown;
+	color: $black;
+	display: inline-block;
+	padding: 0 1rem;
+	height: 3.4rem;
+	margin-right: 1rem;
+	font-family: 'Roboto Condensed';
+	font-size: 2.2rem;
+	font-weight: 400;
+	letter-spacing: 0.08rem;
+	line-height: 3.4rem;
+	text-transform: uppercase;
+	opacity: 0.8;
+	transition: all .2s;
+
+	@media (max-width: 1180px) {
+		font-size: 1.4rem;
+		height: 2.0rem;
+		line-height: 2.2rem;
+		padding: 0 0.5rem;
+		margin-right: 0.5rem;
+	}
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+
+	&:hover {
+		opacity: 1;
+		background: $darkbrown;
+		color: $white;
+	}
+
+	&.btn-small {
+		font-size: 1.6rem;
+		letter-spacing: 0.05rem;
+		line-height: 2.6rem;
+		height: 2.6rem;
+		@media (max-width: 1180px) {
+				font-size: 0.7rem;
+		}
+
+		@media (max-width: 1180px) {
+			font-size: 1.2rem;
+			letter-spacing: 0.05rem;
+			line-height: 2.2rem;
+			height: 2.2rem;
+		}
+		
+	}
+
+	&.btn-highlight {
+		background: $orange;
+		color: $black;
+		opacity: 1;
+
+		&:hover {
+			background: $lightbrown;
+		}
+		
+		&.linkDisabled {
+			background: $gray;
+		}
+	}
+}
+
+a.disabled {
+	background: $lightbrown !important;
+	opacity: 0.15 !important;
+	color: $black !important;
+	cursor: default;
+	text-decoration: none;
+	&:hover {
+		background: $lightbrown !important;
+		color: $black;
+	}
+}
+
+.dev-warning {
+	color: white;
+	background-color: red;
+	margin: 0;
+	padding: 5px;
+}
+
+// Online gamelobby list
+#onlinelobbylist {
+	display: block;
+	overflow-y: auto;
+
+	ul.lobbylist {
+		li.lobby-header {
+			display: block;
+			font-size: 0;
+			padding: 0.1rem;
+			overflow: hidden;
+			margin-bottom: 0.6rem;
+			//background-color: #b0c4de;
+			// cursor: pointer;
+
+			div, a {
+				padding: 0 1rem;
+				line-height: 3.2rem;
+				font-size: 1.6rem;
+				display: inline-block;
+				vertical-align: top;
+				color: $offwhite;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				// cursor: pointer;
+				@media (max-width: 1180px) {
+					font-size: 1.0rem;
+				}
+			}
+
+			.map-preview {
+				width: 3.2rem;
+				margin-right: 0.7rem;
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+				}
+			}
+
+			.lobby-name {
+				width: 20rem;
+				margin-right: 2rem;
+				@media (max-width: 1180px) {
+					width: 15rem;
+					margin-right: 0.7rem;
+				}
+			}
+			.lobby-map {
+				width: 18rem;
+				margin-right: 1.5rem;
+				@media (max-width: 1180px) {
+					width: 12rem;
+					margin-right: 0.7rem;
+				}
+			}
+
+			.lobby-mode {
+				width: 12rem;
+				margin-right: 0.2rem;
+			}
+		}
+
+		li.lobby {
+			display: block;
+			font-size: 0;
+			padding: 0.9rem;
+			background: $darkgray80;
+			overflow: hidden;
+			margin-bottom: 0.6rem;
+			// cursor: pointer;
+
+			// &:hover {
+			// 	background: $orange;
+			// }
+
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+
+			div, a {
+				padding: 0 1rem;
+				line-height: 3.2rem;
+				font-size: 1.5rem;
+				display: inline-block;
+				vertical-align: top;
+				color: $offwhite;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				// cursor: pointer;
+				@media (max-width: 1180px) {
+					font-size: 1.0rem;
+				}
+			}
+
+			.map-preview {
+				width: 3.2rem;
+				height: 3.2rem;
+				display: inline-block;
+				margin-right: 0.7rem;
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+					height: 2.2rem;
+				}
+			}
+
+			.lobby-name {
+				width: 20rem;
+				margin-right: 2rem;
+				@media (max-width: 1180px) {
+					width: 15rem;
+					margin-right: 0.7rem;
+				}
+			}
+			.lobby-map {
+				width: 18rem;
+				margin-right: 1.5rem;
+				@media (max-width: 1180px) {
+					width: 12rem;
+					margin-right: 0.7rem;
+				}
+			}
+
+			.lobby-mode {
+				width: 12rem;
+				margin-right: 0.2rem;
+			}
+
+			.lobby-join-btn {
+				color: $black;
+				float: right;
+				width: 3.2rem;
+				height: 3.2rem;
+				background: no-repeat center/cover url("../images/join_icon.jpg");
+				border-radius: 2px;
+				box-shadow: 1px 1px 1px 4px rgba(0, 0, 0, 0.1);
+			}
+		}
+	}
+
+}
+
+// gamelobby
+.gamelobby-lobbyname-input {
+	background-color: transparent;
+	border: 1px dashed $orange;
+	color: $orange;
+	padding: 2px 4px;
+	width: 45rem;
+	@media (max-width: 1180px) {
+		width: 25rem;
+	}
+	&:focus {
+		border: 0px;
+	}
+}
+
+#gamelobby-status {
+	display: block;
+	background: $black20;
+	color: $lightbrown;
+	font-size: 1.4rem;
+	line-height: 2rem;
+	font-family: 'Roboto';
+	text-transform: uppercase;
+	padding: 0.5rem 1rem;
+	margin-bottom: 1rem;
+
+	@media (max-width: 1180px) {
+		font-size: 1.0rem;
+		padding: 0.2rem 0.5rem;
+		margin-bottom: 0.6rem;
+	}
+
+	span {
+		color: $white;
+
+		&.success {
+			color: $orange;
+		}
+	}
+}
+
+#playerlist {
+	display: block;
+	float: left;
+	height: 100%;
+
+	.box-header {
+		margin-bottom: 1rem;
+	}
+
+	h2.team-header {
+		text-transform: uppercase;
+		padding: 6px 0;
+		margin: 0 0 4px;
+	}
+
+	ul.playerlist {
+		overflow: auto;
+		height: calc(100% - 10rem);
+
+		// li.header {
+		// 	display: block;
+		// 	font-size: 0;
+		// 	padding: 0rem 0.9rem;
+		// 	background: transparent;
+		// 	overflow: hidden;
+		// 	margin-bottom: 0.8rem;
+
+		// 	div {
+		// 		font-size: 1.3rem;
+		// 		padding: 0 1 rem;
+		// 		color: $white40;
+		// 		font-family: 'Roboto Condensed';
+		// 		text-transform: uppercase;
+		// 		display: inline-block;
+		// 	}
+
+		// 	.player-name {
+		// 		width: 24rem;
+		// 		margin-left: 5.2rem;
+		// 	}
+
+		// 	.player-color {
+		// 		width: 7.2rem;
+		// 	}
+
+		// 	.player-faction {
+		// 		width: 16rem;
+		// 	}
+
+		// 	.player-team {
+		// 		width: 6rem;
+		// 	}
+
+		// 	.player-ready {
+		// 		float: right;
+		// 	}
+		// }
+
+		li.player {
+			display: block;
+			font-size: 0;
+			padding: 0.9rem;
+			background: $darkgray80;
+			overflow: hidden;
+			margin-bottom: 0.4rem;
+
+			&.ready {
+				background: $orange80;
+			}
+	
+			@media (max-width: 1024px) {
+				max-width: 1024px;
+			}
+
+			.connection {
+				display: inline-block;
+				width: 3px;
+				height: 3.2rem;
+				margin-right: 2px;
+			}
+
+			.goodconn {
+				background-color: rgba(0, 255, 0, 0.5);
+			}
+			.badconn {
+				background-color: rgba(255, 0, 0, 0.5);
+			}
+
+			a, select {
+				padding: 0 1rem;
+				line-height: 3.2rem;
+				height: 3.2rem;
+				font-size: 1.8rem;
+				display: inline-block;
+				vertical-align: top;
+				color: $offwhite;
+				margin-top: 0;
+				
+				&:disabled{
+					color: $white40;
+				}
+
+				@media (max-width: 1180px) {
+					font-size: 1.0rem;
+					line-height: 2.2rem;
+					height: 2.2rem;
+				}
+			}
+			
+
+			img.steam-avatar {
+				display: inline-block;
+				margin-right: 1rem;
+				width: 3.2rem;
+				height: 3.2rem;
+				
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+					height: 2.2rem;
+					margin-right: 0.5rem;
+				}
+			}
+			
+			img.steam-avatar-host {
+				//outline:1;
+				//outline-width:1px;
+				//outline-style: dashed;
+				//outline-color: $orange;
+				box-shadow: 0px 0px 5px white;
+			}
+
+			.player-name {
+				width: 22rem;
+				margin-right: 3rem;
+			}
+
+			.player-color {
+				width: 3.2rem;
+				height: 3.2rem;
+				background: $white10;
+				margin-right: 3rem;
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+					height: 2.2rem;
+					margin-right: 2rem;
+				}
+			}
+
+			.player-color-select {
+				width: 3.2rem;
+				height: 3.2rem;
+				overflow: hidden;
+				background: $white10;
+				outline: none;
+				color: $white;
+				margin-right: 3rem;
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+					height: 2.2rem;
+					margin-right: 0.5rem;
+				}
+			}
+
+			.player-color-select select {
+				//padding: 5px 8px;
+				width: 130%;
+				border: none;
+				box-shadow: none;
+				background: transparent;
+				-webkit-appearance: none;
+				outline: none;
+			}
+
+			.player-color-select select:focus {
+			}
+			// faction selection in the lobby
+			.player-faction {
+				width: 12rem;
+				margin-right: 1rem;
+				@media (max-width: 1180px) {
+					width: 9rem;
+					margin-right: 1rem;
+				}
+			}
+
+			//.player-team {
+			//	width: 5rem;
+			//	font-weight: bold;
+			//}
+
+			.player-ready {
+				font-size: 2.4rem;
+				width: 3.2rem;
+				padding: 0;
+				border: 1px solid $lightbrown50;
+				color: $white10;
+				background: $darkgray20;
+				text-align: center;
+				float: right;
+				transition: all .2s;
+
+				@media (max-width: 1180px) {
+					width: 2.2rem;
+					font-size: 1.4rem;
+				}
+
+				&.checked {
+					color: $orange;
+					border-color: $lightbrown;
+					background: $darkgray90;
+				}
+			}
+		}
+
+		li.self {
+			// transition: all .2s;
+
+			// &:hover {
+			// 	background: $white10;
+			// }
+
+			.player-name, .player-faction, .player-team {
+				position: relative;
+				padding-right: 2.4rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				transition: all .2s;
+			}
+
+			.player-ready:hover {
+				color: $orange;
+				border-color: $lightbrown;
+				background: $white10;
+			}
+
+			.player-color {
+				position: relative;
+			}
+
+			.player-name, .player-faction, .player-color, .player-team {
+
+				&::before {
+					position: absolute;
+					right: 1rem;
+					top: 1.2rem;
+					content: " ";
+					width: 0;
+					height: 0;
+					border-left: 6px solid transparent;
+					border-right: 6px solid transparent;
+					border-top: 8px solid $orange;
+					transition: all .2s;
+				}
+
+				&:hover {
+					background: $white10;
+					color: $orange;
+
+					&::before {
+						border-top: 8px solid $white;
+					}
+				}
+			}
+
+			// .player-color {
+
+			// 	&::before {
+			// 		border-top: 8px solid $black;
+			// 	}
+
+			// 	&:hover::before {
+			// 		border-top: 8px solid $orange;
+			// 	}
+
+			// }
+		}
+
+		li.open {
+
+		}
+
+		li.closed {
+
+			a {
+				color: $white40;
+			}
+
+			.player-ready {
+				color: $white10;
+				border-color: $white10;
+			}
+		}
+	}
+}
+
+#spectator-list {
+	padding-bottom: 2rem;
+	font-size: 1.4rem;
+	color: $white40;
+
+	@media (max-width: 1180px) {
+		font-size: 0.8rem;
+		padding-bottom: 1rem;
+	}
+
+	span {
+		color: $white80;
+	}
+}
+
+#spectator-list a {
+	color: $white40;
+}
+
+#gameinfo {
+	height: 35rem;
+	margin-bottom: 2rem;
+	overflow-y: scroll;
+
+	.gameinfo-dropdown
+	{
+		display: inline-block;
+		height: 2.2rem;
+		margin: 0;
+
+	}
+
+	.info-container
+	{
+		display: flex;
+
+		.map-small {
+			width: 20rem;
+			height: 20rem;
+			margin: 0 2rem 0 0;
+		}
+
+		ul {
+			width: calc(100% - 17rem);
+			flex: 1;
+
+			li {
+				font-size: 1.6rem;
+				line-height: 2.2rem;
+				color: $offwhite;
+				font-weight: 400;
+				font-family: 'Open Sans';
+
+				span.tooltip-icon {
+					text-transform: none;
+					color: $orange;
+					margin-left: 0.6rem;
+				}
+
+				span.gameinfo-heading {
+					font-size: 1.1rem;
+					line-height: 1.6rem;
+					display: block;
+					text-transform: uppercase;
+					font-family: Roboto;
+					color: $white80;
+				}
+
+				span.gameinfo-text {
+					color: $offwhite;
+					font-size: 1.5rem;
+					line-height: 1.6rem;
+					margin: 0 0 0.4rem;
+					display: block;
+					padding: 0.2rem 0;
+				}
+
+				.gameinfo-input {
+					width: 90%;
+					background: $darkgray80;
+					border: 1px solid rgba(255, 255, 255, 0.4);
+					color: $orange;
+					padding: 2px 4px;
+					&:focus {
+						border: 0px;
+					}
+				}
+
+
+				select.select-style {
+					display: inline-block;
+					width: 90%;
+					margin: 0 0 0.4rem;
+					font-size: 1.5rem;
+					line-height: 1.6rem;
+					padding: 0.2rem;
+				}
+			}
+		}
+	}
+}
+
+.chat, #chat, #chat-menu {
+	background: $darkgray80;
+	position: relative;
+
+	.box-header {
+		span.active {
+			cursor: pointer;
+		}
+		span.disabled {
+			color: $white40;
+		}
+		span.inactive {
+			color: $white40;
+			font-weight: 300;
+			cursor: pointer;
+			&:hover {
+				color: $lightorange;
+			}
+		}
+	}
+	// The chat ouput area
+	.chat-messages {
+		height: calc(100% - 10rem);
+		@media (max-width: 1180px) {
+			height: calc(100% - 6rem);
+			//background-color: #00ff00;
+		}
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		p {
+			font-size: 1.4rem;
+			color: $offwhite;
+			@media (max-width: 1180px) {
+				font-size: 1.0rem;
+			}
+
+			span {
+				color: $orange;
+			}
+		}
+	}
+
+	.chat-form {
+		display: inline;
+	}
+
+	.chat-controls {
+		position: absolute;
+		bottom: 2rem;
+		left: 2rem;
+		right: 2rem;
+		display: flex;
+
+		@media (max-width: 1180px) {
+			left: 0.7rem;
+			bottom: 0.1rem;
+			right: 0.7rem;
+		}
+
+		.chat-form {
+			flex: 1;
+		}
+
+		//the test imput fild
+		input {
+			display: inline-block;
+			width: 100%;
+			height: 3.4rem;
+			vertical-align: top;
+			line-height: 2rem;
+			background: $darkgray;
+			color: $white;
+			font-size: 1.4rem;
+			border: 1px solid $white40;
+			transition: all .2s;
+			padding: 0.6rem 1rem;
+
+			@media (max-width: 1180px) {
+				font-size: 1.0rem;
+				line-height: 1rem;
+				padding: 0.2rem 0.7rem;
+				height: 1.8rem;
+				vertical-align: bottom;
+			}
+
+			&:focus, &:hover {
+				border-color: $lightbrown;
+				outline: 0;
+			}
+		}
+
+		.chat-send {
+			float: right;
+			@media (max-width: 1180px) {
+				font-size: 1.0rem;
+			}
+		}
+	}
+
+	#gamelobby & {
+		height: calc(100% - 37rem);
+	}
+
+	#content & {
+		height: 100%;
+	}
+}
+
+/*MISSION*/
+.textStyle
+{
+	font-size:30px;
+	color:#FFFFF2;
+
+	/*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/
+	text-shadow: 0 1px 3px #000000,
+	0 0 3px #000000;
+
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor:default;
+
+	overflow: hidden;
+	pointer-events:none;
+}
+
+.textStyleNav2
+{
+	font-size:15px;
+	color:#FFFFFF;
+
+	/*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/
+	text-shadow: 0 1px 2px #000000,
+	0 0 1px #000000;
+
+	cursor:default;
+	pointer-events:none;
+}
+// does not work?????
+#content_missions
+{
+	width: 100%;
+	display: none;
+}
+// does not work?????
+#mission_wrap
+{
+	position:absolute;
+	width: 100%;
+	top:50px;
+	left:0;
+}
+
+#mission_wrap_name
+{
+	text-align: center;
+	width:100%;
+
+	margin: 0 auto;
+	margin-top:350px;
+}
+
+#mission_wrap_description
+{
+	width:50%;
+
+	margin: 0 auto;
+	margin-top:10px;
+	background-color: rgba(208, 130, 20, 0.2);
+	border-radius: 5px;
+	@media (max-width: 1180px) {
+		font-size: 1.0rem;
+	}
+
+}
+.mis_pic_left{
+	position:absolute;
+	left:40px;
+	opacity: 0.45;
+	top:25px;
+	width:400px;
+ }
+
+.mis_pic_mid{
+	position: absolute;
+	left: 0; right:0;
+	margin: auto;
+	width:500px;
+	box-shadow: 0 0 30px #df9745;
+ }
+
+.mis_pic_right{
+    position:absolute;
+	right:40px;
+	opacity: 0.45;
+	top:25px;
+	width:400px;
+ }
+
+.mis_right_arrow{
+    position:absolute;
+	right:40px;
+	top:50px;
+}
+
+.mis_left_arrow{
+    position:absolute;
+	left:40px;
+	top:50px;
+}
+
+// Load game
+#savedgameslist {
+	display: block;
+	height: calc(100% - 10.4rem);
+	overflow-y: auto;
+
+	ul.savedgames {
+
+		li.savedgame {
+			display: block;
+			cursor: hand;
+			font-size: 0;
+			padding: 0.9rem;
+			background: $darkgray80;
+			overflow: hidden;
+			margin-bottom: 0.6rem;
+			// cursor: pointer;
+
+			// &:hover {
+			// 	background: $orange;
+			// }
+
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+
+			div, a {
+				padding: 0 1rem;
+				line-height: 3.2rem;
+				font-size: 1.8rem;
+				display: inline-block;
+				vertical-align: top;
+				color: $offwhite;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				// cursor: pointer;
+				@media (max-width: 1180px) {
+					font-size: 1.0rem;
+				}
+			}
+
+			.savedgame-name {
+				width: 100%;
+				margin-right: 2rem;
+			}
+		}
+
+		li.selectedSavedGame {
+			background: $orange;
+		}
+	}
+
+}
+
+//chat dropdown
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.inner {
+	position: relative;
+	height: auto;
+	padding: 0;
+	display: inline;
+}
+
+// Units chart
+.table-chart {
+	width: 100%;
+	padding: 20px;
+	background-color: rgba($darkgray, 0.6);
+
+	th, td {
+		line-height: 1.5;
+		text-align: center;
+	}
+}

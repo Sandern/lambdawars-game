@@ -1,0 +1,14 @@
+<br />
+<select name="charts" ng-model="data.selectedChart">
+  <option value="resources_spent">Spent Resources</option>
+  <option ng-repeat="(owner, id) in resource_spent_detail_charts" value="{{id}}">Spent Resources Details - {{matchData.players[owner].name}}</option>
+</select>
+
+
+<div ng-switch on="data.selectedChart">
+    <resources-spent-chart match-data="matchData" ng-switch-when="resources_spent"></resources-spent-chart>
+</div>
+
+<div ng-repeat="(owner, id) in resource_spent_detail_charts">
+    <resources-spent-detail-chart match-data="matchData" owner="owner" ng-show="data.selectedChart === id"></resources-spent-chart>
+</div>

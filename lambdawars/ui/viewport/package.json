@@ -1,0 +1,30 @@
+{
+  "name": "viewport",
+  "version": "1.0.0",
+  "description": "In-game viewport UI",
+  "main": "viewport.js",
+  "scripts": {
+    "build": "webpack --config webpack.prod.config.js",
+    "watch": "webpack --config webpack.dev.config.js --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "eslint": "^4.13.1",
+    "eslint-loader": "^1.9.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "angular": "^1.6.7",
+    "angular-sanitize": "^1.6.7",
+    "angular-translate": "^2.16.0",
+    "jquery": "^3.2.1",
+    "jquery-countdown": "^2.2.0",
+    "jquery-ui": "^1.12.1"
+  }
+}

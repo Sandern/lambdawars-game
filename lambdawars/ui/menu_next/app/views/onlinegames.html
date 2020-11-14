@@ -1,0 +1,45 @@
+<section class="content content-menu" id="content-onlinegames">
+    <main>
+		<h1>
+			<span ng-show="!lobbies.length">{{ 'OG_NoLobbies' | translate }}</span>
+			<span ng-show="lobbies.length === 1">{{ lobbies.length }} {{ 'OG_OneLobbyFound' | translate }}</span>
+			<span ng-show="lobbies.length > 1">{{ lobbies.length }} {{ 'OG_LobbiesFound' | translate }}</span>
+
+			<span class="gamesinprogress" ng-show="generalinfo.numgames === 1">{{ generalinfo.numgames }} {{ 'OG_OneGameInProgress' | translate }}</span>
+			<span class="gamesinprogress" ng-show="generalinfo.numgames > 1">{{ generalinfo.numgames }} {{ 'OG_MultipleGamesInProgress' | translate }}</span>
+		</h1>
+		<div ng-if="beta === 'dev'" class="dev-warning"><b>You are currently running the developers build and may not find games here. Opt-out of the beta to switch to the public build.</b></div>
+		<section id="onlinelobbylist">
+			<ul class="lobbylist">
+				<li class="lobby-header">
+					<div class="map-preview" />
+					<div class="lobby-name">{{ 'WFP_LobbyName' | translate }}</div>
+					<div class="lobby-map">{{ 'GL_Map' | translate }}</div>
+					<div class="lobby-mode">{{ 'GL_GameMode' | translate }}</div>
+					<div class="lobby-players">{{ 'OG_Players' | translate }}</div>
+				</li>
+				<li class="lobby" ng-repeat="lobby in lobbies">
+					<img class="map-preview" ng-src="{{ lobby.overviewsrc }}.vtf" />
+					<div class="lobby-name" ng-tooltip="{{ lobby.name }}">{{ lobby.name }}</div>
+					<div class="lobby-map"  ng-tooltip="{{ lobby.map }}">{{ lobby.map }}</div>
+					<div class="lobby-mode">{{ lobby.mode }}</div>
+					<div class="lobby-players">{{ lobby.numtakenslots }} / {{ lobby.numslots }}</span></div>
+					<a href class="lobby-join-btn btn btn-highlight" ng-click="joinlobby(lobby.steamid)" ng-tooltip="{{ 'OG_Join' | translate }}"></a>
+				</li>
+			</ul>
+		</section>
+
+		<div class="box-footer">
+			<div class="left-float">
+				<a class="btn" href="#!/Multiplayer">{{ 'OG_BackToMenu' | translate }}</a>
+				<a class="btn" href="#!/Gamelobby">{{ 'OG_CreateLobby' | translate }}</a>
+			</div>
+			<div class="right-float">
+				<a class="btn btn-highlight" href="#!/OnlineGames">{{ 'OG_RefreshList' | translate }}</a>
+			</div>
+		</div>
+
+    </main>
+</section>
+
+<span global-chat/>

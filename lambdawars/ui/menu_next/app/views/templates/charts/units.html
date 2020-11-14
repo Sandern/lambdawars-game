@@ -1,0 +1,20 @@
+<table class="table-chart units-chart">
+    <tr>
+        <th>Team</th>
+        <th>Player</th>
+        <th>Units Trained</th>
+        <th>Units killed</th>
+        <th>Structures built</th>
+        <th>Structures Razed</th>
+    </tr>
+
+    <tr ng-repeat="(id, player) in matchData.players">
+        <td>{{player.team}}</td>
+        <td>{{player.name}}</td>
+        <td>{{matchData.units_produced[id] || 0}}</td>
+        <td>{{matchData.units_killed[id] || 0}}</td>
+        <td>{{matchData.buildings_constructed[id] || 0}}</td>
+        <td>{{matchData.buildings_killed[id] || 0}}</td>
+    </tr>
+
+</table>

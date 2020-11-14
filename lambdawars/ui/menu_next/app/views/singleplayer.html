@@ -1,0 +1,33 @@
+<section class="content content-menu" id="content-singleplayer">
+    <main>
+        <h1>{{ 'SP_HeadLine' | translate }}</h1>
+        <ul class="menu submenu" id="submenu-singleplayer">
+            <li>
+                <a href="#!/Missions">
+                    {{ 'SP_Missions' | translate }}
+                    <p>{{ 'SP_Missions_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href="#!/Gamelobby?lobbytype=offline">
+                    {{ 'SP_AISkirmish' | translate }}
+                    <p>{{ 'SP_AISkirmish_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href ng-click="playtutorial()">
+                    {{ 'SP_Tutorial' | translate }}
+                    <p>{{ 'SP_Tutorial_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li ng-if="beta === 'dev'">
+                <a href="#!/LoadGame">
+                    {{ 'LG_LoadMenu' | translate }}
+                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+
+<span global-chat/>

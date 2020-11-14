@@ -1,0 +1,39 @@
+<section class="content content-menu" id="content-settings">
+    <main>
+        <h1>{{ 'Settings_Headline' | translate }}</h1>
+        <ul class="menu submenu" id="submenu-settings">
+            <li>
+                <a href ng-click="video()">
+                    {{ 'Settings_Video' | translate }}
+                    <p>{{ 'Settings_Video_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href ng-click="brightness()">
+                    {{ 'Settings_Brightness' | translate }}
+                    <p>{{ 'Settings_Brightness_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href ng-click="audio()">
+                    {{ 'Settings_Sound' | translate }}
+                    <p>{{ 'Settings_Sound_Desc' | translate }}</p>
+                </a>
+            </li>
+             <li>
+                <a href ng-click="keyboardmouse()">
+                    {{ 'Settings_KeyboardMouse' | translate }}
+                    <p>{{ 'Settings_KeyboardMouse_Desc' | translate }}</p>
+                </a>
+            </li>
+             <li>
+                <a href ng-click="multiplayer()">
+                    {{ 'Settings_Multiplayer' | translate }}
+                    <p>{{ 'Settings_Multiplayer_Desc' | translate }}</p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+
+<span global-chat/>

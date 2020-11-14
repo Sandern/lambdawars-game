@@ -1,0 +1,36 @@
+<section class="content-full content-menu" id="content-missions">
+    <main>
+		<div id="mission_wrap_pictures">
+			<img  id="mission_pic_left" class="mis_pic_left" ng-src="{{ leftmissionpic }}"  title="Left Pic" alt="Left">
+			<img  id="mission_pic_right" class="mis_pic_right" ng-src="{{ rightmissionpic }}"  title="Right Pic" alt="Right" >
+			<img  id="mission_pic_middle" class="mis_pic_mid" ng-src="{{ middlemissionpic }}"  title="Middle Pic" alt="Middle" >
+			<img  id="mission_right_arrow" class="mis_right_arrow" title="right_arrow" alt="right_arrow"
+			ng-init="right_arrow = '../../mainmenu/arrow_big_right.png'"
+			ng-mouseenter="right_arrow = '../../mainmenu/arrow_big_right_over.png'" 
+			ng-mouseleave="right_arrow = '../../mainmenu/arrow_big_right.png'" 
+			ng-src="{{right_arrow}}"
+			ng-click="next_mission()"
+			>
+			<img  id="mission_left_arrow" class="mis_left_arrow" title="left_arrow" alt="left_arrow" 
+			ng-init="left_arrow = '../../mainmenu/arrow_big_left.png'"
+			ng-mouseenter="left_arrow = '../../mainmenu/arrow_big_left_over.png'" 
+			ng-mouseleave="left_arrow = '../../mainmenu/arrow_big_left.png'" 
+			ng-src="{{left_arrow}}"
+			ng-click="previous_mission()"
+			>
+		</div>
+		<div id="mission_wrap_name" class="textStyle">
+			{{ mapname }}
+		</div>
+		<div id="mission_wrap_description"  class="textStyleNav2" ng-bind-html-unsafe="description">
+			<b>{{ 'Mission_Desc' | translate }} <span ng-bind-html="description"></span></b>
+		</div>
+		
+		<select class="select-style" ng-model="selectedDifficulty">
+			<option value="easy">{{ 'Mission_Easy' | translate }}</option>
+			<option value="normal">{{ 'Mission_Normal' | translate }}</option>
+			<option value="hard">{{ 'Mission_Hard' | translate }}</option>
+		</select>
+		<a href class="btn btn-highlight" ng-click="launch_mission()">{{ 'Mission_Launch' | translate }}</a>
+    </main>
+</section>

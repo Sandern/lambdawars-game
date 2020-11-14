@@ -1,0 +1,12 @@
+<section id="chat-menu" class="chat box box-right" ng-if="!ingame">
+
+	<h1>{{ 'Chat_Global' | translate }}<span>{{ numcurplayers }} {{ 'Chat_PlayersOnline' | translate }}</span></h1>
+
+	<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="chatlobby"></chat-lines>
+
+	<div class="chat-controls" ng-controller="LobbySendChatController" chat-service="chatlobby">
+		<form ng-submit="sendChat()" class="chat-form"><input type="text" class="chat-input" ng-model="text" placeholder="[{{inputlanguage}}]" /></form>
+		<a href class="chat-send btn" ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
+	</div>
+
+</section>

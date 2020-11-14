@@ -1,0 +1,27 @@
+<section class="content content-menu" id="content-multiplayer">
+    <main>
+        <h1>{{ 'MP_HeadLine' | translate }}</h1>
+        <ul class="menu submenu" id="submenu-multiplayer">
+            <li>
+                <a href="#!/OnlineGames">
+                    {{ 'MP_FindOnlineGame' | translate }}
+                    <p>{{ 'MP_FindOnlineGame_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a id="multiplayer-create-game" href="#!/Gamelobby">
+                    {{ 'MP_CreateGame' | translate }}
+                    <p>{{ 'MP_CreateGame_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li  ng-if="beta === 'dev'">
+                <a href ng-click="openserverbrowser();">
+                    {{ 'MP_DedicatedServer' | translate }} (OLD)
+                    <p></p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+
+<span global-chat/>

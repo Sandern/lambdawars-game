@@ -1,0 +1,15 @@
+<div ng-if="!showMatchUuid">
+  <h1>{{ 'MA_MatchHistory' | translate }}:</h1>
+  <ul >
+      <li ng-repeat="match in matchHistory.matches">
+        {{ match.start_date }} - {{ match.mode }} - {{ match.map }} - {{ match.type }} - {{ match.end_state }} <a class="btn" href ng-click="showMatchResult(match)">Show</a>
+      </li>
+  </ul>
+  <a href ng-click="prevPage();" ng-show="!busy && page > 1" class="btn">{{ 'Button_Previous' | translate }}</a>
+  <a href ng-click="nextPage();" ng-show="!busy && page < (matchHistory.total / matchHistory.per_page)" class="btn">{{ 'Button_Next' | translate }}</a>
+</div>
+<div ng-if="showMatchUuid">
+  <match-result match-uuid=showMatchUuid></match-result>
+  <br />
+  <a class="btn" href ng-click="backToMatchHistory()">{{ 'Button_Back' | translate }}</a>
+</div>

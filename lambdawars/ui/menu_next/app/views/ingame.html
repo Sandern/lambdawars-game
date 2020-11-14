@@ -1,0 +1,48 @@
+<section class="content content-menu" id="content-ingame">
+    <main>
+        <h1>{{ 'IG_HeadLine' | translate }}</h1>
+        <ul class="menu submenu" id="submenu-ingame">
+            <li>
+                <a href ng-click="returntogame()">
+                    {{ 'IG_ReturnToGame' | translate }}
+                    <p>{{ 'IG_ReturnToGame_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li ng-if="isoffline && beta === 'dev'">
+                <a href="#!/LoadGame">
+                    {{ 'LG_LoadMenu' | translate }}
+                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li ng-if="isoffline && beta === 'dev'">
+                <a href="#!/LoadGame?mode=save">
+                    {{ 'LG_SaveMenu' | translate }}
+                    <p>{{ 'LG_SaveMenu_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href ng-click="forfeit()">
+                    {{ 'IG_Forfeit' | translate }}
+                    <p>{{ 'IG_Forfeit_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <!-- Different description for when the player is hosting to indicate the server disconnects everybody. -->
+                <a ng-if="!ishosting" href ng-click="disconnect()">
+                    {{ 'IG_Disconnect' | translate }}
+                    <p>{{ 'IG_Disconnect_Desc' | translate }}</p>
+                </a>
+                <a ng-if="ishosting && !isoffline" href ng-click="disconnect()">
+                    {{ 'IG_Disconnect' | translate }}
+                    <p>{{ 'IG_DisconnectHost_Desc' | translate }}</p>
+                </a>
+                <a ng-if="ishosting && isoffline" href ng-click="disconnect()">
+                    {{ 'IG_Disconnect' | translate }}
+                    <p>{{ 'IG_DisconnectOffline_Desc' | translate }}</p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+
+<span global-chat/>

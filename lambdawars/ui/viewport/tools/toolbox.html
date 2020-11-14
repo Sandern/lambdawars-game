@@ -1,0 +1,123 @@
+<div>
+<div id="editor_toolbox">
+<span id="editor_toolbox_mapname"></span>
+<div id="editor_toolbox_select_div">
+	<img id="editor_toolbox_select" src="images/flora_editor/box_bg.png" titel="Select" alt="Select"/>
+	<img id="editor_toolbox_select_icon" src="images/flora_editor/select_tool.png" alt="Select"/>
+</div>
+<div id="editor_toolbox_transform_div">
+	<img id="editor_toolbox_transform"  src="images/flora_editor/box_bg.png" titel="Transform" alt="transform"/>
+	<img id="editor_toolbox_transform_icon" src="images/flora_editor/transform_tool.png" alt="transform"/>
+</div>
+	
+<div id="editor_toolbox_rotate_div">
+	<img id="editor_toolbox_rotate" src="images/flora_editor/box_bg.png" titel="Rotate" alt="Rotate"/>
+	<img id="editor_toolbox_rotate_icon" src="images/flora_editor/rotate_tool.png" alt="Rotate"/>
+</div>
+
+<img  class="spacer" src="images/flora_editor/spacer.png" />
+
+<div id="editor_toolbox_flora_div">
+	<img id="editor_toolbox_flora" src="images/flora_editor/box_bg.png" titel="Open Flora List" alt="flora"/>
+	<img id="editor_toolbox_flora_icon" src="images/flora_editor/open_flora_tool.png" alt="flora"/>
+</div>
+
+<div id="editor_toolbox_properties_div">
+	<img id="editor_toolbox_properties" src="images/flora_editor/box_bg.png" titel="Show Properties" alt="properties"/>
+	<img id="editor_toolbox_properties_icon" src="images/flora_editor/open_edit_tool.png" alt="flora"/>
+</div>
+
+<img  class="spacer" src="images/flora_editor/spacer.png" />
+
+<div id="editor_toolbox_navmesh_div">
+	<img id="editor_toolbox_navmesh" src="images/flora_editor/box_bg.png" titel="Open Nav Mesh Tool" alt="navmesh"/>
+	<img id="editor_toolbox_navmesh_icon" src="images/flora_editor/open_nav_tool.png" alt="navmesh"/>
+</div>
+
+<div id="editor_toolbox_cover_div">
+	<img id="editor_toolbox_cover" src="images/flora_editor/box_bg.png" titel="Open Cover Tool" alt="cover"/>
+	<img id="editor_toolbox_cover_icon" src="images/flora_editor/open_cover_tool.png" alt="cover"/>
+</div>
+
+<img  class="spacer" src="images/flora_editor/spacer.png" />
+
+<div id="editor_toolbox_savemap_div">
+	<img id="editor_toolbox_savemap" src="images/flora_editor/box_bg.png" titel="Save Map" alt="save"/>
+	<img id="editor_toolbox_savemap_icon" src="images/flora_editor/save_flora_tool.png" alt="save"/>
+</div>
+
+</div>
+<!-- Panels follow here... -->
+<div id="editor_florapanel">
+	<div id="windowHeader">
+		<span>
+			Flora
+		</span>
+	</div>
+	<div class="editor_windowcontainer">
+		<div class="editor_properties_container">
+			<span>Density</span>
+			<div id="editor_density_slider">
+			</div>
+			<div id="editor_navmesh_checkbox">
+				Place on Nav Mesh
+			</div>
+			<div id="editor_ignoreclips_checkbox">
+				Ignore Clips
+			</div>
+			<div style="margin: 3px; float: left;" id="editor_colorpicker_dropdown">
+				<div style="padding: 3px;">
+					<div id="editor_colorpicker">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="editor_treegridcontainer">
+			<div id="editor_treegrid">
+			</div>
+		</div>
+	</div>
+</div>
+<div id="editor_propertiespanel">
+	<div id="windowHeader">
+		<span>
+			Properties
+		</span>
+	</div>
+	<div class="editor_windowcontainer">
+		<div id="editor_propertiespanel_grid"></div>
+	</div>
+</div>
+<div id="editor_navmeshpanel">
+	<div id="windowHeader">
+		<span>
+			Nav Mesh
+		</span>
+	</div>
+	<div class="editor_windowcontainer">
+		<input type="button" value="Build" id='editor_navmesh_build'/>
+		<hr />
+		<div id='editor_navmesh_dropdown'></div>
+		
+		<div id="editor_navmesh_draw_checkbox">
+			Draw Nav Mesh
+		</div>
+		<div id="editor_navmesh_server_checkbox">
+			Server Nav Mesh
+		</div>
+		<div><label>Cell size:<input type="text" id="editor_navmesh_cellsize"/></label></div>
+		<div><label>Cell height:<input type="text" id="editor_navmesh_cellheight"/></label></div>
+		<div><label>Tile size:<input type="text" id="editor_navmesh_tilesize"/></label></div>
+	</div>
+</div>
+<div id="editor_coverpanel">
+	<div id="windowHeader">
+		<span>
+			Cover Editor
+		</span>
+	</div>
+	<div class="editor_windowcontainer">
+		<input type="button" value="Convert Old NavMesh Cover" id='editor_cover_convertnavmesh'/>
+	</div>
+</div>
+</div>

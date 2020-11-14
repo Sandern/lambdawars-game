@@ -1,0 +1,26 @@
+<section class="content content-menu" id="content-loadgame">
+    <main>
+		<h1>{{ 'LG_Title' | translate }}</h1>
+
+		<section id="savedgameslist">
+			<ul class="savedgames">
+				<li class="savedgame" ng-if="mode === 'save'" ng-class="selectedSavedGame == 'NEW' && 'selectedSavedGame'" ng-click="selectSavedGame('NEW');">
+					<div class="savedgame-name" ng-tooltip="Create new save file">NEW</div>
+				</li>
+				<li class="savedgame" ng-class="selectedSavedGame == savefile && 'selectedSavedGame'" ng-repeat="savefile in savedgames" ng-click="selectSavedGame(savefile);">
+					<div class="savedgame-name" ng-tooltip="{{ savefile }}">{{ savefile }}</div>
+				</li>
+			</ul>
+		</section>
+
+		<div class="box-footer">
+			<div class="left-float">
+				<a class="btn" href="#!/Singleplayer" ng-if="!ingame">{{ 'OG_BackToMenu' | translate }}</a>
+				<a class="btn" href="#!/InGame" ng-if="ingame">{{ 'OG_BackToMenu' | translate }}</a>
+				<a class="btn" href ng-click="loadgame()" a-disabled="!selectedSavedGame" ng-show="mode !== 'save'">{{ 'LG_Load' | translate }}</a>
+				<a class="btn" href ng-click="savegame()" ng-show="mode === 'save'">{{ 'LG_Save' | translate }}</a>
+			</div>
+		</div>
+
+    </main>
+</section>

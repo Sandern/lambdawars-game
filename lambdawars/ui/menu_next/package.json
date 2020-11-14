@@ -1,0 +1,50 @@
+{
+  "name": "web-menu",
+  "keywords": [
+    "express",
+    "gulp",
+    "browserify",
+    "angular",
+    "sass",
+    "karma",
+    "jasmine",
+    "protractor",
+    "boilerplate"
+  ],
+  "dependencies": {
+    "angular": "^1.7.9",
+    "angular-animate": "^1.7.9",
+    "angular-chart.js": "https://github.com/jtblin/angular-chart.js/archive/0.9.0.tar.gz",
+    "angular-route": "^1.7.9",
+    "angular-sanitize": "^1.7.9",
+    "angular-translate": "^2.18.1",
+    "compass-mixins": "^0.12.10",
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.20",
+    "ng-dialog": "^0.6.0",
+    "restangular": "^1.6.1",
+    "tether": "^1.4.7"
+  },
+  "devDependencies": {
+    "angular-mocks": "^1.7.9",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-loader": "^1.9.0",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.12.0"
+  },
+  "scripts": {
+    "pretest": "npm install",
+    "build": "webpack --config webpack.prod.config.js",
+    "watch": "webpack --config webpack.dev.config.js --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title ng-bind="pageTitle"></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body ng-controller="AppController as app">
+        <div id="bg-overlay"></div>
+
+        <header id="top-bar" class="noselect">
+            <a href="#!/" id="menu-logo">
+                <img src="images/lw-logo.png" />
+            </a>
+
+            <div class="inner">
+
+                <ul id="main-menu" class="menu" ng-controller="MainButtonsController">
+                    <li ng-if="!ingame && steam_available">
+                        <a href="#!/Multiplayer" class="menu-btn" id="menu-multiplayer" translate="MenuOnline" ng-mouseover="overSound()"></a>
+                    </li>
+                    <li ng-if="ingame && steam_available">
+                        <a href="#!/InGame" class="menu-btn" id="menu-ingame" translate="MenuInGame" ng-mouseover="overSound()"></a>
+                    </li>
+                    <li ng-if="!ingame && steam_available">
+                        <a href="#!/Singleplayer" class="menu-btn" id="menu-singleplayer" translate="MenuOffline"></a>
+                    </li>
+                    <li>
+                        <a href="#!/Settings" class="menu-btn" id="menu-settings" translate="MenuSettings"></a>
+                    </li>
+                    <!--<li ng-if="beta === 'dev'">
+                        <a href="#!/Workshop" class="menu-btn" id="menu-workshop" translate="MenuWorkshop"></a>
+                    </li>-->
+                    <li>
+                        <a href class="menu-btn" id="menu-quit" ng-click="quit()" translate="MenuQuit"></a>
+                    </li>
+                </ul>
+
+                <div ng-controller="SwarmKeeperBonusController" ng-if="steam_available"><img id="swarm_keeper_bonus" ng-show="showSwarmBonus" alt="swarm_keeper_bonus"
+                    ng-init="bg = '../../mainmenu/swarm_keeper_bonus_but.png'"
+                    ng-mouseenter="bg = '../../mainmenu/swarm_keeper_bonus_but_over.png'"
+                    ng-mouseleave="bg = '../../mainmenu/swarm_keeper_bonus_but.png'"
+                    ng-src="{{bg}}"
+                    ng-click="launchSwarmKeeperBonus()"
+                    ng-tooltip="{{ 'MenuBonusSwarmKeeper_Tooltip' | translate }}"
+                    ></img></div>
+
+                <div id="player-info" ng-controller="PlayerInfoController">
+                    <a href="#!/Profile"><img class="player-avatar" ng-src="{{ avatarsrc }}"/></a>
+                    <a href="#!/Profile"><span class="player-name" ng-tooltip="{{ 'Menu_TooltipOpenProfile' | translate }} {{ playername }}">{{ playername }}</span></a>
+                    <!--Hours Played: <span class="total-playtime">{{ hoursplayed }}</span>-->
+                </div>
+
+                <div ng-if="beta === 'dev'" id="dev-text"><b>Developers Build {{ devrevision }}</b></div>
+            </div>
+
+        </header>
+
+        <div class="content-all" id="{{ pageID }}" ng-view></div>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+	<div class="chat-messages" id="chat-messages">
+		<section ng-repeat="line in chatHistory track by line.id">
+
+			<section class="chat-line" ng-show="line.type == 'global'">
+				<strong ng-style="chatCtrl.getChatLineStyle(line.type)" ng-bind-html="line.text"></strong>
+			</section>
+
+			<section class="chat-line" ng-show="line.type != 'global' " ng-controller="dropdownController">
+				<img ng-show="line.type == 'admin'" src="../../../../mainmenu/smilies/special/vortalstorm_a.gif" ng-tooltip="Vortal Storm Developer"/>
+				<img ng-show="line.icon != ''" ng-src="{{line.icon}}" ng-tooltip="{{line.icontooltip}}"/>
+				<div class="inner">
+					<ul class="chatdropdown noselect" ng-show="isopen" ng-mouseleave="closeDropdown()">
+						<li ng-style="chatCtrl.getChatLineStyle(line.type)" ng-click="closeDropdown()" ng-bind-html="line.username"></li>
+						<!--<li><span ng-click="closeDropdown();">Invite</span></li>-->
+						<li><a class="noselect" href="http://steamcommunity.com/profiles/{{line.steamid}}" ng-click="closeDropdown();" >{{ 'Chat_OpenProfile' | translate }}</a></li>
+						<li><a class="noselect" ng-show="isUserMute(line.steamid);" ng-click="unmuteUser(line.steamid); closeDropdown();">{{ 'Chat_UnmutePlayer' | translate }}</a></li>
+						<li><a class="noselect" ng-hide="isUserMute(line.steamid) || isYourself(line.steamid)" ng-click="muteUser(line.steamid); closeDropdown();">{{ 'Chat_MutePlayer' | translate }}</a></li>
+					</ul>
+				</div>
+
+				<span ng-style="chatCtrl.getChatLineStyle(line.type)" ng-click="openDropdown();" ng-bind-html="line.username"></span>
+				<section ng-bind-html="line.text"></section>
+			</section>
+
+		</section>
+	</div>

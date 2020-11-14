@@ -1,0 +1,46 @@
+#wars_playerstatuspanel_container 
+{
+	font-family: Arial;
+	position:fixed;
+	top: 70px;
+	right: 25px;
+	width: 300px;
+	background: rgba(39, 39, 39, 0.25);
+	z-index: 5;
+	display: none;
+	padding: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#wars_playerstatuspanel_container h2 {
+	margin: 6px 0 12px;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+
+.wars_playerstatuspanel_playerlist
+{
+	color: #FFFFFF;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;  
+}
+
+.wars_playerstatuspanel_playerlist img
+{
+	margin-right: 0.5rem;
+}
+
+.wars_playerstatuspanel_playerlist li {
+	font-family: Arial;
+	font-weight: normal;
+	color: #cf880d;
+	font-size: 14px;
+	margin-bottom: 4px;
+}
+
+.wars_playerstatuspanel_playerlist li span {
+	color: #cccccc;
+}

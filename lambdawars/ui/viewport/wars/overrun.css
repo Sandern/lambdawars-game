@@ -1,0 +1,136 @@
+#wars_overrun_container
+{
+	color: white;
+	width: 340px;
+	height: 0;
+	-webkit-transform: scale(1);
+	-webkit-transform-origin-x: right;
+	float: right;
+	margin-right: 0;
+	margin-top: -2px;
+	position: fixed;
+	top: 0;
+	right: 0;
+	
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+#wars_overrun_bg
+{
+	position:absolute;
+}
+
+#wars_overrun_waveinfo
+{
+	position:absolute;
+	left:25px;
+	top:5px;
+	display: inline-block;
+}
+
+#wars_overrun_ready_button
+{
+	position:absolute;
+	right:0;
+	top:0;
+	
+	display: inline-block;
+}
+
+#wars_overrun_progress
+{
+	position:absolute;
+	right:15px;
+	top:15px;
+	width: 150px;
+}
+
+#wars_overrun_progress_bar{
+	width: 10px;
+	height:6px;
+}
+
+.wars_overrun_color_black
+{
+	background-color: rgba(0,0,0,1.0);
+}
+
+.wars_overrun_color_orange
+{
+	background-color: #ff8a00;
+}
+
+.wars_overrun_color_blue
+{
+	background-color: #0054ff;
+}
+
+.wars_text_format_16
+{
+	font-size:16px; 
+	color:#FFFFFF;
+	
+	/*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/
+	text-shadow: 0 1px 2px #000000,
+	0 0 1px #000000;
+	
+	cursor:default;
+	
+}
+
+.wars_text_format_20
+{
+	font-size:20px; 
+	color:#FFFFFF;
+	
+	/*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/
+	text-shadow: 0 1px 2px #000000,
+	0 0 1px #000000;
+	
+	cursor:default;
+}
+
+.wars_button_right
+{
+	position:absolute;
+	top:0;
+	right:0;
+	height: 36px;
+	width: 100px;
+	border:0;
+	background-color: rgba(0,0,0,0.0);
+	background-image:url("../wars/overrun/rebels/rebels_button_norm.png");
+	padding-left: 15px; 
+	float: right;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+.wars_button_right:hover
+{
+	text-shadow: 0 1px 4px #000000,
+	0 0 4px #000000;
+	background-image:url("../wars/overrun/rebels/rebels_button_over.png");
+}
+
+.wars_button_right_combine
+{
+	position:absolute;
+	top:0;
+	right:0;
+	height: 36px;
+	width: 128px;
+	padding-left: 30px; 
+	border:0;
+	background-color: rgba(0,0,0,0.0);
+	background-image:url("../wars/overrun/combine/combine_button_norm.png");
+}
+
+.wars_button_right_combine:hover
+{
+	text-shadow: 0 1px 4px #000000,
+	0 0 4px #000000;
+	color:#aff3fc;
+	background-image:url("../wars/overrun/combine/combine_button_over.png");
+}
