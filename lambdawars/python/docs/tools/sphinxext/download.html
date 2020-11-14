@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% set title = 'Download' %}
+{% if daily is defined %}
+  {% set dlbase = pathto('archives', 1) %}
+{% else %}
+  {% set dlbase = 'http://docs.lambdawars.com/' + release %}
+{% endif %}
+
+{% block body %}
+<h1>Download Lambda Wars Python {{ release }} Documentation</h1>
+
+{% if last_updated %}<p><b>Last updated on: {{ last_updated }}.</b></p>{% endif %}
+
+<p></p>
+
+{% endblock %}

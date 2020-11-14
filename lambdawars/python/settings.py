@@ -1,0 +1,1 @@
+LAMBDAWARS_API_URL = 'http://api.lambdawars.com/'

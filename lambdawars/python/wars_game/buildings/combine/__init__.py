@@ -1,0 +1,1 @@
+from .basepowered import poweredlist

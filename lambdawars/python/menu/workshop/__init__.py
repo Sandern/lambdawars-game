@@ -1,0 +1,1 @@
+from .workshop import WebWorkshop

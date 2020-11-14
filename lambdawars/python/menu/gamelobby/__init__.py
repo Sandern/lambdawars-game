@@ -1,0 +1,1 @@
+from .lobby import WebGameLobby
