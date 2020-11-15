@@ -47,8 +47,6 @@ if isserver:
             # Move as close as possible to enemy
             outer = self.outer
             enemy = outer.garrisoned_building.GetEnemyForGarrisonedUnit(outer)
-            #building = outer.garrisonbuilding
-            #origin = outer.GetAbsOrigin()
 
             if not enemy or enemy != self.enemy:
                 return self.Done('Lost enemy')

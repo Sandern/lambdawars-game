@@ -22,6 +22,10 @@ class UnitBaseGarrisonableShared(object):
     if isserver:
         def Spawn(self):
             super().Spawn()
+
+            # Do not interfere with range checks of garrisoned units
+            self.SetBlocksLOS(False)
+
             if self.sense_distance is not None:
                 self.senses = UnitCombatSense(self)
                 self.senses.sensedistance = self.sense_distance
@@ -179,7 +183,6 @@ class UnitBaseGarrisonableShared(object):
             
         unit.garrison_oldlosmask = unit.attacklosmask
         unit.garrison_oldsensedistance = unit.senses.sensedistance
-        unit.uncontrollable = True
         unit.locomotionfacingonly = True
         unit.AddSolidFlags(FSOLID_NOT_SOLID)
         #unit.AddEffects(EF_NODRAW)
@@ -223,7 +226,6 @@ class UnitBaseGarrisonableShared(object):
         if unit not in self.units:
             return
 
-        unit.uncontrollable = False
         unit.locomotionfacingonly = False
         unit.RemoveSolidFlags(FSOLID_NOT_SOLID)
         unit.RemoveEffects(EF_NODRAW)

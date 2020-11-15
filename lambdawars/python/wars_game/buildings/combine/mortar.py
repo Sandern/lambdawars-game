@@ -227,7 +227,7 @@ class MortarInfo(PoweredBuildingInfo):
     #explodemodel = 'models/pg_props/pg_buildings/rebels/pg_barrel_trap_des.mdl'
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
-    explodeactivity = 'ACT_EXPLODE'
+    #explodeactivity = 'ACT_EXPLODE'
     costs = [('requisition', 60), ('power', 50)]
     unitenergy = 100
     unitenergy_initial = 35

@@ -59,15 +59,15 @@ class UnitMortarSynth(BaseClass):
     def __init__(self):
         super().__init__()
         self.savedrop = 2048.0
-        self.maxclimbheight = 192.0
+        self.maxclimbheight = 128.0
         self.testroutestartheight = 2048.0
         
     def Spawn(self):    
         super().Spawn()
         
         self.SetBloodColor(DONT_BLEED)
-        self.locomotion.maxheight = 192.0
-        self.locomotion.desiredheight = 192.0
+        self.locomotion.maxheight = 128.0
+        self.locomotion.desiredheight = 128.0
         self.locomotion.flynoiserate = 32.0
         self.locomotion.flynoisez = 24.0
     events = dict(BaseClass.events)
@@ -85,7 +85,9 @@ class UnitMortarSynth(BaseClass):
         grenades = self.unitinfo.grenades
         if origin and not self.nextshoottime > gpGlobals.curtime:
             info = unit.unitinfo.AttackRange
-            vGrenadePos = self.GetAbsOrigin() + Vector(0,0,20)
+            #vGrenadePos = self.GetAbsOrigin() + Vector(0,0,20)
+            vGrenadePos = Vector()
+            self.GetAttachment( "gun_attach", vGrenadePos )
 
             #vTarget = Vector()
             #UTIL_PredictedPosition( enemy, 0.5, vTarget ) 
@@ -110,20 +112,20 @@ class UnitMortarSynth(BaseClass):
                     filter = CPASAttenuationFilter(self, ATTN_NONE)
 
                     self.EmitSoundFilter( filter, self.entindex(), "Weapon_Mortar.Single" )
-                    #info = self.abilitiesbyname.get('mortarattack', None)
-                    #info.SetRecharge(info.unit)
+                    info = self.abilitiesbyname.get('mortarattack', None)
+                    info.SetRecharge(info, units=unit)
                     self.nextshoottime = gpGlobals.curtime + self.unitinfo.AttackRange.attackspeed
     def PreDetonate(self):
-        #self.Hop(10) #не вижу смысла
+
         self.SetTouch(None)
         self.SetThink(self.Explode)
         self.SetNextThink(gpGlobals.curtime + 0.1)
         #self.SetNextThink(gpGlobals.curtime + 1.0)
 
-        #self.EmitSound("") #если нужен какой-то особый звук
+
     def Explode(self):
         self.takedamage = DAMAGE_NO
-        ExplosionCreate(self.WorldSpaceCenter(), self.GetLocalAngles(), self, 1, 150, True ) #где 1 - это урон. 150 это радиус
+        ExplosionCreate(self.WorldSpaceCenter(), self.GetLocalAngles(), self, 1, 128, True )
 
         info = CTakeDamageInfo(self, self, 1, DMG_GENERIC)
         self.Event_Killed(info)
@@ -131,8 +133,8 @@ class UnitMortarSynth(BaseClass):
         # Remove myself a frame from now to avoid doing it in the middle of running AI
         self.SetThink(self.SUB_Remove)
         self.SetNextThink(gpGlobals.curtime)
-        nGib = 5 #где 5 - это скока гибов будет в итоге.  можешь сделать в виде рандома как ниже
-        #nGib = random.randint(2,5)
+
+        nGib = random.randint(2,5)
         for i in range(1, nGib): 
             self.ThrowGibs(i)
     def ThrowGibs(self, i):
@@ -160,9 +162,8 @@ class UnitMortarSynth(BaseClass):
         pChunk.SetAbsOrigin(vecAbsPoint)
         pChunk.SetAbsAngles(vecSpawnAngles)
 
-        pChunk.Spawn(self.gibmodelnames[i])
+        pChunk.Spawn(self.gibmodelnames[i], random.uniform(6.0, 8.0))
         pChunk.SetOwnerEntity(self)
-        pChunk.lifetime = random.uniform(6.0, 8.0) #время жизни если что
         pChunk.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
         pPhysicsObject = pChunk.VPhysicsInitNormal(SOLID_VPHYSICS, pChunk.GetSolidFlags(), False)
 
@@ -177,7 +178,7 @@ class UnitMortarSynth(BaseClass):
             angles.z = 0.0
             AngleVectors(angles, vecVelocity)
 
-            vecVelocity *= random.uniform(300, 900) #можешь настроить скорость и импульс чтобы части не улетали за 100 км или наоборот
+            vecVelocity *= random.uniform(300, 900)
             vecVelocity += self.GetAbsVelocity()
 
             angImpulse = AngularImpulse()
@@ -185,7 +186,7 @@ class UnitMortarSynth(BaseClass):
 
             pChunk.SetAbsVelocity(vecVelocity)
             pPhysicsObject.SetVelocity(vecVelocity, angImpulse)
-        #будут ли гибы гореть
+
         pFlame = CEntityFlame.Create(pChunk, False)
         if pFlame != None:
             pFlame.SetLifetime(pChunk.lifetime)
@@ -215,8 +216,8 @@ class MortarSynthInfo(UnitInfo):
     viewdistance = 768
     sensedistance = 1408
     techrequirements = ['build_comb_tech_center']
-    population = 2
-    scalebounds = 0.80
+    population = 3
+    scalebounds = 0.75
     grenades = 1
     abilities = {
         0 : 'mortarattack',
@@ -227,7 +228,7 @@ class MortarSynthInfo(UnitInfo):
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
         damage = 250.0
-        attackspeed = 7.0
+        attackspeed = 8.0
         maxrange = 1408.0
-        radiusdamage = 64
+        radiusdamage = 128
     attacks = ['AttackRange']

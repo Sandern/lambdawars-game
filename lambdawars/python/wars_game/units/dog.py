@@ -187,7 +187,7 @@ class UnitDog(BaseClass):
             return
         self.DoSlam()
         
-    def DoSlam(self, damage=230):
+    def DoSlam(self, damage=150):
         origin = self.GetAbsOrigin()
          
         #eyesPoint = Vector()
@@ -198,10 +198,10 @@ class UnitDog(BaseClass):
         #DispatchParticleEffect('pg_dog_slam',offset , angle)
         DispatchParticleEffect('pg_dog_slam', PATTACH_POINT_FOLLOW, self, 'physgun')
 
-        dmg_radius = 192.0
+        dmg_radius = 128.0
         self.EmitSound("unit_rebel_dog_slam")
 
-        dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 230, 0)
+        dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 150, 0)
         dmg_info.attributes = {DogSlamImpactAttribute.name: DogSlamImpactAttribute(self)}
 
         RadiusDamage(dmg_info, origin, dmg_radius, CLASS_NONE, None)

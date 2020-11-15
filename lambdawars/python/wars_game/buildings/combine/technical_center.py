@@ -36,7 +36,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     buildtime = 48.0
     abilities = {
         0 : 'strider_maxenergy_upgrade',
-        #1 : 'combine_mine_unlock',
+        1 : 'combinemine_upgrade',
         #2 : 'strider_maxenergy_upgrade',
         #4 : 'weaponsg_comb_unlock',
         #5 : 'weaponar2_comb_unlock',

@@ -69,9 +69,10 @@ class AbilityInfiltrateChar(AbilityInfiltrate):
     cloakallowed = True
 
 class AbilityInfiltrateRebScout(AbilityInfiltrate):
-    name = 'infiltrate_reb_scout'
-    energy = 10
-    cloakallowed = True
+	name = 'infiltrate_reb_scout'
+	energy = 10
+	techrequirements = ['build_reb_munitiondepot']
+	cloakallowed = True
 
 class AbilityInfiltrateRebScout(AbilityInfiltrate):
     name = 'infiltrate_comb_sniper'

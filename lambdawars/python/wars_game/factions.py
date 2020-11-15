@@ -125,8 +125,8 @@ class FactionRebelsDestroyHQInfo(FactionRebelsInfo):
     name = 'destroyhq_rebels'
     displayname = 'Rebels'
     hud_name = 'rebels_hud'
-    startbuilding = 'build_reb_hq_destroyhq'
-    startunit = 'destroyhq_unit_rebel_engineer'
+    startbuilding = 'build_reb_hq'
+    startunit = 'unit_rebel_engineer'
     resources = ['requisition', 'scrap', 'power']
     
 class FactionCombineDestroyHQInfo(FactionCombineInfo):

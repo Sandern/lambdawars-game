@@ -297,7 +297,8 @@ class DogSlamImpactAttribute(AttributeInfo):
     name = 'dogslamimpact'
 
     dmgmodifiers = {
-        'synth': ConstantBonusDamage(150),
+		'synth': ConstantBonusDamage(200),
+		'light': ConstantBonusDamage(50),
     }
 
     def ApplyToTarget(self, target, dmg_info):

@@ -915,7 +915,7 @@ def CreateAbility(abi_info, player, ischeat=False, unittype=None, id=-1, skipche
     # Check can do
     if isserver and not skipcheck and (len(abi_info.GetRequirementsUnits(player)) != 0):
         if wars_ability_debug.GetBool():
-            DevMsg(1, '%s core.abilities.info.CreateAbility: failed to create ability (requirements not met)\n' % (isserver))
+            DevMsg(1, '%s core.abilities.info.CreateAbility: failed to create ability (requirements not met -> %s)\n' % (isserver, abi_info.GetRequirementsUnits(player)))
         if isserver and id != -1:
             recv_filter = CSingleUserRecipientFilter(player)
             recv_filter.MakeReliable()

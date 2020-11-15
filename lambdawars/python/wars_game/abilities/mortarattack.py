@@ -1,6 +1,7 @@
 from vmath import VectorNormalize, Vector
 from core.abilities import AbilityTarget
 from entities import FClassnameIs, MouseTraceData
+from fow import FogOfWarMgr
 
 if isserver:
     from utils import UTIL_PrecacheOther
@@ -28,7 +29,7 @@ if isserver:
         def Init(self, order):
             #target = order.target if order.ability.target else order.position
             target = order.position
-            
+			
             super().Init(target, self.outer.unitinfo.AttackRange.maxrange)
             
             self.order = order
@@ -62,7 +63,7 @@ class AbilityMortarAttack(AbilityTarget):
     description = '#CombBall_Description'
     image_name = 'VGUI/combine/abilities/mortar_synth_attack_icon.vmt'
     costs = [] 
-    rechargetime = 7
+    rechargetime = 8
     target = None
     supportsautocast = True
     defaultautocast = True
@@ -72,6 +73,10 @@ class AbilityMortarAttack(AbilityTarget):
         def DoAbility(self):
             data = self.mousedata
 
+            if FogOfWarMgr().PointInFOW(data.endpos, self.ownernumber):
+                self.Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
+                return
+                
             target = data.ent
             if target and not target.IsWorld():
                 self.target = target.GetAbsOrigin()

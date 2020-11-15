@@ -98,6 +98,10 @@ class GrenadeEnergy(BaseClass):
                 self.smoketrail = None
             if self.glow_trail:
                 self.glow_trail = None
+            if self.glow_trail_1:
+                self.glow_trail_1 = None
+            if self.glow_trail_2:
+                self.glow_trail_2 = None
             UTIL_Remove( self )
         def CreateSmokeTrail(self):
             if self.glow_trail:
@@ -110,14 +114,40 @@ class GrenadeEnergy(BaseClass):
                 self.glow_trail.FollowEntity(self)
                 self.glow_trail.SetAttachment(self, attachment)
                 self.glow_trail.SetTransparency(kRenderTransAdd, self.teamcolor[0], self.teamcolor[1], self.teamcolor[2], 255, kRenderFxNone)
-                self.glow_trail.SetStartWidth(8.0)
+                self.glow_trail.SetStartWidth(16.0)
                 self.glow_trail.SetEndWidth(1.0)
                 self.glow_trail.SetLifeTime(0.5)
                 self.glow_trail.AddFOWFlags(self.GetFOWFlags())
                 self.glow_trail.SetOwnerNumber(self.GetOwnerNumber())
-        teamcolor = (128, 0, 255)
+            if self.glow_trail_1:
+                return
+            self.glow_trail_1 = CSpriteTrail.SpriteTrailCreate("sprites/flare1.vmt", self.GetLocalOrigin(), False) #заменяешь там где sprites/flare1.vmt
+            if self.glow_trail_1 is not None:
+                self.glow_trail_1.FollowEntity(self)
+                self.glow_trail_1.SetAttachment(self, attachment)
+                self.glow_trail_1.SetTransparency(kRenderTransAdd, self.teamcolor[0], self.teamcolor[1], self.teamcolor[2], 255, kRenderFxNone)
+                self.glow_trail_1.SetStartWidth(80.0)
+                self.glow_trail_1.SetEndWidth(0.5)
+                self.glow_trail_1.SetLifeTime(0.5)
+                self.glow_trail_1.AddFOWFlags(self.GetFOWFlags())
+                self.glow_trail_1.SetOwnerNumber(self.GetOwnerNumber())
+            if self.glow_trail_2:
+                return
+            self.glow_trail_2 = CSpriteTrail.SpriteTrailCreate("sprites/animglow01.vmt", self.GetLocalOrigin(), False)
+            if self.glow_trail_2 is not None:
+                self.glow_trail_2.FollowEntity(self)
+                self.glow_trail_2.SetAttachment(self, attachment)
+                self.glow_trail_2.SetTransparency(kRenderTransAdd, self.teamcolor[0], self.teamcolor[1], self.teamcolor[2], 255, kRenderFxNone) 
+                self.glow_trail_2.SetStartWidth(80.0) 
+                self.glow_trail_2.SetEndWidth(20.0) 
+                self.glow_trail_2.SetLifeTime(0.5)
+                self.glow_trail_2.AddFOWFlags(self.GetFOWFlags())
+                self.glow_trail_2.SetOwnerNumber(self.GetOwnerNumber())
+        teamcolor = (0, 0, 0)
         smoketrail = None
         glow_trail = None
+        glow_trail_1 = None
+        glow_trail_2 = None
         damagecontroller = None
         # Settings
         ANTLIONWORKER_SPITGRENADEDMG = 500

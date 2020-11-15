@@ -2,7 +2,8 @@ from srcbase import *
 from vmath import *
 from entities import CBaseCombatCharacter as BaseClass, entity, CWarsFlora, MOVECOLLIDE_FLY_CUSTOM
 from gameinterface import ConVar, FCVAR_CHEAT
-from utils import trace_t, UTIL_TraceLine, UTIL_ImpactTrace, UTIL_Remove, UTIL_SetOrigin
+from utils import trace_t, UTIL_TraceHull, UTIL_ImpactTrace, UTIL_Remove, UTIL_SetOrigin, CWarsBulletsFilter
+import ndebugoverlay
 
 if isserver:
     from entities import (FL_EDICT_ALWAYS, CreateEntityByName, ClearMultiDamage, ApplyMultiDamage, CTakeDamageInfo,
@@ -32,12 +33,13 @@ class FlamerProjectile(BaseClass):
         self.takedamage = DAMAGE_NO
 
         self.SetSize(-Vector(1,1,1), Vector(1,1,1))
-        self.SetSolid(SOLID_BBOX)
+        # self.SetSolid(SOLID_BBOX)
+        self.SetSolid(SOLID_NONE)
         self.SetGravity(0.05)
         #SetCollisionGroup(ASW_COLLISION_GROUP_FLAMER_PELLETS) # ASW_COLLISION_GROUP_SHOTGUN_PELLET
-        self.SetCollisionGroup(WARS_COLLISION_GROUP_IGNORE_ALL_UNITS)
-        
-        self.SetTouch(self.ProjectileTouch)
+        self.SetCollisionGroup(WARS_COLLISION_GROUP_IGNORE_ALL_UNITS) # pass through most units
+        # self.SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
+        self.SetBlocksLOS(False)
 
         self.CreateEffects()
         self.vecoldpos = vec3_origin
@@ -55,7 +57,7 @@ class FlamerProjectile(BaseClass):
 
         #int	nAttachment = LookupAttachment( "fuse" )		# todo: make an attachment on the new model? is that even needed?
 
-        if self.mainglow != None:
+        if self.mainglow is not None:
             self.mainglow.FollowEntity(self)
             #self.mainglow.SetAttachment( self, nAttachment )
             self.mainglow.SetTransparency(kRenderGlow, 255, 255, 255, 200, kRenderFxNoDissipation)
@@ -65,7 +67,7 @@ class FlamerProjectile(BaseClass):
         # Start up the eye trail
         #self.glowtrail	= CSpriteTrail::SpriteTrailCreate( "swarm/sprites/greylaser1.vmt", GetLocalOrigin(), False )
 
-        if self.glowtrail != None:
+        if self.glowtrail is not None:
             self.glowtrail.FollowEntity(self)
             #self.glowtrail.SetAttachment( self, nAttachment )
             self.glowtrail.SetTransparency(kRenderTransAdd, 128, 128, 128, 255, kRenderFxNone)
@@ -182,26 +184,18 @@ class FlamerProjectile(BaseClass):
             return
         else:
             # Put a mark unless we've hit the sky
-            if ( tr.surface.flags & SURF_SKY ) == False:
+            if not (tr.surface.flags & SURF_SKY):
                 UTIL_ImpactTrace(tr, DMG_BURN)
             
             #self.KillEffects()
             UTIL_Remove(self)
-
-    def ProjectileTouch(self, pOther):
-        if not pOther.IsSolid() or pOther.IsSolidFlagSet(FSOLID_VOLUME_CONTENTS):
-            return
-
-        #if (pOther)
-            #Msg("Flamer projectile touched %s\n", pOther.GetClassname())
-        self.FlameHit(pOther, self.GetAbsOrigin(), False)
-        #ndebugoverlay.Cross3D(self.GetAbsOrigin(), 10, 255, 255, 0, True, 10.0)
 
     @classmethod
     def Flamer_Projectile_Create(cls, damage, position, angles, velocity, angVelocity, pOwner, pEntityToCreditForTheDamage= None, pCreatorWeapon=None):
         pellet = CreateEntityByName( "flamer_projectile" )
         pellet.SetAbsAngles( angles )
         pellet.Spawn()
+        pellet.SetOwnerNumber(pOwner.GetOwnerNumber())
         pellet.SetOwnerEntity( pOwner )
         pellet.damage = damage
         pellet.getscreditedfordamage = pEntityToCreditForTheDamage if pEntityToCreditForTheDamage else pOwner
@@ -209,9 +203,6 @@ class FlamerProjectile(BaseClass):
         pellet.SetAbsVelocity( velocity )
 
         pellet.creatorweapon = pCreatorWeapon
-
-        if asw_flamer_debug.GetBool():
-            pellet.debugoverlays |= OVERLAY_BBOX_BIT
 
         return pellet
     
@@ -252,13 +243,13 @@ class FlamerProjectile(BaseClass):
             self.vecoldpos = origin
 
         tr  = trace_t()
-        UTIL_TraceLine(origin, self.vecoldpos, MASK_SOLID, self, COLLISION_GROUP_NONE, tr)
-        bHit = False
-        #if tr.fraction != 1.0:
+        UTIL_TraceHull(origin, self.vecoldpos, -Vector(16, 16, 16), Vector(16, 16, 16), MASK_SOLID, self.BuildTraceFilter(), tr)
+
+        # ndebugoverlay.Cross3D(origin, 0, 255, 0, 255, True, 0.1)
+
         if tr.ent and not isinstance(tr.ent, FlamerProjectile):
-            #Msg("Flamer projectile CollideThinked %s\n", tr.m_pEnt.GetClassname())		
+            # print("Flamer projectile CollideThinked %s" % tr.ent.GetClassname())
             self.FlameHit(tr.ent, tr.endpos, False)
-            bHit = True
 
             if asw_flamer_debug.GetBool():
                 ndebugoverlay.Cross3D(tr.endpos, 10, 0, 0, 255, True, 10.0)
@@ -296,26 +287,14 @@ class FlamerProjectile(BaseClass):
         '''
         
         self.vecoldpos = self.GetAbsOrigin()
-    
 
-    def UpdateOnRemove(self):
-        pMarine = self.GetOwnerEntity()
-        '''
-        if (pMarine and pMarine.GetMarineResource())
-        
-            # count as a shot fired
-            if (pMarine.GetMarineResource().m_iOnlyWeaponEquipIndex == -1 and ASWEquipmentList())		# check if marine hasn't used any weapon yet
-            
-                # marine hasn't used any weapon, we need to pass the index of the flamethrower in, so it can be set
-                #  (we could do self everytime, but we only do it if no weapon is set to save doing self search needlessly every time you fire)
-                pMarine.GetMarineResource().UsedWeapon(ASWEquipmentList().GetRegularIndex("asw_weapon_flamer"), False, 1)
-            
-            else
-            
-                pMarine.GetMarineResource().UsedWeapon(None, 1)'''
-            
-        
-        super().UpdateOnRemove()
+    def BuildTraceFilter(self):
+        owner = self.GetOwnerEntity()
+        trace_filter = CWarsBulletsFilter(owner, COLLISION_GROUP_PROJECTILE)
+        trace_filter.SetPassEntity(owner)
+        if owner.garrisoned_building:
+            trace_filter.AddEntityToIgnore(owner.garrisoned_building)
+        return trace_filter
         
     lasthitent = None
     mainglow = None

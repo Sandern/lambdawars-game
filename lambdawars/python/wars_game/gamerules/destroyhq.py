@@ -32,7 +32,7 @@ class DestroyHQ(WarsBaseGameRules):
 
             # Count the HQ buildings
             countunitscomb = len([b for b in constructedlistpertype[ownernumber]['build_comb_hq'] if b.IsAlive()])
-            countunitsreb = len([b for b in constructedlistpertype[ownernumber]['build_reb_hq_destroyhq'] if b.IsAlive()])
+            countunitsreb = len([b for b in constructedlistpertype[ownernumber]['build_reb_hq'] if b.IsAlive()])
             countunits = countunitscomb + countunitsreb
             if not countunits:
                 self.PlayerDefeated(data)
@@ -95,5 +95,5 @@ class DestroyHQInfo(GamerulesInfo):
         'build_comb_headcrabcanisterlauncher_destroyhq': 3,
         'build_comb_mortar_destroyhq': 5,
         'build_comb_hq': 1,
-        'build_reb_hq_destroyhq': 1,
+        'build_reb_hq': 1,
     }

@@ -567,9 +567,8 @@ class UnitJeep(BaseClass):
         pChunk.SetAbsAngles(vecSpawnAngles)
 
         nGib = random.randint(0, len(self.chunkmodelnames) - 1)
-        pChunk.Spawn(self.chunkmodelnames[nGib])
+        pChunk.Spawn(self.chunkmodelnames[nGib], random.uniform(6.0, 8.0))
         pChunk.SetOwnerEntity(self)
-        pChunk.lifetime = random.uniform(6.0, 8.0)
         pChunk.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
         pPhysicsObject = pChunk.VPhysicsInitNormal(SOLID_VPHYSICS, pChunk.GetSolidFlags(), False)
 

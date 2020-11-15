@@ -258,7 +258,7 @@ class RebelScoutInfo(RebelShared):
     health = 35
     maxspeed = 282.0
     buildtime = 10.0
-    unitenergy = 30
+    unitenergy = 50
     unitenergy_initial = 5
     population = 1
     #tier = 1

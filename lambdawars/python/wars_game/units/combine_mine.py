@@ -6,11 +6,11 @@ import math
 import random
 from entities import entity, networked, Activity, FOWFLAG_UNITS_MASK
 from gameinterface import ConVarRef
-from core.units import UnitInfo, UnitBase as BaseClass, CreateUnitNoSpawn
-from core.abilities import AbilityUpgrade, AbilityInstant
+from core.units import UnitInfo, UnitBase as BaseClass, CreateUnitNoSpawn, unitlistpertype
+from core.abilities import AbilityUpgrade, AbilityInstant, AbilityUpgradeValue
 from core.abilities.placeobject import AbilityPlaceObjectShared
 from core.util.locomotion import CalcJumpVelocity
-from fields import BooleanField
+from fields import BooleanField, UpgradeField
 
 if isserver:
     from gameinterface import CReliableBroadcastRecipientFilter
@@ -107,7 +107,6 @@ class BounceBomb(BaseClass):
             super().Spawn()
             
             self.SetBloodColor(DONT_BLEED)
-    
     if isserver:
         def __init__(self):
             super().__init__()
@@ -191,6 +190,8 @@ class BounceBomb(BaseClass):
             else:
                 self.SetMineState( self.MINE_STATE_DEPLOY )
 
+            if self.cloakupgrade:
+                self.Cloak()
             # # default to a different skin for cavern turrets (unless explicitly overridden)
             # if ( self.modification == MINE_MODIFICATION_CAVERN )
             
@@ -1028,6 +1029,8 @@ class BounceBomb(BaseClass):
     # Modifications
     MINE_MODIFICATION_NORMAL = 0
     MINE_MODIFICATION_CAVERN = 1
+    cloakenergydrain = 0
+    cloakupgrade = UpgradeField(value=0.0, abilityname='combinemine_upgrade')
 
 @entity('combine_mine_cloaked')
 class BounceBombCloaked(BounceBomb):
@@ -1037,7 +1040,6 @@ class BounceBombCloaked(BounceBomb):
         self.takedamage = DAMAGE_YES
         self.Cloak()
         
-    cloakenergydrain = 0
     
     BOUNCEBOMB_DETONATE_RADIUS = 96.0
     BOUNCEBOMB_WARN_RADIUS = 192.0
@@ -1060,6 +1062,26 @@ class AbilityDetonateMine(AbilityInstant):
             
             self.unit.ExplodeThink()
             self.Completed()
+
+class CombMineUpgrade(AbilityUpgradeValue):
+    name = 'combinemine_upgrade'
+    displayname = '#CombDepMineUpgr_Name'
+    description = '#CombDepMineUpgr_Description'
+    buildtime = 38.0
+    costs = [('requisition', 15), ('power', 30)]
+    image_name = "vgui/abilities/infiltrate_comb_mine_upgrade"
+    upgradevalue = 1
+    sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
+
+    def OnUpgraded(self):
+        super().OnUpgraded()
+
+        self.UpgradeCombineMines()
+
+    def UpgradeCombineMines(self):
+        units = list(unitlistpertype[self.ownernumber]['combine_mine'])
+        for unit in units:
+            unit.Cloak()
 
 class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
     name = "combine_mine"

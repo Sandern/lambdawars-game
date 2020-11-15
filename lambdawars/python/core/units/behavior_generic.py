@@ -106,9 +106,6 @@ class BehaviorGeneric(BaseBehavior):
                 o.Remove()
             elif o.type == o.ORDER_ABILITY:
                 ability = o.ability
-                # if not ability.CanDoAbility(ability.player, self.outer):
-                #     o.Remove()
-                #     return
                 action = getattr(ability, '%s_action' % self.behavior.name, None)
                 if action:
                     return self.ChangeTo(action, 'Ability order received', o)

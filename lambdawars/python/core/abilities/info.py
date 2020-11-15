@@ -503,16 +503,15 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
         playerowner = player.GetOwnerNumber() if player else unitowner 
         
         # The player should own the unit
-        if player:
-            if not unit.CanPlayerControlUnit(player):
-                requirements.add('uncontrollable')
+        if player and not unit.CanPlayerControlUnit(player):
+            requirements.add('uncontrollable')
         
         # Should not be recharging this ability
         if info.rechargetime and info.uid in unit.abilitynexttime:
             if unit.abilitynexttime[info.uid] > gpGlobals.curtime:
                 requirements.add('recharging')
 
-        # Sohould have enough energy
+        # Should have enough energy
         if info.energy > unit.energy:
             requirements.add('energy')
             
