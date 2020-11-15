@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 '''
 Build script for Lambda Wars
-
-Required installed Apps:
-- 630 (Alien Swarm)
-- 640 (Alien Swarm SDK)
 '''
 
 import os
@@ -16,9 +12,6 @@ import subprocess
 import glob
 import argparse
 import time
-
-modfolder = 'lambdawars'
-pathbasefolder = None 
 
 # Deploy scripts templates
 appbuild_template = '''"appbuild"
@@ -122,24 +115,26 @@ extrapakfiles = [
 
 # Folders to copy
 copyfolders = [
-    'bin', 
-    'cfg', 
-    'materials',
-    'maps',
-    'media',
-    'models',
-    'particles',
-    'python', 
-    'resource', 
-    'scripts',
-    'scenes',
-    'sound',
-    'shaders',
-    'ui',
+    'bin',
+
+    'lambdawars/bin', 
+    'lambdawars/cfg', 
+    'lambdawars/materials',
+    'lambdawars/maps',
+    'lambdawars/media',
+    'lambdawars/models',
+    'lambdawars/particles',
+    'lambdawars/python', 
+    'lambdawars/resource', 
+    'lambdawars/scripts',
+    'lambdawars/scenes',
+    'lambdawars/sound',
+    'lambdawars/shaders',
+    'lambdawars/ui',
 ]
         
 # Extensions to ignore
-ignoreext = ['.svn', # SVN
+ignoreext = ['.git', # Git
              '.pdb', '.log', '.map', '.log', # Bin
              '.tga', '.xcf', '.psd', # Materials
              '.pyc', '.info', # Python
@@ -148,43 +143,46 @@ ignoreext = ['.svn', # SVN
             
 # Paths to ignore
 fullpathignore = [
-    # For PyCharm/Visual Studio Python Tools support
-    'bin/python.exe',
-    'bin/pythonw.exe',
+    # SDK
+    'bin/vpk.exe',
 
-    'models/.hammer.mdlcache',
-    'materials/vgui/webview',
+    # For PyCharm/Visual Studio Python Tools support
+    'lambdawars/bin/python.exe',
+    'lambdawars/bin/pythonw.exe',
+
+    'lambdawars/models/.hammer.mdlcache',
+    'lambdawars/materials/vgui/webview',
     
-    'ui/development-bundle',
-    'ui/RGraph',
+    'lambdawars/ui/development-bundle',
+    'lambdawars/ui/RGraph',
     
-    'cfg/config.cfg',
-    'cfg/config_fps.cfg',
-    'cfg/config_rts.cfg',
-    'cfg/pet.txt',
-    'cfg/video.txt',
-    'cfg/videoext.txt',
+    'lambdawars/cfg/config.cfg',
+    'lambdawars/cfg/config_fps.cfg',
+    'lambdawars/cfg/config_rts.cfg',
+    'lambdawars/cfg/pet.txt',
+    'lambdawars/cfg/video.txt',
+    'lambdawars/cfg/videoext.txt',
     
     # Maps
-    'maps/or_test',
-    'maps/flowtest',
-    'maps/benchmark',
-    'maps/hlw_warehouse',
-    'maps/or_trapped_v2',
-    'maps/sp_testmission',
-    'maps/sp_enttest_map',
-    'maps/sp_training',
-    'maps/unittest1',
-    'maps/hlw_battlemounds',
+    'lambdawars/maps/or_test',
+    'lambdawars/maps/flowtest',
+    'lambdawars/maps/benchmark',
+    'lambdawars/maps/hlw_warehouse',
+    'lambdawars/maps/or_trapped_v2',
+    'lambdawars/maps/sp_testmission',
+    'lambdawars/maps/sp_enttest_map',
+    'lambdawars/maps/sp_training',
+    'lambdawars/maps/unittest1',
+    'lambdawars/maps/hlw_battlemounds',
     
     # Sounds
-    'sound/keeper',
+    'lambdawars/sound/keeper',
     
     # Skip sqlite Python module. Triggering a false positive on some crap scanners.
-    'python/DLLs/_sqlite3.pyd',
-    'python/DLLs/sqlite3.dll',
-    'python/ClientDLLs/_sqlite3.pyd',
-    'python/ClientDLLs/sqlite3.dll',
+    'lambdawars/python/DLLs/_sqlite3.pyd',
+    'lambdawars/python/DLLs/sqlite3.dll',
+    'lambdawars/python/ClientDLLs/_sqlite3.pyd',
+    'lambdawars/python/ClientDLLs/sqlite3.dll',
 ]
 
 # Files to rename
@@ -195,21 +193,21 @@ replacements = [
 ]
 
 copyfiles = [
-    'GameInfo.txt',
-    'readme.txt',
-    'changelog.txt',
-    'lambdawars.fgd',
-    'steam.inf',
-    'swarmkeepermaps.txt',
-    'detail.vbsp',
-    'host.txt',
-    'motd.txt',
-    'maplist.txt',
-    'lobbymapinfo_default.cache',
-    'icon.ico',
-    'icon.tga',
-    'icon_big.tga',
-    'whitelist.cfg',
+    'lambdawars/GameInfo.txt',
+    'lambdawars/readme.txt',
+    'lambdawars/changelog.txt',
+    'lambdawars/lambdawars.fgd',
+    'lambdawars/steam.inf',
+    'lambdawars/swarmkeepermaps.txt',
+    'lambdawars/detail.vbsp',
+    'lambdawars/host.txt',
+    'lambdawars/motd.txt',
+    'lambdawars/maplist.txt',
+    'lambdawars/lobbymapinfo_default.cache',
+    'lambdawars/icon.ico',
+    'lambdawars/icon.tga',
+    'lambdawars/icon_big.tga',
+    'lambdawars/whitelist.cfg',
 ]
 
 buildexec_template = '''
@@ -296,7 +294,7 @@ def ListVPKFiles(path, outputset):
             
 def ReadMapList(srcpath):
     maplist = []
-    mappath = os.path.join(srcpath, 'maplist.txt')
+    mappath = os.path.join(srcpath, 'lambdawars/maplist.txt')
     with open(mappath, 'r') as fp:
         for line in fp.readlines():
             mapname = line.strip().strip('"')
@@ -315,7 +313,7 @@ def BuildCopyFiles(srcpath, dstpath):
     # Only include maps from maplist.txt
     maplist = ReadMapList(srcpath)
     ignoremapspaths = []
-    mappath = os.path.join(srcpath, 'maps')
+    mappath = os.path.join(srcpath, 'lambdawars/maps')
     for filename in os.listdir(mappath):
         mapname, ext = os.path.splitext(filename)
         if ext != '.bsp':
@@ -341,20 +339,11 @@ def BuildCopyFiles(srcpath, dstpath):
         print('Copying extra files', flush=True)
         for filename in os.listdir('extrafiles'):
             shutil.copyfile(os.path.join('extrafiles', filename), os.path.join(dstpath, filename))
-        
-    # Copy vpks from old build for incremental update
-    # Not needed for Steam build.
-    '''if pathbasefolder:
-        print('Copying vpk files from release "%s" for incremental update' % (pathbasefolder))
-        files = glob.glob(os.path.join(pathbasefolder, '*.vpk'))
-        for path in files:
-            print('Copying %s' %(path))
-            shutil.copyfile(path, os.path.join(dstpath, os.path.basename(path)))'''
             
 def BuildPostProcess(dstpath, buildnumber):
     # Post process the GameInfo.txt file
     # Replace Dev name with Public name
-    gameinfopath = os.path.join(dstpath, 'GameInfo.txt')
+    gameinfopath = os.path.join(dstpath, 'lambdawars/GameInfo.txt')
     with open(gameinfopath, 'r', encoding='UTF-8') as fp:
         content = fp.read()
     content = content.replace("Lambda Wars Dev", "Lambda Wars")
@@ -365,7 +354,7 @@ def BuildPostProcess(dstpath, buildnumber):
         # Update steam.inf with the build number
         foundClientServerVersion = 0
         foundPathVersion = False
-        steaminfpath = os.path.join(dstpath, 'steam.inf')
+        steaminfpath = os.path.join(dstpath, 'lambdawars/steam.inf')
         with open(steaminfpath, 'r', encoding='UTF-8') as fp:
             content = fp.readlines()
         newcontent = []
@@ -403,25 +392,26 @@ def RemoveEmptyFolders(path):
     if len(files) == 0:
         os.rmdir(path)
         
-def BuildVPK(steampath, srcpath, dstpath):
-    os.chdir(dstpath)
+def BuildVPK(srcpath, dstpath):
+    out_folder = os.path.join(dstpath, 'lambdawars')
+
+    os.chdir(out_folder)
     
     # Create pak script
     pakfilesargs = {
-        'steamapps' : os.path.join(steampath, 'SteamApps'),
-        'outfolder' : dstpath, 
-        'curfolder' : os.path.join(srcpath, 'buildscripts'), 
-        'modfolder' : modfolder,
-        'delcmd' : 'del pak*.vpk',
+        'srcpath': srcpath,
+        'outfolder': out_folder,
+        'curfolder': os.path.join(srcpath, 'lambdawars/buildscripts'), 
+        'delcmd': 'del pak*.vpk',
     }
     pakfilesbat = '''
-    PATH=PATH;"%(steamapps)s/common/alien swarm/bin/"
+    PATH=PATH;"%(srcpath)s/bin/"
     cd %(outfolder)s
     %(delcmd)s
     vpk.exe -M a pak01 "@%(curfolder)s/paklist.txt"
     ''' % pakfilesargs
 
-    pakfilescmd = os.path.join(srcpath, 'buildscripts', 'pakfiles.bat')
+    pakfilescmd = os.path.join(srcpath, 'lambdawars/buildscripts', 'pakfiles.bat')
     with open(pakfilescmd, 'wb') as fp:
         fp.write(bytes(pakfilesbat, 'UTF-8'))
 
@@ -429,11 +419,11 @@ def BuildVPK(steampath, srcpath, dstpath):
     print('Creating paklist.txt', flush=True)
     pakset = list()
     for folder in pakfolders:
-        ListVPKFiles(os.path.join(dstpath, folder), pakset)
+        ListVPKFiles(os.path.join(out_folder, folder), pakset)
          
-    with open(os.path.join(srcpath, 'buildscripts', 'paklist.txt'), 'wt') as fp:
+    with open(os.path.join(srcpath, 'lambdawars/buildscripts', 'paklist.txt'), 'wt') as fp:
         for ps in pakset:
-            fp.write('%s\n' % (ps.split(dstpath, 1)[1][1:]))
+            fp.write('%s\n' % (ps.split(out_folder, 1)[1][1:]))
         for filename in extrapakfiles:
             fp.write(filename+'\n')
 
@@ -447,13 +437,12 @@ def BuildVPK(steampath, srcpath, dstpath):
         os.remove(path)
     for folder in pakfolders:
         RemoveEmptyFolders(folder)
-        #shutil.rmtree(os.path.join(dstpath, folder), ignore=IgnorePaths(excludepakpaths))
     for filename in extrapakfiles:
-        os.remove(os.path.join(dstpath, filename))
+        os.remove(os.path.join(out_folder, filename))
         
-def BuildFinalize(steampath, srcpath, dstpath):
+def BuildFinalize(srcpath, dstpath):
     # Create Build exec script
-    with open(os.path.join(dstpath, 'cfg', 'buildexec.cfg'), 'wt') as fp:
+    with open(os.path.join(dstpath, 'lambdawars/cfg/buildexec.cfg'), 'wt') as fp:
         fp.write(buildexec_template % {'loadmapscmds' : ''})
 
     # Change to destination and run build exec script
@@ -517,31 +506,28 @@ def WriteDeployScripts(scriptspath, appid, depotid, gamerevision, buildnumber):
     with open(depotdeploypath, 'w') as fp:
         fp.write(depotbuild_template  % args)
         
-def MakeClientRelease(steampath, srcpath, dstpath, scriptspath=None, appid=None, depotid=None, gamerevision=None, buildnumber=None):
+def MakeClientRelease(srcpath, dstpath, scriptspath=None, appid=None, depotid=None, gamerevision=None, buildnumber=None):
     srcpath = os.path.abspath(srcpath)
     dstpath = os.path.abspath(dstpath)
     if scriptspath:
         scriptspath = os.path.abspath(scriptspath)
     
-    if not os.path.exists(steampath):
-        raise Exception('Steam path %s does not exist!' % (steampath))
     if not os.path.exists(srcpath):
         raise Exception('Source path %s does not exist!' % (srcpath))
         
     BuildCopyFiles(srcpath, dstpath)
     BuildPostProcess(dstpath, buildnumber)
     if shouldpakfiles:
-        BuildVPK(steampath, srcpath, dstpath)
+        BuildVPK(srcpath, dstpath)
     if gamerevision:
         with open(os.path.join(dstpath, 'gamerevision'), 'wt') as fp:
             fp.write(gamerevision)
     if scriptspath and appid and depotid:
         WriteDeployScripts(scriptspath, appid, depotid, gamerevision, buildnumber)
-    BuildFinalize(steampath, srcpath, dstpath)
+    BuildFinalize(srcpath, dstpath)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Lambda Wars Build script')
-    parser.add_argument('--steampath', help='Path to Steam', required=True)
     parser.add_argument('--dstpath', help='Build Destination path', required=True)
     parser.add_argument('--srcpath', help='Build Source path', required=True)
     parser.add_argument('--scriptspath', help='Deploy output scripts paths')
@@ -552,13 +538,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if shouldpakfiles:
-        vpkpath = os.path.join(args.steampath, 'steamapps/common/alien swarm/bin/vpk.exe')
+        vpkpath = os.path.join(args.srcpath, 'bin/vpk.exe')
         if not os.path.exists(vpkpath):
-            print('Could not find %s. Please verify steampath is set correctly and Alien Swarm SDK (App ID 640) is installed' % (vpkpath))
+            print('Could not find %s. Please check src files.' % (vpkpath))
             sys.exit(-1)
             
     print('Running Lambda Wars Build script', flush=True)
     
-    MakeClientRelease(args.steampath, args.srcpath, args.dstpath, args.scriptspath, args.appid, args.depotid, args.gamerevision, args.buildnumber)
+    MakeClientRelease(args.srcpath, args.dstpath, args.scriptspath, args.appid, args.depotid, args.gamerevision, args.buildnumber)
 
     
