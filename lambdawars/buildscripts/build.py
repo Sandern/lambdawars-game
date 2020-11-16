@@ -68,49 +68,52 @@ depotbuild_template = '''"DepotBuildConfig"
 
 # Pak settings
 shouldpakfiles = True
-pakfolders = [
-    'particles', 
-    'materials', 
-    'models',
-    'scenes',
-    'resource/ui',
-    'sound',
-    'python',
-]
 
-excludepakpaths = [
-    'python/autorun_once',
-    'python/ClientDLLs',
-    'python/DLLs',
-    'python/docs',
-    'python/docsclient',
-    'python/example',
-    'python/tutorial',
-    'python/pythonlib_dir.vpk',
-    'balance_sheet.xls',
-]
-
-extrapakfiles = [
-    'lobbymapinfo_default.cache',
-    'scripts/hudlayout.res',
-    'scripts/mod_lessons.txt',
-    'scripts/mod_textures.txt',
-    'scripts/game_sounds_manifest.txt',
-    'scripts/game_sounds_weapons.txt',
-    'scripts/game_sounds_keeper.txt',
-    'scripts/game_sounds_asw_misc.txt',
-    'scripts/kb_act.lst',
-    'scripts/kb_act_config_rts.lst',
-    'scripts/kb_def.lst',
-    'scripts/kb_keys.lst',
-    'resource/basemodui_english.txt',
-    'resource/basemodui_scheme.res',
-    'resource/gameui_english.txt',
-    'resource/ModEvents.res',
-    'resource/SourceScheme.res',
-    'resource/spectatormenu.res',
-    'resource/spectatormodes.res',
-    'resource/optionssubkeyboard.res',
+pak_configuration = [
+    {
+        'root': 'lambdawars',
+        'folders': [
+            'particles', 
+            'materials', 
+            'models',
+            'scenes',
+            'resource/ui',
+            'sound',
+            'python',
+        ],
+        'files': [
+            'lobbymapinfo_default.cache',
+            'scripts/hudlayout.res',
+            'scripts/mod_lessons.txt',
+            'scripts/mod_textures.txt',
+            'scripts/game_sounds_manifest.txt',
+            'scripts/game_sounds_weapons.txt',
+            'scripts/game_sounds_keeper.txt',
+            'scripts/game_sounds_asw_misc.txt',
+            'scripts/kb_act.lst',
+            'scripts/kb_act_config_rts.lst',
+            'scripts/kb_def.lst',
+            'scripts/kb_keys.lst',
+            'resource/basemodui_english.txt',
+            'resource/basemodui_scheme.res',
+            'resource/gameui_english.txt',
+            'resource/ModEvents.res',
+            'resource/SourceScheme.res',
+            'resource/spectatormenu.res',
+            'resource/spectatormodes.res',
+            'resource/optionssubkeyboard.res',
+        ],
+        'exclude': [
+            'python/autorun_once',
+            'python/ClientDLLs',
+            'python/DLLs',
+            'python/docs',
+            'python/docsclient',
+            'python/example',
+            'python/tutorial',
+            'python/pythonlib_dir.vpk',
+        ],
+    }
 ]
 
 # Folders to copy
@@ -277,8 +280,8 @@ class IgnorePaths(object):
                 ignore.add(name)
         return ignore
     
-def ListVPKFiles(path, outputset):
-    pathignoreset = set(map(lambda x: os.path.normcase(os.path.normpath(os.path.abspath(x.lower()))), excludepakpaths))
+def ListVPKFiles(path, outputset, exclude):
+    pathignoreset = set(map(lambda x: os.path.normcase(os.path.normpath(os.path.abspath(x.lower()))), exclude))
     
     for root, dirs, files in os.walk(path):
         for name in files:
@@ -391,9 +394,13 @@ def RemoveEmptyFolders(path):
     files = os.listdir(path)
     if len(files) == 0:
         os.rmdir(path)
+
+def BuildVPKs(srcpath, dstpath):
+    for config in pak_configuration:
+        BuildVPK(config, srcpath, dstpath)
         
-def BuildVPK(srcpath, dstpath):
-    out_folder = os.path.join(dstpath, 'lambdawars')
+def BuildVPK(config, srcpath, dstpath):
+    out_folder = os.path.join(dstpath, config['root'])
 
     os.chdir(out_folder)
     
@@ -418,13 +425,13 @@ def BuildVPK(srcpath, dstpath):
     # Create pak list
     print('Creating paklist.txt', flush=True)
     pakset = list()
-    for folder in pakfolders:
-        ListVPKFiles(os.path.join(out_folder, folder), pakset)
+    for folder in config['folders']:
+        ListVPKFiles(os.path.join(out_folder, folder), pakset, config['exclude'])
          
     with open(os.path.join(srcpath, 'lambdawars/buildscripts', 'paklist.txt'), 'wt') as fp:
         for ps in pakset:
             fp.write('%s\n' % (ps.split(out_folder, 1)[1][1:]))
-        for filename in extrapakfiles:
+        for filename in config['files']:
             fp.write(filename+'\n')
 
     # Create vpk
@@ -435,9 +442,9 @@ def BuildVPK(srcpath, dstpath):
     print('Removed pakked files', flush=True)
     for path in pakset:
         os.remove(path)
-    for folder in pakfolders:
+    for folder in config['folders']:
         RemoveEmptyFolders(folder)
-    for filename in extrapakfiles:
+    for filename in config['files']:
         os.remove(os.path.join(out_folder, filename))
         
 def BuildFinalize(srcpath, dstpath):
@@ -518,7 +525,7 @@ def MakeClientRelease(srcpath, dstpath, scriptspath=None, appid=None, depotid=No
     BuildCopyFiles(srcpath, dstpath)
     BuildPostProcess(dstpath, buildnumber)
     if shouldpakfiles:
-        BuildVPK(srcpath, dstpath)
+        BuildVPKs(srcpath, dstpath)
     if gamerevision:
         with open(os.path.join(dstpath, 'gamerevision'), 'wt') as fp:
             fp.write(gamerevision)
