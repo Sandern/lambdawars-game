@@ -43,33 +43,81 @@ depotbuild_template = '''"DepotBuildConfig"
 	"ContentRoot"	"..\contentdev\"
 
 	// include all files recursivley
-  "FileMapping"
-  {
-  	// This can be a full path, or a path relative to ContentRoot
-    "LocalPath" "*"
-    
-    // This is a path relative to the install folder of your game
-    "DepotPath" "."
-    
-    // If LocalPath contains wildcards, setting this means that all
-    // matching files within subdirectories of LocalPath will also
-    // be included.
-    "recursive" "1"
-  }
+	"FileMapping"
+	{
+		// This can be a full path, or a path relative to ContentRoot
+		"LocalPath" "*"
+		
+		// This is a path relative to the install folder of your game
+		"DepotPath" "."
+		
+		// If LocalPath contains wildcards, setting this means that all
+		// matching files within subdirectories of LocalPath will also
+		// be included.
+		"recursive" "1"
+	}
 
 	// This can be a full path, or a path relative to ContentRoot
-  "FileExclusion" "*.pdb" // Exclude symbol files
-  "FileExclusion" "*.pyc" // Exclude pyc files
-  "FileExclusion" "*.pyo" // Exclude pyc files
-  "FileExclusion" "*.mdmp" // Exclude mdmp files (crash on running "exit" from build exec script...)
-  "FileExclusion" "__pycache__" // Exclude pycache folders
-  
+	"FileExclusion" "*.pdb" // Exclude symbol files
+	"FileExclusion" "*.pyc" // Exclude pyc files
+	"FileExclusion" "*.pyo" // Exclude pyc files
+	"FileExclusion" "*.mdmp" // Exclude mdmp files (crash on running "exit" from build exec script...)
+	"FileExclusion" "__pycache__" // Exclude pycache folders
+	
 }'''
 
 # Pak settings
 shouldpakfiles = True
 
 pak_configuration = [
+    {
+        'root': 'platform',
+        'folders': [
+            'admin',
+            'demo',
+            'friends',
+            'materials/debug',
+            'materials/engine',
+            'materials/vgui',
+            'resource',
+            'scripts',
+            'servers',
+        ],
+        'files': [],
+        'exclude': [
+            'admin/admin_', # *.txt
+            'admin/server_', # *.txt
+            'admin/game_ready.wav',
+            'admin/helpfile.vdf',
+            'admin/helpfile_adminmod.vdf',
+            'admin/helpfile_cstrike.vdf',
+            'admin/hlds_logo.tga',
+            'admin/game_ready.wav',
+            'admin/mainserverconfig.vdf',
+            'demo/animationdemo.vas',
+            'friends/friend_join.wav',
+            'friends/friend_online.wav',
+            'friends/message.wav',
+            'friends/servers.vdf',
+            'friends/icon_', # *.tga
+            'friends/trackerui_', # *.txt
+            'resource/dmecontrols_english.txt',
+            'resource/toolactbusy_english.txt',
+            'resource/toolpet_english.txt',
+            'resource/toolshared_english.txt',
+            'resource/platform_', # *.txt
+            'resource/icon_', # *.tga
+            'resource/valve_logo.tga',
+            'resource/vgui_', # *.txt
+            'resource/warning.wav',
+            'scripts/plugin_animations.txt',
+            'scripts/preload_xbox.xsc',
+            'servers/game_ready.wav',
+            'servers/icon_', # *.tga
+            'servers/regions.vdf',
+            'servers/serverbrowser_', # *.txt
+        ],
+    },
     {
         'root': 'swarm_base',
         'folders': [
