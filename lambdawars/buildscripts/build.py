@@ -231,6 +231,8 @@ replacements = [
 ]
 
 copyfiles = [
+    'lambdawars.exe',
+
     'lambdawars/GameInfo.txt',
     'lambdawars/readme.txt',
     'lambdawars/changelog.txt',
@@ -562,7 +564,7 @@ def MakeClientRelease(srcpath, dstpath, scriptspath=None, appid=None, depotid=No
     if shouldpakfiles:
         BuildVPKs(srcpath, dstpath)
     if gamerevision:
-        with open(os.path.join(dstpath, 'gamerevision'), 'wt') as fp:
+        with open(os.path.join(dstpath, 'lambdawars/gamerevision'), 'wt') as fp:
             fp.write(gamerevision)
     if scriptspath and appid and depotid:
         WriteDeployScripts(scriptspath, appid, depotid, gamerevision, buildnumber)
