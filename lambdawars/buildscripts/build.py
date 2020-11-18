@@ -71,6 +71,37 @@ shouldpakfiles = True
 
 pak_configuration = [
     {
+        'root': 'swarm_base',
+        'folders': [
+            'materials',
+            'models',
+            'particles',
+            'resource',
+        ],
+        'files': [],
+        'exclude': [
+            'resource/chat_english.txt',
+            'resource/closecaption_english.dat',
+            'resource/closecaption_english.txt',
+            'resource/halflife2.vfont',
+            'resource/hl2crosshairs.vfont',
+            'resource/hl2ep2.vfont',
+            'resource/valve_english.txt',
+        ],
+    },
+    {
+        'root': 'swarm',
+        'folders': [
+            'materials',
+            'models',
+            'particles',
+            'resource',
+            'sound',
+        ],
+        'files': [],
+        'exclude': [],
+    },
+    {
         'root': 'lambdawars',
         'folders': [
             'particles', 
@@ -119,6 +150,10 @@ pak_configuration = [
 # Folders to copy
 copyfolders = [
     'bin',
+    'platform',
+
+    'swarm_base',
+    'swarm',
 
     'lambdawars/bin', 
     'lambdawars/cfg', 
