@@ -4,8 +4,8 @@ from entities import networked, entity, Activity, FireBulletsInfo_t, CreateEntit
 from fields import BooleanField, UpgradeField
 from gameinterface import CPASAttenuationFilter, CPVSFilter, CPASFilter
 from core.units import (UnitInfo, UnitBaseCombat as BaseClass, UnitBaseAirLocomotion, CreateUnitNoSpawn,
-    EventHandlerAnimation, GetUnitInfo, UnitBaseAnimState, UnitCombatLocomotion)
-
+    EventHandlerAnimation, GetUnitInfo, UnitBaseAnimState, UnitCombatLocomotion, unitlistpertype)
+from core.abilities import AbilityUpgradeValue, GetTechNode
 if isserver:
     from core.units import UnitCombatAirNavigator, BaseAction, UnitCombatNavigator
     from utils import ExplosionCreate
@@ -47,7 +47,11 @@ class UnitMortarSynth(BaseClass):
             
             while self.nextattacktime < gpGlobals.curtime and self.abilitycheckautocast.get(info.uid, False):
                 attackinfo = self.unitinfo.AttackRange
-                self.nextattacktime += attackinfo.attackspeed
+                technode = GetTechNode('mortarsynth_upgrade', self.GetOwnerNumber())
+                if technode.techenabled:
+                    self.nextattacktime += attackinfo.attackspeed + self.attackspeedboost
+                else:
+                    self.nextattacktime += attackinfo.attackspeed
                 self.DoAnimation(self.ANIM_RANGE_ATTACK1)
                 #self.ThrowEnergyGrenade()
             return False
@@ -107,14 +111,19 @@ class UnitMortarSynth(BaseClass):
                     grenade.damage = info.damage
                     grenade.damagetype = DMG_BLAST
                     grenade.damageradius = info.radiusdamage
-                    grenade.SetThrower(self)
+                    grenade.SetThrower(unit)
                 
-                    filter = CPASAttenuationFilter(self, ATTN_NONE)
+                    filter = CPASAttenuationFilter(unit, ATTN_NONE)
 
-                    self.EmitSoundFilter( filter, self.entindex(), "Weapon_Mortar.Single" )
-                    info = self.abilitiesbyname.get('mortarattack', None)
-                    info.SetRecharge(info, units=unit)
-                    self.nextshoottime = gpGlobals.curtime + self.unitinfo.AttackRange.attackspeed
+                    unit.EmitSoundFilter( filter, unit.entindex(), "Weapon_Mortar.Single" )
+                    info = unit.abilitiesbyname.get('mortarattack', None)
+                    technode = GetTechNode('mortarsynth_upgrade', unit.GetOwnerNumber())
+                    if technode.techenabled:
+                        unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed + unit.attackspeedboost
+                        info.SetRecharge(info, units=unit, t=unit.attackspeedboost)
+                    else:
+                        unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed
+                        info.SetRecharge(info, units=unit)
     def PreDetonate(self):
 
         self.SetTouch(None)
@@ -200,6 +209,8 @@ class UnitMortarSynth(BaseClass):
         aetable = {
             1 : MortarSynthAttack,
         }
+    maxspeed = UpgradeField(value = 112.0, abilityname = 'mortarsynth_upgrade') #TODO: REWORK THIS
+    attackspeedboost = -1
 class MortarSynthInfo(UnitInfo):
     name = 'unit_mortar_synth'
     cls_name = 'unit_mortar_synth'
@@ -209,9 +220,9 @@ class MortarSynthInfo(UnitInfo):
     modelname = 'models/MortarSynth.mdl'
     health = 150
     buildtime = 28.0
-    costs = [('requisition', 45), ('power', 25)]
+    costs = [[('requisition', 45), ('power', 25)], [('kills', 6)]]
     attributes = ['synth']
-    maxspeed = 112
+    #maxspeed = 112
     turnspeed = 200
     viewdistance = 768
     sensedistance = 1408
@@ -219,6 +230,8 @@ class MortarSynthInfo(UnitInfo):
     population = 3
     scalebounds = 0.75
     grenades = 1
+    sound_select = 'unit_scanner_select'
+    sound_move = 'unit_scanner_move'
     abilities = {
         0 : 'mortarattack',
         8: 'attackmove',
@@ -228,7 +241,25 @@ class MortarSynthInfo(UnitInfo):
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
         damage = 250.0
-        attackspeed = 8.0
+        attackspeed = 7.0
         maxrange = 1408.0
         radiusdamage = 128
     attacks = ['AttackRange']
+class OverrunMortarSynthInfo(MortarSynthInfo):
+    name = 'overrun_unit_mortar_synth'
+    techrequirements = ['or_tier3_research']
+    buildtime = 0
+class MortarSynthSpeedUpgrade(AbilityUpgradeValue):
+    name = 'mortarsynth_upgrade'
+    displayname = '#MortarSynthSpeedUpgrade_Name'
+    description = '#MortarSynthSpeedUpgrade_Description'
+    buildtime = 60.0
+    upgradevalue = 144
+    costs = [[('requisition', 30), ('power', 30)], [('kills', 2)]]
+    techrequirements = []
+    image_name = 'vgui/combine/abilities/mortarsynth_upgrade'
+    def OnUpgraded(self):
+        super().OnUpgraded()
+        units = list(unitlistpertype[self.ownernumber]['unit_mortar_synth'])
+        for unit in units:
+            unit.UpdateLocomotionSettings()

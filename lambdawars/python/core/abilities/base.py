@@ -359,7 +359,7 @@ class AbilityBase(AbilityInfo):
         return valid
         
     @serveronly_assert
-    def SetRecharge(self, units):
+    def SetRecharge(self, units, t=0):
         """ Sets recharge on the input units.
         
             Args:
@@ -380,7 +380,7 @@ class AbilityBase(AbilityInfo):
 
             for unit in units:
                 for uid in abi_uids:
-                    unit.abilitynexttime[uid] = gpGlobals.curtime + self.rechargetime
+                    unit.abilitynexttime[uid] = gpGlobals.curtime + self.rechargetime + t
                 
     @serveronly_assert
     def Refund(self):

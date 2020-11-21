@@ -172,6 +172,7 @@ class OverrunCombineHQInfo(WarsBuildingInfo):
         3: 'overrun_unit_combine_elite',
         4: 'overrun_unit_combine_sniper',
         5: 'overrun_unit_hunter',
+        6: 'overrun_unit_mortar_synth',
         8: 'or_tier2_research',
         9: 'overrun_unit_metropolice_riot',
         10: 'overrun_unit_metropolice',

@@ -147,7 +147,7 @@ class UnitZombine(BaseClass):
             'AE_ZOMBINE_PULLPIN' : PullPin,
             'AE_ZOMBIE_STEP_LEFT' : EmitSoundAnimEventHandler('Zombie.FootstepLeft'),
             'AE_ZOMBIE_STEP_RIGHT' : EmitSoundAnimEventHandler('Zombie.FootstepRight'),
-            #'AE_ZOMBIE_ATTACK_SCREAM' : EmitSoundAnimEventHandler('Zombie.Attack'),
+            'AE_ZOMBIE_ATTACK_SCREAM' : EmitSoundAnimEventHandler('Zombie.Attack'),
             Animevent.AE_NPC_ATTACK_BROADCAST : BaseAnimEventHandler(),
         })
     attackmelee1act = 'ACT_ZOMBINE_ATTACK_FAST'

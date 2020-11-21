@@ -37,7 +37,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     abilities = {
         0 : 'strider_maxenergy_upgrade',
         1 : 'combinemine_upgrade',
-        #2 : 'strider_maxenergy_upgrade',
+        2 : 'mortarsynth_upgrade',
         #4 : 'weaponsg_comb_unlock',
         #5 : 'weaponar2_comb_unlock',
         #6 : 'combineball_unlock',

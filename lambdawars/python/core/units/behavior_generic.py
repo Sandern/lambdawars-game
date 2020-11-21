@@ -843,6 +843,11 @@ class BehaviorGeneric(BaseBehavior):
                 return self.Done('Action done, order changed.')
             return super().OnResume()
 
+        def OnNavComplete(self):
+            self.order.Remove(dispatchevent=False, allowrepeat=True)
+            
+            return super().OnNavComplete()
+
     class ActionAbilityAttackMove(BaseBehavior.ActionInterruptible, BaseBehavior.ActionAbility):
         def OnStart(self):
             target = self.order.target

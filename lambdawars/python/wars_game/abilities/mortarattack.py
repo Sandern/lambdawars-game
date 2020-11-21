@@ -1,5 +1,5 @@
 from vmath import VectorNormalize, Vector
-from core.abilities import AbilityTarget
+from core.abilities import AbilityTarget, GetTechNode
 from entities import FClassnameIs, MouseTraceData
 from fow import FogOfWarMgr
 
@@ -29,7 +29,7 @@ if isserver:
         def Init(self, order):
             #target = order.target if order.ability.target else order.position
             target = order.position
-			
+            
             super().Init(target, self.outer.unitinfo.AttackRange.maxrange)
             
             self.order = order
@@ -48,11 +48,17 @@ if isserver:
             outer.DoAnimation(outer.ANIM_RANGE_ATTACK1)
             #self.firecannontime = gpGlobals.curtime + 2
             outer.ThrowEnergyGrenade(self.target)
-            self.ability.SetRecharge(outer)
+            technode = GetTechNode('mortarsynth_upgrade', outer.GetOwnerNumber())
+            if technode.techenabled:
+                outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed + outer.attackspeedboost
+                outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime + outer.attackspeedboost
+                ability.SetRecharge(outer, t=outer.attackspeedboost)
+            else:
+                outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed
+                outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime
+                ability.SetRecharge(outer)
             self.ability.Completed()
             self.order.Remove(dispatchevent=True)
-            outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed
-            outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime
             return self.SuspendFor(self.behavior.ActionWaitForActivity, 'Executing attack', outer.animstate.specificmainactivity)
         firecannontime = 0
 
@@ -63,7 +69,7 @@ class AbilityMortarAttack(AbilityTarget):
     description = '#CombBall_Description'
     image_name = 'VGUI/combine/abilities/mortar_synth_attack_icon.vmt'
     costs = [] 
-    rechargetime = 8
+    rechargetime = 7
     target = None
     supportsautocast = True
     defaultautocast = True
@@ -72,7 +78,6 @@ class AbilityMortarAttack(AbilityTarget):
             
         def DoAbility(self):
             data = self.mousedata
-
             if FogOfWarMgr().PointInFOW(data.endpos, self.ownernumber):
                 self.Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
                 return

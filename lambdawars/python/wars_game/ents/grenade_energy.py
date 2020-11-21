@@ -102,6 +102,8 @@ class GrenadeEnergy(BaseClass):
                 self.glow_trail_1 = None
             if self.glow_trail_2:
                 self.glow_trail_2 = None
+            if self.glow_trail_3:
+                self.glow_trail_3 = None
             UTIL_Remove( self )
         def CreateSmokeTrail(self):
             if self.glow_trail:
@@ -143,11 +145,26 @@ class GrenadeEnergy(BaseClass):
                 self.glow_trail_2.SetLifeTime(0.5)
                 self.glow_trail_2.AddFOWFlags(self.GetFOWFlags())
                 self.glow_trail_2.SetOwnerNumber(self.GetOwnerNumber())
+            if self.upgraded:
+                if self.glow_trail_3:
+                    return
+                self.glow_trail_3 = CSpriteTrail.SpriteTrailCreate("sprites/animglow01.vmt", self.GetLocalOrigin(), False)
+                if self.glow_trail_3 is not None:
+                    self.glow_trail_3.FollowEntity(self)
+                    self.glow_trail_3.SetAttachment(self, attachment)
+                    self.glow_trail_3.SetTransparency(kRenderTransAdd, self.teamcolor[0], self.teamcolor[1], self.teamcolor[2], 255, kRenderFxNone) 
+                    self.glow_trail_3.SetStartWidth(80.0) 
+                    self.glow_trail_3.SetEndWidth(20.0) 
+                    self.glow_trail_3.SetLifeTime(0.5)
+                    self.glow_trail_3.AddFOWFlags(self.GetFOWFlags())
+                    self.glow_trail_3.SetOwnerNumber(self.GetOwnerNumber())
         teamcolor = (0, 0, 0)
         smoketrail = None
         glow_trail = None
         glow_trail_1 = None
         glow_trail_2 = None
+        glow_trail_3 = None
+        upgraded = False
         damagecontroller = None
         # Settings
         ANTLIONWORKER_SPITGRENADEDMG = 500
