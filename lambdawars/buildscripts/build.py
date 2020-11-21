@@ -486,6 +486,7 @@ def BuildVPKs(srcpath, dstpath):
         
 def BuildVPK(config, srcpath, dstpath):
     out_folder = os.path.join(dstpath, config['root'])
+    pak_list_name = 'paklist_%s.txt' % (config['root'])
 
     os.chdir(out_folder)
     
@@ -495,25 +496,26 @@ def BuildVPK(config, srcpath, dstpath):
         'outfolder': out_folder,
         'curfolder': os.path.join(srcpath, 'lambdawars/buildscripts'), 
         'delcmd': 'del pak*.vpk',
+        'pak_list_name': 'pak_list_name',
     }
     pakfilesbat = '''
     PATH=PATH;"%(srcpath)s/bin/"
     cd %(outfolder)s
     %(delcmd)s
-    vpk.exe -M a pak01 "@%(curfolder)s/paklist.txt"
+    vpk.exe -M a pak01 "@%(curfolder)s/%(pak_list_name)s"
     ''' % pakfilesargs
 
-    pakfilescmd = os.path.join(srcpath, 'lambdawars/buildscripts', 'pakfiles.bat')
+    pakfilescmd = os.path.join(srcpath, 'lambdawars/buildscripts', 'pakfiles_%s.bat' % (config['root']))
     with open(pakfilescmd, 'wb') as fp:
         fp.write(bytes(pakfilesbat, 'UTF-8'))
 
     # Create pak list
-    print('Creating paklist.txt', flush=True)
+    print('Creating %s' % pak_list_name, flush=True)
     pakset = list()
     for folder in config['folders']:
         ListVPKFiles(os.path.join(out_folder, folder), pakset, config['exclude'])
          
-    with open(os.path.join(srcpath, 'lambdawars/buildscripts', 'paklist.txt'), 'wt') as fp:
+    with open(os.path.join(srcpath, 'lambdawars/buildscripts', pak_list_name), 'wt') as fp:
         for ps in pakset:
             fp.write('%s\n' % (ps.split(out_folder, 1)[1][1:]))
         for filename in config['files']:
@@ -536,19 +538,6 @@ def BuildFinalize(srcpath, dstpath):
     # Create Build exec script
     with open(os.path.join(dstpath, 'lambdawars/cfg/buildexec.cfg'), 'wt') as fp:
         fp.write(buildexec_template % {'loadmapscmds' : ''})
-
-    # Change to destination and run build exec script
-    if os.path.exists(os.path.join(dstpath, '..', 'srcds.exe')):
-        print('Running Lambda Wars to generate sound cache and various...')
-        os.chdir(os.path.join(dstpath, '..'))
-        args = ['srcds.exe', '-game', 'lambdawars', '-textmode', '-console', '-windowed', '+exec', 'buildexec.cfg',
-            #'-nosound', '-noipx', '-novid', '-nopreload', '-nojoy',
-        ]
-        p = subprocess.Popen(args)
-        retcode = p.wait()
-        #print('stdout: %s' % (p.stdout.read()))
-        #print('stderr: %s' % (p.stderr.read()))
-        print('retcode: %s' % (retcode))
     
     # Remove the following files
     os.chdir(dstpath)
