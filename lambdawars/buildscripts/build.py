@@ -280,6 +280,9 @@ replacements = [
 
 copyfiles = [
     'lambdawars.exe',
+    'srcds.exe',
+    'srcds_run',
+    'steam_appid.txt',
 
     'lambdawars/GameInfo.txt',
     'lambdawars/readme.txt',
@@ -297,15 +300,6 @@ copyfiles = [
     'lambdawars/icon_big.tga',
     'lambdawars/whitelist.cfg',
 ]
-
-buildexec_template = '''
-//con_logfile console.log
-//snd_rebuildaudiocache;
-
-%(loadmapscmds)s
-
-exit;
-'''
 
 def RenameFiles(target_folder, rename_files):
     for f in rename_files:
@@ -407,7 +401,7 @@ def BuildCopyFiles(srcpath, dstpath):
         if ext != '.bsp':
             continue
         if mapname not in maplist:
-            ignoremapspaths.append('maps/%s' % (mapname))
+            ignoremapspaths.append('lambdawars/maps/%s' % (mapname))
     
     ignorefilelist = list(map(lambda path: os.path.normpath(os.path.join(srcpath, path)), fullpathignore+ignoremapspaths))
     
@@ -496,7 +490,7 @@ def BuildVPK(config, srcpath, dstpath):
         'outfolder': out_folder,
         'curfolder': os.path.join(srcpath, 'lambdawars/buildscripts'), 
         'delcmd': 'del pak*.vpk',
-        'pak_list_name': 'pak_list_name',
+        'pak_list_name': pak_list_name,
     }
     pakfilesbat = '''
     PATH=PATH;"%(srcpath)s/bin/"
@@ -533,36 +527,6 @@ def BuildVPK(config, srcpath, dstpath):
         RemoveEmptyFolders(folder)
     for filename in config['files']:
         os.remove(os.path.join(out_folder, filename))
-        
-def BuildFinalize(srcpath, dstpath):
-    # Create Build exec script
-    with open(os.path.join(dstpath, 'lambdawars/cfg/buildexec.cfg'), 'wt') as fp:
-        fp.write(buildexec_template % {'loadmapscmds' : ''})
-    
-    # Remove the following files
-    os.chdir(dstpath)
-    toremove = [
-        'cfg/buildexec.cfg',
-        'cfg/config.cfg',
-        'cfg/config_fps.cfg',
-        'cfg/server_blacklist.txt',
-        'cfg/video.bak',
-        'cfg/video.txt',
-        'cfg/videodefaults.txt',
-        'debug.log',
-        'stats.txt',
-        'cache',
-        'mountlist.txt',
-        'modelsounds.cache',
-    ]
-    for path in toremove:
-        if os.path.isdir(path):
-            shutil.rmtree(path)
-        else:
-            try:
-                os.remove(path)
-            except OSError as err:
-                print('Could not remove %s: %s' % (path, err))
                 
 def WriteDeployScripts(scriptspath, appid, depotid, gamerevision, buildnumber):
     appdeploypath = os.path.join(scriptspath, 'app_build_%d.vdf' % (appid))
@@ -605,7 +569,6 @@ def MakeClientRelease(srcpath, dstpath, scriptspath=None, appid=None, depotid=No
             fp.write(gamerevision)
     if scriptspath and appid and depotid:
         WriteDeployScripts(scriptspath, appid, depotid, gamerevision, buildnumber)
-    BuildFinalize(srcpath, dstpath)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Lambda Wars Build script')
