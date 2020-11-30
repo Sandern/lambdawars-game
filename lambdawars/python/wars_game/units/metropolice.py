@@ -648,7 +648,7 @@ class MetroPoliceInfo(UnitInfo):
     costs = [[('requisition', 15)], [('kills', 1)]]
     buildtime = 19.0
     health = 150
-    maxspeed = 216
+    maxspeed = 232
     viewdistance = 768
     scrapdropchance = 0.0
     accuracy = 0.80
@@ -683,7 +683,7 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
     weapons = ['weapon_smg1']
     costs = [[('requisition', 20)], [('kills', 1)]]
     buildtime = 22.0
-    maxspeed = 208
+    maxspeed = 224
     viewdistance = 768
     scrapdropchance = 0.0
     #techrequirements = ['build_comb_armory']

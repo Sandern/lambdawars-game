@@ -331,7 +331,7 @@ class RebelPartisanInfo(RebelShared):
     buildtime = 19.0
     health = 60
     population = 1
-    maxspeed = 208.0
+    maxspeed = 224.0
     viewdistance = 768
     scrapdropchance = 0.0
     #tier = 1
