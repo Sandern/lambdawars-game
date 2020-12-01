@@ -1,6 +1,8 @@
 
 # Lambda Wars
 
+![](https://github.com/Sandern/lambdawars-game/blob/pasa/picture.jpg)
+
 ## About
 Lambda Wars is a free multiplayer Source Engine modification based on Alien Swarm engine and set in the **Half-Life 2 universe** that brings the war between mankind and their brutal Combine overlords to a traditional real-time strategy (RTS) setting.
 
