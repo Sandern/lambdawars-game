@@ -55,6 +55,7 @@ class GamerulesInfo(gamemgr.BaseInfo, metaclass=GamerulesInfoMetaClass):
         'core.ui.topbar.CefTopBar',
         'core.ui.waitingforplayers.CefWaitingForPlayers',
         'core.ui.postgame.CefPostGamePlayers',
+        'core.ui.HudTimer',
     ]
     
     #: Players may join in the middle of an active game.

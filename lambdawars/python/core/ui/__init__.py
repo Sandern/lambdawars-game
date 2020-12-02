@@ -15,6 +15,7 @@ if isclient:
     from .chat import CefChatPanel, chatpanel
     from .waitingforplayers import CefWaitingForPlayers
     from .postgame import CefPostGamePlayers
+    from .timer import HudTimer
     
 # User messages 
 @usermessage('showwinlosedialog')
