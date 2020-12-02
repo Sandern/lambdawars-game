@@ -20,7 +20,7 @@ from core.signals import FireSignalRobust, endgame, map_endgame, startgame
 from core.usermessages import usermessage
 from core.ui import ShowWinLoseDialog
 
-from gamerules import CHL2WarsGameRules, gamerules
+from gamerules import CHL2WarsGameRules, gamerules, GameRules
 from gameinterface import ConVarRef, engine, ConVar, concommand, FCVAR_CHEAT, PrecacheEffect
 import matchmaking
 import filesystem
@@ -87,6 +87,25 @@ def ClientHideWaitingForPlayers(**kwargs):
         return
         
     panel.visible = False
+@usermessage()
+def ClientShowTimer(**kwargs):
+    panel = gamerules.GetHudPanel('HudTimer')
+    if not panel:
+        return
+        
+    panel.visible = True
+@usermessage()
+def ClientHideTimer(**kwargs):
+    panel = gamerules.GetHudPanel('HudTimer')
+    if not panel:
+        return
+        
+    panel.visible = False
+@usermessage()
+def ClientChangeTimer(time, **kwargs):
+    panel = GameRules().hudrefs['HudTimer'].Get()
+    panel.gametime = True
+    panel.time = time
 
 @usermessage(usesteamp2p=True)
 def ClientEndGameMessage(lobbysteamid, winners, losers, *args, **kwargs):
@@ -323,6 +342,8 @@ class WarsBaseGameRules(CHL2WarsGameRules):
         """
         self.UpdateGamePlayers()
         self.UpdateVoiceManager()
+        time = gpGlobals.curtime - self.gametime 
+        ClientChangeTimer(time)
     
         if self.CheckGameOver():
             return
@@ -1119,6 +1140,7 @@ class WarsBaseGameRules(CHL2WarsGameRules):
                 continue
             CreateAIForFaction(data['ownernumber'], cputype=data['cputype'], difficulty=data['difficulty'])
 
+        self.gametime = gpGlobals.curtime
         FireSignalRobust(startgame, gamerules=self)
     
     def BuildPreferredPositions(self, team, availablepositions):
@@ -1400,6 +1422,7 @@ class WarsBaseGameRules(CHL2WarsGameRules):
     hudrefs = {}
     musicplaylist = None
     offlinegame = False
+    gametime = 0
 
     forfeit_disconnected_too_long = True
 
