@@ -24,15 +24,15 @@ class WeaponRebelHeavyGun(WarsWeaponMachineGun):
 
         super().DoImpactEffect(tr, damagetype)
         
-    clientclassname = 'weapon_ar2'
+    clientclassname = 'weapon_rebel_heavy_gun'
     muzzleoptions = 'COMBINE MUZZLE'
     
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):
         maxrange = 768.0
-        attackspeed = 0.09
+        attackspeed = 0.08
         usesbursts = True
         minburst = 8
         maxburst = 8
-        minresttime = 1.4
-        maxresttime = 1.60
+        minresttime = 0.75
+        maxresttime = 0.85
         attributes = ['pulse']

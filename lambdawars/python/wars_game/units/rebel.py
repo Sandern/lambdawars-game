@@ -522,21 +522,22 @@ class RebelHeavyInfo(RebelInfo):
     name = 'unit_rebel_heavy'
     displayname = '#RebHeavy_Name'
     description = '#RebHeavy_Description'
-    buildtime = 32.0
+    buildtime = 30.0
     maxspeed = 184
     health = 240
     viewdistance = 832
-    scale = 1.075
-    costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
+    scale = 1.10
+    costs = [[('requisition', 50), ('scrap', 30)], [('kills', 2)]]
     techrequirements = ['build_reb_munitiondepot','weaponar2_unlock']
-    accuracy = 0.25
+    accuracy = 0.5
+    population = 2
     modelname = 'models/rebel_heavy.mdl'
-    #techrequirements = ['build_reb_munitiondepot']
+    techrequirements = ['build_reb_munitiondepot']
     weapons = ['weapon_rebel_heavy_gun']
     abilities = {
-        0: 'grenade',
-        1: 'rebel_grenade_upgrade',
-        #7: 'mountturret',
+        0: 'smokegrenade',
+        #1: 'rebel_grenade_upgrade',
+        7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
@@ -544,7 +545,7 @@ class RebelHeavyInfo(RebelInfo):
     }
     sensedistance = 768.0
     attributes = ['heavy']
-    image_name = 'vgui/rebels/units/unit_rebel_ar2'
+    image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
 
 

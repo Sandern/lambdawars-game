@@ -23,11 +23,11 @@ class SpecialOpsInfo(WarsBuildingInfo):
     health = 600
     buildtime = 54.0
     abilities   = {
-        0 : 'unit_rebel_rpg',
-        #1 : 'unit_rebel_veteran',
-        1 : 'unit_rebel_flamer',
-        2 : 'unit_rebel_saboteur',
-        8 : 'cancel',
+		0 : 'unit_rebel_rpg',
+		1 : 'unit_rebel_flamer',
+		2 : 'unit_rebel_heavy',
+		3 : 'unit_rebel_saboteur',
+		8 : 'cancel',
     } 
     sound_select = 'build_reb_specialops'
     sound_death = 'build_generic_explode1'
