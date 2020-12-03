@@ -412,6 +412,8 @@ class UnitRollerMine(BaseClass):
 
     def PreDetonate(self):
         """ Makes warning noise before actual explosion occurs """
+        if isserver:
+            self.skin = 2
         self.Hop(300)
 
         self.SetTouch(None)
