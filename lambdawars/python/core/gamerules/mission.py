@@ -37,6 +37,9 @@ class Mission(WarsBaseGameRules):
                     engine.ServerCommand('disconnect\n')
             return True
         return False
+    def StartGame(self):
+        super().StartGame()
+        
 
     forfeit_disconnected_too_long = False
         
@@ -49,6 +52,7 @@ class MissionInfo(GamerulesInfo):
     huds = [
         #'core.hud.HudDirectControl',
         'core.hud.HudPlayerNames',
+        'core.ui.HudTimer',
     ]
     allowplayerjoiningame = True
     hidden = True
