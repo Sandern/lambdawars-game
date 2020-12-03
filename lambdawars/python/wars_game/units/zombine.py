@@ -7,7 +7,6 @@ from unit_helper import UnitAnimConfig, LegAnimType_t, TranslateActivityMap
 from entities import entity, Activity
 from animation import EventList_RegisterPrivateEvent
 if isserver:
-    from entities import SpawnBlood
     from unit_helper import BaseAnimEventHandler, EmitSoundAnimEventHandler
     from wars_game.ents.grenade_frag import GrenadeFrag
     from animation import Animevent
@@ -96,30 +95,7 @@ class UnitZombine(BaseClass):
                 self.EmitSound( "Zombine.ReadyGrenade" )
 
             self.grenadecount -= 1
-    if isserver:
-        def StartMeleeAttack(self, enemy):    
-            # Do melee damage
-            attackinfo = self.unitinfo.AttackMelee
-            self.MeleeAttack(attackinfo.maxrange, attackinfo.damage)
-                
-            return super().StartMeleeAttack(enemy)
 
-    def MeleeAttack(self, distance, damage):
-        vecMins = self.WorldAlignMins()
-        vecMaxs = self.WorldAlignMaxs()
-        vecMins.z = vecMins.x
-        vecMaxs.z = vecMaxs.x
-        enthurt = self.CheckTraceHullAttack( distance, vecMins, vecMaxs, damage, self.unitinfo.AttackMelee.damagetype)
-        if enthurt != None:     # hitted something
-            # Play a random attack hit sound
-            self.EmitSound( "Zombie.AttackHit" )
-            SpawnBlood(enthurt.GetAbsOrigin(), Vector(0,0,1), enthurt.BloodColor(), damage)
-        else:
-            self.EmitSound( "Zombie.AttackMiss" )
-    def AttackRight(self, event): pass #можно сделать рандомный выбор или поведение и типа по разному атакует но как по мне такое себе
-    def AttackLeft(self, event): pass
-    def AttackBoth(self, event): pass
-    def ClawAttack(self, flDist, iDamage, qaViewPunch, vecVelocityPunch, BloodOrigin): pass
     # Events
     events = dict(BaseClass.events)
     events.update( {
@@ -139,7 +115,10 @@ class UnitZombine(BaseClass):
         'ACT_ZOMBINE_GRENADE_FLINCH_WEST',
         'ACT_ZOMBINE_GRENADE_FLINCH_EAST',
     ])
-    
+	     # Activity translation table
+    acttables = {
+        Activity.ACT_MP_JUMP_FLOAT : Activity.ACT_IDLE,
+    }
     if isserver:
         # Anim events
         aetable = dict(BaseClass.aetable)
@@ -150,7 +129,6 @@ class UnitZombine(BaseClass):
             'AE_ZOMBIE_ATTACK_SCREAM' : EmitSoundAnimEventHandler('Zombie.Attack'),
             Animevent.AE_NPC_ATTACK_BROADCAST : BaseAnimEventHandler(),
         })
-    attackmelee1act = 'ACT_ZOMBINE_ATTACK_FAST'
 
     grenade = None
     
@@ -186,5 +164,5 @@ class ZombineInfo(BaseZombieInfo):
         maxrange = 55.0
         damage = 60
         damagetype = DMG_SLASH
-        attackspeed = 1.9
+        attackspeed = 0.75
     attacks = 'AttackMelee'

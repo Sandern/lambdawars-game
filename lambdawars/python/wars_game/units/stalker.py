@@ -445,7 +445,8 @@ class UnitStalker(BaseClass):
     
     # Activity translation table
     acttables = {
-        Activity.ACT_RUN : Activity.ACT_WALK,
+		Activity.ACT_RUN : Activity.ACT_WALK,
+		Activity.ACT_MP_JUMP_FLOAT : Activity.ACT_IDLE,
     }
     
     if isserver:
