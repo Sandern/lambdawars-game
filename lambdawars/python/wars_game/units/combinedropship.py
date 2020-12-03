@@ -309,7 +309,7 @@ class UnitBaseDropshipAnimState(UnitBaseHelicopterAnimState):
         # GetAnimTimeInterval returns gpGlobals.frametime on client, and interval between main think (non context) on server
         interval = self.GetAnimTimeInterval()
         
-        outer.SetSequence(outer.LookupSequence('idle'))
+        outer.SetSequence(outer.LookupSequence('cargo_idle'))
 
 @entity('unit_combinedropship', networked=True)
 class UnitCombineDropship(BaseClass):    
