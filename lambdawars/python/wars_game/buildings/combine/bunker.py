@@ -59,4 +59,4 @@ class CombineBunkerInfo(BunkerInfo):
     
 class OverrunCombineBunkerInfo(CombineBunkerInfo):
     name = 'overrun_build_comb_bunker'
-    techrequirements = ['build_comb_garrison_destroyhq']
+    techrequirements = ['or_tier2_research']
