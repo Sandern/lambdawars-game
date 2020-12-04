@@ -219,7 +219,7 @@ class MortarSynthInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_mortar_synth'
     modelname = 'models/MortarSynth.mdl'
     health = 150
-    buildtime = 28.0
+    buildtime = 35.0
     costs = [[('requisition', 45), ('power', 25)], [('kills', 6)]]
     attributes = ['synth']
     #maxspeed = 112
