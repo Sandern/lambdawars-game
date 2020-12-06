@@ -603,7 +603,7 @@ class RollerMineInfo(UnitInfo):
         9: 'holdposition',
         10: 'patrol',
     }
-    modelname = 'models/Roller.mdl'
+    modelname = 'models/roller.mdl'
     hulltype = 'HULL_SMALL_CENTERED'
     zoffset = 28.0
     oncreatedroptofloor = False

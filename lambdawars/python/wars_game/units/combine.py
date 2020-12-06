@@ -408,8 +408,8 @@ class CombineEliteInfo(CombineSharedInfo):
     portrait = 'resource/portraits/combineAR2.bik'
     costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
     buildtime = 35.0
-    health = 300
-    maxspeed = 192
+    health = 250
+    maxspeed = 208
     #sensedistance = 1120.0
     viewdistance = 896
     attributes = ['heavy']
@@ -433,6 +433,36 @@ class CombineEliteInfo(CombineSharedInfo):
     weapons = ['weapon_shotgun', 'weapon_ar2']
     accuracy = 'medium'
     population = 3
+	
+class CombineHeavyInfo(CombineSharedInfo):
+    name = 'unit_combine_heavy'
+    displayname = '#CombElite_Name'
+    description = '#CombElite_Description'
+    image_name = 'vgui/combine/units/unit_combine_elite'
+    costs = [[('requisition', 40), ('power', 25)], [('kills', 4)]]
+    buildtime = 30.0
+    health = 300
+    maxspeed = 192
+    #sensedistance = 1120.0
+    viewdistance = 896
+    attributes = ['heavy']
+    techrequirements = ['build_comb_armory']
+    selectionpriority = 1
+    sound_select = 'unit_combine_elite_select'
+    sound_move = 'unit_combine_elite_move'
+    sound_attack = 'unit_combine_elite_attack'
+    modelname = 'models/combine_heavy.mdl'
+    abilities = {
+        #0: 'combineball',
+        #7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+    weapons = ['weapon_shotgun']
+    accuracy = 'medium'
+    population = 2
 
 class CombineSniperUnlock(AbilityUpgrade):
     name = 'combine_sniper_unlock'
