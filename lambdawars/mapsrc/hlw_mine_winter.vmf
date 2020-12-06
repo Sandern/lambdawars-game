@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "5032"
-	"mapversion" "220"
+	"editorbuild" "8678"
+	"mapversion" "221"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -32,6 +32,12 @@ visgroups
 		"visgroupid" "26"
 		"color" "207 204 93"
 	}
+	visgroup
+	{
+		"name" "snow_storm_particles"
+		"visgroupid" "20"
+		"color" "204 93 130"
+	}
 }
 viewsettings
 {
@@ -44,7 +50,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "220"
+	"mapversion" "221"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -53906,220 +53912,256 @@ entity
 		"logicalpos" "[500 1000]"
 	}
 }
-entity
+hidden
 {
-	"id" "63569"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "111 704 -271"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "63569"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "111 704 -271"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65164"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "-2157.02 2921.35 -115.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65164"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "-2157.02 2921.35 -115.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65229"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "-1518.7 -483.123 -351.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65229"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "-1518.7 -483.123 -351.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65294"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "2272.52 -1436.36 -351.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65294"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "2272.52 -1436.36 -351.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65359"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "1531.59 1954.41 -351.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65359"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "1531.59 1954.41 -351.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65424"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "-132.225 3145 -200"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65424"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "-132.225 3145 -200"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65619"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "-30.1564 -1938.9 -246.135"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65619"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "-30.1564 -1938.9 -246.135"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65749"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "-2640 -1988 -351.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65749"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "-2640 -1988 -351.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
-entity
+hidden
 {
-	"id" "65814"
-	"classname" "info_particle_system"
-	"angles" "0 0 0"
-	"cpoint1_parent" "0"
-	"cpoint2_parent" "0"
-	"cpoint3_parent" "0"
-	"cpoint4_parent" "0"
-	"cpoint5_parent" "0"
-	"cpoint6_parent" "0"
-	"cpoint7_parent" "0"
-	"effect_name" "particle_storm_snow_BASE"
-	"start_active" "1"
-	"targetname" "snowstorm"
-	"origin" "2632 3328 -351.361"
-	editor
+	entity
 	{
-		"color" "220 30 220"
-		"visgroupshown" "1"
-		"visgroupautoshown" "1"
-		"logicalpos" "[0 0]"
+		"id" "65814"
+		"classname" "info_particle_system"
+		"angles" "0 0 0"
+		"cpoint1_parent" "0"
+		"cpoint2_parent" "0"
+		"cpoint3_parent" "0"
+		"cpoint4_parent" "0"
+		"cpoint5_parent" "0"
+		"cpoint6_parent" "0"
+		"cpoint7_parent" "0"
+		"effect_name" "particle_storm_snow_BASE"
+		"start_active" "1"
+		"targetname" "snowstorm"
+		"origin" "2632 3328 -351.361"
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupid" "20"
+			"visgroupshown" "0"
+			"visgroupautoshown" "1"
+			"logicalpos" "[0 0]"
+		}
 	}
 }
 entity
@@ -55217,8 +55259,8 @@ cameras
 	"activecamera" "0"
 	camera
 	{
-		"position" "[-2309.33 2102.81 29.7725]"
-		"look" "[-2309.36 2103.48 29.018]"
+		"position" "[-1517.2 -488.757 -337.51]"
+		"look" "[-1517.36 -488.096 -338.256]"
 	}
 }
 cordons
