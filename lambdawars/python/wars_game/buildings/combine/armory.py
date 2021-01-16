@@ -68,7 +68,7 @@ class ArmoryInfo(PoweredBuildingInfo):
     techrequirements = ['build_comb_garrison']
     costs = [('requisition', 40), ('power', 40)]
     resource_category = 'technology'
-    health = 500
+    health = 750
     buildtime = 56.0
     abilities = {
         0 : 'grenade_unlock_combine',

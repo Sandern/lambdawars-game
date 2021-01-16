@@ -101,7 +101,7 @@ class AbilityTeleportUnits(AbilityTarget):
 class TeleporterInfo(WarsBuildingInfo):
     name = "build_reb_teleporter"
     cls_name = "build_reb_teleporter"
-    health = 500
+    health = 600
     buildtime = 50.0
     techrequirements = ['build_reb_triagecenter']
     costs = [('scrap', 60)]

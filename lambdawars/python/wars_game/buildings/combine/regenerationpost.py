@@ -96,13 +96,13 @@ class CombineRegenerationPostInfo(WarsBuildingInfo):
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
     workactivity = 'ACT_WORK'
-    health = 300
+    health = 250
     buildtime = 25.0
     placemaxrange = 96.0
     #placeatmins = True
     costs = [[('requisition', 50)], [('kills', 5)]]
-    techrequirements = ['build_comb_specialops']
-    viewdistance = 896
+    techrequirements = ['build_comb_armory']
+    viewdistance = 640
     abilities   = {
         8 : 'cancel',
     } 

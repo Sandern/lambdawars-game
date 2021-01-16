@@ -19,7 +19,7 @@ class VortigauntDenInfo(WarsBuildingInfo):
     description = '#BuildRebVortigauntDen_Description'
     modelname = 'models/structures/resistance/vortden.mdl'
     costs = [('requisition', 50), ('scrap', 70)]
-    health = 500
+    health = 800
     buildtime = 54.0
     techrequirements = ['build_reb_triagecenter']
     abilities   = {

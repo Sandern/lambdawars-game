@@ -122,7 +122,7 @@ class EnergyCellInfo(WarsBuildingInfo):
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
-    health = 200
+    health = 250
     buildtime = 25.0
     abilities   = {
         8 : 'cancel',

@@ -67,7 +67,7 @@ class RebelBarInfo(WarsBuildingInfo):
     workactivity = 'ACT_WORK'
     zoffset = 0.0
     costs = [('requisition', 50)]
-    health = 600
+    health = 700
     buildtime = 45.0
     abilities = {
         0: 'unit_rebel_partisan_molotov',

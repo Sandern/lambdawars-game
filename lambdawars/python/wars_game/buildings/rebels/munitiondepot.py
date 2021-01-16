@@ -64,7 +64,7 @@ class MuntionDepotInfo(WarsBuildingInfo):
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_armory_des.mdl'
     costs = [('requisition', 40), ('scrap', 40)]
     resource_category = 'technology'
-    health = 500
+    health = 750
     buildtime = 56.0
     techrequirements = ['build_reb_barracks']
     abilities = {

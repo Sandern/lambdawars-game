@@ -21,7 +21,7 @@ class GarrisonInfo(PoweredBuildingInfo):
     modelname = 'models/pg_props/pg_buildings/combine/pg_barracks.mdl'
     techrequirements = ['build_comb_hq']
     costs = [('requisition', 50)]
-    health = 600
+    health = 700
     buildtime = 45.0
     abilities = {
         0: "unit_metropolice_riot",

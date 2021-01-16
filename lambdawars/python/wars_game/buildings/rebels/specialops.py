@@ -20,7 +20,7 @@ class SpecialOpsInfo(WarsBuildingInfo):
     modelname = 'models/structures/resistance/specops.mdl'
     techrequirements = ['build_reb_munitiondepot']
     costs = [('requisition', 60), ('scrap', 40)]
-    health = 600
+    health = 800
     buildtime = 54.0
     abilities   = {
 		0 : 'unit_rebel_rpg',

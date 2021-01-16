@@ -29,7 +29,7 @@ class GarrisonInfo(PoweredBuildingInfo):
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
     costs = [('requisition', 35)]
-    health = 450
+    health = 500
     buildtime = 45.0
     abilities = {
         0: 'unit_scanner',

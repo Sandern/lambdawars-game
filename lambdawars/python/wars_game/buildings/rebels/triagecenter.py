@@ -20,7 +20,7 @@ class TriageCenterInfo(WarsBuildingInfo):
     image_name  = 'vgui/rebels/buildings/build_reb_triagecenter'
     modelname = 'models/structures/resistance/triagecenter.mdl'
     costs = [('requisition', 40), ('scrap', 20)]
-    health = 500
+    health = 600
     buildtime = 31.0
     techrequirements = ['build_reb_barracks']
     abilities   = {
