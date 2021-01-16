@@ -862,7 +862,7 @@ class RebelFlamer(RebelShared):
     viewdistance = 768
     scale = 1.075
     attributes = ['heavy']
-    costs = [[('requisition', 40), ('scrap', 25)], [('kills', 3)]]
+    costs = [[('requisition', 40), ('scrap', 35)], [('kills', 3)]]
     modelname = 'models/Humans/Group03/male_05_flamer.mdl'
     displayname = '#RebFlamer_Name'
     description = '#RebFlamer_Description'
