@@ -88,7 +88,7 @@ class AbilityFortifyControlPointLvl1Reb(AbilityFortifyControlPoint):  #scrap to 
     displayname = '#RebFortifyControlPointLvl1_Name'
     description = '#RebFortifyControlPointLvl1_Description'
     upgradetime = 27.0
-    costs = [[('scrap', 15), ('requisition', 30)], [('power', 15), ('requisition', 30)]]
+    costs = [[('scrap', 15), ('requisition', 25)], [('power', 15), ('requisition', 25)]]
     targetupgradelevel = 1
 
 
@@ -98,7 +98,7 @@ class AbilityAltFortifyControlPointLvl1Reb(AbilityFortifyControlPoint):    #powe
     displayname = '#RebFortifyControlPointLvl1_Name'
     description = '#RebFortifyControlPointLvl1_Description'
     upgradetime = 27.0
-    costs = [[('scrap', 15), ('requisition', 30)], [('power', 15), ('requisition', 30)]]
+    costs = [[('scrap', 15), ('requisition', 25)], [('power', 15), ('requisition', 25)]]
     targetupgradelevel = 1
 
 
@@ -108,7 +108,7 @@ class AbilityFortifyControlPointLvl2Reb(AbilityFortifyControlPoint):    #scrap t
     displayname = '#RebFortifyControlPointLvl2_Name'
     description = '#RebFortifyControlPointLvl2_Description'
     upgradetime = 44.0
-    costs = [[('scrap', 30), ('requisition', 40)], [('power', 30), ('requisition', 40)]]
+    costs = [[('scrap', 30), ('requisition', 35)], [('power', 30), ('requisition', 35)]]
     targetupgradelevel = 2
 
 class AbilityAltFortifyControlPointLvl2Reb(AbilityFortifyControlPoint):    #power to level 2
@@ -117,7 +117,7 @@ class AbilityAltFortifyControlPointLvl2Reb(AbilityFortifyControlPoint):    #powe
     displayname = '#RebFortifyControlPointLvl1_Name'
     description = '#RebFortifyControlPointLvl1_Description'
     upgradetime = 44.0
-    costs = [[('scrap', 30), ('requisition', 40)], [('power', 30), ('requisition', 40)]]
+    costs = [[('scrap', 30), ('requisition', 35)], [('power', 30), ('requisition', 35)]]
     targetupgradelevel = 2
 
 # Comb flag upgrades
@@ -128,7 +128,7 @@ class AbilityFortifyControlPointLvl2Comb(AbilityFortifyControlPoint):   # power 
     displayname = '#CombFortifyControlPointLvl2_Name'
     description = '#CombFortifyControlPointLvl2_Description'
     upgradetime = 44.0
-    costs = [[('scrap', 30), ('requisition', 40)], [('power', 30), ('requisition', 40)]]
+    costs = [[('scrap', 30), ('requisition', 35)], [('power', 30), ('requisition', 35)]]
     targetupgradelevel = 2
 
 class AbilityFortifyAltControlPointLvl2Comb(AbilityFortifyControlPoint):   # scrap to level 2
@@ -137,7 +137,7 @@ class AbilityFortifyAltControlPointLvl2Comb(AbilityFortifyControlPoint):   # scr
     displayname = '#CombFortifyControlPointLvl2_Name'
     description = '#CombFortifyControlPointLvl2_Description'
     upgradetime = 44.0
-    costs = [[('scrap', 30), ('requisition', 40)], [('power', 30), ('requisition', 40)]]
+    costs = [[('scrap', 30), ('requisition', 35)], [('power', 30), ('requisition', 35)]]
     targetupgradelevel = 2
 
 # Base definition for Control Point
@@ -242,7 +242,7 @@ class RebControlPointLvl2Info(BaseControlPointInfo):
     viewdistance = 1280
     ability_0 = None
     ability_1 = None
-    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 3.10, 'maxgenerate': CP_MAXGENERATE}
+    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 4, 'maxgenerate': CP_MAXGENERATE}
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_rebels.mdl'
     dummies = [
         CreateDummy(
@@ -284,7 +284,7 @@ class CombControlPointLvl2Info(BaseControlPointInfo):
     viewdistance = 1280
     ability_0 = None
     ability_1 = None
-    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 3.10, 'maxgenerate': CP_MAXGENERATE}
+    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 4, 'maxgenerate': CP_MAXGENERATE}
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_combine.mdl'
     dummies = [
         CreateDummy(
