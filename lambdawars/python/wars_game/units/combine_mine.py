@@ -1209,12 +1209,13 @@ class OverrunAbilityCombineMine(AbilityCombineMine):
     rechargetime = 12.0
 
 class AbilityRebelMineUnlock(AbilityUpgrade):
-    name = 'rebel_mine_unlock'
-    displayname = '#RebelMineUnlock_Name'
-    description = '#RebelMineUnlock_Description'
-    image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
-    buildtime = 60.0
-    costs = [('requisition', 30), ('scrap', 30)]
+	name = 'rebel_mine_unlock'
+	displayname = '#RebelMineUnlock_Name'
+	description = '#RebelMineUnlock_Description'
+	image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
+	buildtime = 60.0
+	techrequirements = ['build_reb_specialops']
+	costs = [('requisition', 30), ('scrap', 30)]
 
 class DestroyHQSaboteurMine(AbilityCombineMine):
     def __init__(self):

@@ -139,7 +139,7 @@ class FireExplosiveBoltUnlock(AbilityUpgrade):
     displayname = '#RebExplosiveBoltUnlock_Name'
     description = '#RebExplosiveBoltUnlock_Description'
     image_name = "VGUI/rebels/abilities/rebel_explosivebolt_unlock"
-    #techrequirements = ['build_reb_munitiondepot']
+    techrequirements = ['build_reb_specialops']
     buildtime = 44.0
     costs = [[('kills', 1)], [('requisition', 25), ('scrap', 20)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])

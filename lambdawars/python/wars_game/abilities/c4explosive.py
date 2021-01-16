@@ -112,12 +112,13 @@ class AbilityC4Explosive(AbilityTarget):
     allowmultipleability = True
 
 class AbilityC4ExplosiveUnlock(AbilityUpgrade):
-    name = 'c4explosive_unlock'
-    displayname = '#AbilityC4ExplosiveUnlock_Name'
-    description = '#AbilityC4ExplosiveUnlock_Description'
-    image_name = "vgui/rebels/abilities/rebel_tnt_unlock.vmt"
-    buildtime = 55.0
-    costs = [[('kills', 4)], [('requisition', 20), ('scrap', 40)]]
+	name = 'c4explosive_unlock'
+	displayname = '#AbilityC4ExplosiveUnlock_Name'
+	description = '#AbilityC4ExplosiveUnlock_Description'
+	image_name = "vgui/rebels/abilities/rebel_tnt_unlock.vmt"
+	techrequirements = ['build_reb_specialops']
+	buildtime = 55.0
+	costs = [[('kills', 4)], [('requisition', 20), ('scrap', 40)]]
 
 class CharC4Explosive(AbilityC4Explosive):
     name = 'c4explosive_char'
