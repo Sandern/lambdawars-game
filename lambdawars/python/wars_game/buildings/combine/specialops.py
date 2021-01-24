@@ -26,9 +26,10 @@ class SpecialOpsInfo(PoweredBuildingInfo):
     health = 750
     buildtime = 54.0
     abilities   = {
-        0 : 'unit_combine_elite',
-        1 : 'unit_combine_sniper',
-        8 : 'cancel',
+		0 : 'unit_combine_elite',
+		1 : 'unit_combine_sniper',
+		2 : 'unit_combine_heavy',
+		8 : 'cancel',
     } 
     sound_select = 'build_comb_specialops'
     sound_work = 'combine_special_ops_working'

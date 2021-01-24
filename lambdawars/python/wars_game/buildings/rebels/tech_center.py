@@ -15,17 +15,17 @@ class RebelsTechCenter(BaseClass):
 # Register unit
 class TechCenterInfo(WarsBuildingInfo):
     name = "build_reb_techcenter"
-    displayname = "#BuildRebMunDepot_Name"
-    description = "#BuildRebMunDepot_Description"
+    displayname = "#BuildRebTechCenter_Name"
+    description = "#BuildRebTechCenter_Description"
     cls_name = "build_reb_techcenter"
-    image_name = 'vgui/rebels/buildings/build_reb_munitiondepot'
+    image_name = 'vgui/rebels/buildings/build_reb_tech_center'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center_destruction.mdl'
     costs = [('requisition', 35), ('scrap', 50)]
     resource_category = 'technology'
     health = 800
     buildtime = 48.0
-    techrequirements = ['build_reb_barracks']
+    techrequirements = ['build_reb_munitiondepot']
     abilities = {
         0: 'c4explosive_unlock',
         1: 'rebel_mine_unlock',

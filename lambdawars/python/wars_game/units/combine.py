@@ -166,6 +166,23 @@ class UnitCombine(BaseClass):
             Activity.ACT_WALK_AIM : Activity.ACT_WALK_AIM_SHOTGUN,
             Activity.ACT_RUN_AIM : Activity.ACT_RUN_AIM_SHOTGUN,
         },
+        'weapon_pulse_shotgun': {
+            Activity.ACT_WALK: Activity.ACT_WALK_RIFLE,
+            Activity.ACT_RUN: Activity.ACT_RUN_RIFLE,
+            Activity.ACT_RANGE_ATTACK1: Activity.ACT_RANGE_ATTACK_SHOTGUN,
+            Activity.ACT_MP_JUMP: Activity.ACT_JUMP,
+            Activity.ACT_MP_JUMP_FLOAT: Activity.ACT_JUMP,
+
+            Activity.ACT_CROUCH: Activity.ACT_COVER,
+            Activity.ACT_RUN_CROUCH: Activity.ACT_RUN_CROUCH_RIFLE,
+            Activity.ACT_WALK_CROUCH_AIM: Activity.ACT_RUN_CROUCH_RIFLE,
+            Activity.ACT_RUN_CROUCH_AIM: Activity.ACT_RUN_CROUCH_RIFLE,
+            Activity.ACT_CROUCHIDLE_AIM_STIMULATED: Activity.ACT_RANGE_ATTACK_SHOTGUN_LOW,
+
+            Activity.ACT_IDLE_AIM_AGITATED: Activity.ACT_RANGE_ATTACK_SHOTGUN,
+            Activity.ACT_WALK_AIM: Activity.ACT_WALK_AIM_SHOTGUN,
+            Activity.ACT_RUN_AIM: Activity.ACT_RUN_AIM_SHOTGUN,
+        },
         'weapon_ar2' : {
             Activity.ACT_WALK : Activity.ACT_WALK_RIFLE,
             Activity.ACT_RUN : Activity.ACT_RUN_RIFLE,
@@ -438,29 +455,28 @@ class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
     displayname = '#CombElite_Name'
     description = '#CombElite_Description'
-    image_name = 'vgui/combine/units/unit_combine_elite'
+    image_name = 'vgui/combine/units/unit_combine_heavy'
     costs = [[('requisition', 40), ('power', 25)], [('kills', 4)]]
     buildtime = 30.0
     health = 300
     maxspeed = 192
     #sensedistance = 1120.0
-    viewdistance = 896
+    viewdistance = 768
     attributes = ['heavy']
-    techrequirements = ['build_comb_armory']
-    selectionpriority = 1
+    techrequirements = ['build_comb_tech_center']
+    #selectionpriority = 1
     sound_select = 'unit_combine_elite_select'
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'
     modelname = 'models/combine_heavy.mdl'
     abilities = {
-        #0: 'combineball',
         #7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
     }
-    weapons = ['weapon_shotgun']
+    weapons = ['weapon_pulse_shotgun']
     accuracy = 'medium'
     population = 2
 

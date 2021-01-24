@@ -378,7 +378,7 @@ class DogInfo(UnitInfo):
     sound_move = 'unit_rebel_dog_move'
     sound_attack = 'unit_rebel_dog_attack'
     sound_death = "unit_rebel_dog_death"
-    techrequirements = ['build_reb_munitiondepot', 'build_reb_vortigauntden']
+    techrequirements = ['build_reb_techcenter']
     #tier = 3
     abilities = {
         0: 'slamground',
