@@ -528,11 +528,10 @@ class RebelHeavyInfo(RebelInfo):
     viewdistance = 832
     scale = 1.10
     costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
-    techrequirements = ['build_reb_munitiondepot']
     accuracy = 0.5
     population = 2
     modelname = 'models/rebel_heavy.mdl'
-    techrequirements = ['build_reb_munitiondepot']
+    techrequirements = ['build_reb_techcenter']
     weapons = ['weapon_rebel_heavy_gun']
     abilities = {
         0: 'smokegrenade',
@@ -639,15 +638,16 @@ class RebelEngineerInfo(RebelShared):
                    }),
         7: SubMenu(name='engie_menu', displayname='#RebMenu_Name', description='#RebMenu_Description',
                    image_name='vgui/abilities/building_menu.vmt', abilities={
-                        0: 'build_reb_hq',
-                        1: 'build_reb_billet',
-                        2: 'build_reb_junkyard',
-                        4: 'build_reb_barracks',
-                        5: 'build_reb_munitiondepot',
-                        6: 'build_reb_specialops',
-                        8: 'build_reb_triagecenter',
-                        9: 'build_reb_vortigauntden',
-                        11: 'menuup',
+						0: 'build_reb_hq',
+						1: 'build_reb_billet',
+						2: 'build_reb_junkyard',
+						4: 'build_reb_barracks',
+						5: 'build_reb_specialops',
+						6: 'build_reb_vortigauntden',
+						7: 'build_reb_munitiondepot_destroyhq',
+						8: 'build_reb_triagecenter_destroyhq',
+						9: 'build_reb_techcenter',
+						11: 'menuup',
                    })
     }
     weapons = ['weapon_hammer', 'weapon_pistol']
@@ -679,15 +679,16 @@ class DestroyHQRebelEngineerInfo(RebelEngineerInfo):
                    }),
         7: SubMenu(name='engie_menu_destroyhq', displayname='#RebMenu_Name', description='#RebMenu_Description',
                    image_name='vgui/abilities/building_menu.vmt', abilities={
-                        0: 'build_reb_hq_destroyhq',
-                        1: 'build_reb_billet_destroyhq',
-                        2: 'build_reb_junkyard_destroyhq',
-                        4: 'build_reb_barracks_destroyhq',
-                        5: 'build_reb_specialops_destroyhq',
-                        6: 'build_reb_vortigauntden_destroyhq',
-                        8: 'build_reb_triagecenter_destroyhq',
-                        9: 'build_reb_munitiondepot_destroyhq',
-                        11: 'menuup',
+						0: 'build_reb_hq_destroyhq',
+						1: 'build_reb_billet_destroyhq',
+						2: 'build_reb_junkyard_destroyhq',
+						4: 'build_reb_barracks_destroyhq',
+						5: 'build_reb_specialops_destroyhq',
+						6: 'build_reb_vortigauntden_destroyhq',
+						7: 'build_reb_munitiondepot_destroyhq',
+						8: 'build_reb_triagecenter_destroyhq',
+						9: 'build_reb_techcenter',
+						11: 'menuup',
                    })
     }
 
@@ -724,7 +725,7 @@ class TutorialRebelEngineerInfo(RebelEngineerInfo):
                         5: 'build_reb_munitiondepot',
                         6: 'build_reb_specialops',
                         8: 'build_reb_triagecenter',
-                        9: 'build_reb_vortigauntden',
+                        9: '	',
                         11: 'menuup',
                    })
     }
@@ -759,7 +760,7 @@ class RebelRPGInfo(RebelShared):
     }
     weapons = ['weapon_rpg']
     #sensedistance = 1200.0
-    #techrequirements = ['rebel_rpg_unlock']
+    #techrequirements = ['build_reb_techcenter']
     population = 2
     attributes = ['medium', 'rpg']
 
@@ -862,7 +863,7 @@ class RebelFlamer(RebelShared):
     viewdistance = 768
     scale = 1.075
     attributes = ['heavy']
-    costs = [[('requisition', 40), ('scrap', 35)], [('kills', 3)]]
+    costs = [[('requisition', 40), ('scrap', 25)], [('kills', 3)]]
     modelname = 'models/Humans/Group03/male_05_flamer.mdl'
     displayname = '#RebFlamer_Name'
     description = '#RebFlamer_Description'

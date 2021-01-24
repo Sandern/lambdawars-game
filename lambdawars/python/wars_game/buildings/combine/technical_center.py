@@ -6,7 +6,7 @@ from particles import PATTACH_POINT_FOLLOW
 
 
 @entity('build_comb_tech_center', networked=True)
-class CombineArmory(BaseFactoryPoweredBuilding, BaseClass):
+class TechCenterInfo(BaseFactoryPoweredBuilding, BaseClass):
 
     # Settings
     autoconstruct = False

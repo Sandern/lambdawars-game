@@ -1214,7 +1214,7 @@ class AbilityRebelMineUnlock(AbilityUpgrade):
 	description = '#RebelMineUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
 	buildtime = 60.0
-	techrequirements = ['build_reb_specialops']
+	#techrequirements = ['build_reb_specialops']
 	costs = [('requisition', 30), ('scrap', 30)]
 
 class DestroyHQSaboteurMine(AbilityCombineMine):
