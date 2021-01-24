@@ -478,15 +478,15 @@ class UnitAntlion(BaseClass):
         
     def EventHandlerStartBurrow(self, data=0):
         # Link throwing up dust to the animation
-        if isclient:
-            CreateDust(self.GetAbsOrigin(), self.GetAbsAngles())
+        #if isclient:
+            #CreateDust(self.GetAbsOrigin(), self.GetAbsAngles())
         self.animstate.isburrowed = True
         self.animstate.specificmainactivity = self.ACT_ANTLION_BURROW_IN
         self.animstate.RestartMainSequence()
                 
     def EventHandlerStopBurrow(self, data=0):
-        if isclient:
-            CreateDust(self.GetAbsOrigin(), self.GetAbsAngles())
+        #if isclient:
+            #CreateDust(self.GetAbsOrigin(), self.GetAbsAngles())
             
         self.animstate.isburrowed = False
         self.animstate.specificmainactivity = self.ACT_ANTLION_BURROW_OUT

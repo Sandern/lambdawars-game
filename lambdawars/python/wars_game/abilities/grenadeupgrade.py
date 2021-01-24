@@ -16,14 +16,20 @@ class GrenadeUnlockAbility(AbilityInstant):
     def DoAbility(self):
         # Just do the ability on creation ( == when you click the ability slot )
         self.SelectGroupUnits()
-        
-        if isserver:
-            count = self.TakeResources(count=len(self.units))
-            if not count:
-                self.Cancel()
-                return
-        
+        unitlist = []
         for unit in self.units:
+            if hasattr(unit, 'grenadeUnlocked'):
+                if unit.grenadeUnlocked:
+                    continue
+                unitlist.append(unit)
+        if isserver:
+            n = self.TakeResources(refundoncancel=True, count=len(unitlist)) #конечно рефунд не нужен здесь из-за мгновенного каста но да ладно
+            if not n:
+                self.Cancel()
+                #self.Cancel(cancelmsg='#Ability_NotEnoughResources') #если нужно сообщение а то мало ли
+                return	
+        
+        for unit in unitlist[0:n]:
             if hasattr(unit, 'grenadeUnlocked'):
                 unit.grenadeUnlocked = True
         

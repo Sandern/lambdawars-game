@@ -17,7 +17,7 @@ class TechCenterInfo(WarsBuildingInfo):
     name = "build_reb_techcenter"
     displayname = "#BuildRebMunDepot_Name"
     description = "#BuildRebMunDepot_Description"
-    cls_name = "build_reb_munitiondepot"
+    cls_name = "build_reb_techcenter"
     image_name = 'vgui/rebels/buildings/build_reb_munitiondepot'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center_destruction.mdl'

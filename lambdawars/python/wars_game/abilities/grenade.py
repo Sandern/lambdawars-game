@@ -13,7 +13,7 @@ if isserver:
         def Update(self):
             outer = self.outer
             abi = self.order.ability
-            throwrange = abi.throwrange if abi else 1024.0
+            throwrange = abi.throwrange if abi else 768.0
             
             target = abi.throwtarget if abi.throwtarget else abi.throwtargetpos
             
@@ -103,10 +103,10 @@ class AbilityGrenade(AbilityTarget):
     description = "#AbilityGrenade_Description"
     techrequirements = ['grenade_unlock']
     activatesoundscript = '#grenade'
-    damageradius = FloatField(value=320.0)
+    damageradius = FloatField(value=256.0)
     damage = FloatField(value=100)
     throwrange = FloatField(value=768.0)
-    throw_anim_speed = FloatField(value=1.75)
+    throw_anim_speed = FloatField(value=1.50)
     grenadeclsname = StringField(value='grenade_frag')
     sai_hint = AbilityTarget.sai_hint | set(['sai_grenade'])
     
@@ -240,7 +240,7 @@ class AbilitySmokeGrenade(AbilityGrenade):
     techrequirements = []
     rechargetime = 20.0
     smokeduration = 10.0
-    throwrange = 896.0
+    throwrange = 768.0
     throw_anim_speed = FloatField(value=1.75)
     
     def SetupGrenade(self, grenade):
