@@ -453,10 +453,10 @@ class CombineEliteInfo(CombineSharedInfo):
 	
 class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
-    displayname = '#CombElite_Name'
-    description = '#CombElite_Description'
+    displayname = '#CombHeavy_Name'
+    description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 40), ('power', 25)], [('kills', 4)]]
+    costs = [[('requisition', 40), ('power', 30)], [('kills', 4)]]
     buildtime = 30.0
     health = 300
     maxspeed = 192

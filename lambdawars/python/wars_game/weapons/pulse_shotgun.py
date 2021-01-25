@@ -2,13 +2,17 @@ from srcbase import MAX_TRACE_LENGTH
 from entities import entity, FireBulletsInfo_t, WeaponSound
 from core.weapons import WarsWeaponBase, VECTOR_CONE_15DEGREES
 from core.units import UnitInfo
+from gamerules import GetAmmoDef
+from vmath import Vector
 
 @entity('weapon_pulse_shotgun', networked=True)
-class WeaponShotgun(WarsWeaponBase):
+class WeaponPulseShotgun(WarsWeaponBase):
     def __init__(self):
         super().__init__()
 
         self.bulletspread = VECTOR_CONE_15DEGREES
+        self.tracercolor = Vector(0.1882, 0.502, 0.596)
+        self.ammotype = GetAmmoDef().Index("AR2")
 		
     def GetTracerType(self): return "AR2Tracer"    
     def PrimaryAttack(self):
@@ -32,8 +36,9 @@ class WeaponShotgun(WarsWeaponBase):
         info.vecdirshooting = vecShootDir
         info.vecspread = self.bulletspread
         info.distance = self.maxbulletrange
-        info.ammotype = self.primaryammotype
-        info.tracerfreq = 0
+        #info.ammotype = self.primaryammotype
+        info.ammotype = self.ammotype
+        info.tracerfreq = 1
         info.damage = float(self.AttackPrimary.damage) / info.shots
         info.attributes = self.primaryattackattributes
 

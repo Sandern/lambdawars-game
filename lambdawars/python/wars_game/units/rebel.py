@@ -644,8 +644,8 @@ class RebelEngineerInfo(RebelShared):
 						4: 'build_reb_barracks',
 						5: 'build_reb_specialops',
 						6: 'build_reb_vortigauntden',
-						7: 'build_reb_munitiondepot_destroyhq',
-						8: 'build_reb_triagecenter_destroyhq',
+						7: 'build_reb_munitiondepot',
+						8: 'build_reb_triagecenter',
 						9: 'build_reb_techcenter',
 						11: 'menuup',
                    })
