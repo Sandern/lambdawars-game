@@ -271,8 +271,8 @@ class ExplosiveAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'light': ScaleBonusDamage(2.0),
-        'medium': ScaleBonusDamage(2.3),
-        'heavy': ScaleBonusDamage(2.0),
+        'medium': ScaleBonusDamage(2.0),
+        'heavy': ScaleBonusDamage(1.5),
     }
 
 

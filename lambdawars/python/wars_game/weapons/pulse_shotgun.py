@@ -50,6 +50,6 @@ class WeaponPulseShotgun(WarsWeaponBase):
     class AttackPrimary(WarsWeaponBase.AttackRange):
         maxrange = 512.0
         attackspeed = 0.7
-        damage = 60
+        damage = 50
         cone = WarsWeaponBase.AttackRange.DOT_6DEGREE
         attributes = ['pulse']

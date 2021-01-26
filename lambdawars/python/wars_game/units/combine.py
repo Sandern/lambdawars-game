@@ -269,6 +269,28 @@ class UnitCombineSniper(UnitCombine):
                     if order.type == order.ORDER_ENEMY:
                         return self.SuspendFor(self.behavior.ActionHideSpotAttack, 'Attacking enemy on order from cover/hold spot', order.target)
 
+@entity('unit_combineheavy', networked=True)
+class UnitCombineHeavy(UnitCombine):
+    canshootmove = False
+    regenerationtime = 0
+    def UnitThink(self):
+        super().UnitThink()
+        if self.health < self.maxhealth and self.energy > 0:
+            self.Regeneration()
+    def Regeneration(self):
+        while self.regenerationtime < gpGlobals.curtime:
+            coef = 1
+            if self.energy * coef > self.unitinfo.regenerationamount: 
+                regenerationamount = self.unitinfo.regenerationamount
+                energy = self.unitinfo.regenerationamount/coef
+            else:  
+                regenerationamount = self.energy*coef
+                energy = self.energy
+                return 
+            self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
+            self.health = min(self.health+regenerationamount, self.maxhealth) 
+            self.TakeEnergy(energy)
+            
 # Register unit
 class CombineSharedInfo(UnitInfo):
     cls_name = 'unit_combine'
@@ -355,7 +377,6 @@ class CombineSGInfo(CombineInfo):
     portrait = 'resource/portraits/combineShotgun.bik'
     costs = [[('requisition', 45), ('power', 7)], [('kills', 1)]]
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
-    #techrequirements = ['build_comb_armory']
     attributes = ['medium']
     buildtime = 25.0
     health = 220
@@ -453,32 +474,38 @@ class CombineEliteInfo(CombineSharedInfo):
 	
 class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
+    cls_name = 'unit_combineheavy'
     displayname = '#CombHeavy_Name'
     description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 40), ('power', 30)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
     buildtime = 30.0
     health = 300
     maxspeed = 192
     #sensedistance = 1120.0
     viewdistance = 768
+    unitenergy = 100
+    unitenergy_initial = -1
     attributes = ['heavy']
-    techrequirements = ['build_comb_tech_center']
+    techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
     #selectionpriority = 1
     sound_select = 'unit_combine_elite_select'
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'
     modelname = 'models/combine_heavy.mdl'
     abilities = {
-        #7: 'mountturret',
-        8: 'attackmove',
-        9: 'holdposition',
-        10: 'patrol',
-        -1: 'garrison',
+		#7: 'mountturret',
+		0: 'stungrenade',
+		8: 'attackmove',
+		9: 'holdposition',
+		10: 'patrol',
+		-1: 'garrison',
     }
     weapons = ['weapon_pulse_shotgun']
     accuracy = 'medium'
     population = 2
+    regenerationamount = 10
+    regenerationtime = 0.5
 
 class CombineSniperUnlock(AbilityUpgrade):
     name = 'combine_sniper_unlock'

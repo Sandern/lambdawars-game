@@ -142,7 +142,7 @@ class StinkBomb(BaseClass):
     STINKBOMB_MODEL = "models/props_junk/garbage_glassbottle003a.mdl"
 
     stinkbomb_particle = None
-    stinkbomb_particle_name = 'pg_smoke_grenade'
+    stinkbomb_particle_name = 'pg_stink_bomb'
     is_stinking_on_ground = BooleanField(value=False, networked=True, clientchangecallback='OnIsStinkingOnGround')
     stinkbomb_radius = FloatField(value=220.0)
     stinbomb_duration = FloatField(value=1.32)

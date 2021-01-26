@@ -28,7 +28,7 @@ class SpecialOpsInfo(PoweredBuildingInfo):
     abilities   = {
 		0 : 'unit_combine_elite',
 		1 : 'unit_combine_sniper',
-		2 : 'unit_combine_heavy',
+		#2 : 'unit_combine_heavy',
 		8 : 'cancel',
     } 
     sound_select = 'build_comb_specialops'

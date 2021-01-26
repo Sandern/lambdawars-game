@@ -24,13 +24,15 @@ class GarrisonInfo(PoweredBuildingInfo):
     health = 700
     buildtime = 45.0
     abilities = {
-        0: "unit_metropolice_riot",
-        1: "unit_metropolice",
-        2: "unit_metropolice_smg1",
-        4: "unit_combine",
-        5: "unit_combine_sg",
-        6: "unit_combine_ar2",
-        8: 'cancel',
+		0: "unit_metropolice_riot",
+		1: "unit_metropolice",
+		2: "unit_metropolice_smg1",
+		4: "unit_combine",
+		5: "unit_combine_sg",
+		6: "unit_combine_ar2",
+		8: "unit_combine_heavy",
+		
+		11: 'cancel',
     } 
     sound_work = 'combine_garrison_working'
     sound_select = 'build_comb_garrison'

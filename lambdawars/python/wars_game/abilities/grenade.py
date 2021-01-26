@@ -249,6 +249,13 @@ class AbilitySmokeGrenade(AbilityGrenade):
         """
         grenade.smokeduration = self.smokeduration
 
+class AbilityStunGrenade(AbilityGrenade):
+    name = 'stungrenade'
+    grenadeclsname = 'grenade_stun'
+    rechargetime = 30.0
+    techrequirements = ['build_comb_specialops']
+    costs = [[('requisition', 10)], [('kills', 1)]]
+
 # Mission Versions
 class MissionAbilityGrenade(AbilityGrenade):
     name = "mission_grenade"

@@ -63,14 +63,14 @@ class UnitMortarSynth(BaseClass):
     def __init__(self):
         super().__init__()
         self.savedrop = 2048.0
-        self.maxclimbheight = 128.0
+        self.maxclimbheight = 256.0
         self.testroutestartheight = 2048.0
         
     def Spawn(self):    
         super().Spawn()
         
         self.SetBloodColor(DONT_BLEED)
-        self.locomotion.maxheight = 128.0
+        self.locomotion.maxheight = 256.0
         self.locomotion.desiredheight = 128.0
         self.locomotion.flynoiserate = 32.0
         self.locomotion.flynoisez = 24.0
