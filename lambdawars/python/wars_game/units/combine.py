@@ -287,6 +287,8 @@ class UnitCombineHeavy(UnitCombine):
                 regenerationamount = self.energy*coef
                 energy = self.energy
                 return 
+            if hasattr(unit, 'EFFECT_DOHEAL'):
+                unit.DoAnimation(unit.EFFECT_DOHEAL)
             self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
             self.health = min(self.health+regenerationamount, self.maxhealth) 
             self.TakeEnergy(energy)

@@ -33,7 +33,7 @@ class TechCenterInfo(WarsBuildingInfo):
         8: 'cancel',
     } 
     idleactivity = 'ACT_IDLE'
-    workactivity = 'ACT_WORK'
+    #workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
     sound_work = 'rebel_munitions_working' #'ATV_engine_idle'

@@ -17,7 +17,8 @@ class SpecialOpsInfo(WarsBuildingInfo):
     description = "#BuildRebSpecialOps_Description"
     cls_name    = "build_reb_specialops"
     image_name  = 'vgui/rebels/buildings/build_reb_specialops'
-    modelname = 'models/structures/resistance/specops.mdl'
+    modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_specops.mdl'
+    explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_specops_destruction.mdl'
     techrequirements = ['build_reb_munitiondepot']
     costs = [('requisition', 60), ('scrap', 40)]
     health = 800
@@ -28,7 +29,11 @@ class SpecialOpsInfo(WarsBuildingInfo):
 		2 : 'unit_rebel_heavy',
 		3 : 'unit_rebel_saboteur',
 		8 : 'cancel',
-    } 
+    }
+    idleactivity = 'ACT_IDLE'
+    # workactivity = 'ACT_WORK'
+    explodeactivity = 'ACT_EXPLODE'
+    constructionactivity = 'ACT_CONSTRUCTION'
     sound_select = 'build_reb_specialops'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'building_explosion'
