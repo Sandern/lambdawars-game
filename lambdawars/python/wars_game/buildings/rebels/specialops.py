@@ -1,14 +1,55 @@
 from vmath import Vector, QAngle
 from core.buildings import WarsBuildingInfo, UnitBaseFactory as BaseClass
 from entities import entity 
+from particles import PATTACH_POINT_FOLLOW
+from core.abilities import SubMenu
+
+if isserver:
+    from particles import PrecacheParticleSystem
 
 @entity('build_reb_specialops', networked=True)
 class RebelsSpecialOps(BaseClass):
+    if isclient:
+        def OnBuildStateChanged(self):
+            super().OnBuildStateChanged()
+            
+            if self.isproducing:
+                self.StartChimneySmoke()
+            else:
+                self.StopChimneySmoke()
+                
+        def UpdateOnRemove(self):
+            super().UpdateOnRemove()
+            
+            self.StopChimneySmoke()
+            
+        def ExplodeHandler(self, event):
+            self.StopChimneySmoke()
+            super().ExplodeHandler(event)
+
+        def StartChimneySmoke(self):
+            if self.chimneyfx:
+                return
+            self.chimneyfx = self.ParticleProp().Create("pg_smoke02", PATTACH_POINT_FOLLOW, 'smoke01')
+            
+        def StopChimneySmoke(self):
+            if not self.chimneyfx:
+                return
+            self.ParticleProp().StopEmission(self.chimneyfx)
+            self.chimneyfx = None
+            
+    else:
+        def Precache(self):
+            super().Precache()
+            
+            PrecacheParticleSystem("pg_smoke02")
     # Settings
     autoconstruct = False
     buildtarget = Vector(0, -210, 32)
     buildangle = QAngle(0, 0, 0)
     customeyeoffset = Vector(0,0,60)
+
+    chimneyfx = None
     
 # Register unit
 class SpecialOpsInfo(WarsBuildingInfo):
