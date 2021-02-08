@@ -209,7 +209,7 @@ class WeaponRPG(WarsWeaponBase):
         minrange = 128.0
         maxrange = 1024.0
         attackspeed = 2.99
-        damage = 35
+        damage = 25
         cone = WarsWeaponBase.AttackRange.DOT_5DEGREE
         # TODO: Not applied right now due usage of ExplosionCreate. Instead attributes from unit are used.
         attributes = ['rpg']

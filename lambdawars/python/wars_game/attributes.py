@@ -112,11 +112,11 @@ class RPGAttribute(AttributeInfo):
     name = 'rpg'
 
     dmgmodifiers = {
-        'building': ConstantBonusDamage(60),
-        #'creature': ConstantBonusDamage(80),
-        'synth': ConstantBonusDamage(90),
-        'metal': ConstantBonusDamage(90),
-        'heavy': ConstantBonusDamage(35),
+        'building': ConstantBonusDamage(70),
+        'creature': ConstantBonusDamage(90),
+        'synth': ConstantBonusDamage(100),
+        'metal': ConstantBonusDamage(100),
+        'heavy': ConstantBonusDamage(20),
     }
 
 

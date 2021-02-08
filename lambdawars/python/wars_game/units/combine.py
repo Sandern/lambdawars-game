@@ -446,7 +446,7 @@ class CombineEliteInfo(CombineSharedInfo):
     description = '#CombElite_Description'
     image_name = 'vgui/combine/units/unit_combine_elite'
     portrait = 'resource/portraits/combineAR2.bik'
-    costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('power', 20)], [('kills', 4)]]
     buildtime = 35.0
     health = 250
     maxspeed = 208

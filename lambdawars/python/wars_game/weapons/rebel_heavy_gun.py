@@ -30,7 +30,7 @@ class WeaponRebelHeavyGun(WarsWeaponMachineGun):
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):
         maxrange = 768.0
         attackspeed = 0.08
-        usesbursts = True
+        usesbursts = False
         minburst = 8
         maxburst = 8
         minresttime = 0.75
