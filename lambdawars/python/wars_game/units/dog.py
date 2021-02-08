@@ -348,7 +348,7 @@ class AbilityDogJump(AbilityJump):
     energy = 40
     jumpstartsound = 'unit_rebel_dog_angry'
     jumpgravity = 1.2
-    jump_homing = True
+    collision = True
     
     def OnLanded(self, unit):
         super().OnLanded(unit)

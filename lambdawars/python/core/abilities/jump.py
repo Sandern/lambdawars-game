@@ -67,6 +67,8 @@ if isserver:
             outer.SetGroundEntity(None)
             if abi.jumpstartsound:
                 outer.EmitSound(abi.jumpstartsound)
+            if abi.collision:
+                outer.SetCollisionGroup(outer.CalculateIgnoreOwnerCollisionGroup())
             
             startpos = outer.GetAbsOrigin()
             targetpos = order.target.GetAbsOrigin() if order.target else order.position
@@ -103,6 +105,8 @@ if isserver:
                 self.parent_action.changetoidleonlostorder = True
                 order.Remove(dispatchevent=True)
 
+                if abi.collision:
+                    outer.SetCollisionGroup(outer.CalculateOwnerCollisionGroup())
                 abi.OnLanded(outer)
                 
                 # Might already have a new order, in which case above dispatchevent does nothing
@@ -259,6 +263,7 @@ class AbilityJump(AbilityTarget):
     jump_homing = BooleanField(value=False, helpstring='Alternative non-velocity jump mode. More predictable result.')
     only_direct = BooleanField(value=False, helpstring='Ability can only be executed if unit can jump from current location.')
     only_navmesh = BooleanField(value=False, helpstring='Ability can only be targeted at possible nav mesh locations')
+    collision = False
     homing_projector = None
 
     def CalculateHomingJumpPoints(self, unit, startpos, targetpos, height=64.0):
