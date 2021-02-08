@@ -81,6 +81,7 @@ class SynthFactoryInfo(PoweredBuildingInfo):
 		1 : 'unit_strider',
 		2 : 'unit_mortar_synth',
 		3 : 'unit_clawscanner',
+		4 : 'unit_crab_synth',
 		8 : 'cancel',
     } 
     sound_select = 'build_comb_synthfactory'
