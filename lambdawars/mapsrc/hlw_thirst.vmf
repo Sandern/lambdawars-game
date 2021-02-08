@@ -1,8 +1,8 @@
 versioninfo
 {
 	"editorversion" "400"
-	"editorbuild" "5032"
-	"mapversion" "166"
+	"editorbuild" "8678"
+	"mapversion" "170"
 	"formatversion" "100"
 	"prefab" "0"
 }
@@ -44,7 +44,7 @@ viewsettings
 world
 {
 	"id" "1"
-	"mapversion" "166"
+	"mapversion" "170"
 	"classname" "worldspawn"
 	"detailmaterial" "detail/detailsprites"
 	"detailvbsp" "detail.vbsp"
@@ -25020,7 +25020,7 @@ hidden
 				editor
 				{
 					"color" "220 30 220"
-					"visgroupshown" "0"
+					"visgroupshown" "1"
 					"visgroupautoshown" "1"
 				}
 			}
@@ -25126,7 +25126,7 @@ hidden
 				editor
 				{
 					"color" "220 30 220"
-					"visgroupshown" "0"
+					"visgroupshown" "1"
 					"visgroupautoshown" "1"
 				}
 			}
@@ -25232,7 +25232,7 @@ hidden
 				editor
 				{
 					"color" "220 30 220"
-					"visgroupshown" "0"
+					"visgroupshown" "1"
 					"visgroupautoshown" "1"
 				}
 			}
@@ -26167,7 +26167,7 @@ entity
 		{
 			"id" "4941"
 			"plane" "(-6432 -6432 -64) (6432 -6432 -64) (6432 6432 -64)"
-			"material" "TOOLS/TOOLSSKYBOX"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[1 0 0 0] 5"
 			"vaxis" "[0 -1 0 0] 5"
 			"rotation" "0"
@@ -26178,7 +26178,7 @@ entity
 		{
 			"id" "4940"
 			"plane" "(-6432 -6432 -64) (-6432 6432 -64) (-6432 6432 -32)"
-			"material" "TOOLS/TOOLSSKYBOX"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[0 1 0 0] 5"
 			"vaxis" "[0 0 -1 0] 5"
 			"rotation" "0"
@@ -26189,7 +26189,7 @@ entity
 		{
 			"id" "4939"
 			"plane" "(6432 6432 -64) (6432 -6432 -64) (6432 -6432 -32)"
-			"material" "TOOLS/TOOLSSKYBOX"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[0 1 0 0] 5"
 			"vaxis" "[0 0 -1 0] 5"
 			"rotation" "0"
@@ -26200,7 +26200,7 @@ entity
 		{
 			"id" "4938"
 			"plane" "(-6432 6432 -64) (6432 6432 -64) (6432 6432 -32)"
-			"material" "TOOLS/TOOLSSKYBOX"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[1 0 0 0] 5"
 			"vaxis" "[0 0 -1 0] 5"
 			"rotation" "0"
@@ -26211,7 +26211,7 @@ entity
 		{
 			"id" "4937"
 			"plane" "(6432 -6432 -64) (-6432 -6432 -64) (-6432 -6432 -32)"
-			"material" "TOOLS/TOOLSSKYBOX"
+			"material" "TOOLS/TOOLSNODRAW"
 			"uaxis" "[1 0 0 0] 5"
 			"vaxis" "[0 0 -1 0] 5"
 			"rotation" "0"
@@ -26222,9 +26222,9 @@ entity
 		{
 			"id" "4936"
 			"plane" "(-6432 6432 -32) (6432 6432 -32) (6432 -6432 -32)"
-			"material" "TOOLS/TOOLSBLACK"
-			"uaxis" "[1 0 0 0] 5"
-			"vaxis" "[0 -1 0 0] 5"
+			"material" "TOOLS/TOOLSNODRAW"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
 			"rotation" "0"
 			"lightmapscale" "16"
 			"smoothing_groups" "0"
@@ -27148,6 +27148,102 @@ entity
 		"visgroupshown" "1"
 		"visgroupautoshown" "1"
 		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "24682"
+	"classname" "trigger_hurt"
+	"damage" "1000"
+	"damagecap" "1000"
+	"damagemodel" "0"
+	"damagetype" "0"
+	"nodmgforce" "0"
+	"origin" "0 0 -16"
+	"spawnflags" "2"
+	"StartDisabled" "0"
+	solid
+	{
+		"id" "24679"
+		side
+		{
+			"id" "5533"
+			"plane" "(-6432 6432 -32) (-6432 -6432 -32) (6432 -6432 -32)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 0] 5"
+			"vaxis" "[0 -1 0 0] 5"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5532"
+			"plane" "(-6432 -6432 0) (-6432 -6432 -32) (-6432 6432 -32)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[0 1 0 0] 5"
+			"vaxis" "[0 0 -1 6.4] 5"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5531"
+			"plane" "(6432 6432 0) (6432 6432 -32) (6432 -6432 -32)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[0 1 0 0] 5"
+			"vaxis" "[0 0 -1 6.4] 5"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5530"
+			"plane" "(-6432 6432 0) (-6432 6432 -32) (6432 6432 -32)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 0] 5"
+			"vaxis" "[0 0 -1 6.4] 5"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5529"
+			"plane" "(6432 -6432 0) (6432 -6432 -32) (-6432 -6432 -32)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 0] 5"
+			"vaxis" "[0 0 -1 6.4] 5"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "5528"
+			"plane" "(-6432 -6432 0) (-6432 6432 0) (6432 6432 0)"
+			"material" "TOOLS/TOOLSTRIGGER"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 30 220"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	editor
+	{
+		"color" "220 30 220"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 500]"
 	}
 }
 cameras
