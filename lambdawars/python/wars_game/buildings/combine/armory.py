@@ -74,10 +74,10 @@ class ArmoryInfo(PoweredBuildingInfo):
         0 : 'grenade_unlock_combine',
         #1 : 'combine_upgrade_tier_mid',
         #1 : 'combine_mine_unlock',
-        1 : 'floor_turret_unlock',
-        4 : 'weaponsg_comb_unlock',
-        5 : 'weaponar2_comb_unlock',
-        6 : 'combineball_unlock',
+        1 : 'weaponsg_comb_unlock',
+        2 : 'weaponar2_comb_unlock',
+        4 : 'floor_turret_unlock',
+        5 : 'combineball_unlock',
         8 : 'cancel',
     } 
     sound_work = 'combine_armory_working'

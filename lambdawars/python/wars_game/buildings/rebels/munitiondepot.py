@@ -73,8 +73,8 @@ class MuntionDepotInfo(WarsBuildingInfo):
         #1: 'combine_mine_unlock',
         #1: 'c4explosive_unlock',
         #2: 'rebel_mine_unlock',
-        4: 'weaponsg_unlock',
-        5: 'weaponar2_unlock',
+        1: 'weaponsg_unlock',
+        2: 'weaponar2_unlock',
         #6: 'fireexplosivebolt_unlock',
 
         #4: 'dog_unlock',
