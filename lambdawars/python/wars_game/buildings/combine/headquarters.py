@@ -116,7 +116,7 @@ class CombPopUpgrade1(AbilityUpgradePopCap):
     description = '#CombPopUpgr1_Description'
     image_name = 'vgui/combine/abilities/comb_popupgrade1'
     successorability = 'comb_popupgrade2'
-    buildtime = 10.0
+    buildtime = 0.0
     providespopulation = 11
     costs = [('requisition', 40)]
 
@@ -126,7 +126,7 @@ class CombPopUpgrade2(AbilityUpgradePopCap):
     description = '#CombPopUpgr2_Description'
     image_name = 'vgui/combine/abilities/comb_popupgrade2'
     successorability = 'comb_popupgrade3'
-    buildtime = 12.0
+    buildtime = 0.0
     providespopulation = 20
     costs = [('requisition', 70)]
 
@@ -136,7 +136,7 @@ class CombPopUpgrade3(AbilityUpgradePopCap):
     description = '#CombPopUpgr3_Description'
     image_name = 'vgui/combine/abilities/comb_popupgrade3'
     successorability = 'comb_popupgrade4'
-    buildtime = 15.0
+    buildtime = 0.0
     providespopulation = 30
     costs = [('requisition', 125)]
 
@@ -145,7 +145,7 @@ class CombPopUpgrade4(AbilityUpgradePopCap):
     displayname = '#CombPopUpgr4_Name'
     description = '#CombPopUpgr4_Description'
     image_name = 'vgui/combine/abilities/comb_popupgrade4'
-    buildtime = 19.0
+    buildtime = 0.0
     providespopulation = 30
     costs = [('requisition', 125)]
     
