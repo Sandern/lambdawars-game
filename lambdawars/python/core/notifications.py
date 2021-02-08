@@ -69,7 +69,10 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
     # Duration of flash
     minimapflashduration = FloatField(value=5.0)
     
+    factionnotificationdelay = FloatField(value=0.0)
+    
     playedfactionsound = False
+    playedfactionnotification = False
     
     def __init__(self, position=None, ent=None, abi=None, message=None):
         super().__init__()
@@ -84,7 +87,7 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
     @classmethod
     def FindLastOfType(cls, notinfo):
         for notification in notificationhistory:
-            if type(notification) == notinfo:
+            if type(notification) == notinfo and notification.playedfactionnotification:
                 return notification
         return None
         
@@ -98,10 +101,12 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
     def DoNotification(self):
         self.timestamp = gpGlobals.curtime
         
-        if self.message:
-            DoInsertMessage(self, self.message, icon=self.icon, color=self.messagecolor)
-            
         notinfo = self.FindLastFactionSoundOfType(type(self))
+        notinfo1 = self.FindLastOfType(type(self))
+        if self.message and (not notinfo1 or (gpGlobals.curtime - notinfo1.timestamp > self.factionnotificationdelay)):
+            DoInsertMessage(self, self.message, icon=self.icon, color=self.messagecolor)
+            self.playedfactionnotification = True
+            
         if self.factionsound and (not notinfo or (gpGlobals.curtime - notinfo.timestamp > self.factionsounddelay)):
             PlayFactionSound(self.factionsound)
             self.playedfactionsound = True
@@ -287,6 +292,25 @@ class NotificationInvalidMoveOrder(NotificationInfo):
     message = 'Order_InvalidMovePosition'
     iconname = 'VGUI/icons/icon_population'
 
+class NotificationUnitsUnderAttack(NotificationInfo):
+    name = 'unit_underattack'
+    message = '#Noti_UnitsUnderAttack'
+    messagecolor = Color(255, 0, 0, 255)
+    iconname = 'VGUI/icons/icon_attack_warning'
+    factionsound = 'announcer_unit_under_attack'
+    minimapflashent = True
+    factionsounddelay = 10
+    factionnotificationdelay = 10
+
+class NotificationBuildingsUnderAttack(NotificationInfo):
+    name = 'building_underattack'
+    message = '#Noti_BaseUnderAttack'
+    messagecolor = Color(255, 0, 0, 255)
+    iconname = 'VGUI/icons/icon_attack_warning'
+    factionsound = 'announcer_building_under_attack'
+    minimapflashent = True
+    factionsounddelay = 10
+    factionnotificationdelay = 10
 
 class NotificationAbility(NotificationInfo):
     """ An ability was produced at a building (e.g. unit, upgrade). """

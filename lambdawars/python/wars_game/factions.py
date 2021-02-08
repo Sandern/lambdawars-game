@@ -69,6 +69,8 @@ class FactionCombineInfo(WarsFactionInfo):
     announcer_unit_completed = 'announcer_combine_unit_complete'
     announcer_research_completed = 'combine_unit_researchcomplete'
     announcer_more_population_required = 'announcer_combine_more_population_required'
+    announcer_unit_under_attack = 'announcer_combine_unit_under_attack'
+    announcer_building_under_attack = 'announcer_combine_building_under_attack'
     color = Vector(0.1, 0.6, 0.9) 
     victoryparticleffect = 'pg_comb_victory'
     defeatparticleffect = 'pg_comb_defeat'

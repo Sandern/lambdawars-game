@@ -72,6 +72,8 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
     announcer_research_completed = StringField(value='', helpstring='Sound script played when research is completed')
     announcer_not_enough_resources = StringField(value='', helpstring='Sound script played when there is not enough resources for an ability')
     announcer_more_population_required = StringField(value='', helpstring='Sound script played more population is needed')
+    announcer_unit_under_attack = StringField(value='', helpstring='Sound script played when units are being attacked')
+    announcer_building_under_attack = StringField(value='', helpstring='Sound script played when base is attacked')
 
     @classmethod
     def Precache(info):
@@ -95,6 +97,10 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
             CBaseEntity.PrecacheSound(info.announcer_not_enough_resources)
         if info.announcer_more_population_required:
             CBaseEntity.PrecacheSound(info.announcer_more_population_required)
+        if info.announcer_unit_under_attack:
+            CBaseEntity.PrecacheSound(info.announcer_unit_under_attack)
+        if info.announcer_building_under_attack:
+            CBaseEntity.PrecacheSound(info.announcer_building_under_attack)
 
         if info.victoryparticleffect: 
             PrecacheParticleSystem(info.victoryparticleffect)

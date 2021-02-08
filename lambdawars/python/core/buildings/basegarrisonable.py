@@ -1,5 +1,5 @@
 from srcbase import *
-from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin
+from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin, DotProduct, AngleVectors
 from entities import entity, FClassnameIs
 from .base import UnitBaseBuilding as BaseClass, WarsBuildingInfo
 from utils import UTIL_FindPosition, FindPositionInfo
@@ -23,8 +23,6 @@ class UnitBaseGarrisonableShared(object):
         def Spawn(self):
             super().Spawn()
 
-            # Do not interfere with range checks of garrisoned units
-            self.SetBlocksLOS(False)
 
             if self.sense_distance is not None:
                 self.senses = UnitCombatSense(self)
@@ -98,10 +96,57 @@ class UnitBaseGarrisonableShared(object):
                 self.UpdateEnemy(self.senses)
 
         def GetEnemyForGarrisonedUnit(self, unit):
+            #if self.senses:
+            #    return self.enemy
             if self.senses:
-                return self.enemy
-            return unit.enemy
+                if self.focusenemy:
+                    if self.sense_cone:
+                        if type(self.focusenemy) != Vector:
+                            enemy = self.focusenemy.BodyTarget(self.WorldBarrelPosition(), False) - self.WorldBarrelPosition()
+                            enemy.z = 0.0
+                            VectorNormalize(enemy)
 
+                        forward = Vector()
+                        angles1 = self.GetAbsAngles()
+                        aimyaw = angles1.y
+                        angles = QAngle(0.0, aimyaw, 0.0)
+                        AngleVectors(angles, forward)
+        
+                        dot = DotProduct(enemy, forward)
+
+                        if dot > self.sense_cone:
+                            return self.focusenemy
+                    elif self.focusenemy:
+                        return self.focusenemy
+            if self.sense_cone and unit.enemy:
+                if type(unit.enemy) != Vector:
+                    enemy = unit.enemy.BodyTarget(self.WorldBarrelPosition(), False) - self.WorldBarrelPosition()
+                    enemy.z = 0.0
+                    VectorNormalize(enemy)
+                forward = Vector()
+                angles1 = self.GetAbsAngles()
+                aimyaw = angles1.y
+                angles = QAngle(0.0, aimyaw, 0.0)
+                AngleVectors(angles, forward)
+        
+                dot = DotProduct(enemy, forward)
+
+                if dot > self.sense_cone:
+                    return unit.enemy
+            return self.enemy
+
+    def ClearFocus(self):
+        if self.focusenemy:
+            self.focusenemy = None
+    def WorldBarrelPosition(self):
+        """ Barrel position """
+        if self.barrelattachment == 0:
+            return self.WorldSpaceCenter()
+        #vecOrigin = self.WorldSpaceCenter()
+        #vecAngles = QAngle()
+        #self.GetAttachment(self.barrelattachment, vecOrigin, vecAngles)
+        #return vecOrigin
+    barrelattachment = 0
     def OnUnitTypeChanged(self, oldunittype):
         """ Called when the unit type changes. Updates population. """
         super().OnUnitTypeChanged(oldunittype)

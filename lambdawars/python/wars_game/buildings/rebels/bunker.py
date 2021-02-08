@@ -45,6 +45,14 @@ class RebelBunkerInfo(BunkerInfo):
     costs = [[('requisition', 20), ('scrap', 35)], [('kills', 5)]]
     sound_select = 'build_reb_bunker'
     sound_death = 'build_generic_explode1'
+
+    abilities   = {
+        0 : 'ungarrisonall',
+        8: 'focusenemy_building',
+        9 : 'focusclear',
+        11: 'cancel',
+    }
+
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 128) # Amplitude, frequence, duration, radius
 

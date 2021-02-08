@@ -48,6 +48,12 @@ class CombineBunkerInfo(BunkerInfo):
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 128) # Amplitude, frequence, duration, radius
     
+    abilities   = {
+        0 : 'ungarrisonall',
+        8: 'focusenemy_building',
+        9 : 'focusclear',
+        11: 'cancel',
+    } 
     dummies = [
         CreateDummy(
             modelname='models/pg_props/pg_buildings/combine/pg_combine_bunker_shild.mdl',

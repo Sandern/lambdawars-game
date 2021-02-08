@@ -2,6 +2,7 @@ from srcbase import *
 from vmath import *
 import random
 import traceback
+from core.notifications import DoNotificationEnt, GetNotifcationFilterForOwnerAndAllies
 from .cover import CoverSpot
 from .info import (UnitInfo, UnitFallBackInfo, GetUnitInfo, AddUnit, RemoveUnit, ChangeUnit, unitpopulationcount,
                   ChangeUnitType, unitlist, NoSuchAbilityError, UnitListHandle, UnitListPerTypeHandle)
@@ -29,8 +30,9 @@ if isclient:
     from vgui import cursors
     from vgui.entitybar import UnitBarScreen
 else:
+    from gameinterface import GameEvent, FireGameEvent
     from core.signals import (unitkilled, unitkilled_by_victim, unitkilled_by_attacker, unitkilled_by_inflictor,
-                              unitchangedownernumber)
+                              unitchangedownernumber, prelevelinit)
     from unit_helper import AnimEventMap
     from entities import CUnitBase as BaseClass, CTakeDamageInfo
     from utils import UTIL_SetSize, UTIL_PlayerByIndex, UTIL_GetCommandClient
@@ -41,7 +43,7 @@ from fields import (GenericField, EHandleField, ListField, DictField, IntegerFie
 from collections import defaultdict
 from math import floor
 from navmesh import CreateHidingSpot, DestroyHidingSpotByID
-from utils import trace_t, UTIL_TraceLine
+from utils import trace_t, UTIL_TraceLine, UTIL_ListPlayersForOwnerNumber
 
 if isserver:
     unit_nodamage = ConVar('unit_nodamage', '0', FCVAR_CHEAT)
@@ -1177,6 +1179,10 @@ class UnitBaseShared(object):
             return 0
 
         self.lasttakedamage = gpGlobals.curtime
+        if not getattr(self, 'isbuilding', False):
+            DoNotificationEnt('unit_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
+        else:
+            DoNotificationEnt('building_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
 
         return super().OnTakeDamage(self.ScaleDamageToAttributes(dmg_info, self.attributes))
         
