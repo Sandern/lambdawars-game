@@ -1108,6 +1108,7 @@ class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
     bounce = BooleanField(value=True, helpstring='Bounce/hop in the air on detection')
     mineskin = 0
 
+    resource_category = ''
     ability_0 = 'detonatemine'
     
     if isserver:

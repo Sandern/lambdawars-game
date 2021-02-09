@@ -1,7 +1,7 @@
-from srcbase import SOLID_NONE, FSOLID_NOT_STANDABLE, FSOLID_NOT_SOLID, EF_NOSHADOW
-from vmath import Vector
-from core.abilities import AbilityTarget
-from core.units import CreateUnit, UnitBase, UnitInfo
+from srcbase import SOLID_BBOX, FSOLID_NOT_STANDABLE, FSOLID_NOT_SOLID, EF_NOSHADOW, SOLID_NONE
+from vmath import Vector, QAngle, vec3_origin
+from core.abilities import AbilityTarget, AbilityInstant
+from core.units import CreateUnit, UnitBase, UnitInfo, GetUnitInfo
 from entities import entity, FOWFLAG_UNITS_MASK, MouseTraceData
 from fields import FloatField
 
@@ -61,6 +61,7 @@ class UnitScanInfo(UnitInfo):
     health = 0
     minimaphalfwide = 0 # Don't draw on minimap
     population = 0
+    resource_category = ''
     
 class AbilityScan(AbilityTarget):
     # Info
@@ -72,8 +73,9 @@ class AbilityScan(AbilityTarget):
     energy = 50
     rechargetime = 2.0
     scanduration = FloatField(value=10.0)
-    scanrange = FloatField(value=900.0)
+    scanrange = FloatField(value=896.0)
     activatesoundscript = 'ability_scan'
+    maxrange = FloatField(value=6144.0)
     
     # For autocast
     supportsautocast = True
@@ -89,6 +91,14 @@ class AbilityScan(AbilityTarget):
                 if not self.TakeEnergy(self.unit):
                     self.Cancel()
                     return
+            targetpos = data.endpos
+            startpos = self.unit.GetAbsOrigin()
+            #dist = startpos.DistTo(targetpos)
+            dist = targetpos - startpos
+
+            if (dist.x*dist.x + dist.y*dist.y)**0.5 > self.maxrange: 
+                self.Cancel(cancelmsg='#Ability_OutOfRange', debugmsg='must be fired within range')
+                return
             
 
             pos = data.groundendpos
@@ -126,11 +136,10 @@ class AbilityScan(AbilityTarget):
             unit.DoAbility(info.name, mouse_inputs=[('leftpressed', leftpressed)])
           
     def UpdateParticleEffects(self, inst, targetpos):
-        inst.SetControlPoint(0, targetpos + self.particleoffset)
-        inst.SetControlPoint(2, Vector(self.scanrange, self.scanrange, 0))
+        inst.SetControlPoint(0, self.unit.GetAbsOrigin() + self.particleoffset)
+        inst.SetControlPoint(2, Vector(self.maxrange, self.maxrange, 0))
         inst.SetControlPoint(4, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
-        
-    infoparticles = ['range_radius_radar']
+    infoparticles = ['range_radius']
 
 class AbilityCharScan(AbilityScan):
     name = 'scan_char'
