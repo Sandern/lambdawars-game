@@ -507,7 +507,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     accuracy = 'medium'
     population = 2
     regenerationamount = 10
-    regenerationtime = 0.5
+    regenerationtime = 2
 
 class CombineSniperUnlock(AbilityUpgrade):
     name = 'combine_sniper_unlock'

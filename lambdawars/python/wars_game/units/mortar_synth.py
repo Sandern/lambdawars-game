@@ -70,10 +70,10 @@ class UnitMortarSynth(BaseClass):
         super().Spawn()
         
         self.SetBloodColor(DONT_BLEED)
-        self.locomotion.maxheight = 256.0
-        self.locomotion.desiredheight = 128.0
-        self.locomotion.flynoiserate = 32.0
-        self.locomotion.flynoisez = 24.0
+        self.locomotion.maxheight = 64.0
+        self.locomotion.desiredheight = 64.0
+        self.locomotion.flynoiserate = 5.0
+        self.locomotion.flynoisez = 10.0
     events = dict(BaseClass.events)
     events.update( {
         'ANIM_RANGE_ATTACK1' : EventHandlerAnimation(Activity.ACT_RANGE_ATTACK1),

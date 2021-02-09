@@ -132,7 +132,7 @@ class UnitCrabSynth(BaseClass):
         self.SetThink(self.SUB_Remove)
         self.SetNextThink(gpGlobals.curtime)
 
-        nGib = random.randint(2,5)
+        nGib = random.randint(3,6)
         if self.shouldgib:
             for i in range(1, nGib): 
                 self.ThrowGibs(i)
@@ -186,9 +186,6 @@ class UnitCrabSynth(BaseClass):
             pChunk.SetAbsVelocity(vecVelocity)
             pPhysicsObject.SetVelocity(vecVelocity, angImpulse)
 
-        pFlame = CEntityFlame.Create(pChunk, False)
-        if pFlame != None:
-            pFlame.SetLifetime(pChunk.lifetime)
     if isserver:
         class BehaviorGenericClass(BaseClass.BehaviorGenericClass):
             class ActionDie(BaseAction):
