@@ -16,13 +16,27 @@ class AbilityGenConnectInfo(AbilityTarget):
             gen = data.ent
             
             if not gen or not gen.IsUnit() or gen.unitinfo != self.unit.unitinfo or gen == self.unit:
-                # TODO: Inform player
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                return
+            if gen.powered_1:
+                if not gen.powered:
+                    self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                    return
+            if self.unit.powered_1:
+                if not self.unit.powered:
+                    self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                    return
+            if not gen.constructionstate is gen.BS_CONSTRUCTED:
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                return
+            if not self.unit.constructionstate is self.unit.BS_CONSTRUCTED:
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
                 return
                 
             # Check range
             dist = (self.unit.GetAbsOrigin() - gen.GetAbsOrigin()).Length2D()
             if dist > self.unit.maxgenrange:
-                # TODO: Inform user
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
                 return
                 
             # Connect or destroy

@@ -216,6 +216,16 @@ class CombineShieldGenerator(BaseClass):
         def CreateLink(self, othergen):
             if othergen == self:
                 return
+            if othergen.powered_1:
+                if not othergen.powered:
+                    return
+            if self.powered_1:
+                if not self.powered:
+                    return
+            if not othergen.constructionstate is othergen.BS_CONSTRUCTED:
+                return
+            if not self.constructionstate is self.BS_CONSTRUCTED:
+                return
                 
             dir = othergen.GetAbsOrigin() - self.GetAbsOrigin()
             dir.z = 0.0
@@ -295,6 +305,7 @@ class CombineShieldGenerator(BaseClass):
     maxgenrange = FloatField(value=1024.0)
     shield = GenericField(value=None, networked=True)
     link_target = 'build_comb_shieldgen'
+    powered_1 = False
 
 @entity('build_comb_shieldgen_powered', networked=True )
 class CombineShieldGeneratorPowered(BasePoweredBuilding, CombineShieldGenerator):
@@ -322,6 +333,7 @@ class CombineShieldGeneratorPowered(BasePoweredBuilding, CombineShieldGenerator)
     #customeyeoffset = Vector(0,0,150)
     rallylineenabled = False
     link_target = 'build_comb_shieldgen_powered'
+    powered_1 = True
 
 class OverrunCombineShieldGenInfo(WarsBuildingInfo):
     name = 'overrun_build_comb_shieldgen'

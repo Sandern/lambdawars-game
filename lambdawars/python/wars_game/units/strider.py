@@ -898,7 +898,7 @@ class UnitStrider(BaseClass):
         self.mv.maxspeed = self.mv.maxspeed * 2
         
     def DisableSpeed(self):
-        self.DoAnimation(self.ANIM_STAND)
+        #self.DoAnimation(self.ANIM_STAND)
         if not self.speedenabled:
             return
         self.speedenabled = False
