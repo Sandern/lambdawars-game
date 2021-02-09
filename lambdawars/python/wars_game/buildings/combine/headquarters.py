@@ -166,17 +166,40 @@ class OverrunCombineHQInfo(WarsBuildingInfo):
     minimapicon_name = 'hud_minimap_hq'
     health = 2000
     abilities = {
-        0: 'overrun_unit_combine',
-        1: 'overrun_unit_combine_sg',
-        2: 'overrun_unit_combine_ar2',
-        3: 'overrun_unit_combine_elite',
-        4: 'overrun_unit_combine_sniper',
-        5: 'overrun_unit_hunter',
-        6: 'overrun_unit_mortar_synth',
-        8: 'or_tier2_research',
-        9: 'overrun_unit_metropolice_riot',
-        10: 'overrun_unit_metropolice',
-        11: 'overrun_unit_stalker',
+		8: 'or_tier2_research',
+		0: 'overrun_unit_stalker',
+        3: SubMenu(name='combine_t1_units',
+                   displayname='#Tier1MenuUnits_Name',
+                   description='#Tier1MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_1_menu",
+                   abilities={
+                              0: 'overrun_unit_metropolice',
+                              1: 'overrun_unit_combine',
+                              2: 'overrun_unit_metropolice_riot',
+                              11: 'menuup',
+                              }),
+        7: SubMenu(name='combine_t2_units',
+                   displayname='#Tier2MenuUnits_Name',
+                   description='#Tier2MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_2_menu",
+                   abilities={
+                              0: 'overrun_unit_combine_sg',
+                              1: 'overrun_unit_combine_ar2',
+							  2: 'overrun_unit_combine_heavy',
+                              11: 'menuup',
+                              }),
+        11: SubMenu(name='combine_t3_units',
+                   displayname='#Tier3MenuUnits_Name',
+                   description='#Tier3MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_3_menu",
+                   abilities={
+                              0: 'overrun_unit_combine_elite',
+                              1: 'overrun_unit_combine_sniper',
+                              2: 'overrun_unit_hunter',
+                              3: 'overrun_unit_mortar_synth',
+                              4: 'overrun_unit_crab_synth',
+                              11: 'menuup',
+                              }),
     }
     population = 0
     providespopulation = 25

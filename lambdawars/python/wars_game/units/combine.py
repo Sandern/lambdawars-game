@@ -509,6 +509,21 @@ class CombineHeavyInfo(CombineSharedInfo):
     regenerationamount = 10
     regenerationtime = 2
 
+class OverrunCombineHeavyInfo(CombineHeavyInfo):
+	name = 'overrun_unit_combine_heavy'
+	costs = [('kills', 5)]
+	techrequirements = ['or_tier2_research']
+	population = 3
+	abilities = {
+		#7: 'mountturret',
+		#0: 'stungrenade',
+		8: 'attackmove',
+		9: 'holdposition',
+		10: 'patrol',
+		-1: 'garrison',
+	}
+	buildtime = 0
+
 class CombineSniperUnlock(AbilityUpgrade):
     name = 'combine_sniper_unlock'
     displayname = '#CombSniperUnlock_Name'

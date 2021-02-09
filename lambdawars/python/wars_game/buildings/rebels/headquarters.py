@@ -141,19 +141,41 @@ class OverrunRebelHQInfo(RebelHQInfo):
     #buildtime = 100.0
     unitenergy = 0
     abilities   = {
-        #0: 'overrun_unit_rebel_partisan',
-        0 : 'overrun_unit_rebel_partisan_molotov',
-        1 : 'overrun_unit_rebel',
-        2 : 'overrun_unit_rebel_engineer',
-        3 : 'overrun_unit_rebel_sg',
-        4 : 'overrun_unit_rebel_ar2',
-        5 : 'overrun_unit_rebel_medic',
-        6 : 'overrun_unit_rebel_veteran',
-        7 : 'overrun_unit_rebel_rpg',
-        9 : 'overrun_unit_dog',
-        10 : 'overrun_unit_rebel_flamer',
-        11 : 'overrun_unit_vortigaunt',
+        0 : 'overrun_unit_rebel_engineer',
         8 : 'or_tier2_research',
+        3: SubMenu(name='rebel_t1_units',
+                   displayname='#Tier1MenuUnits_Name',
+                   description='#Tier1MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_1_menu",
+                   abilities={
+                              0: 'overrun_unit_rebel_partisan_molotov',
+                              1: 'overrun_unit_rebel',
+                              #2: 'overrun_unit_rebel_partisan',
+                              11: 'menuup',
+                              }),
+        7: SubMenu(name='rebel_t2_units',
+                   displayname='#Tier2MenuUnits_Name',
+                   description='#Tier2MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_2_menu",
+                   abilities={
+                              0: 'overrun_unit_rebel_sg',
+                              1: 'overrun_unit_rebel_ar2',
+                              2: 'overrun_unit_rebel_medic',
+                              3: 'overrun_unit_rebel_flamer',
+							  4: 'overrun_unit_rebel_heavy',
+                              11: 'menuup',
+                              }),
+        11: SubMenu(name='rebel_t3_units',
+                   displayname='#Tier3MenuUnits_Name',
+                   description='#Tier3MenuUnits_Description',
+                   image_name="VGUI/combine/abilities/tier_3_menu",
+                   abilities={
+                              0: 'overrun_unit_vortigaunt',
+                              1: 'overrun_unit_rebel_veteran',
+                              2: 'overrun_unit_rebel_rpg',
+                              3: 'overrun_unit_dog',
+                              11: 'menuup',
+                              }),
     }
     population = 0
     providespopulation = 25

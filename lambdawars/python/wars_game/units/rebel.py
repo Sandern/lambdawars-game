@@ -546,6 +546,21 @@ class RebelHeavyInfo(RebelInfo):
     attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
+	
+class OverrunRebelHeavyInfo(RebelHeavyInfo):
+	name = 'overrun_unit_rebel_heavy'
+	costs = [('kills', 4)]
+	techrequirements = ['or_tier2_research']
+	abilities = {
+        #0: 'smokegrenade',
+        #1: 'rebel_grenade_upgrade',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+	}
+	buildtime = 0
 
 
 class DestroyHQRebelAR2Info(RebelAR2Info):

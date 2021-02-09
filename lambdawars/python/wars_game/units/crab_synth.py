@@ -251,6 +251,6 @@ class CrabSynthInfo(UnitInfo):
     sai_hint = set(['sai_unit_combat'])
 class OverrunCrabSynthInfo(CrabSynthInfo):
     name = 'overrun_unit_crab_synth'
-    costs = [('kills', 5)]
+    costs = [('kills', 10)]
     techrequirements = ['or_tier3_research']
     buildtime = 0
