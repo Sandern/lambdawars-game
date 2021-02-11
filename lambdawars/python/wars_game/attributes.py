@@ -170,12 +170,12 @@ class PulseAttribute(AttributeInfo):
     }
 
 
-class PulseEliteAttribute(AttributeInfo):
-    name = 'pulse_elite'  # for higher tier units, should probably name it "pulse_t3" instead
+class PulseShotgunAttribute(AttributeInfo):
+    name = 'pulse_shotgun'  # for higher tier units, should probably name it "pulse_t3" instead
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(4),
-        'medium': ConstantBonusDamage(3),
+        'light': ConstantBonusDamage(20),
+        'medium': ConstantBonusDamage(20),
     }
 
 

@@ -513,7 +513,7 @@ class OverrunCombineHeavyInfo(CombineHeavyInfo):
 	name = 'overrun_unit_combine_heavy'
 	costs = [('kills', 5)]
 	techrequirements = ['or_tier2_research']
-	population = 3
+	#population = 3
 	abilities = {
 		#7: 'mountturret',
 		#0: 'stungrenade',
