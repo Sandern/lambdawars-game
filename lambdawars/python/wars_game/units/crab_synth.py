@@ -28,6 +28,7 @@ class UnitCrabSynth(BaseClass):
         self.serverdoimpactandtracer = True
         
         self.tracercolor = Vector(0.1882, 0.502, 0.596)
+    
     gibmodelnames = [
 		'models\Gibs\synth_gib1.mdl',
 		'models\Gibs\synth_gib2.mdl',
@@ -66,6 +67,7 @@ class UnitCrabSynth(BaseClass):
         super().Spawn()
         ammodef = GetAmmoDef()
         self.ammotype = ammodef.Index("AR2")
+        self.SetBloodColor(DONT_BLEED)
     def FireCannon(self):
         if not self.enemy:
             return
@@ -221,10 +223,10 @@ class CrabSynthInfo(UnitInfo):
     #scalebounds = 0.375
     hulltype = 'HULL_LARGE'
     #scale = 0.75
-    health = 1000
+    health = 800
     buildtime = 40.0
     costs = [('requisition', 50), ('power', 50)]
-    attributes = ['synth', 'pulse']
+    attributes = ['synth', 'mechanic', 'pulse']
     maxspeed = 144
     turnspeed = 50
     viewdistance = 896
@@ -233,9 +235,12 @@ class CrabSynthInfo(UnitInfo):
     population = 5
     regeneration = True
     regenerationamount = 10
-    regenerationtime = 10
-    unitenergy = 100
-    unitenergy_initial = 0
+    regenerationtime = 1.0
+    unitenergy = 180
+    unitenergy_initial = 180
+    sound_select = 'unit_crab_synth_select'
+    sound_move = 'unit_combine_elite_move'
+    sound_attack = 'unit_combine_elite_attack'
     infest_zombietype = None
     abilities = {
         8: 'attackmove',
@@ -244,8 +249,9 @@ class CrabSynthInfo(UnitInfo):
     }
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
-        damage = 6.0
+        damage = 4.0
         attackspeed = 0.11
+        usesbursts = False
         maxrange = 768.0
     attacks = ['AttackRange']
     sai_hint = set(['sai_unit_combat'])

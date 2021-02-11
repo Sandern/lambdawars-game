@@ -44,7 +44,7 @@ class TechCenterInfo(PoweredBuildingInfo):
         8 : 'cancel',
     } 
     sound_work = 'combine_armory_working'
-    sound_select = 'build_comb_armory'
+    sound_select = 'build_comb_tech_center'
     sound_death = 'build_comb_armory_destroy'
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius

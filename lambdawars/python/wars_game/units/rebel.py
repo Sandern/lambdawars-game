@@ -528,7 +528,7 @@ class RebelHeavyInfo(RebelInfo):
     viewdistance = 832
     scale = 1.10
     costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
-    accuracy = 0.5
+    accuracy = 0.75
     population = 2
     modelname = 'models/rebel_heavy.mdl'
     techrequirements = ['build_reb_techcenter']
