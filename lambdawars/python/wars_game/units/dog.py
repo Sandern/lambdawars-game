@@ -187,7 +187,7 @@ class UnitDog(BaseClass):
             return
         self.DoSlam()
         
-    def DoSlam(self, damage=150):
+    def DoSlam(self, damage=180):
         origin = self.GetAbsOrigin()
          
         #eyesPoint = Vector()
@@ -198,7 +198,7 @@ class UnitDog(BaseClass):
         #DispatchParticleEffect('pg_dog_slam',offset , angle)
         DispatchParticleEffect('pg_dog_slam', PATTACH_POINT_FOLLOW, self, 'physgun')
 
-        dmg_radius = 128.0
+        dmg_radius = 192.0
         self.EmitSound("unit_rebel_dog_slam")
 
         dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 150, 0)
@@ -367,7 +367,7 @@ class DogInfo(UnitInfo):
     viewdistance = 832
     turnspeed = 75.0
     buildtime = 76.0
-    population = 6
+    population = 8
     unitenergy = 100
     unitenergy_initial = 50
     costs = [('requisition', 80), ('scrap', 80)]
