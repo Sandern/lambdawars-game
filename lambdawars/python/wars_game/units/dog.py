@@ -345,7 +345,7 @@ class AbilityDogJump(AbilityJump):
     hidden = True
     rechargetime = 0
     maxrange = 896
-    energy = 40
+    energy = 50
     jumpstartsound = 'unit_rebel_dog_angry'
     jumpgravity = 1.2
     collision = True
@@ -367,7 +367,7 @@ class DogInfo(UnitInfo):
     viewdistance = 832
     turnspeed = 75.0
     buildtime = 76.0
-    population = 8
+    population = 6
     unitenergy = 100
     unitenergy_initial = 50
     costs = [('requisition', 80), ('scrap', 80)]

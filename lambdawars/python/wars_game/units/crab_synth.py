@@ -232,7 +232,7 @@ class CrabSynthInfo(UnitInfo):
     viewdistance = 896
     sensedistance = 896
     techrequirements = ['build_comb_tech_center']
-    population = 5
+    population = 6
     regeneration = True
     regenerationamount = 10
     regenerationtime = 1.0

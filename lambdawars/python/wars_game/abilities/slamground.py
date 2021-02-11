@@ -24,8 +24,9 @@ class AbilitySlamGround(AbilityInstant):
     def DoAbility(self):
         self.SelectGroupUnits()
         units = self.TakeEnergy(self.units)
+
         for unit in units:
-            unit.DoAnimation(unit.ANIM_SLAMGROUND)
+            unit.DoAnimation(unit.ANIM_SLAMGROUND, data=round(2*255))
             unit.AbilityOrder(ability=self)
         self.SetRecharge(units)
         self.Completed()

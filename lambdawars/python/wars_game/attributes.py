@@ -166,7 +166,7 @@ class PulseAttribute(AttributeInfo):
         'light': ConstantBonusDamage(4),
         'medium': ConstantBonusDamage(5),
         #'synth': ConstantBonusDamage(3),
-        'metal': ConstantBonusDamage(3),
+        #'metal': ConstantBonusDamage(3),
     }
 
 
@@ -299,6 +299,7 @@ class DogSlamImpactAttribute(AttributeInfo):
     dmgmodifiers = {
 		'synth': ConstantBonusDamage(200),
 		'light': ConstantBonusDamage(50),
+		'medium': ConstantBonusDamage(50),
     }
 
     def ApplyToTarget(self, target, dmg_info):
