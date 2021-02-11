@@ -20,7 +20,7 @@ class AbilityFlash(AbilityInstant):
     defaultautocast = True
     autocastcheckonenemy = True
     
-    radius = 512.0
+    radius = 640.0
     
     # Ability
     def DoAbility(self):

@@ -346,7 +346,7 @@ class ScannerInfo(UnitInfo):
     buildtime = 15.0
     costs = [('requisition', 5), ('power', 12)]
     sai_hint = set(['sai_unit_scout', 'sai_unit_combat'])
-    attributes = ['mechanic']
+    attributes = ['mechanic', 'metal']
     sound_death = 'NPC_CScanner.Die'
     maxspeed = 352
     viewdistance = 1024
