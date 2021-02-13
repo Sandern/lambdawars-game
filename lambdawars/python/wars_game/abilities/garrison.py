@@ -1,10 +1,7 @@
-from core.abilities import AbilityTargetGroup, AbilityInstant
-from entities import MouseTraceData
-from srcbase import *
-from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin, DotProduct, AngleVectors
+from srcbase import IN_SPEED
+from core.abilities import AbilityTargetGroup
 if isserver:
     from core.units import BehaviorGeneric
-    from utils import UTIL_EntitiesInBox
     
 if isserver:
     class ActionGarrisonBuilding(BehaviorGeneric.ActionAbility):
@@ -30,11 +27,6 @@ if isserver:
             return super().OnResume()
 
         def Update(self):
-            target = self.order.target
-            if not self.outer.garrisoned and not target.CanGarrisonUnit(self.outer):
-                self.order.ability.Cancel()
-                self.order.Remove(dispatchevent=True)
-                return self.ChangeToIdle('No target')
             trans = self.CheckForEnemy()
             if trans:
                 return trans
@@ -45,11 +37,8 @@ if isserver:
             outer = self.outer
             if not outer.garrisoned:
                 return
-            enemy = None
-            if outer.enemy:
-                enemy = outer.garrisoned_building.GetEnemyForGarrisonedUnit(outer)
-            elif outer.garrisoned_building.enemy or outer.garrisoned_building.focusenemy:
-                enemy = outer.garrisoned_building.GetEnemyForGarrisonedUnit(outer.garrisoned_building)
+
+            enemy = outer.garrisoned_building.GetEnemyForGarrisonedUnit(outer)
             if enemy:
                 return self.SuspendFor(ActionGarrisonAttack, 'Enemy, lock on.', enemy)
 

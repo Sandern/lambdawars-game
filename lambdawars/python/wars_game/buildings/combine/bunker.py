@@ -20,7 +20,7 @@ class CombineBunker(UnitBaseGarrisonableBuilding):
     maxpopulation = 8
 
     units_dmg_modifier = 0.20
-    sense_distance = 1280
+    sense_distance = 1408
     sense_cone = -0.6  # 0 for 90 degrees each side, -1 for 360 degrees, 1 for vice versa
 
 
@@ -41,6 +41,7 @@ class CombineBunkerInfo(BunkerInfo):
     garrisoned_attributes = ['bunker']
     buildtime = 46.0
     attackpriority = 0
+    #sense_distance = 2000
     techrequirements = ['build_comb_garrison']
     costs = [[('requisition', 20), ('power', 50)], [('kills', 5)]]
     sound_select = 'build_comb_bunker'
@@ -48,12 +49,6 @@ class CombineBunkerInfo(BunkerInfo):
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 128) # Amplitude, frequence, duration, radius
     
-    abilities   = {
-        0 : 'ungarrisonall',
-        8: 'focusenemy_building',
-        9 : 'focusclear',
-        11: 'cancel',
-    } 
     dummies = [
         CreateDummy(
             modelname='models/pg_props/pg_buildings/combine/pg_combine_bunker_shild.mdl',

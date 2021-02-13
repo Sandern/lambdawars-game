@@ -20,7 +20,7 @@ class RebelBunker(UnitBaseGarrisonableBuilding):
     maxpopulation = 8
 
     units_dmg_modifier = 0.35
-    sense_distance = 1280
+    sense_distance = 1408
     sense_cone = -0.6  # 90 degrees each side
 
 
@@ -45,15 +45,8 @@ class RebelBunkerInfo(BunkerInfo):
     costs = [[('requisition', 20), ('scrap', 35)], [('kills', 5)]]
     sound_select = 'build_reb_bunker'
     sound_death = 'build_generic_explode1'
-
-    abilities   = {
-        0 : 'ungarrisonall',
-        8: 'focusenemy_building',
-        9 : 'focusclear',
-        11: 'cancel',
-    }
-
     explodeparticleeffect = 'building_explosion'
+    #sense_distance = 2000
     explodeshake = (2, 10, 2, 128) # Amplitude, frequence, duration, radius
 
 class DestroyHQRebelBunkerInfo(RebelBunkerInfo):

@@ -5,7 +5,7 @@ from ..abilities.placeobject import AbilityPlaceObjectShared
 
 from math import ceil, floor
 
-from playermgr import OWNER_LAST, ListAlliesOfOwnerNumber, relationships
+from playermgr import OWNER_LAST, ListAlliesOfOwnerNumber
 from core.resources import GiveResources, MessageResourceIndicator, GetResourceInfo, resources, resourcecaps
 
 from fields import (FloatField, IntegerField, StringField, VectorField, SetField, OutputField, BooleanField, DictField,
@@ -682,23 +682,6 @@ class UnitBaseBuildingShared(object):
         ''' Returns build/construct progress for UnitProgressBarScreen. '''
         return 0
         
-    def Order(self, player):
-        """ Called on right click when the unit is selected by the player """
-        # Cannot set the enemy of another player
-        if player.GetOwnerNumber() != self.GetOwnerNumber():
-            return
-            
-        
-        data = player.GetMouseData()
-        if not data.ent.IsUnit():
-            return
-        if data.ent.cloaked and not data.ent.detected:
-            #if relationships[(player.GetOwnerNumber(), data.ent.GetOwnerNumber())] != D_LI:
-            return
-        if relationships[(player.GetOwnerNumber(), data.ent.GetOwnerNumber())] == D_LI:
-            return
-        self.focusenemy = data.ent
-    focusenemy = None
     # Selection texture
     scaleprojectedtexture = 1.2
     # Selection particle

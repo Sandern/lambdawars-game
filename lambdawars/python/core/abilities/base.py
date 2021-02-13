@@ -263,7 +263,7 @@ class AbilityBase(AbilityInfo):
                     
                 if self.clientinitialized:
                     ClientAbilityCompleted(self.abilityid, filter=recvfilter)
-        
+        self.PlayActivateSound()
         self.TestContinueAbility()
  
     def ClearMouse(self, syncserverclient=False):

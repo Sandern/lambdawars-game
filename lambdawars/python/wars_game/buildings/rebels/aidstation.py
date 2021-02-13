@@ -32,7 +32,7 @@ class RebelsAidStationInfo(GarrisonableBuildingInfo):
     cls_name = "build_rebelregeneration"
     image_name = 'vgui/rebels/buildings/build_reb_aidstation'
     modelname = 'models/structures/resistance/aidstation.mdl'
-    health = 450
+    health = 500
     buildtime = 25.0
     placemaxrange = 260.0
     costs = [[('requisition', 50)], [('kills', 5)]]
