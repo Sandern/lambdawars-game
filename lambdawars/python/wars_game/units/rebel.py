@@ -328,7 +328,7 @@ class RebelPartisanInfo(RebelShared):
     cls_name = 'unit_rebel_partisan'
     displayname = '#RebPartisan_Name'
     description = '#RebPartisan_Description'
-    buildtime = 19.0
+    buildtime = 18.0
     health = 60
     population = 1
     maxspeed = 224.0

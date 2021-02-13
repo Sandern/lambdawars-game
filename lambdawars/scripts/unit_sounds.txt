@@ -840,9 +840,21 @@
 
 	"rndwave"
 	{
-		"wave"	"npc/scanner/scanner_scan1.wav"
-		"wave"	"npc/scanner/scanner_scan2.wav"	
-		"wave"	"npc/scanner/scanner_scan4.wav"		
+		"wave"	"npc/crab_synth/synth_crab_moveorder1.wav"	
+	}
+}
+
+"unit_crab_synth_attack"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"npc/crab_synth/synth_crab_attackorder1.wav"	
 	}
 }
 
@@ -1385,6 +1397,20 @@
 	}
 }
 
+"build_reb_techcenter"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"Buildings/R rebel_techcenter.mp3"
+	}
+}
+
 "build_reb_radiotower"
 {
 	"channel"		"CHAN_VOICE"
@@ -1482,10 +1508,11 @@
 
 	"rndwave"
 	{
-		"wave"	"Buildings/C TechCenterselection1.wav"
-		"wave"	"Buildings/C TechCenterselection2.wav"
+		"wave"	"Buildings/C TechCenterselection1.mp3"
 	}
 }
+
+
 
 "build_comb_energycell"
 {

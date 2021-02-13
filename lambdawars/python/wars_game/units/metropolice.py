@@ -372,8 +372,10 @@ class UnitMetroPolice(BaseClass):
             if self.defensive_mode:
                 self.defensive_mode_speed_redux = 150
                 self.mv.maxspeed -= self.defensive_mode_speed_redux
+                self.unitinfo.maxspeed -= self.defensive_mode_speed_redux
             else:
                 self.mv.maxspeed += self.defensive_mode_speed_redux
+                self.unitinfo.maxspeed += self.defensive_mode_speed_redux
                 self.defensive_mode_speed_redux = 0
 
     def OnSteadyPositionChanged(self):
@@ -646,7 +648,7 @@ class MetroPoliceInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_metropolice'
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 19.0
+    buildtime = 18.0
     health = 150
     maxspeed = 232
     viewdistance = 768
@@ -682,7 +684,7 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
     image_name = 'vgui/combine/units/unit_metropolice_smg'
     weapons = ['weapon_smg1']
     costs = [[('requisition', 20)], [('kills', 1)]]
-    buildtime = 22.0
+    buildtime = 24.0
     maxspeed = 224
     viewdistance = 768
     scrapdropchance = 0.0
