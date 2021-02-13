@@ -37,7 +37,7 @@ class TechCenterInfo(WarsBuildingInfo):
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
     sound_work = 'rebel_munitions_working' #'ATV_engine_idle'
-    sound_select = 'build_reb_munitiondepot'
+    sound_select = 'build_reb_techcenter'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'pg_rebel_barracks_explosion'
     explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius

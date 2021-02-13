@@ -47,6 +47,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
             offset=Vector(0, 0, -2),
             modelname = 'models/props_combine/combine_barricade_short01a.mdl',
             blocknavareas = False,
+            viewdistance = 192,
             blockdensitytype = DENSITY_GAUSSIANECLIPSE,
         ),
     ]

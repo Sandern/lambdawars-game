@@ -99,6 +99,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
             #mins=Vector(-29.137079, -68.622986, -2.941891),
             #Custom Min ###
             mins=Vector(-29, -40, -2),
+            viewdistance = 192,
             #### MAXS #######
             #Default Max ###
             #maxs=Vector(17.928478, 55.692348, 77.737030),

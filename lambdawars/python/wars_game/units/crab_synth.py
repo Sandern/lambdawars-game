@@ -239,8 +239,8 @@ class CrabSynthInfo(UnitInfo):
     unitenergy = 180
     unitenergy_initial = 180
     sound_select = 'unit_crab_synth_select'
-    sound_move = 'unit_combine_elite_move'
-    sound_attack = 'unit_combine_elite_attack'
+    sound_move = 'unit_crab_synth_move'
+    sound_attack = 'unit_crab_synth_attack'
     infest_zombietype = None
     abilities = {
         8: 'attackmove',
