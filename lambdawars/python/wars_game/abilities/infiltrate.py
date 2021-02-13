@@ -59,7 +59,6 @@ class AbilityInfiltrate(AbilityInstant):
         def DoAbility(self):
             # Just do the ability on creation ( == when you click the ability slot )
             self.SelectGroupUnits()
-            self.PlayActivateSound()
         
     #serveronly = True # Do not instantiate on the client
 

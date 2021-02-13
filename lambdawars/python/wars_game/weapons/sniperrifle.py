@@ -138,7 +138,7 @@ class WeaponSniperRifle(WarsWeaponBase):
     class AttackPrimary(AttackAbilityAsAttack):
         abi_attack_name = 'marksmanshot'
         damage = 70
-        minrange = 128.0
+        #minrange = 128.0
         maxrange = 1280.0
         attackspeed = 2.49
         damage = 70

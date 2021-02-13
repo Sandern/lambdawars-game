@@ -225,7 +225,7 @@ class MortarSynthInfo(UnitInfo):
     #maxspeed = 112
     turnspeed = 200
     viewdistance = 768
-    sensedistance = 1408
+    sensedistance = 1536
     techrequirements = ['build_comb_tech_center']
     population = 3
     scalebounds = 0.75
@@ -242,7 +242,7 @@ class MortarSynthInfo(UnitInfo):
         cone = 0.7
         damage = 250.0
         attackspeed = 7.0
-        maxrange = 1408.0
+        maxrange = 1536.0
         radiusdamage = 128
     attacks = ['AttackRange']
 class OverrunMortarSynthInfo(MortarSynthInfo):

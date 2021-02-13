@@ -66,7 +66,7 @@ class UnitBaseCombat(BaseClass):
             
             self.UseClientSideAnimation()
             
-            self.viewdistance = 1024.0
+            self.viewdistance = 128.0
             
             self.items = []
             self.chargehitunits = set()
@@ -210,7 +210,7 @@ class UnitBaseCombat(BaseClass):
 
     def OnGarrisonedChanged(self):
         if self.garrisoned:
-            self.AddRangeBonus('bunkerrange', 192)
+            self.AddRangeBonus('bunkerrange', 1024)
         else:
             self.RemoveRangeBonus('bunkerrange')
 

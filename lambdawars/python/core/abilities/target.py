@@ -155,7 +155,7 @@ class AbilityTarget(AbilityBase):
                     self.ClearTempModel()
         
         # Do the actual ability
-        self.PlayActivateSound()
+        #self.PlayActivateSound()
         self.DoAbility()
         
         # The client mouse interaction with this ability is done. 

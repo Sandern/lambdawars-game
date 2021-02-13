@@ -87,10 +87,6 @@ class AbilityScan(AbilityTarget):
         def DoAbility(self):
             data = self.mousedata
 
-            if not self.ischeat:
-                if not self.TakeEnergy(self.unit):
-                    self.Cancel()
-                    return
             targetpos = data.endpos
             startpos = self.unit.GetAbsOrigin()
             #dist = startpos.DistTo(targetpos)
@@ -100,6 +96,10 @@ class AbilityScan(AbilityTarget):
                 self.Cancel(cancelmsg='#Ability_OutOfRange', debugmsg='must be fired within range')
                 return
             
+            if not self.ischeat:
+                if not self.TakeEnergy(self.unit):
+                    self.Cancel()
+                    return
 
             pos = data.groundendpos
             pos.z += 512.0

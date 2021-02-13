@@ -7,8 +7,8 @@ class AbilityInstant(AbilityBase):
         super().Init()
         
         requirements = self.GetRequirementsUnits(self.player)
-        if not requirements:
-            self.PlayActivateSound()
+        #if not requirements:
+        #    self.PlayActivateSound()
         self.DoAbility()
   
     def DoAbility(self): 

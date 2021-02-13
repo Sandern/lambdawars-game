@@ -91,4 +91,3 @@ class AbilityHeadcrabInfest(AbilityInstant):
     else:
         def DoAbility(self):
             self.SelectSingleUnit()
-            self.PlayActivateSound()

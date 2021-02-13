@@ -710,6 +710,8 @@ class UnitInfo(AbilityTargetGroup, metaclass=UnitInfoMetaClass):
                 self.cancelonmouselost = False
                 if self.player and self.player.IsActiveAbility(self):
                     self.player.RemoveActiveAbility(self)
+    def ClientUpdateAbilitiesMenu(self):
+        pass
 
     defaultrendercolor = Color(0, 255, 0, 255)        
     
