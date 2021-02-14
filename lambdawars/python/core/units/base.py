@@ -66,6 +66,12 @@ def OnLoadGamepackage(*args, **kwargs):
         for unit in l:
             unit.BuildAttributeProperties()
     
+global_lasttakedamage = 0 
+def NotificationEnt(name, ent, filter=filter):
+    global global_lasttakedamage
+    if global_lasttakedamage < gpGlobals.curtime or global_lasttakedamage == 0:
+        DoNotificationEnt(name, ent, filter=filter) 
+        global_lasttakedamage = gpGlobals.curtime + 10
 if isclient:
     class UnitHealthBarScreen(UnitBarScreen):
         """ Draws the unit health bar. """
@@ -1180,9 +1186,9 @@ class UnitBaseShared(object):
 
         self.lasttakedamage = gpGlobals.curtime
         if not getattr(self, 'isbuilding', False):
-            DoNotificationEnt('unit_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
+            NotificationEnt('unit_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
         else:
-            DoNotificationEnt('building_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
+            NotificationEnt('building_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
 
         return super().OnTakeDamage(self.ScaleDamageToAttributes(dmg_info, self.attributes))
         

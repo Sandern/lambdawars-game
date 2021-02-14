@@ -42,6 +42,7 @@ if isserver:
 
         def OnResume(self):
             if self.healedtarget:
+                self.order.ability.SetRecharge(self.outer)
                 self.order.ability.Completed()
                 self.order.Remove(dispatchevent=False)
             return super().OnResume()

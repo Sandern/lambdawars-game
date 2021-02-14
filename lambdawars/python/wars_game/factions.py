@@ -93,6 +93,10 @@ class FactionRebelsInfo(WarsFactionInfo):
     announcer_cp_captured = 'rebels_cp_captured'
     announcer_cp_lost = 'rebels_cp_lost'
     announcer_cp_under_attack = 'rebels_cp_underattack'
+    announcer_research_completed = 'announcer_rebel_researchcomplete'
+    announcer_unit_completed = 'announcer_rebel_unit_complete'
+    announcer_unit_under_attack = 'announcer_rebel_unit_under_attack'
+    announcer_building_under_attack = 'announcer_rebel_building_under_attack'
     color = Vector(0.9, 0.6, 0.1)
     victoryparticleffect = 'pg_reb_victory'
     defeatparticleffect = 'pg_reb_defeat'
