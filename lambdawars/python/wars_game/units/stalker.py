@@ -492,6 +492,7 @@ class StalkerShared(UnitInfo):
     hulltype = 'HULL_HUMAN'
     attackpriority = -1
     sai_hint = set(['sai_unit_builder'])
+    infest_zombietype = ''
     
     class AttackRange(UnitInfo.AttackRange):
         damage = 10

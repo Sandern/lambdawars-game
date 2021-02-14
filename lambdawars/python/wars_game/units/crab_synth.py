@@ -220,9 +220,9 @@ class CrabSynthInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_crab_synth' 
     modelname = 'models/synth_crab.mdl'
     #sound_death = 'NPC_HeadCrab.Die' 
-    #scalebounds = 0.375
-    hulltype = 'HULL_LARGE'
-    #scale = 0.75
+    scalebounds = 0.50
+    #hulltype = 'HULL_LARGE'
+    scale = 0.95
     health = 800
     buildtime = 40.0
     costs = [('requisition', 50), ('power', 50)]
