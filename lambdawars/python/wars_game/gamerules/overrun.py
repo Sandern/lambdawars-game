@@ -1427,8 +1427,8 @@ class CombineWaveType(BaseWaveType):
                 'hard_waveinterval' : 45,
             },
         1: {
-                'distribution' : (['unit_manhack','unit_scanner'], 
-                                  [0.99,0.01]),
+                'distribution' : (['unit_manhack','unit_combine_citizen'], 
+                                  [0.75,0.50]),
                 'spawnsize' : 15,
                 'growrate' : 1.1,
                 
@@ -1462,13 +1462,13 @@ class CombineWaveType(BaseWaveType):
                 },
             },
         6: {
-                'distribution' : (['unit_combine_elite'], 
-                                  [1.0]),
+                'distribution' : (['unit_combine_elite', 'unit_combine_heavy'], 
+                                  [0.75, 0.50]),
                 'constraints' : {},  
             },
         7: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite'], 
-                                  [0.40, 0.30, 0.20, 0.10]),
+                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_combine_heavy'], 
+                                  [0.40, 0.30, 0.20, 0.10, 0.15]),
                 #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
             },
         9: {
@@ -1476,8 +1476,8 @@ class CombineWaveType(BaseWaveType):
                                   [0.20, 0.80]),
             },
         10: {
-                'distribution' : (['unit_combine_sniper', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider'], 
-                                  [0.30, 0.30, 0.10, 0.29, 0.01]),
+                'distribution' : (['unit_combine_sniper', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider', 'unit_combine_heavy', 'unit_mortar_synth'], 
+                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.20, 0.05]),
                 'growrate' : 1.02,
                 'waveincomegrow' : 0.0,
                 'waveincome' : 0,
@@ -1490,18 +1490,29 @@ class CombineWaveType(BaseWaveType):
                 },
             },
         11: {
-                'distribution' : (['unit_combine', 'unit_combine_sg'], 
-                                  [0.50, 0.50]),
-                'constraints' : {}, 
+                'distribution' : (['unit_combine_ar2', 'unit_combine_sg', 'unit_combine_heavy'], 
+                                  [0.50, 0.50, 0.25]),
+                'constraints' : {
+                    'unit_mortar_synth': {
+                        'min': 2,
+                        'max': 2,
+                        'mustkill': 2,
+                    },
+                },
             },
         12: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter'], 
-                                  [0.20, 0.30, 0.20, 0.10,0.20]),
+                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter', 'unit_mortar_synth'], 
+                                  [0.30, 0.30, 0.20, 0.10,0.20, 0.10]),
             },
         15: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider'], 
-                                  [0.30, 0.30, 0.10, 0.29, 0.01]),
+                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider', 'unit_mortar_synth', 'unit_crab_synth'], 
+                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.15, 0.05]),
                 'constraints' : {
+                    'unit_mortar_synth': {
+                        'min': 2,
+                        'max': 2,
+                        'mustkill': 2,
+                    },
                     'unit_strider' : {
                         'min' : 2,
                         'max' : 3,
@@ -1510,19 +1521,30 @@ class CombineWaveType(BaseWaveType):
                 },
             },
         16: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider'], 
-                                  [0.20, 0.20, 0.20, 0.10,0.20,0.10]),
-                'constraints' : {}, 
+                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider'],
+                                  [0.35, 0.20, 0.20, 0.10,0.20,0.10]),
+                'constraints' : {
+                    'unit_mortar_synth': {
+                        'min': 2,
+                        'max': 2,
+                        'mustkill': 2,
+                    },
+                    'unit_crab_synth': {
+                        'min': 2,
+                        'max': 2,
+                        'mustkill': 2,
+                    },
+                },
             },
         20: {
-                'distribution' : (['unit_manhack'], 
-                                  [1.0]),
+                'distribution' : (['unit_manhack', 'unit_combine_citizen'],
+                                  [0.75, 0.50]),
                 'waveincomegrow' : 0.0,
                 'waveincome' : 0,
              },
         21: {
-                'distribution' : (['unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider'], 
-                                  [0.05, 0.05, 0.20,0.20,0.50]),
+                'distribution' : (['unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider', 'unit_combine_heavy', 'unit_mortar_synth', 'unit_crab_synth'],
+                                  [0.05, 0.05, 0.20,0.20,0.50, 0.30, 0.25, 0.30]),
                 'growrate' : 3.00,
             },
         25: {
@@ -1585,8 +1607,8 @@ class RebelWaveType(BaseWaveType):
         },
         10: {
             'distribution': (
-            ['unit_rebel_veteran', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer'],
-            [0.30, 0.30, 0.10, 0.30]),
+            ['unit_rebel_veteran', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_heavy'],
+            [0.30, 0.30, 0.10, 0.30, 0.15]),
             'growrate': 1.02,
             'waveincomegrow': 0.0,
             'waveincome': 0,
@@ -1604,16 +1626,16 @@ class RebelWaveType(BaseWaveType):
             },
         },
         11: {
-            'distribution' : (['unit_rebel', 'unit_rebel_sg'], [0.5, 0.5]),
+            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_heavy'], [0.5, 0.5, 0.20]),
             'constraints' : {},
         },
         12: {
-            'distribution': (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_medic', 'unit_rebel_rpg', 'unit_vortigaunt'], [0.10, 0.10, 0.10, 0.30, 0.10, 0.20, 0.10]),
+            'distribution': (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_medic', 'unit_rebel_rpg', 'unit_vortigaunt', 'unit_rebel_heavy'], [0.10, 0.10, 0.10, 0.30, 0.10, 0.20, 0.10, 0.25]),
         },
         15: {
             'distribution': (
-            ['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_dog'],
-            [0.30, 0.30, 0.10, 0.29, 0.01]),
+            ['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_dog', 'unit_rebel_heavy'],
+            [0.30, 0.30, 0.10, 0.29, 0.01, 0.30]),
             'constraints': {
                 'unit_dog': {
                     'min': 2,
@@ -1623,7 +1645,7 @@ class RebelWaveType(BaseWaveType):
             },
         },
         16: {
-            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_flamer', 'unit_vortigaunt', 'unit_rebel_rpg', 'unit_dog'], [0.20, 0.20, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10]),
+            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_flamer', 'unit_vortigaunt', 'unit_rebel_rpg', 'unit_dog', 'unit_rebel_heavy'], [0.20, 0.20, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.35]),
             'constraints' : {},
         },
         20: {
@@ -1632,7 +1654,7 @@ class RebelWaveType(BaseWaveType):
             'waveincomegrow' : 0.0,
         },
         21: {
-            'distribution' : (['unit_rebel_sg', 'unit_rebel_ar2', 'unit_combine_flamer','unit_vortigaunt','unit_dog'], [0.05, 0.05, 0.2, 0.2, 0.5]),
+            'distribution' : (['unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer','unit_vortigaunt','unit_dog', 'unit_rebel_heavy', 'unit_rebel_rpg'], [0.05, 0.05, 0.2, 0.2, 0.5, 0.40, 0.20]),
             'growrate' : 3.0,
         },
         25: {

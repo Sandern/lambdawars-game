@@ -99,7 +99,7 @@ class UnitMortarSynth(BaseClass):
             vTarget = origin
 
             from unit_helper import TossGrenadeAnimEventHandler #TODO: FIX THIS
-            handler = TossGrenadeAnimEventHandler("grenade_energy", 650)
+            handler = TossGrenadeAnimEventHandler("grenade_energy", 487)
             
             for i in range(0, grenades):
                 if grenades > 1:
