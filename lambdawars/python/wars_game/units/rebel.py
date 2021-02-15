@@ -328,7 +328,7 @@ class RebelPartisanInfo(RebelShared):
     cls_name = 'unit_rebel_partisan'
     displayname = '#RebPartisan_Name'
     description = '#RebPartisan_Description'
-    buildtime = 18.0
+    buildtime = 12.0
     health = 60
     population = 1
     maxspeed = 224.0
@@ -367,7 +367,7 @@ class RebelPartisanMolotovInfo(RebelPartisanInfo):
     description = '#RebPartisanMolotov_Description'
     costs = [[('requisition', 10)], [('kills', 1)]]
     image_name = 'vgui/rebels/units/unit_rebel_partisan_molotov'
-    buildtime = 17.0
+    buildtime = 14.0
     # health = 75
     weapons = []
     abilities = {
@@ -524,7 +524,7 @@ class RebelHeavyInfo(RebelInfo):
     description = '#RebHeavy_Description'
     buildtime = 30.0
     maxspeed = 184
-    health = 240
+    health = 260
     viewdistance = 832
     scale = 1.10
     costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
@@ -845,7 +845,7 @@ class RebelVeteran(RebelShared):
     }
     #weapons = ['weapon_shotgun', 'weapon_ar2']
     weapons = ['weapon_crossbow']
-    sensedistance = 1100.0
+    sensedistance = 1152.0
     #techrequirements = ['rebel_veteran_unlock']
     #accuracy = 'high'
     population = 2

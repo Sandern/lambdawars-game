@@ -64,7 +64,7 @@ class MetalAttributeInfo(AttributeInfo):
     dmgrecvmodifiers = {
        'bullet': ScaleBonusDamage(0.5),
        'pulse': ScaleBonusDamage(0.5),
-       #'plasma': ScaleBonusDamage(0.5),  # heaviest ones should not be too vulnerable to snipers
+       'plasma': ScaleBonusDamage(0.5),  # heaviest ones should not be too vulnerable to snipers
       # 'explosive': ScaleBonusDamage(0.7),
        # 'fire': ScaleBonusDamage(0.3),
        # 'slash': ScaleBonusDamage(0.1),  # to take little damage from zombies and minor antlions
@@ -184,9 +184,9 @@ class PlasmaAttribute(AttributeInfo):
     name = 'plasma'
 
     dmgmodifiers = {
-        #'light': ConstantBonusDamage(20),
-        'medium': ConstantBonusDamage(10),
-        'heavy': ConstantBonusDamage(20),
+        'light': ConstantBonusDamage(100),
+        'medium': ConstantBonusDamage(100),
+        'heavy': ConstantBonusDamage(60),
         'building': ScaleBonusDamage(0.2),
         'defence': ScaleBonusDamage(1.5),
     }

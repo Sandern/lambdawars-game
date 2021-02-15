@@ -227,7 +227,7 @@ class CrabSynthInfo(UnitInfo):
     buildtime = 40.0
     costs = [('requisition', 50), ('power', 50)]
     attributes = ['synth', 'mechanic', 'pulse']
-    maxspeed = 144
+    maxspeed = 120
     turnspeed = 50
     viewdistance = 896
     sensedistance = 896
@@ -256,7 +256,7 @@ class CrabSynthInfo(UnitInfo):
     attacks = ['AttackRange']
     sai_hint = set(['sai_unit_combat'])
 class OverrunCrabSynthInfo(CrabSynthInfo):
-    name = 'overrun_unit_crab_synth'
-    costs = [('kills', 10)]
-    techrequirements = ['or_tier3_research']
-    buildtime = 0
+	name = 'overrun_unit_crab_synth'
+	costs = [('kills', 10)]
+	techrequirements = ['or_tier3_research']
+	buildtime = 0

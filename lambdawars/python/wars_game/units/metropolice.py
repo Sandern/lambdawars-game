@@ -648,7 +648,7 @@ class MetroPoliceInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_metropolice'
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 18.0
+    buildtime = 15.0
     health = 150
     maxspeed = 232
     viewdistance = 768
@@ -684,7 +684,7 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
     image_name = 'vgui/combine/units/unit_metropolice_smg'
     weapons = ['weapon_smg1']
     costs = [[('requisition', 20)], [('kills', 1)]]
-    buildtime = 24.0
+    buildtime = 22.0
     maxspeed = 224
     viewdistance = 768
     scrapdropchance = 0.0
@@ -710,7 +710,7 @@ class MetroPoliceRiotInfo(MetroPoliceInfo):
     #weapons = ['weapon_pistol', 'weapon_stunstick']
     weapons = ['weapon_stunstick']
     costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 17.0
+    buildtime = 15.0
     maxspeed = 232
     health = 200
     viewdistance = 768
