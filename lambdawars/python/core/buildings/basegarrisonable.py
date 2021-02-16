@@ -24,7 +24,7 @@ class UnitBaseGarrisonableShared(object):
             super().Spawn()
 
             # Do not interfere with range checks of garrisoned units
-            self.SetBlocksLOS(False)
+            #self.SetBlocksLOS(False)
 
             if self.sense_distance is not None:
                 self.senses = UnitCombatSense(self)

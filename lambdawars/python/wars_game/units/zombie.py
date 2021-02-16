@@ -89,7 +89,7 @@ class ZombieInfo(BaseZombieInfo):
     image_name = 'vgui/units/unit_shotgun.vmt'
     health = 250
     maxspeed = 48.0
-    attributes = ['creature']
+    attributes = ['medium','creature']
     turnspeed = 120.0
     scrapdropchance = 0.0
     viewdistance = 896

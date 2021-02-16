@@ -982,9 +982,14 @@ class AntlionWaveType(BaseWaveType):
                 HModGrowNormal('unit_antlion') : 1.15,
                 HModGrowHard('unit_antlion') : 1.25,
             },
+        6: {
+            'distribution': (['unit_antlion', 'unit_antlionworker', 'unit_antlionsuicider'],
+                             [0.75, 0.25, 0.10]),
+
+        },
         7: {
                 'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard'], 
-                                  [0.73, 0.05, 0.20, 0.02]),
+                                  [0.73, 0.15, 0.20, 0.02]),
                 'growrate' : 1.1,
                 
                 'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
@@ -1012,7 +1017,7 @@ class AntlionWaveType(BaseWaveType):
             },
         10: {
                 'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard', 'unit_antlionguardcavern', 'unit_antlionguardcavernboss'], 
-                                  [0.72, 0.05, 0.20, 0.02, 0.008, 0.002]),
+                                  [0.72, 0.20, 0.20, 0.02, 0.008, 0.002]),
                 'growrate' : 1.05,
                 'waveincome' : 0,
                 'waveincomegrow' : 0.0,   
@@ -1042,7 +1047,7 @@ class AntlionWaveType(BaseWaveType):
              
         20: {
 		        'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard', 'unit_antlionguardcavern', 'unit_antlionguardcavernboss'], 
-                                  [0.01, 0.04, 0.05, 0.10, 0.30, 0.50]),
+                                  [0.01, 0.20, 0.05, 0.10, 0.30, 0.50]),
                 'growrate' : 3.00,
                 'waveincome' : 0,
                 'waveincomegrow' : 0.0,

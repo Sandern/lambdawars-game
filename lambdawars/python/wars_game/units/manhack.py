@@ -1118,7 +1118,7 @@ class ManhackInfo(UnitInfo):
     description = '#CombManhack_Description' 
     image_name = 'vgui/combine/units/unit_manhack'
     modelname = 'models/manhack.mdl'
-    attributes = ['slash', 'mechanic']
+    attributes = ['slash', 'mechanic', 'metal']
     hulltype = 'HULL_TINY_CENTERED'
     #accuracy = 2.0
     #sai_hint = set(['sai_unit_support'])

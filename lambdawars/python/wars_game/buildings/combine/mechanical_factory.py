@@ -15,22 +15,22 @@ class CombineMechanicalFactory(BaseFactoryPoweredBuilding, BaseClass):
     buildingsolidmode = SOLID_BBOX
 
 
-class GarrisonInfo(PoweredBuildingInfo):
+class MechFactoryInfo(PoweredBuildingInfo):
     name = 'build_comb_mech_factory'
     displayname = '#BuildCombMechFactory_Name'
     description = '#BuildCombMechFactory_Description'
     cls_name = 'build_comb_mech_factory'
     image_name = 'vgui/combine/buildings/build_comb_mech'
-    modelname = 'models/wars_structures/combine/comb_mech.mdl'
-    explodemodel = 'models/wars_structures/combine/comb_mech_des.mdl'
-    #techrequirements = ['build_comb_garrison']
+    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_mech_factory.mdl'
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mech_factory_destruction.mdl'
+    techrequirements = ['build_comb_garrison']
     idleactivity = 'ACT_IDLE'
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
     costs = [('requisition', 35)]
     health = 500
-    buildtime = 45.0
+    buildtime = 30.0
     abilities = {
         0: 'unit_scanner',
         1: 'unit_manhack',
