@@ -228,7 +228,7 @@ class MortarSynthInfo(UnitInfo):
     sensedistance = 1408
     techrequirements = ['build_comb_tech_center']
     population = 3
-    scalebounds = 0.75
+    scalebounds = 0.70
     grenades = 1
     sound_select = 'unit_scanner_select'
     sound_move = 'unit_scanner_move'

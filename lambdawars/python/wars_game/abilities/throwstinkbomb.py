@@ -8,14 +8,14 @@ import random
 class AbilityThrowStinkBomb(AbilityThrowObject):
     # Info
     name = "throwstinkbomb"
-    rechargetime = 1.82
+    rechargetime = 6
     #energy = 35.0
     displayname = "#RebThrowStinkbomb_Name"
     description = "#RebThrowStinkbomb_Description"
     image_name = 'vgui/rebels/abilities/stinkbomb.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
-    predict_target_position = True
+    predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'
     useanimationevent = True
     objectclsname = 'stinkbomb'

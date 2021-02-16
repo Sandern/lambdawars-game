@@ -145,4 +145,4 @@ class StinkBomb(BaseClass):
     stinkbomb_particle_name = 'pg_stink_bomb'
     is_stinking_on_ground = BooleanField(value=False, networked=True, clientchangecallback='OnIsStinkingOnGround')
     stinkbomb_radius = FloatField(value=220.0)
-    stinbomb_duration = FloatField(value=1.32)
+    stinbomb_duration = FloatField(value=3.0)

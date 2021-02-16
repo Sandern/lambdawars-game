@@ -15,7 +15,7 @@ class AbilityThrowMolotov(AbilityThrowObject):
     image_name = 'VGUI/rebels/abilities/molotov.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
-    predict_target_position = True
+    predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'
     useanimationevent = True
     objectclsname = 'molotov'
@@ -31,8 +31,8 @@ class AbilityThrowMolotov(AbilityThrowObject):
     def GetTossStartAndEnd(self, unit):
         start, end = super().GetTossStartAndEnd(unit)
         end = Vector(end)
-        end.x += random.uniform(-48.0, 48.0)
-        end.y += random.uniform(-48.0, 48.0)
+        #end.x += random.uniform(-48.0, 48.0)
+        #end.y += random.uniform(-48.0, 48.0)
         return start, end
         
     allowmultipleability = True
