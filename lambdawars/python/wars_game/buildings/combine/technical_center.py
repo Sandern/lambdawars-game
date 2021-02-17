@@ -4,9 +4,49 @@ from .basepowered import PoweredBuildingInfo, BaseFactoryPoweredBuilding
 from entities import entity 
 from particles import PATTACH_POINT_FOLLOW
 
+if isserver:
+    from particles import PrecacheParticleSystem
 
 @entity('build_comb_tech_center', networked=True)
 class TechCenterInfo(BaseFactoryPoweredBuilding, BaseClass):
+
+    if isclient:
+        def OnBuildStateChanged(self):
+            super().OnBuildStateChanged()
+            
+            if self.isproducing:
+                self.StartChimneySmoke()
+            else:
+                self.StopChimneySmoke()
+                
+        def UpdateOnRemove(self):
+            super().UpdateOnRemove()
+            
+            self.StopChimneySmoke()
+            
+        def ExplodeHandler(self, event):
+            self.StopChimneySmoke()
+            super().ExplodeHandler(event)
+
+        def StartChimneySmoke(self):
+            if self.chimneyfx and self.chimneyfx1:
+                return
+            self.chimneyfx = self.ParticleProp().Create("pg_strider_up_center_base", PATTACH_POINT_FOLLOW, 'effect1')
+            self.chimneyfx1 = self.ParticleProp().Create("pg_strider_up_center_base", PATTACH_POINT_FOLLOW, 'effect2')
+            
+        def StopChimneySmoke(self):
+            if not self.chimneyfx and not self.chimneyfx1:
+                return
+            self.ParticleProp().StopEmission(self.chimneyfx)
+            self.chimneyfx = None
+            self.ParticleProp().StopEmission(self.chimneyfx1)
+            self.chimneyfx1 = None
+            
+    else:
+        def Precache(self):
+            super().Precache()
+            
+            PrecacheParticleSystem("pg_strider_up_center_base")
 
     # Settings
     autoconstruct = False
@@ -14,6 +54,10 @@ class TechCenterInfo(BaseFactoryPoweredBuilding, BaseClass):
     buildangle = QAngle(0, 0, 0)
     #customeyeoffset = Vector(0,0,150)
     rallylineenabled = False
+    
+    chimneyfx = None
+    chimneyfx1 = None
+
     
 # Register unit
 class TechCenterInfo(PoweredBuildingInfo):
@@ -28,7 +72,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     idleactivity = 'ACT_IDLE'
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
-    workactivity = 'ACT_WORK'
+    #workactivity = 'ACT_WORK'
     techrequirements = ['build_comb_synthfactory']
     costs = [('requisition', 60), ('power', 40)]
     resource_category = 'technology'

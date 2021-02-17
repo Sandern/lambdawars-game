@@ -132,7 +132,7 @@
 	"volume"		"VOL_NORM"
 	"pitch"			"PITCH_NORM"
 
-	"soundlevel"	"SNDLVL_90dB"
+	"soundlevel"	"SNDLVL_NORM"
 
 	"rndwave"
 	{
@@ -147,7 +147,7 @@
 	"volume"		"VOL_NORM"
 	"pitch"			"PITCH_NORM"
 
-	"soundlevel"	"SNDLVL_90dB"
+	"soundlevel"	"SNDLVL_NORM"
 
 	"rndwave"
 	{
@@ -162,11 +162,12 @@
 	"volume"		"VOL_NORM"
 	"pitch"			"PITCH_NORM"
 
-	"soundlevel"	"SNDLVL_90dB"
+	"soundlevel"	"SNDLVL_NORM"
 
 	"rndwave"
 	{
 		"wave"	"announcers/rebels/unitready.wav"
+		"wave"	"announcers/rebels/unitready2.wav"
 	}
 }
 
@@ -181,5 +182,68 @@
 	"rndwave"
 	{
 		"wave"	"announcers/rebels/researchcomplete.wav"
+		"wave"	"announcers/rebels/research_complete2.wav"
+	}
+}
+
+"announcer_rebel_more_population_required"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"announcers/rebels/max_unit_cap.wav"
+		"wave"	"announcers/rebels/max_unit_cap2.wav"
+		"wave"	"announcers/rebels/max_unit_cap3.wav"
+	}
+}
+
+"announcer_rebel_control_point_lost"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_90dB"
+
+	"rndwave"
+	{
+		"wave"	"announcers/rebels/objective_point_lost.wav"
+		"wave"	"announcers/rebels/objective_point_lost2.wav"
+	}
+}
+
+"announcer_rebel_control_point_captured"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"VOL_NORM"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_90dB"
+
+	"rndwave"
+	{
+		"wave"	"announcers/rebels/Securingobj1.wav"
+		"wave"	"announcers/rebels/Securingobj2.wav"
+		"wave"	"announcers/rebels/Securingobj3.wav"
+	}
+}
+
+"announcer_rebel_control_point_under_attack"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"0.7"
+	"pitch"			"PITCH_NORM"
+
+	"soundlevel"	"SNDLVL_90dB"
+
+	"rndwave"
+	{
+		"wave"	"announcers/rebels/objective_point_under_attack.wav"
+		"wave"	"announcers/rebels/objective_point_under_attack2.wav"
 	}
 }
