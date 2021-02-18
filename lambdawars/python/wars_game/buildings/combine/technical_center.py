@@ -31,8 +31,7 @@ class TechCenterInfo(BaseFactoryPoweredBuilding, BaseClass):
         def StartChimneySmoke(self):
             if self.chimneyfx and self.chimneyfx1:
                 return
-            self.chimneyfx = self.ParticleProp().Create("pg_strider_up_center_base", PATTACH_POINT_FOLLOW, 'effect1')
-            self.chimneyfx1 = self.ParticleProp().Create("pg_strider_up_center_base", PATTACH_POINT_FOLLOW, 'effect2')
+            self.chimneyfx = self.ParticleProp().Create("pg_strider_up_center_base", PATTACH_POINT_FOLLOW, 'effect')
             
         def StopChimneySmoke(self):
             if not self.chimneyfx and not self.chimneyfx1:
