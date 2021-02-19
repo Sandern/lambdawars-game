@@ -224,10 +224,11 @@ class MortarInfo(PoweredBuildingInfo):
     image_name  = 'vgui/combine/buildings/build_comb_mortar'
     modelname = 'models/props_combine/combine_mortar01a.mdl'
     attributes = ['building', 'mortar']
-    #explodemodel = 'models/pg_props/pg_buildings/rebels/pg_barrel_trap_des.mdl'
+    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_mortar.mdl'
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
-    #explodeactivity = 'ACT_EXPLODE'
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mortar_destruction.mdl'
+    explodeactivity = 'ACT_EXPLODE'
     costs = [('requisition', 60), ('power', 50)]
     unitenergy = 100
     unitenergy_initial = 35
@@ -243,12 +244,6 @@ class MortarInfo(PoweredBuildingInfo):
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius
     sound_death = 'build_comb_mturret_explode'
-    
-    dummies = [
-        CreateDummy(
-            modelname='models/props_combine/combine_mortar01b.mdl'
-        ),
-    ]
     
     # Target ability setting
     requirerotation = False
