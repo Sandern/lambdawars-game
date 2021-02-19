@@ -18,7 +18,12 @@ class GarrisonInfo(PoweredBuildingInfo):
     description = '#BuildCombGar_Description'
     cls_name = 'build_comb_garrison'
     image_name = 'vgui/combine/buildings/build_comb_garrison'
-    modelname = 'models/pg_props/pg_buildings/combine/pg_barracks.mdl'
+    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_garrison.mdl'
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_garrison_destruction.mdl'
+    idleactivity = 'ACT_IDLE'
+    #workactivity = 'ACT_WORK'
+    explodeactivity = 'ACT_EXPLODE'
+    constructionactivity = 'ACT_CONSTRUCTION'
     techrequirements = ['build_comb_hq']
     costs = [('requisition', 50)]
     health = 700
