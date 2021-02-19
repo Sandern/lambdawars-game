@@ -24,7 +24,7 @@ Fixes:
 * Scanners and Clawscanners now have selection sounds.
 * Fixed patrol command.
 * Fixed grenade price when sometimes units could get grenades for free.
-* Fixed falling animation for stalkers and zombines.
+* Fixed falling animations for stalkers and zombines.
 * Fixed flamethrowers and molotovs couldn't attack when inside bunkers.
 * Fixed Mortar death animation.
 * Fixed error in overrun gamemode when comb. bunker required garrison. Now bunker requires tech. level 2.
@@ -46,6 +46,7 @@ Control points:
  - Lvl 2 cost reduced from 40/30 to 35/30.
 
 Mount. turrets now require Armory/Munition Depot.
+Added new attribute 'large' for Dogs and Striders. 
 Grenades:
 	- Damage radius reduced from 320 to 256.
 Pulse attribute:
@@ -119,6 +120,8 @@ Combine:
 	- Added 'metal' attribute.
 * Scanner:
 	- Added 'metal' attribute.
+* Hunter:
+	- Added new attribute: 'flechette', gives 10 extra damage against units, which have 'large' attribute.
 * Rollermine:
 	- Health increased from 115 to 155.
 * Energy cell:

@@ -226,7 +226,7 @@ class CrabSynthInfo(UnitInfo):
     health = 800
     buildtime = 40.0
     costs = [('requisition', 50), ('power', 50)]
-    attributes = ['synth', 'mechanic', 'pulse']
+    attributes = ['synth', 'mechanic', 'pulse', 'large']
     maxspeed = 120
     turnspeed = 50
     viewdistance = 896

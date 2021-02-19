@@ -14,7 +14,9 @@ class MediumAttributeInfo(AttributeInfo):
 
 class HeavyAttributeInfo(AttributeInfo):
     name = 'heavy'
-
+	
+class LargeAttribute(AttributeInfo):
+    name = 'large'
 
 class ChitinAttributeInfo(AttributeInfo):
     """ antlions that have natural hard carapace.
@@ -73,6 +75,12 @@ class MetalAttributeInfo(AttributeInfo):
         #'mortar': ScaleBonusDamage(2.0),
     }
 
+class FlechetteAttribute(AttributeInfo):
+    name = 'flechette'
+
+    dmgmodifiers = {
+        'large': ConstantBonusDamage(10),
+    }
 
 class BunkerAttributeInfo(AttributeInfo):
     """ For bunker buildings. """

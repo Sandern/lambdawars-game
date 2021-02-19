@@ -1068,7 +1068,7 @@ class StriderInfo(UnitInfo):
     unitenergy = 75
     unitenergy_initial = 25
     population = 8
-    attributes = ['synth']
+    attributes = ['synth', 'large']
     sound_death = 'NPC_Strider.Death'
     scale = 0.75
     
