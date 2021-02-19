@@ -43,7 +43,7 @@ class UnitMortarSynth(BaseClass):
             if (gpGlobals.curtime - self.nextattacktime) > self.__firetimeout:
                 self.nextattacktime = gpGlobals.curtime - 0.001
         
-            info = self.abilitiesbyname.get('mortarattack', None)
+            info = self.abilitiesbyname.get('mortarattack', None) or self.abilitiesbyname.get('overrun_mortarattack', None)
             
             while self.nextattacktime < gpGlobals.curtime and self.abilitycheckautocast.get(info.uid, False):
                 attackinfo = self.unitinfo.AttackRange
@@ -116,14 +116,14 @@ class UnitMortarSynth(BaseClass):
                     filter = CPASAttenuationFilter(unit, ATTN_NONE)
 
                     unit.EmitSoundFilter( filter, unit.entindex(), "Weapon_Mortar.Single" )
-                    info = unit.abilitiesbyname.get('mortarattack', None)
+                    info1 = unit.abilitiesbyname.get('mortarattack', None) or self.abilitiesbyname.get('overrun_mortarattack', None)
                     technode = GetTechNode('mortarsynth_upgrade', unit.GetOwnerNumber())
                     if technode.techenabled:
                         unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed + unit.attackspeedboost
-                        info.SetRecharge(info, units=unit, t=unit.attackspeedboost)
+                        info1.SetRecharge(info1, units=unit, t=unit.attackspeedboost)
                     else:
                         unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed
-                        info.SetRecharge(info, units=unit)
+                        info1.SetRecharge(info1, units=unit)
     def PreDetonate(self):
 
         self.SetTouch(None)

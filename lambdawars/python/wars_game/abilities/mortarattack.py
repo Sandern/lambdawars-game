@@ -65,8 +65,8 @@ if isserver:
 class AbilityMortarAttack(AbilityTarget):
     # Info
     name = "mortarattack"
-    displayname = '#CombBall_Name'
-    description = '#CombBall_Description'
+    displayname = '#MortarSynthAttack_name'
+    description = '#MortarSynthAttack_Description'
     image_name = 'VGUI/combine/abilities/mortar_synth_attack_icon.vmt'
     costs = [] 
     rechargetime = 7
