@@ -249,6 +249,12 @@ class OverrunMortarSynthInfo(MortarSynthInfo):
     name = 'overrun_unit_mortar_synth'
     techrequirements = ['or_tier3_research']
     buildtime = 0
+    abilities = {
+        0 : 'overrun_mortarattack',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+    }
 class MortarSynthSpeedUpgrade(AbilityUpgradeValue):
     name = 'mortarsynth_upgrade'
     displayname = '#MortarSynthSpeedUpgrade_Name'

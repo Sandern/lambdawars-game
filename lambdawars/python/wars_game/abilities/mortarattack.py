@@ -71,8 +71,8 @@ class AbilityMortarAttack(AbilityTarget):
     costs = [] 
     rechargetime = 7
     target = None
-    supportsautocast = True
-    defaultautocast = True
+    supportsautocast = False
+    defaultautocast = False
     # Ability
     if isserver:
             
@@ -89,3 +89,8 @@ class AbilityMortarAttack(AbilityTarget):
 
         behaviorgeneric_action = ActionDoShootGrenade
         
+class OverrunAbilityMortarAttack(AbilityMortarAttack):
+    # Info
+    name = "overrun_mortarattack"
+    supportsautocast = True
+    defaultautocast = True
