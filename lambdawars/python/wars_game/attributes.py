@@ -79,7 +79,7 @@ class FlechetteAttribute(AttributeInfo):
     name = 'flechette'
 
     dmgmodifiers = {
-        'large': ConstantBonusDamage(10),
+        'large': ConstantBonusDamage(7),
     }
 
 class BunkerAttributeInfo(AttributeInfo):
