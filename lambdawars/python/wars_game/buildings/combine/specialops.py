@@ -19,11 +19,11 @@ class SpecialOpsInfo(PoweredBuildingInfo):
     modelname = 'models/pg_props/pg_buildings/combine/pg_specops.mdl'
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
-    #workactivity = 'ACT_WORK'
-    explodeactivity = 'ACT_EXPLODE'
+    workactivity = 'ACT_WORK'
     techrequirements = ['build_comb_armory']
     costs = [('requisition', 60), ('power', 30)]
     health = 750
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_specops_destruction.mdl'
     buildtime = 54.0
     abilities   = {
 		0 : 'unit_combine_elite',
