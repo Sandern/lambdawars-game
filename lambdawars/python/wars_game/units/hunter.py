@@ -938,7 +938,7 @@ class CombineHunterInfo(UnitInfo):
     maxspeed = 348.0
     population = 4
     viewdistance = 896
-    attributes = ['synth']
+    attributes = ['synth', 'flechette']
     modelname = 'models/hunter.mdl'
     hulltype = 'HULL_MEDIUM_TALL'
     sound_select = 'unit_hunter_select'
