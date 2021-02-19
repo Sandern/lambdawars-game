@@ -30,7 +30,7 @@ class MechFactoryInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     costs = [('requisition', 35)]
     health = 500
-    buildtime = 30.0
+    buildtime = 23.0
     abilities = {
         0: 'unit_scanner',
         1: 'unit_manhack',

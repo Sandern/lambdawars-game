@@ -250,14 +250,16 @@ class AbilitySmokeGrenade(AbilityGrenade):
         grenade.smokeduration = self.smokeduration
 
 class AbilityStunGrenade(AbilityGrenade):
-	name = 'stungrenade'
-	grenadeclsname = 'grenade_stun'
-	rechargetime = 30.0
-	techrequirements = ['build_comb_specialops']
-	damageradius = FloatField(value=128.0)
-	throwrange = 640.0
-	throw_anim_speed = FloatField(value=1.25)
-	costs = [[('requisition', 10)], [('kills', 1)]]
+    name = 'stungrenade'
+    grenadeclsname = 'grenade_stun'
+    rechargetime = 30.0
+    techrequirements = ['build_comb_specialops']
+    damageradius = FloatField(value=128.0)
+    displayname = "#AbilityStunGrenade_Name"
+    description = "#AbilityStunGrenade_Description"
+    throwrange = 640.0
+    throw_anim_speed = FloatField(value=1.25)
+    costs = [[('requisition', 10)], [('kills', 1)]]
 
 # Mission Versions
 class MissionAbilityGrenade(AbilityGrenade):
