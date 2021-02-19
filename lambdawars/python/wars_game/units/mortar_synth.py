@@ -45,7 +45,7 @@ class UnitMortarSynth(BaseClass):
         
             info = self.abilitiesbyname.get('mortarattack', None) or self.abilitiesbyname.get('overrun_mortarattack', None)
             
-            while self.nextattacktime < gpGlobals.curtime and self.abilitycheckautocast.get(info.uid, False):
+            while self.nextattacktime < gpGlobals.curtime and self.abilitycheckautocast.get(info.uid, False) and info.supportsautocast:
                 attackinfo = self.unitinfo.AttackRange
                 technode = GetTechNode('mortarsynth_upgrade', self.GetOwnerNumber())
                 if technode.techenabled:
