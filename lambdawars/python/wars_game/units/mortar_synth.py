@@ -242,6 +242,7 @@ class MortarSynthInfo(UnitInfo):
         cone = 0.7
         damage = 250.0
         attackspeed = 7.0
+        minrange = 128.0
         maxrange = 1408.0
         radiusdamage = 128
     attacks = ['AttackRange']

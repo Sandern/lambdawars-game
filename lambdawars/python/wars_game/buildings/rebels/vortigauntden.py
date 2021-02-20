@@ -18,13 +18,12 @@ class VortigauntDenInfo(WarsBuildingInfo):
     displayname = '#BuildRebVortigauntDen_Name'
     description = '#BuildRebVortigauntDen_Description'
     modelname = 'models/structures/resistance/vortden.mdl'
-    costs = [('requisition', 50), ('scrap', 70)]
+    costs = [('requisition', 50), ('scrap', 50)]
     health = 800
     buildtime = 54.0
     techrequirements = ['build_reb_triagecenter']
     abilities   = {
         0 : 'unit_vortigaunt',
-        #1 : 'unit_dog',
         #1 : 'unit_antlion', # -> Use bugbait ability of Vortigaunt instead
         8 : 'cancel',
     } 
@@ -41,6 +40,5 @@ class DestroyHQVortigauntDenInfo(VortigauntDenInfo):
     techrequirements = ['build_reb_triagecenter_destroyhq']
     abilities   = {
         0 : 'unit_vortigaunt',
-        #1 : 'destroyhq_unit_dog',
         8 : 'cancel',
     } 
