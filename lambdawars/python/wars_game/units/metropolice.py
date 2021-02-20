@@ -372,10 +372,8 @@ class UnitMetroPolice(BaseClass):
             if self.defensive_mode:
                 self.defensive_mode_speed_redux = 150
                 self.mv.maxspeed -= self.defensive_mode_speed_redux
-                self.unitinfo.maxspeed -= self.defensive_mode_speed_redux
             else:
                 self.mv.maxspeed += self.defensive_mode_speed_redux
-                self.unitinfo.maxspeed += self.defensive_mode_speed_redux
                 self.defensive_mode_speed_redux = 0
 
     def OnSteadyPositionChanged(self):

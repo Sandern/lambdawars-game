@@ -456,14 +456,6 @@ class UnitBaseFactory(UnitBaseFactoryShared, BaseClass):
             info = self.unitinfo
             if info.workactivity:
                 self.ChangeToActivity(info.workactivity)
-                curcycle = self.GetCycle()
-                if self.buildtime == 0:
-                    targetcycle = 1
-                else:
-                    targetcycle = self.nextcompletiontime/self.buildtime
-                cyclerate = 0.1 * gpGlobals.frametime 
-                curcycle += min(cyclerate, targetcycle - curcycle)
-                self.SetCycle(curcycle)
                 return
         super().UpdateBuildingActivity()
 
