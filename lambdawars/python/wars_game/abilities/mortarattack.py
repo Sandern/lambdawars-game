@@ -73,6 +73,7 @@ class AbilityMortarAttack(AbilityTarget):
     target = None
     supportsautocast = False
     defaultautocast = False
+    minrange = 256
     # Ability
     if isserver:
             
@@ -80,6 +81,11 @@ class AbilityMortarAttack(AbilityTarget):
             data = self.mousedata
             if FogOfWarMgr().PointInFOW(data.endpos, self.ownernumber):
                 self.Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
+                return
+            startpos = self.unit.GetAbsOrigin()
+            dist = startpos.DistTo(data.endpos)
+            if not dist > self.minrange:
+                self.Cancel(cancelmsg='#Ability_TooCloseRange')
                 return
                 
             target = data.ent
