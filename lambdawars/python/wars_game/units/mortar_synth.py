@@ -234,7 +234,7 @@ class MortarSynthInfo(UnitInfo):
     sound_move = 'unit_scanner_move'
     abilities = {
         0 : 'mortarattack',
-        8: 'attackmove',
+        #8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
     }
