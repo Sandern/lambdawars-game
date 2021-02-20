@@ -75,10 +75,10 @@ class WeaponAR2(WarsWeaponMachineGun):
     
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):
         maxrange = 768.0
-        attackspeed = 0.09
+        attackspeed = 0.080
         usesbursts = True
         minburst = 3
         maxburst = 3
-        minresttime = 0.4
-        maxresttime = 0.5
+        minresttime = 0.35
+        maxresttime = 0.4
         attributes = ['pulse']
