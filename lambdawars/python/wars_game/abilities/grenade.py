@@ -33,7 +33,9 @@ if isserver:
             # Facing?
             if not outer.FInAimCone(target, self.facingminimum):
                 return self.SuspendFor(self.behavior.ActionFaceTarget, 'Not facing target', target, self.facingminimum)
-
+            if not abi.CanDoAbility(abi.player, self.outer): #фикс дерьмо кстати
+                abi.Cancel()
+                return self.Done('Can no longer do ability')
             outer.grenadeability = abi
             self.throwedgrenade = True
             self.changetoidleonlostorder = False
