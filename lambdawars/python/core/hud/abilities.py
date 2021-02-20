@@ -28,7 +28,10 @@ class AbilitySectionButton(AbilityButton):
 
         # draw how much health we still got
         surface().DrawSetColor(Color(0, 0, 200, 100))
-        surface().DrawFilledRect(0, 0, int(w*weight), h)  
+        try:
+            surface().DrawFilledRect(0, 0, int(w * weight), h)
+        except:
+            surface().DrawFilledRect(0, 0, 0, h)
             
     def OnCursorEntered(self):
         super().OnCursorEntered()
