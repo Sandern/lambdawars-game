@@ -1,9 +1,7 @@
-from core.abilities import AbilityInstant
+from core.abilities import AbilityAsAnimation
 from fields import FloatField
-if isserver:
-    from core.units import BaseBehavior
 
-class AbilitySlamGround(AbilityInstant):
+class AbilitySlamGround(AbilityAsAnimation):
     # Info
     name = "slamground"
     rechargetime = 4.5
@@ -18,18 +16,11 @@ class AbilitySlamGround(AbilityInstant):
     
     autocast_slamgroundrange = FloatField(value=192.0)
 
-    sai_hint = AbilityInstant.sai_hint | set(['sai_deploy'])
+    sai_hint = AbilityAsAnimation.sai_hint | set(['sai_deploy'])
     
     # Ability
-    def DoAbility(self):
-        self.SelectGroupUnits()
-        units = self.TakeEnergy(self.units)
-
-        for unit in units:
-            unit.DoAnimation(unit.ANIM_SLAMGROUND, data=round(2*255))
-            unit.AbilityOrder(ability=self)
-        self.SetRecharge(units)
-        self.Completed()
+    def DoAnimation(self, unit):
+        unit.DoAnimation(unit.ANIM_SLAMGROUND, data=round(2 * 255))
         
     @classmethod
     def CheckAutoCast(info, unit):
@@ -39,9 +30,3 @@ class AbilitySlamGround(AbilityInstant):
             unit.DoAbility(info.name)
             return True
         return False
-        
-    if isserver:
-        behaviorgeneric_action = BaseBehavior.ActionAbilityWaitForActivity
-        
-    # This ability object won't be created on the executing client
-    serveronly = True
