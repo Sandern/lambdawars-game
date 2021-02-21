@@ -10,7 +10,7 @@ class AbilityVortAttack(AbilityTargetGroup):
     description = "#RebVortAtt_Description"
     image_name = 'vgui/rebels/abilities/vortattack'
     hidden = True
-    energy = 4
+    energy = 20
     rechargetime = 2.0
     defaultautocast = True
     
