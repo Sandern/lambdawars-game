@@ -757,7 +757,7 @@ class RebelRPGUnlock(AbilityUpgrade):
 
 class RebelRPGInfo(RebelShared):
     name = 'unit_rebel_rpg'
-    buildtime = 38.0
+    buildtime = 30.0
     health = 240
     maxspeed = 160.0
     viewdistance = 896

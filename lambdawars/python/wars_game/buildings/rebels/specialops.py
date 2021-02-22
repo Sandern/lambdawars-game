@@ -63,7 +63,7 @@ class SpecialOpsInfo(WarsBuildingInfo):
     techrequirements = ['build_reb_munitiondepot']
     costs = [('requisition', 60), ('scrap', 40)]
     health = 800
-    buildtime = 54.0
+    buildtime = 44.0
     abilities   = {
 		0 : 'unit_rebel_rpg',
 		1 : 'unit_rebel_flamer',

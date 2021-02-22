@@ -75,7 +75,7 @@ class SynthFactoryInfo(PoweredBuildingInfo):
     techrequirements = ['build_comb_armory']
     costs = [('requisition', 60), ('power', 80)]
     health = 1100
-    buildtime = 60.0
+    buildtime = 70.0
     abilities   = {
 		0 : 'unit_hunter',
 		1 : 'unit_strider',
