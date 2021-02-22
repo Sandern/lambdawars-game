@@ -609,7 +609,7 @@ class RollerMineInfo(UnitInfo):
     oncreatedroptofloor = False
     placeatmins = True
     maxspeed = 1200.0  # More like the angular speed
-    health = 155
+    health = 125
     population = 2
     buildtime = 14.0
     viewdistance = 640

@@ -65,7 +65,7 @@ if isserver:
 class AbilityMortarAttack(AbilityTarget):
     # Info
     name = "mortarattack"
-    displayname = '#MortarSynthAttack_name'
+    displayname = '#MortarSynthAttack_Name'
     description = '#MortarSynthAttack_Description'
     image_name = 'VGUI/combine/abilities/mortar_synth_attack_icon.vmt'
     costs = [] 

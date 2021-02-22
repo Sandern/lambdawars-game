@@ -220,13 +220,13 @@ class CrabSynthInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_crab_synth' 
     modelname = 'models/synth_crab.mdl'
     #sound_death = 'NPC_HeadCrab.Die' 
-    scalebounds = 0.35
-    #hulltype = 'HULL_LARGE'
+    scalebounds = 0.50
+    hulltype = 'HULL_MEDIUM_TALL'
     scale = 0.90
     health = 800
     buildtime = 40.0
     costs = [('requisition', 50), ('power', 50)]
-    attributes = ['synth', 'mechanic', 'pulse', 'large']
+    attributes = ['synth', 'mechanic']
     maxspeed = 120
     turnspeed = 50
     viewdistance = 896
@@ -249,7 +249,7 @@ class CrabSynthInfo(UnitInfo):
     }
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
-        damage = 4.0
+        damage = 14.0
         attackspeed = 0.11
         usesbursts = False
         maxrange = 768.0

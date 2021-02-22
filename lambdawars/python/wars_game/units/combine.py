@@ -482,7 +482,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     image_name = 'vgui/combine/units/unit_combine_heavy'
     costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
     buildtime = 30.0
-    health = 300
+    health = 250
     maxspeed = 192
     #sensedistance = 1120.0
     viewdistance = 768

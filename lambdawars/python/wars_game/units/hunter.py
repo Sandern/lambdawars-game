@@ -369,7 +369,7 @@ if isserver:
         modelname = "models/weapons/hunter_flechette.mdl"
         damage = 4.0
         #explodedamage = 12.0
-        exploderadius = 48.0
+        exploderadius = 64.0
         explodedelay = 2.5
 
 @entity('unit_hunter', networked=True)

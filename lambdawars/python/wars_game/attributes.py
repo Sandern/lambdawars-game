@@ -38,15 +38,9 @@ class SynthAttributeInfo(AttributeInfo):
     """
     name = 'synth'
 	
-    dmgmodifiers = {
-        'medium': ConstantBonusDamage(4),
-        'heavy': ConstantBonusDamage(3),
-
-    }
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.25),
-       # 'pulse_elite': ScaleBonusDamage(0.6),
        # 'plasma': ScaleBonusDamage(0.8),
        # 'explosive': ScaleBonusDamage(0.8),
        #'slash': ScaleBonusDamage(0.2),  # to take little damage from zombies and minor antlions
@@ -81,7 +75,15 @@ class FlechetteAttribute(AttributeInfo):
     dmgmodifiers = {
         'large': ConstantBonusDamage(7),
     }
+	
+class PulseCannonAttribute(AttributeInfo):
+    name = 'pulse_cannon'
 
+    dmgmodifiers = {
+        'medium': ConstantBonusDamage(4),
+        'heavy': ConstantBonusDamage(3),
+    }
+	
 class BunkerAttributeInfo(AttributeInfo):
     """ For bunker buildings. """
     name = 'bunker'

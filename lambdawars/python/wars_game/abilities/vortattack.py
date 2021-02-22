@@ -37,7 +37,7 @@ class VortAttack(UnitInfo.AttackBase):
     damage = 26
     damagetype = DMG_SHOCK
     minrange = 0.0
-    maxrange = 704.0
+    maxrange = 768.0
     attackspeed = AbilityVortAttack.rechargetime
     cone = 0.7
     
