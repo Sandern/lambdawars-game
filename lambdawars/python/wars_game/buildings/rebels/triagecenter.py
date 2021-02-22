@@ -76,6 +76,7 @@ class TriageCenterInfo(WarsBuildingInfo):
     idleactivity = 'ACT_IDLE'
     # workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
+    scale = 0.85
     constructionactivity = 'ACT_CONSTRUCTION'
     sound_work = 'rebel_triage_working'
     sound_select = 'build_reb_triagecenter'

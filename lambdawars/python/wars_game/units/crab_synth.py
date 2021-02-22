@@ -219,9 +219,7 @@ class CrabSynthInfo(UnitInfo):
     description = '#CombCrabSynth_Description'
     image_name = 'vgui/combine/units/unit_crab_synth' 
     modelname = 'models/synth_crab.mdl'
-    #sound_death = 'NPC_HeadCrab.Die' 
-    scalebounds = 0.50
-    hulltype = 'HULL_MEDIUM_TALL'
+    hulltype = 'HULL_LARGE'
     scale = 0.90
     health = 800
     buildtime = 40.0
