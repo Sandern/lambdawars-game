@@ -19,7 +19,7 @@ class AbilitySectionButton(AbilityButton):
     #@profile('AbilitySectionButton.Paint')
     def Paint(self):
         super().Paint()
-        if not self.rechargecomplete or self.rechargetime == 0:
+        if not self.rechargecomplete or self.rechargecomplete == float("inf") or self.rechargetime == 0:
             return
             
         w, h = self.GetSize()
@@ -28,10 +28,8 @@ class AbilitySectionButton(AbilityButton):
 
         # draw how much health we still got
         surface().DrawSetColor(Color(0, 0, 200, 100))
-        try:
-            surface().DrawFilledRect(0, 0, int(w * weight), h)
-        except:
-            surface().DrawFilledRect(0, 0, 0, h)
+        surface().DrawFilledRect(0, 0, int(w * weight), h)
+        surface().DrawFilledRect(0, 0, 0, h)
             
     def OnCursorEntered(self):
         super().OnCursorEntered()
