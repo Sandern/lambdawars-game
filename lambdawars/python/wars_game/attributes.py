@@ -196,7 +196,7 @@ class PlasmaAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(100),
         'medium': ConstantBonusDamage(100),
-        'heavy': ConstantBonusDamage(60),
+        #'heavy': ConstantBonusDamage(60),
         'building': ScaleBonusDamage(0.2),
         'defence': ScaleBonusDamage(1.5),
     }

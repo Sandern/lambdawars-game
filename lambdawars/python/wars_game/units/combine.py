@@ -539,11 +539,11 @@ class CombineSniperInfo(CombineSharedInfo):
     description = '#CombSniper_Description'
     image_name = 'vgui/combine/units/unit_combine_sniper'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 50), ('power', 35)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('power', 40)], [('kills', 4)]]
     buildtime = 38.0
     health = 190
     maxspeed = 168.0
-    sensedistance = 1408.0
+    sensedistance = 1152.0
     viewdistance = 896
     unitenergy = 80
     unitenergy_initial = 30
