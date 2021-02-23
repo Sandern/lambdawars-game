@@ -708,7 +708,7 @@ class MetroPoliceRiotInfo(MetroPoliceInfo):
     #weapons = ['weapon_pistol', 'weapon_stunstick']
     weapons = ['weapon_stunstick']
     costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 15.0
+    buildtime = 10.0
     maxspeed = 232
     health = 200
     viewdistance = 768

@@ -81,7 +81,7 @@ class AbilityDropSoldiers(AbilityTarget):
     rechargetime = 360.0
     set_initial_recharge = True
     population = 15
-    techrequirements = ['build_comb_garrison', 'build_comb_armory', 'build_comb_specialops', 'build_comb_synthfactory', 'build_comb_mech_factory']
+    techrequirements = ['build_comb_garrison', 'build_comb_armory', 'build_comb_specialops', 'build_comb_synthfactory', 'build_comb_mech_factory', 'build_comb_tech_center']
     costs = [('requisition', 200)]
 
     @classmethod
@@ -174,4 +174,4 @@ class AbilityDropSoldiers(AbilityTarget):
 
 class AbilityDropSoldiersDestroyHQ(AbilityDropSoldiers):
     name = 'dropsoldiers_destroyhq'
-    techrequirements = ['build_comb_garrison_destroyhq', 'build_comb_armory_destroyhq', 'build_comb_specialops_destroyhq', 'build_comb_synthfactory_destroyhq', 'build_comb_mech_factory_destroyhq']
+    techrequirements = ['build_comb_garrison_destroyhq', 'build_comb_armory_destroyhq', 'build_comb_specialops_destroyhq', 'build_comb_synthfactory_destroyhq', 'build_comb_mech_factory_destroyhq', 'build_comb_tech_center']

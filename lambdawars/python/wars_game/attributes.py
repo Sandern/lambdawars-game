@@ -28,9 +28,6 @@ class CreatureAttributeInfo(AttributeInfo):
     """ Units like Vortigaunts or Antlions and Zombies.
     """
     name = 'creature'
-    dmgrecvmodifiers = {
-        'molotovfire': ScaleBonusDamage(1.5),
-    }
 
 
 class SynthAttributeInfo(AttributeInfo):

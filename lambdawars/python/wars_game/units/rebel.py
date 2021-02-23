@@ -328,7 +328,7 @@ class RebelPartisanInfo(RebelShared):
     cls_name = 'unit_rebel_partisan'
     displayname = '#RebPartisan_Name'
     description = '#RebPartisan_Description'
-    buildtime = 12.0
+    buildtime = 16.0
     health = 60
     population = 1
     maxspeed = 224.0
@@ -512,7 +512,7 @@ class RebelAR2Info(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
-    sensedistance = 768.0
+    sensedistance = 832.0
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_ar2'
 	

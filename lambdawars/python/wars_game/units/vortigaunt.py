@@ -383,7 +383,7 @@ class UnitVortigaunt(BaseClass):
                 # Send the damage to the recipient
                 entity.DispatchTraceAttack( dmgInfo, vecAim, tr )
                 
-                self.ApplyKnockBack(entity, vecAim, stunchance=1.0, speed=250)
+                self.ApplyKnockBack(entity, vecAim, stunchance=0.0, speed=250)
 
             # Create a cover for the end of the beam
             self.CreateBeamBlast( tr.endpos )
