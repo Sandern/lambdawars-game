@@ -23,7 +23,7 @@ class SpecialOpsInfo(PoweredBuildingInfo):
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     techrequirements = ['build_comb_armory']
-    costs = [('requisition', 60), ('power', 60)]
+    costs = [('requisition', 60), ('power', 55)]
     health = 750
     buildtime = 54.0
     abilities   = {

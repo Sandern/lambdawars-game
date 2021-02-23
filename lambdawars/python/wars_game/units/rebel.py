@@ -631,6 +631,7 @@ class RebelEngineerInfo(RebelShared):
     accuracy = 0.9
     viewdistance = 768
     abilities = {
+        0: 'repair_dog',
         5: 'salvage',
         6: 'mountturret',
         8: 'attackmove',

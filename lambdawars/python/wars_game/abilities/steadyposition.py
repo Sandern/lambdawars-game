@@ -12,7 +12,7 @@ class AbilitySteadyPosition(AbilityInstant):
     image_name = 'vgui/combine/abilities/combine_sniper_steady_position'
     hidden = True
     rechargetime = 1.0
-    steadytime = FloatField(value=3.51)
+    steadytime = FloatField(value=4.67)
     defaultautocast = True
     serveronly = True
     #  sai_hint = AbilityInstant.sai_hint | set(['sai_deploy'])

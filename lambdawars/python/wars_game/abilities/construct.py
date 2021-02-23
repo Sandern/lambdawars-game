@@ -39,14 +39,17 @@ class AbilityConstruct(AbilityTargetGroup):
         
     @classmethod
     def NeedsRepair(cls, target, unit=None):
-        if not target or not target.IsUnit() or not target.isbuilding or not target.IsAlive():
+        if not target or not target.IsUnit() or not target.IsAlive():
             return False, '#Ability_InvalidTarget'
+        if not target.isbuilding:
+            if not target.repairable:
+                return False, '#Ability_InvalidTarget'
+        else:
+            if target.constructionstate != target.BS_CONSTRUCTED:
+                return False, '#AbilityConstruct_NotConstr'
 
         if target.constructability != cls.name:
             return False, '#Ability_InvalidTarget'
-            
-        if target.constructionstate != target.BS_CONSTRUCTED:
-            return False, '#AbilityConstruct_NotConstr'
             
         if target.health >= target.maxhealth:
             return False, '#AbilityConstruct_FullHP'
@@ -58,7 +61,7 @@ class AbilityConstruct(AbilityTargetGroup):
             data = self.mousedata
             target = data.ent
             if not target or self.unit.IRelationType(target) != D_LI:
-                self.Cancel(cancelmsg='Invalid target')
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
                 return
                 
             needsconstruct, reason = self.NeedsConstruct(target)
@@ -137,3 +140,9 @@ class AbilityConstruct(AbilityTargetGroup):
             return True
         return False
         
+class AbilityRepairDog(AbilityConstruct):
+    name = "repair_dog"
+    displayname = "#AbilityConstruct_Name"
+    description = "#AbilityConstruct_Description"
+    defaultautocast = False
+    supportsautocast = False

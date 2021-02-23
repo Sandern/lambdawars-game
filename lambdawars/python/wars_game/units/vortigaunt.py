@@ -111,7 +111,7 @@ class UnitVortigaunt(BaseClass):
     
     energyregenrate = 3.0 # Dynamicly set in UnitThink
     canshootmove = False # Don't shoot while moving, it's annoying
-    
+    detector = True
     glowchangetime = 0.0
     glowage = 0.0
     stoploopingsounds = False
@@ -864,8 +864,8 @@ class VortigauntInfo(UnitInfo):
     image_name = 'vgui/rebels/units/unit_vortigaunt.vmt'
     costs = [('requisition', 40), ('scrap', 50)]
     buildtime = 40.0
-    viewdistance = 960.0
-    sensedistance = 1152.0
+    viewdistance = 896.0
+    sensedistance = 896.0
     health = 280
     maxspeed = 216.0
     unitenergy = 160

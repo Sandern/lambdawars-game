@@ -123,7 +123,6 @@ class RPGAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'building': ConstantBonusDamage(70),
-        'creature': ConstantBonusDamage(90),
         'synth': ConstantBonusDamage(100),
         'metal': ConstantBonusDamage(100),
         'heavy': ConstantBonusDamage(20),
@@ -196,7 +195,7 @@ class PlasmaAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(100),
         'medium': ConstantBonusDamage(100),
-        #'heavy': ConstantBonusDamage(60),
+        'heavy': ConstantBonusDamage(60),
         'building': ScaleBonusDamage(0.2),
         'defence': ScaleBonusDamage(1.5),
     }

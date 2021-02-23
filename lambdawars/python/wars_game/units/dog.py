@@ -1,5 +1,6 @@
 from srcbase import *
 from vmath import Vector, QAngle, VectorNormalize, vec3_origin, RemapValClamped
+from math import ceil
 from entities import entity, Activity, D_LI
 from core.units import (UnitInfo, UnitBaseCombatHuman as BaseClass, EventHandlerAnimation, EventHandlerSound,
                         EventHandlerMulti)
@@ -8,6 +9,7 @@ from wars_game.statuseffects import StunnedEffectInfo
 from core.abilities import AbilityUpgrade, AbilityJump
 import random
 from wars_game.attributes import DogSlamImpactAttribute
+from fields import SetField
 
 from playermgr import relationships
 from achievements import ACHIEVEMENT_WARS_DOGDOG
@@ -227,6 +229,27 @@ class UnitDog(BaseClass):
                 e.ApplyAbsVelocityImpulse(dir)
                 
         UTIL_ScreenShake(origin, 8, 50, 1.0, dmg_radius, SHAKE_START, True)
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return False
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'repair_dog'
         
     #def HandleChargeImpact(self, vecImpact, hitentity):
     #    super().HandleChargeImpact(vecImpact, hitentity)
