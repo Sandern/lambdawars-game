@@ -389,7 +389,7 @@ class DogInfo(UnitInfo):
         10: 'patrol',
     }
     class AttackMelee(UnitInfo.AttackMelee):
-        damage = 45
+        damage = 50
         damagetype = DMG_SLASH
         attackspeed = 1.14
         maxrange = 90
