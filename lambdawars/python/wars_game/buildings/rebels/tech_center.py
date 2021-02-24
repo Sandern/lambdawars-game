@@ -21,7 +21,7 @@ class TechCenterInfo(WarsBuildingInfo):
     image_name = 'vgui/rebels/buildings/build_reb_tech_center'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center_destruction.mdl'
-    costs = [('requisition', 35), ('scrap', 50)]
+    costs = [('requisition', 50), ('scrap', 35)]
     resource_category = 'technology'
     health = 800
     buildtime = 48.0

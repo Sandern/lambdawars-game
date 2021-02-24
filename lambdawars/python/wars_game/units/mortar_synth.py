@@ -113,7 +113,7 @@ class UnitMortarSynth(BaseClass):
                     grenade.damageradius = info.radiusdamage
                     grenade.SetThrower(unit)
                 
-                    filter = CPASAttenuationFilter(unit, ATTN_NONE)
+                    filter = CPASAttenuationFilter(unit)
 
                     unit.EmitSoundFilter( filter, unit.entindex(), "Weapon_Mortar.Single" )
                     info1 = unit.abilitiesbyname.get('mortarattack', None) or self.abilitiesbyname.get('overrun_mortarattack', None)

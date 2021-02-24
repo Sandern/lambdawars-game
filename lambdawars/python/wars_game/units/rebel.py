@@ -522,10 +522,10 @@ class RebelHeavyInfo(RebelInfo):
     name = 'unit_rebel_heavy'
     displayname = '#RebHeavy_Name'
     description = '#RebHeavy_Description'
-    buildtime = 30.0
+    buildtime = 26.0
     maxspeed = 184
     health = 260
-    viewdistance = 832
+    viewdistance = 896
     scale = 1.10
     costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
     accuracy = 0.75
