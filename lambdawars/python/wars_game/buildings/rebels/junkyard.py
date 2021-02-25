@@ -9,12 +9,6 @@ if isserver:
     
 @entity('build_reb_junkyard', networked=True)
 class RebelsJunkyard(BaseClass):
-    def CanGenerateResources(self, resourcetype, amount):
-        owner = self.GetOwnerNumber()
-        hqunits = constructedlistpertype[owner][self.GetUnitType()]
-        if not hqunits or not hqunits[0] == self:
-            return False
-        return super().CanGenerateResources(resourcetype, amount)
 
     def UpdateClientBuildProgress(self, building):
         weight = self.GetBuildProgress()
@@ -82,7 +76,7 @@ class JunkyardInfo(WarsBuildingInfo):
     resource_category = 'economy'
     health = 350
     buildtime = 25.0
-    generateresources = {'type' : 'scrap', 'amount' : 1.0, 'interval' : 8.0} #so a junkyard can generate some scrap.
+    generateresources = {'type' : 'scrap', 'amount' : 1.0, 'interval' : 10.0} #so a junkyard can generate some scrap.
     techrequirements = ['build_reb_hq']
     abilities   = {
         0 : 'unit_rebel_engineer',
