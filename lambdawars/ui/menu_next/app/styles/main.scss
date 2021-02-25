@@ -517,6 +517,10 @@ a.menu-btn {
 	}
 }
 
+#content-onlinegames{
+	overflow-y: hidden;
+}
+
 #gamelobby {
 }
 
@@ -674,7 +678,20 @@ main, .box {
 		bottom: 0;
 		left: 0;
 		right: 0;
-		padding: 0 2rem 2rem;
+		padding: 0 2rem;
+		height: 50px;
+		background-color: $darkgray;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.left-float{
+			margin-right: auto;
+		}
+
+		.right-float{
+			margin-left: auto;
+		}
 	}
 
 	&.box-right {
@@ -780,8 +797,9 @@ a.disabled {
 // Online gamelobby list
 #onlinelobbylist {
 	display: block;
-	overflow-y: auto;
-
+	overflow-y: scroll;
+	height: calc(100% - 100px);
+	
 	ul.lobbylist {
 		li.lobby-header {
 			display: block;
