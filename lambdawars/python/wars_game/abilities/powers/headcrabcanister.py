@@ -170,8 +170,10 @@ class AbilityCanisterEmptyType (AbilityCanister):
     rechargetime = 12
 
     def UpdateParticleEffects(self, inst, targetpos):
-        inst.SetControlPoint(0, targetpos + self.particleoffset)
-        inst.SetControlPoint(2, Vector(256, 256, 0))
+        if not self.unit:
+            return
+        inst.SetControlPoint(0, self.unit.GetAbsOrigin() + self.particleoffset)
+        inst.SetControlPoint(2, Vector(self.maxrange, self.maxrange, 0))
         inst.SetControlPoint(4, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
-
-    infoparticles = ['range_radius_radar']
+        
+    infoparticles = ['range_radius']
