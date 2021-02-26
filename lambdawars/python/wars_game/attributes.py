@@ -122,7 +122,7 @@ class RPGAttribute(AttributeInfo):
         'building': ConstantBonusDamage(70),
         'synth': ConstantBonusDamage(100),
         'metal': ConstantBonusDamage(100),
-        'heavy': ConstantBonusDamage(20),
+        'heavy': ConstantBonusDamage(35),
     }
 
 

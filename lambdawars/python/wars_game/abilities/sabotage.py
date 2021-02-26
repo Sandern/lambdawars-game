@@ -55,6 +55,8 @@ def IsValidSabotageTarget(unit, target):
         'build_reb_junkyard_destroyhq',
         'build_reb_triagecenter',
         'build_reb_triagecenter_destroyhq',
+        'build_reb_techcenter',
+        'build_comb_tech_center',
     ]
     isvalidunittype = False
     for unittype in validunittypes:

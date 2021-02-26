@@ -64,6 +64,7 @@ class SpecialOpsInfo(WarsBuildingInfo):
     costs = [('requisition', 50), ('scrap', 30)]
     health = 800
     buildtime = 44.0
+    scale = 0.90
     abilities   = {
 		0 : 'unit_rebel_rpg',
 		1 : 'unit_rebel_flamer',

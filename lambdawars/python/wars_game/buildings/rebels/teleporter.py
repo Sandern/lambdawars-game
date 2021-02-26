@@ -57,8 +57,8 @@ class AbilityTeleportUnits(AbilityTarget):
     displayname = "#AbilityTeleportUnits_Name"
     description = "#AbilityTeleportUnits_Description"
     image_name = 'vgui/rebels/abilities/rebel_teleport_units.vmt'
-    rechargetime = 16
-    costs = [('requisition', 30)]
+    rechargetime = 50
+    #costs = [('requisition', 30)]
     supportsautocast = False
     defaultautocast = False
     hidden = True
@@ -104,7 +104,7 @@ class TeleporterInfo(WarsBuildingInfo):
     health = 600
     buildtime = 50.0
     techrequirements = ['build_reb_triagecenter']
-    costs = [('scrap', 60)]
+    costs = [('requisition', 60), ('scrap', 60)]
     displayname = '#BuildRebTeleporter_Name'
     description = '#BuildRebTeleporter_Description'
     image_name = 'vgui/rebels/buildings/build_reb_teleporter'

@@ -75,7 +75,7 @@ class AbilityScan(AbilityTarget):
     scanduration = FloatField(value=10.0)
     scanrange = FloatField(value=896.0)
     activatesoundscript = 'ability_scan'
-    maxrange = FloatField(value=6144.0)
+    maxrange = FloatField(value=8192.0)
     
     # For autocast
     supportsautocast = True

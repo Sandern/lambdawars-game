@@ -1214,7 +1214,7 @@ class AbilityRebelMineUnlock(AbilityUpgrade):
 	displayname = '#RebelMineUnlock_Name'
 	description = '#RebelMineUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
-	buildtime = 60.0
+	buildtime = 30.0
 	#techrequirements = ['build_reb_specialops']
 	costs = [('requisition', 30), ('scrap', 30)]
 

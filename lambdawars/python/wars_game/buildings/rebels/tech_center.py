@@ -25,6 +25,7 @@ class TechCenterInfo(WarsBuildingInfo):
     resource_category = 'technology'
     health = 800
     buildtime = 48.0
+    scale = 0.85
     techrequirements = ['build_reb_munitiondepot']
     abilities = {
         0: 'c4explosive_unlock',

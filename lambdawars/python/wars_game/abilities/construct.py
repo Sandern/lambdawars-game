@@ -142,7 +142,7 @@ class AbilityConstruct(AbilityTargetGroup):
         
 class AbilityRepairDog(AbilityConstruct):
     name = "repair_dog"
-    displayname = "#AbilityConstruct_Name"
-    description = "#AbilityConstruct_Description"
+    displayname = "#AbilityRepairDog_Name"
+    description = "#AbilityRepairDog_Description"
     defaultautocast = False
     supportsautocast = False
