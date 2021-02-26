@@ -59,7 +59,7 @@ class AbilityBugBait(AbilityBugBaitShared, AbilityThrowObject):
 class AbilityBugBaitRecall(AbilityBugBaitShared, AbilityInstant):
     # Info
     name = "bugbaitrecall"
-    rechargetime = 22.0
+    rechargetime = 20.0
     displayname = "#RebBugBaitRecall_Name"
     description = "#RebBugBaitRecall_Description"
     image_name = 'vgui/rebels/abilities/reb_squeez_bugbait.vmt'
