@@ -522,12 +522,12 @@ class RebelHeavyInfo(RebelInfo):
     name = 'unit_rebel_heavy'
     displayname = '#RebHeavy_Name'
     description = '#RebHeavy_Description'
-    buildtime = 26.0
+    buildtime = 28.0
     maxspeed = 184
-    health = 260
+    health = 280
     viewdistance = 896
     scale = 1.10
-    costs = [[('requisition', 45), ('scrap', 30)], [('kills', 2)]]
+    costs = [[('requisition', 40), ('scrap', 25)], [('kills', 2)]]
     accuracy = 0.75
     population = 2
     modelname = 'models/rebel_heavy.mdl'
