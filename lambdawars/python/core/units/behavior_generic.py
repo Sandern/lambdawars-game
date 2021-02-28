@@ -1285,7 +1285,9 @@ class BehaviorGeneric(BaseBehavior):
             if outer.constructing:
                 return True
             target = self.order.target
-            if not target.NeedsUnitConstructing(unit=outer) and target.health >= target.maxhealth:
+            if not target.NeedsUnitConstructing(unit=outer):
+                return False
+            if target.health >= target.maxhealth:
                 return False
             outer.constructing = True
             outer.aimoving = True

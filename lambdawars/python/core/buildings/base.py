@@ -607,7 +607,7 @@ class UnitBaseBuildingShared(object):
         # Cap speed at four or more workers
         n = len(self.constructors)
         if n > 1:
-            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            intervalamount *= 0.25#(1 + ((n - 1) ** 0.5)) / n
             
         self.health += int(ceil(intervalamount*repairhpps))
         self.health = min(self.health, self.maxhealth)
@@ -1304,7 +1304,7 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
             return False
         if not self.constructionstate in [self.BS_UNDERCONSTRUCTION, self.BS_UPGRADING]:
             return False
-        return not self.maxconstructors or (len(self.constructors) < self.maxconstructors or unit in self.constructors)
+        return self.maxconstructors == 0 or (len(self.constructors) < self.maxconstructors)
         
     def ConstructThink(self):
         ''' Main think during construction or upgrading the building. 
@@ -1329,7 +1329,7 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
         # Cap speed at four or more workers
         n = len(self.constructors)
         if n > 1:
-            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            intervalamount *= 0.25 #(1 + ((n - 1) ** 0.5)) / n
             
         if self.activeupgrade:
             if not self.activeupgrade.upgradetime:
@@ -1566,7 +1566,7 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
     constructprogress = FloatField(0.0, networked=True, keyname='constructprogress', 
                                    displayname='Construct Progress', helpstring='Construct progress, ranging from 0.0 to 1.0')
     #: Maximum number of constructors (0 for unlimited)
-    maxconstructors = IntegerField(value=0)
+    maxconstructors = IntegerField(value=2)
     #: Active constructors
     # TODO: Support saving this field.
     constructors = SetField(networked=True, save=False)

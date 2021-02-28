@@ -653,7 +653,7 @@ class PropCombineBall(BaseClass):
                     
                     if self.state != self.STATE_HOLDING:
                         self.DissolveEntity(hitentity)
-                        if hitentity.ClassMatches("unit_hunter") or hitentity.ClassMatches("char_rebel_rpg") or hitentity.ClassMatches("unit_crab_synth") or hitentity.ClassMatches("char_combine_elite") and not istank:
+                        if hitentity.ClassMatches("unit_hunter") or hitentity.ClassMatches("char_rebel_rpg") or hitentity.ClassMatches("unit_crab_synth") or hitentity.ClassMatches("unit_combine_elite") or hitentity.ClassMatches("unit_rebel_heavy") or hitentity.ClassMatches("unit_rebel_flamer") or hitentity.ClassMatches("unit_combine_heavy") or hitentity.ClassMatches("char_combine_elite") and not istank:
                             self.DoExplosion()
                             return
 

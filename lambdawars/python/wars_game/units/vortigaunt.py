@@ -513,7 +513,7 @@ class UnitVortigaunt(BaseClass):
             if bDispel:
                 self.EndHandGlow(self.VORTIGAUNT_BEAM_ALL)
                 
-        def ApplyKnockBack(self, target, dir, speed=400.0, stunchance=1.0, stunduration=2.1):
+        def ApplyKnockBack(self, target, dir, speed=400.0, stunchance=1.0, stunduration=1.05):
             """ Applies a knockback to the given target with a stun chance. """
             curvel = target.GetAbsVelocity().LengthSqr()
             if curvel < 2000.0 * 2000.0 and not (target.IsUnit() and target.isbuilding):

@@ -17,7 +17,8 @@ class VortigauntDenInfo(WarsBuildingInfo):
     image_name  = 'vgui/rebels/buildings/build_reb_vortigauntden'
     displayname = '#BuildRebVortigauntDen_Name'
     description = '#BuildRebVortigauntDen_Description'
-    modelname = 'models/structures/resistance/vortden.mdl'
+    modelname = 'models/pg_props/pg_buildings/rebels/pg_reb_vortigauntden.mdl'
+    explodemodel = 'models/pg_props/pg_buildings/rebels/pg_reb_vortigauntden_destruction.mdl'
     costs = [('requisition', 50), ('scrap', 50)]
     health = 800
     buildtime = 54.0
@@ -26,7 +27,11 @@ class VortigauntDenInfo(WarsBuildingInfo):
         0 : 'unit_vortigaunt',
         #1 : 'unit_antlion', # -> Use bugbait ability of Vortigaunt instead
         8 : 'cancel',
-    } 
+    }
+    idleactivity = 'ACT_IDLE'
+    # workactivity = 'ACT_WORK'
+    explodeactivity = 'ACT_EXPLODE'
+    constructionactivity = 'ACT_CONSTRUCTION'
     sound_select = 'build_reb_vortigauntden'
     sound_work = 'rebel_vortden_working'
     sound_death = 'build_generic_explode1'

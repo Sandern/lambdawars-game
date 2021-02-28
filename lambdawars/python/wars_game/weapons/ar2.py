@@ -71,7 +71,7 @@ class WeaponAR2(WarsWeaponMachineGun):
     muzzleoptions = 'COMBINE MUZZLE'
     secondaryfiredelay = FloatField(value=0.5)
     ballspeed = FloatField(value=1.5)
-    balllife = FloatField(value=1.34)
+    balllife = FloatField(value=1.00)
     
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):
         maxrange = 768.0
