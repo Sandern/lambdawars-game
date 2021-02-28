@@ -515,6 +515,23 @@ a.menu-btn {
 		color: $white80;
 		font-size: 1.8rem;
 	}
+
+	.box-footer{
+		padding: 0 2rem;
+		height: 50px;
+		background-color: $darkgray;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.left-float{
+			margin-right: auto;
+		}
+
+		.right-float{
+			margin-left: auto;
+		}
+	}
 }
 
 #content-onlinegames{
@@ -678,20 +695,7 @@ main, .box {
 		bottom: 0;
 		left: 0;
 		right: 0;
-		padding: 0 2rem;
-		height: 50px;
-		background-color: $darkgray;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.left-float{
-			margin-right: auto;
-		}
-
-		.right-float{
-			margin-left: auto;
-		}
+		padding: 0 2rem 2rem;
 	}
 
 	&.box-right {
