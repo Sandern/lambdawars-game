@@ -202,7 +202,7 @@ class FloorTurretInfo(WarsTurretInfo):
     image_dis_name = "vgui/combine/abilities/deploy_floor_turret.vmt"
     portrait = 'resource/portraits/combineTurret.bik'
     health = 100
-    costs = [[('requisition', 20), ('power', 25)], [('kills', 3)]]
+    costs = [[('requisition', 15), ('power', 20)], [('kills', 3)]]
     resource_category = 'defense'
     buildtime = 11.0
     constructstarthp = 1.0
@@ -236,7 +236,7 @@ class FloorTurretInfo(WarsTurretInfo):
          
     class AttackTurret(WarsTurretInfo.AttackTurret):
         damage = 8
-        maxrange = 704.0
+        maxrange = 640.0
         attackspeed = 0.1
     attacks = 'AttackTurret'
 
@@ -251,8 +251,8 @@ class AbilityFloorTurretUnlock(AbilityUpgrade):
     displayname = '#FloorTurretUnlock_Name'
     description = '#FloorTurretUnlock_Description'
     image_name = "vgui/combine/abilities/unlock_floor_turret.vmt"
-    buildtime = 30.0
-    costs = [[('kills', 5)], [('requisition', 30), ('power', 35)]]
+    buildtime = 25.0
+    costs = [[('kills', 5)], [('requisition', 20), ('power', 20)]]
 
 
 class OverrunFloorTurretInfo(FloorTurretInfo):

@@ -246,7 +246,7 @@ class UnitDog(BaseClass):
         return False  
     def OnHealed(self):pass
     def NeedsUnitConstructing(self, unit=None):
-        return False
+        return True
     repairable = True
     constructors = SetField(networked=True, save=False)
     constructability = 'repair_dog'

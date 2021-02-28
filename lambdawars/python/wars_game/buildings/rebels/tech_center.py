@@ -21,12 +21,12 @@ class TechCenterInfo(WarsBuildingInfo):
     image_name = 'vgui/rebels/buildings/build_reb_tech_center'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_tech_center_destruction.mdl'
-    costs = [('requisition', 50), ('scrap', 35)]
+    costs = [('requisition', 40), ('scrap', 40)]
     resource_category = 'technology'
     health = 800
     buildtime = 48.0
     scale = 0.85
-    techrequirements = ['build_reb_munitiondepot']
+    techrequirements = ['build_reb_specialops']
     abilities = {
         0: 'c4explosive_unlock',
         1: 'rebel_mine_unlock',

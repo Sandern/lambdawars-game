@@ -607,7 +607,7 @@ class UnitBaseBuildingShared(object):
         # Cap speed at four or more workers
         n = len(self.constructors)
         if n > 1:
-            intervalamount *= 0.25#(1 + ((n - 1) ** 0.5)) / n
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
             
         self.health += int(ceil(intervalamount*repairhpps))
         self.health = min(self.health, self.maxhealth)
@@ -1329,7 +1329,7 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
         # Cap speed at four or more workers
         n = len(self.constructors)
         if n > 1:
-            intervalamount *= 0.25 #(1 + ((n - 1) ** 0.5)) / n
+            intervalamount *= 0.695 #(1 + ((n - 1) ** 0.5)) / n
             
         if self.activeupgrade:
             if not self.activeupgrade.upgradetime:
