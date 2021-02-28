@@ -20,7 +20,7 @@ class AbilitySlamGround(AbilityAsAnimation):
     
     # Ability
     def DoAnimation(self, unit):
-        unit.DoAnimation(unit.ANIM_SLAMGROUND, data=round(2 * 255))
+        unit.DoAnimation(unit.ANIM_SLAMGROUND, data=round(1.5 * 255))
         
     @classmethod
     def CheckAutoCast(info, unit):
