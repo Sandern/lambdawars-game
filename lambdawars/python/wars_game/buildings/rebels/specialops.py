@@ -69,7 +69,8 @@ class SpecialOpsInfo(WarsBuildingInfo):
 		0 : 'unit_rebel_rpg',
 		1 : 'unit_rebel_flamer',
 		2 : 'unit_rebel_heavy',
-		3 : 'unit_rebel_saboteur',
+		3 : 'unit_rebel_tau',
+		4 : 'unit_rebel_saboteur',
 		8 : 'cancel',
     }
     idleactivity = 'ACT_IDLE'

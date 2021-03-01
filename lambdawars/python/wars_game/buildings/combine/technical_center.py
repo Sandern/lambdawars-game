@@ -73,7 +73,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     #workactivity = 'ACT_WORK'
     techrequirements = ['build_comb_synthfactory']
-    costs = [('requisition', 60), ('power', 40)]
+    costs = [('requisition', 60), ('power', 50)]
     resource_category = 'technology'
     health = 900
     buildtime = 48.0

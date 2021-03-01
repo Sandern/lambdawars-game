@@ -323,7 +323,7 @@ class UnitScanner(UnitBaseScanner):
 
 @entity('unit_clawscanner', networked=True)
 class UnitClawScanner(UnitScanner):
-    detector = False
+    detector = True
 
 @entity('unit_observer')
 class UnitObserver(UnitScanner):
@@ -395,7 +395,7 @@ class ClawScannerInfo(ScannerInfo):
     image_name = 'vgui/combine/units/unit_clawscanner'
     modelname = 'models/shield_scanner.mdl'
     attributes = ['synth']
-    costs = [('requisition', 20), ('power', 30)]
+    costs = [('requisition', 20), ('power', 15)]
     buildtime = 15.0
     sound_death = 'NPC_SScanner.Die'
     health = 40

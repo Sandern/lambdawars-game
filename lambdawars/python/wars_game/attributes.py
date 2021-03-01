@@ -80,6 +80,14 @@ class PulseCannonAttribute(AttributeInfo):
         'medium': ConstantBonusDamage(4),
         'heavy': ConstantBonusDamage(3),
     }
+
+class PulseCannonAttribute(AttributeInfo):
+    name = 'tau'
+
+    dmgmodifiers = {
+        'synth': ConstantBonusDamage(30),
+        'heavy': ConstantBonusDamage(15),
+    }
 	
 class BunkerAttributeInfo(AttributeInfo):
     """ For bunker buildings. """

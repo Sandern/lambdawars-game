@@ -515,6 +515,32 @@ class RebelAR2Info(RebelInfo):
     sensedistance = 832.0
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_ar2'
+class RebelTauInfo(RebelInfo):
+    name = 'unit_rebel_tau'
+    displayname = '#RebHeavy_Name'
+    description = '#RebHeavy_Description'
+    buildtime = 35.0
+    maxspeed = 216
+    health = 200
+    viewdistance = 896
+    scale = 1.0
+    costs = [[('requisition', 30), ('scrap', 40)], [('kills', 2)]]
+    #accuracy = 5.0
+    population = 2
+    modelname = 'models/rebel_heavy.mdl'
+    #techrequirements = ['build_reb_techcenter']
+    weapons = ['weapon_tau']
+    abilities = {
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+    sensedistance = 768.0
+    attributes = ['heavy']
+    image_name = 'vgui/rebels/units/unit_rebel_heavy'
+    infest_zombietype = ''
 	
 	
 	
@@ -776,7 +802,7 @@ class RebelRPGInfo(RebelShared):
     }
     weapons = ['weapon_rpg']
     #sensedistance = 1200.0
-    #techrequirements = ['build_reb_techcenter']
+    techrequirements = ['build_reb_techcenter']
     population = 2
     attributes = ['medium', 'rpg']
 
