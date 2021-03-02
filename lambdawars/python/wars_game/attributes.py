@@ -81,7 +81,7 @@ class PulseCannonAttribute(AttributeInfo):
         'heavy': ConstantBonusDamage(3),
     }
 
-class PulseCannonAttribute(AttributeInfo):
+class TauCannonAttribute(AttributeInfo):
     name = 'tau'
 
     dmgmodifiers = {

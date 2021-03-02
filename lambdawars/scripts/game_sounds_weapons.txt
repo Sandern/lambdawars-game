@@ -272,16 +272,43 @@
 	"wave"			"weapons/cguard/charging.wav"
 }
 
-// weapon_crowbar.txt
-"Weapon_Crowbar.Single"
+"Weapon_TauChargedShot.Special1"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"0.7"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/gauss/tau_chargeloop.wav"
+}
+
+
+// weapon_tau.txt
+
+"Weapon_TauChargedShot.Special1"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"0.7"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/gauss/tau_chargeloop.wav"
+}
+
+"Weapon_TauChargedShot.PreShot"
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"0.55"
 	"soundlevel"	"SNDLVL_105dB"
 	"pitch"			"95,100"
 
-	"wave"			"weapons/iceaxe/iceaxe_swing1.wav"
+	"rndwave"
+	{
+		"wave"			"weapons/gauss/electro4.wav"
+		"wave"			"weapons/gauss/electro5.wav"
+		"wave"			"weapons/gauss/electro6.wav"
+	}
 }
+
+// weapon_crowbar.txt
 
 "Weapon_Crowbar.Melee_Hit"
 {

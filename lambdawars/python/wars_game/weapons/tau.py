@@ -1,11 +1,15 @@
-from srcbase import SURF_SKY
-from vmath import Vector
+from srcbase import SURF_SKY, DMG_SHOCK, FL_NPC
+from vmath import Vector, vec3_origin
 from gameinterface import CPVSFilter
 from utils import UTIL_ImpactTrace, UTIL_Tracer, TRACER_DONT_USE_ATTACHMENT
 from entities import entity, Activity, WeaponSound, CBeam, FireBulletsInfo_t
 from core.weapons import WarsWeaponMachineGun, VECTOR_CONE_1DEGREES, WarsWeaponBase
 from te import CEffectData, DispatchEffect, te
 from fields import FloatField
+from wars_game.statuseffects import StunnedEffectInfo
+if isserver:
+    from entities import CTakeDamageInfo, RadiusDamage, CLASS_NONE
+    from utils import UTIL_EntitiesInBox
 
 
 @entity('weapon_tau', networked=True)
@@ -84,6 +88,69 @@ class WeaponTau(WarsWeaponBase):
         info.attributes = self.primaryattackattributes
 
         owner.FireBullets(info)
+    def SecondaryAttack(self, origin, dmg, radius, duration=1.1, target=None):
+        self.nextprimaryattack = self.nextsecondaryattack = gpGlobals.curtime + duration
+        self.WeaponSound(WeaponSound.WPN_DOUBLE, gpGlobals.curtime) 
+        self.SendWeaponAnim(Activity.ACT_VM_FIDGET)
+        self.dmg = dmg
+        self.origin = origin
+        self.radius = radius
+        self.target = target
+        self.SetThink(self.DelayedAttack, self.nextprimaryattack, "DelayedFire")
+    origin = None
+    dmg = 0
+    radius = 0
+    target = None
+    def DelayedAttack(self):
+        dmg = self.dmg
+        radius = self.radius
+        target = self.target
+        if target:
+            origin = self.target.GetAbsOrigin()
+        else:
+            origin = self.origin
+        owner = self.GetOwner()
+        #owner.DoMuzzleFlash()
+        
+        self.SendWeaponAnim(Activity.ACT_VM_SECONDARYATTACK)
+
+        #self.clip1 = self.clip1 - 1
+
+        vecShootOrigin, vecShootDir = self.GetShootOriginAndDirection()
+        
+        # NOTE: Do not use nextprimaryattack for attack time sound, otherwise it fades out too much.
+        self.WeaponSound(WeaponSound.SPECIAL1, gpGlobals.curtime) # WeaponSound.SPECIAL1 - подставь возле special1 в скриптах нужный звк
+        #self.nextprimaryattack = gpGlobals.curtime + 0.1
+
+        info = FireBulletsInfo_t()
+        #info.shots = 1
+        info.vecsrc = vecShootOrigin
+        info.vecdirshooting = vecShootDir
+        info.vecspread = self.bulletspread
+        info.distance = self.maxbulletrange
+        info.ammotype = self.primaryammotype
+        info.tracerfreq = 0
+        info.damage = 0
+
+        owner.FireBullets(info)
+        self.nextsecondaryattack = gpGlobals.curtime + 1.5
+        self.nextprimaryattack = gpGlobals.curtime + 1.5
+        self.RadiusDamage(origin, dmg, radius)
+    def RadiusDamage(self, origin, dmg, radius):
+        owner = self.GetOwner()
+        dmg_info = CTakeDamageInfo(self, owner, dmg, DMG_SHOCK) 
+        #dmg_info.attributes = self.primaryattackattributes
+        dmg_info.attributes = None
+
+        RadiusDamage(dmg_info, origin, radius, CLASS_NONE, None) 
+        vec_radius = Vector(radius, radius, radius)
+        enemies = UTIL_EntitiesInBox(32, origin-vec_radius, origin+vec_radius, FL_NPC)
+        for enemy in enemies:
+            if not owner.IsValidEnemy(enemy):
+                continue
+            if not enemy.IsAlive():
+                continue
+            StunnedEffectInfo.CreateAndApply(enemy, attacker=owner, duration=5)
     
 
     clientclassname = 'weapon_tau'

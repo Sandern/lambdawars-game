@@ -1285,8 +1285,9 @@ class BehaviorGeneric(BaseBehavior):
             if outer.constructing:
                 return True
             target = self.order.target
-            if not target.NeedsUnitConstructing(unit=outer):
-                return False
+            if target.isbuilding:
+                if not target.NeedsUnitConstructing(unit=outer) and target.constructionstate in [target.BS_UNDERCONSTRUCTION, target.BS_UPGRADING]:
+                    return False
             if target.health >= target.maxhealth:
                 return False
             outer.constructing = True

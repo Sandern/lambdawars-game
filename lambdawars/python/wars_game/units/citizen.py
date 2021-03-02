@@ -599,7 +599,7 @@ class CombineCitizenInfo(CitizenInfo):
     image_name = 'VGUI/combine/units/unit_combine_citizen.vmt'
     attributes = ['light', 'shock']
     costs = [[('requisition', 5)], [('kills', 1)]]
-    buildtime = 6.0
+    buildtime = 8.0
     health = 50
     modellist = GenerateModelList('COMBINE')
     viewdistance = 768
