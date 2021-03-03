@@ -57,6 +57,8 @@ def CreateBehaviorTamedAntlion(BaseClass):
                 return self.Continue()
                 
             def OnTamerOrdersChanged(self):
+                if outer.burrowed:
+                    outer.UnBurrow()
                 return self.CheckTamerOrders()
                 
             hastamer = True
@@ -199,7 +201,7 @@ class BugBait(BaseClass):
         if abibugbait_antlions != None:
             for antlion in tamer.abibugbait_antlions:
                 antlion.DispatchEvent('OnTamerOrdersChanged')
-                antlion.DispatchEvent('OnUnBurrow')
+                #antlion.DispatchEvent('OnUnBurrow')
 
         UTIL_Remove(self)
         

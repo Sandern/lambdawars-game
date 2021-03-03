@@ -89,6 +89,14 @@ class TauCannonAttribute(AttributeInfo):
         'heavy': ConstantBonusDamage(15),
     }
 	
+class TauCannonAltAttribute(AttributeInfo):
+    name = 'tau_alt'
+
+    dmgmodifiers = {}
+    def ApplyToTarget(self, target, dmg_info):
+        if target.IsAlive() and getattr(target, 'isbuilding', False):
+            dmg_info.ScaleDamage(0.5)
+	
 class BunkerAttributeInfo(AttributeInfo):
     """ For bunker buildings. """
     name = 'bunker'

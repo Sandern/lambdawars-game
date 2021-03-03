@@ -7,6 +7,7 @@ from core.weapons import WarsWeaponMachineGun, VECTOR_CONE_1DEGREES, WarsWeaponB
 from te import CEffectData, DispatchEffect, te
 from fields import FloatField
 from wars_game.statuseffects import StunnedEffectInfo
+from wars_game.attributes import TauCannonAltAttribute
 if isserver:
     from entities import CTakeDamageInfo, RadiusDamage, CLASS_NONE
     from utils import UTIL_EntitiesInBox
@@ -139,8 +140,8 @@ class WeaponTau(WarsWeaponBase):
     def RadiusDamage(self, origin, dmg, radius):
         owner = self.GetOwner()
         dmg_info = CTakeDamageInfo(self, owner, dmg, DMG_SHOCK) 
-        #dmg_info.attributes = self.primaryattackattributes
-        dmg_info.attributes = None
+        dmg_info.attributes = {TauCannonAltAttribute.name: TauCannonAltAttribute(owner)}
+        #dmg_info.attributes = None
 
         RadiusDamage(dmg_info, origin, radius, CLASS_NONE, None) 
         vec_radius = Vector(radius, radius, radius)

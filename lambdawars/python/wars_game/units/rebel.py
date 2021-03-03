@@ -539,7 +539,7 @@ class RebelTauInfo(RebelInfo):
 		10: 'patrol',
 		-1: 'garrison',
     }
-    sensedistance = 768.0
+    sensedistance = 896.0
     attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_tau'
     infest_zombietype = ''
@@ -583,7 +583,7 @@ class RebelHeavyInfo(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
-    sensedistance = 768.0
+    sensedistance = 896.0
     attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''

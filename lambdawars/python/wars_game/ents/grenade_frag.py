@@ -307,6 +307,17 @@ if isserver:
                         #print("IsUnit", enemy.IsUnit(), "IsAlive", enemy.IsAlive(), "enemy", enemy)
 
                         StunnedEffectInfo.CreateAndApply(enemy, attacker=self, duration=stunduration)
+        def SetTimer(self, detonateDelay, warnDelay):
+            self.detonatetime = gpGlobals.curtime + detonateDelay - 0.75
+            self.warnaitime = gpGlobals.curtime + warnDelay - 0.75
+            self.SetThink( self.DelayThink )
+            self.SetNextThink( gpGlobals.curtime )
+            
+            # Always use damage controller if created
+            if self.damagecontroller:
+                self.SetThrower(self.damagecontroller)
+
+            self.CreateEffects()
 
         exploded = False
 

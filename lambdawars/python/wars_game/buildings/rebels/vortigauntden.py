@@ -35,6 +35,7 @@ class VortigauntDenInfo(WarsBuildingInfo):
     sound_select = 'build_reb_vortigauntden'
     sound_work = 'rebel_vortden_working'
     sound_death = 'build_generic_explode1'
+    scale = 0.9
     explodeparticleeffect = 'building_explosion'
     explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius
     sai_hint = WarsBuildingInfo.sai_hint | set(['sai_building_barracks', 'sai_building_vortden'])
