@@ -483,7 +483,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
     buildtime = 30.0
     health = 250
-    maxspeed = 192
+    maxspeed = 224
     #sensedistance = 1120.0
     viewdistance = 768
     unitenergy = 100
