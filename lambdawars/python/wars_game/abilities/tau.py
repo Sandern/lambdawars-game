@@ -67,7 +67,7 @@ class TauAltFire(AbilityTarget):
     description = '#AbilityTauAltShot_Description'
     image_name = 'vgui/rebels/abilities/ability_tau_alt_fire'
     #costs = []
-    rechargetime = 70
+    rechargetime = 60
     techrequirements = ['tau_alt_fire_unlock']
     damage = 200
     damageradius = 32
