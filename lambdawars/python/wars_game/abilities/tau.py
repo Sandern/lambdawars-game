@@ -26,7 +26,7 @@ if isserver:
     class ActionShootTau(BehaviorGeneric.ActionMoveInRangeAndFace):
         def Init(self, order, parent_action):
             target = order.target if order.target else order.position
-            self.targetisunit = True if order.target else False
+            
             super().Init(target, 896.0)
 
             self.parent_action = parent_action
@@ -52,16 +52,13 @@ if isserver:
 
             ability.SetNotInterruptible()
             duration = 1.1
-            if self.targetisunit:
-                outer.activeweapon.SecondaryAttack(self.target.GetAbsOrigin(), ability.damage, ability.damageradius, duration, self.target)
-            else:
-                outer.activeweapon.SecondaryAttack(self.target, ability.damage, ability.damageradius, duration)
+            outer.activeweapon.SecondaryAttack(self.target.GetAbsOrigin(), ability.damage, ability.damageradius, duration, self.target)
             outer.DoAnimation(outer.ANIM_ATTACK_SECONDARY)
             ability.SetRecharge(outer)
             ability.Completed()
             self.parent_action.changetoidleonlostorder = False
-            return self.ChangeTo(self.behavior.ActionLockAim, 'Fired charged shot', self.target, duration=duration)
-        targetisunit = False
+            return self.ChangeTo(self.behavior.ActionLockAim, 'Fired cannon', self.target, duration=duration)
+
 
 class TauAltFire(AbilityTarget):
     # Info
@@ -73,7 +70,7 @@ class TauAltFire(AbilityTarget):
     rechargetime = 70
     techrequirements = ['tau_alt_fire_unlock']
     damage = 200
-    damageradius = 64
+    damageradius = 32
     sai_hint = AbilityTarget.sai_hint | set(['sai_combine_ball'])
 
     # Ability
@@ -87,6 +84,15 @@ class TauAltFire(AbilityTarget):
                 return
 
             target = data.ent if (data.ent and not data.ent.IsWorld()) else None
+            if not target:
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                return
+            if target.IRelationType(self.unit) == D_LI:
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                return
+            if target.isbuilding:
+                self.Cancel(cancelmsg='#Ability_InvalidTarget')
+                return
             self.unit.AbilityOrder(ability=self, target=target, position=data.endpos)
 
         behaviorgeneric_action = ActionDoShootTau

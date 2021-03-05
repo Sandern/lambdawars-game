@@ -151,7 +151,7 @@ class WeaponTau(WarsWeaponBase):
                 continue
             if not enemy.IsAlive():
                 continue
-            StunnedEffectInfo.CreateAndApply(enemy, attacker=owner, duration=5)
+            StunnedEffectInfo.CreateAndApply(enemy, attacker=owner, duration=3)
     
 
     clientclassname = 'weapon_tau'
@@ -161,5 +161,5 @@ class WeaponTau(WarsWeaponBase):
         maxrange = 768.0
         attackspeed = 0.30
         shots = 1
-        damage = 25
+        damage = 10
         attributes = ['tau']

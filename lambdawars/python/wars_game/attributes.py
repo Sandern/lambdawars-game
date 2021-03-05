@@ -85,8 +85,9 @@ class TauCannonAttribute(AttributeInfo):
     name = 'tau'
 
     dmgmodifiers = {
-        'synth': ConstantBonusDamage(20),
-        'heavy': ConstantBonusDamage(10),
+		'synth': ConstantBonusDamage(5),
+		'metal': ConstantBonusDamage(5),
+		#'heavy': ConstantBonusDamage(10),
     }
 	
 class TauCannonAltAttribute(AttributeInfo):

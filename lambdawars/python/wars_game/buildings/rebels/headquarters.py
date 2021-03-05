@@ -163,7 +163,7 @@ class OverrunRebelHQInfo(RebelHQInfo):
 								 2: 'overrun_unit_rebel_medic',
 								 3: 'overrun_unit_rebel_flamer',
 								 4: 'overrun_unit_rebel_heavy',
-								 4: 'overrun_unit_rebel_tau',
+								 5: 'overrun_unit_rebel_tau',
 								 11: 'menuup',
                               }),
         11: SubMenu(name='rebel_t3_units',

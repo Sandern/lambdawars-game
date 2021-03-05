@@ -1288,7 +1288,7 @@ class BehaviorGeneric(BaseBehavior):
             if target.isbuilding:
                 if not target.NeedsUnitConstructing(unit=outer) and target.constructionstate in [target.BS_UNDERCONSTRUCTION, target.BS_UPGRADING]:
                     return False
-            if target.health >= target.maxhealth:
+            if target.health >= target.maxhealth and not target.constructionstate in [target.BS_UNDERCONSTRUCTION, target.BS_UPGRADING]:
                 return False
             outer.constructing = True
             outer.aimoving = True
@@ -1322,6 +1322,8 @@ class BehaviorGeneric(BaseBehavior):
                 self.order.Remove(dispatchevent=False)
                 return self.ChangeToIdle('Repair/construct target went None or is not alive')
             dist = self.outer.EnemyDistance(target)
+            if dist > self.constructmaxrange + 32:
+                self.isinrange = False
             if not self.isinrange and dist > self.constructmaxrange:
                 self.movinginrange = True
                 goalflags = GF_USETARGETDIST|GF_OWNERISTARGET
@@ -1336,6 +1338,12 @@ class BehaviorGeneric(BaseBehavior):
                 return self.ChangeToIdle('Unit cannot construct or repair.')
             target.RepairStep(self.outer.think_freq, self.outer.repairhpps)
             return self.Continue()
+        def OnResume(self):
+            if self.movinginrange:
+                if self.outer.navigator.path.success:
+                    self.isinrange = True
+                self.movinginrange = False
+            return super().OnResume()
 
     class ActionPlaceObject(BaseBehavior.ActionInterruptible, BaseBehavior.ActionAbility):
         """ Core action for placing objects.

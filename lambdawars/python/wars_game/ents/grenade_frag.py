@@ -319,6 +319,33 @@ if isserver:
 
             self.CreateEffects()
 
+        def CreateEffects(self):
+            # Start up the eye glow
+            self.main_glow = CSprite.SpriteCreate("sprites/blueflare1.vmt", self.GetLocalOrigin(), False)
+
+            attachment = self.LookupAttachment( "fuse" )
+
+            if self.main_glow is not None:
+                self.main_glow.FollowEntity(self)
+                self.main_glow.SetAttachment(self, attachment)
+                self.main_glow.SetTransparency(kRenderGlow, 255, 255, 255, 200, kRenderFxNoDissipation)
+                self.main_glow.SetScale(0.2)
+                self.main_glow.SetGlowProxySize(4.0)
+                self.main_glow.AddFOWFlags(self.GetFOWFlags())
+                self.main_glow.SetOwnerNumber(self.GetOwnerNumber())
+
+            # Start up the eye trail
+            self.glow_trail = CSpriteTrail.SpriteTrailCreate("sprites/bluelaser1.vmt", self.GetLocalOrigin(), False)
+
+            if self.glow_trail is not None:
+                self.glow_trail.FollowEntity(self)
+                self.glow_trail.SetAttachment(self, attachment)
+                self.glow_trail.SetTransparency(kRenderTransAdd, 225, 225, 225, 255, kRenderFxNone)
+                self.glow_trail.SetStartWidth(8.0)
+                self.glow_trail.SetEndWidth(1.0)
+                self.glow_trail.SetLifeTime(0.5)
+                self.glow_trail.AddFOWFlags(self.GetFOWFlags())
+                self.glow_trail.SetOwnerNumber(self.GetOwnerNumber())
         exploded = False
 
     '''@entity('grenade_heal')
