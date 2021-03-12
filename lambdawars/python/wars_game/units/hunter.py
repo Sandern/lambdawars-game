@@ -932,7 +932,7 @@ class CombineHunterInfo(UnitInfo):
     displayname = '#CombHunter_Name'
     description = '#CombHunter_Description'
     image_name = 'vgui/combine/units/unit_hunter'
-    costs = [('requisition', 65), ('power', 50)]
+    costs = [('requisition', 100), ('power', 100)]
     buildtime = 43.0
     health = 300
     maxspeed = 348.0

@@ -15,6 +15,7 @@ class AbilityThrowStinkBomb(AbilityThrowObject):
     image_name = 'vgui/rebels/abilities/stinkbomb.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
+    throwspeed = 933
     predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'
     useanimationevent = True
@@ -39,7 +40,7 @@ class AbilityThrowStinkBomb(AbilityThrowObject):
 
 class StinkBombAttack(UnitInfo.AttackBase):
     minrange = 0.0
-    maxrange = 896.0
+    maxrange = 768.0
     attackspeed = AbilityThrowStinkBomb.rechargetime
     cone = 0.7
     attributes = ['stinkbomb']

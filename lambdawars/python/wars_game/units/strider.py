@@ -1056,7 +1056,7 @@ class StriderInfo(UnitInfo):
     displayname = '#CombStrider_Name'
     description = '#CombStrider_Description'
     image_name = 'vgui/combine/units/unit_strider'
-    costs = [('requisition', 100), ('power', 80)]
+    costs = [('requisition', 180), ('power', 180)]
     buildtime = 84.0
     viewdistance = 896
     modelname = 'models/combine_strider.mdl'

@@ -339,7 +339,7 @@ class CombineInfo(CombineSharedInfo):
     description = '#CombSMG_Description'
     image_name = 'vgui/combine/units/unit_combine'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 40)], [('kills', 1)]]
+    costs = [[('requisition', 25)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
     buildtime = 23.0
     health = 220
@@ -377,7 +377,7 @@ class CombineSGInfo(CombineInfo):
     description = '#CombSG_Description'
     image_name = 'vgui/combine/units/unit_combine_sg'
     portrait = 'resource/portraits/combineShotgun.bik'
-    costs = [[('requisition', 45), ('power', 7)], [('kills', 1)]]
+    costs = [[('requisition', 25), ('power', 5)], [('kills', 1)]]
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
     attributes = ['medium']
     buildtime = 25.0
@@ -406,7 +406,7 @@ class CombineAR2Info(CombineInfo):
     description = '#CombAR2_Description'
     image_name = 'vgui/combine/units/unit_combine_ar2'
     portrait = 'resource/portraits/combineAR2.bik'
-    costs = [[('requisition', 45), ('power', 12)], [('kills', 2)]]
+    costs = [[('requisition', 25), ('power', 10)], [('kills', 2)]]
     techrequirements = ['build_comb_armory','weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
     buildtime = 25.0
@@ -446,7 +446,7 @@ class CombineEliteInfo(CombineSharedInfo):
     description = '#CombElite_Description'
     image_name = 'vgui/combine/units/unit_combine_elite'
     portrait = 'resource/portraits/combineAR2.bik'
-    costs = [[('requisition', 50), ('power', 20)], [('kills', 4)]]
+    costs = [[('requisition', 90), ('power', 60)], [('kills', 4)]]
     buildtime = 35.0
     health = 250
     maxspeed = 208
@@ -480,7 +480,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     displayname = '#CombHeavy_Name'
     description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('power', 40)], [('kills', 4)]]
     buildtime = 30.0
     health = 250
     maxspeed = 224
@@ -539,11 +539,11 @@ class CombineSniperInfo(CombineSharedInfo):
     description = '#CombSniper_Description'
     image_name = 'vgui/combine/units/unit_combine_sniper'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 50), ('power', 35)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('power', 70)], [('kills', 4)]]
     buildtime = 38.0
     health = 190
     maxspeed = 168.0
-    sensedistance = 1152.0
+    sensedistance = 1280.0
     viewdistance = 896
     unitenergy = 60
     unitenergy_initial = 30

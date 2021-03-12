@@ -390,10 +390,10 @@ class DogInfo(UnitInfo):
     viewdistance = 832
     turnspeed = 75.0
     buildtime = 76.0
-    population = 8
+    population = 6
     unitenergy = 100
     unitenergy_initial = 50
-    costs = [('requisition', 80), ('scrap', 80)]
+    costs = [('requisition', 150), ('scrap', 120)]
     attributes = ['metal', 'large']
     modelname = 'models/dog_extended.mdl'
     hulltype = 'HULL_MEDIUM_TALL'

@@ -15,6 +15,7 @@ class AbilityThrowMolotov(AbilityThrowObject):
     image_name = 'VGUI/rebels/abilities/molotov.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
+    throwspeed = 933
     predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'
     useanimationevent = True
@@ -42,7 +43,7 @@ class MolotovAttack(UnitInfo.AttackBase):
     #damage = 80
     #damagetype = DMG_SHOCK
     minrange = 0.0
-    maxrange = 768.0
+    maxrange = 640.0
     attackspeed = AbilityThrowMolotov.rechargetime
     cone = 0.7
     attributes = ['molotovfire']

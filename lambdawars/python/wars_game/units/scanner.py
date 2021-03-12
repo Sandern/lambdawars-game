@@ -344,7 +344,7 @@ class ScannerInfo(UnitInfo):
     modelname = 'models/combine_scanner.mdl'
     health = 30
     buildtime = 15.0
-    costs = [('requisition', 5), ('power', 12)]
+    costs = [('requisition', 10), ('power', 5)]
     sai_hint = set(['sai_unit_scout', 'sai_unit_combat'])
     attributes = ['mechanic', 'metal']
     sound_death = 'NPC_CScanner.Die'
@@ -395,7 +395,7 @@ class ClawScannerInfo(ScannerInfo):
     image_name = 'vgui/combine/units/unit_clawscanner'
     modelname = 'models/shield_scanner.mdl'
     attributes = ['synth']
-    costs = [('requisition', 20), ('power', 15)]
+    costs = [('requisition', 10), ('power', 20)]
     buildtime = 15.0
     sound_death = 'NPC_SScanner.Die'
     health = 40

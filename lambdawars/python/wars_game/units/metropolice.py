@@ -645,8 +645,8 @@ class MetroPoliceInfo(UnitInfo):
     description = '#CombMetroPolice_Description'
     image_name = 'vgui/combine/units/unit_metropolice'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 15.0
+    costs = [[('requisition', 10)], [('kills', 1)]]
+    buildtime = 13.0
     health = 150
     maxspeed = 232
     viewdistance = 768
@@ -681,8 +681,8 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
     description = '#CombMetroPoliceSMG1_Description'
     image_name = 'vgui/combine/units/unit_metropolice_smg'
     weapons = ['weapon_smg1']
-    costs = [[('requisition', 20)], [('kills', 1)]]
-    buildtime = 22.0
+    costs = [[('requisition', 15)], [('kills', 1)]]
+    buildtime = 23.0
     maxspeed = 224
     viewdistance = 768
     scrapdropchance = 0.0

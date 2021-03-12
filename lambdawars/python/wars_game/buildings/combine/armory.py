@@ -66,7 +66,7 @@ class ArmoryInfo(PoweredBuildingInfo):
     workactivity = 'ACT_WORK'
     #zoffset = -8.0
     techrequirements = ['build_comb_garrison']
-    costs = [('requisition', 40), ('power', 50)]
+    costs = [('requisition', 50), ('power', 25)]
     resource_category = 'technology'
     health = 750
     buildtime = 56.0

@@ -178,7 +178,7 @@ class AbilitySalvage(AbilityTargetGroup):
     hidden = True
     
     salvagetime = FloatField(value=6.9)
-    salvagenumber = IntegerField(value=2)
+    salvagenumber = IntegerField(value=4)
     
     targetmarker = None
     

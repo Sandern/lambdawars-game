@@ -257,12 +257,12 @@ class RebelScoutInfo(RebelShared):
     cls_name = 'unit_rebel'
     health = 35
     maxspeed = 282.0
-    buildtime = 15.0
+    buildtime = 14.0
     unitenergy = 50
     unitenergy_initial = 5
     population = 1
     #tier = 1
-    costs = [('requisition', 12)]
+    costs = [('requisition', 10)]
     accuracy = 0.60
     image_name = 'vgui/rebels/units/unit_rebel_scout'
     abilities = {
@@ -275,7 +275,7 @@ class RebelScoutInfo(RebelShared):
     }
     weapons = ['weapon_pistol']
     sai_hint = set(['sai_unit_scout'])
-    viewdistance = 960
+    viewdistance = 1024
     scrapdropchance = 0.0
 
 
@@ -291,7 +291,7 @@ class RebelSaboteurInfo(RebelShared):
     unitenergy = 100
     unitenergy_initial = 40
     population = 1
-    costs = [('requisition', 20), ('scrap', 20)]
+    costs = [('requisition', 15), ('scrap', 10)]
     #techrequirements = ['build_reb_munitiondepot']
     image_name = 'vgui/rebels/units/unit_rebel_saboteur'
     attributes = ['medium']
@@ -328,15 +328,15 @@ class RebelPartisanInfo(RebelShared):
     cls_name = 'unit_rebel_partisan'
     displayname = '#RebPartisan_Name'
     description = '#RebPartisan_Description'
-    buildtime = 16.0
-    health = 60
+    buildtime = 14.0
+    health = 75
     population = 1
     maxspeed = 224.0
     viewdistance = 768
     scrapdropchance = 0.0
     #tier = 1
     modellist = GenerateModelList('DEFAULT')
-    costs = [[('requisition', 12)], [('kills', 1)]]
+    costs = [[('requisition', 10)], [('kills', 1)]]
     image_name = 'vgui/rebels/units/unit_rebel_partisan'
     attributes = ['light']
     abilities = {
@@ -367,8 +367,8 @@ class RebelPartisanMolotovInfo(RebelPartisanInfo):
     description = '#RebPartisanMolotov_Description'
     costs = [[('requisition', 10)], [('kills', 1)]]
     image_name = 'vgui/rebels/units/unit_rebel_partisan_molotov'
-    buildtime = 14.0
-    # health = 75
+    buildtime = 10.0
+    health = 75
     weapons = []
     abilities = {
         0: 'throwmolotov',
@@ -427,7 +427,7 @@ class RebelInfo(RebelShared):
     name = 'unit_rebel'
     cls_name = 'unit_rebel_grenade_upgrade' # adds grenade unlock per unit this also needs the rebel_grenade_upgrade ability
     buildtime = 22.0
-    costs = [[('requisition', 30)], [('kills', 1)]]
+    costs = [[('requisition', 20)], [('kills', 1)]]
     maxspeed = 224.0
     viewdistance = 768
     displayname = '#RebSMG_Name'
@@ -466,7 +466,7 @@ class RebelSGInfo(RebelInfo):
     description = '#RebSG_Description'
     buildtime = 22.0
     health = 160
-    costs = [[('requisition', 35), ('scrap', 5)], [('kills', 1)]]
+    costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot','weaponsg_unlock']
     #techrequirements = ['build_reb_munitiondepot']
     weapons = ['weapon_shotgun']
@@ -525,7 +525,7 @@ class RebelTauInfo(RebelInfo):
     health = 200
     viewdistance = 896
     scale = 1.0
-    costs = [[('requisition', 30), ('scrap', 40)], [('kills', 2)]]
+    costs = [[('requisition', 60), ('scrap', 30)], [('kills', 2)]]
     #accuracy = 5.0
     population = 3
     modelname = 'models/rebel_tau.mdl'
@@ -568,7 +568,7 @@ class RebelHeavyInfo(RebelInfo):
     health = 280
     viewdistance = 896
     scale = 1.10
-    costs = [[('requisition', 40), ('scrap', 25)], [('kills', 2)]]
+    costs = [[('requisition', 70), ('scrap', 25)], [('kills', 2)]]
     accuracy = 0.75
     population = 2
     modelname = 'models/rebel_heavy.mdl'
@@ -616,7 +616,7 @@ class RebelMedicInfo(RebelShared):
     maxspeed = 224
     viewdistance = 768
     unitenergy = 100
-    costs = [[('requisition', 30), ('scrap', 10)], [('kills', 1)]]
+    costs = [[('requisition', 15), ('scrap', 10)], [('kills', 1)]]
     displayname = '#RebMedic_Name'
     description = '#RebMedic_Description'
     image_name = 'vgui/rebels/units/unit_rebel_medic'
@@ -658,7 +658,7 @@ class RebelEngineerInfo(RebelShared):
     buildtime = 15.0
     health = 50
     population = 1
-    costs = [[('requisition', 20)], [('kills', 1)]]
+    costs = [[('requisition', 10)], [('kills', 1)]]
     resource_category = 'economy'
     engagedistance = 500.0
     scrapdropchance = 0.0
@@ -804,7 +804,7 @@ class RebelRPGInfo(RebelShared):
     health = 240
     maxspeed = 160.0
     viewdistance = 896
-    costs = [[('requisition', 40), ('scrap', 30)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('scrap', 45)], [('kills', 4)]]
     displayname = '#RebRPG_Name'
     description = '#RebRPG_Description'
     image_name = 'vgui/rebels/units/unit_rebel_rpg'
@@ -868,7 +868,7 @@ class RebelVeteran(RebelShared):
     maxspeed = 192.0
     viewdistance = 896
     attributes = ['medium']
-    costs = [[('requisition', 40), ('scrap', 30)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('scrap', 50)], [('kills', 4)]]
     displayname = '#RebVeteran_Name'
     description = '#RebVeteran_Description'
     image_name = 'vgui/rebels/units/unit_rebel_crossbow'
@@ -888,7 +888,7 @@ class RebelVeteran(RebelShared):
     }
     #weapons = ['weapon_shotgun', 'weapon_ar2']
     weapons = ['weapon_crossbow']
-    sensedistance = 1152.0
+    sensedistance = 1280.0
     #techrequirements = ['rebel_veteran_unlock']
     #accuracy = 'high'
     population = 2
@@ -937,7 +937,7 @@ class RebelFlamer(RebelShared):
         -1: 'garrison',
     }
     weapons = ['wars_weapon_flamer']
-    population = 3
+    population = 2
     infest_zombietype = ''
 
 

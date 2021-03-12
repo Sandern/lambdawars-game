@@ -862,7 +862,7 @@ class VortigauntInfo(UnitInfo):
     displayname = '#Vortigaunt_Name'
     description = '#Vortigaunt_Description'
     image_name = 'vgui/rebels/units/unit_vortigaunt.vmt'
-    costs = [('requisition', 40), ('scrap', 50)]
+    costs = [('requisition', 75), ('scrap', 100)]
     buildtime = 40.0
     viewdistance = 896.0
     sensedistance = 896.0

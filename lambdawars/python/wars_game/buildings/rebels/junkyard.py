@@ -72,7 +72,7 @@ class JunkyardInfo(WarsBuildingInfo):
     image_name  = 'vgui/rebels/buildings/build_reb_junkyard'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_junkyard.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_junkyard_des.mdl'
-    costs = [('requisition', 30)]
+    costs = [('requisition', 20)]
     resource_category = 'economy'
     health = 350
     buildtime = 25.0

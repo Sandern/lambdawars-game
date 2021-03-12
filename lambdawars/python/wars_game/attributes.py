@@ -177,7 +177,7 @@ class BulletAttribute(AttributeInfo):
     name = 'bullet'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(4),
+        'light': ConstantBonusDamage(5),
         # 'creature': ConstantBonusDamage(2),
     }
 
