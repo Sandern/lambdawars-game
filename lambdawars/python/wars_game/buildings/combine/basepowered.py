@@ -206,7 +206,7 @@ class PoweredGeneratorScrapInfo(WarsBuildingInfo):
     modelname = 'models/pg_props/pg_buildings/combine/pg_scrap_power_generator.mdl'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_scrap_power_generator_des.mdl'
     scale = 1.0
-    generateresources = {'type' : 'power', 'amount' : 1.0, 'interval' : 2.3}
+    generateresources = {'type' : 'power', 'amount' : 1.0, 'interval' : 2.0}
     splitgenerateresources = True
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'

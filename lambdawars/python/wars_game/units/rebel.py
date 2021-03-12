@@ -662,6 +662,7 @@ class RebelEngineerInfo(RebelShared):
     resource_category = 'economy'
     engagedistance = 500.0
     scrapdropchance = 0.0
+    maxspeed = 180
     displayname = '#RebEngineer_Name'
     description = '#RebEngineer_Description'
     image_name = 'vgui/rebels/units/unit_rebel_engineer'

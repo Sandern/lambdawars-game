@@ -73,13 +73,21 @@ class AbilityBugBaitRecall(AbilityBugBaitShared, AbilityInstant):
                 self.Cancel(debugmsg='No units found for ability')
                 return
                 
-            units = self.TakeEnergy(self.units)
-            if not units:
-                self.Cancel(debugmsg='No units with enough energy found')
-                return
+            #units = self.TakeEnergy(self.units)
+            #if not units:
+            #    self.Cancel(debugmsg='No units with enough energy found')
+            #    return
                 
             self.throwtarget = None
-            for unit in units:
+            for unit in list(self.units):
+                if len(unit.abibugbait_antlions) == 0:
+                    energy = self.energy
+                elif len(unit.abibugbait_antlions) != self.maxantlions:
+                    energy = self.energy * (1 - len(unit.abibugbait_antlions)/self.maxantlions)
+                elif len(unit.abibugbait_antlions) == self.maxantlions:
+                    energy = 1
+                if not self.TakeEnergy(unit, energy):
+                    continue
                 bugbait = CreateEntityByName('bugbait')
                 bugbait.SetAbsOrigin(unit.GetAbsOrigin())
                 bugbait.SetOwnerNumber(self.ownernumber)
@@ -88,7 +96,7 @@ class AbilityBugBaitRecall(AbilityBugBaitShared, AbilityInstant):
                 DispatchSpawn(bugbait)
                 bugbait.Detonate(target=unit)
                 
-            self.SetRecharge(units)
+            self.SetRecharge(list(self.units))
             self.Completed()
             
     allowmultipleability = True

@@ -177,7 +177,7 @@ class AbilitySalvage(AbilityTargetGroup):
     image_name = 'vgui/rebels/abilities/salvage'
     hidden = True
     
-    salvagetime = FloatField(value=8.25)
+    salvagetime = FloatField(value=6.9)
     salvagenumber = IntegerField(value=2)
     
     targetmarker = None

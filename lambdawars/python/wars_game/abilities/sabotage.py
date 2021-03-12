@@ -98,7 +98,7 @@ if isserver:
                 self.order.Remove(dispatchevent=False)
                 return self.Continue()
 
-            trans = self.SuspendFor(self.behavior.ActionChanneling, 'Sabotaging', 14.0)
+            trans = self.SuspendFor(self.behavior.ActionChanneling, 'Sabotaging', 11.2)
             self.sabotagingaction = self.nextaction
             return trans
             
@@ -145,7 +145,7 @@ class AbilitySabotage(AbilityTarget):
     image_name = 'vgui/rebels/abilities/rebel_saboteur_sabotage.vmt'
     rechargetime = 1
     costs = []
-    energy = 30
+    energy = 25
     displayname = "#AbilitySabotage_Name"
     description = "#AbilitySabotage_Description"
     cloakallowed = True

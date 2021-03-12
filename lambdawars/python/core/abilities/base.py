@@ -341,7 +341,7 @@ class AbilityBase(AbilityInfo):
         return taken
         
     @serveronly_assert
-    def TakeEnergy(self, units):
+    def TakeEnergy(self, units, energy=0):
         """ Takes energy from the list of units.
         
             Args:
@@ -353,8 +353,10 @@ class AbilityBase(AbilityInfo):
         if type(units) != list:
             units = [units] # Assume reference to single unit
         valid = []
+        if not energy:
+            energy = self.energy
         for unit in units:
-            if unit.TakeEnergy(self.energy):
+            if unit.TakeEnergy(energy):
                 valid.append(unit)
         return valid
         
