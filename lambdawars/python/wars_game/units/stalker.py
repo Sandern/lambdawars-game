@@ -474,7 +474,7 @@ class StalkerShared(UnitInfo):
     description = '#CombStalker_Description'
     image_name = 'vgui/combine/units/unit_stalker.vmt'
     portrait = 'resource/portraits/combineStalker.bik'
-    costs = [[('requisition', 20)], [('kills', 1)]]
+    costs = [[('requisition', 15)], [('kills', 1)]]
     #tier = 1
     resource_category = 'economy'
     buildtime = 12.0

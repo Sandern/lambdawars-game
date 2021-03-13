@@ -39,6 +39,7 @@ class CombineBunkerInfo(BunkerInfo):
     
     health = 1000
     garrisoned_attributes = ['bunker']
+    attributes = ['defence']
     buildtime = 46.0
     attackpriority = 0
     #sense_distance = 2000

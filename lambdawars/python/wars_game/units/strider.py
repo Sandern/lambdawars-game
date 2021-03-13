@@ -1062,12 +1062,12 @@ class StriderInfo(UnitInfo):
     modelname = 'models/combine_strider.mdl'
     hulltype = 'HULL_LARGE_CENTERED'
     #techrequirements = ['build_comb_tech_center']
-    health = 1125
+    health = 1500
     maxspeed = 144.0
     turnspeed = 15.0
     unitenergy = 75
     unitenergy_initial = 25
-    population = 8
+    population = 6
     attributes = ['synth', 'large', 'pulse_cannon']
     sound_death = 'NPC_Strider.Death'
     scale = 0.75

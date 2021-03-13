@@ -221,7 +221,7 @@ class CrabSynthInfo(UnitInfo):
     modelname = 'models/synth_crab.mdl'
     hulltype = 'HULL_LARGE'
     scale = 0.90
-    health = 1500
+    health = 1400
     buildtime = 40.0
     costs = [('requisition', 125), ('power', 100)]
     attributes = ['synth', 'mechanic']
@@ -230,7 +230,7 @@ class CrabSynthInfo(UnitInfo):
     viewdistance = 896
     sensedistance = 896
     techrequirements = ['build_comb_tech_center']
-    population = 6
+    population = 5
     regeneration = True
     regenerationamount = 10
     regenerationtime = 1.0

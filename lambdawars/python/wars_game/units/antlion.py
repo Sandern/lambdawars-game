@@ -989,8 +989,8 @@ class AntlionInfoShared(UnitInfo):
 
     class AttackFly(AttackLeap):
         damage = 120
-        minrange = 1200.0
-        maxrange = 2200.0
+        minrange = 64.0
+        maxrange = 768.0
 
 class AntlionInfo(AntlionInfoShared):
     name = 'unit_antlion'
