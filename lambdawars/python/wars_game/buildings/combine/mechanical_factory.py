@@ -23,14 +23,14 @@ class MechFactoryInfo(PoweredBuildingInfo):
     image_name = 'vgui/combine/buildings/build_comb_mech'
     modelname = 'models/pg_props/pg_buildings/combine/pg_combine_mech_factory.mdl'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mech_factory_destruction.mdl'
-    techrequirements = ['build_comb_garrison']
+    techrequirements = ['build_comb_armory']
     idleactivity = 'ACT_IDLE'
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     constructionactivity = 'ACT_CONSTRUCTION'
-    costs = [('requisition', 35)]
+    costs = [('requisition', 25)]
     health = 500
-    buildtime = 23.0
+    buildtime = 40.0
     abilities = {
         0: 'unit_scanner',
         1: 'unit_manhack',

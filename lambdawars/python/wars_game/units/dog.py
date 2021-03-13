@@ -430,7 +430,7 @@ class DogUnlock(AbilityUpgrade):
     image_name = "vgui/rebels/abilities/rebel_dog_unlock"
     techrequirements = ['build_reb_junkyard']
     buildtime = 120.0
-    costs = [[('requisition', 150), ('scrap', 150)]]
+    costs = [[('requisition', 180), ('scrap', 180)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 
 class OverrunDogInfo(DogInfo):

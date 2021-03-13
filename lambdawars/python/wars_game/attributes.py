@@ -137,8 +137,8 @@ class RPGAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'building': ConstantBonusDamage(70),
-        'synth': ConstantBonusDamage(100),
-        'metal': ConstantBonusDamage(100),
+        'synth': ConstantBonusDamage(175),
+        'metal': ConstantBonusDamage(255),
         'heavy': ConstantBonusDamage(35),
     }
 
@@ -147,8 +147,8 @@ class SlashAttribute(AttributeInfo):
     name = 'slash'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(19),
-        'medium': ConstantBonusDamage(5),
+		'light': ConstantBonusDamage(20),
+		'creature': ConstantBonusDamage(30),
     }
 
 

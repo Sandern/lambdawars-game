@@ -1110,22 +1110,22 @@ class ManhackInfo(UnitInfo):
     }
     costs = [[('requisition', 10)], [('kills', 1)]]
     #techrequirements = ['build_comb_armory']
-    buildtime = 14.0
-    health = 25
-    maxspeed = 320.0
+    buildtime = 15.0
+    health = 75
+    maxspeed = 328.0
     viewdistance = 640
     displayname = '#CombManhack_Name'
     description = '#CombManhack_Description' 
     image_name = 'vgui/combine/units/unit_manhack'
     modelname = 'models/manhack.mdl'
-    attributes = ['slash', 'mechanic', 'metal']
+    attributes = ['mechanic', 'slash']
     hulltype = 'HULL_TINY_CENTERED'
     #accuracy = 2.0
     #sai_hint = set(['sai_unit_support'])
     
     class AttackMelee(UnitInfo.AttackMelee):
         maxrange = 0.0
-        damage = 3
+        damage = 10
         damagetype = DMG_SLASH
         attackspeed = 1.0
     attacks = 'AttackMelee'
