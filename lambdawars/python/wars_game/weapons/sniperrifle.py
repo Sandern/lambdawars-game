@@ -138,8 +138,8 @@ class WeaponSniperRifle(WarsWeaponBase):
     class AttackPrimary(AttackAbilityAsAttack):
         abi_attack_name = 'marksmanshot'
         maxrange = 1152.0
-        attackspeed = 2.49
-        damage = 70
+        attackspeed = 3.5
+        damage = 20
         cone = UnitInfo.AttackRange.DOT_3DEGREE
         attributes = ['plasma']
 

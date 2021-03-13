@@ -37,6 +37,7 @@ class RebelsAidStationInfo(GarrisonableBuildingInfo):
     placemaxrange = 260.0
     costs = [[('requisition', 50)], [('kills', 5)]]
     techrequirements = ['build_reb_triagecenter']
+    attributes = ['defence']
     abilities   = {
         0 : 'ungarrisonall',
         1 : 'onhealedexit',

@@ -149,7 +149,7 @@ class CrossbowBolt(HomingProjectile):
 
 class UnitExplosiveBoltDamageInfo(UnitDamageControllerInfo):
     name = 'explosivebolt_damage'
-    attributes = ['explosive']
+    attributes = ['explosive_bolt']
     cls_name = 'unit_damage_controller_all'
 
 # TODO: should also become a homing projectile, but that version currently does not support targeting an origin
@@ -161,8 +161,8 @@ class ExplosiveCrossbowBolt(CBaseCombatCharacter):
     BOLT_MODEL = "models/weapons/w_missile_closed.mdl"
     BOLT_SKIN_GLOW = 1
 
-    damage = 100
-    dmgradius = 64.0
+    damage = 50
+    dmgradius = 128.0
     damagecontroller = None
     attackattributes = None
 

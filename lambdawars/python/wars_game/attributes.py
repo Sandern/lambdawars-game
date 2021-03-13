@@ -215,11 +215,11 @@ class PlasmaAttribute(AttributeInfo):
     name = 'plasma'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(100),
-        'medium': ConstantBonusDamage(100),
-        'heavy': ConstantBonusDamage(60),
-        'building': ScaleBonusDamage(0.2),
-        'defence': ScaleBonusDamage(1.5),
+		'light': ConstantBonusDamage(200),
+		'medium': ConstantBonusDamage(200),
+		'heavy': ConstantBonusDamage(230),
+		'creature': ConstantBonusDamage(50),
+		'defence': ScaleBonusDamage(2.0),
     }
 
 class CrossbowAttribute(AttributeInfo):
@@ -231,6 +231,8 @@ class CrossbowAttribute(AttributeInfo):
 		'medium': ConstantBonusDamage(100),
 		'heavy': ConstantBonusDamage(50),
 		'synth': ConstantBonusDamage(50),
+		'building': ScaleBonusDamage(0.5),
+		'defence': ScaleBonusDamage(1.5),
     }
 
 
@@ -301,6 +303,16 @@ class ExplosiveAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'light': ScaleBonusDamage(2.0),
+        'medium': ScaleBonusDamage(2.0),
+        'heavy': ScaleBonusDamage(1.5),
+    }
+
+class ExplosiveBoltAttribute(AttributeInfo):
+    """ Explosives, mines, etc. """
+    name = 'explosive_bolt'
+
+    dmgmodifiers = {
+        'light': ScaleBonusDamage(2.5),
         'medium': ScaleBonusDamage(2.0),
         'heavy': ScaleBonusDamage(1.5),
     }
