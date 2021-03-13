@@ -27,7 +27,7 @@ class GarrisonInfo(PoweredBuildingInfo):
     techrequirements = ['build_comb_hq']
     costs = [('requisition', 50)]
     health = 700
-    buildtime = 45.0
+    buildtime = 40.0
     abilities = {
 		0: "unit_metropolice_riot",
 		1: "unit_metropolice",

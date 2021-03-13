@@ -168,7 +168,7 @@ class PoweredGeneratorInfo(WarsBuildingInfo):
     costs = [('requisition', 15)]
     resource_category = 'economy'
     health = 250
-    buildtime = 17.0
+    buildtime = 10.0
     generateresources = {'type' : 'power', 'amount' : 1, 'interval' : 20}
     powerrange = 768.0
     infoparticles = ['power_radius']

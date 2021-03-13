@@ -29,7 +29,7 @@ class BilletInfo(WarsBuildingInfo):
     costs = [('requisition', 15)]
     #costs = [('requisition', 20)]
     health = 200
-    buildtime = 22.0
+    buildtime = 20.0
     population = 0 # Billet itself does not take population
     providespopulation = 5
     viewdistance = 896
