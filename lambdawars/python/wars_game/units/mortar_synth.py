@@ -241,7 +241,7 @@ class MortarSynthInfo(UnitInfo):
     }
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
-        damage = 250.0
+        damage = 300.0
         attackspeed = 7.0
         minrange = 128.0
         maxrange = 1792.0
@@ -263,7 +263,7 @@ class MortarSynthSpeedUpgrade(AbilityUpgradeValue):
     description = '#MortarSynthSpeedUpgrade_Description'
     buildtime = 60.0
     upgradevalue = 144
-    costs = [[('requisition', 30), ('power', 30)], [('kills', 2)]]
+    costs = [[('requisition', 25), ('power', 25)], [('kills', 2)]]
     techrequirements = []
     image_name = 'vgui/combine/abilities/mortarsynth_upgrade'
     def OnUpgraded(self):

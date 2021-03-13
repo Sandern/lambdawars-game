@@ -1068,7 +1068,7 @@ class CombMineUpgrade(AbilityUpgradeValue):
     displayname = '#CombDepMineUpgr_Name'
     description = '#CombDepMineUpgr_Description'
     buildtime = 38.0
-    costs = [('requisition', 15), ('power', 30)]
+    costs = [('requisition', 10), ('power', 25)]
     image_name = "vgui/abilities/infiltrate_comb_mine_upgrade"
     upgradevalue = 1
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
