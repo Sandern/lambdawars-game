@@ -212,7 +212,7 @@ class PoweredGeneratorScrapInfo(WarsBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
     health = 450
-    buildtime = 35.0
+    buildtime = 20.0
     costs = [('requisition', 40)]
     resource_category = 'economy'
     viewdistance = 896

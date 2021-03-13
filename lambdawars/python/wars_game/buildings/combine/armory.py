@@ -69,7 +69,7 @@ class ArmoryInfo(PoweredBuildingInfo):
     costs = [('requisition', 50), ('power', 25)]
     resource_category = 'technology'
     health = 750
-    buildtime = 56.0
+    buildtime = 50.0
     abilities = {
         0 : 'grenade_unlock_combine',
         #1 : 'combine_upgrade_tier_mid',

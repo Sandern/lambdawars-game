@@ -65,7 +65,7 @@ class MuntionDepotInfo(WarsBuildingInfo):
     costs = [('requisition', 50), ('scrap', 25)]
     resource_category = 'technology'
     health = 750
-    buildtime = 56.0
+    buildtime = 50.0
     techrequirements = ['build_reb_barracks']
     abilities = {
         0: 'grenade_unlock',

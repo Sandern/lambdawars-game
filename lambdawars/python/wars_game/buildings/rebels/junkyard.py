@@ -75,7 +75,7 @@ class JunkyardInfo(WarsBuildingInfo):
     costs = [('requisition', 40)]
     resource_category = 'economy'
     health = 350
-    buildtime = 25.0
+    buildtime = 30.0
     generateresources = {'type' : 'scrap', 'amount' : 1.0, 'interval' : 10.0} #so a junkyard can generate some scrap.
     techrequirements = ['build_reb_hq']
     abilities   = {
