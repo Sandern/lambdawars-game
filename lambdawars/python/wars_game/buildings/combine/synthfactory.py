@@ -73,7 +73,7 @@ class SynthFactoryInfo(PoweredBuildingInfo):
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     techrequirements = ['build_comb_armory']
-    costs = [('requisition', 60), ('power', 80)]
+    costs = [('requisition', 100), ('power', 100)]
     health = 1100
     buildtime = 60.0
     abilities   = {

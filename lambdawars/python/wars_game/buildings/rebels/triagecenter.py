@@ -62,7 +62,7 @@ class TriageCenterInfo(WarsBuildingInfo):
     image_name  = 'vgui/rebels/buildings/build_reb_triagecenter'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_med_center.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_med_center_destruction.mdl'
-    costs = [('requisition', 40), ('scrap', 20)]
+    costs = [('requisition', 25)]
     health = 600
     buildtime = 31.0
     techrequirements = ['build_reb_barracks']

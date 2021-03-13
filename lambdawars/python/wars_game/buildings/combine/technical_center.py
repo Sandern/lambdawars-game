@@ -57,7 +57,7 @@ class TechCenterInfo(BaseFactoryPoweredBuilding, BaseClass):
     chimneyfx = None
     chimneyfx1 = None
 
-    
+
 # Register unit
 class TechCenterInfo(PoweredBuildingInfo):
     name = 'build_comb_tech_center' 
@@ -73,7 +73,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     #workactivity = 'ACT_WORK'
     techrequirements = ['build_comb_synthfactory']
-    costs = [('requisition', 60), ('power', 50)]
+    costs = [('requisition', 50), ('power', 50)]
     resource_category = 'technology'
     health = 900
     buildtime = 48.0

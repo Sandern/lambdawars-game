@@ -61,7 +61,7 @@ class SpecialOpsInfo(WarsBuildingInfo):
     modelname = 'models/pg_props/pg_buildings/rebels/pg_rebel_specops.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_rebel_specops_destruction.mdl'
     techrequirements = ['build_reb_munitiondepot']
-    costs = [('requisition', 50), ('scrap', 30)]
+    costs = [('requisition', 50), ('scrap', 75)]
     health = 800
     buildtime = 44.0
     scale = 0.90

@@ -113,7 +113,7 @@ class RebelsDetectionTower(RebelsRadioTower):
 class RebelScanTowerInfo(RebelRadioTowerInfo):
     name = "build_reb_detectiontower"
     cls_name = 'build_reb_detectiontower'
-    costs = [('requisition', 20), ('scrap', 30)]
+    costs = [('requisition', 25), ('scrap', 25)]
     techrequirements = ['build_reb_barracks']
     unitenergy = 100
     unitenergy_initial = 50

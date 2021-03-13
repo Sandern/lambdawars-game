@@ -104,7 +104,7 @@ class TeleporterInfo(WarsBuildingInfo):
     health = 600
     buildtime = 50.0
     techrequirements = ['build_reb_triagecenter']
-    costs = [('requisition', 60), ('scrap', 60)]
+    costs = [('requisition', 50), ('scrap', 50)]
     displayname = '#BuildRebTeleporter_Name'
     description = '#BuildRebTeleporter_Description'
     image_name = 'vgui/rebels/buildings/build_reb_teleporter'
