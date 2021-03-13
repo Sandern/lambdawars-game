@@ -62,7 +62,7 @@ class MuntionDepotInfo(WarsBuildingInfo):
     image_name = 'vgui/rebels/buildings/build_reb_munitiondepot'
     modelname = 'models/pg_props/pg_buildings/rebels/pg_armory.mdl'
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_armory_des.mdl'
-    costs = [('requisition', 40), ('scrap', 40)]
+    costs = [('requisition', 50), ('scrap', 25)]
     resource_category = 'technology'
     health = 750
     buildtime = 56.0
