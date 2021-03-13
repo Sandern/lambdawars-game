@@ -393,7 +393,7 @@ class DogInfo(UnitInfo):
     population = 6
     unitenergy = 100
     unitenergy_initial = 50
-    costs = [('requisition', 150), ('scrap', 120)]
+    costs = [('requisition', 180), ('scrap', 180)]
     attributes = ['metal', 'large']
     modelname = 'models/dog_extended.mdl'
     hulltype = 'HULL_MEDIUM_TALL'

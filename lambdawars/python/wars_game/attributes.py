@@ -50,16 +50,9 @@ class MetalAttributeInfo(AttributeInfo):
     """
     name = 'metal'
 
-    dmgmodifiers = {
-        'medium': ConstantBonusDamage(8),
-    }
-
     dmgrecvmodifiers = {
-       'bullet': ScaleBonusDamage(0.5),
-       'pulse': ScaleBonusDamage(0.5),
-       'plasma': ScaleBonusDamage(0.5),  # heaviest ones should not be too vulnerable to snipers
-      # 'explosive': ScaleBonusDamage(0.7),
-       # 'fire': ScaleBonusDamage(0.3),
+       'bullet': ScaleBonusDamage(0.25),
+       'pulse': ScaleBonusDamage(0.25),
        # 'slash': ScaleBonusDamage(0.1),  # to take little damage from zombies and minor antlions
        # 'bite': ScaleBonusDamage(0.1),  # and hardly damage from headcrabs
         'energyball': ScaleBonusDamage(1.0),
@@ -202,11 +195,11 @@ class AR1Attribute(AttributeInfo):
 
 
 class PulseShotgunAttribute(AttributeInfo):
-    name = 'pulse_shotgun'  # for higher tier units, should probably name it "pulse_t3" instead
+    name = 'pulse_shotgun'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(20),
-        'medium': ConstantBonusDamage(20),
+        #'light': ConstantBonusDamage(20),
+        'medium': ConstantBonusDamage(10),
     }
 
 
