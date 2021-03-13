@@ -888,7 +888,7 @@ class RebelVeteran(RebelShared):
     }
     #weapons = ['weapon_shotgun', 'weapon_ar2']
     weapons = ['weapon_crossbow']
-    sensedistance = 1280.0
+    sensedistance = 1408.0
     #techrequirements = ['rebel_veteran_unlock']
     #accuracy = 'high'
     population = 2

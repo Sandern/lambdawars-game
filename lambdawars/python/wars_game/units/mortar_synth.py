@@ -226,7 +226,7 @@ class MortarSynthInfo(UnitInfo):
     hulltype = 'HULL_MEDIUM_TALL'
     turnspeed = 200
     viewdistance = 768
-    sensedistance = 1408
+    sensedistance = 1792
     techrequirements = ['build_comb_tech_center']
     population = 5
     scalebounds = 0.70
@@ -244,8 +244,8 @@ class MortarSynthInfo(UnitInfo):
         damage = 250.0
         attackspeed = 7.0
         minrange = 128.0
-        maxrange = 1408.0
-        radiusdamage = 128
+        maxrange = 1792.0
+        radiusdamage = 192
     attacks = ['AttackRange']
 class OverrunMortarSynthInfo(MortarSynthInfo):
     name = 'overrun_unit_mortar_synth'

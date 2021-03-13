@@ -21,7 +21,7 @@ class WeaponSniperRifle(WarsWeaponBase):
         self.maxrange1 = 2048.0
         self.minrange2 = 0.0
         self.maxrange2 = 2048.0
-        self.firerate = 2.49  # Initial attack speed
+        self.firerate = 3.5  # Initial attack speed
         self.bulletspread = VECTOR_CONE_1DEGREES
 
     def Precache(self):
@@ -137,7 +137,7 @@ class WeaponSniperRifle(WarsWeaponBase):
 
     class AttackPrimary(AttackAbilityAsAttack):
         abi_attack_name = 'marksmanshot'
-        maxrange = 1152.0
+        maxrange = 1408.0
         attackspeed = 3.5
         damage = 20
         cone = UnitInfo.AttackRange.DOT_3DEGREE
@@ -173,7 +173,7 @@ class AbilityMarkmanshot(AbilityAsAttack):
     description = '#CombMarkmanShot_Description'
     image_name = 'vgui/combine/abilities/marksmanshot'
     hidden = True
-    rechargetime = 2.49
+    rechargetime = 3.5
 
     @classmethod
     def GetRequirements(info, player, unit):

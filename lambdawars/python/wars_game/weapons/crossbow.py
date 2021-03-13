@@ -551,7 +551,7 @@ class WeaponCrossbow(WarsWeaponBase):
     class AttackPrimary(AttackAbilityAsAttack):
         abi_attack_name = 'crossbow_attack'
         #minrange = 128.0
-        maxrange = 1152.0
+        maxrange = 1280.0
         attackspeed = 1.50
         damage = 50
         cone = UnitInfo.AttackRange.DOT_3DEGREE
@@ -579,7 +579,7 @@ class WeaponCrossbow(WarsWeaponBase):
             return super().Attack(enemy, action)
 
     class AttackExplosiveBolt(WarsWeaponBase.AttackRange):
-        damage = 100
+        damage = 50
         attributes = ['crossbow']
 
 class AbilityCrossbowAttack(AbilityAsAttack):

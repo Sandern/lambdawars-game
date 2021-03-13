@@ -543,7 +543,7 @@ class CombineSniperInfo(CombineSharedInfo):
     buildtime = 38.0
     health = 190
     maxspeed = 168.0
-    sensedistance = 1280.0
+    sensedistance = 1536.0
     viewdistance = 896
     unitenergy = 60
     unitenergy_initial = 30

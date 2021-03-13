@@ -406,15 +406,16 @@ class UnitManhack(BaseClass):
 
             # Damage must be scaled by flInterval so framerate independent
             attackinfo = self.unitinfo.AttackMelee
-            flDamage = attackinfo.damage * flInterval
+            #flDamage = attackinfo.damage * flInterval
+            flDamage = attackinfo.damage
 
-            if pHitEntity.IsPlayer():
-                flDamage *= 2.0
+            #if pHitEntity.IsPlayer():
+            #    flDamage *= 2.0
             
             # Held manhacks do more damage
-            if self.IsHeldByPhyscannon():
+            #if self.IsHeldByPhyscannon():
                 # Deal 100 damage/sec
-                flDamage = 100.0 * flInterval
+                #flDamage = 100.0 * flInterval
             
             '''
             #elif pHitEntity.IsNPC() and self.HasPhysicsAttacker(self.MANHACK_SMASH_TIME):
@@ -433,8 +434,8 @@ class UnitManhack(BaseClass):
                 flDamage *= 6.0f
             '''
 
-            if flDamage < 1.0:
-                flDamage = 1.0
+            #if flDamage < 1.0:
+            #    flDamage = 1.0
 
             info = CTakeDamageInfo(self, self, flDamage, DMG_SLASH)
 
