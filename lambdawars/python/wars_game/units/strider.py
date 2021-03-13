@@ -1084,8 +1084,8 @@ class StriderInfo(UnitInfo):
     ability_10 = 'patrol'
 
     class AttackRange(UnitInfo.AttackRange):
-        damage = 6
-        minrange = 64.0
+        damage = 8
+        minrange = 0.0
         maxrange = 896.0
         attackspeed = 0.19
         usesbursts = True

@@ -91,8 +91,8 @@ class AbilityStriderCannon(AbilityTarget):
     description = '#CombStriderCannon_Description'
     image_name = 'vgui/combine/abilities/strider_cannon'
     rechargetime = 3.0
-    damage = FloatField(value=350.0)
-    damageradius = FloatField(value=128.0)
+    damage = FloatField(value=400.0)
+    damageradius = FloatField(value=256.0)
     #techrequirements = ['stridercannon_unlock']
     #costs = [[('power', 100)], [('kills', 10)]]
     energy = 45

@@ -70,8 +70,10 @@ class PulseCannonAttribute(AttributeInfo):
     name = 'pulse_cannon'
 
     dmgmodifiers = {
-        'medium': ConstantBonusDamage(4),
-        'heavy': ConstantBonusDamage(3),
+		'light': ConstantBonusDamage(9),
+		'medium': ConstantBonusDamage(8),
+		'heavy': ConstantBonusDamage(7),
+		'creature': ConstantBonusDamage(6),
     }
 
 class TauCannonAttribute(AttributeInfo):

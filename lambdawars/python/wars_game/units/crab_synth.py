@@ -221,7 +221,7 @@ class CrabSynthInfo(UnitInfo):
     modelname = 'models/synth_crab.mdl'
     hulltype = 'HULL_LARGE'
     scale = 0.90
-    health = 800
+    health = 1500
     buildtime = 40.0
     costs = [('requisition', 125), ('power', 100)]
     attributes = ['synth', 'mechanic']
