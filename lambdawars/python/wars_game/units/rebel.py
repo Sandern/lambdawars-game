@@ -539,8 +539,8 @@ class RebelTauInfo(RebelInfo):
 		10: 'patrol',
 		-1: 'garrison',
     }
-    sensedistance = 896.0
-    attributes = ['heavy']
+    sensedistance = 1024.0
+    attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_tau'
     infest_zombietype = ''
 	
@@ -569,7 +569,7 @@ class RebelHeavyInfo(RebelInfo):
     viewdistance = 896
     scale = 1.10
     costs = [[('requisition', 70), ('scrap', 25)], [('kills', 2)]]
-    accuracy = 0.75
+    accuracy = 0.6
     population = 2
     modelname = 'models/rebel_heavy.mdl'
     techrequirements = ['build_reb_techcenter']
@@ -584,7 +584,7 @@ class RebelHeavyInfo(RebelInfo):
         -1: 'garrison',
     }
     sensedistance = 896.0
-    attributes = ['heavy']
+    attributes = ['heavy', 'ar1']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
 	

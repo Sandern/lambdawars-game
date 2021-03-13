@@ -934,7 +934,7 @@ class CombineHunterInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_hunter'
     costs = [('requisition', 100), ('power', 100)]
     buildtime = 43.0
-    health = 300
+    health = 400
     maxspeed = 348.0
     population = 4
     viewdistance = 896

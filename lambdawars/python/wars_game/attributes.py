@@ -85,8 +85,8 @@ class TauCannonAttribute(AttributeInfo):
     name = 'tau'
 
     dmgmodifiers = {
-		'synth': ConstantBonusDamage(5),
-		'metal': ConstantBonusDamage(5),
+		'synth': ConstantBonusDamage(24),
+		'metal': ConstantBonusDamage(24),
 		#'heavy': ConstantBonusDamage(10),
     }
 	
@@ -188,8 +188,16 @@ class PulseAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(4),
         'medium': ConstantBonusDamage(5),
-        #'synth': ConstantBonusDamage(3),
-        #'metal': ConstantBonusDamage(3),
+    }
+	
+class AR1Attribute(AttributeInfo):
+    name = 'ar1'
+
+    dmgmodifiers = {
+		'light': ConstantBonusDamage(6),
+		'medium': ConstantBonusDamage(5),
+		'heavy': ConstantBonusDamage(4),
+		'creature': ConstantBonusDamage(4),
     }
 
 

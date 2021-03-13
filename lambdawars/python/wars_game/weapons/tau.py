@@ -158,7 +158,7 @@ class WeaponTau(WarsWeaponBase):
     muzzleoptions = ''
     
     class AttackPrimary(WarsWeaponBase.AttackRange):
-        maxrange = 768.0
+        maxrange = 896.0
         attackspeed = 0.30
         shots = 1
         damage = 10
