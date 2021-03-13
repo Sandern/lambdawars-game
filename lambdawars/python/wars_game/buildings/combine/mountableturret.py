@@ -32,7 +32,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     image_dis_name = 'vgui/combine/buildings/build_comb_mountgun_dis.vmt'
     health = 200
     buildtime = 9.0
-    costs = [[('requisition', 23)], [('kills', 4)]]
+    costs = [[('requisition', 20)], [('kills', 4)]]
     techrequirements = ['build_comb_armory']
     attributes = ['defence', 'pulse']
     zoffset = 28.0

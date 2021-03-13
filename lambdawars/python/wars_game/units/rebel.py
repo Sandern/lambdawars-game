@@ -498,7 +498,7 @@ class RebelAR2Info(RebelInfo):
     buildtime = 24.0
     maxspeed = 208
     viewdistance = 832
-    costs = [[('requisition', 35), ('scrap', 10)], [('kills', 2)]]
+    costs = [[('requisition', 25), ('scrap', 10)], [('kills', 2)]]
     techrequirements = ['build_reb_munitiondepot','weaponar2_unlock']
     accuracy = 0.626
     #techrequirements = ['build_reb_munitiondepot']
@@ -658,7 +658,7 @@ class RebelEngineerInfo(RebelShared):
     buildtime = 15.0
     health = 50
     population = 1
-    costs = [[('requisition', 10)], [('kills', 1)]]
+    costs = [[('requisition', 15)], [('kills', 1)]]
     resource_category = 'economy'
     engagedistance = 500.0
     scrapdropchance = 0.0

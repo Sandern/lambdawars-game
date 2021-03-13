@@ -53,9 +53,9 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     #modelname = 'models/props_combine/bunker_gun01.mdl'
     #image_name  = 'vgui/combine/buildings/build_comb_mountgun.vmt'
     #image_dis_name = 'vgui/combine/buildings/build_comb_mountgun_dis.vmt'
-    health = 175
+    health = 150
     buildtime = 12.0
-    costs = [[('requisition', 27)], [('kills', 4)]]
+    costs = [[('requisition', 25)], [('kills', 4)]]
     techrequirements = ['build_reb_munitiondepot']
     attributes = ['defence', 'pulse']
     zoffset = 28.0

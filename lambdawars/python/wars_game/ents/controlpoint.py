@@ -161,7 +161,7 @@ class BaseControlPointInfo(WarsBuildingInfo, metaclass=ControlPointInfoMetaClass
     explodeactivity = 'ACT_EXPLODE'
     minimapicon_name = 'hud_minimap_flag'
     viewdistance = 704
-    generateresources = {'type': 'requisition', 'amount': 1, 'interval': 2, 'maxgenerate': CP_MAXGENERATE}
+    generateresources = {'type': 'requisition', 'amount': 1, 'interval': 4, 'maxgenerate': CP_MAXGENERATE}
     splitgeneratedresources = True
     reducesplittedresources = False
     ispriobuilding = False # Excludes this building from Annihilation victory conditions
@@ -227,7 +227,7 @@ class RebControlPointLvl2Info(BaseControlPointInfo):
     viewdistance = 1280
     ability_0 = None
     ability_1 = None
-    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 1, 'maxgenerate': CP_MAXGENERATE}
+    generateresources = {'type': 'requisition', 'amount': 2.0, 'interval': 1, 'maxgenerate': CP_MAXGENERATE}
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_rebels.mdl'
     dummies = [
         CreateDummy(
@@ -268,7 +268,7 @@ class CombControlPointLvl2Info(BaseControlPointInfo):
     viewdistance = 1280
     ability_0 = None
     ability_1 = None
-    generateresources = {'type': 'requisition', 'amount': 4.0, 'interval': 1, 'maxgenerate': CP_MAXGENERATE}
+    generateresources = {'type': 'requisition', 'amount': 2.0, 'interval': 1, 'maxgenerate': CP_MAXGENERATE}
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_combine.mdl'
     dummies = [
         CreateDummy(
