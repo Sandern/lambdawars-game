@@ -227,11 +227,10 @@ class CrossbowAttribute(AttributeInfo):
     name = 'crossbow'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(40),
-        'medium': ConstantBonusDamage(20),
-        #'heavy': ConstantBonusDamage(20),
-        'building': ScaleBonusDamage(0.2),
-        'defence': ScaleBonusDamage(1.5),
+		'light': ConstantBonusDamage(50),
+		'medium': ConstantBonusDamage(100),
+		'heavy': ConstantBonusDamage(50),
+		'synth': ConstantBonusDamage(50),
     }
 
 

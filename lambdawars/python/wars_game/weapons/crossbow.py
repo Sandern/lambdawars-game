@@ -552,7 +552,7 @@ class WeaponCrossbow(WarsWeaponBase):
         abi_attack_name = 'crossbow_attack'
         #minrange = 128.0
         maxrange = 1152.0
-        attackspeed = 1.99
+        attackspeed = 1.50
         damage = 50
         cone = UnitInfo.AttackRange.DOT_3DEGREE
         attributes = ['crossbow']
@@ -587,7 +587,7 @@ class AbilityCrossbowAttack(AbilityAsAttack):
     displayname = '#RebCrossbowAttack_Name'
     description = '#RebCrossbowAttack_Description'
     image_name = 'vgui/rebels/abilities/crossbow_attack'
-    rechargetime = 1.99
+    rechargetime = 1.50
 
     @classmethod
     def GetRequirements(info, player, unit):
