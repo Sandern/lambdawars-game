@@ -25,7 +25,7 @@ class SpecialOpsInfo(PoweredBuildingInfo):
     techrequirements = ['build_comb_armory']
     costs = [('requisition', 75), ('power', 75)]
     health = 750
-    buildtime = 54.0
+    buildtime = 70.0
     abilities   = {
 		0 : 'unit_combine_elite',
 		1 : 'unit_combine_sniper',

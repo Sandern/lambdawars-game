@@ -24,7 +24,7 @@ class TechCenterInfo(WarsBuildingInfo):
     costs = [('requisition', 50), ('scrap', 50)]
     resource_category = 'technology'
     health = 800
-    buildtime = 48.0
+    buildtime = 80.0
     scale = 0.85
     techrequirements = ['build_reb_specialops']
     abilities = {

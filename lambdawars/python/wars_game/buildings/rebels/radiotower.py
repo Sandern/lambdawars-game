@@ -117,7 +117,7 @@ class RebelScanTowerInfo(RebelRadioTowerInfo):
     techrequirements = ['build_reb_barracks']
     unitenergy = 100
     unitenergy_initial = 50
-    buildtime = 32.0
+    buildtime = 30.0
     sensedistance = 256.0
     viewdistance = 1280
     abilities   = {

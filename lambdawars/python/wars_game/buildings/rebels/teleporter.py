@@ -102,7 +102,7 @@ class TeleporterInfo(WarsBuildingInfo):
     name = "build_reb_teleporter"
     cls_name = "build_reb_teleporter"
     health = 600
-    buildtime = 50.0
+    buildtime = 60.0
     techrequirements = ['build_reb_triagecenter']
     costs = [('requisition', 50), ('scrap', 50)]
     displayname = '#BuildRebTeleporter_Name'

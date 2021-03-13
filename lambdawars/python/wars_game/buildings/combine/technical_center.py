@@ -76,7 +76,7 @@ class TechCenterInfo(PoweredBuildingInfo):
     costs = [('requisition', 50), ('power', 50)]
     resource_category = 'technology'
     health = 900
-    buildtime = 48.0
+    buildtime = 64.0
     abilities = {
         0 : 'strider_maxenergy_upgrade',
         1 : 'combinemine_upgrade',

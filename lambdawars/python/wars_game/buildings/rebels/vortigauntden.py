@@ -21,7 +21,7 @@ class VortigauntDenInfo(WarsBuildingInfo):
     explodemodel = 'models/pg_props/pg_buildings/rebels/pg_reb_vortigauntden_destruction.mdl'
     costs = [('requisition', 75), ('scrap', 75)]
     health = 800
-    buildtime = 54.0
+    buildtime = 60.0
     techrequirements = ['build_reb_triagecenter']
     abilities   = {
         0 : 'unit_vortigaunt',
