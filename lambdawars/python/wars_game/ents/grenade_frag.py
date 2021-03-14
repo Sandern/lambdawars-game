@@ -125,8 +125,8 @@ if isserver:
             super().Precache()
             
         def SetTimer(self, detonateDelay, warnDelay):
-            self.detonatetime = gpGlobals.curtime + detonateDelay
-            self.warnaitime = gpGlobals.curtime + warnDelay
+            self.detonatetime = gpGlobals.curtime + detonateDelay - 0.75
+            self.warnaitime = gpGlobals.curtime + warnDelay - 0.75
             self.SetThink( self.DelayThink )
             self.SetNextThink( gpGlobals.curtime )
             
@@ -308,8 +308,8 @@ if isserver:
 
                         StunnedEffectInfo.CreateAndApply(enemy, attacker=self, duration=stunduration)
         def SetTimer(self, detonateDelay, warnDelay):
-            self.detonatetime = gpGlobals.curtime + detonateDelay - 0.75
-            self.warnaitime = gpGlobals.curtime + warnDelay - 0.75
+            self.detonatetime = gpGlobals.curtime + detonateDelay - 1.2
+            self.warnaitime = gpGlobals.curtime + warnDelay - 1.2
             self.SetThink( self.DelayThink )
             self.SetNextThink( gpGlobals.curtime )
             

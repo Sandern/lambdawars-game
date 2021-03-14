@@ -70,7 +70,7 @@ class AbilityScan(AbilityTarget):
     description = "#RebScan_Description"
     image_name = 'vgui/rebels/abilities/scan'
     hidden = True
-    energy = 50
+    energy = 25
     rechargetime = 2.0
     scanduration = FloatField(value=10.0)
     scanrange = FloatField(value=896.0)

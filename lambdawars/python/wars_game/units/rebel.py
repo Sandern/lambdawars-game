@@ -1,4 +1,4 @@
-llfrom srcbase import DMG_BURN
+from srcbase import DMG_BURN
 from vmath import AngleVectors, Vector, VectorNormalize, DotProduct, vec3_origin
 from .citizen import UnitInfo, UnitCitizen, GenerateModelList
 from entities import entity, MOVETYPE_NONE
@@ -230,7 +230,7 @@ class RebelShared(UnitInfo):
     hulltype = 'HULL_HUMAN'
     abilities = {
         0: 'grenade',
-        1: 'rebel_grenade_upgrade',
+        #1: 'rebel_grenade_upgrade',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -401,9 +401,9 @@ class UnitRebelGrenadeUpgradeShared(UnitCitizen):
     def GetRequirements(self, requirements, info, player):
         super().GetRequirements(requirements, info, player)
 
-        if info.name == 'grenade':
-            if not self.grenadeUnlocked:
-                requirements.add('needsupgrade')
+        #if info.name == 'grenade':
+        #    if not self.grenadeUnlocked:
+        #        requirements.add('needsupgrade')
 
     def OnGrenadeUnlockedChanged(self):
         self.UpdateTranslateActivityMap()
@@ -440,7 +440,7 @@ class RebelInfo(RebelShared):
     #tier = 2
     abilities = {
         0: 'grenade',
-        1: 'rebel_grenade_upgrade',
+        #1: 'rebel_grenade_upgrade',
         5: 'rebel_transform_sg',
         6: 'rebel_transform_ar2',
         7: 'mountturret',
@@ -473,7 +473,7 @@ class RebelSGInfo(RebelInfo):
     weapons = ['weapon_shotgun']
     abilities = {
         0: 'grenade',
-        1: 'rebel_grenade_upgrade',
+        #1: 'rebel_grenade_upgrade',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -506,7 +506,7 @@ class RebelAR2Info(RebelInfo):
     weapons = ['weapon_ar2']
     abilities = {
         0: 'grenade',
-        1: 'rebel_grenade_upgrade',
+        #1: 'rebel_grenade_upgrade',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',

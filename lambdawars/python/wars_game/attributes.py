@@ -263,7 +263,7 @@ class FireAttribute(AttributeInfo):
     }
 
     def ApplyToTarget(self, target, dmg_info):
-        BurningEffectInfo.CreateAndApply(target, dietime=9.0, attacker=self.owner)  # increased burning duration
+        BurningEffectInfo.CreateAndApply(target, dietime=5.0, attacker=self.owner)  # increased burning duration
 
 
 class MolotovFireAttribute(AttributeInfo):
@@ -271,7 +271,7 @@ class MolotovFireAttribute(AttributeInfo):
     name = 'molotovfire'
 
     def ApplyToTarget(self, target, dmg_info):
-        BurningMolotovEffectInfo.CreateAndApply(target, dietime=2.0, attacker=self.owner)
+        BurningMolotovEffectInfo.CreateAndApply(target, dietime=3.25, attacker=self.owner)
 
 
 class StinkBombAttribute(AttributeInfo):

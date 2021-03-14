@@ -317,11 +317,11 @@ class ArmyCombine_Tier3(AbilityUpgradeValue):
 
 @entity('unit_combine_grenade_upgrade', networked=True)
 class UnitCombineGrenadeUpgradeShared(UnitCombine):
-    def GetRequirements(self, requirements, info, player):
+    #def GetRequirements(self, requirements, info, player):
         #print('GetRequirements for', info.name)
-        if info.name == 'grenade_combine':
-            if not self.grenadeUnlocked:
-                requirements.add('needsupgrade')
+        #if info.name == 'grenade_combine':
+        #    if not self.grenadeUnlocked:
+        #        requirements.add('needsupgrade')
 
     def OnGrenadeUnlockedChanged(self):
         self.UpdateTranslateActivityMap()
@@ -353,7 +353,7 @@ class CombineInfo(CombineSharedInfo):
    # tier = 2
     abilities = {
         0: 'grenade_combine',
-        1: 'combine_grenade_upgrade',
+        #1: 'combine_grenade_upgrade',
         5: 'combine_transform_sg',
         6: 'combine_transform_ar2',
         7: 'mountturret',
@@ -391,7 +391,7 @@ class CombineSGInfo(CombineInfo):
    # tier = 2
     abilities = {
         0: 'grenade_combine',
-        1: 'combine_grenade_upgrade',
+        #1: 'combine_grenade_upgrade',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -423,7 +423,7 @@ class CombineAR2Info(CombineInfo):
    # tier = 2
     abilities = {
         0: 'grenade_combine',
-        1: 'combine_grenade_upgrade',
+        #1: 'combine_grenade_upgrade',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',

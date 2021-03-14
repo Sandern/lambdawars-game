@@ -349,7 +349,7 @@ class ScannerInfo(UnitInfo):
     attributes = ['mechanic', 'metal']
     sound_death = 'NPC_CScanner.Die'
     maxspeed = 352
-    viewdistance = 1024
+    viewdistance = 1152
     
     ability_0 = 'flash'
     ability_9 = 'holdposition'
@@ -400,7 +400,7 @@ class ClawScannerInfo(ScannerInfo):
     sound_death = 'NPC_SScanner.Die'
     health = 40
     maxspeed = 248
-    viewdistance = 1280
+    viewdistance = 1408
     ability_0 = 'deploymine'
     #ability_1 = 'producemine'
     sai_hint = set([])

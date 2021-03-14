@@ -33,7 +33,7 @@ if isserver:
             # Facing?
             if not outer.FInAimCone(target, self.facingminimum):
                 return self.SuspendFor(self.behavior.ActionFaceTarget, 'Not facing target', target, self.facingminimum)
-            if not abi.CanDoAbility(abi.player, self.outer): #фикс дерьмо кстати
+            if not abi.CanDoAbility(abi.player, self.outer):
                 abi.Cancel()
                 return self.Done('Can no longer do ability')
             outer.grenadeability = abi
@@ -100,15 +100,15 @@ class AbilityGrenade(AbilityTarget):
     name = "grenade"
     image_name = 'vgui/abilities/ability_grenade.vmt'
     rechargetime = 40.0
-    costs = [[('requisition', 0)], [('kills', 1)]]
+    #costs = [[('requisition', 0)], [('kills', 1)]]
     displayname = "#AbilityGrenade_Name"
     description = "#AbilityGrenade_Description"
     techrequirements = ['grenade_unlock']
     activatesoundscript = '#grenade'
-    damageradius = FloatField(value=256.0)
+    damageradius = FloatField(value=192.0)
     damage = FloatField(value=100)
     throwrange = FloatField(value=768.0)
-    throw_anim_speed = FloatField(value=1.50)
+    throw_anim_speed = FloatField(value=1.35)
     grenadeclsname = StringField(value='grenade_frag')
     sai_hint = AbilityTarget.sai_hint | set(['sai_grenade'])
     
@@ -210,9 +210,10 @@ class AbilityGrenadeCombine(AbilityGrenade):
     techrequirements = ['grenade_unlock_combine']
 
 class OverrunAbilityGrenade(AbilityGrenade):
-    name = "overrun_grenade"
-    techrequirements = ['or_tier2_research']
-    hidden = True
+	name = "overrun_grenade"
+	techrequirements = ['or_tier2_research']
+	costs = [[('kills', 1)]]
+	hidden = True
     
 # Unlock for grenade
 class AbilityGrenadeUnlock(AbilityUpgrade):
@@ -221,12 +222,12 @@ class AbilityGrenadeUnlock(AbilityUpgrade):
     description = '#AbilityGrenadeUnlock_Description'
     image_name = "vgui/abilities/unlock_grenade.vmt"
     buildtime = 40.0
-    costs = [[('kills', 4)], [('scrap', 30)]]
+    costs = [[('kills', 4)], [('scrap', 20)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_grenade_upgrade'])
 
 class AbilityGrenadeUnlockCombine(AbilityGrenadeUnlock):
     name = 'grenade_unlock_combine'
-    costs = [('power', 30)]
+    costs = [('power', 20)]
     
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_grenade_upgrade'])
 
@@ -239,7 +240,6 @@ class AbilitySmokeGrenade(AbilityGrenade):
     image_name = 'vgui/rebels/abilities/rebel_smoke_grenade.vmt'
     displayname = "#AbilitySmokeGrenade_Name"
     description = "#AbilitySmokeGrenade_Description"
-    techrequirements = []
     rechargetime = 20.0
     smokeduration = 10.0
     throwrange = 768.0
@@ -260,7 +260,7 @@ class AbilityStunGrenade(AbilityGrenade):
     displayname = "#AbilityStunGrenade_Name"
     description = "#AbilityStunGrenade_Description"
     throwrange = 640.0
-    throw_anim_speed = FloatField(value=1.25)
+    throw_anim_speed = FloatField(value=1.5)
     costs = [[('requisition', 10)], [('kills', 1)]]
 
 # Mission Versions
