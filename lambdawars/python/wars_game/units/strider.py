@@ -346,10 +346,8 @@ class UnitStrider(BaseClass):
             
             # Two special cases for Combine Elite alt fire ability and Rebel rpg
             entclsname = inflictor.GetClassname()
-            if entclsname == 'prop_combine_ball' and random.random() < 0.5:
+            if entclsname == 'prop_combine_ball':
                 StunnedEffectInfo.CreateAndApply(self, attacker=inflictor, duration=3)
-            elif entclsname == 'rpg_missile'and random.random() < 0.33:
-                StunnedEffectInfo.CreateAndApply(self, attacker=inflictor, duration=1.5)
                 
             return damage
             

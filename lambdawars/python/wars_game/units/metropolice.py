@@ -646,7 +646,7 @@ class MetroPoliceInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_metropolice'
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 10)], [('kills', 1)]]
-    buildtime = 13.0
+    buildtime = 10.0
     health = 150
     maxspeed = 232
     viewdistance = 768

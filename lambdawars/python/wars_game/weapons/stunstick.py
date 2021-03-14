@@ -48,7 +48,7 @@ class WeaponStunStick(WarsWeaponMelee):
     STUNSTICK_GLOW_MATERIAL2 = "effects/blueflare1"
     STUNSTICK_GLOW_MATERIAL_NOZ = "sprites/light_glow02_add_noz"
 
-    stun_chance = FloatField(value=0.33)
+    stun_chance = FloatField(value=0.45)
     stun_duration = FloatField(value=1.0)
     
     class AttackPrimary(WarsWeaponMelee.AttackPrimary):
