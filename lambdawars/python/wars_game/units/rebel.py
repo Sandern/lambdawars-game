@@ -1,4 +1,4 @@
-from srcbase import DMG_BURN
+llfrom srcbase import DMG_BURN
 from vmath import AngleVectors, Vector, VectorNormalize, DotProduct, vec3_origin
 from .citizen import UnitInfo, UnitCitizen, GenerateModelList
 from entities import entity, MOVETYPE_NONE
@@ -369,6 +369,7 @@ class RebelPartisanMolotovInfo(RebelPartisanInfo):
     image_name = 'vgui/rebels/units/unit_rebel_partisan_molotov'
     buildtime = 10.0
     health = 75
+    selectionpriority = 1
     weapons = []
     abilities = {
         0: 'throwmolotov',
@@ -498,7 +499,7 @@ class RebelAR2Info(RebelInfo):
     buildtime = 24.0
     maxspeed = 208
     viewdistance = 832
-    costs = [[('requisition', 25), ('scrap', 10)], [('kills', 2)]]
+    costs = [[('requisition', 20), ('scrap', 10)], [('kills', 2)]]
     techrequirements = ['build_reb_munitiondepot','weaponar2_unlock']
     accuracy = 0.626
     #techrequirements = ['build_reb_munitiondepot']
@@ -527,9 +528,10 @@ class RebelTauInfo(RebelInfo):
     scale = 1.0
     costs = [[('requisition', 60), ('scrap', 30)], [('kills', 2)]]
     #accuracy = 5.0
-    population = 3
+    population = 2
     modelname = 'models/rebel_tau.mdl'
     #techrequirements = ['build_reb_techcenter']
+    selectionpriority = 4
     weapons = ['weapon_tau']
     abilities = {
 		0: 'tau_alt_fire',

@@ -870,6 +870,7 @@ class VortigauntInfo(UnitInfo):
     maxspeed = 216.0
     unitenergy = 160
     unitenergy_initial = 160
+    selectionpriority = 5
     population = 3
     attributes = ['creature', 'shock']
     sound_select = 'unit_vortigaunt_select'

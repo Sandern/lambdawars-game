@@ -454,7 +454,7 @@ class CombineEliteInfo(CombineSharedInfo):
     viewdistance = 896
     attributes = ['heavy']
     techrequirements = ['weaponar2_comb_unlock']
-    selectionpriority = 1
+    selectionpriority = 4
     sound_select = 'unit_combine_elite_select'
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'
@@ -490,7 +490,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     unitenergy_initial = -1
     attributes = ['heavy']
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
-    #selectionpriority = 1
+    selectionpriority = 3
     sound_select = 'unit_combine_elite_select'
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'

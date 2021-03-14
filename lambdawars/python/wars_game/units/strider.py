@@ -1071,7 +1071,7 @@ class StriderInfo(UnitInfo):
     attributes = ['synth', 'large', 'pulse_cannon']
     sound_death = 'NPC_Strider.Death'
     scale = 0.75
-    
+    selectionpriority = 5
     sound_select = 'unit_strider_select'
     sound_move = 'unit_strider_move'
     sound_attack = 'unit_strider_attack'

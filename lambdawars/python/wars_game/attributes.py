@@ -63,7 +63,7 @@ class FlechetteAttribute(AttributeInfo):
     name = 'flechette'
 
     dmgmodifiers = {
-        'large': ConstantBonusDamage(7),
+        'large': ConstantBonusDamage(8),
     }
 	
 class PulseCannonAttribute(AttributeInfo):
@@ -255,10 +255,10 @@ class FireAttribute(AttributeInfo):
     name = 'fire'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(8),
-        'medium': ConstantBonusDamage(8),
-        'heavy': ConstantBonusDamage(8),
-        'creature': ConstantBonusDamage(6),
+        'light': ConstantBonusDamage(10),
+        'medium': ConstantBonusDamage(10),
+        'heavy': ConstantBonusDamage(10),
+        'creature': ConstantBonusDamage(10),
         #'building': ConstantBonusDamage(6),
     }
 

@@ -14,7 +14,7 @@ class WarsWeaponFlamer(BaseClass):
         damage = 3
         minrange = 0.0
         maxrange = 384.0
-        attackspeed = 0.13 # Fire rate
+        attackspeed = 0.10 # Fire rate
         usesbursts = False
         minburst = 3
         maxburst = 5
