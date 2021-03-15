@@ -650,7 +650,7 @@ class TransformToCombineSG(AbilityTransformUnit):
     replaceweapons = True
     techrequirements = ['weaponsg_comb_unlock']
     #techrequirements = ['build_comb_armory']
-    costs = [('requisition', 10), ('power', 20)]
+    costs = [('power', 5)]
     activatesoundscript = 'ability_combine_shotgun_upgrade'
 
 class TransformToCombineAR2(AbilityTransformUnit):
@@ -663,7 +663,7 @@ class TransformToCombineAR2(AbilityTransformUnit):
     replaceweapons = True
     techrequirements = ['weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
-    costs = [('requisition', 15), ('power', 20)]
+    costs = [('power', 10)]
     activatesoundscript = 'ability_combine_ar2_upgrade'
 
 # Mission Versions

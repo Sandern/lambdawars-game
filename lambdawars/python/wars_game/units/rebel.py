@@ -571,7 +571,7 @@ class RebelHeavyInfo(RebelInfo):
     viewdistance = 896
     scale = 1.10
     costs = [[('requisition', 70), ('scrap', 25)], [('kills', 2)]]
-    accuracy = 0.6
+    accuracy = 0.625
     population = 2
     modelname = 'models/rebel_heavy.mdl'
     techrequirements = ['build_reb_techcenter']
@@ -586,7 +586,7 @@ class RebelHeavyInfo(RebelInfo):
         -1: 'garrison',
     }
     sensedistance = 896.0
-    attributes = ['heavy', 'ar1']
+    attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
 	
@@ -953,7 +953,7 @@ class TransformToRebelSG(AbilityTransformUnit):
     replaceweapons = True
     techrequirements = ['weaponsg_unlock']
     #techrequirements = ['build_reb_munitiondepot']
-    costs = [('requisition', 10), ('scrap', 15)]
+    costs = [('scrap', 5)]
     image_name = 'vgui/rebels/abilities/rebel_transform_sg'
     activatesoundscript = 'ability_combine_shotgun_upgrade'
 
@@ -967,7 +967,7 @@ class TransformToRebelAR2(AbilityTransformUnit):
     replaceweapons = True
     techrequirements = ['weaponar2_unlock']
     #techrequirements = ['build_reb_munitiondepot']
-    costs = [('requisition', 15), ('scrap', 20)]
+    costs = [('scrap', 10)]
     image_name = 'vgui/rebels/abilities/rebel_transform_ar2'
     activatesoundscript = 'ability_combine_ar2_upgrade'
 

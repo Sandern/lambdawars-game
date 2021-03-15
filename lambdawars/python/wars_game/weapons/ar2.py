@@ -79,6 +79,6 @@ class WeaponAR2(WarsWeaponMachineGun):
         usesbursts = True
         minburst = 3
         maxburst = 3
-        minresttime = 0.35
-        maxresttime = 0.4
+        minresttime = 0.30
+        maxresttime = 0.38
         attributes = ['pulse']

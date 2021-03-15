@@ -29,7 +29,7 @@ class WeaponSmg1SW(WeaponSmg1):
         self.bulletspread = VECTOR_CONE_3DEGREES
 
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):
-        maxrange = 650.0
+        maxrange = 640.0
         usesbursts = True
         minburst = 45
         maxburst = 45
