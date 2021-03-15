@@ -874,7 +874,7 @@ class RebelVeteran(RebelShared):
     displayname = '#RebVeteran_Name'
     description = '#RebVeteran_Description'
     image_name = 'vgui/rebels/units/unit_rebel_crossbow'
-    techrequirements = ['build_reb_munitiondepot']
+    techrequirements = ['build_reb_specialops']
     #tier = 3
 
     abilities = {

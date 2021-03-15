@@ -15,6 +15,7 @@ class AbilityThrowStinkBomb(AbilityThrowObject):
     image_name = 'vgui/rebels/abilities/stinkbomb.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
+    throwrange = 768
     throwspeed = 933
     predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'

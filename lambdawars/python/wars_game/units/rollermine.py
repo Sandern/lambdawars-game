@@ -305,7 +305,7 @@ class UnitRollerMine(BaseClass):
         filter = CPVSFilter(shockPos)
         te.GaussExplosion(filter, 0.0, shockPos, shockDir, 0)
 
-    def ApplyKnockBack(self, target, dir, speed=250.0, stunchance=1.0, stunduration=1.34):
+    def ApplyKnockBack(self, target, dir, speed=250.0, stunchance=1.0, stunduration=0.80):
         """ Applies a knockback to the given target with a stun chance. """
         #curvel = target.GetAbsVelocity().LengthSqr()
         #if curvel < 2000.0 * 2000.0:
@@ -609,12 +609,12 @@ class RollerMineInfo(UnitInfo):
     oncreatedroptofloor = False
     placeatmins = True
     maxspeed = 1200.0  # More like the angular speed
-    health = 200
+    health = 160
     population = 2
     buildtime = 14.0
     viewdistance = 640
     attributes = ['metal', 'mechanic', 'shock']
-    costs = [[('requisition', 20), ('power', 10)], [('kills', 1)]]
+    costs = [[('requisition', 20), ('power', 15)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
     #sai_hint = set(['sai_unit_support'])
 

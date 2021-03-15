@@ -15,6 +15,7 @@ class AbilityThrowMolotov(AbilityThrowObject):
     image_name = 'VGUI/rebels/abilities/molotov.vmt'
     throwanimation = 'ANIM_THROWGRENADE'
     throw_anim_speed = 2.25
+    throwrange = 640
     throwspeed = 933
     predict_target_position = False
     throwstartattachment = 'anim_attachment_LH'

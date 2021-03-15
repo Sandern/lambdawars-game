@@ -103,7 +103,7 @@ class AbilityGrenade(AbilityTarget):
     #costs = [[('requisition', 0)], [('kills', 1)]]
     displayname = "#AbilityGrenade_Name"
     description = "#AbilityGrenade_Description"
-    techrequirements = ['grenade_unlock']
+    techrequirements = ['build_reb_munitiondepot']
     activatesoundscript = '#grenade'
     damageradius = FloatField(value=192.0)
     damage = FloatField(value=100)
@@ -207,7 +207,7 @@ class GrenadeCombine(AbilityTarget):
 
 class AbilityGrenadeCombine(AbilityGrenade):
     name = "grenade_combine"
-    techrequirements = ['grenade_unlock_combine']
+    techrequirements = ['build_comb_armory']
 
 class OverrunAbilityGrenade(AbilityGrenade):
 	name = "overrun_grenade"
