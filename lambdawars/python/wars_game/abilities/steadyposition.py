@@ -131,7 +131,7 @@ class RebelAbilitySteadyPosition(AbilitySteadyPosition):
     name = 'rebel_steadyposition'
     displayname = '#CombSteadyPosition_Name'
     description = '#CombSteadyPosition_Description'
-    image_name = 'vgui/combine/abilities/combine_sniper_steady_position'
+    image_name = 'vgui/rebels/abilities/rebel_veteran_steady_position'
     rechargetime = 1.99
     steadytime = FloatField(value=2.00)
 

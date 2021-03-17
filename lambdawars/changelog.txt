@@ -18,6 +18,7 @@ Balance:
 	- Lvl 0 gives now 15 req. per minute (8 before).
 	- Lvl 1 gives now 60 req. per minute (21 before), changed upgrade time from 27 sec. to 50, upgrade price changed from 25/15 to 50/0.
 	- Lvl 2 gives now 120 req. per minute (60 before), changed upgrade time from 45 sec. to 50, upgrade price changed from 35/25 to 100/0.
+* Units can now attack through control points.
 * Added 'defence' attribute to bunkers and aidstation.
 * Grenade upgrade: price reduced from 0/30 to 0/20.
 * Grenade: takes 1.25 sec. to explode. (2.0 sec. before).
@@ -26,6 +27,7 @@ Balance:
 * Units don't require now to be equipped with grenade. Throw animation slowered by 15%.
 * AR2 transform: price changed from 15/20 to 0/10.
 * SG transform: price changed from 10/20 to 0/5.
+* SG unlock: price reduced from 25/10 to 15/10.
 Rebels:
 * Engineer:
 	- Price reduced from 20 to 15.
@@ -64,7 +66,7 @@ Rebels:
 	- Explosive bolt: damage radius increased from 64 to 128.
 * Flamer:
 	- Pop. cap. reduced from 3 to 2.
-	- Price changed from 40/25 to 55/25.
+	- Price changed from 40/25 to 50/20.
 	- Attack speed increased from 0.13 sec. to 0.10.
 	- Damage reduced from 3 to 2.
 	- Bonus damage against light/medium/heavy units increased from 8 to 10.
@@ -92,11 +94,20 @@ Rebels:
 	- Sabotage time reduced from 14 sec. to 11.2
 	- Sabotage cost reduced from 30 energy to 25.
 * Vort:
-	- Price increased from 40/50 to 75/100.
+	- Price increased from 40/50 to 75/90.
 	- Recall antlions ability: price now depends on how many antlions vort has.(0 energy if all 3 antlions are alive).
+	- Antlion recall ability: cooldown reduced from 20 sec. to 15.
+	- Antlion recall ability: price increased from 30 to 75.
+	- Antlions: health increased from 70 to 90.
+	- Build time increased from 40 sec. to 45.
+	- Health increased from 260 to 320.
+	- Damage increased from 26 to 60.
+	- Max. energy increased from 160 to 200.
 * Dog:
 	- Pop. cap. reduced from 8 to 6.
 	- Price increased from 80/80 to 180/180.
+	- Removed bonus damage for slam ability against synth units.
+	- Added 200 bonus damage for slam ability against large attribute.
 * Junkyard:
 	- Price increased from 30 to 40.
 	- Build time increased from 20 sec. to 30.
@@ -161,6 +172,7 @@ Combine:
 * Combine Elite:
 	- Price increased from 50/20 to 90/60.
 	- Energyball can stun striders with 100% chance.
+	- Energyball costs 0 power again.
 * Sniper:
 	- Price increased from 50/35 to 60/70.
 	- Damage reduced from 70 to 20.
@@ -193,7 +205,7 @@ Combine:
 * Hunter:
 	- Price increased from 65/50 to 100/75.
 	- Health increased from 300 to 400.
-	- Damage against 'large' attribute increased from 7 to 8.
+	- Damage against 'large' attribute increased from 7 to 9.
 * Strider:
 	- Price increased from 100/80 to 180/180.
 	- Damage increased from 6 to 8.
@@ -206,6 +218,7 @@ Combine:
 	- Cannon ability: damage radius increased from 128 to 256.
 	- Cannon ability: cast range reduced from 1024 to 896.
 	- Health increased from 1125 to 1500.
+	- Requires now tech. center.
 * Crab synth:
 	- Price increased from 50/50 to 125/100
 	- Health increased from 800 to 1400.

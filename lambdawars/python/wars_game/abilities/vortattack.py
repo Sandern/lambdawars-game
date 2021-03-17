@@ -10,7 +10,7 @@ class AbilityVortAttack(AbilityTargetGroup):
     description = "#RebVortAtt_Description"
     image_name = 'vgui/rebels/abilities/vortattack'
     hidden = True
-    energy = 18
+    energy = 16
     rechargetime = 2.0
     defaultautocast = True
     
@@ -29,12 +29,12 @@ class AbilityVortAttack(AbilityTargetGroup):
                         self.SetRecharge(unit)
                 else:
                     if target:
-                        self.unit.AttackOrder(ability=self, enemy=target)
+                        unit.AttackOrder(ability=self, enemy=target)
                     
             self.Completed()
 
 class VortAttack(UnitInfo.AttackBase):
-    damage = 26
+    damage = 60
     damagetype = DMG_SHOCK
     minrange = 0.0
     maxrange = 768.0

@@ -1133,8 +1133,8 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
             self.constructhpbuildup = 0.0
             self.viewdistance = int(unitinfo.viewdistance*0.5) 
             self.SetThink(self.ConstructThink)
-            for d in self.dummies:
-                d.SetSolid(self.buildingsolidmode)
+            #for d in self.dummies:
+            #    d.SetSolid(self.buildingsolidmode)
             self.OnLostFullHealth() # Grabs nearby workers
             blockareas = True
             
@@ -1148,8 +1148,8 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
             self.constructhpbuildup = 0.0
             self.viewdistance = int(unitinfo.viewdistance*0.75)
             self.SetThink(self.ConstructThink)
-            for d in self.dummies:
-                d.SetSolid(self.buildingsolidmode)
+            #for d in self.dummies:
+            #    d.SetSolid(self.buildingsolidmode)
             self.OnLostFullHealth() # Grabs nearby workers
         else: # BS_CONSTRUCTED
             self.constructprogress = 1.0
@@ -1164,8 +1164,8 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
                 self.constructedlisthandle.Enable()
                 blockareas = True
                 self.OnConstructed()
-                for d in self.dummies:
-                    d.SetSolid(self.buildingsolidmode)
+                #for d in self.dummies:
+                #    d.SetSolid(self.buildingsolidmode)
                     
                 FireSignalRobust(buildingfinished, building=self)
         

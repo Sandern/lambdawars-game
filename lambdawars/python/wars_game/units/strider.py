@@ -1059,7 +1059,7 @@ class StriderInfo(UnitInfo):
     viewdistance = 896
     modelname = 'models/combine_strider.mdl'
     hulltype = 'HULL_LARGE_CENTERED'
-    #techrequirements = ['build_comb_tech_center']
+    techrequirements = ['build_comb_tech_center']
     health = 1500
     maxspeed = 144.0
     turnspeed = 15.0

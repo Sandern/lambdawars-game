@@ -160,7 +160,7 @@ class BaseControlPointInfo(WarsBuildingInfo, metaclass=ControlPointInfoMetaClass
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
     minimapicon_name = 'hud_minimap_flag'
-    viewdistance = 704
+    viewdistance = 640
     generateresources = {'type': 'requisition', 'amount': 1, 'interval': 4, 'maxgenerate': CP_MAXGENERATE}
     splitgeneratedresources = True
     reducesplittedresources = False
@@ -169,7 +169,7 @@ class BaseControlPointInfo(WarsBuildingInfo, metaclass=ControlPointInfoMetaClass
     sound_select = 'unit_controlpoint_select'
     
     mins = Vector(-55, -55, 0)
-    maxs = Vector(55, 55, 75)
+    maxs = Vector(55, 55, 28)
     
     dummies = [
         CreateDummy(
@@ -204,14 +204,14 @@ class RebControlPointLvl1Info(BaseControlPointInfo):
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_rebels.mdl'
     dummies = [
         CreateDummy(
-            offset=Vector(0, 0, 0),
+            #offset=Vector(0, 0, 0),
             modelname='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebel_base_0.mdl',
             decorative=True,
         ),
     ]
     
     constructiondummy = CreateDummy(
-        offset=Vector(0, 0, 0),
+        #offset=Vector(0, 0, 0),
         modelname='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebels_base_construction.mdl',
         explodemodel='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebels_base_construction_des.mdl',
         explodeactivity='ACT_EXPLODE',
@@ -231,14 +231,14 @@ class RebControlPointLvl2Info(BaseControlPointInfo):
     modelname = 'models/pg_props/pg_buildings/other/pg_flagpole/pg_flagpole_rebels.mdl'
     dummies = [
         CreateDummy(
-            offset=Vector(0, 0, 0),
+            #offset=Vector(0, 0, 0),
             modelname='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebel_base_2.mdl',
             decorative=True,
         ),
     ]
     
     constructiondummy = CreateDummy(
-        offset=Vector(0, 0, 0),
+        #offset=Vector(0, 0, 0),
         modelname='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebels_base_construction.mdl',
         explodemodel='models/pg_props/pg_buildings/other/pg_flagpole_base/pg_flagpole_rebels_base_construction_des.mdl',
         explodeactivity='ACT_EXPLODE',

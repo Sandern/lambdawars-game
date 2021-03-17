@@ -46,8 +46,8 @@ class AbilityBugBait(AbilityBugBaitShared, AbilityThrowObject):
     #autocastcheckonidle = True
     
     # TODO: make ability work on group
-    #def SelectUnits(self): 
-    #    return self.SelectGroupUnits()
+    def SelectUnits(self): 
+        return self.SelectGroupUnits() 
     
     def SetupObject(self, throwobject):
         super().SetupObject(throwobject)
@@ -59,13 +59,18 @@ class AbilityBugBait(AbilityBugBaitShared, AbilityThrowObject):
 class AbilityBugBaitRecall(AbilityBugBaitShared, AbilityInstant):
     # Info
     name = "bugbaitrecall"
-    rechargetime = 20.0
+    rechargetime = 15.0
     displayname = "#RebBugBaitRecall_Name"
     description = "#RebBugBaitRecall_Description"
     image_name = 'vgui/rebels/abilities/reb_squeez_bugbait.vmt'
-    energy = 30
+    energy = 75
     summonantlions = True
     
+    @classmethod
+    def GetRequirements(info, player, unit):
+        requirements = super().GetRequirements(player, unit)
+        requirements.discard('energy') 
+        return requirements
     if isserver:
         def DoAbility(self):
             self.SelectGroupUnits()

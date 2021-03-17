@@ -3,6 +3,7 @@ from srcbase import (SOLID_BBOX, FSOLID_NOT_STANDABLE, COLLISION_GROUP_PROJECTIL
 from vmath import Vector
 from entities import entity
 from core.ents import ThrowableObject as BaseClass
+from core.units import CreateUnit
 from utils import UTIL_EntitiesInSphere
 from particles import PrecacheParticleSystem, PATTACH_ABSORIGIN_FOLLOW
 from wars_game.abilities.throwmolotov import MolotovAttack
@@ -114,7 +115,9 @@ class Molotov(BaseClass):
             return
 
         srcdamage = self.GetAbsOrigin()
-        attacker = self.GetThrower()
+        #attacker = self.GetThrower()
+        self.damagecontroller = CreateUnit('unit_damage_controller', owner_number=self.GetOwnerNumber())
+        attacker = self.damagecontroller
 
         # TODO: in a better way!?
         attributes = {}
@@ -155,6 +158,12 @@ class Molotov(BaseClass):
                 return
             self.molotov_particle = self.ParticleProp().Create(self.molotov_particle_name, PATTACH_ABSORIGIN_FOLLOW)
             self.molotov_particle.SetControlPoint(1, Vector(60, 0, 0))
+    else:
+        def UpdateOnRemove(self):
+            if self.damagecontroller:
+                self.damagecontroller.Remove()
+            
+            super().UpdateOnRemove()
 
     burn_start_thinktime = 0
     #MOLOTOV_MODEL = 'models/pg_props/pg_weapons/pg_molotov.mdl'
@@ -166,4 +175,5 @@ class Molotov(BaseClass):
     burn_time = 3.0;
     molotov_particle = None
     molotov_particle_name = 'particle_molotov_BASE'
+    damagecontroller = None
     is_burning_on_ground = BooleanField(value=False, networked=True, clientchangecallback='OnIsBurningOnGround')

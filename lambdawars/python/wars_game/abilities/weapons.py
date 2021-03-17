@@ -10,7 +10,7 @@ class WeaponAr2Unlock(AbilityUpgrade):
     image_name = "vgui/abilities/weaponar2_unlock"
     #techrequirements = ['rebel_upgrade_tier_mid']
     buildtime = 72.0
-    costs = [[('kills', 5)], [('requisition', 20), ('scrap', 25)]]
+    costs = [[('kills', 5)], [('requisition', 20), ('scrap', 20)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 
 
@@ -27,13 +27,13 @@ class WeaponSGUnlock(AbilityUpgrade):
     image_name = "vgui/abilities/weaponsg_unlock"
     #techrequirements = ['rebel_upgrade_tier_mid']
     buildtime = 45.0
-    costs = [[('kills', 5)], [('requisition', 25), ('scrap', 15)]]
+    costs = [[('kills', 5)], [('requisition', 15), ('scrap', 10)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 
 class WeaponSGCombUnlock(WeaponSGUnlock):
     name = 'weaponsg_comb_unlock'
     #techrequirements = ['combine_upgrade_tier_mid']
-    costs = [[('kills', 5)], [('requisition', 25), ('power', 10)]]
+    costs = [[('kills', 5)], [('requisition', 15), ('power', 10)]]
 
 
 # Switch abilities that require the above abilities

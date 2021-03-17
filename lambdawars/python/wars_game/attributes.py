@@ -63,7 +63,7 @@ class FlechetteAttribute(AttributeInfo):
     name = 'flechette'
 
     dmgmodifiers = {
-        'large': ConstantBonusDamage(8),
+        'large': ConstantBonusDamage(9),
     }
 	
 class PulseCannonAttribute(AttributeInfo):
@@ -132,7 +132,7 @@ class RPGAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'building': ConstantBonusDamage(70),
-        'synth': ConstantBonusDamage(175),
+        'synth': ConstantBonusDamage(225),
         'metal': ConstantBonusDamage(255),
         'heavy': ConstantBonusDamage(35),
     }
@@ -334,7 +334,8 @@ class DogSlamImpactAttribute(AttributeInfo):
     name = 'dogslamimpact'
 
     dmgmodifiers = {
-		'synth': ConstantBonusDamage(200),
+		#'synth': ConstantBonusDamage(200),
+		'large': ConstantBonusDamage(200),
 		'light': ConstantBonusDamage(50),
 		'medium': ConstantBonusDamage(50),
     }

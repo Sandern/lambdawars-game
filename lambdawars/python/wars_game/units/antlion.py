@@ -581,7 +581,7 @@ class UnitAntlion(BaseClass):
             # Touching a trigger or something.
             return
             
-        self.SetCollisionGroup(self.CalculateOwnerCollisionGroup())
+        #self.SetCollisionGroup(self.CalculateOwnerCollisionGroup())
             
         # Stop the zombie and knock the player back
         vecNewVelocity = Vector(0, 0, self.GetAbsVelocity().z)
@@ -1072,7 +1072,7 @@ class SmallAntlion(AntlionInfoShared):
     image_name = 'vgui/antlions/units/unit_ant_antlion.vmt'
     portrait = 'resource/portraits/antlionPortrait.bik'
     scrapdropchance = 0.0
-    health = 70
+    health = 90
     viewdistance = 576
     sensedistance = 1200
     scale = 0.75

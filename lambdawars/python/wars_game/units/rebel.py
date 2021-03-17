@@ -513,7 +513,7 @@ class RebelAR2Info(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
-    sensedistance = 832.0
+    sensedistance = 1024.0
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_ar2'
 	
@@ -541,7 +541,7 @@ class RebelTauInfo(RebelInfo):
 		10: 'patrol',
 		-1: 'garrison',
     }
-    sensedistance = 1024.0
+    sensedistance = 1152.0
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_tau'
     infest_zombietype = ''
@@ -585,7 +585,7 @@ class RebelHeavyInfo(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
-    sensedistance = 896.0
+    sensedistance = 1024.0
     attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
@@ -819,7 +819,7 @@ class RebelRPGInfo(RebelShared):
         -1: 'garrison',
     }
     weapons = ['weapon_rpg']
-    #sensedistance = 1200.0
+    sensedistance = 1280.0
     techrequirements = ['build_reb_techcenter']
     population = 2
     attributes = ['medium', 'rpg']
@@ -890,7 +890,7 @@ class RebelVeteran(RebelShared):
     }
     #weapons = ['weapon_shotgun', 'weapon_ar2']
     weapons = ['weapon_crossbow']
-    sensedistance = 1408.0
+    sensedistance = 1536.0
     #techrequirements = ['rebel_veteran_unlock']
     #accuracy = 'high'
     population = 2
@@ -923,7 +923,7 @@ class RebelFlamer(RebelShared):
     viewdistance = 768
     scale = 1.075
     attributes = ['heavy']
-    costs = [[('requisition', 40), ('scrap', 25)], [('kills', 3)]]
+    costs = [[('requisition', 50), ('scrap', 20)], [('kills', 3)]]
     modelname = 'models/Humans/Group03/male_05_flamer.mdl'
     displayname = '#RebFlamer_Name'
     description = '#RebFlamer_Description'

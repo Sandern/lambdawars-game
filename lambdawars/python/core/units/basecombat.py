@@ -28,7 +28,7 @@ from animation import Studio_GetMass
 from particles import *
 from unit_helper import UnitAnimConfig, LegAnimType_t
 from utils import UTIL_CalculateDirection, UTIL_ListPlayersForOwnerNumber, UTIL_GetPlayers, UTIL_FindPositionSimple
-from gameinterface import CRecipientFilter, concommand, ConVar, FCVAR_CHEAT
+from gameinterface import CRecipientFilter, concommand, ConVar, FCVAR_CHEAT, engine
 from gamerules import gamerules
 
 if isserver:
@@ -2042,20 +2042,30 @@ else:
             if not isinstance(unit, UnitBaseCombat):
                 continue
             targetselection.append(unit)
+        player.ClearSelection(False)
+        engine.ServerCommand("player_clearselection")
         player.MakeSelection(targetselection)
-
+ 
     @concommand('select_all_combat', 'Selects only the combat units of the player', 0)
     def cc_select_all_combat(args):
         player = CHL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
-
+ 
         ownernumber = player.GetOwnerNumber()
         targetselection = []
         for unit in unitlist[ownernumber]:
-            if not unit.unitinfo.resource_category == 'army':
+            if unit.unitinfo.resource_category != 'army':
+                continue
+            if unit.unitinfo.cls_name == 'scrap':
+                continue
+            if unit.unitinfo.cls_name == 'combine_mine':
+                continue
+            if unit.unitinfo.cls_name == 'combine_mine_cloaked':
                 continue
             targetselection.append(unit)
+        player.ClearSelection(False)
+        engine.ServerCommand("player_clearselection") 
         player.MakeSelection(targetselection)
 
     @concommand('select_all_economy', 'Selects only the economy units of the player', 0)
@@ -2063,11 +2073,13 @@ else:
         player = CHL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
-
+ 
         ownernumber = player.GetOwnerNumber()
         targetselection = []
         for unit in unitlist[ownernumber]:
-            if not unit.unitinfo.resource_category == 'economy':
+            if unit.unitinfo.resource_category != 'economy':
                 continue
             targetselection.append(unit)
+        player.ClearSelection(False)
+        engine.ServerCommand("player_clearselection")
         player.MakeSelection(targetselection)

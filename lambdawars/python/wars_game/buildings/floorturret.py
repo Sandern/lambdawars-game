@@ -206,6 +206,7 @@ class FloorTurretInfo(WarsTurretInfo):
     resource_category = 'defense'
     buildtime = 11.0
     constructstarthp = 1.0
+    attackpriority = 1
     population = 0
     rechargetime = 36.0
     viewdistance = 768.0
