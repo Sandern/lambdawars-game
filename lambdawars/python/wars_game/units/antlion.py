@@ -900,6 +900,11 @@ class UnitAntlion(BaseClass):
                     outer.AddSolidFlags(FSOLID_NOT_SOLID)
                     outer.SetCanBeSeen(False)
             
+                def Update(self):
+                    if self.outer.tamer:
+                        self.outer.UnBurrow()
+                    else:
+                        return super().Update()
                 def OnEnd(self):
                     outer = self.outer
                     outer.takedamage = DAMAGE_YES
@@ -925,6 +930,7 @@ class UnitAntlion(BaseClass):
                 def OnResume(self):
                     self.outer.isflipped = False
                     return self.ChangeTo(self.behavior.ActionIdle, "Done flipped")
+    tamer = None
 
 # Register unit
 # Note: info object without name is not registered.
