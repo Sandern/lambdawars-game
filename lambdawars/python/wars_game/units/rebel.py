@@ -427,7 +427,7 @@ class UnitRebelGrenadeUpgradeShared(UnitCitizen):
 class RebelInfo(RebelShared):
     name = 'unit_rebel'
     cls_name = 'unit_rebel_grenade_upgrade' # adds grenade unlock per unit this also needs the rebel_grenade_upgrade ability
-    buildtime = 22.0
+    buildtime = 21.0
     costs = [[('requisition', 20)], [('kills', 1)]]
     maxspeed = 224.0
     viewdistance = 768
@@ -465,7 +465,7 @@ class RebelSGInfo(RebelInfo):
     name = 'unit_rebel_sg'
     displayname = '#RebSG_Name'
     description = '#RebSG_Description'
-    buildtime = 19.0
+    buildtime = 23.0
     health = 160
     costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot','weaponsg_unlock']
