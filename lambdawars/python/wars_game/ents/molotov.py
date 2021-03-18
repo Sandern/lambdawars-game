@@ -117,7 +117,10 @@ class Molotov(BaseClass):
         srcdamage = self.GetAbsOrigin()
         #attacker = self.GetThrower()
         self.damagecontroller = CreateUnit('unit_damage_controller', owner_number=self.GetOwnerNumber())
-        attacker = self.damagecontroller
+        if self.GetThrower():
+            attacker = self.GetThrower()
+        else:
+            attacker = self.damagecontroller
 
         # TODO: in a better way!?
         attributes = {}

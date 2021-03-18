@@ -465,7 +465,7 @@ class RebelSGInfo(RebelInfo):
     name = 'unit_rebel_sg'
     displayname = '#RebSG_Name'
     description = '#RebSG_Description'
-    buildtime = 22.0
+    buildtime = 19.0
     health = 160
     costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot','weaponsg_unlock']
@@ -496,7 +496,7 @@ class RebelAR2Info(RebelInfo):
     name = 'unit_rebel_ar2'
     displayname = '#RebAR2_Name'
     description = '#RebAR2_Description'
-    buildtime = 24.0
+    buildtime = 25.0
     maxspeed = 208
     viewdistance = 832
     costs = [[('requisition', 20), ('scrap', 10)], [('kills', 2)]]

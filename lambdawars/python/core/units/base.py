@@ -1187,7 +1187,7 @@ class UnitBaseShared(object):
         self.lasttakedamage = gpGlobals.curtime
         if not getattr(self, 'isbuilding', False):
             NotificationEnt('unit_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
-        else:
+        elif self.unitinfo.cls_name != 'control_point':
             NotificationEnt('building_underattack', self, filter=GetNotifcationFilterForOwnerAndAllies(self.GetOwnerNumber())) 
 
         return super().OnTakeDamage(self.ScaleDamageToAttributes(dmg_info, self.attributes))

@@ -341,7 +341,7 @@ class CombineInfo(CombineSharedInfo):
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 25)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
-    buildtime = 23.0
+    buildtime = 25.0
     health = 220
     maxspeed = 216.0
     viewdistance = 768
@@ -380,7 +380,7 @@ class CombineSGInfo(CombineInfo):
     costs = [[('requisition', 25), ('power', 5)], [('kills', 1)]]
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
     attributes = ['medium']
-    buildtime = 25.0
+    buildtime = 22.0
     health = 220
     maxspeed = 244.0
     viewdistance = 768
@@ -409,7 +409,7 @@ class CombineAR2Info(CombineInfo):
     costs = [[('requisition', 25), ('power', 10)], [('kills', 2)]]
     techrequirements = ['build_comb_armory','weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
-    buildtime = 25.0
+    buildtime = 28.0
     health = 220
     maxspeed = 184
     sensedistance = 768.0

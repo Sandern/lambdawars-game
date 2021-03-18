@@ -386,7 +386,7 @@ class DogInfo(UnitInfo):
     description = '#Dog_Description'
     image_name = 'vgui/rebels/units/unit_dog.vmt'
     health = 1400
-    maxspeed = 352
+    maxspeed = 334
     viewdistance = 832
     turnspeed = 75.0
     buildtime = 76.0

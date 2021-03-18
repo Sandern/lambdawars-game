@@ -932,11 +932,11 @@ class CombineHunterInfo(UnitInfo):
     displayname = '#CombHunter_Name'
     description = '#CombHunter_Description'
     image_name = 'vgui/combine/units/unit_hunter'
-    costs = [('requisition', 100), ('power', 100)]
+    costs = [('requisition', 75), ('power', 75)]
     buildtime = 43.0
     health = 400
-    maxspeed = 348.0
-    population = 4
+    maxspeed = 365.0
+    population = 3
     viewdistance = 896
     attributes = ['synth', 'flechette']
     modelname = 'models/hunter.mdl'
@@ -955,12 +955,12 @@ class CombineHunterInfo(UnitInfo):
     }
     
     class AttackMelee(UnitInfo.AttackMelee):
-        damage = 70
+        damage = 80
         damagetype = DMG_SLASH
         attackspeed = 1.5
     
     class AttackRange(UnitInfo.AttackRange):
-        damage = 7
+        damage = 11
         cone = 0.99
         minrange = 64.0
         maxrange = 640.0
@@ -968,8 +968,8 @@ class CombineHunterInfo(UnitInfo):
         usesbursts = True
         minburst = 10
         maxburst = 10
-        minresttime = 1.1
-        maxresttime = 1.3
+        minresttime = 1.2
+        maxresttime = 1.2
     attacks = ['AttackMelee', 'AttackRange']
     infest_zombietype = None # Prevent zombiefying headcrab_infest ability
 

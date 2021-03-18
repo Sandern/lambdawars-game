@@ -220,7 +220,7 @@ class MortarSynthInfo(UnitInfo):
     modelname = 'models/MortarSynth.mdl'
     health = 150
     buildtime = 35.0
-    costs = [[('requisition', 150), ('power', 150)], [('kills', 6)]]
+    costs = [[('requisition', 120), ('power', 120)], [('kills', 6)]]
     attributes = ['synth']
     #maxspeed = 112
     hulltype = 'HULL_MEDIUM_TALL'
@@ -228,7 +228,7 @@ class MortarSynthInfo(UnitInfo):
     viewdistance = 768
     sensedistance = 1792
     techrequirements = ['build_comb_tech_center']
-    population = 5
+    population = 4
     scalebounds = 0.70
     grenades = 1
     sound_select = 'unit_scanner_select'

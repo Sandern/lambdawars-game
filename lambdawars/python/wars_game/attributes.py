@@ -63,7 +63,7 @@ class FlechetteAttribute(AttributeInfo):
     name = 'flechette'
 
     dmgmodifiers = {
-        'large': ConstantBonusDamage(9),
+        'large': ConstantBonusDamage(5),
     }
 	
 class PulseCannonAttribute(AttributeInfo):
@@ -225,7 +225,7 @@ class CrossbowAttribute(AttributeInfo):
 		'light': ConstantBonusDamage(50),
 		'medium': ConstantBonusDamage(100),
 		'heavy': ConstantBonusDamage(50),
-		'synth': ConstantBonusDamage(50),
+		#'synth': ConstantBonusDamage(50),
 		'building': ScaleBonusDamage(0.5),
 		'defence': ScaleBonusDamage(1.5),
     }
