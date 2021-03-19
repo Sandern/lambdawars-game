@@ -202,13 +202,10 @@ class UnitCrabSynth(BaseClass):
     def Regeneration(self):
         while self.regenerationtime < gpGlobals.curtime:
             coef = 1
-            if self.energy * coef > self.unitinfo.regenerationamount: 
-                regenerationamount = self.unitinfo.regenerationamount
-                energy = self.unitinfo.regenerationamount/coef
-            else: 
-                regenerationamount = self.energy*coef
-                energy = self.energy
+            if not self.energy * coef >= self.unitinfo.regenerationamount: 
                 return
+            regenerationamount = self.unitinfo.regenerationamount
+            energy = self.unitinfo.regenerationamount/coef
             self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
             self.health = min(self.health+regenerationamount, self.maxhealth) 
             self.TakeEnergy(energy)

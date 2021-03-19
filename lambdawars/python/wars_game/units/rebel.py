@@ -265,6 +265,7 @@ class RebelScoutInfo(RebelShared):
     costs = [('requisition', 10)]
     accuracy = 0.60
     image_name = 'vgui/rebels/units/unit_rebel_scout'
+    modellist = GenerateModelList('SCOUT')
     abilities = {
         0: 'infiltrate_reb_scout',
         7: 'mountturret',

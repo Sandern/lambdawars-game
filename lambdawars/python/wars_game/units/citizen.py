@@ -543,6 +543,11 @@ randomheads = [
     "male_09.mdl",
 ]
 
+randomheads_scout = [
+    "male_01.mdl",
+    "female_01.mdl",
+]
+
 modellocs = {
     'DEFAULT': 'Group01',
     'DOWNTRODDEN': 'Group01',
@@ -550,10 +555,15 @@ modellocs = {
     'REBEL': 'Group03',
     'MEDIC': 'Group03m',
     'COMBINE': 'Group01_combine',
+    'SCOUT': 'scouts',
 }
 
 def GenerateModelList(type):
     modellist = []
+    if type == 'SCOUT':
+        for head in randomheads_scout:
+            modellist.append( 'models/Humans/%s/%s' % (modellocs[type], head) )
+        return modellist
     for head in randomheads:
         modellist.append( 'models/Humans/%s/%s' % (modellocs[type], head) )
     return modellist
