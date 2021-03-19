@@ -1126,7 +1126,7 @@ class ManhackInfo(UnitInfo):
     
     class AttackMelee(UnitInfo.AttackMelee):
         maxrange = 0.0
-        damage = 10
+        damage = 3
         damagetype = DMG_SLASH
         attackspeed = 1.0
     attacks = 'AttackMelee'

@@ -290,6 +290,7 @@ class ExplosiveCrossbowBolt(CBaseCombatCharacter):
         # Notes about the RadiusDamage function:
         # It will have falloff damage if the inflictor (first argument CTakeDamageInfo) is not directly visible through a trace.
         # The second argument (attacker) is used in the damage taking function for attributes (core.units.base.UnitBaseShared.OnTakeDamage)
+        self.damagecontroller.unit_owner = self.GetOwnerEntity()
         info = CTakeDamageInfo(self, self.damagecontroller, None, blastforce, origin, self.damage, DMG_BLAST, 0,
                                vecReported)
 

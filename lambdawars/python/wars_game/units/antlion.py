@@ -943,6 +943,10 @@ class UnitAntlion(BaseClass):
             regenerationamount = self.unitinfo.regenerationamount
             self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
             self.health = min(self.health+regenerationamount, self.maxhealth) 
+    def Event_KilledOther(self, victim, info):
+        super().Event_KilledOther(victim, info)
+        if self.tamer:
+            self.tamer.kills += 1
 
 
 # Register unit
@@ -1085,7 +1089,7 @@ class AntlionSuiciderInfo(AntlionInfoShared):
 # Mission versions
 class SmallAntlion(AntlionInfoShared):
     name = 'unit_antlion_small'
-    attributes = ['chitin', 'creature', 'slash']
+    attributes = ['chitin', 'creature', 'crush']
     abilities = {
         0 : 'burrow',
         1 : 'unburrow',

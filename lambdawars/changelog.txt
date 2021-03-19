@@ -9,6 +9,8 @@
 |* is the letter for marking the minor changes (like bug fixes, small balance changes, chromium + python updates and such)     	|
 =================================================================================================================================
 Lambda Wars Patch XX February 2021 (1.2.0)
+Fixes:
+- Metroriot: they won't accidentally stun your own units, increased attack range to hit running enemy units.
 Balance:
 
 * Bullet attribute:
@@ -87,6 +89,7 @@ Rebels:
 	- Pop. cap reduced from 3 to 2.
 	- Attack range increased from 768 to 896.
 	- Changed attribute from 'heavy' to 'medium'.
+	- Added damage against heavy units +10.
 	- Damage against synth and metal units increased from 5 to 24.
 * Rebel Heavy:
 	- Price increased from 40/25 to 70/25.
@@ -105,6 +108,7 @@ Rebels:
 	- Antlion recall ability: price increased from 30 to 75.
 	- Antlions: health increased from 70 to 90.
 	- Antlions can now regen health if they didn't take any damage for 2 seconds.
+	- Antlions: changed 'slash' attribute to 'crush'.
 	- Build time increased from 40 sec. to 45.
 	- Health increased from 260 to 320.
 	- Damage increased from 26 to 60.
@@ -151,6 +155,8 @@ Rebels:
 Combine:
 * Stalker:
 	- Price reduced from 20 to 15.
+	- Removed bonus damage against heavy units.
+	- Added +1 damage against light units.
 * Loyal citizen:
 	- Build time changed from 8 sec. to 7.
 * Floor turret upgrade: price changed from 20/20 to 5/5.
@@ -204,8 +210,7 @@ Combine:
 	- Health increased from 25 to 75.
 	- Build time increased from 14 sec. to 15.
 	- Move speed increased from 320 to 328.
-	- Increased damage from 3 to 10.
-	- Damage against light unit increased from 19 to 20.
+	- Damage against light unit increased from 19 to 25.
 	- Added 30 damage against 'creature' attribute.
 	- Removed bonus damage against medium units.
 * Rollermine:

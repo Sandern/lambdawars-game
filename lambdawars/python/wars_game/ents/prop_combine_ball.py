@@ -574,6 +574,9 @@ class PropCombineBall(BaseClass):
                 return
             self.ballkillcount += 1
             
+            if self.GetOwnerEntity():
+                self.GetOwnerEntity().kills += 1
+
             if IsCommonGameMode():
                 # Ping Pong achievement: kill 5 with one ball.
                 if self.ballkillcount == 5:

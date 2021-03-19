@@ -133,6 +133,7 @@ if isserver:
             # Always use damage controller if created
             if self.damagecontroller:
                 self.SetThrower(self.damagecontroller)
+                self.damagecontroller.unit_owner = self.unit_owner or self.GetOwnerEntity()
 
             self.CreateEffects()
             
@@ -192,12 +193,14 @@ if isserver:
 
             if owner_ent:
                 grenade.SetOwnerNumber(owner_ent.GetOwnerNumber())
+                grenade.unit_owner = owner_ent
                 grenade.AddFOWFlags(owner_ent.GetFOWFlags())
 
             return grenade
 
         main_glow = None
         glow_trail = None
+        unit_owner = None
             
         haswarnedai = False
         nextbliptime = 0.0

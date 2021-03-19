@@ -16,6 +16,12 @@ class UnitDamageController(BaseClass):
         
         self.AddEFlags(EFL_SERVER_ONLY)
         self.AddEffects(EF_NODRAW)
+    def Event_KilledOther(self, victim, info):
+        super().Event_KilledOther(victim, info)
+
+        if self.unit_owner:
+            self.unit_owner.kills += 1
+    unit_owner = None
         
 @entity('unit_damage_controller_all')
 class UnitDamageControllerAll(UnitDamageController):

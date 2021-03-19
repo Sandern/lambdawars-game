@@ -684,6 +684,7 @@ class BaseControlPoint(BaseClass):
             
         def OnPlayerDefeated(self):
             # Become neutral if the defeated player owns us
+            self.DestroyFortification()
             self.SetOwnerNumber(0)
             
         def OnChangeOwnerNumber(self, oldownernumber):

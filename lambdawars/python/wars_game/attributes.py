@@ -82,7 +82,7 @@ class TauCannonAttribute(AttributeInfo):
     dmgmodifiers = {
 		'synth': ConstantBonusDamage(24),
 		'metal': ConstantBonusDamage(24),
-		#'heavy': ConstantBonusDamage(10),
+		'heavy': ConstantBonusDamage(10),
     }
 	
 class TauCannonAltAttribute(AttributeInfo):
@@ -142,7 +142,7 @@ class SlashAttribute(AttributeInfo):
     name = 'slash'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(20),
+		'light': ConstantBonusDamage(25),
 		'creature': ConstantBonusDamage(30),
     }
 
@@ -246,7 +246,7 @@ class LaserAttribute(AttributeInfo):
     name = 'burn'
 
     dmgmodifiers = {
-        'heavy': ConstantBonusDamage(1),
+        'light': ConstantBonusDamage(1),
     }
 
 
