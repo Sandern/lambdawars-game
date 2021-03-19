@@ -13,7 +13,7 @@ class AbilityDeployManhack(AbilityInstant):
     image_name = 'vgui/combine/abilities/deploymanhack'
     rechargetime = 30.0
     population = 1
-    costs = [('requisition', 20)]
+    costs = [('requisition', 10)]
     techrequirements = ['build_comb_armory']
     activatesoundscript = '#deploymanhacks'
     hidden = True

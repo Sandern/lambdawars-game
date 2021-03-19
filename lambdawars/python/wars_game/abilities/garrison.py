@@ -27,6 +27,11 @@ if isserver:
             return super().OnResume()
 
         def Update(self):
+            target = self.order.target
+            if not self.outer.garrisoned and not target.CanGarrisonUnit(self.outer):
+                self.order.ability.Cancel()
+                self.order.Remove(dispatchevent=True)
+                return self.ChangeToIdle('No target')
             trans = self.CheckForEnemy()
             if trans:
                 return trans

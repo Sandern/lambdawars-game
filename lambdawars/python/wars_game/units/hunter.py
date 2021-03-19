@@ -963,7 +963,7 @@ class CombineHunterInfo(UnitInfo):
         damage = 11
         cone = 0.99
         minrange = 64.0
-        maxrange = 640.0
+        maxrange = 768.0
         attackspeed = 0.1
         usesbursts = True
         minburst = 10

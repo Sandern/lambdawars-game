@@ -930,7 +930,20 @@ class UnitAntlion(BaseClass):
                 def OnResume(self):
                     self.outer.isflipped = False
                     return self.ChangeTo(self.behavior.ActionIdle, "Done flipped")
+
     tamer = None
+    regenerationtime = 0
+
+    def UnitThink(self):
+        super().UnitThink()
+        if self.health < self.maxhealth and self.unitinfo.regeneration and (gpGlobals.curtime - self.lasttakedamage) > 2.0:
+            self.Regeneration()
+    def Regeneration(self):
+        while self.regenerationtime < gpGlobals.curtime:
+            regenerationamount = self.unitinfo.regenerationamount
+            self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
+            self.health = min(self.health+regenerationamount, self.maxhealth) 
+
 
 # Register unit
 # Note: info object without name is not registered.
@@ -942,7 +955,11 @@ class AntlionInfoShared(UnitInfo):
     sound_move = 'unit_antlion_move'
     sound_attack = 'unit_antlion_attack'
     sound_death = 'NPC_Antlion.Pain'
-    
+    regenerationamount = 1
+    regenerationtime = 2
+    regeneration = False
+
+
     maxspeed = 354.90
     turnspeed = 300.0
     
@@ -1088,6 +1105,7 @@ class SmallAntlion(AntlionInfoShared):
     attacks = ['AttackSlash', 'AttackFly']
     population = 0
     #tier = 1
+    regeneration = True
 
 class MissionAntlionWorker(AntlionWorkerInfo):
     name = 'mission_unit_antlionworker'

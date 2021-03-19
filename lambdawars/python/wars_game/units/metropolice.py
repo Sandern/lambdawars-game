@@ -772,7 +772,7 @@ class TransformToMetropoliceSMG1(AbilityTransformUnit):
     transform_time = 3.0
     replaceweapons = True
     #techrequirements = ['build_comb_armory']
-    costs = [('requisition', 12)]
+    costs = [('requisition', 10)]
     image_name = 'vgui/combine/abilities/combine_transform_smg'
     activatesoundscript = 'ability_combine_smg1_upgrade'
 

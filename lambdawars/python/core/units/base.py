@@ -1314,6 +1314,10 @@ class UnitBaseShared(object):
             ''' In case this returns False, bars are only shown when the mouse hovers on the unit or when selected.
                 In the other case it's always shown.
             '''
+            if self.cloaked and not self.detected:
+                player = CHL2WarsPlayer.GetLocalHL2WarsPlayer()
+                if self.IRelationType(player) == D_HT:
+                    return False
             return cl_alwaysshowhealthbars.GetBool()
             
         def ShowBars(self):

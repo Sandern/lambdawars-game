@@ -1,7 +1,7 @@
 from srcbase import DMG_CLUB
 from vmath import Vector, QAngle
 from core.weapons import WarsWeaponMelee
-from entities import entity
+from entities import entity, D_HT
 from utils import UTIL_ImpactTrace
 from te import CEffectData, DispatchEffect, te
 from gameinterface import CPVSFilter
@@ -48,8 +48,8 @@ class WeaponStunStick(WarsWeaponMelee):
     STUNSTICK_GLOW_MATERIAL2 = "effects/blueflare1"
     STUNSTICK_GLOW_MATERIAL_NOZ = "sprites/light_glow02_add_noz"
 
-    stun_chance = FloatField(value=0.45)
-    stun_duration = FloatField(value=1.0)
+    stun_chance = FloatField(value=1.0)
+    stun_duration = FloatField(value=0.45)
     
     class AttackPrimary(WarsWeaponMelee.AttackPrimary):
         damage = 15.0
@@ -73,9 +73,9 @@ class WeaponStunStick(WarsWeaponMelee):
 
     def Hit(self, traceHit, nHitActivity):
         super().Hit(traceHit, nHitActivity)
-
+        owner = self.GetOwner()
         hit_entity = traceHit.ent
-        if hit_entity and hit_entity.IsUnit() and random.random() < self.stun_chance:
+        if hit_entity and hit_entity.IsUnit() and random.random() <= self.stun_chance and owner.IRelationType(hit_entity) == D_HT:
             StunnedEffectInfo.CreateAndApply(hit_entity, attacker=self, duration=self.stun_duration)
         
     def ImpactEffect(self, traceHit):

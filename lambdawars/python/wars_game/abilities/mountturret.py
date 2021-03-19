@@ -1,5 +1,6 @@
 from srcbase import IN_SPEED
 from core.abilities import AbilityTarget
+from playermgr import ListAlliesOfOwnerNumber
 
 def CanMountTurret(unit, target):
     if not target or target.IsWorld() or not target.IsUnit():
@@ -9,9 +10,14 @@ def CanMountTurret(unit, target):
     if not target.ismountableturret:
         return False, '#MountTur_NotATurret'
         
+    owner = target.GetOwnerNumber()        
+    unitowner = unit.GetOwnerNumber()
+    owners = ListAlliesOfOwnerNumber(owner)
+    unitowners = ListAlliesOfOwnerNumber(unitowner)
     # Can't mount turret of someone else
-    if unit.GetOwnerNumber() != target.GetOwnerNumber():
-        return False, '#MountTur_NotMine'
+    for owner in owners:
+        if unitowners != owners:
+            return False, '#MountTur_NotMine'
         
     # Should be constructed
     if not target.constructionstate is target.BS_CONSTRUCTED:
@@ -21,6 +27,17 @@ def CanMountTurret(unit, target):
     if target.controller:
         return False, '#MountTur_AlreadyMounted'
         
+    return True, None
+def CanMountEnemyTurret(unit, target):
+    owner = target.GetOwnerNumber()        
+    unitowner = unit.GetOwnerNumber()
+    owners = ListAlliesOfOwnerNumber(owner)
+    unitowners = ListAlliesOfOwnerNumber(unitowner)
+    # Can't mount turret of someone else
+        
+    for owner in owners:
+        if unitowners != owners:
+            return False, '#MountTur_NotMine'
     return True, None
 
 if isserver:
@@ -108,6 +125,9 @@ if isserver:
             # Check turret alive
             if not turret or not turret.IsAlive():
                 return self.Done("Turret went None. Died?")
+            canmount, reason = CanMountEnemyTurret(self.outer, self.turret)
+            if not canmount:
+                self.Done("Turret no longer mountable")
 
             # Update facing yaw
             if outer.navigator.idealyaw != turret.aimyaw:

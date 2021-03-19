@@ -7,6 +7,7 @@ from fields import StringField, VectorField, OutputField, BooleanField, IntegerF
 from core.attributes import CoverAttributeInfo
 from core.signals import FireSignalRobust, garrisonchanged
 from core.units.info import ParseAttributes
+from playermgr import ListAlliesOfOwnerNumber
 import random
 import operator
 import math
@@ -96,6 +97,9 @@ class UnitBaseGarrisonableShared(object):
             if self.senses:
                 self.senses.PerformSensing()
                 self.UpdateEnemy(self.senses)
+            for unit in list(self.units):
+                if not self.CanGarrisonUnitByOwner(unit):
+                    self.UnGarrisonAll()
 
         def GetEnemyForGarrisonedUnit(self, unit):
             if self.senses:
@@ -168,13 +172,30 @@ class UnitBaseGarrisonableShared(object):
             if curpop + unit.population > self.maxpopulation:
                 return False
                 
-        myowner = self.GetOwnerNumber()
+        owner = self.GetOwnerNumber()        
         unitowner = unit.GetOwnerNumber()
+        owners = ListAlliesOfOwnerNumber(owner)
+        unitowners = ListAlliesOfOwnerNumber(unitowner)
         
-        # Either must be neutral or the unit owner must be my owner
-        if myowner != 0 and unitowner != myowner:
-            return False
             
+        for owner in owners:
+            if unitowners != owners:
+                return False
+            else:
+                return True
+        return True
+    def CanGarrisonUnitByOwner(self, unit):
+        owner = self.GetOwnerNumber()        
+        unitowner = unit.GetOwnerNumber()
+        owners = ListAlliesOfOwnerNumber(owner)
+        unitowners = ListAlliesOfOwnerNumber(unitowner)
+        
+            
+        for owner in owners:
+            if unitowners != owners:
+                return False
+            else:
+                return True
         return True
 
     def GarrisonUnit(self, unit):
@@ -259,9 +280,9 @@ class UnitBaseGarrisonableShared(object):
         unit.ClearOrder(dispatchevent=True)
         
         # Become free again
-        if not self.units:
-            if not self.playerowned: self.SetOwnerNumber(0)
-            self.onungarrisoned.Set('', self, self)
+        #if not self.units:
+        #    if not self.playerowned: self.SetOwnerNumber(0)
+        #    self.onungarrisoned.Set('', self, self)
             
     def UnGarrisonAll(self):
         self.units[:] = [u for u in self.units if bool(u)] # Remove none entries
