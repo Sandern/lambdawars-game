@@ -36,12 +36,9 @@ class SynthAttributeInfo(AttributeInfo):
     name = 'synth'
 	
     dmgrecvmodifiers = {
-        'bullet': ScaleBonusDamage(0.25),
-        'pulse': ScaleBonusDamage(0.25),
-       # 'plasma': ScaleBonusDamage(0.8),
-       # 'explosive': ScaleBonusDamage(0.8),
-       #'slash': ScaleBonusDamage(0.2),  # to take little damage from zombies and minor antlions
-       # 'bite': ScaleBonusDamage(0.1),  # and headcrabs - now hunters will be more useful in Overrun
+		'bullet': ScaleBonusDamage(0.25),
+		'pulse': ScaleBonusDamage(0.25),
+		'ar1': ScaleBonusDamage(0.5),
     }
 
 
@@ -53,10 +50,7 @@ class MetalAttributeInfo(AttributeInfo):
     dmgrecvmodifiers = {
        'bullet': ScaleBonusDamage(0.25),
        'pulse': ScaleBonusDamage(0.25),
-       # 'slash': ScaleBonusDamage(0.1),  # to take little damage from zombies and minor antlions
-       # 'bite': ScaleBonusDamage(0.1),  # and hardly damage from headcrabs
-        'energyball': ScaleBonusDamage(1.0),
-        #'mortar': ScaleBonusDamage(2.0),
+       'ar1': ScaleBonusDamage(0.25),
     }
 
 class FlechetteAttribute(AttributeInfo):
@@ -82,7 +76,7 @@ class TauCannonAttribute(AttributeInfo):
     dmgmodifiers = {
 		'synth': ConstantBonusDamage(24),
 		'metal': ConstantBonusDamage(24),
-		'heavy': ConstantBonusDamage(10),
+		'heavy': ConstantBonusDamage(30),
     }
 	
 class TauCannonAltAttribute(AttributeInfo):

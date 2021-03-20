@@ -1,18 +1,46 @@
 """
 A building that launches ignited barrels in the direction of nearby enemies.
 """
-
-from vmath import Vector, QAngle, AngleVectors, VectorNormalize
+from srcbase import *
+from vmath import *
 from core.buildings import WarsBuildingInfo, UnitBaseBuilding as BaseClass
 from core.abilities import AbilityTarget
+from core.units import CreateUnit
 from entities import entity, MouseTraceData, FClassnameIs
 from fow import FogOfWarMgr
 import random
 from fields import FloatField, ListField, IntegerField
 
 if isserver:
-    from entities import CreateEntityByName, DispatchSpawn, variant_t
+    from entities import CreateEntityByName, DispatchSpawn, variant_t, CPhysicsProp, PropBreakablePrecacheAll, CTakeDamageInfo, RadiusDamage, Class_T
     from core.units import UnitCombatSense
+    from utils import UTIL_Remove, ExplosionCreate
+    @entity('wars_barrel')
+    class Barrel(CPhysicsProp):
+        damagecontroller = None
+        def UpdateOnRemove(self):
+            if self.damagecontroller:
+                self.damagecontroller.Remove()
+            
+            super().UpdateOnRemove()
+        def OnTakeDamage(self, info): return 0
+        def SetIgnite(self, lifetime):
+            self.SetThink(self.Detonate, gpGlobals.curtime + lifetime - 0.1, 'SelfDestructThink')
+            self.Ignite(lifetime, False)
+        def Detonate(self):
+            self.damagecontroller = CreateUnit('grenade_frag_damage', owner_number=self.GetOwnerNumber())
+            self.damagecontroller.unit_owner = self.GetOwnerEntity()
+            origin = self.GetAbsOrigin()
+            ExplosionCreate(origin, self.GetAbsAngles(), self.damagecontroller, self.damage, self.damageradius, True )
+            #info = CTakeDamageInfo(self, self.damagecontroller, self.damage, self.damagetype)
+            #info.attributes = {ExplosiveAttribute.name : ExplosiveAttribute(self.GetThrower())}
+            #RadiusDamage(info, origin, self.damageradius, Class_T.CLASS_NONE, self.GetOwnerEntity())
+            UTIL_Remove(self)
+        damage = 500
+        damageradius = 300
+        damagetype = DMG_BLAST
+        
+
 
 @entity('build_reb_barreltrap', networked=True)
 class RebelsBarrelTrap(BaseClass):
@@ -79,7 +107,8 @@ class RebelsBarrelTrap(BaseClass):
         angles = self.GetAbsAngles()
         
         for i in range(0, 2):
-            barrel = CreateEntityByName( "prop_physics" )
+            #barrel = CreateEntityByName( "prop_physics" )
+            barrel = CreateEntityByName( "wars_barrel" )
             barrel.KeyValue('model', 'models/props_c17/oildrum001_explosive_small.mdl')
             if i == 0:
                 barrel.SetAbsOrigin(self.GetAbsOrigin() + Vector(0, 30, 150))
@@ -93,6 +122,8 @@ class RebelsBarrelTrap(BaseClass):
             DispatchSpawn( barrel )      
             barrel.Activate()
             barrel.VPhysicsGetObject().EnableMotion(False)
+            barrel.damage = self.unitinfo.barreldmg
+            barrel.damageradius = self.unitinfo.barrelradius
             self.barrels.append(barrel)
         self.barrelcount = len(self.barrels)
     
@@ -108,7 +139,8 @@ class RebelsBarrelTrap(BaseClass):
             if not barrel:
                 continue
             physobj = barrel.VPhysicsGetObject()
-            barrel.Ignite(4.0, False)
+            #barrel.Ignite(4.0, False)
+            barrel.SetIgnite(self.unitinfo.barreltime)
             physobj.EnableMotion(True)
             if launch:
                 angvel = Vector(random.uniform(-30, 30), random.uniform(-30, 30), random.uniform(-30, 30))
@@ -224,12 +256,17 @@ class BarrelTrapInfo(WarsBuildingInfo):
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
-    costs = [('requisition', 30), ('scrap', 30)]
+    costs = [('requisition', 25), ('scrap', 10)]
     techrequirements = ['build_reb_munitiondepot']
     health = 300
     viewdistance = 896
-    buildtime = 24.0
+    buildtime = 20.0
     scale = 0.9
+
+    barreldmg = 300
+    barrelradius = 192
+    barreltime = 4
+
     abilities   = {
         0 : 'release_barrels',
         8 : 'cancel',

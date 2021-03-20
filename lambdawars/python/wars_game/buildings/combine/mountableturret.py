@@ -34,7 +34,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     buildtime = 9.0
     costs = [[('requisition', 20)], [('kills', 4)]]
     techrequirements = ['build_comb_armory']
-    attributes = ['defence', 'pulse']
+    attributes = ['defence', 'ar1']
     zoffset = 28.0
     population = 0
     manpoint = Vector(-40, 0, 0)
@@ -68,9 +68,10 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     }
     
     class AttackTurret(WarsDynMountTurretInfo.AttackTurret):
-        damage = 12
+        damage = 8
         attackspeed = 0.1
-        attributes = ['pulse']
+        attributes = ['ar1']
+        maxrange = 1024.0
     attacks = 'AttackTurret'
     
 class OverrunMountableTurretInfo(MountableTurretInfo):

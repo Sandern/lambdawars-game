@@ -57,7 +57,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     buildtime = 12.0
     costs = [[('requisition', 25)], [('kills', 4)]]
     techrequirements = ['build_reb_munitiondepot']
-    attributes = ['defence', 'pulse']
+    attributes = ['defence', 'ar1']
     zoffset = 28.0
     population = 0
     # Manpoint dictates how far away the rebel needs to be to man the gun. The greater the x val,
@@ -133,9 +133,10 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
         infoparticles = ['cone_of_fire']
 		
     class AttackTurret(WarsDynMountTurretInfo.AttackTurret):
-        damage = 12
+        damage = 8
         attackspeed = 0.1
-        attributes = ['pulse']
+        attributes = ['ar1']
+        maxrange = 1024.0
     attacks = 'AttackTurret'
 	
 class DestroyHQMountableTurretInfo(MountableTurretInfo):

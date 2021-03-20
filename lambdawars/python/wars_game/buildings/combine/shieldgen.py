@@ -7,11 +7,11 @@ from vmath import (VectorNormalize, VectorAngles, AngleVectors, QAngle, Vector, 
 from core.buildings import WarsBuildingInfo, UnitBaseBuilding as BaseClass
 from .basepowered import PoweredBuildingInfo, BasePoweredBuilding
 from core.abilities import AbilityUpgrade
-
 from fields import GenericField, IntegerField, FloatField
-from entities import entity, SF_TRIGGER_ALLOW_NPCS
+from entities import entity, SF_TRIGGER_ALLOW_NPCS, D_HT
+from playermgr import ListAlliesOfOwnerNumber, relationships
 if isserver:
-    from entities import gEntList, CTriggerMultiple as BaseClassShield, CreateEntityByName, DispatchSpawn, CTakeDamageInfo, DoSpark, SpawnBlood, D_LI, FL_EDICT_ALWAYS
+    from entities import gEntList, CTriggerMultiple as BaseClassShield, CreateEntityByName, DispatchSpawn, CTakeDamageInfo, DoSpark, SpawnBlood, D_LI, FL_EDICT_ALWAYS, FClassnameIs
     from particles import PrecacheParticleSystem, DispatchParticleEffect, ParticleAttachment_t
     from utils import UTIL_SetSize, UTIL_Remove
     from core.units import UnitCombatSense
@@ -72,12 +72,30 @@ class CombineShield(BaseClassShield):
         # TODO: Should put this in the unit ai. The movement code will try to zero out the velocity.
         def StartTouch(self, entity):
             #super().StartTouch(entity)
-            if not entity.IsUnit() or entity.isbuilding or entity.IRelationType(self) == D_LI: 
-                return
-            
             dir = Vector()
             AngleVectors(self.GetAbsAngles(), dir)
             VectorYawRotate(dir, 90.0, dir)
+            entities = ["grenade_frag", "grenade_smoke", "grenade_stun", "grenade_energy", "grenade_energy", 'prop_combine_ball', 'wars_barrel']
+            coef = 1.0
+            for entity1 in entities: 
+                if FClassnameIs(entity, entity1): 
+                    if relationships[(self.GetOwnerNumber(), entity.GetOwnerNumber())] != D_LI: 
+                        dirent = entity.GetStepOrigin() - self.GetAbsOrigin()
+                        VectorNormalize(dirent)
+                        dot = DotProduct(dir, dirent)
+
+                        if dot < 0.0:
+                            VectorYawRotate(dir, 180.0, dir)
+                
+                        self.touchinglist.append( (entity, dir) )
+                        self.PushEntityImpulse(entity, dir * coef)
+                    return
+
+            if not entity.IsUnit() or entity.isbuilding or entity.IRelationType(self) == D_LI: 
+                return
+            
+            if entity.unitinfo.name == 'unit_headcrabcanister':
+                return
 
             # Use steporigin since the abs origin might already be passed the forcefield
             dirent = entity.GetStepOrigin() - self.GetAbsOrigin()
@@ -96,6 +114,25 @@ class CombineShield(BaseClassShield):
                     self.touchinglist.remove(i)
                     break
                     
+        def PushEntityImpulse(self, entity, dir):
+            if hasattr(entity, 'DispatchEvent'):
+                entity.DispatchEvent('OnForceField', self)
+            speed = 750
+            #damage = 6.0
+            #info = CTakeDamageInfo(self, self.gen1, damage, DMG_SHOCK) 
+            #entity.TakeDamage(info)
+            entity.SetGroundEntity(None)
+            if FClassnameIs(entity, "grenade_energy"): 
+                dir *= 0.25
+            elif FClassnameIs(entity, "prop_combine_ball"): 
+                dir *= 5.0
+               
+            entity.ApplyAbsVelocityImpulse(dir * speed + Vector(1, 1, 0.0)) 
+            
+            #SpawnBlood(entity.GetAbsOrigin(), Vector(0,0,1), entity.BloodColor(), damage)
+            dir = Vector()
+            dir.Random(-1.0, 1.0)
+            DoSpark(entity, entity.GetAbsOrigin(), 100, 100, True, dir)
         def PushEntity(self, entity, dir):
             if hasattr(entity, 'DispatchEvent'):
                 entity.DispatchEvent('OnForceField', self)
@@ -226,6 +263,12 @@ class CombineShieldGenerator(BaseClass):
                 return
             if not self.constructionstate is self.BS_CONSTRUCTED:
                 return
+            owner = self.GetOwnerNumber()        
+            unitowner = othergen.GetOwnerNumber()
+            owners = ListAlliesOfOwnerNumber(owner)
+            unitowners = ListAlliesOfOwnerNumber(unitowner)
+            if unitowners != owners:
+                return
                 
             dir = othergen.GetAbsOrigin() - self.GetAbsOrigin()
             dir.z = 0.0
@@ -249,6 +292,7 @@ class CombineShieldGenerator(BaseClass):
             link.SetAbsAngles(angle)
             link.Enable()
             
+            link.AddFOWFlags(self.GetFOWFlags())
             link.gen1 = self.GetHandle()
             link.gen2 = othergen
             
@@ -369,11 +413,11 @@ class CombineShieldGenInfo(PoweredBuildingInfo):
     modelname = 'models/props_combine/combine_generator01.mdl'
     health = 500
     buildtime = 20.0
-    placemaxrange = 96.0
+    #placemaxrange = 96.0
     placeatmins = True
     viewdistance = 640
     attributes = ['building', 'stun']
-    costs = [('requisition', 15), ('power', 15)]
+    costs = [('requisition', 20), ('power', 5)]
     techrequirements = ['build_comb_armory']
     abilities = {
         0 : 'genconnect_powered',

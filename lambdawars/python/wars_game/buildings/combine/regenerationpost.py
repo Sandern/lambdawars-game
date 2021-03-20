@@ -100,7 +100,7 @@ class CombineRegenerationPostInfo(WarsBuildingInfo):
     buildtime = 25.0
     placemaxrange = 96.0
     #placeatmins = True
-    costs = [[('requisition', 50)], [('kills', 5)]]
+    costs = [[('requisition', 25), ('power', 10)], [('kills', 5)]]
     techrequirements = ['build_comb_armory']
     viewdistance = 640
     abilities   = {

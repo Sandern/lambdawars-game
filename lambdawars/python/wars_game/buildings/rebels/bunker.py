@@ -42,8 +42,8 @@ class RebelBunkerInfo(BunkerInfo):
     attributes = ['defence']
     buildtime = 46.0
     attackpriority = 0
-    techrequirements = ['build_reb_barracks']
-    costs = [[('requisition', 20), ('scrap', 35)], [('kills', 5)]]
+    techrequirements = ['build_reb_munitiondepot']
+    costs = [[('requisition', 50), ('scrap', 10)], [('kills', 5)]]
     sound_select = 'build_reb_bunker'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'building_explosion'

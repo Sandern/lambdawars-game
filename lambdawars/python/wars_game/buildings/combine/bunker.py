@@ -43,8 +43,8 @@ class CombineBunkerInfo(BunkerInfo):
     buildtime = 46.0
     attackpriority = 0
     #sense_distance = 2000
-    techrequirements = ['build_comb_garrison']
-    costs = [[('requisition', 20), ('power', 50)], [('kills', 5)]]
+    techrequirements = ['build_comb_armory']
+    costs = [[('requisition', 50), ('power', 10)], [('kills', 5)]]
     sound_select = 'build_comb_bunker'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'building_explosion'

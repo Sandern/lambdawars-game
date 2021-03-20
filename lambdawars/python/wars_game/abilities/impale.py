@@ -10,6 +10,9 @@ if isserver:
             return self.SuspendFor(self.behavior.ActionMoveInRange, 'Moving into target range', 
                     self.order.target, self.outer.STRIDER_STOMP_RANGE-self.stompadddist, goalflags=GF_REQTARGETALIVE, pathcontext=self)
                     
+        def OnStunned(self):
+            self.order.ability.Cancel()
+            return self.ChangeTo(self.behavior.ActionStunned, 'Stunned')
         def OnEnd(self):
             self.order.ability.Cancel()
             if self.outer.curorder == self.order:
@@ -20,7 +23,7 @@ if isserver:
             outer = self.outer
             path = outer.navigator.path
             if target and path.pathcontext == self and path.success:
-                outer.stomptarget = target
+                outer.stomp_target = target
                 outer.DoAnimation(outer.ANIM_STOMPL)
                 self.order.ability.SetRecharge(outer)
                 self.order.ability.Completed()

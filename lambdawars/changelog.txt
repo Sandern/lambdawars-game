@@ -90,7 +90,7 @@ Rebels:
 	- Pop. cap reduced from 3 to 2.
 	- Attack range increased from 768 to 896.
 	- Changed attribute from 'heavy' to 'medium'.
-	- Added damage against heavy units +10.
+	- Added damage against heavy units +30.
 	- Damage against synth and metal units increased from 5 to 24.
 * Rebel Heavy:
 	- Price increased from 40/25 to 70/25.
@@ -100,7 +100,7 @@ Rebels:
 	- Price increased from 40/30 to 60/45.
 * Saboteur:
 	- Price reduced from 20/20 to 15/10.
-	- Sabotage time reduced from 14 sec. to 11.2
+	- Sabotage time reduced from 14 sec. to 11.2.
 	- Sabotage cost reduced from 30 energy to 25.
 * Vort:
 	- Price increased from 40/50 to 75/90.
@@ -123,12 +123,23 @@ Rebels:
 * Junkyard:
 	- Price increased from 30 to 40.
 	- Build time increased from 20 sec. to 30.
+* Barrel trap:
+	- Price reduced from 30/30 to 25/10.
+	- Barrels won't explode if got shot.
+	- Build time reduced from 24 sec. to 20.
 * Munition Depot:
 	- Price changed from 40/40 to 50/25.
 	- Build time increased from 56 sec. to 60.
 * Mountable turret:
 	- Price reduced from 27 to 25.
 	- Health reduced from 175 to 150.
+	- Changed 'pulse' attribute to 'ar1'.
+	- Damage reduced from 12 to 8.
+* Aid station:
+	- Price changed from 40/0 to 50/10.
+* Bunker:
+	- Price changed from 20/30 to 50/10.
+	- Requires now munition depot.
 * Barracks:
 	- Build time reduced from 38 sec. to 30.
 * Billet:
@@ -256,6 +267,20 @@ Combine:
 * Armory:
 	- Price changed from 40/50 to 50/25.
 	- Build time increased from 56 sec. to 60.
+* Bunker:
+	- Price changed from 20/50 to 50/10.
+	- Requires now armory.
+* Shield generator:
+	- Price changed from 15/15 to 20/5.
+	- Can block enemy grenades/energyballs.
+	- Cannot be connected now to enemy shield gens.
+* Mortar:
+	- Price reduced from 60/50 to 50/20.
+	- Build time increased from 15 sec. to 25.
+	- Requires now armory.
+	- Initial energy increased from 35 to 40.
+* Regeneration post:
+	- Price changed from 50/0 to 25/10.
 * Energy cell:
 	- Build time reduced from 25 sec. to 20.
 * Power generator:
@@ -264,14 +289,22 @@ Combine:
 	- Build time reduced from 45 sec. to 40.
 * Scrap generator:
 	- Price increased from 35 to 40.
-	- Energy generation interval changed from 2.3 sec. to 2.0
+	- Energy generation interval changed from 2.3 sec. to 2.0.
 	- Build time reduced from 35 sec. to 20.
+* Headcrab canister:
+	- Build price reduced from 40/65 to 40/25.
+	- Headcrab canister: price reduced from 30/25 to 10/5.
+	- Fast headcrab canister: price reduced from 40/20 to 10/10.
+	- Poison headcrab canister: price reduced from 25/25 t0 10/5.
+	- Empty canister: price reduced from 25/25 to 10/0.
 * Mech factory:
 	- Requires now armory.
 	- Build time increased from 23 sec. to 40.
 	- Price reduced from 35/0 to 25/0.
 * Mountable turret:
 	- Price reduced from 23 to 20.
+	- Changed 'pulse' attribute to 'ar1'.
+	- Damage reduced from 12 to 8.
 * Comb special ops: 
 	- Price changed from 60/40 to 75/75.
 	- Build time increased from 54 to 70.

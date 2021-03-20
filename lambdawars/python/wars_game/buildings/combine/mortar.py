@@ -229,13 +229,13 @@ class MortarInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mortar_destruction.mdl'
     explodeactivity = 'ACT_EXPLODE'
-    costs = [('requisition', 60), ('power', 50)]
+    costs = [('requisition', 50), ('power', 20)]
     unitenergy = 100
-    unitenergy_initial = 35
-    techrequirements = ['build_comb_garrison']
+    unitenergy_initial = 40
+    techrequirements = ['build_comb_armory']
     viewdistance = 768.0
     health = 200
-    buildtime = 15.0
+    buildtime = 25.0
     scale = 0.9
     abilities = {
         0: 'fire_mortar',

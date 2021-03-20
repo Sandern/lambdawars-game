@@ -35,7 +35,7 @@ class RebelsAidStationInfo(GarrisonableBuildingInfo):
     health = 500
     buildtime = 25.0
     placemaxrange = 260.0
-    costs = [[('requisition', 50)], [('kills', 5)]]
+    costs = [[('requisition', 40), ('scrap', 10)], [('kills', 5)]]
     techrequirements = ['build_reb_triagecenter']
     attributes = ['defence']
     abilities   = {
