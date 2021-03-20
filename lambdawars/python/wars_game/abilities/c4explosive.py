@@ -63,7 +63,7 @@ class AbilityC4Explosive(AbilityTarget):
     name = "c4explosive"
     image_name = 'vgui/rebels/abilities/rebel_saboteur_tnt.vmt'
     rechargetime = 7
-    costs = [[('scrap', 10)], [('kills', 1)]]
+    #costs = [[('scrap', 10)], [('kills', 1)]]
     displayname = "#AbilityC4Explosive_Name"
     description = "#AbilityC4Explosive_Description"
     cloakallowed = True

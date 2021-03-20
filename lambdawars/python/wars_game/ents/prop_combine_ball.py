@@ -602,6 +602,7 @@ class PropCombineBall(BaseClass):
             ownerent = hitentity.GetOwnerEntity()
             isstrider = FClassnameIs(hitentity, "unit_strider") or (ownerent and FClassnameIs(ownerent, "unit_strider"))
             isdog = FClassnameIs(hitentity, "unit_dog")
+            ishc = FClassnameIs(hitentity, "unit_headcrabcanister")
             istank = FClassnameIs(hitentity, "char_rebel_flamer") or FClassnameIs(hitentity, "char_metropolice_tank")
             # Detonate on the strider + the bone followers in the strider
             #if ( FClassnameIs(hitentity, "unit_strider") or 
@@ -650,7 +651,7 @@ class PropCombineBall(BaseClass):
                     # Ignore touches briefly.
                     #self.nextdamagetime = gpGlobals.curtime + 0.1
 
-                elif not isbuilding:
+                elif not isbuilding and not ishc:
                     if self.state == self.STATE_THROWN and hitentity.IsUnit():
                         self.EmitSound( "NPC_CombineBall.KillImpact" )
                     

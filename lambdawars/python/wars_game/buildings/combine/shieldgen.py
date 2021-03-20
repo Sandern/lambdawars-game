@@ -121,11 +121,12 @@ class CombineShield(BaseClassShield):
             #damage = 6.0
             #info = CTakeDamageInfo(self, self.gen1, damage, DMG_SHOCK) 
             #entity.TakeDamage(info)
-            entity.SetGroundEntity(None)
             if FClassnameIs(entity, "grenade_energy"): 
                 dir *= 0.25
             elif FClassnameIs(entity, "prop_combine_ball"): 
                 dir *= 5.0
+                self.PushEntity(entity, dir)
+            entity.SetGroundEntity(None)
                
             entity.ApplyAbsVelocityImpulse(dir * speed + Vector(1, 1, 0.0)) 
             

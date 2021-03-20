@@ -119,28 +119,6 @@ class BugBait(BaseClass):
         owner = self.GetOwnerNumber()
         origin = self.GetAbsOrigin()
         
-        # Do effect for the hit
-        sporeexplosion = SporeExplosion.CreateSporeExplosion()
-
-        if sporeexplosion:
-            dir = -self.GetAbsVelocity()
-            VectorNormalize(dir)
-
-            angles = QAngle()
-            VectorAngles(dir, angles)
-
-            sporeexplosion.SetLocalAngles(angles)
-            sporeexplosion.SetLocalOrigin(origin)
-            sporeexplosion.spawnrate = 8.0
-            sporeexplosion.particlelifetime = 2.0
-            sporeexplosion.SetRenderColor(0, 150, 75)
-            sporeexplosion.SetRenderAlpha(255)
-            
-            sporeexplosion.startsize = 32.0
-            sporeexplosion.endsize = 64.0
-            sporeexplosion.spawnradius = 32.0
-
-            sporeexplosion.SetLifetime(5)#bugbait_distract_time.GetFloat())
 
         tr = trace_t()
         traceDir = self.GetAbsVelocity()

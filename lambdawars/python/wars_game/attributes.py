@@ -14,7 +14,7 @@ class MediumAttributeInfo(AttributeInfo):
 
 class HeavyAttributeInfo(AttributeInfo):
     name = 'heavy'
-	
+
 class LargeAttribute(AttributeInfo):
     name = 'large'
 
@@ -34,11 +34,11 @@ class SynthAttributeInfo(AttributeInfo):
     """ semi-organic armored Combine units like Hunter, Strider, Gunship.
     """
     name = 'synth'
-	
+
     dmgrecvmodifiers = {
-		'bullet': ScaleBonusDamage(0.25),
-		'pulse': ScaleBonusDamage(0.25),
-		'ar1': ScaleBonusDamage(0.5),
+        'bullet': ScaleBonusDamage(0.25),
+        'pulse': ScaleBonusDamage(0.25),
+        'ar1': ScaleBonusDamage(0.5),
     }
 
 
@@ -59,26 +59,26 @@ class FlechetteAttribute(AttributeInfo):
     dmgmodifiers = {
         'large': ConstantBonusDamage(5),
     }
-	
+
 class PulseCannonAttribute(AttributeInfo):
     name = 'pulse_cannon'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(9),
-		'medium': ConstantBonusDamage(8),
-		'heavy': ConstantBonusDamage(7),
-		'creature': ConstantBonusDamage(6),
+        'light': ConstantBonusDamage(9),
+        'medium': ConstantBonusDamage(8),
+        'heavy': ConstantBonusDamage(7),
+        'creature': ConstantBonusDamage(6),
     }
 
 class TauCannonAttribute(AttributeInfo):
     name = 'tau'
 
     dmgmodifiers = {
-		'synth': ConstantBonusDamage(24),
-		'metal': ConstantBonusDamage(24),
-		'heavy': ConstantBonusDamage(30),
+        'synth': ConstantBonusDamage(24),
+        'metal': ConstantBonusDamage(24),
+        'heavy': ConstantBonusDamage(30),
     }
-	
+
 class TauCannonAltAttribute(AttributeInfo):
     name = 'tau_alt'
 
@@ -86,7 +86,7 @@ class TauCannonAltAttribute(AttributeInfo):
     def ApplyToTarget(self, target, dmg_info):
         if target.IsAlive() and getattr(target, 'isbuilding', False):
             dmg_info.ScaleDamage(0.5)
-	
+
 class BunkerAttributeInfo(AttributeInfo):
     """ For bunker buildings. """
     name = 'bunker'
@@ -136,8 +136,8 @@ class SlashAttribute(AttributeInfo):
     name = 'slash'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(25),
-		'creature': ConstantBonusDamage(30),
+        'light': ConstantBonusDamage(25),
+        'creature': ConstantBonusDamage(30),
     }
 
 
@@ -178,15 +178,15 @@ class PulseAttribute(AttributeInfo):
         'light': ConstantBonusDamage(4),
         'medium': ConstantBonusDamage(5),
     }
-	
+
 class AR1Attribute(AttributeInfo):
     name = 'ar1'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(6),
-		'medium': ConstantBonusDamage(5),
-		'heavy': ConstantBonusDamage(4),
-		'creature': ConstantBonusDamage(4),
+        'light': ConstantBonusDamage(6),
+        'medium': ConstantBonusDamage(5),
+        'heavy': ConstantBonusDamage(4),
+        'creature': ConstantBonusDamage(4),
     }
 
 
@@ -204,11 +204,11 @@ class PlasmaAttribute(AttributeInfo):
     name = 'plasma'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(200),
-		'medium': ConstantBonusDamage(200),
-		'heavy': ConstantBonusDamage(230),
-		'creature': ConstantBonusDamage(50),
-		'defence': ScaleBonusDamage(2.0),
+        'light': ConstantBonusDamage(200),
+        'medium': ConstantBonusDamage(200),
+        'heavy': ConstantBonusDamage(230),
+        'creature': ConstantBonusDamage(50),
+        'defence': ScaleBonusDamage(2.0),
     }
 
 class CrossbowAttribute(AttributeInfo):
@@ -216,12 +216,12 @@ class CrossbowAttribute(AttributeInfo):
     name = 'crossbow'
 
     dmgmodifiers = {
-		'light': ConstantBonusDamage(50),
-		'medium': ConstantBonusDamage(100),
-		'heavy': ConstantBonusDamage(50),
-		#'synth': ConstantBonusDamage(50),
-		'building': ScaleBonusDamage(0.5),
-		'defence': ScaleBonusDamage(1.5),
+        'light': ConstantBonusDamage(50),
+        'medium': ConstantBonusDamage(100),
+        'heavy': ConstantBonusDamage(50),
+        #'synth': ConstantBonusDamage(50),
+        'building': ScaleBonusDamage(0.5),
+        'defence': ScaleBonusDamage(1.5),
     }
 
 
@@ -328,10 +328,10 @@ class DogSlamImpactAttribute(AttributeInfo):
     name = 'dogslamimpact'
 
     dmgmodifiers = {
-		#'synth': ConstantBonusDamage(200),
-		'large': ConstantBonusDamage(200),
-		'light': ConstantBonusDamage(50),
-		'medium': ConstantBonusDamage(50),
+        #'synth': ConstantBonusDamage(200),
+        'large': ConstantBonusDamage(200),
+        'light': ConstantBonusDamage(50),
+        'medium': ConstantBonusDamage(50),
     }
 
     def ApplyToTarget(self, target, dmg_info):
@@ -355,11 +355,11 @@ class MortarAttribute(AttributeInfo):
     name = 'mortar'
 
     dmgmodifiers = {
-		'light': ScaleBonusDamage(1.8),
-		'medium': ScaleBonusDamage(2.4),
-		'heavy': ScaleBonusDamage(2.8),
-		'synth': ScaleBonusDamage(3.0),
-		'metal': ScaleBonusDamage(3.0),
+        'light': ScaleBonusDamage(1.8),
+        'medium': ScaleBonusDamage(2.4),
+        'heavy': ScaleBonusDamage(2.8),
+        'synth': ScaleBonusDamage(3.0),
+        'metal': ScaleBonusDamage(3.0),
 
     }
 
