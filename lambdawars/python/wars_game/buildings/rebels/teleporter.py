@@ -57,7 +57,7 @@ class AbilityTeleportUnits(AbilityTarget):
     displayname = "#AbilityTeleportUnits_Name"
     description = "#AbilityTeleportUnits_Description"
     image_name = 'vgui/rebels/abilities/rebel_teleport_units.vmt'
-    rechargetime = 50
+    rechargetime = 40
     #costs = [('requisition', 30)]
     supportsautocast = False
     defaultautocast = False

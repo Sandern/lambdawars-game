@@ -1,9 +1,13 @@
 from srcbase import MASK_SHOT, COLLISION_GROUP_NONE, MAX_TRACE_LENGTH
 from vmath import Vector, QAngle, AngleVectors, VectorNormalize, DotProduct, vec3_angle
-from core.buildings import UnitBaseAutoTurret, WarsTurretInfo
+from core.buildings import UnitBaseAutoTurret, WarsTurretInfo, CreateDummy
 from particles import DispatchParticleEffect
 from utils import trace_t, UTIL_TraceLine
-from entities import FireBulletsInfo_t, entity
+from entities import FireBulletsInfo_t, entity, DENSITY_NONE, DENSITY_GAUSSIANECLIPSE
+from .basepowered import PoweredBuildingInfo
+from fields import StringField
+from core.abilities import AbilityAsAttack, AttackAbilityAsAttack
+from core.units import CoverSpot
 import random
 
 if isserver:
@@ -13,6 +17,10 @@ if isserver:
     
 @entity('build_combinecannon', networked=True)
 class CombineCannon(UnitBaseAutoTurret):
+    def __init__(self):
+        super(CombineCannon, self).__init__()
+        
+        self.SetEnterOffset(Vector(-64, 0, 0))
     def Precache(self):
         if isserver:
             PrecacheParticleSystem( "Weapon_Combine_Ion_Cannon" )
@@ -25,7 +33,7 @@ class CombineCannon(UnitBaseAutoTurret):
         if isserver:
             self.timebeamon = gpGlobals.curtime
             self.CreateBeam()
-
+        self.SetCanBeSeen(True)
     def UpdateOnRemove(self):
         if isserver:
             self.DestroyBeam()
@@ -81,6 +89,7 @@ class CombineCannon(UnitBaseAutoTurret):
 
         self.beam.SetStartPos( trBeam.startpos )
         self.beam.SetEndPos( trBeam.endpos )
+        self.beam.AddFOWFlags(self.GetFOWFlags())
         
         
         #if( !(m_spawnflags & SF_TANK_AIM_AT_POS) )
@@ -170,23 +179,62 @@ class CombineCannon(UnitBaseAutoTurret):
     firesound = "NPC_Combine_Cannon.FireBullet"
     #idleact = 'ACT_FLOOR_TURRET_OPEN_IDLE'
     #fireact = 'ACT_FLOOR_TURRET_FIRE'
+    blockdensitytype = DENSITY_NONE
+    customeyeoffset = Vector(0,0,24)
 
     s_pUpdateBeamThinkContext = "UpdateBeamThinkContext"
     COMBINE_CANNON_BEAM = "effects/blueblacklargebeam.vmt"
     
     beam = None     
+    autoconstruct = False
 
 # Register unit
 class CombineCannonInfo(WarsTurretInfo):
-    name        = "build_combinecannon"                            # unit_create name
-    cls_name    = "build_combinecannon"                            # This entity is spawned and can be retrieved in the unit instance by GetUnitType()
-    image_name  = "vgui/abilities/ability_rebelhq.vmt"      # Displayed in unit panel
-    health      = 1000
-    buildtime = 5.0
+    name = "build_combine_cannon"
+    cls_name = "build_combinecannon"
+    displayname = '#BuildCombLaserTur_Name'
+    description = '#BuildCombLaserTur_Description'
+    image_name  = 'vgui/combine/buildings/build_comb_cannon.vmt'
+    image_dis_name = 'vgui/combine/buildings/build_comb_cannon_dis.vmt'
+    health = 300
+    attributes = ['building', 'pulse', 'fire']
+    buildtime = 50.0
+    viewdistance = 1024
+    sensedistance = 1280
+    costs = [('requisition', 75), ('power', 25)]
+    techrequirements = ['build_comb_tech_center']
     modelname = 'models/combine_turrets/combine_cannon_gun.mdl'
+    selectionpriority = 1
+    zoffset = 32.0
+    sound_death = 'build_comb_mturret_explode'
     
     class AttackTurret(WarsTurretInfo.AttackTurret):
-        damage = 150
-        attackspeed = 1.0
+        damage = 120
+        maxrange = 1152
+        attackspeed = 0.8
+        cone = 0.99862953475 
     attacks = 'AttackTurret'
-    
+    abilities = {
+        8: 'cancel',
+    }
+    dummies = [
+        CreateDummy(
+            offset=Vector(0, 0, -2),
+            modelname = 'models/props_combine/combine_barricade_short01a.mdl',
+            blocknavareas = False,
+            blockdensitytype = DENSITY_GAUSSIANECLIPSE,
+        ),
+    ]
+    def UpdateParticleEffects(self, inst, targetpos):
+        inst.SetControlPoint(0, targetpos)
+        inst.SetControlPoint(1, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
+        inst.SetControlPoint(2, Vector(1216, 0, 0))
+        forward = Vector()
+        AngleVectors(self.targetangle, forward)
+        inst.SetControlPoint(3, targetpos + forward * 32.0)
+        
+    infoparticles = ['cone_of_fire']
+    cover_spots = [
+        CoverSpot(offset=Vector(-40, -24, 0)),
+        CoverSpot(offset=Vector(-40, 24, 0)),
+    ]

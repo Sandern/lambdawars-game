@@ -70,7 +70,7 @@ class AbilityCombineBall(AbilityTarget):
     image_name = 'vgui/abilities/ability_ar2orb.vmt'
     image_dis_name = 'vgui/abilities/ability_ar2orb.vmt'
     #costs = [('power', 10)]
-    rechargetime = 30
+    rechargetime = 20
     techrequirements = ['combineball_unlock']
     activatesoundscript = '#energyball'
     sai_hint = AbilityTarget.sai_hint | set(['sai_combine_ball'])

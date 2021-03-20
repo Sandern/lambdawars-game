@@ -64,10 +64,10 @@ class PulseCannonAttribute(AttributeInfo):
     name = 'pulse_cannon'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(9),
-        'medium': ConstantBonusDamage(8),
-        'heavy': ConstantBonusDamage(7),
-        'creature': ConstantBonusDamage(6),
+        'light': ConstantBonusDamage(12),
+        'medium': ConstantBonusDamage(11),
+        'heavy': ConstantBonusDamage(10),
+        'creature': ConstantBonusDamage(9),
     }
 
 class TauCannonAttribute(AttributeInfo):
@@ -168,6 +168,14 @@ class BulletAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(5),
         # 'creature': ConstantBonusDamage(2),
+    }
+
+class WinchesterAttribute(AttributeInfo):
+    name = 'winchester'
+
+    dmgmodifiers = {
+        'light': ConstantBonusDamage(30),
+        'medium': ConstantBonusDamage(30),
     }
 
 

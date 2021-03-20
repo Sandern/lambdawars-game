@@ -1082,7 +1082,7 @@ class StriderInfo(UnitInfo):
     ability_10 = 'patrol'
 
     class AttackRange(UnitInfo.AttackRange):
-        damage = 8
+        damage = 5
         minrange = 0.0
         maxrange = 896.0
         attackspeed = 0.19

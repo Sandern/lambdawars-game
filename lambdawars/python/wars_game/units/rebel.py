@@ -462,6 +462,31 @@ class TutorialRebelInfo(RebelInfo):
     techrequirements = []  
 
 
+class RebelW1886Info(RebelInfo):
+    name = 'unit_rebel_winchester'
+    displayname = '#RebWinchester_Name'
+    description = '#RebWinchester_Description'
+    buildtime = 28.0
+    health = 160
+    costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
+    techrequirements = ['build_reb_munitiondepot']
+    weapons = ['weapon_winchester1886']
+    abilities = {
+        0: 'grenade',
+        #1: 'rebel_grenade_upgrade',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+
+    attributes = ['medium']
+    image_name = 'vgui/rebels/units/unit_rebel_sg'
+    maxspeed = 216.0
+    viewdistance = 768
+    sensedistance = 1024
+
 class RebelSGInfo(RebelInfo):
     name = 'unit_rebel_sg'
     displayname = '#RebSG_Name'

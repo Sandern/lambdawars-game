@@ -133,7 +133,7 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
         infoparticles = ['cone_of_fire']
 		
     class AttackTurret(WarsDynMountTurretInfo.AttackTurret):
-        damage = 8
+        damage = 10
         attackspeed = 0.1
         attributes = ['ar1']
         maxrange = 1024.0

@@ -95,7 +95,7 @@ class AbilityStriderCannon(AbilityTarget):
     damageradius = FloatField(value=256.0)
     #techrequirements = ['stridercannon_unlock']
     #costs = [[('power', 100)], [('kills', 10)]]
-    energy = 45
+    energy = 75
     sai_hint = AbilityTarget.sai_hint | set(['sai_grenade'])
     
     @serveronly
