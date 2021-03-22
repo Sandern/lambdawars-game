@@ -902,6 +902,7 @@ class RebelVeteran(RebelShared):
     image_name = 'vgui/rebels/units/unit_rebel_crossbow'
     techrequirements = ['build_reb_specialops']
     #tier = 3
+    modellist = GenerateModelList('VETERAN')
 
     abilities = {
         0: 'fireexplosivebolt',

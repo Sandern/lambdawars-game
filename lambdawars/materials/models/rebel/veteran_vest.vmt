@@ -1,0 +1,21 @@
+vertexlitgeneric
+{
+$basetexture "models\rebel\veteran_vest"
+$bumpmap "models\rebel\veteran_vest_normal"
+$halflambert 1
+
+
+		"$teamcolormap" "models\rebel\veteran_vest_color"	
+        "Proxies"
+        {
+                "IsNPC"
+                {
+                        "scale" "4.0"
+                        "resultvar" "$selfillumtint"
+                }
+       
+                "TeamColor"
+                {
+                }
+        }
+}

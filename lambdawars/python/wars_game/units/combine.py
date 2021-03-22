@@ -494,13 +494,13 @@ class CombineHeavyInfo(CombineSharedInfo):
     displayname = '#CombHeavy_Name'
     description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 60), ('power', 25)], [('kills', 4)]]
-    buildtime = 30.0
-    health = 300
+    costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
+    buildtime = 32.0
+    health = 350
     maxspeed = 224
     #sensedistance = 1120.0
     viewdistance = 768
-    unitenergy = 300
+    unitenergy = 350
     unitenergy_initial = -1
     attributes = ['heavy']
     techrequirements = ['build_comb_specialops','weaponsg_comb_unlock']
