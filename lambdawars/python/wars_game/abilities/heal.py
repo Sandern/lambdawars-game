@@ -130,7 +130,7 @@ class AbilityHeal(AbilityTargetGroup):
     def SetupOnUnit(info, unit):
         super(AbilityHeal, info).SetupOnUnit(unit)
         
-        unit.abiheal_nextchecktime = gpGlobals.curtime + 1.0
+        unit.abiheal_nextchecktime = gpGlobals.curtime + 0.5
         
     @classmethod
     def OnUnitThink(info, unit):
@@ -144,13 +144,14 @@ class AbilityHeal(AbilityTargetGroup):
         if unit.abiheal_nextchecktime > gpGlobals.curtime:
             return
             
-        unit.abiheal_nextchecktime = gpGlobals.curtime + 2.0
+        unit.abiheal_nextchecktime = gpGlobals.curtime + 0.5
             
         others = list(filter(bool, unit.senses.GetOthers()))
-        if len(others) > 10:
-            units = random.sample(others, 10)
-        else:
-            units = others
+        #if len(others) > 10:
+        #    units = random.sample(others, 10)
+        #else:
+        #    units = others
+        units = others
             
         bestunit = None
         highesthplost = 0
@@ -165,7 +166,7 @@ class AbilityHeal(AbilityTargetGroup):
                 bestunit = other
                 highesthplost = hplost
             
-        if bestunit and highesthplost > 30:
+        if bestunit and highesthplost > 0:
             leftpressed = MouseTraceData()
             leftpressed.groundendpos = bestunit.GetAbsOrigin()
             leftpressed.ent = bestunit
@@ -174,7 +175,7 @@ class AbilityHeal(AbilityTargetGroup):
             
         return False
 
-    allowmultipleability = True
+    #allowmultipleability = True
 
 class MissionAbilityHeal(AbilityHeal):
     name = "mission_heal"

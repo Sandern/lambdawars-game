@@ -273,25 +273,39 @@ class UnitCombineSniper(UnitCombine):
 class UnitCombineHeavy(UnitCombine):
     canshootmove = False
     regenerationtime = 0
+    effecttime = 0
+    regeneration = False
     def UnitThink(self):
         super().UnitThink()
-        if self.health < self.maxhealth and self.energy > 0:
+        if self.health < self.maxhealth and self.energy > 0 and self.regeneration:
             self.Regeneration()
     def Regeneration(self):
         while self.regenerationtime < gpGlobals.curtime:
-            coef = 1
-            if self.energy * coef > self.unitinfo.regenerationamount: 
-                regenerationamount = self.unitinfo.regenerationamount
-                energy = self.unitinfo.regenerationamount/coef
-            else:  
-                regenerationamount = self.energy*coef
-                energy = self.energy
-                return 
+            if not self.energy >= self.unitinfo.regenerationamount: 
+                return
             if hasattr(self, 'EFFECT_DOHEAL'):
                 self.DoAnimation(self.EFFECT_DOHEAL)
             self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
             self.health = min(self.health+regenerationamount, self.maxhealth) 
             self.TakeEnergy(energy)
+    def ScaleDamageToAttributes(self, dmginfo, my_attributes):
+        dmg_info = super().ScaleDamageToAttributes(dmginfo, my_attributes)
+        olddmg = dmg_info.GetDamage()
+        if dmg_info.GetDamage() <= self.energy:
+            self.TakeEnergy(dmg_info.GetDamage())
+            dmg_info.ScaleDamage(self.unitinfo.coef)
+        elif dmg_info.GetDamage() > self.energy and self.energy > 0:
+            dmg_info.ScaleDamage((1 + (self.unitinfo.coef - 1)*(self.energy/dmg_info.GetDamage()))) 
+            self.TakeEnergy(self.energy)
+        if self.effecttime < gpGlobals.curtime:
+            if dmg_info.GetDamage() != olddmg and dmg_info.GetDamage() < self.health:
+                self.effecttime = 2.5 + gpGlobals.curtime
+                #if hasattr(self, 'EFFECT_DOSHIELD'):
+                #    self.DoAnimation(self.EFFECT_DOSHIELD)
+                if hasattr(self, 'EFFECT_DOHEAL'):
+                    self.DoAnimation(self.EFFECT_DOHEAL)
+                    self.EmitSound('NPC_Hunter.FlechetteHitWorld')
+        return dmg_info
             
 # Register unit
 class CombineSharedInfo(UnitInfo):
@@ -412,7 +426,7 @@ class CombineAR2Info(CombineInfo):
     buildtime = 28.0
     health = 220
     maxspeed = 184
-    sensedistance = 768.0
+    sensedistance = 1024.0
     viewdistance = 832
     accuracy = 0.626
     attributes = ['medium']
@@ -450,7 +464,7 @@ class CombineEliteInfo(CombineSharedInfo):
     buildtime = 35.0
     health = 250
     maxspeed = 208
-    #sensedistance = 1120.0
+    sensedistance = 1024.0
     viewdistance = 896
     attributes = ['heavy']
     techrequirements = ['weaponar2_comb_unlock']
@@ -480,21 +494,26 @@ class CombineHeavyInfo(CombineSharedInfo):
     displayname = '#CombHeavy_Name'
     description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 50), ('power', 40)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('power', 25)], [('kills', 4)]]
     buildtime = 30.0
     health = 300
     maxspeed = 224
     #sensedistance = 1120.0
     viewdistance = 768
-    unitenergy = 100
+    unitenergy = 300
     unitenergy_initial = -1
     attributes = ['heavy']
-    techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
+    techrequirements = ['build_comb_specialops','weaponsg_comb_unlock']
     selectionpriority = 3
     sound_select = 'unit_combine_elite_select'
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'
     modelname = 'models/combine_heavy.mdl'
+    #version = 3
+    coef = 0.5 
+    energyforarmor = 20 
+    regenerationamount = 10
+    regenerationtime = 2
     abilities = {
 		#7: 'mountturret',
 		0: 'stungrenade',
@@ -506,8 +525,6 @@ class CombineHeavyInfo(CombineSharedInfo):
     weapons = ['weapon_pulse_shotgun']
     accuracy = 'medium'
     population = 2
-    regenerationamount = 10
-    regenerationtime = 2
 
 class OverrunCombineHeavyInfo(CombineHeavyInfo):
 	name = 'overrun_unit_combine_heavy'
@@ -543,7 +560,7 @@ class CombineSniperInfo(CombineSharedInfo):
     buildtime = 38.0
     health = 190
     maxspeed = 168.0
-    sensedistance = 1536.0
+    sensedistance = 1664.0
     viewdistance = 896
     unitenergy = 60
     unitenergy_initial = 30

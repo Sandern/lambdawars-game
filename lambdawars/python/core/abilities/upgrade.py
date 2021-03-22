@@ -80,6 +80,7 @@ class AbilityUpgrade(AbilityBase):
     def OnUpgraded(self): pass
         
     def ProduceAbility(self, producer):
+        producer.DoNotificationEntCompleted(producer, self.name)
         self.Completed()
         return True        
         

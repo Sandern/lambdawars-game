@@ -218,6 +218,7 @@ class UnitBaseFactoryShared(object):
                               self.GetOwnerNumber())
             if not unit:
                 return None  # Failed, not factories fault.
+            self.DoNotificationEntCompleted(unit, unit.unitinfo.name)
                 
             # Move unit to rally point
             if self.rallypointtarget and self.rallypointtarget != vec3_origin:
@@ -231,6 +232,8 @@ class UnitBaseFactoryShared(object):
                     data.groundendpos = self.rallypointtarget.GetAbsOrigin()
                 unit.ProcessOrder(data)
             return unit
+        def DoNotificationEntCompleted(self, ent, name):
+            DoNotificationEntAbi(NotificationAbilityCompleted.name, ent, name, filter=GetNotifcationFilterForOwner(self.GetOwnerNumber()))
 
         def BuildThink(self):
             """ Maintain factory queue """
@@ -243,8 +246,8 @@ class UnitBaseFactoryShared(object):
                         result = self.buildqueue[0].abilities[0].ProduceAbility(self) 
                         if result:
                             # Notify produced
-                            DoNotificationEntAbi(NotificationAbilityCompleted.name, self, self.buildqueue[0].abilities[0].name,
-                                                 filter=GetNotifcationFilterForOwner(self.GetOwnerNumber()))
+                            #DoNotificationEntAbi(NotificationAbilityCompleted.name, self, self.buildqueue[0].abilities[0].name,
+                            #                     filter=GetNotifcationFilterForOwner(self.GetOwnerNumber()))
                         
                             # Update build queue     
                             self.buildqueue[0].abilities.pop(0)

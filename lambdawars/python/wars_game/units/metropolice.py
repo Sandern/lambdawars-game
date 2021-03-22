@@ -368,13 +368,27 @@ class UnitMetroPolice(BaseClass):
         # Make sure to apply speed changes ones (make this nicer. Need some general system to apply speed mods?)
         if self.__defensive_mode_applied != self.defensive_mode:
             self.__defensive_mode_applied = self.defensive_mode
+            self.mv.maxspeed = self.CalculateUnitMaxSpeed()
 
-            if self.defensive_mode:
-                self.defensive_mode_speed_redux = 150
-                self.mv.maxspeed -= self.defensive_mode_speed_redux
-            else:
-                self.mv.maxspeed += self.defensive_mode_speed_redux
-                self.defensive_mode_speed_redux = 0
+            #if self.defensive_mode:
+                #self.defensive_mode_speed_redux = 0.35
+                #self.mv.maxspeed = self.CalculateUnitMaxSpeed()# * self.defensive_mode_speed_redux
+            #else:
+                #self.mv.maxspeed = self.CalculateUnitMaxSpeed()# / self.defensive_mode_speed_redux
+                #self.defensive_mode_speed_redux = 0
+
+    def CalculateUnitMaxSpeed(self):
+        # The base speed
+        speed = self.base_max_speed
+
+        # Apply speed modifiers
+        for mod in self.speed_modifiers:
+            speed_mod = 1 + mod.speed_mod/speed
+            speed *= speed_mod
+        if self.defensive_mode:
+            speed *= self.defensive_mode_speed_redux
+
+        return speed
 
     def OnSteadyPositionChanged(self):
         self.UpdateTranslateActivityMap()
@@ -441,7 +455,7 @@ class UnitMetroPolice(BaseClass):
     shield = EHandleField(value=None, networked=True, clientchangecallback='OnShieldChanged')
     defensive_mode = BooleanField(value=False, networked=True, helpstring='indicates the police has it\'s shield up',
                                   clientchangecallback='OnDefensiveModeChanged')
-    defensive_mode_speed_redux = FloatField(value=0)
+    defensive_mode_speed_redux = FloatField(value=0.35)
     
     activemanhacks = ListField(networked=True)
     activescanners = ListField(networked=True)
@@ -494,7 +508,7 @@ class UnitMetroPolice(BaseClass):
             Activity.ACT_RUN_CROUCH: Activity.ACT_RUN,
             Activity.ACT_WALK_CROUCH_AIM: Activity.ACT_WALK_AIM,
             Activity.ACT_RUN_CROUCH_AIM: Activity.ACT_RUN_AIM,
-            Activity.ACT_CROUCHIDLE_AIM_STIMULATED: Activity.ACT_RANGE_ATTACK_SMG1,
+            Activity.ACT_CROUCHIDLE_AIM_STIMULATED: Activity.ACT_RANGE_AIM_SMG1_LOW,
         },
         'weapon_stunstick': {
             Activity.ACT_MELEE_ATTACK1 : Activity.ACT_MELEE_ATTACK_SWING,
