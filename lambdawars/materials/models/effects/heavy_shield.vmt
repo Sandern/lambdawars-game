@@ -1,0 +1,23 @@
+"unlittwotexture"
+{
+$basetexture "models/effects/heavy_shield_mask"
+$texture2 "models/effects/heavy_shield" 
+$additive 1
+$nocull 1
+$selfillum 1
+$no_fullbright 1
+
+	"Proxies"
+	{
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" 0.7
+			"texturescrollangle" 270
+		}	
+
+	}
+
+
+}
