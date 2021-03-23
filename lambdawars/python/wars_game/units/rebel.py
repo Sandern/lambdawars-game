@@ -640,11 +640,11 @@ class DestroyHQRebelAR2Info(RebelAR2Info):
 class RebelMedicInfo(RebelShared):
     name = 'unit_rebel_medic'
     cls_name = 'unit_rebel_medic'
-    buildtime = 22.0
+    buildtime = 16.0
     maxspeed = 224
     viewdistance = 768
     unitenergy = 100
-    costs = [[('requisition', 15), ('scrap', 10)], [('kills', 1)]]
+    costs = [[('requisition', 15), ('scrap', 5)], [('kills', 1)]]
     displayname = '#RebMedic_Name'
     description = '#RebMedic_Description'
     image_name = 'vgui/rebels/units/unit_rebel_medic'
@@ -1012,17 +1012,17 @@ class MedicHealRateUpgrade(AbilityUpgradeValue):
     name = 'medic_healrate_upgrade'
     displayname = '#RebMedHealRateUpgr_Name'
     description = '#RebMedHealRateUpgr_Description'
-    buildtime = 35.0
-    costs = [('requisition', 25), ('scrap', 15)]
-    upgradevalue = 75.0
+    buildtime = 25.0
+    costs = [('requisition', 15)]
+    upgradevalue = 100.0
     image_name = 'vgui/rebels/abilities/medic_healrate_upgrade'
 
 class MedicEnergyRegenRateUpgrade(AbilityUpgradeValue):
     name = 'medic_regenerate_upgrade'
     displayname = '#MedEnRegRateUpgr_Name'
     description = '#MedEnRegRateUpgr_Description'
-    buildtime = 35.0
-    costs = [('requisition', 25), ('scrap', 15)]
+    buildtime = 20.0
+    costs = [('requisition', 10)]
     upgradevalue = 5.0
     image_name = 'vgui/rebels/abilities/medic_regenerate_upgrade'
 
@@ -1031,9 +1031,9 @@ class MedicMaxEnergyUpgrade(AbilityUpgradeValue):
     name = 'medic_maxenergy_upgrade'
     displayname = '#MedMaxEnUpgr_Name'
     description = '#MedMaxEnUpgr_Description'
-    buildtime = 35.0
-    costs = [('requisition', 25), ('scrap', 15)]
-    upgradevalue = 150
+    buildtime = 25.0
+    costs = [('requisition', 15)]
+    upgradevalue = 175
     image_name = 'vgui/rebels/abilities/medic_maxenergy_upgrade'
 
 

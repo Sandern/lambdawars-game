@@ -145,8 +145,8 @@ class AbilityGrenade(AbilityTarget):
             pos = data.groundendpos
             target = data.ent
             self.throwtargetpos = pos
-            if target and not target.IsWorld():
-                self.throwtarget = target
+            #if target and not target.IsWorld():
+            #    self.throwtarget = target
             
             if not self.TakeResources(refundoncancel=True):
                 self.Cancel(cancelmsg='#Ability_NotEnoughResources', debugmsg='not enough resources')

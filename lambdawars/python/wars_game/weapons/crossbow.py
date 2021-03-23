@@ -192,6 +192,7 @@ class ExplosiveCrossbowBolt(CBaseCombatCharacter):
             bolt.SetOwnerNumber(owner.GetOwnerNumber())
         bolt.Spawn()
         bolt.SetOwnerEntity(owner)
+        bolt.StartLifetime(0.3) 
 
         bolt.damage = damage
 
@@ -270,6 +271,8 @@ class ExplosiveCrossbowBolt(CBaseCombatCharacter):
 
             if self.glowsprite:
                 UTIL_Remove(self.glowsprite)
+        def StartLifetime(self, flDuration):
+            self.SetThink(self.Detonate, gpGlobals.curtime + flDuration)
 
     def BoltTouch(self, other):
         if not other.IsSolid() or other.IsSolidFlagSet(FSOLID_VOLUME_CONTENTS):
@@ -290,6 +293,31 @@ class ExplosiveCrossbowBolt(CBaseCombatCharacter):
         # Notes about the RadiusDamage function:
         # It will have falloff damage if the inflictor (first argument CTakeDamageInfo) is not directly visible through a trace.
         # The second argument (attacker) is used in the damage taking function for attributes (core.units.base.UnitBaseShared.OnTakeDamage)
+        self.damagecontroller.unit_owner = self.GetOwnerEntity()
+        info = CTakeDamageInfo(self, self.damagecontroller, None, blastforce, origin, self.damage, DMG_BLAST, 0,
+                               vecReported)
+
+        RadiusDamage(info, origin, dmgradius, CLASS_NONE, None)
+
+        UTIL_DecalTrace(super().GetTouchTrace(), "Scorch")
+
+        self.SetTouch(None)
+        self.SetThink(None)
+
+        self.RemoveCrossbowBolt()
+    def Detonate(self):
+        origin = self.GetAbsOrigin()
+
+        dmgradius = self.dmgradius
+
+        DispatchParticleEffect("explosion_turret_break", origin, self.GetAbsAngles())
+
+        vecReported = Vector(vec3_origin)
+        blastforce = Vector(vec3_origin)
+
+        self.EmitSound("BaseGrenade.Explode")
+        self.EmitSound("BaseExplosionEffect.Sound")
+
         self.damagecontroller.unit_owner = self.GetOwnerEntity()
         info = CTakeDamageInfo(self, self.damagecontroller, None, blastforce, origin, self.damage, DMG_BLAST, 0,
                                vecReported)

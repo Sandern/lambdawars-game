@@ -1,5 +1,5 @@
 from entities import entity, FireBulletsInfo_t, WeaponSound
-from core.weapons import WarsWeaponBase, VECTOR_CONE_13DEGREES, VECTOR_CONE_15DEGREES, VECTOR_CONE_10DEGREES, WarsWeaponMachineGun, VECTOR_CONE_1DEGREES
+from core.weapons import WarsWeaponBase, VECTOR_CONE_15DEGREES, VECTOR_CONE_10DEGREES, WarsWeaponMachineGun, VECTOR_CONE_1DEGREES
 
 
 @entity('weapon_winchester1886', networked=True)
@@ -42,4 +42,3 @@ class WeaponShotgunWinchester(WarsWeaponBase):
         damage = 10
         cone = WarsWeaponBase.AttackRange.DOT_1DEGREE
         attributes = ['winchester']
-

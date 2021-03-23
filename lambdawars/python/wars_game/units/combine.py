@@ -300,10 +300,8 @@ class UnitCombineHeavy(UnitCombine):
         if self.effecttime < gpGlobals.curtime:
             if dmg_info.GetDamage() != olddmg and dmg_info.GetDamage() < self.health:
                 self.effecttime = 2.5 + gpGlobals.curtime
-                #if hasattr(self, 'EFFECT_DOSHIELD'):
-                #    self.DoAnimation(self.EFFECT_DOSHIELD)
-                if hasattr(self, 'EFFECT_DOHEAL'):
-                    self.DoAnimation(self.EFFECT_DOHEAL)
+                if hasattr(self, 'EFFECT_DOSHIELD'):
+                    self.DoAnimation(self.EFFECT_DOSHIELD)
                     self.EmitSound('NPC_Hunter.FlechetteHitWorld')
         return dmg_info
             

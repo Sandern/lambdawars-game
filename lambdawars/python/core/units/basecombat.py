@@ -165,6 +165,7 @@ class UnitBaseCombat(BaseClass):
         super().PrecacheUnitType(info)
         
         PrecacheParticleSystem('pg_heal')
+        PrecacheParticleSystem('pg_combine_heavy_shield')
         PrecacheParticleSystem(cls.incoverparticlename)
         
     def GetActiveAttributes(self):
@@ -1316,7 +1317,12 @@ class UnitBaseCombat(BaseClass):
             healfx = self.ParticleProp().Create("pg_heal", PATTACH_ABSORIGIN_FOLLOW)
             healfx.SetControlPoint(1, self.GetTeamColor())
             healfx.SetControlPoint(2, Vector(self.CollisionProp().BoundingRadius2D(), 1.0, 0.0))
-            
+    def EventHandlerDoShield(self, data):
+        if isclient:
+            healfx = self.ParticleProp().Create("pg_combine_heavy_shield", PATTACH_ABSORIGIN_FOLLOW)
+            healfx.SetControlPoint(1, self.GetTeamColor())
+            healfx.SetControlPoint(2, Vector(self.CollisionProp().BoundingRadius2D(), 1.0, 0.0))
+
     if isclient:
         def MoveSound(self):
             self.PlayOrderSound(self.unitinfo.sound_move)
@@ -1763,6 +1769,7 @@ class UnitBaseCombat(BaseClass):
         'ANIM_STOPCHARGE': EventHandlerStub,
         'ANIM_CRASHCHARGE': EventHandlerStub,
         'EFFECT_DOHEAL': 'EventHandlerDoHeal',
+        'EFFECT_DOSHIELD': 'EventHandlerDoShield',
     }
     
     # Events for DispatchEvent

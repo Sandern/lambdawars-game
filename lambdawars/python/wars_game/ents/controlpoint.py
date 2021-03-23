@@ -716,6 +716,7 @@ class BaseControlPoint(BaseClass):
             # Keep showing the control point for some seconds for old player (avoid bug that control point still shows as owned by old player)
             unit = CreateUnit('unit_scan', self.GetAbsOrigin() + Vector(0, 0, 128.0), owner_number=oldownernumber)
             unit.viewdistance = 256.0
+            unit.detector = False
             unit.SetScanDuration(5.0)
             
             # Push one update for old players (otherwise the control point might keep showing up as "theirs")
