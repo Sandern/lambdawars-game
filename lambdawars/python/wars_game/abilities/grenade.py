@@ -255,7 +255,7 @@ class AbilityStunGrenade(AbilityGrenade):
     name = 'stungrenade'
     grenadeclsname = 'grenade_stun'
     rechargetime = 30.0
-    techrequirements = ['build_comb_specialops']
+    #techrequirements = ['build_comb_specialops']
     damageradius = FloatField(value=128.0)
     displayname = "#AbilityStunGrenade_Name"
     description = "#AbilityStunGrenade_Description"

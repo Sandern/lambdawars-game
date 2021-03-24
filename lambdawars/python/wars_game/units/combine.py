@@ -299,7 +299,7 @@ class UnitCombineHeavy(UnitCombine):
             self.TakeEnergy(self.energy)
         if self.effecttime < gpGlobals.curtime:
             if dmg_info.GetDamage() != olddmg and dmg_info.GetDamage() < self.health:
-                self.effecttime = 2.5 + gpGlobals.curtime
+                self.effecttime = 0.50 + gpGlobals.curtime
                 if hasattr(self, 'EFFECT_DOSHIELD'):
                     self.DoAnimation(self.EFFECT_DOSHIELD)
                     self.EmitSound('NPC_Hunter.FlechetteHitWorld')
@@ -496,7 +496,7 @@ class CombineHeavyInfo(CombineSharedInfo):
     buildtime = 32.0
     health = 350
     maxspeed = 224
-    #sensedistance = 1120.0
+    sensedistance = 896.0
     viewdistance = 768
     unitenergy = 350
     unitenergy_initial = -1

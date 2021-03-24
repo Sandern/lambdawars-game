@@ -1321,7 +1321,7 @@ class UnitBaseCombat(BaseClass):
         if isclient:
             healfx = self.ParticleProp().Create("pg_combine_heavy_shield", PATTACH_ABSORIGIN_FOLLOW)
             healfx.SetControlPoint(1, self.GetTeamColor())
-            healfx.SetControlPoint(2, Vector(self.CollisionProp().BoundingRadius2D(), 1.0, 0.0))
+            #healfx.SetControlPoint(2, Vector(self.CollisionProp().BoundingRadius2D(), 1.0, 0.0))
 
     if isclient:
         def MoveSound(self):
