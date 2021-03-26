@@ -819,9 +819,9 @@ class UnitHeadcrabCanister(BaseClass):
     vecdirection = VectorField(value=Vector(0, 0, 0), networked=True)
     vecstartangles = QAngleField(value=vec3_angle, networked=True)
     
-    stunradius = FloatField(value=250.0, keyname='StunRadius')
-    stunduration = FloatField(value=5.0, keyname='StunDuration')
-    stunchance = FloatField(value=0.33, keyname='StunChance')
+    stunradius = FloatField(value=128.0, keyname='StunRadius')
+    stunduration = FloatField(value=3.0, keyname='StunDuration')
+    stunchance = FloatField(value=1.0, keyname='StunChance')
         
     fowflags = FOWFLAG_UPDATER
     customeyeoffset = Vector(0,0,48)
