@@ -7,7 +7,7 @@ from fields import StringField, VectorField, OutputField, BooleanField, IntegerF
 from core.attributes import CoverAttributeInfo
 from core.signals import FireSignalRobust, garrisonchanged
 from core.units.info import ParseAttributes
-from playermgr import ListAlliesOfOwnerNumber
+from playermgr import ListAlliesOfOwnerNumber, OWNER_NEUTRAL
 import random
 import operator
 import math
@@ -178,11 +178,8 @@ class UnitBaseGarrisonableShared(object):
         unitowners = ListAlliesOfOwnerNumber(unitowner)
         
             
-        for owner in owners:
-            if unitowners != owners:
-                return False
-            else:
-                return True
+        if unitowners != owners and owner != OWNER_NEUTRAL:
+            return False
         return True
     def CanGarrisonUnitByOwner(self, unit):
         owner = self.GetOwnerNumber()        
@@ -191,11 +188,8 @@ class UnitBaseGarrisonableShared(object):
         unitowners = ListAlliesOfOwnerNumber(unitowner)
         
             
-        for owner in owners:
-            if unitowners != owners:
-                return False
-            else:
-                return True
+        if unitowners != owners and owner != OWNER_NEUTRAL:
+            return False
         return True
 
     def GarrisonUnit(self, unit):
@@ -239,8 +233,9 @@ class UnitBaseGarrisonableShared(object):
         unit.SendEvent(filter, unit.UNIT_DESELECT)
         
         # Become owned by unit
-        if len(self.units) == 1:
+        if len(self.units) == 1 and self.GetOwnerNumber() == OWNER_NEUTRAL:
             if not self.playerowned: self.SetOwnerNumber(unit.GetOwnerNumber())
+            self.changeowner = True
             self.ongarrisoned.Set(self.GetOwnerNumber(), self, self)
             
     def UnGarrisonUnit(self, unit):
@@ -280,9 +275,9 @@ class UnitBaseGarrisonableShared(object):
         unit.ClearOrder(dispatchevent=True)
         
         # Become free again
-        #if not self.units:
-        #    if not self.playerowned: self.SetOwnerNumber(0)
-        #    self.onungarrisoned.Set('', self, self)
+        if not self.units and self.changeowner:
+            if not self.playerowned: self.SetOwnerNumber(0)
+            self.onungarrisoned.Set('', self, self)
             
     def UnGarrisonAll(self):
         self.units[:] = [u for u in self.units if bool(u)] # Remove none entries
@@ -300,6 +295,7 @@ class UnitBaseGarrisonableShared(object):
             FireSignalRobust(garrisonchanged, building=self)
     
     garrisonable = True
+    changeowner = False
     garrisoned_attributes = {}
     exitoffset = VectorField(value=Vector(0,0,0), keyname='exitoffset', helpstring='Offset at which units exit the building')
     exittarget = StringField(value='', keyname='exittarget', helpstring='Target entity at which units exit')

@@ -26,6 +26,7 @@ class VortigauntDenInfo(WarsBuildingInfo):
     abilities   = {
         0 : 'unit_vortigaunt',
         #1 : 'unit_antlion', # -> Use bugbait ability of Vortigaunt instead
+        4 : 'larvalextract_unlock',
         8 : 'cancel',
     }
     idleactivity = 'ACT_IDLE'
@@ -46,5 +47,6 @@ class DestroyHQVortigauntDenInfo(VortigauntDenInfo):
     techrequirements = ['build_reb_triagecenter_destroyhq']
     abilities   = {
         0 : 'unit_vortigaunt',
+        4 : 'larvalextract_unlock',
         8 : 'cancel',
     } 

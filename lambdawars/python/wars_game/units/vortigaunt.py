@@ -110,12 +110,17 @@ class UnitVortigaunt(BaseClass):
     DISPELRANGE = 512.0
     
     energyregenrate = 3.0 # Dynamicly set in UnitThink
+    energyregenrateincombat = 0.3334
+    energyregenratenotincombat = 1.0
+    energyregenrate_old = 3.0
     canshootmove = False # Don't shoot while moving, it's annoying
     detector = True
     glowchangetime = 0.0
     glowage = 0.0
     stoploopingsounds = False
     curglowindex = 0
+    bugbait = None
+    larvalextract = False
 
     def Spawn(self):
         super().Spawn()
@@ -205,10 +210,10 @@ class UnitVortigaunt(BaseClass):
                     self.wasincombat = isincombat
                     if isincombat:
                         #print('Vortigaunt changed to combat state')
-                        self.energyregenrate = 1.0
+                        self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
                     else:
                         #print('Vortigaunt is no longer in combat')
-                        self.energyregenrate = 3.0
+                        self.energyregenrate = self.energyregenrate_old * self.energyregenratenotincombat
         
         def ArmBeam(self, beamType, nHand):
             """ Small beam from arm to nearby geometry """
@@ -367,6 +372,9 @@ class UnitVortigaunt(BaseClass):
                 VectorNormalize( vecAim )# not a unit vec yet
                 # hit like a 5kg object flying 100 ft/s
                 dmgInfo.SetDamageForce( vecAim * 5.0 * 100.0 * 12.0 )
+                if self.larvalextract and entity.IsUnit():
+                    #dmgInfo.AddDamage(entity.energy/2) 
+                    dmgInfo.ScaleDamage(1.25) 
                 
                 # Our zaps do special things to antlions
                 if entity.GetClassname() == "unit_antlion":
@@ -382,6 +390,8 @@ class UnitVortigaunt(BaseClass):
 
                 # Send the damage to the recipient
                 entity.DispatchTraceAttack( dmgInfo, vecAim, tr )
+                if self.larvalextract and entity.IsUnit():
+                    entity.TakeEnergy(0.1*entity.maxenergy) #итого берет 20% т.к. опять же 2 залпа
                 
                 self.ApplyKnockBack(entity, vecAim, stunchance=1.0, speed=250)
 
@@ -484,11 +494,14 @@ class UnitVortigaunt(BaseClass):
                 vecDir *= (flRadius * 1.5 * flFalloff)
                 vecDir[2] += (flRadius * 0.5 * flFalloff)
 
+                dmgInfo = CTakeDamageInfo(self, self, vecDir, enemy.GetAbsOrigin(), 125, self.unitinfo.AttackRange.damagetype)
+                if self.larvalextract:
+                    #dmgInfo.AddDamage(enemy.energy) 
+                    dmgInfo.ScaleDamage(1.5) 
                 # gib nearby antlions, knock over distant ones. 
                 if flDist < 250 and bDispel and isenemy:
                     # splat!
                     vecDir[2] += 400.0 * flFalloff
-                    dmgInfo = CTakeDamageInfo(self, self, vecDir, enemy.GetAbsOrigin(), 125, self.unitinfo.AttackRange.damagetype)
                     enemy.TakeDamage(dmgInfo)
                 else:
                     # Turn them over
@@ -497,6 +510,8 @@ class UnitVortigaunt(BaseClass):
                             enemy.Flip(True)
                         except AttributeError:
                             pass
+                if self.larvalextract and bDispel and isenemy:
+                    enemy.TakeEnergy(enemy.energy) #думаю нормас если всю энергию будет пиздить
 
                     # Display an effect between us and the flipped creature
                     # Tell the client to start an arm beam
@@ -515,6 +530,8 @@ class UnitVortigaunt(BaseClass):
                 
         def ApplyKnockBack(self, target, dir, speed=400.0, stunchance=1.0, stunduration=1.05):
             """ Applies a knockback to the given target with a stun chance. """
+            if self.larvalextract:
+                stunduration *= 2
             curvel = target.GetAbsVelocity().LengthSqr()
             if curvel < 2000.0 * 2000.0 and not (target.IsUnit() and target.isbuilding):
                 target.ApplyAbsVelocityImpulse((dir * speed) + Vector(0, 0, 85))
@@ -667,6 +684,24 @@ class UnitVortigaunt(BaseClass):
         if self.takedamage and self.health > 0:
             self.EmitSound('unit_vortigaunt_hurt')
         return super().OnTakeDamage(dmginfo)
+    def EventHandlerLARVALEXTRACT(self, data):
+        if self.bugbait:
+            self.bugbait.Detonate(self)
+        #if hasattr(self, 'EFFECT_LARVALEXTRACT'): 
+        #    self.DoAnimation(self.EFFECT_LARVALEXTRACT)
+        if hasattr(self, 'EFFECT_DOHEAL'):
+            self.DoAnimation(self.EFFECT_DOHEAL)
+        #self.EmitSound('Test1') 
+        self.skin = 1
+        self.energyregenrateincombat = 1.3334
+        self.energyregenratenotincombat = 1.6667
+        self.UpdateEnergyRegenrate()
+        self.maxhealth = self.unitinfo.health + 80
+        self.maxenergy = self.unitinfo.unitenergy + 25
+        self.health += 80
+        self.larvalextract = True
+    def UpdateEnergyRegenrate(self):
+        self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
 
     # Ability sounds
     abilitysounds = {
@@ -678,6 +713,8 @@ class UnitVortigaunt(BaseClass):
     events = dict(BaseClass.events)
     events.update({
         'ANIM_VORTIGAUNT_DISPEL' : EventHandlerAnimation('ACT_VORTIGAUNT_DISPEL'),
+        #'ANIM_VORTIGAUNT_LARVALEXTRACT' : EventHandlerAnimation('ACT_VORTIGAUNT_LARVALEXTRACT'),
+        'ANIM_VORTIGAUNT_LARVALEXTRACT' : EventHandlerLARVALEXTRACT,
     })
     
     # Activity list
@@ -862,7 +899,7 @@ class VortigauntInfo(UnitInfo):
     displayname = '#Vortigaunt_Name'
     description = '#Vortigaunt_Description'
     image_name = 'vgui/rebels/units/unit_vortigaunt.vmt'
-    costs = [('requisition', 75), ('scrap', 90)]
+    costs = [('requisition', 75), ('scrap', 75)]
     buildtime = 45.0
     viewdistance = 896.0
     sensedistance = 896.0
@@ -883,8 +920,9 @@ class VortigauntInfo(UnitInfo):
         0 : 'vortattack',
         1 : 'dispel',
         2 : 'inwardfocus',
-        5 : 'bugbait',
-        6 : 'bugbaitrecall',
+        3 : 'bugbait',
+        4 : 'bugbaitrecall',
+        5 : 'larvalextract',
         8 : 'attackmove',
         9 : 'holdposition',
         10 : 'patrol',

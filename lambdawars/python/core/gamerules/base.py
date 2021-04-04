@@ -7,7 +7,7 @@ import random
 from core.factions import GetFactionInfo
 from core.resources import HasEnoughResources, TakeResources, GiveResources
 from playermgr import dbplayers, OWNER_LAST, PlayerInfo as PMGRPlayerInfo, relationships
-from entities import D_LI, OBS_MODE_ROAMING, OBS_MODE_NONE
+from entities import D_LI, OBS_MODE_ROAMING, OBS_MODE_NONE, Disposition_t
 import srcmgr
 from navmesh import RandomNavAreaPosition
 from fow import FogOfWarMgr
@@ -836,7 +836,9 @@ class WarsBaseGameRules(CHL2WarsGameRules):
             return True
         elif command == 'player_ungarrison_unit':
             building = player.GetUnit(0)
-            if not building or building.GetOwnerNumber() != player.GetOwnerNumber():
+            if not building:
+                return True
+            if relationships[(building.GetOwnerNumber(), player.GetOwnerNumber())] != Disposition_t.D_LI:
                 return True
             unit = UTIL_EntityByIndex(int(args[1]))
             building.UnGarrisonUnit(unit)

@@ -73,6 +73,8 @@ class WeaponSniperRifle(WarsWeaponBase):
             ])
             
         owner.FireBullets(info)
+        if isserver:
+            owner.DispatchEvent('OnOutOfClip')
         
     SNIPERFX_BEAM = 1
 

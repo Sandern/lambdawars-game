@@ -13,7 +13,7 @@ if isserver:
         def Init(self, order, parentaction):
             target = order.target if order.target else order.position
             
-            super().Init(target, 1024.0, goalflags=GF_REQTARGETALIVE|GF_USETARGETDIST|GF_REQUIREVISION)
+            super().Init(target, 896.0, goalflags=GF_REQTARGETALIVE|GF_USETARGETDIST|GF_REQUIREVISION)
             
             self.order = order
             self.ability = order.ability

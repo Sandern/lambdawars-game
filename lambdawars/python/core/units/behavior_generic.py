@@ -1322,7 +1322,7 @@ class BehaviorGeneric(BaseBehavior):
                 self.order.Remove(dispatchevent=False)
                 return self.ChangeToIdle('Repair/construct target went None or is not alive')
             dist = self.outer.EnemyDistance(target)
-            if dist > self.constructmaxrange + 32:
+            if dist > self.constructmaxrange + 0.1:
                 self.isinrange = False
             if not self.isinrange and dist > self.constructmaxrange:
                 self.movinginrange = True

@@ -1112,7 +1112,7 @@ class ManhackInfo(UnitInfo):
     costs = [[('requisition', 10)], [('kills', 1)]]
     #techrequirements = ['build_comb_armory']
     buildtime = 15.0
-    health = 75
+    health = 40
     maxspeed = 328.0
     viewdistance = 640
     displayname = '#CombManhack_Name'
