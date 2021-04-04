@@ -511,7 +511,7 @@ class UnitVortigaunt(BaseClass):
                         except AttributeError:
                             pass
                 if self.larvalextract and bDispel and isenemy:
-                    enemy.TakeEnergy(enemy.energy) #думаю нормас если всю энергию будет пиздить
+                    enemy.TakeEnergy(enemy.energy) 
 
                     # Display an effect between us and the flipped creature
                     # Tell the client to start an arm beam
