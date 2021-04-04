@@ -110,7 +110,7 @@ class UnitVortigaunt(BaseClass):
     DISPELRANGE = 512.0
     
     energyregenrate = 3.0 # Dynamicly set in UnitThink
-    energyregenrateincombat = 0.3334
+    energyregenrateincombat = 0.3334 #будут работать как множители
     energyregenratenotincombat = 1.0
     energyregenrate_old = 3.0
     canshootmove = False # Don't shoot while moving, it's annoying
