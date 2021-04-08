@@ -132,8 +132,12 @@ class DefenceBuildingAttributeInfo(AttributeInfo):
     name = 'defence'
     
     dmgrecvmodifiers = { 
-        'bullet': ScaleBonusDamage(0.5),
-        'pulse': ScaleBonusDamage(0.6),
+        'bullet': ScaleBonusDamage(0.25),
+        'pulse': ScaleBonusDamage(0.3),
+        'ar1': ScaleBonusDamage(0.35),
+		'synth': ScaleBonusDamage(0.8),
+		'pulse_shotgun': ScaleBonusDamage(0.35),
+        'shock': ScaleBonusDamage(0.6),
         'explosive': ScaleBonusDamage(1.10),
     }
 

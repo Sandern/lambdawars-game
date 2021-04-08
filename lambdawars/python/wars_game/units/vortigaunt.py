@@ -163,58 +163,58 @@ class UnitVortigaunt(BaseClass):
             PrecacheParticleSystem( "vortigaunt_beam" )
             PrecacheParticleSystem( "vortigaunt_beam_charge" )
             PrecacheParticleSystem( "vortigaunt_hand_glow" )
+            PrecacheParticleSystem( "vort_larva_extract" )
 
             PrecacheMaterial( "sprites/light_glow02_add" )
             
-        if isserver:
-            def UpdateOnRemove(self):
-                super().UpdateOnRemove()
+        def UpdateOnRemove(self):
+            super().UpdateOnRemove()
                 
-                self.ClearBeams()
+            self.ClearBeams()
 
-            def Event_Killed(self, info):
-                super().Event_Killed(info)
+        def Event_Killed(self, info):
+            super().Event_Killed(info)
 
-                self.ClearBeams()
-                self.ClearHandGlow()
+            self.ClearBeams()
+            self.ClearHandGlow()
              
-            def IsInCombat(self):
-                """ Tests if this unit is considered as being in combat. """
-                outofcombattime = 4.0
+        def IsInCombat(self):
+            """ Tests if this unit is considered as being in combat. """
+            outofcombattime = 4.0
                 
-                # Should have taken damage any time soon
-                if self.enemy or gpGlobals.curtime - self.lasttakedamage < outofcombattime:
-                    return True
+            # Should have taken damage any time soon
+            if self.enemy or gpGlobals.curtime - self.lasttakedamage < outofcombattime:
+                return True
                 
-                # Antlions shouldn't be engaging enemy
-                antlions = getattr(self, 'abibugbait_antlions', None)
-                if antlions:
-                    for antlion in antlions:
-                        if antlion and (antlion.enemy or gpGlobals.curtime - antlion.lasttakedamage < outofcombattime):
-                            return True
-                            
-                # Nearby "others" shouldn't be engaging enemies
-                others = self.senses.GetOthers()
-                for other in others:
-                    if other and (other.enemy or gpGlobals.curtime - other.lasttakedamage < outofcombattime):
+            # Antlions shouldn't be engaging enemy
+            antlions = getattr(self, 'abibugbait_antlions', None)
+            if antlions:
+                for antlion in antlions:
+                    if antlion and (antlion.enemy or gpGlobals.curtime - antlion.lasttakedamage < outofcombattime):
                         return True
+                            
+            # Nearby "others" shouldn't be engaging enemies
+            others = self.senses.GetOthers()
+            for other in others:
+                if other and (other.enemy or gpGlobals.curtime - other.lasttakedamage < outofcombattime):
+                    return True
                         
-                return False
-            
-            wasincombat = None
-            def UnitThink(self):
-                super().UnitThink()
-                
-                isincombat = self.IsInCombat()
-                if isincombat != self.wasincombat:
-                    self.wasincombat = isincombat
-                    if isincombat:
-                        #print('Vortigaunt changed to combat state')
-                        self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
-                    else:
-                        #print('Vortigaunt is no longer in combat')
-                        self.energyregenrate = self.energyregenrate_old * self.energyregenratenotincombat
+            return False
         
+        wasincombat = None
+        def UnitThink(self):
+            super().UnitThink()
+                
+            isincombat = self.IsInCombat()
+            if isincombat != self.wasincombat:
+                self.wasincombat = isincombat
+                if isincombat:
+                    #print('Vortigaunt changed to combat state')
+                    self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
+                else:
+                    #print('Vortigaunt is no longer in combat')
+                    self.energyregenrate = self.energyregenrate_old * self.energyregenratenotincombat
+    
         def ArmBeam(self, beamType, nHand):
             """ Small beam from arm to nearby geometry """
             # This code has been disabled as it seems to quickly overload the particle system and cause crashes
@@ -684,24 +684,18 @@ class UnitVortigaunt(BaseClass):
         if self.takedamage and self.health > 0:
             self.EmitSound('unit_vortigaunt_hurt')
         return super().OnTakeDamage(dmginfo)
-    def EventHandlerLARVALEXTRACT(self, data):
+    def LarvalExtract(self, event):
         if self.bugbait:
             self.bugbait.Detonate(self)
-        #if hasattr(self, 'EFFECT_LARVALEXTRACT'): 
-        #    self.DoAnimation(self.EFFECT_LARVALEXTRACT)
-        if hasattr(self, 'EFFECT_DOHEAL'):
-            self.DoAnimation(self.EFFECT_DOHEAL)
         #self.EmitSound('Test1') 
         self.skin = 1
         self.energyregenrateincombat = 1.3334
         self.energyregenratenotincombat = 1.6667
-        self.UpdateEnergyRegenrate()
+        self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
         self.maxhealth = self.unitinfo.health + 80
         self.maxenergy = self.unitinfo.unitenergy + 25
         self.health += 80
         self.larvalextract = True
-    def UpdateEnergyRegenrate(self):
-        self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
 
     # Ability sounds
     abilitysounds = {
@@ -713,8 +707,7 @@ class UnitVortigaunt(BaseClass):
     events = dict(BaseClass.events)
     events.update({
         'ANIM_VORTIGAUNT_DISPEL' : EventHandlerAnimation('ACT_VORTIGAUNT_DISPEL'),
-        #'ANIM_VORTIGAUNT_LARVALEXTRACT' : EventHandlerAnimation('ACT_VORTIGAUNT_LARVALEXTRACT'),
-        'ANIM_VORTIGAUNT_LARVALEXTRACT' : EventHandlerLARVALEXTRACT,
+        'ANIM_VORTIGAUNT_LARVALEXTRACT' : EventHandlerAnimation('ACT_SPECIAL_ATTACK1'),
     })
     
     # Activity list
@@ -728,6 +721,7 @@ class UnitVortigaunt(BaseClass):
         'ACT_VORTIGAUNT_TO_IDLE',
         'ACT_VORTIGAUNT_HEAL',
         'ACT_VORTIGAUNT_DISPEL',
+        'ACT_SPECIAL_ATTACK1',
         'ACT_VORTIGAUNT_ANTLION_THROW',
     ] )
     
@@ -760,6 +754,7 @@ class UnitVortigaunt(BaseClass):
             'AE_VORTIGAUNT_STOP_HURT_GLOW' : None,
             'AE_VORTIGAUNT_START_HEAL_GLOW' : None,
             'AE_VORTIGAUNT_STOP_HEAL_GLOW' : None,
+            'AE_VORTIGAUNT_LARVA_BITE': LarvalExtract,
             Animevent.AE_NPC_LEFTFOOT : EmitSoundAnimEventHandler('NPC_Vortigaunt.FootstepLeft'),
             Animevent.AE_NPC_RIGHTFOOT : EmitSoundAnimEventHandler('NPC_Vortigaunt.FootstepRight'),
         }
@@ -920,9 +915,9 @@ class VortigauntInfo(UnitInfo):
         0 : 'vortattack',
         1 : 'dispel',
         2 : 'inwardfocus',
-        3 : 'bugbait',
-        4 : 'bugbaitrecall',
-        5 : 'larvalextract',
+        4 : 'bugbait',
+        5 : 'bugbaitrecall',
+        6 : 'larvalextract',
         8 : 'attackmove',
         9 : 'holdposition',
         10 : 'patrol',

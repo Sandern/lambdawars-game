@@ -221,7 +221,7 @@ class MortarSynthInfo(UnitInfo):
     health = 150
     buildtime = 35.0
     costs = [[('requisition', 120), ('power', 120)], [('kills', 6)]]
-    attributes = ['synth']
+    attributes = ['synth', 'mechanic']
     #maxspeed = 112
     hulltype = 'HULL_MEDIUM_TALL'
     turnspeed = 200

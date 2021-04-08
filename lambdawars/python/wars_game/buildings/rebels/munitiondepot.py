@@ -76,7 +76,7 @@ class MuntionDepotInfo(WarsBuildingInfo):
         0: 'weaponsg_unlock',
         1: 'weaponar2_unlock',
         2: 'fireexplosivebolt_unlock',
-
+        3: 'rebel_hp_upgrade',
         #4: 'dog_unlock',
         8: 'cancel',
         #10: 'rebel_rpg_unlock',

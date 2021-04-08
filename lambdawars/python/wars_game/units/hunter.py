@@ -741,8 +741,35 @@ class UnitHunter(BaseClass):
                     self.nextattacktime = gpGlobals.curtime + random.uniform(attackinfo.minresttime, attackinfo.maxresttime)
                     self.currentburst = random.randint(attackinfo.minburst, attackinfo.maxburst)
                 else:
-                    self.nextattacktime += + attackinfo.attackspeed
+                    self.nextattacktime += attackinfo.attackspeed
                 self.DoAnimation(self.ANIM_RANGE_ATTACK1)
+            return False
+        wasincombat = None
+        def UnitThink(self):
+            super().UnitThink()
+                
+            isincombat = self.IsInCombat()
+            attackinfo = self.unitinfo.AttackRange
+            if isincombat != self.wasincombat:
+                self.wasincombat = isincombat
+                if not isincombat and self.currentburst < attackinfo.minburst:
+                    self.currentburst = random.randint(attackinfo.minburst, attackinfo.maxburst)
+                    #self.nextattacktime = gpGlobals.curtime + random.uniform(attackinfo.minresttime, attackinfo.maxresttime)
+        def IsInCombat(self):
+            """ Tests if this unit is considered as being in combat. """
+            attackinfo = self.unitinfo.AttackRange
+            outofcombattime = random.uniform(attackinfo.minresttime, attackinfo.maxresttime)
+                
+            # Should have taken damage any time soon
+            if self.enemy or gpGlobals.curtime - self.lasttakedamage < outofcombattime:
+                return True
+                            
+            # Nearby "others" shouldn't be engaging enemies
+            others = self.senses.GetOthers()
+            for other in others:
+                if other and (other.enemy or gpGlobals.curtime - other.lasttakedamage < outofcombattime):
+                    return True
+                        
             return False
     else:
         def StartRangeAttack(self, enemy):

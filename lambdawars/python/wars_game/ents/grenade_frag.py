@@ -222,94 +222,93 @@ if isserver:
 
     @entity('grenade_smoke')
     class GrenadeSmoke(GrenadeFrag):
-        if isserver:
-            def Precache(self):
-                super().Precache()
+        def Precache(self):
+            super().Precache()
                 
-                self.PrecacheScriptSound("ability_smoke_grenade")
-                PrecacheParticleSystem(self.smokeparticle)
+            self.PrecacheScriptSound("ability_smoke_grenade")
+            PrecacheParticleSystem(self.smokeparticle)
         
-            def UpdateOnRemove(self):
-                super().UpdateOnRemove()
+        def UpdateOnRemove(self):
+            super().UpdateOnRemove()
                 
-                if self.fowblocker:
-                    self.fowblocker.Remove()
-                    self.fowblocker = None
+            if self.fowblocker:
+                self.fowblocker.Remove()
+                self.fowblocker = None
         
-            def Explode(self, trace, bitsdamagetype):
-                if self.exploded:
-                    return
-                self.exploded = True
+        def Explode(self, trace, bitsdamagetype):
+            if self.exploded:
+                return
+            self.exploded = True
                 
-                self.EmitSound('ability_smoke_grenade')
+            self.EmitSound('ability_smoke_grenade')
                 
-                origin = self.GetAbsOrigin()
+            origin = self.GetAbsOrigin()
             
-                self.SetThink(self.SUB_Remove, gpGlobals.curtime + self.smokeduration, 'SmokeRemoveThink')
-                self.SetTouch(None)
-                self.SetSolid(SOLID_NONE)
+            self.SetThink(self.SUB_Remove, gpGlobals.curtime + self.smokeduration, 'SmokeRemoveThink')
+            self.SetTouch(None)
+            self.SetSolid(SOLID_NONE)
                 
-                self.AddEffects(EF_NODRAW)
-                self.SetAbsVelocity(vec3_origin)
-                self.takedamage = DAMAGE_NO
+            self.AddEffects(EF_NODRAW)
+            self.SetAbsVelocity(vec3_origin)
+            self.takedamage = DAMAGE_NO
                 
-                fowblocker = CreateEntityByName('fow_blocker')
-                if fowblocker:
-                    radius = 220.0
-                    fowblocker.SetName('smoke_fow_blocker')
-                    fowblocker.SetAbsOrigin(origin)
-                    DispatchSpawn(fowblocker)
-                    mins = -Vector(radius, radius, 0)
-                    maxs = Vector(radius, radius, 256)
-                    UTIL_SetSize(fowblocker, mins, maxs)
-                    fowblocker.SetSolid(SOLID_OBB)
-                    fowblocker.CollisionProp().UpdatePartition()
-                    fowblocker.PhysicsTouchTriggers()
-                    fowblocker.Activate()
+            fowblocker = CreateEntityByName('fow_blocker')
+            if fowblocker:
+                radius = 220.0
+                fowblocker.SetName('smoke_fow_blocker')
+                fowblocker.SetAbsOrigin(origin)
+                DispatchSpawn(fowblocker)
+                mins = -Vector(radius, radius, 0)
+                maxs = Vector(radius, radius, 256)
+                UTIL_SetSize(fowblocker, mins, maxs)
+                fowblocker.SetSolid(SOLID_OBB)
+                fowblocker.CollisionProp().UpdatePartition()
+                fowblocker.PhysicsTouchTriggers()
+                fowblocker.Activate()
                     
-                    DispatchParticleEffect(self.smokeparticle, origin, self.GetAbsAngles(), fowblocker)
+                DispatchParticleEffect(self.smokeparticle, origin, self.GetAbsAngles(), fowblocker)
                     
-                    self.fowblocker = fowblocker
+                self.fowblocker = fowblocker
             
         smokeparticle = 'pg_smoke_grenade'
         fowblocker = None
         smokeduration = 18.0
         exploded = False
+        GRENADE_MODEL = "models/Weapons/w_flashbang_combine.mdl"
 
     @entity('grenade_stun')
     class GrenadeStun(GrenadeFrag):
-        if isserver:
-            def Precache(self):
-                super().Precache()
+        def Precache(self):
+            super().Precache()
 
-                self.PrecacheScriptSound('build_comb_mturret_explode')
-                PrecacheParticleSystem('particle_stun_frag_BASE')
+            self.PrecacheScriptSound('build_comb_mturret_explode')
+            PrecacheParticleSystem('particle_stun_frag_BASE')
 
 
-            def Explode(self, trace, bitsdamagetype):
-                if self.exploded:
-                    return
-                self.exploded = True
-                origin = self.GetAbsOrigin()
+        def Explode(self, trace, bitsdamagetype):
+            if self.exploded:
+                return
+            self.exploded = True
+            origin = self.GetAbsOrigin()
 
-                self.SetThink(self.SUB_Remove, gpGlobals.curtime, 'SmokeRemoveThink')
-                self.SetTouch(None)
-                self.SetSolid(SOLID_NONE)
-                DispatchParticleEffect("particle_stun_frag_BASE", origin, self.GetAbsAngles())
-                self.EmitSound('build_comb_mturret_explode')
+            self.SetThink(self.SUB_Remove, gpGlobals.curtime, 'SmokeRemoveThink')
+            self.SetTouch(None)
+            self.SetSolid(SOLID_NONE)
+            DispatchParticleEffect("particle_stun_frag_BASE", origin, self.GetAbsAngles())
+            self.EmitSound('build_comb_mturret_explode')
 
-                self.AddEffects(EF_NODRAW)
-                self.SetAbsVelocity(vec3_origin)
-                self.takedamage = DAMAGE_NO
-                stunduration = 5.0
-                enemies = UTIL_EntitiesInSphere(256, self.GetAbsOrigin(), self.damageradius, FL_NPC)
+            self.AddEffects(EF_NODRAW)
+            self.SetAbsVelocity(vec3_origin)
+            self.takedamage = DAMAGE_NO
+            stunduration = 5.0
+            enemies = UTIL_EntitiesInSphere(256, self.GetAbsOrigin(), self.damageradius, FL_NPC)
 
-                for enemy in enemies:
+            for enemy in enemies:
+                #print("IsUnit", enemy.IsUnit(), "IsAlive", enemy.IsAlive(), "enemy", enemy)
+                if enemy.IsUnit() and enemy.IsAlive():
                     #print("IsUnit", enemy.IsUnit(), "IsAlive", enemy.IsAlive(), "enemy", enemy)
-                    if enemy.IsUnit() and enemy.IsAlive():
-                        #print("IsUnit", enemy.IsUnit(), "IsAlive", enemy.IsAlive(), "enemy", enemy)
 
-                        StunnedEffectInfo.CreateAndApply(enemy, attacker=self, duration=stunduration)
+                    StunnedEffectInfo.CreateAndApply(enemy, attacker=self, duration=stunduration)
         def SetTimer(self, detonateDelay, warnDelay):
             self.detonatetime = gpGlobals.curtime + detonateDelay - 1.2
             self.warnaitime = gpGlobals.curtime + warnDelay - 1.2

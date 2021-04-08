@@ -120,7 +120,7 @@ class WeaponTau(WarsWeaponBase):
         vecShootOrigin, vecShootDir = self.GetShootOriginAndDirection()
         
         # NOTE: Do not use nextprimaryattack for attack time sound, otherwise it fades out too much.
-        self.WeaponSound(WeaponSound.SPECIAL1, gpGlobals.curtime) # WeaponSound.SPECIAL1 - подставь возле special1 в скриптах нужный звк
+        self.WeaponSound(WeaponSound.SPECIAL1, gpGlobals.curtime)
         #self.nextprimaryattack = gpGlobals.curtime + 0.1
 
         info = FireBulletsInfo_t()

@@ -219,6 +219,8 @@ class MissionUnitRebelEngineer(UnitRebelEngineer):
 class UnitRebelMedic(UnitRebel):
     energyregenrate = UpgradeField(value=1.0, abilityname='medic_regenerate_upgrade')
     maxenergy = UpgradeField(abilityname='medic_maxenergy_upgrade', cppimplemented=True)
+    maxhealth = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
+    health = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
 
 
 class RebelShared(UnitInfo):
@@ -422,6 +424,8 @@ class UnitRebelGrenadeUpgradeShared(UnitCitizen):
             self.EmitSound('unit_rebel_hurt')
         return super().OnTakeDamage(dmginfo)
         
+    maxhealth = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
+    health = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
 
 
@@ -432,6 +436,7 @@ class RebelInfo(RebelShared):
     costs = [[('requisition', 20)], [('kills', 1)]]
     maxspeed = 224.0
     viewdistance = 768
+    health = 150
     displayname = '#RebSMG_Name'
     description = '#RebSMG_Description'
     image_name = 'vgui/rebels/units/unit_rebel'
@@ -467,7 +472,7 @@ class RebelW1886Info(RebelInfo):
     displayname = '#RebWinchester_Name'
     description = '#RebWinchester_Description'
     buildtime = 28.0
-    health = 160
+    health = 150
     costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot']
     weapons = ['weapon_winchester1886']
@@ -492,7 +497,7 @@ class RebelSGInfo(RebelInfo):
     displayname = '#RebSG_Name'
     description = '#RebSG_Description'
     buildtime = 23.0
-    health = 160
+    health = 150
     costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot','weaponsg_unlock']
     #techrequirements = ['build_reb_munitiondepot']
@@ -641,6 +646,7 @@ class RebelMedicInfo(RebelShared):
     name = 'unit_rebel_medic'
     cls_name = 'unit_rebel_medic'
     buildtime = 16.0
+    health = 150
     maxspeed = 224
     viewdistance = 768
     unitenergy = 100
@@ -999,12 +1005,22 @@ class TransformToRebelAR2(AbilityTransformUnit):
     activatesoundscript = 'ability_combine_ar2_upgrade'
 
 
-class UnlockRebelTierMiddle (AbilityUpgrade):
+class UnlockRebelTierMiddle(AbilityUpgrade):
     name = 'rebel_upgrade_tier_mid'
     displayname = '#RebUpTierMid_Name'
     description = '#RebUpTierMid_Description'
-    buildtime = 60.0
-    costs = [('requisition', 40), ('scrap', 10)]
+    buildtime = 90.0
+    costs = [('requisition', 30), ('scrap', 30)]
+    upgradevalue = 180
+    image_name = 'vgui/rebels/abilities/medic_healrate_upgrade'
+class RebelHPUpgrade(AbilityUpgradeValue):
+    name = 'rebel_hp_upgrade'
+    displayname = '#RebHpUpgrade_Name'
+    description = '#RebHpUpgrade_Description'
+    buildtime = 90.0
+    costs = [('requisition', 30), ('scrap', 30)]
+    upgradevalue = 180
+    image_name = 'vgui/rebels/abilities/rebel_hp_upgrade'
 
 
 # Medic upgrades

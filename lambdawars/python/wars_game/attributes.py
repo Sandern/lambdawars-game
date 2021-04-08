@@ -191,8 +191,8 @@ class AR1Attribute(AttributeInfo):
     name = 'ar1'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(6),
-        'medium': ConstantBonusDamage(5),
+        'light': ConstantBonusDamage(7),
+        'medium': ConstantBonusDamage(7),
         'heavy': ConstantBonusDamage(4),
         'creature': ConstantBonusDamage(4),
     }
@@ -213,7 +213,7 @@ class PlasmaAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'light': ConstantBonusDamage(200),
-        'medium': ConstantBonusDamage(200),
+        'medium': ConstantBonusDamage(220),
         'heavy': ConstantBonusDamage(230),
         'creature': ConstantBonusDamage(50),
         'defence': ScaleBonusDamage(2.0),

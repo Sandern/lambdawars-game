@@ -70,7 +70,7 @@ class AbilityCombineBall(AbilityTarget):
     image_name = 'vgui/abilities/ability_ar2orb.vmt'
     image_dis_name = 'vgui/abilities/ability_ar2orb.vmt'
     #costs = [('power', 10)]
-    rechargetime = 20
+    rechargetime = 15
     techrequirements = ['combineball_unlock']
     activatesoundscript = '#energyball'
     sai_hint = AbilityTarget.sai_hint | set(['sai_combine_ball'])
@@ -125,8 +125,8 @@ class AbilityCombineBallUnlock(AbilityUpgrade):
     description = '#CombBallUnlock_Description'
     image_name = "vgui/abilities/ability_ar2orb_upgrade"
     techrequirements = ['build_comb_specialops']
-    buildtime = 67.0
-    costs = [[('kills', 5)], [('requisition', 30), ('power', 30)]]
+    buildtime = 30.0
+    costs = [[('kills', 5)], [('requisition', 25), ('power', 25)]]
 
 class AbilityCombineBallOverrun(AbilityCombineBall):
 	name = 'combineball_overrun'

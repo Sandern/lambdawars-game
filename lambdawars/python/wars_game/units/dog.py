@@ -391,7 +391,7 @@ class DogInfo(UnitInfo):
     turnspeed = 75.0
     buildtime = 76.0
     population = 6
-    unitenergy = 100
+    unitenergy = 200
     unitenergy_initial = 50
     costs = [('requisition', 180), ('scrap', 180)]
     attributes = ['metal', 'large']
@@ -412,7 +412,7 @@ class DogInfo(UnitInfo):
         10: 'patrol',
     }
     class AttackMelee(UnitInfo.AttackMelee):
-        damage = 50
+        damage = 80
         damagetype = DMG_SLASH
         attackspeed = 1.14
         maxrange = 90

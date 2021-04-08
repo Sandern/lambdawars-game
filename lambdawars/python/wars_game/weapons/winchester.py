@@ -23,7 +23,7 @@ class WeaponShotgunWinchester(WarsWeaponBase):
         self.nextprimaryattack = gpGlobals.curtime + self.firerate
         
         info = FireBulletsInfo_t()
-        info.shots = shots
+        info.shots = 1
         info.vecsrc = vecShootOrigin
         info.vecdirshooting = vecShootDir
         info.vecspread = self.bulletspread

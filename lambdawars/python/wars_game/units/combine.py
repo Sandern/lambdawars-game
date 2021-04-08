@@ -256,6 +256,8 @@ class UnitCombine(BaseClass):
 class UnitCombineSniper(UnitCombine):
     canshootmove = False
     insteadyposition = BooleanField(value=False, networked=True)
+    maxhealth = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
+    health = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
     
     def OnInCoverChanged(self):
         super().OnInCoverChanged()
@@ -274,6 +276,7 @@ class UnitCombineHeavy(UnitCombine):
     canshootmove = False
     regenerationtime = 0
     effecttime = 0
+    soundtime = 0
     regeneration = False
     def UnitThink(self):
         super().UnitThink()
@@ -297,13 +300,20 @@ class UnitCombineHeavy(UnitCombine):
         elif dmg_info.GetDamage() > self.energy and self.energy > 0:
             dmg_info.ScaleDamage((1 + (self.unitinfo.coef - 1)*(self.energy/dmg_info.GetDamage()))) 
             self.TakeEnergy(self.energy)
-        if self.effecttime < gpGlobals.curtime:
-            if dmg_info.GetDamage() != olddmg and dmg_info.GetDamage() < self.health:
+        if dmg_info.GetDamage() != olddmg and dmg_info.GetDamage() < self.health:
+            if self.effecttime < gpGlobals.curtime:
                 self.effecttime = 0.50 + gpGlobals.curtime
-                if hasattr(self, 'EFFECT_DOSHIELD'):
-                    self.DoAnimation(self.EFFECT_DOSHIELD)
-                    self.EmitSound('NPC_Hunter.FlechetteHitWorld')
+                #if hasattr(self, 'EFFECT_DOSHIELD'):
+                self.DoAnimation(self.EFFECT_DOSHIELD)
+            if self.soundtime < gpGlobals.curtime:
+                self.soundtime = 1.5 + gpGlobals.curtime
+                self.EmitSound('combine_heavy_shield')
         return dmg_info
+    if isserver:
+        def Precache(self):
+            super().Precache()
+            
+            self.PrecacheScriptSound( "combine_heavy_shield" )
             
 # Register unit
 class CombineSharedInfo(UnitInfo):
@@ -317,9 +327,20 @@ class CombineSharedInfo(UnitInfo):
 
 class MechanicsCombine_Tier6(AbilityUpgradeValue): #TODO: replace with T1 upgrade
     name = 'mechanicscombine_tier_6'
-    displayname = '#MechanicsCombine_Tier6_Name'
-    description = '#MechanicsCombine_Tier6_Description'
-    upgradevalue = 270
+    displayname = '#ArmyCombineT6Upgr_Name'
+    description = '#ArmyCombineT6Upgr_Description'
+    buildtime = 90.0
+    costs = [('requisition', 30), ('power', 30)]
+    upgradevalue = 240
+    image_name = 'vgui/combine/abilities/combine_upgrade_tier_mid'
+class CombineHPUpgrade(AbilityUpgradeValue): 
+    name = 'combine_hp_upgrade'
+    displayname = '#CombineHPUpgrade_Name'
+    description = '#CombineHPUpgrade_Description'
+    buildtime = 90.0
+    costs = [('requisition', 30), ('power', 30)]
+    upgradevalue = 240
+    image_name = 'vgui/combine/abilities/combine_hp_upgrade'
 
 class ArmyCombine_Tier3(AbilityUpgradeValue):
     name = 'armycombine_tier_3'
@@ -340,8 +361,8 @@ class UnitCombineGrenadeUpgradeShared(UnitCombine):
         self.UpdateAbilities()
         
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
-    maxhealth = UpgradeField(abilityname='mechanicscombine_tier_6', cppimplemented=True)
-    health = UpgradeField(abilityname='mechanicscombine_tier_6', cppimplemented=True)
+    maxhealth = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
+    health = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
     buildtime = UpgradeField(abilityname='armycombine_tier_3', cppimplemented=True) #TODO: 'buildtime' doesn't work with UpgradeField?
 
 class CombineInfo(CombineSharedInfo):
@@ -354,7 +375,7 @@ class CombineInfo(CombineSharedInfo):
     costs = [[('requisition', 25)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
     buildtime = 24.0
-    health = 220
+    health = 200
     maxspeed = 216.0
     viewdistance = 768
     attributes = ['medium']
@@ -376,7 +397,7 @@ class CombineInfo(CombineSharedInfo):
     }
     weapons = ['weapon_smg1']
 
-class UnlockCombTierMiddle (AbilityUpgrade):
+class UnlockCombTierMiddle(AbilityUpgrade):
     name = 'combine_upgrade_tier_mid'
     displayname = '#CombUpTierMid_Name'
     description = '#CombUpTierMid_Description'
@@ -393,7 +414,7 @@ class CombineSGInfo(CombineInfo):
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
     attributes = ['medium']
     buildtime = 26.0
-    health = 220
+    health = 200
     maxspeed = 244.0
     viewdistance = 768
     sound_select = 'unit_combine_sg_select'
@@ -422,7 +443,7 @@ class CombineAR2Info(CombineInfo):
     techrequirements = ['build_comb_armory','weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
     buildtime = 28.0
-    health = 220
+    health = 200
     maxspeed = 184
     sensedistance = 1024.0
     viewdistance = 832
@@ -458,7 +479,7 @@ class CombineEliteInfo(CombineSharedInfo):
     description = '#CombElite_Description'
     image_name = 'vgui/combine/units/unit_combine_elite'
     portrait = 'resource/portraits/combineAR2.bik'
-    costs = [[('requisition', 75), ('power', 45)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('power', 40)], [('kills', 4)]]
     buildtime = 35.0
     health = 250
     maxspeed = 208
@@ -483,8 +504,8 @@ class CombineEliteInfo(CombineSharedInfo):
         -1: 'garrison',
     }
     weapons = ['weapon_shotgun', 'weapon_ar2']
-    accuracy = 'medium'
-    population = 3
+    #accuracy = 'medium'
+    population = 2
 	
 class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
@@ -556,7 +577,7 @@ class CombineSniperInfo(CombineSharedInfo):
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 60), ('power', 50)], [('kills', 4)]]
     buildtime = 38.0
-    health = 190
+    health = 200
     maxspeed = 168.0
     sensedistance = 1664.0
     viewdistance = 896
