@@ -45,18 +45,19 @@ if isserver:
             ability.SetNotInterruptible()
             
             outer = self.outer
+            outer.enemyorigin_abi = self.target
             outer.DoAnimation(outer.ANIM_RANGE_ATTACK1)
             #self.firecannontime = gpGlobals.curtime + 2
-            outer.ThrowEnergyGrenade(self.target)
-            technode = GetTechNode('mortarsynth_upgrade', outer.GetOwnerNumber())
-            if technode.techenabled:
-                outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed + outer.attackspeedboost
-                outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime + outer.attackspeedboost
-                ability.SetRecharge(outer, t=outer.attackspeedboost)
-            else:
-                outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed
-                outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime
-                ability.SetRecharge(outer)
+            #outer.ThrowEnergyGrenade(self.target)
+            #technode = GetTechNode('mortarsynth_upgrade', outer.GetOwnerNumber())
+            #if technode.techenabled:
+            #    outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed + outer.attackspeedboost
+            #    outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime + outer.attackspeedboost
+            #    ability.SetRecharge(outer, t=outer.attackspeedboost)
+            #else:
+            #    outer.nextattacktime += outer.unitinfo.AttackRange.attackspeed
+            #    outer.nextshoottime = outer.unitinfo.AttackRange.attackspeed + gpGlobals.curtime
+            #    ability.SetRecharge(outer)
             self.ability.Completed()
             self.order.Remove(dispatchevent=True)
             return self.SuspendFor(self.behavior.ActionWaitForActivity, 'Executing attack', outer.animstate.specificmainactivity)
@@ -94,6 +95,12 @@ class AbilityMortarAttack(AbilityTarget):
             self.unit.AbilityOrder(ability=self, target=target, position=data.endpos)
 
         behaviorgeneric_action = ActionDoShootGrenade
+    @classmethod
+    def GetRequirements(info, player, unit):
+        requirements = super().GetRequirements(player, unit)
+        if unit.enemyorigin_abi:
+            requirements.add('alreadyfired')
+        return requirements
         
 class OverrunAbilityMortarAttack(AbilityMortarAttack):
     # Info

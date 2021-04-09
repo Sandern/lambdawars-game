@@ -79,9 +79,10 @@ class UnitMortarSynth(BaseClass):
         'ANIM_RANGE_ATTACK1' : EventHandlerAnimation(Activity.ACT_RANGE_ATTACK1),
     } )
     def MortarSynthAttack(self, event):
-        enemy = self.enemy
-        if enemy:
-            self.ThrowEnergyGrenade(enemy.GetAbsOrigin())
+        if self.enemyorigin_abi:
+            self.ThrowEnergyGrenade(self.enemyorigin_abi)
+        elif self.enemy:
+            self.ThrowEnergyGrenade(self.enemy.GetAbsOrigin())
     nextshoottime = 0
     def ThrowEnergyGrenade(self, origin):
         unit = self
@@ -96,17 +97,16 @@ class UnitMortarSynth(BaseClass):
             #vTarget = Vector()
             #UTIL_PredictedPosition( enemy, 0.5, vTarget ) 
             #vTarget = enemy.GetAbsOrigin()
-            vTarget = origin
 
             from unit_helper import TossGrenadeAnimEventHandler #TODO: FIX THIS
             handler = TossGrenadeAnimEventHandler("grenade_energy", 522)
-            
+
             for i in range(0, grenades):
                 if grenades > 1:
                     position = Vector(random.randint(-90,90),random.randint(-90,90), 0)
                 else:
                     position = Vector(0,0,0)
-                grenade = handler.TossGrenade(unit, vGrenadePos, vTarget + position, unit.CalculateIgnoreOwnerCollisionGroup())
+                grenade = handler.TossGrenade(unit, vGrenadePos, origin + position, unit.CalculateIgnoreOwnerCollisionGroup())
                 if grenade:
                     grenade.damage = info.damage
                     grenade.damagetype = DMG_BLAST
@@ -121,9 +121,14 @@ class UnitMortarSynth(BaseClass):
                     if technode.techenabled:
                         unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed + unit.attackspeedboost
                         info1.SetRecharge(info1, units=unit, t=unit.attackspeedboost)
+                        if self.enemyorigin_abi:
+                            unit.nextattacktime += unit.unitinfo.AttackRange.attackspeed + unit.attackspeedboost
                     else:
                         unit.nextshoottime = gpGlobals.curtime + unit.unitinfo.AttackRange.attackspeed
                         info1.SetRecharge(info1, units=unit)
+                        if self.enemyorigin_abi:
+                            unit.nextattacktime += unit.unitinfo.AttackRange.attackspeed
+        self.enemyorigin_abi = None
     def PreDetonate(self):
 
         self.SetTouch(None)
@@ -207,10 +212,11 @@ class UnitMortarSynth(BaseClass):
                     self.outer.PreDetonate()
 
         aetable = {
-            1 : MortarSynthAttack,
+            'AE_SYNTH_MORTAR_FIRE' : MortarSynthAttack,
         }
     maxspeed = UpgradeField(value = 112.0, abilityname = 'mortarsynth_upgrade') #TODO: REWORK THIS
     attackspeedboost = -1
+    enemyorigin_abi = None
 class MortarSynthInfo(UnitInfo):
     name = 'unit_mortar_synth'
     cls_name = 'unit_mortar_synth'
