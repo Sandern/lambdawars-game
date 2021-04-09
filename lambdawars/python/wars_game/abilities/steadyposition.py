@@ -47,7 +47,7 @@ class AbilitySteadyPosition(AbilityInstant):
 
             # Don't break cover when targeting an enemy
             def OnNewOrder(self, order):
-                if order.type == order.ORDER_ENEMY:
+                if order.type == order.ORDER_ENEMY or (order.type == order.ORDER_ABILITY and order.ability.name == 'attackmove'):
                     return self.SuspendFor(self.behavior.ActionHideSpotAttack,
                                            'Attacking enemy on order from cover/hold spot', order.target)
 
@@ -113,6 +113,9 @@ class AbilitySteadyPosition(AbilityInstant):
             def OnStart(self):
                 return self.SuspendFor(self.order.ability.ActionDoSteadyPosition, 'Do steady position',
                                        self.order.ability, self.order)
+            def OnStunned(self):
+                self.order.ability.Cancel()
+                return self.ChangeTo(self.behavior.ActionStunned, 'Stunned')
 
 
 
@@ -142,4 +145,3 @@ class RebelAbilitySteadyCharPosition(AbilitySteadyPosition):
     image_name = 'vgui/rebels/abilities/rebel_veteran_steady_position'
     rechargetime = 1.0
     steadytime = FloatField(value=1.0)
-

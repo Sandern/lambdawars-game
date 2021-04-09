@@ -74,6 +74,7 @@ class BugBait(BaseClass):
             self.PrecacheScriptSound("GrenadeBugBait.Splat")
             
             self.PrecacheModel(self.BUGBAIT_MODEL)
+            self.PrecacheModel('models/weapons/w_larval_essence.mdl')
 
         def Spawn(self):
             self.Precache()

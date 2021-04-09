@@ -55,7 +55,7 @@ class AbilityLarvalExtract(AbilityAsAnimation):
         @classmethod
         def Precache(info):
             super().Precache()
-            
+
             UTIL_PrecacheOther('bugbait')
         def CreateBugbait(self, unit):
             vecOrigin = Vector()
@@ -75,6 +75,7 @@ class AbilityLarvalExtract(AbilityAsAnimation):
             bugbait.SetMoveType(MOVETYPE_NONE)
             bugbait.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
             bugbait.SetParent(unit, attachment)
+            bugbait.SetModel('models/weapons/w_larval_essence.mdl')
             #bugbait.Detonate(target=unit)
             
             unit.bugbait = bugbait

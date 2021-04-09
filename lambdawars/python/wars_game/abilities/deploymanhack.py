@@ -14,7 +14,7 @@ class AbilityDeployManhack(AbilityInstant):
     rechargetime = 30.0
     population = 1
     costs = [('requisition', 10)]
-    techrequirements = ['build_comb_armory']
+    techrequirements = ['build_comb_mech_factory']
     activatesoundscript = '#deploymanhacks'
     hidden = True
     sai_hint = AbilityInstant.sai_hint | set(['sai_deploy'])

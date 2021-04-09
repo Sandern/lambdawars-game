@@ -163,6 +163,7 @@ class AbilityMountTurret(AbilityTarget):
     description = '#MountTur_Description'
     image_name = 'vgui/abilities/mountturret'
     hidden = True
+    cloakallowed = True
     
     @classmethod
     def OverrideOrder(cls, unit, data, player):
