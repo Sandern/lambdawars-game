@@ -552,6 +552,7 @@ class RebelTauInfo(RebelInfo):
     name = 'unit_rebel_tau'
     displayname = '#RebTau_Name'
     description = '#RebTau_Description'
+    cls_name = 'unit_rebel'
     buildtime = 35.0
     maxspeed = 200
     health = 200
@@ -596,6 +597,7 @@ class RebelHeavyInfo(RebelInfo):
     name = 'unit_rebel_heavy'
     displayname = '#RebHeavy_Name'
     description = '#RebHeavy_Description'
+    cls_name = 'unit_rebel'
     buildtime = 28.0
     maxspeed = 184
     health = 280
