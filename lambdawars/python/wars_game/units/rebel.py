@@ -834,11 +834,11 @@ class RebelRPGUnlock(AbilityUpgrade):
 
 class RebelRPGInfo(RebelShared):
     name = 'unit_rebel_rpg'
-    buildtime = 30.0
+    buildtime = 27.0
     health = 240
     maxspeed = 160.0
     viewdistance = 896
-    costs = [[('requisition', 60), ('scrap', 45)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('scrap', 40)], [('kills', 4)]]
     displayname = '#RebRPG_Name'
     description = '#RebRPG_Description'
     image_name = 'vgui/rebels/units/unit_rebel_rpg'

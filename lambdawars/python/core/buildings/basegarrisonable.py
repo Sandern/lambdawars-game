@@ -1,5 +1,5 @@
 from srcbase import *
-from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin
+from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin, DotProduct, AngleVectors
 from entities import entity, FClassnameIs
 from .base import UnitBaseBuilding as BaseClass, WarsBuildingInfo
 from utils import UTIL_FindPosition, FindPositionInfo
@@ -101,10 +101,31 @@ class UnitBaseGarrisonableShared(object):
                 if not self.CanGarrisonUnitByOwner(unit):
                     self.UnGarrisonAll()
 
-        def GetEnemyForGarrisonedUnit(self, unit):
-            if self.senses:
+        def GetEnemyForGarrisonedUnit(self, unit): 
+            if self.sense_cone and unit.enemy:
+                if type(unit.enemy) != Vector:
+                    enemy = unit.enemy.BodyTarget(self.WorldBarrelPosition(), False) - self.WorldBarrelPosition()
+                    enemy.z = 0.0
+                    VectorNormalize(enemy)
+                forward = Vector()
+                angles1 = self.GetAbsAngles()
+                aimyaw = angles1.y
+                angles = QAngle(0.0, aimyaw, 0.0)
+                AngleVectors(angles, forward)
+        
+                dot = DotProduct(enemy, forward)
+
+                if dot > self.sense_cone:
+                    return unit.enemy
+            elif unit.enemy:
+                return unit.enemy
+            else:
                 return self.enemy
-            return unit.enemy
+    def WorldBarrelPosition(self):
+        """ Barrel position """
+        if self.barrelattachment == 0:
+            return self.WorldSpaceCenter()
+    barrelattachment = 0
 
     def OnUnitTypeChanged(self, oldunittype):
         """ Called when the unit type changes. Updates population. """

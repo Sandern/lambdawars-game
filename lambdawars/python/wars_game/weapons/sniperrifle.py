@@ -155,7 +155,8 @@ class WeaponSniperRifle(WarsWeaponBase):
                 return unit.abilitycheckautocast[abi.uid] and abi.CanDoAbility(None, unit=unit)
 
             abi = unit.abilitiesbyname[self.abi_attack_name]
-            target_is_enemy = (unit.curorder and unit.curorder.type == unit.curorder.ORDER_ENEMY and
+            target_is_enemy = (unit.curorder and (unit.curorder.type == unit.curorder.ORDER_ENEMY or unit.curorder.type == unit.curorder.ORDER_ABILITY 
+                               and (unit.curorder.ability.name == 'attackmove' or unit.curorder.ability.name == self.abi_attack_name)) and
                                unit.curorder.target == enemy)
             return (target_is_enemy or unit.abilitycheckautocast[abi.uid]) and abi.CanDoAbility(None, unit=unit)
 

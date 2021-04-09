@@ -43,9 +43,12 @@ class VortAttack(UnitInfo.AttackBase):
     
     def CanAttack(self, enemy):
         unit = self.unit
-        if not unit.abilitycheckautocast[unit.abilitiesbyname[AbilityVortAttack.name].uid]:
-            return False
-        return unit.CanRangeAttack(enemy) and AbilityVortAttack.CanDoAbility(None, unit=unit)
+        #if not unit.abilitycheckautocast[unit.abilitiesbyname[AbilityVortAttack.name].uid]:
+        #    return False
+        target_is_enemy = (unit.curorder and (unit.curorder.type == unit.curorder.ORDER_ENEMY or unit.curorder.type == unit.curorder.ORDER_ABILITY and 
+                           (unit.curorder.ability.name == 'attackmove' or unit.curorder.ability.name == 'vortattack')) and
+                           unit.curorder.target == enemy)
+        return unit.CanRangeAttack(enemy) and AbilityVortAttack.CanDoAbility(None, unit=unit) and (target_is_enemy or unit.abilitycheckautocast[unit.abilitiesbyname[AbilityVortAttack.name].uid])
         
     def Attack(self, enemy, action):
         unit = self.unit
