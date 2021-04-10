@@ -652,7 +652,7 @@ class RebelMedicInfo(RebelShared):
     maxspeed = 224
     viewdistance = 768
     unitenergy = 100
-    costs = [[('requisition', 15), ('scrap', 5)], [('kills', 1)]]
+    costs = [[('requisition', 25)], [('kills', 1)]]
     displayname = '#RebMedic_Name'
     description = '#RebMedic_Description'
     image_name = 'vgui/rebels/units/unit_rebel_medic'
