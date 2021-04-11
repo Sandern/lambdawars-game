@@ -146,3 +146,10 @@ class AbilityRepairDog(AbilityConstruct):
     description = "#AbilityRepairDog_Description"
     defaultautocast = False
     supportsautocast = False
+        
+class AbilityCombineRepair(AbilityConstruct):
+    name = "combine_repair"
+    displayname = "#AbilityCmbRepair_Name"
+    description = "#AbilityCmbRepair_Description"
+    defaultautocast = False
+    supportsautocast = False

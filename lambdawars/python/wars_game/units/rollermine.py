@@ -8,6 +8,8 @@ from gameinterface import CPVSFilter, CPASAttenuationFilter, PrecacheMaterial
 from te import te, CEffectData, DispatchEffect
 from sound import CSoundParameters
 from wars_game.statuseffects import StunnedEffectInfo
+from fields import SetField
+from math import ceil
 import random
 if isserver:
     from utils import (ExplosionCreate, UTIL_DecalTrace, UTIL_PointContents, SF_ENVEXPLOSION_NOSPARKS,
@@ -535,6 +537,27 @@ class UnitRollerMine(BaseClass):
     def StartMeleeAttack(self, enemy):
         self.nextattacktime = gpGlobals.curtime + self.unitinfo.AttackMelee.attackspeed
         return False
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
 
     if isserver:
         class BehaviorGenericClass(BaseClass.BehaviorGenericClass):

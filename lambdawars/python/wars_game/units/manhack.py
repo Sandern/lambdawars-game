@@ -4,8 +4,9 @@ from vmath import (Vector, vec3_origin, QAngle, AngularImpulse, SimpleSplineRema
 import random
 from core.units import UnitInfo, UnitBaseCombat as BaseClass, UnitBaseAirLocomotion
 from entities import entity, Activity
-from fields import IntegerField, FloatField, FlagsField
+from fields import IntegerField, FloatField, FlagsField, SetField
 from unit_helper import UnitAnimConfig, LegAnimType_t
+from math import ceil
 
 if isserver:
     from core.units import UnitCombatAirNavigator, BaseAction
@@ -948,6 +949,27 @@ class UnitManhack(BaseClass):
     def StartMeleeAttack(self, enemy):
         self.nextattacktime = gpGlobals.curtime + self.unitinfo.AttackMelee.attackspeed
         return False
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
         
     # Animation state
     animconfig = UnitAnimConfig(

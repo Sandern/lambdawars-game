@@ -1,7 +1,8 @@
 from srcbase import DONT_BLEED, kRenderFxNoDissipation, kRenderGlow, SOLID_NONE, SOLID_VPHYSICS
 from vmath import Vector, QAngle
 from entities import networked, entity, Activity
-from fields import BooleanField
+from fields import BooleanField, SetField
+from math import ceil
 
 from core.units import (UnitInfo, UnitBaseCombat as BaseClass, UnitBaseAirLocomotion, CreateUnitNoSpawn,
     EventHandlerAnimation, GetUnitInfo)
@@ -88,6 +89,27 @@ class UnitBaseScanner(BaseClass):
                 
         def EndAttackFlashThink(self):
             self.eyeflash.SetBrightness( 0 )
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
         
     selectionparticlename = 'unit_circle_ground'
     cancappcontrolpoint = False

@@ -190,7 +190,10 @@ class UnitStalker(BaseClass):
                 vecSrc = self.LaserStartPosition(self.GetAbsOrigin())
                 #filter = CTraceFilterSkipFriendly(self, COLLISION_GROUP_NONE, self)
                 tr = trace_t()
-                UTIL_TraceLine (vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, self.CalculateIgnoreOwnerCollisionGroup(), tr)
+                if self.beam_collision_none:
+                    UTIL_TraceLine (vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, COLLISION_GROUP_NONE, tr)
+                else:
+                    UTIL_TraceLine (vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, self.CalculateIgnoreOwnerCollisionGroup(), tr)
                 #if tr.fraction >= 1.0:
                     # too far
                     #self.KillAttackBeam()
@@ -247,7 +250,10 @@ class UnitStalker(BaseClass):
             # ---------------------------------------------
             vecSrc = self.LaserStartPosition(origin)
             tr = trace_t()
-            UTIL_TraceLine(vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, self.CalculateIgnoreOwnerCollisionGroup(), tr)
+            if self.beam_collision_none:
+                UTIL_TraceLine (vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, COLLISION_GROUP_NONE, tr)
+            else:
+                UTIL_TraceLine(vecSrc, vecSrc + self.laserdir * self.MAX_STALKER_FIRE_RANGE, MASK_SHOT, self, self.CalculateIgnoreOwnerCollisionGroup(), tr)
 
             self.CalcBeamPosition()
 
@@ -401,13 +407,16 @@ class UnitStalker(BaseClass):
             class ActionRepair(BaseClass.BehaviorGenericClass.ActionRepair):
                 def Update(self):
                     if self.outer.constructing:
+                        self.outer.beam_collision_none = True
                         self.outer.StartAttackBeam(self.order.target)
                         self.outer.UpdateAttackBeam(self.order.target)
                     else:
+                        self.outer.beam_collision_none = False
                         self.outer.KillAttackBeam()
                     return super().Update()
                     
                 def OnEnd(self):
+                    self.outer.beam_collision_none = False
                     self.outer.KillAttackBeam()
                     return super().OnEnd()
 
@@ -442,6 +451,7 @@ class UnitStalker(BaseClass):
     playinghitwall = False
     nextsmoketime = 0.0
     lasertimeout = None
+    beam_collision_none = False
     
     # Activity translation table
     acttables = {
@@ -507,6 +517,7 @@ class StalkerInfo(StalkerShared):
     name = 'unit_stalker'
     scrapdropchance = 0.0
     abilities = {
+        0: 'combine_repair',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
@@ -547,6 +558,7 @@ class StalkerOverrunInfo(StalkerShared):
     tier = 0
     buildtime = 0
     abilities = {
+        0: 'combine_repair',
         2: 'overrun_build_comb_regenerationpost',
         3: 'overrun_build_comb_shieldgen',
         4: 'overrun_build_comb_barricade',

@@ -1,8 +1,9 @@
 from srcbase import *
 from vmath import *
+from math import ceil
 import random
 
-from fields import BooleanField, FlagsField, VectorField, FloatField, UpgradeField
+from fields import BooleanField, FlagsField, VectorField, FloatField, UpgradeField, SetField
 from core.units import UnitInfo, UnitBaseCombat as BaseClass, UnitBaseAirLocomotion, EventHandlerAnimation, EventHandlerAnimationMisc, UnitCombatAnimStateEx
 from core.abilities import AbilityUpgrade, AbilityUpgradeValue
 from wars_game.statuseffects import StunnedEffectInfo
@@ -932,6 +933,27 @@ class UnitStrider(BaseClass):
         if self.originalbodyheight:
             self.body_height = self.originalbodyheight
         self.mv.maxspeed = self.unitinfo.maxspeed
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
 
 
     class LocomotionClass(UnitBaseAirLocomotion):
