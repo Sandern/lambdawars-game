@@ -95,6 +95,13 @@ class AbilityLarvalExtract(AbilityAsAnimation):
     @classmethod
     def OnUnitThink(info, unit):
         unit.abibugbait_antlions = set(filter(bool, unit.abibugbait_antlions))
+class OverrunAbilityLarvalExtract(AbilityLarvalExtract):
+    # Info
+    name = "overrun_larvalextract"
+    rechargetime = 0.0
+    energy = 0
+    costs = [('kills', 5)]
+    techrequirements = []
 
 class AbilityLarvalExtractUnlock(AbilityUpgrade):
     name = 'larvalextract_unlock'
@@ -102,6 +109,6 @@ class AbilityLarvalExtractUnlock(AbilityUpgrade):
     description = '#RebLarvalextractUnlock_Description'
     image_name = "VGUI/rebels/abilities/larva_extract_upgrade"
     #techrequirements = ['build_reb_hq', 'build_reb_barracks', 'build_reb_munitiondepot', 'build_reb_triagecenter', 'build_reb_specialops', 'build_reb_techcenter']
-    buildtime = 75.0
-    costs = [[('kills', 5)], [('requisition', 50), ('scrap', 50)]]
+    buildtime = 50.0
+    costs = [[('kills', 5)], [('requisition', 25), ('scrap', 25)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])

@@ -121,10 +121,10 @@ class WeaponTau(WarsWeaponBase):
         
         # NOTE: Do not use nextprimaryattack for attack time sound, otherwise it fades out too much.
         self.WeaponSound(WeaponSound.SPECIAL1, gpGlobals.curtime)
-        #self.nextprimaryattack = gpGlobals.curtime + 0.1
+        self.nextprimaryattack = self.nextsecondaryattack = gpGlobals.curtime + 1.5
 
         info = FireBulletsInfo_t()
-        #info.shots = 1
+        info.shots = 1
         info.vecsrc = vecShootOrigin
         info.vecdirshooting = vecShootDir
         info.vecspread = self.bulletspread
@@ -134,8 +134,7 @@ class WeaponTau(WarsWeaponBase):
         info.damage = 0
 
         owner.FireBullets(info)
-        self.nextsecondaryattack = gpGlobals.curtime + 1.5
-        self.nextprimaryattack = gpGlobals.curtime + 1.5
+        owner.DoAnimation(owner.ANIM_ALTFIRE)
         self.RadiusDamage(origin, dmg, radius)
     def RadiusDamage(self, origin, dmg, radius):
         owner = self.GetOwner()

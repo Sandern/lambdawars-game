@@ -3,7 +3,7 @@ A building that launches headcrab canisters at target positions.
 """
 
 from vmath import Vector, QAngle
-from core.buildings import UnitBaseBuilding as BaseClass
+from core.buildings import UnitBaseBuilding as BaseClass, WarsBuildingInfo
 from .basepowered import PoweredBuildingInfo, BasePoweredBuilding
 from entities import entity
 from particles import PATTACH_POINT_FOLLOW
@@ -13,7 +13,7 @@ if isserver:
     from particles import PrecacheParticleSystem
 
 @entity('build_comb_headcrabcanisterlauncher', networked=True)
-class CombineHeadcrabCanisterLauncher(BasePoweredBuilding, BaseClass):
+class CombineHeadcrabCanisterLauncher(BaseClass):
     def UpdateBuildingActivity(self):
         if self.launching:
             info = self.unitinfo
@@ -82,9 +82,12 @@ class CombineHeadcrabCanisterLauncher(BasePoweredBuilding, BaseClass):
     workparticalsfx3 = None
     
     launching = BooleanField(value=False, networked=True, clientchangecallback='OnLaunchingChanged')
+@entity('build_comb_headcrabcanisterlauncher_powered', networked=True)
+class CombineHeadcrabCanisterLauncherPowered(BasePoweredBuilding, CombineHeadcrabCanisterLauncher):
+    autoconstruct = False
 
-class HeadcrabCanisterLauncherInfo(PoweredBuildingInfo):
-    name = "build_comb_headcrabcanisterlauncher" 
+class OverrunHeadcrabCanisterLauncherInfo(WarsBuildingInfo):
+    name = "overrun_build_comb_headcrabcanisterlauncher" 
     displayname = "#BuildCombHCCLauncher_Name"
     description = "#BuildCombHCCLauncher_Description"
     cls_name = "build_comb_headcrabcanisterlauncher"
@@ -95,10 +98,40 @@ class HeadcrabCanisterLauncherInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
-    techrequirements = ['build_comb_armory']
-    costs = [('requisition', 40), ('power', 25)]
+    techrequirements = ['or_tier3_research']
+    costs = [('kills', 50)]
     health = 400
-    buildtime = 30.0
+    buildtime = 90.0
+    scale = 1.0
+    abilities = {
+        0: 'overrun_launch_headcrabcanister',
+        1: 'overrun_launch_headcrabcanister_fasttype',
+        2: 'overrun_launch_headcrabcanister_poisontype',
+        3: 'overrun_launch_headcrabcanister_emptytype',
+        8: 'cancel',
+    } 
+    sound_select = 'build_comb_headcrabcanisterlauncher'
+    sound_death = 'build_generic_explode1'
+    explodeparticleeffect = 'building_explosion'
+    explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius
+    sai_hint = WarsBuildingInfo.sai_hint
+    requirerotation = False
+class HeadcrabCanisterLauncherInfo(PoweredBuildingInfo):
+    name = "build_comb_headcrabcanisterlauncher" 
+    displayname = "#BuildCombHCCLauncher_Name"
+    description = "#BuildCombHCCLauncher_Description"
+    cls_name = "build_comb_headcrabcanisterlauncher_powered"
+    image_name = "vgui/combine/buildings/build_comb_canisterlauncher.vmt"
+    image_dis_name = 'vgui/combine/buildings/build_comb_canisterlauncher.vmt'
+    modelname = 'models/structures/combine/canisterlauncher.mdl'
+    idleactivity = 'ACT_IDLE'
+    constructionactivity = 'ACT_CONSTRUCTION'
+    workactivity = 'ACT_WORK'
+    explodeactivity = 'ACT_EXPLODE'
+    techrequirements = ['build_comb_armory']
+    costs = [('requisition', 50), ('power', 75)]
+    health = 400
+    buildtime = 84.0
     scale = 1.0
     abilities = {
         0: 'launch_headcrabcanister',

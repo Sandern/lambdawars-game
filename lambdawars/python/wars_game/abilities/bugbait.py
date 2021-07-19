@@ -33,7 +33,7 @@ class AbilityBugBait(AbilityBugBaitShared, AbilityThrowObject):
     # Info
     name = "bugbait"
     rechargetime = 6.0
-    throwrange = 1024
+    throwrange = 3072
     #energy = 35.0
     #costs = [('requisition', 10)]
     displayname = "#RebBugBait_Name"
@@ -59,11 +59,11 @@ class AbilityBugBait(AbilityBugBaitShared, AbilityThrowObject):
 class AbilityBugBaitRecall(AbilityBugBaitShared, AbilityInstant):
     # Info
     name = "bugbaitrecall"
-    rechargetime = 15.0
+    rechargetime = 5.0
     displayname = "#RebBugBaitRecall_Name"
     description = "#RebBugBaitRecall_Description"
     image_name = 'vgui/rebels/abilities/reb_squeez_bugbait.vmt'
-    energy = 75
+    energy = 90
     summonantlions = True
     
     @classmethod

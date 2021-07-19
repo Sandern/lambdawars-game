@@ -11,7 +11,7 @@ class WarsWeaponFlamer(BaseClass):
         self.bulletspread = VECTOR_CONE_5DEGREES
 
     class AttackPrimary(BaseClass.AttackRange):
-        damage = 3
+        damage = 2
         minrange = 0.0
         maxrange = 384.0
         attackspeed = 0.10 # Fire rate

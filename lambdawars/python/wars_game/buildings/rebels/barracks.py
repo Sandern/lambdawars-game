@@ -76,7 +76,8 @@ class RebelBarInfo(WarsBuildingInfo):
         5: 'unit_rebel_sg',
         6: 'unit_rebel_ar2',
         8: 'unit_rebel_medic',
-        9: 'unit_rebel_veteran',
+        9: 'unit_rebel_winchester',
+        10: 'unit_rebel_veteran',
         11: 'cancel',
     } 
     sound_work = 'rebel_barracks_working'

@@ -152,18 +152,11 @@ class UnitBaseGarrisonableShared(object):
                 # else splitdamage = 0
                 # Send damage to units
                 n = len(self.units)
-                if n == 1:
+                splitdamage2 = splitdamage / float(n)
+                for unit in self.units:
                     info2 = CTakeDamageInfo(attacker, attacker, 0, 0)
-                    info2.SetDamage(splitdamage)
-                    unit = min(self.units)
+                    info2.SetDamage(splitdamage2)
                     unit.OnTakeDamage(info2)
-                else:
-                    units = random.sample(list(self.units), int(n/2))
-                    splitdamage2 = splitdamage / float(n/2)
-                    for unit in units:
-                        info2 = CTakeDamageInfo(attacker, attacker, 0, 0)
-                        info2.SetDamage(splitdamage2)
-                        unit.OnTakeDamage(info2)
         
         # Clamp damage to healthungarrisonable
         #if self.destroyable and self.healthungarrisonable != 0:

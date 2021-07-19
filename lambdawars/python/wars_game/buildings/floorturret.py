@@ -206,7 +206,7 @@ class FloorTurretInfo(WarsTurretInfo):
     resource_category = 'defense'
     buildtime = 11.0
     constructstarthp = 1.0
-    attackpriority = 1
+    attackpriority = 0
     population = 0
     rechargetime = 36.0
     viewdistance = 768.0
@@ -260,8 +260,9 @@ class OverrunFloorTurretInfo(FloorTurretInfo):
     name = "overrun_floor_turret"
     hidden = True
     techrequirements = ['or_tier2_research']
-    rechargetime = 22.0
-    health = 150
+    costs = [('kills', 3)]
+    #rechargetime = 22.0
+    #health = 150
 
 
 class AbilityConstructFloorTurret(AbilityConstruct):

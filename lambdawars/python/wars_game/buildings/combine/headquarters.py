@@ -150,32 +150,24 @@ class CombPopUpgrade4(AbilityUpgradePopCap):
     costs = [('requisition', 125)]
     
 # OVERRUN version
-class OverrunCombineHQInfo(WarsBuildingInfo):
-    name = 'build_comb_hq_overrun'
+class OverrunCombineHQInfo(CombineHQInfo):
+    name = 'overrun_build_comb_hq'
     displayname = '#BuildComHQ_Name'
     description = '#BuildComHQ_Description'
-    cls_name = 'build_comb_hq'
-    image_name = 'vgui/combine/buildings/build_comb_hq'
-    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_hq.mdl'
-    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_hq_des.mdl'
-    explodemodel_lightingoffset = Vector(0, 0, 100)
-    idleactivity = 'ACT_IDLE'
-    workactivity = 'ACT_WORK'
-    explodeactivity = 'ACT_EXPLODE'
-    constructionactivity = 'ACT_CONSTRUCTION'
-    minimapicon_name = 'hud_minimap_hq'
-    health = 2000
+    health = 4000
     abilities = {
-		8: 'or_tier2_research',
-		0: 'overrun_unit_stalker',
+        0: 'overrun_unit_stalker',
+        1 : 'overrun_dropsoldiers',
+        8: 'or_tier2_research',
         3: SubMenu(name='combine_t1_units',
                    displayname='#Tier1MenuUnits_Name',
                    description='#Tier1MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_1_menu",
                    abilities={
-                              0: 'overrun_unit_metropolice',
-                              1: 'overrun_unit_combine',
-                              2: 'overrun_unit_metropolice_riot',
+                              0: 'overrun_unit_manhack',
+                              1: 'overrun_unit_metropolice',
+                              2: 'overrun_unit_metropolice_smg1',
+                              3: 'overrun_unit_metropolice_riot',
                               11: 'menuup',
                               }),
         7: SubMenu(name='combine_t2_units',
@@ -183,9 +175,11 @@ class OverrunCombineHQInfo(WarsBuildingInfo):
                    description='#Tier2MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_2_menu",
                    abilities={
-                              0: 'overrun_unit_combine_sg',
-                              1: 'overrun_unit_combine_ar2',
-							  2: 'overrun_unit_combine_heavy',
+                              0: 'overrun_unit_combine',
+                              1: 'overrun_unit_combine_sg',
+                              2: 'overrun_unit_combine_ar2',
+                              3: 'overrun_unit_rollermine',
+                              4: 'overrun_unit_scanner',
                               11: 'menuup',
                               }),
         11: SubMenu(name='combine_t3_units',
@@ -193,19 +187,17 @@ class OverrunCombineHQInfo(WarsBuildingInfo):
                    description='#Tier3MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_3_menu",
                    abilities={
-                              0: 'overrun_unit_combine_elite',
-                              1: 'overrun_unit_combine_sniper',
-                              2: 'overrun_unit_hunter',
-                              3: 'overrun_unit_mortar_synth',
-                              4: 'overrun_unit_crab_synth',
+                              0: 'overrun_unit_combine_heavy',
+                              1: 'overrun_unit_combine_elite',
+                              2: 'overrun_unit_combine_sniper',
+                              3: 'overrun_unit_hunter',
+                              4: 'overrun_unit_mortar_synth',
+                              5: 'overrun_unit_crab_synth',
+                              6: 'overrun_unit_strider',
+                              7: 'overrun_unit_observer',
+                              8: 'overrun_unit_clawscanner',
                               11: 'menuup',
                               }),
     }
-    population = 0
-    providespopulation = 25
-    generateresources = {'type' : 'kills', 'amount' : 1.0, 'interval' : 20.0}
-    hidden = True
-    sound_select = 'build_comb_hq'
-    sound_death = 'build_comb_hq_destroy'
-    explodeparticleeffect = 'pg_combine_HQ_explosion'
-    explodeshake = (10, 100, 5, 6000) # Amplitude, frequence, duration, radius
+    providespopulation = 50
+    generateresources = {'type' : 'kills', 'amount' : 1.0, 'interval' : 2.0}

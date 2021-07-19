@@ -110,15 +110,20 @@ class AbilityC4Explosive(AbilityTarget):
         behaviorgeneric_action = ActionPlaceC4Explosive
         
     allowmultipleability = True
+class OverrunAbilityC4Explosive(AbilityC4Explosive):
+    name = "overrun_c4explosive"
+    rechargetime = 3
+    costs = []
+    techrequirements = []
 
 class AbilityC4ExplosiveUnlock(AbilityUpgrade):
 	name = 'c4explosive_unlock'
 	displayname = '#AbilityC4ExplosiveUnlock_Name'
 	description = '#AbilityC4ExplosiveUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_tnt_unlock.vmt"
-	#techrequirements = ['build_reb_specialops']
+	techrequirements = ['build_reb_specialops']
 	buildtime = 24.0
-	costs = [[('kills', 4)], [('requisition', 20), ('scrap', 20)]]
+	costs = [[('kills', 4)], [('scrap', 20)]]
 
 class CharC4Explosive(AbilityC4Explosive):
     name = 'c4explosive_char'

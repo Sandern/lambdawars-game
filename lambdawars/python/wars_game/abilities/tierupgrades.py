@@ -6,7 +6,7 @@ class Tier2UpgradeInfo(AbilityUpgradePopCap):
     description = '#AbilityTier2Research_Description'
     image_name = "vgui/abilities/tier2combine.vmt"
     buildtime = 0.0
-    costs = [('kills', 12)]
+    costs = [('kills', 100)]
     successorability = 'or_tier3_research'
     providespopulation = 25
     
@@ -16,5 +16,5 @@ class Tier3UpgradeInfo(AbilityUpgradePopCap):
     description = '#AbilityTier3Research_Description'
     image_name  = "vgui/abilities/tier3combine.vmt"
     buildtime = 0.0
-    costs = [('kills', 15)]
+    costs = [('kills', 200)]
     providespopulation = 50

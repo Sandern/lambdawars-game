@@ -388,13 +388,13 @@ class OverrunCombineShieldGenInfo(WarsBuildingInfo):
     image_name = 'vgui/combine/buildings/build_comb_shield.vmt'
     image_dis_name = 'vgui/combine/buildings/build_comb_shield.vmt'
     modelname = 'models/props_combine/combine_generator01.mdl'
-    health = 300
+    health = 500
     buildtime = 25.0
     attributes = ['building', 'stun']
     placemaxrange = 96.0
     placeatmins = True
     viewdistance = 896
-    costs = [('kills', 3)]
+    costs = [('kills', 50)]
     techrequirements = ['or_tier3_research']
     abilities = {
         0 : 'genconnect',

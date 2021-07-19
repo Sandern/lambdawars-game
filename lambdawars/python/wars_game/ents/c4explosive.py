@@ -20,7 +20,7 @@ class C4ExplosiveInfo(UnitObjectInfo):
     
     class AttackExplode(UnitObjectInfo.AttackBase):
         maxrange = 350.0
-        damage = 220.0
+        damage = 350.0
         damagetype = DMG_BLAST
         attackspeed = 0
     attacks = 'AttackExplode'

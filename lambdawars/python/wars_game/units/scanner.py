@@ -129,7 +129,7 @@ class UnitScanner(UnitBaseScanner):
         
         cls.combinemineinfo = GetUnitInfo('combine_mine')
 
-        if info == ClawScannerInfo:
+        if info == ClawScannerInfo or info == OverrunClawScannerInfo:
             cls.PrecacheModel("models/shield_scanner.mdl")
 
             cls.PrecacheModel("models/gibs/Shield_Scanner_Gib1.mdl")
@@ -312,7 +312,7 @@ class UnitScanner(UnitBaseScanner):
         
     @property
     def isclawscanner(self):
-        return issubclass(self.unitinfo, ClawScannerInfo)
+        return issubclass(self.unitinfo, ClawScannerInfo) or issubclass(self.unitinfo, OverrunClawScannerInfo)
         
     @property
     def soundprefix(self):
@@ -371,7 +371,7 @@ class ScannerInfo(UnitInfo):
     attributes = ['mechanic', 'metal']
     sound_death = 'NPC_CScanner.Die'
     maxspeed = 352
-    viewdistance = 1152
+    viewdistance = 1344
     
     ability_0 = 'flash'
     ability_9 = 'holdposition'
@@ -422,7 +422,33 @@ class ClawScannerInfo(ScannerInfo):
     sound_death = 'NPC_SScanner.Die'
     health = 40
     maxspeed = 248
-    viewdistance = 1408
+    viewdistance = 1536
     ability_0 = 'deploymine'
     #ability_1 = 'producemine'
     sai_hint = set([])
+
+
+
+class OverrunScannerInfo(ScannerInfo):
+    name = 'overrun_unit_scanner'
+    costs = [('kills', 1)]
+    techrequirements = ['or_tier2_research']
+    buildtime = 0.0
+    attackpriority = -2.0
+    viewdistance = 1536
+class OverrunObserverInfo(ObserverInfo):
+    name = 'overrun_unit_observer'
+    costs = [('kills', 5)]
+    techrequirements = ['or_tier3_research']
+    buildtime = 0.0
+    maxspeed = 96
+    attackpriority = 1.0
+    viewdistance = 1536
+class OverrunClawScannerInfo(ClawScannerInfo):
+    name = 'overrun_unit_clawscanner'
+    costs = [('kills', 5)]
+    techrequirements = ['or_tier3_research']
+    buildtime = 0.0
+    attackpriority = -1.0
+    ability_0 = 'overrun_deploymine'
+    viewdistance = 1792

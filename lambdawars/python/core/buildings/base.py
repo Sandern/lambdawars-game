@@ -1064,7 +1064,8 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
                     MessageResourceIndicator(self.GetOwnerNumber(), self.GetAbsOrigin() + self.resourcemessageoffset,
                                              '%s +%d' % (resourcetype['kills'], halfkll), resourcetype['kills'])
 
-            self.Remove()
+            #self.Remove()
+            self.Suicide()
             
     def CancelUpgrade(self):
         if not self.activeupgrade:

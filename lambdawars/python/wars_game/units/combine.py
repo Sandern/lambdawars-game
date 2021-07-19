@@ -338,7 +338,7 @@ class CombineHPUpgrade(AbilityUpgradeValue):
     displayname = '#CombineHPUpgrade_Name'
     description = '#CombineHPUpgrade_Description'
     buildtime = 90.0
-    costs = [('requisition', 30), ('power', 30)]
+    costs = [[('requisition', 30), ('power', 30)], [('kills', 10)]]
     upgradevalue = 240
     image_name = 'vgui/combine/abilities/combine_hp_upgrade'
 
@@ -413,9 +413,9 @@ class CombineSGInfo(CombineInfo):
     costs = [[('requisition', 25), ('power', 5)], [('kills', 1)]]
     techrequirements = ['build_comb_armory','weaponsg_comb_unlock']
     attributes = ['medium']
-    buildtime = 26.0
+    buildtime = 24.0
     health = 200
-    maxspeed = 244.0
+    maxspeed = 256.0
     viewdistance = 768
     sound_select = 'unit_combine_sg_select'
     sound_move = 'unit_combine_sg_move'
@@ -447,7 +447,7 @@ class CombineAR2Info(CombineInfo):
     maxspeed = 184
     sensedistance = 1024.0
     viewdistance = 832
-    accuracy = 0.626
+    #accuracy = 0.626
     attributes = ['medium']
     sound_select = 'unit_combine_ar2_select'
     sound_move = 'unit_combine_ar2_move'
@@ -480,8 +480,8 @@ class CombineEliteInfo(CombineSharedInfo):
     image_name = 'vgui/combine/units/unit_combine_elite'
     portrait = 'resource/portraits/combineAR2.bik'
     costs = [[('requisition', 60), ('power', 40)], [('kills', 4)]]
-    buildtime = 35.0
-    health = 250
+    buildtime = 30.0
+    health = 350
     maxspeed = 208
     sensedistance = 1024.0
     viewdistance = 896
@@ -506,14 +506,14 @@ class CombineEliteInfo(CombineSharedInfo):
     weapons = ['weapon_shotgun', 'weapon_ar2']
     #accuracy = 'medium'
     population = 2
-	
+
 class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
     cls_name = 'unit_combineheavy'
     displayname = '#CombHeavy_Name'
     description = '#CombHeavy_Description'
     image_name = 'vgui/combine/units/unit_combine_heavy'
-    costs = [[('requisition', 50), ('power', 30)], [('kills', 4)]]
+    costs = [[('requisition', 55), ('power', 30)], [('kills', 4)]]
     buildtime = 32.0
     health = 350
     maxspeed = 224
@@ -528,37 +528,22 @@ class CombineHeavyInfo(CombineSharedInfo):
     sound_move = 'unit_combine_elite_move'
     sound_attack = 'unit_combine_elite_attack'
     modelname = 'models/combine_heavy.mdl'
-    #version = 3
-    coef = 0.5 
+    coef = 0.25
     energyforarmor = 20 
     regenerationamount = 10
     regenerationtime = 2
     abilities = {
-		#7: 'mountturret',
-		0: 'stungrenade',
-		8: 'attackmove',
-		9: 'holdposition',
-		10: 'patrol',
-		-1: 'garrison',
+        #7: 'mountturret',
+        0: 'stungrenade',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
     }
     weapons = ['weapon_pulse_shotgun']
-    accuracy = 'medium'
-    population = 2
+    #accuracy = 'medium'
+    population = 2	
 
-class OverrunCombineHeavyInfo(CombineHeavyInfo):
-	name = 'overrun_unit_combine_heavy'
-	costs = [('kills', 5)]
-	techrequirements = ['or_tier2_research']
-	#population = 3
-	abilities = {
-		#7: 'mountturret',
-		#0: 'stungrenade',
-		8: 'attackmove',
-		9: 'holdposition',
-		10: 'patrol',
-		-1: 'garrison',
-	}
-	buildtime = 0
 
 class CombineSniperUnlock(AbilityUpgrade):
     name = 'combine_sniper_unlock'
@@ -575,8 +560,8 @@ class CombineSniperInfo(CombineSharedInfo):
     description = '#CombSniper_Description'
     image_name = 'vgui/combine/units/unit_combine_sniper'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 60), ('power', 50)], [('kills', 4)]]
-    buildtime = 38.0
+    costs = [[('requisition', 60), ('power', 30)], [('kills', 4)]]
+    buildtime = 28.0
     health = 200
     maxspeed = 168.0
     sensedistance = 1664.0
@@ -604,14 +589,16 @@ class CombineSniperInfo(CombineSharedInfo):
     #accuracy = 'high'
     population = 2
     cantakecover = True
+    sniperenemy = False
 
 # OVERRUN VERSIONS
 class OverrunCombineInfo(CombineInfo):
     name = 'overrun_unit_combine'
     hidden = True
     buildtime = 0
-    techrequirements = []
+    techrequirements = ['or_tier2_research']
     tier = 0
+    costs = [('kills', 5)]
     abilities = {
         0: 'overrun_grenade',
         7: 'mountturret',
@@ -627,6 +614,7 @@ class OverrunCombineSGInfo(CombineSGInfo):
     buildtime = 0
     techrequirements = ['or_tier2_research']
     tier = 0
+    costs = [('kills', 7)]
     abilities = {
         0: 'overrun_grenade',
         7: 'mountturret',
@@ -642,6 +630,7 @@ class OverrunCombineAR2Info(CombineAR2Info):
     buildtime = 0
     techrequirements = ['or_tier2_research']
     tier = 0
+    costs = [('kills', 9)]
     abilities = {
         0: 'overrun_grenade',
         7: 'mountturret',
@@ -651,8 +640,23 @@ class OverrunCombineAR2Info(CombineAR2Info):
         -1: 'garrison',
     }
 
+class OverrunCombineHeavyInfo(CombineHeavyInfo):
+    name = 'overrun_unit_combine_heavy'
+    costs = [('kills', 12)]
+    techrequirements = ['or_tier3_research']
+    #population = 3
+    abilities = {
+        #7: 'mountturret',
+        0: 'overrun_stungrenade',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+    buildtime = 0
 class OverrunCombineEliteInfo(CombineEliteInfo):
     name = 'overrun_unit_combine_elite'
+    costs = [('kills', 20)]
     hidden = True
     buildtime = 0
     techrequirements = ['or_tier3_research']
@@ -670,10 +674,14 @@ class OverrunCombineEliteInfo(CombineEliteInfo):
 
 class OverrunCombineSniperInfo(CombineSniperInfo):
     name = 'overrun_unit_combine_sniper'
+    costs = [('kills', 20)]
     hidden = True
     buildtime = 0
     techrequirements = ['or_tier3_research']
     tier = 0
+class OverrunEnemyCombineSniperInfo(CombineSniperInfo):
+    name = 'enemy_unit_combine_sniper'
+    sniperenemy = True
     
 # Transform abilities combine soldier
 class TransformToCombineSG(AbilityTransformUnit):
@@ -682,7 +690,7 @@ class TransformToCombineSG(AbilityTransformUnit):
     description = '#CombTransSG_Description'
     image_name = 'vgui/combine/abilities/combine_transform_sg'
     transform_type = 'unit_combine_sg'
-    transform_time = 5.0
+    transform_time = 5
     replaceweapons = True
     techrequirements = ['weaponsg_comb_unlock']
     #techrequirements = ['build_comb_armory']
@@ -695,7 +703,7 @@ class TransformToCombineAR2(AbilityTransformUnit):
     description = '#CombTransAR2_Description'
     image_name = 'vgui/combine/abilities/combine_transform_ar2'
     transform_type = 'unit_combine_ar2'
-    transform_time = 5.0
+    transform_time = 7.0
     replaceweapons = True
     techrequirements = ['weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']

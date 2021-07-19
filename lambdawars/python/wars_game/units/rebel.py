@@ -278,7 +278,7 @@ class RebelScoutInfo(RebelShared):
     }
     weapons = ['weapon_pistol']
     sai_hint = set(['sai_unit_scout'])
-    viewdistance = 1024
+    viewdistance = 1280
     scrapdropchance = 0.0
 
 
@@ -290,11 +290,11 @@ class RebelSaboteurInfo(RebelShared):
     health = 60
     maxspeed = 232.0
     viewdistance = 896
-    buildtime = 22.0
+    buildtime = 30.0
     unitenergy = 100
-    unitenergy_initial = 40
+    unitenergy_initial = 100
     population = 1
-    costs = [('requisition', 15), ('scrap', 10)]
+    costs = [('requisition', 10), ('scrap', 10)]
     #techrequirements = ['build_reb_munitiondepot']
     image_name = 'vgui/rebels/units/unit_rebel_saboteur'
     attributes = ['medium']
@@ -331,7 +331,7 @@ class RebelPartisanInfo(RebelShared):
     cls_name = 'unit_rebel_partisan'
     displayname = '#RebPartisan_Name'
     description = '#RebPartisan_Description'
-    buildtime = 14.0
+    buildtime = 12.0
     health = 75
     population = 1
     maxspeed = 224.0
@@ -351,7 +351,7 @@ class RebelPartisanInfo(RebelShared):
         -1: 'garrison',
     }
     weapons = ['weapon_smg1']
-    accuracy = 0.75
+    accuracy = 0.5
     #accuracy = 'low'
 
 
@@ -370,10 +370,11 @@ class RebelPartisanMolotovInfo(RebelPartisanInfo):
     description = '#RebPartisanMolotov_Description'
     costs = [[('requisition', 10)], [('kills', 1)]]
     image_name = 'vgui/rebels/units/unit_rebel_partisan_molotov'
-    buildtime = 10.0
+    buildtime = 14.0
     health = 75
     selectionpriority = 1
     weapons = []
+    maxspeed = 236.0
     abilities = {
         0: 'throwmolotov',
         1: 'throwstinkbomb',
@@ -471,32 +472,33 @@ class RebelW1886Info(RebelInfo):
     name = 'unit_rebel_winchester'
     displayname = '#RebWinchester_Name'
     description = '#RebWinchester_Description'
-    buildtime = 28.0
+    buildtime = 36.0
     health = 150
-    costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
-    techrequirements = ['build_reb_munitiondepot']
+    costs = [[('requisition', 50), ('scrap', 30)], [('kills', 1)]]
+    techrequirements = ['build_reb_specialops']
     weapons = ['weapon_winchester1886']
+    image_name = 'vgui/rebels/units/unit_rebel_winchester'
     abilities = {
-        0: 'grenade',
+        #0: 'grenade',
         #1: 'rebel_grenade_upgrade',
+        0: 'winchester_alt_fire',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
     }
-
     attributes = ['medium']
-    image_name = 'vgui/rebels/units/unit_rebel_sg'
-    maxspeed = 216.0
-    viewdistance = 768
-    sensedistance = 1024
+    maxspeed = 218.0
+    viewdistance = 1024
+    sensedistance = 1280
+    population = 2
 
 class RebelSGInfo(RebelInfo):
     name = 'unit_rebel_sg'
     displayname = '#RebSG_Name'
     description = '#RebSG_Description'
-    buildtime = 23.0
+    buildtime = 21.0
     health = 150
     costs = [[('requisition', 20), ('scrap', 5)], [('kills', 1)]]
     techrequirements = ['build_reb_munitiondepot','weaponsg_unlock']
@@ -514,7 +516,7 @@ class RebelSGInfo(RebelInfo):
 
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_sg'
-    maxspeed = 248.0
+    maxspeed = 260.0
     viewdistance = 768
 
 
@@ -532,7 +534,7 @@ class RebelAR2Info(RebelInfo):
     viewdistance = 832
     costs = [[('requisition', 20), ('scrap', 10)], [('kills', 2)]]
     techrequirements = ['build_reb_munitiondepot','weaponar2_unlock']
-    accuracy = 0.626
+    #accuracy = 0.626
     #techrequirements = ['build_reb_munitiondepot']
     weapons = ['weapon_ar2']
     abilities = {
@@ -553,12 +555,12 @@ class RebelTauInfo(RebelInfo):
     displayname = '#RebTau_Name'
     description = '#RebTau_Description'
     cls_name = 'unit_rebel'
-    buildtime = 35.0
+    buildtime = 25.0
     maxspeed = 200
     health = 200
     viewdistance = 896
     scale = 1.0
-    costs = [[('requisition', 60), ('scrap', 30)], [('kills', 2)]]
+    costs = [[('requisition', 50), ('scrap', 40)], [('kills', 2)]]
     #accuracy = 5.0
     population = 2
     modelname = 'models/rebel_tau.mdl'
@@ -574,24 +576,9 @@ class RebelTauInfo(RebelInfo):
 		-1: 'garrison',
     }
     sensedistance = 1152.0
-    attributes = ['medium']
+    attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_tau'
     infest_zombietype = ''
-	
-class OverrunRebelHeavyInfo(RebelTauInfo):
-	name = 'overrun_unit_rebel_tau'
-	costs = [('kills', 4)]
-	techrequirements = ['or_tier2_research']
-	abilities = {
-        #0: 'tau_alt_fire',
-        #1: 'rebel_grenade_upgrade',
-        7: 'mountturret',
-        8: 'attackmove',
-        9: 'holdposition',
-        10: 'patrol',
-        -1: 'garrison',
-	}
-	buildtime = 0
 	
 class RebelHeavyInfo(RebelInfo):
     name = 'unit_rebel_heavy'
@@ -599,12 +586,12 @@ class RebelHeavyInfo(RebelInfo):
     description = '#RebHeavy_Description'
     cls_name = 'unit_rebel'
     buildtime = 28.0
-    maxspeed = 184
-    health = 280
+    maxspeed = 170
+    health = 320
     viewdistance = 896
     scale = 1.10
-    costs = [[('requisition', 70), ('scrap', 25)], [('kills', 2)]]
-    accuracy = 0.625
+    costs = [[('requisition', 60), ('scrap', 25)], [('kills', 2)]]
+    #accuracy = 0.625
     population = 2
     modelname = 'models/rebel_heavy.mdl'
     techrequirements = ['build_reb_techcenter']
@@ -622,21 +609,6 @@ class RebelHeavyInfo(RebelInfo):
     attributes = ['heavy']
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
-	
-class OverrunRebelHeavyInfo(RebelHeavyInfo):
-	name = 'overrun_unit_rebel_heavy'
-	costs = [('kills', 4)]
-	techrequirements = ['or_tier2_research']
-	abilities = {
-        #0: 'smokegrenade',
-        #1: 'rebel_grenade_upgrade',
-        7: 'mountturret',
-        8: 'attackmove',
-        9: 'holdposition',
-        10: 'patrol',
-        -1: 'garrison',
-	}
-	buildtime = 0
 
 
 class DestroyHQRebelAR2Info(RebelAR2Info):
@@ -710,6 +682,8 @@ class RebelEngineerInfo(RebelShared):
     viewdistance = 768
     abilities = {
         0: 'repair_dog',
+        1: 'noattack',
+        2: 'allowattack',
         5: 'salvage',
         6: 'mountturret',
         8: 'attackmove',
@@ -751,6 +725,9 @@ class RebelEngineerInfo(RebelShared):
 class DestroyHQRebelEngineerInfo(RebelEngineerInfo):
     name = 'destroyhq_unit_rebel_engineer'
     abilities = {
+        0: 'repair_dog',
+        1: 'noattack',
+        2: 'allowattack',
         5: 'salvage',
         6: 'mountturret',
         8: 'attackmove',
@@ -790,6 +767,9 @@ class DestroyHQRebelEngineerInfo(RebelEngineerInfo):
 class TutorialRebelEngineerInfo(RebelEngineerInfo):
     name = 'tutorial_rebel_engineer'
     abilities = {
+        0: 'repair_dog',
+        1: 'noattack',
+        2: 'allowattack',
         5: 'salvage',
         6: 'mountturret',
         8: 'attackmove',
@@ -836,11 +816,11 @@ class RebelRPGUnlock(AbilityUpgrade):
 
 class RebelRPGInfo(RebelShared):
     name = 'unit_rebel_rpg'
-    buildtime = 27.0
+    buildtime = 40.0
     health = 240
-    maxspeed = 160.0
+    maxspeed = 156.0
     viewdistance = 896
-    costs = [[('requisition', 60), ('scrap', 40)], [('kills', 4)]]
+    costs = [[('requisition', 60), ('scrap', 60)], [('kills', 4)]]
     displayname = '#RebRPG_Name'
     description = '#RebRPG_Description'
     image_name = 'vgui/rebels/units/unit_rebel_rpg'
@@ -853,7 +833,7 @@ class RebelRPGInfo(RebelShared):
         -1: 'garrison',
     }
     weapons = ['weapon_rpg']
-    sensedistance = 1280.0
+    sensedistance = 1408.0
     techrequirements = ['build_reb_techcenter']
     population = 2
     attributes = ['medium', 'rpg']
@@ -899,18 +879,19 @@ class UnitCitizenBase(UnitCitizen):
 class RebelVeteran(RebelShared):
     name = 'unit_rebel_veteran'
     cls_name = 'unit_rebel_veteran'
-    buildtime = 35.0
+    buildtime = 40.0
     health = 180
-    maxspeed = 192.0
+    maxspeed = 216.0
     viewdistance = 896
     attributes = ['medium']
-    costs = [[('requisition', 50), ('scrap', 50)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('scrap', 35)], [('kills', 4)]]
     displayname = '#RebVeteran_Name'
     description = '#RebVeteran_Description'
     image_name = 'vgui/rebels/units/unit_rebel_crossbow'
     techrequirements = ['build_reb_specialops']
     #tier = 3
     modellist = GenerateModelList('VETERAN')
+    sniperenemy = False
 
     abilities = {
         0: 'fireexplosivebolt',
@@ -952,13 +933,13 @@ class RebelFlamer(RebelShared):
     name = 'unit_rebel_flamer'
     #cls_name = 'unit_rebel_flamer' 
     cls_name = 'unit_rebel_csm'
-    buildtime = 32.0
-    health = 270
+    buildtime = 16.0
+    health = 250
     maxspeed = 248.0
     viewdistance = 768
     scale = 1.075
     attributes = ['heavy']
-    costs = [[('requisition', 50), ('scrap', 20)], [('kills', 3)]]
+    costs = [[('requisition', 30), ('scrap', 10)], [('kills', 3)]]
     modelname = 'models/Humans/Group03/male_05_flamer.mdl'
     displayname = '#RebFlamer_Name'
     description = '#RebFlamer_Description'
@@ -974,7 +955,7 @@ class RebelFlamer(RebelShared):
         -1: 'garrison',
     }
     weapons = ['wars_weapon_flamer']
-    population = 2
+    population = 1
     infest_zombietype = ''
 
 
@@ -984,7 +965,7 @@ class TransformToRebelSG(AbilityTransformUnit):
     displayname = '#RebTransSG_Name'
     description = '#RebTransSG_Description'
     transform_type = 'unit_rebel_sg'
-    transform_time = 5.0
+    transform_time = 5
     replaceweapons = True
     techrequirements = ['weaponsg_unlock']
     #techrequirements = ['build_reb_munitiondepot']
@@ -998,7 +979,7 @@ class TransformToRebelAR2(AbilityTransformUnit):
     displayname = '#RebTransAR2_Name'
     description = '#RebTransAR2_Description'
     transform_type = 'unit_rebel_ar2'
-    transform_time = 5.0
+    transform_time = 7.0
     replaceweapons = True
     techrequirements = ['weaponar2_unlock']
     #techrequirements = ['build_reb_munitiondepot']
@@ -1020,7 +1001,7 @@ class RebelHPUpgrade(AbilityUpgradeValue):
     displayname = '#RebHpUpgrade_Name'
     description = '#RebHpUpgrade_Description'
     buildtime = 90.0
-    costs = [('requisition', 30), ('scrap', 30)]
+    costs = [[('requisition', 30), ('scrap', 30)], [('kills', 10)]]
     upgradevalue = 180
     image_name = 'vgui/rebels/abilities/rebel_hp_upgrade'
 
@@ -1031,7 +1012,7 @@ class MedicHealRateUpgrade(AbilityUpgradeValue):
     displayname = '#RebMedHealRateUpgr_Name'
     description = '#RebMedHealRateUpgr_Description'
     buildtime = 25.0
-    costs = [('requisition', 15)]
+    costs = [[('requisition', 15)], [('kills', 5)]]
     upgradevalue = 100.0
     image_name = 'vgui/rebels/abilities/medic_healrate_upgrade'
 
@@ -1040,7 +1021,7 @@ class MedicEnergyRegenRateUpgrade(AbilityUpgradeValue):
     displayname = '#MedEnRegRateUpgr_Name'
     description = '#MedEnRegRateUpgr_Description'
     buildtime = 20.0
-    costs = [('requisition', 10)]
+    costs = [[('requisition', 10)], [('kills', 1)]]
     upgradevalue = 5.0
     image_name = 'vgui/rebels/abilities/medic_regenerate_upgrade'
 
@@ -1050,7 +1031,7 @@ class MedicMaxEnergyUpgrade(AbilityUpgradeValue):
     displayname = '#MedMaxEnUpgr_Name'
     description = '#MedMaxEnUpgr_Description'
     buildtime = 25.0
-    costs = [('requisition', 15)]
+    costs = [[('requisition', 15)], [('kills', 2)]]
     upgradevalue = 175
     image_name = 'vgui/rebels/abilities/medic_maxenergy_upgrade'
 
@@ -1060,7 +1041,7 @@ class MedicSMG1Upgrade(AbilityUpgrade):
     displayname = '#MedSMG1Upgr_Name'
     description = '#MedSMG1Upgr_Description'
     buildtime = 38.0
-    costs = [('requisition', 20), ('scrap', 15)]
+    costs = [[('requisition', 20), ('scrap', 15)], [('kills', 10)]]
     image_name = "vgui/rebels/abilities/medic_smg_upgrade"
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 
@@ -1093,6 +1074,7 @@ class OverrunRebelPartisanInfo(RebelPartisanInfo):
     hidden = True
     tier = 0
     buildtime = 0
+    costs = [('kills', 1)]
 
 
 class OverrunRebelPartisanMolotovInfo(RebelPartisanMolotovInfo):
@@ -1100,6 +1082,7 @@ class OverrunRebelPartisanMolotovInfo(RebelPartisanMolotovInfo):
     hidden = True
     tier = 0
     buildtime = 0
+    costs = [('kills', 1)]
 
 
 class OverrunRebelInfo(RebelInfo):
@@ -1107,7 +1090,8 @@ class OverrunRebelInfo(RebelInfo):
     hidden = True
     buildtime = 0
     tier = 0
-    techrequirements = []
+    techrequirements = ['or_tier2_research']
+    costs = [('kills', 4)]
     abilities = {
         0: 'overrun_grenade',
         7: 'mountturret',
@@ -1120,6 +1104,7 @@ class OverrunRebelInfo(RebelInfo):
 
 class OverrunRebelSGInfo(RebelSGInfo):
     name = 'overrun_unit_rebel_sg'
+    costs = [('kills', 6)]
     hidden = True
     buildtime = 0
     tier = 0
@@ -1136,28 +1121,41 @@ class OverrunRebelSGInfo(RebelSGInfo):
 
 class OverrunRebelEngineerInfo(RebelEngineerInfo):
     name = 'overrun_unit_rebel_engineer'
+    costs = [('kills', 10)]
     hidden = True
     buildtime = 0
     tier = 0
     abilities = {
-        -2: 'construct_floorturret',
-        -1: 'garrison',
-        1: 'overrun_build_reb_bunker',
-        2: 'overrun_floor_turret',
-        3: 'overrun_combine_mine',
-        4: 'overrun_build_reb_barricade',
-        5: 'overrun_reb_mountableturret',
-        6: 'overrun_build_reb_aidstation',
+        0: 'repair_dog',
+        1: 'noattack',
+        2: 'allowattack',
+        3: SubMenu(name='overrun_engie_defensemenu',
+                   displayname='#RebDefenseMenu_Name', description='#RebDefenseMenu_Description',
+                   image_name='vgui/abilities/building_defence_menu.vmt',
+                   abilities={
+                        0: 'overrun_build_reb_barricade',
+                        1: 'overrun_floor_turret',
+                        2: 'overrun_reb_mountableturret',
+                        3: 'overrun_build_reb_barreltrap',
+                        4: 'overrun_build_reb_bunker',
+                        5: 'overrun_build_reb_aidstation',
+                        6: 'overrun_build_reb_munitiondepot',
+                        7: 'overrun_combine_mine',
+                        11: 'menuup',
+                   }),
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
         11: 'construct',
+        -1: 'garrison',
+        -2: 'construct_floorturret',
     }
 
 
 class OverrunRebelAR2Info(RebelAR2Info):
     name = 'overrun_unit_rebel_ar2'
+    costs = [('kills', 8)]
     hidden = True
     buildtime = 0
     tier = 0
@@ -1172,12 +1170,65 @@ class OverrunRebelAR2Info(RebelAR2Info):
     }
 
 
-class OverrunRebelFlamerInfo(RebelFlamer):
-    name = 'overrun_unit_rebel_flamer'
+class OverrunRebelScoutInfo(RebelScoutInfo):
+    name = 'overrun_unit_rebel_scout'
+    costs = [('kills', 1)]
+    hidden = True
+    buildtime = 0
+    tier = 0
+    techrequirements = []
+    buildtime = 0.0
+    unitenergy = 200
+    unitenergy_initial = -1
+    population = 1
+    accuracy = 1.0
+    attackpriority = -1.0
+    abilities = {
+        0: 'infiltrate',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+    #viewdistance = 1152
+
+
+class OverrunRebelSaboteurInfo(RebelSaboteurInfo):
+    name = 'overrun_unit_rebel_saboteur'
+    costs = [('kills', 3)]
     hidden = True
     buildtime = 0
     tier = 0
     techrequirements = ['or_tier2_research']
+    buildtime = 0.0
+    unitenergy = 200
+    unitenergy_initial = -1
+    population = 1
+    attackpriority = 0.0
+    abilities = {
+        0: 'infiltrate',
+        1: 'overrun_c4explosive',
+        #2: 'sabotage',
+        2: 'overrun_combine_mine',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+    }
+    viewdistance = 1344
+    unitenergy = 200
+    unitenergy_initial = -1
+
+
+class OverrunRebelFlamerInfo(RebelFlamer):
+    name = 'overrun_unit_rebel_flamer'
+    costs = [('kills', 10)]
+    hidden = True
+    buildtime = 0
+    tier = 0
+    techrequirements = ['or_tier3_research']
     abilities = {
         7: 'mountturret',
         8: 'attackmove',
@@ -1189,6 +1240,7 @@ class OverrunRebelFlamerInfo(RebelFlamer):
 
 class OverrunRebelMedicInfo(RebelMedicInfo):
     name = 'overrun_unit_rebel_medic'
+    costs = [('kills', 5)]
     hidden = True
     buildtime = 0
     tier = 0
@@ -1202,13 +1254,49 @@ class OverrunRebelMedicInfo(RebelMedicInfo):
         -1: 'garrison',
     }
 
+	
+class OverrunRebelTauInfo(RebelTauInfo):
+	name = 'overrun_unit_rebel_tau'
+	costs = [('kills', 20)]
+	techrequirements = ['or_tier3_research']
+	abilities = {
+        0: 'overrun_tau_alt_fire',
+        #1: 'rebel_grenade_upgrade',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+	}
+	buildtime = 0
+class OverrunRebelW1886Info(RebelW1886Info):
+    name = 'overrun_unit_rebel_winchester'
+    costs = [('kills', 10)]
+    techrequirements = ['or_tier3_research']
+    buildtime = 0
+	
+class OverrunRebelHeavyInfo(RebelHeavyInfo):
+	name = 'overrun_unit_rebel_heavy'
+	costs = [('kills', 25)]
+	techrequirements = ['or_tier3_research']
+	abilities = {
+        #0: 'smokegrenade',
+        #1: 'rebel_grenade_upgrade',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -1: 'garrison',
+	}
+	buildtime = 0
 
 class OverrunRebelRPGInfo(RebelRPGInfo):
     name = 'overrun_unit_rebel_rpg'
     hidden = True
     buildtime = 0
     techrequirements = ['or_tier3_research']
-    accuracy = 5.0
+    costs = [('kills', 25)]
+    #accuracy = 5.0
 
 
 class OverrunRebelVeteranInfo(RebelVeteran):
@@ -1217,6 +1305,7 @@ class OverrunRebelVeteranInfo(RebelVeteran):
     buildtime = 0
     tier = 0
     techrequirements = ['or_tier3_research']
+    costs = [('kills', 15)]
     abilities = {
         0: 'fireexplosivebolt_overrun',
         1: 'smokegrenade',
@@ -1230,6 +1319,9 @@ class OverrunRebelVeteranInfo(RebelVeteran):
 
     }
     cantakecover = True
+class OverrunEnemyRebelVeteranInfo(RebelVeteran):
+    name = 'enemy_unit_rebel_veteran'
+    sniperenemy = True
 
 # Mission Versions
 class MissionRebelInfo(RebelInfo):
@@ -1365,6 +1457,8 @@ class MissionRebelEngineerInfo(RebelEngineerInfo):
     costs = [('requisition', 22)]
     techrequirements = []
     abilities = {
+        1: 'noattack',
+        2: 'allowattack',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',

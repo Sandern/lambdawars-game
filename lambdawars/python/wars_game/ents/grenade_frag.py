@@ -282,6 +282,7 @@ if isserver:
             super().Precache()
 
             self.PrecacheScriptSound('build_comb_mturret_explode')
+            self.PrecacheScriptSound('StunGrenade.Detonate')
             PrecacheParticleSystem('particle_stun_frag_BASE')
 
 
@@ -295,7 +296,8 @@ if isserver:
             self.SetTouch(None)
             self.SetSolid(SOLID_NONE)
             DispatchParticleEffect("particle_stun_frag_BASE", origin, self.GetAbsAngles())
-            self.EmitSound('build_comb_mturret_explode')
+            #self.EmitSound('build_comb_mturret_explode')
+            self.EmitSound('StunGrenade.Detonate')
 
             self.AddEffects(EF_NODRAW)
             self.SetAbsVelocity(vec3_origin)

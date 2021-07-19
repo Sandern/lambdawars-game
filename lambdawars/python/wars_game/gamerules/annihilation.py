@@ -165,3 +165,4 @@ class SquadWarsInfo(AnnihilationInfo):
     mappattern = '^sw_.*$'
     factionpattern = '^squad_wars$'
     minplayers = 6
+    hidden = True

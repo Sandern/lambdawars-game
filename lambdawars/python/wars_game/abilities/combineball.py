@@ -29,7 +29,7 @@ if isserver:
         def Init(self, order, parent_action):
             target = order.target if order.target else order.position
             
-            super().Init(target, 896.0)
+            super().Init(target, 1024.0)
 
             self.parent_action = parent_action
             self.ability = order.ability
@@ -130,7 +130,7 @@ class AbilityCombineBallUnlock(AbilityUpgrade):
 
 class AbilityCombineBallOverrun(AbilityCombineBall):
 	name = 'combineball_overrun'
-	costs = [('kills', 1)]
+	costs = []
 	techrequirements = []
 class AbilityCombineBallChar(AbilityCombineBall):
     name = 'combineball_char'

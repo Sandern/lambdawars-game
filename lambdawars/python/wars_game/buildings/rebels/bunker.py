@@ -37,13 +37,13 @@ class RebelBunkerInfo(BunkerInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
     
-    health = 800
+    health = 1200
     garrisoned_attributes = ['bunker']
     attributes = ['defence']
-    buildtime = 46.0
+    buildtime = 35.0
     attackpriority = 0
     techrequirements = ['build_reb_munitiondepot']
-    costs = [[('requisition', 50), ('scrap', 10)], [('kills', 5)]]
+    costs = [[('requisition', 30), ('scrap', 10)], [('kills', 5)]]
     sound_select = 'build_reb_bunker'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'building_explosion'
@@ -57,3 +57,6 @@ class DestroyHQRebelBunkerInfo(RebelBunkerInfo):
 class RebelBunkerInfo(RebelBunkerInfo):
     name = 'overrun_build_reb_bunker'
     techrequirements = ['or_tier2_research']
+    costs = [('kills', 20)]
+    buildtime = 26.0
+    health = 4000

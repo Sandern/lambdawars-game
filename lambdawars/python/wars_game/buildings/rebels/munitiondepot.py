@@ -75,8 +75,9 @@ class MuntionDepotInfo(WarsBuildingInfo):
         #2: 'rebel_mine_unlock',
         0: 'weaponsg_unlock',
         1: 'weaponar2_unlock',
-        2: 'fireexplosivebolt_unlock',
-        3: 'rebel_hp_upgrade',
+        2: 'rebel_hp_upgrade',
+        4: 'c4explosive_unlock',
+        5: 'rebel_mine_unlock',
         #4: 'dog_unlock',
         8: 'cancel',
         #10: 'rebel_rpg_unlock',
@@ -96,6 +97,28 @@ class MuntionDepotInfo(WarsBuildingInfo):
 class DestroyHQMuntionDepotInfo(MuntionDepotInfo):
     name = "build_reb_munitiondepot_destroyhq"
     techrequirements = ['build_reb_barracks_destroyhq']
+class OverrunMuntionDepotInfo(MuntionDepotInfo):
+    name = "overrun_build_reb_munitiondepot"
+    techrequirements = []
+    costs = [('kills', 10)]
+    health = 200
+    buildtime = 20.0
+    abilities = {
+        #0: 'grenade_unlock',
+        #1: 'rebel_upgrade_tier_mid',
+        #1: 'combine_mine_unlock',
+        #1: 'c4explosive_unlock',
+        #2: 'rebel_mine_unlock',
+        0 : 'medic_healrate_upgrade',
+        1 : 'medic_regenerate_upgrade',
+        2 : 'medic_maxenergy_upgrade',
+        3 : 'medic_smg1_upgrade',
+        4 : 'rebel_hp_upgrade',
+        #4: 'dog_unlock',
+        8: 'cancel',
+        #10: 'rebel_rpg_unlock',
+        #11: 'rebel_veteran_unlock',
+    } 
 	
 # Mission version
 class MissionMuntionDepotInfo(MuntionDepotInfo):

@@ -208,7 +208,7 @@ class WeaponRPG(WarsWeaponBase):
     class AttackPrimary(WarsWeaponBase.AttackRange):
         minrange = 128.0
         maxrange = 1024.0
-        attackspeed = 3.0
+        attackspeed = 2.72
         damage = 25
         cone = WarsWeaponBase.AttackRange.DOT_5DEGREE
         # TODO: Not applied right now due usage of ExplosionCreate. Instead attributes from unit are used.

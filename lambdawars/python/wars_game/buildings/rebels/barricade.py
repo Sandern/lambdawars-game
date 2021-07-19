@@ -65,6 +65,7 @@ class DestroyHQRebelsBarricadeInfo(RebelsBarricadeInfo):
 class OverrunRebelsBarricadeInfo(RebelsBarricadeInfo):
     name = 'overrun_build_reb_barricade'
     techrequirements = []
+    costs = [('kills', 1)]
 
 # ======================================================================================================================
 # ============================================ Squad Wars Barricade ====================================================

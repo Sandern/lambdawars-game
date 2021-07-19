@@ -98,7 +98,7 @@ if isserver:
                 self.order.Remove(dispatchevent=False)
                 return self.Continue()
 
-            trans = self.SuspendFor(self.behavior.ActionChanneling, 'Sabotaging', 11.2)
+            trans = self.SuspendFor(self.behavior.ActionChanneling, 'Sabotaging', 12)
             self.sabotagingaction = self.nextaction
             return trans
             
@@ -127,6 +127,7 @@ if isserver:
                     abi.Completed()
                     self.order.Remove(dispatchevent=False)
                     self.sabotaged = True
+                    self.outer.EmitSound('AlyxEMP.Discharge')
                 self.sabotagingaction = None
                 
             return super().OnResume()
@@ -145,7 +146,7 @@ class AbilitySabotage(AbilityTarget):
     image_name = 'vgui/rebels/abilities/rebel_saboteur_sabotage.vmt'
     rechargetime = 1
     costs = []
-    energy = 25
+    energy = 20
     displayname = "#AbilitySabotage_Name"
     description = "#AbilitySabotage_Description"
     cloakallowed = True

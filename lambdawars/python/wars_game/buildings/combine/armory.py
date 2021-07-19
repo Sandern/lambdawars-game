@@ -8,7 +8,7 @@ if isserver:
     from particles import PrecacheParticleSystem
 
 @entity('build_comb_armory', networked=True)
-class CombineArmory(BaseFactoryPoweredBuilding, BaseClass):
+class CombineArmory(BaseClass):
 
     if isclient:
         def OnBuildStateChanged(self):
@@ -49,9 +49,47 @@ class CombineArmory(BaseFactoryPoweredBuilding, BaseClass):
     rallylineenabled = False
 
     workparticalsfx = None
+@entity('build_comb_armory_powered', networked=True)
+class CombineArmoryPowered(BaseFactoryPoweredBuilding, CombineArmory):
+    autoconstruct = False
     
 # Register unit
-class ArmoryInfo(PoweredBuildingInfo):
+class ArmoryInfo(WarsBuildingInfo):
+    name = 'overrun_build_comb_armory' 
+    displayname = '#BuildCombArmory_Name'
+    description = '#BuildCombArmory_Description'
+    cls_name = 'build_comb_armory'
+    image_name = 'vgui/combine/buildings/build_comb_armory'
+    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_armory.mdl'
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_armory_des.mdl'
+    explodemodel_lightingoffset = Vector(0, 0, 250)
+    idleactivity = 'ACT_IDLE'
+    explodeactivity = 'ACT_EXPLODE'
+    constructionactivity = 'ACT_CONSTRUCTION'
+    workactivity = 'ACT_WORK'
+    #zoffset = -8.0
+    techrequirements = []
+    costs = [('kills', 10)]
+    resource_category = 'technology'
+    health = 250
+    buildtime = 25.0
+    abilities = {
+        #0 : 'grenade_unlock_combine',
+        #1 : 'combine_upgrade_tier_mid',
+        #1 : 'combine_mine_unlock',
+        0 : 'combine_hp_upgrade',
+        1 : 'combinemine_upgrade',
+        2 : 'mortarsynth_upgrade',
+        3 : 'strider_maxenergy_upgrade',
+        8 : 'cancel',
+    } 
+    sound_work = 'combine_armory_working'
+    sound_select = 'build_comb_armory'
+    sound_death = 'build_comb_armory_destroy'
+    explodeparticleeffect = 'building_explosion'
+    explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius
+    sai_hint = WarsBuildingInfo.sai_hint | set(['sai_building_research'])
+class ArmoryPoweredInfo(PoweredBuildingInfo):
     name = 'build_comb_armory' 
     displayname = '#BuildCombArmory_Name'
     description = '#BuildCombArmory_Description'

@@ -140,6 +140,9 @@ class AbilityScan(AbilityTarget):
         inst.SetControlPoint(2, Vector(self.maxrange, self.maxrange, 0))
         inst.SetControlPoint(4, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
     infoparticles = ['range_radius']
+class AbilityOverrunScan(AbilityScan):
+    name = 'overrun_scan'
+    rechargetime = 0.0
 
 class AbilityCharScan(AbilityScan):
     name = 'scan_char'

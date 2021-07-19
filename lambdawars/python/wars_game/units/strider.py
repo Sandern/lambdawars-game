@@ -181,6 +181,14 @@ class UnitStrider(BaseClass):
 
         if self.speedenabled and self.energy == 0:
             self.DisableSpeed()
+        if isserver:
+            isincombat = self.IsInCombat()
+            attackinfo = self.unitinfo.AttackRange
+            if isincombat != self.wasincombat:
+                self.wasincombat = isincombat
+                if not isincombat and self.currentburst < attackinfo.minburst:
+                    self.currentburst = random.randint(attackinfo.minburst, attackinfo.maxburst)
+                    #self.nextattacktime = gpGlobals.curtime + random.uniform(attackinfo.minresttime, attackinfo.maxresttime)
 
     if isclient:
         def DoImpactEffect(self, tr, nDamageType):
@@ -309,16 +317,6 @@ class UnitStrider(BaseClass):
                 self.DoAnimation(self.ANIM_RANGE_ATTACK1)
             return False
         wasincombat = None
-        def UnitThink(self):
-            super().UnitThink()
-                
-            isincombat = self.IsInCombat()
-            attackinfo = self.unitinfo.AttackRange
-            if isincombat != self.wasincombat:
-                self.wasincombat = isincombat
-                if not isincombat and self.currentburst < attackinfo.minburst:
-                    self.currentburst = random.randint(attackinfo.minburst, attackinfo.maxburst)
-                    #self.nextattacktime = gpGlobals.curtime + random.uniform(attackinfo.minresttime, attackinfo.maxresttime)
         def IsInCombat(self):
             """ Tests if this unit is considered as being in combat. """
             attackinfo = self.unitinfo.AttackRange
@@ -921,7 +919,7 @@ class UnitStrider(BaseClass):
         self.energyregenrate -= self.speed_energy_drain
         self.originalbodyheight = self.body_height
         self.body_height = self.body_height * 0.5
-        self.mv.maxspeed = self.mv.maxspeed * 2
+        self.mv.maxspeed = self.mv.maxspeed * 1.5
         
     def DisableSpeed(self):
         #self.DoAnimation(self.ANIM_STAND)
@@ -1063,7 +1061,7 @@ class UnitStrider(BaseClass):
     body_height = FloatField(value=450.0, networked=True)
     maxenergy = UpgradeField(abilityname='strider_maxenergy_upgrade', cppimplemented=True)
     
-    speed_energy_drain = FloatField(value=4.0)
+    speed_energy_drain = FloatField(value=1.5)
     
     STRIDER_STOMP_RANGE = 260
     
@@ -1091,8 +1089,8 @@ class StriderMaxEnergyUpgrade(AbilityUpgradeValue):
     description = '#StriderMaxEnUpgr_Description'
     #techrequirements = ['strider_unlock']
     buildtime = 56.0
-    costs = [('requisition', 30), ('power', 30)]
-    techrequirements = ['build_comb_synthfactory']
+    costs = [[('requisition', 30), ('power', 30)], [('kills', 20)]]
+    techrequirements = []
     upgradevalue = 150
     image_name = 'vgui/combine/abilities/combine_strider_energy_unlock'
     sai_hint = AbilityUpgradeValue.sai_hint | set(['sai_grenade_upgrade'])
@@ -1104,7 +1102,7 @@ class StriderInfo(UnitInfo):
     description = '#CombStrider_Description'
     image_name = 'vgui/combine/units/unit_strider'
     costs = [('requisition', 180), ('power', 180)]
-    buildtime = 70.0
+    buildtime = 90.0
     viewdistance = 1024
     modelname = 'models/combine_strider.mdl'
     hulltype = 'HULL_LARGE_CENTERED'
@@ -1113,7 +1111,7 @@ class StriderInfo(UnitInfo):
     maxspeed = 144.0
     turnspeed = 15.0
     unitenergy = 75
-    unitenergy_initial = 25
+    unitenergy_initial = -1
     population = 6
     attributes = ['synth', 'large', 'pulse_cannon']
     sound_death = 'NPC_Strider.Death'
@@ -1131,7 +1129,7 @@ class StriderInfo(UnitInfo):
     ability_10 = 'patrol'
 
     class AttackRange(UnitInfo.AttackRange):
-        damage = 5
+        damage = 4
         minrange = 0.0
         maxrange = 896.0
         attackspeed = 0.19
@@ -1139,6 +1137,14 @@ class StriderInfo(UnitInfo):
         minburst = 12
         maxburst = 12
         minresttime = 1.25
-        maxresttime = 1.38
+        maxresttime = 1.25
     attacks = 'AttackRange'
     sai_hint = set(['sai_unit_combat', 'sai_unit_super'])
+class OverrunStriderInfo(StriderInfo):
+    name = 'overrun_unit_strider'
+    displayname = '#CombStrider_Name'
+    description = '#CombStrider_Description'
+    costs = [('kills', 80)]
+    techrequirements = ['or_tier3_research']
+    buildtime = 0.0
+    attackpriority = -2.0

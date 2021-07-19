@@ -90,12 +90,12 @@ class AbilityStriderCannon(AbilityTarget):
     displayname = '#CombStriderCannon_Name'
     description = '#CombStriderCannon_Description'
     image_name = 'vgui/combine/abilities/strider_cannon'
-    rechargetime = 3.0
+    rechargetime = 5.0
     damage = FloatField(value=400.0)
     damageradius = FloatField(value=256.0)
     #techrequirements = ['stridercannon_unlock']
     #costs = [[('power', 100)], [('kills', 10)]]
-    energy = 50
+    energy = 45
     sai_hint = AbilityTarget.sai_hint | set(['sai_grenade'])
     
     @serveronly
@@ -108,6 +108,10 @@ class AbilityStriderCannon(AbilityTarget):
             
         #    self.Completed()
         
+        #if self.unit.speedenabled:
+            #if isserver: 
+                #self.Cancel(cancelmsg='#Ability_speedenabled')
+            #return
         target = data.ent if (data.ent and not data.ent.IsWorld()) else None
         if target == self.unit:
             if isserver: 

@@ -203,6 +203,12 @@ class UnitBaseZombie(BaseClass):
             if info.GetDamageType() & DMG_SNIPER:
                 return 'RELEASE_RAGDOLL'
 
+            if info.GetDamageType() & DMG_BLAST:
+                return 'RELEASE_RAGDOLL' 
+
+            if self.IsOnFire():
+                return 'RELEASE_RAGDOLL'
+
             # If I was killed by a bullet...
             if info.GetDamageType() & DMG_BULLET:
                 if self.headshot:
@@ -249,21 +255,21 @@ class UnitBaseZombie(BaseClass):
     def OnTakeDamage_Alive(self, inputInfo):
         info = inputInfo
 
-        if inputInfo.GetDamageType() & DMG_BURN:
+        #if inputInfo.GetDamageType() & DMG_BURN:
             # If a zombie is on fire it only takes damage from the fire that's attached to it. (DMG_DIRECT)
             # This is to stop zombies from burning to death 10x faster when they're standing around
             # 10 fire entities.
-            if self.IsOnFire() and not (inputInfo.GetDamageType() & DMG_DIRECT):
-                return 0
+            #if self.IsOnFire() and not (inputInfo.GetDamageType() & DMG_DIRECT):
+            #    return 0
 
-            self.Scorch(self.ZOMBIE_SCORCH_RATE, self.ZOMBIE_MIN_RENDERCOLOR)
+            #self.Scorch(self.ZOMBIE_SCORCH_RATE, self.ZOMBIE_MIN_RENDERCOLOR)
 
         # Take some percentage of damage from bullets (unless hit in the crab). Always take full buckshot & sniper damage
         #if not self.headshot and (info.GetDamageType() & DMG_BULLET) and not (info.GetDamageType() & (DMG_BUCKSHOT|DMG_SNIPER)):
         #    info.ScaleDamage(self.ZOMBIE_BULLET_DAMAGE_SCALE)
 
-        if self.ShouldIgnite(info):
-            self.IgniteLifetime(100.0)
+        #if self.ShouldIgnite(info):
+        #    self.IgniteLifetime(100.0)
 
         tookDamage = super().OnTakeDamage_Alive(info)
 
@@ -722,6 +728,7 @@ class BaseZombieInfo(UnitInfo):
     torsogibmodel = 'models/zombie/classic_torso.mdl'
     attributes = ['light', 'creature']
     hulltype = 'HULL_HUMAN'
+    population = 0
     abilities = {
         8 : 'attackmove',
         9 : 'holdposition',

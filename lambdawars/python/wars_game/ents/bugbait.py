@@ -112,6 +112,7 @@ class BugBait(BaseClass):
         antlion.tamer = self.GetThrower()
         antlion.BehaviorGenericClass = CreateBehaviorTamedAntlion(antlion.BehaviorGenericClass)
         antlion.uncontrollable = True
+        antlion.spawnsuiciders = False
         
     def Detonate(self, target):
         self.SetTouch(None)

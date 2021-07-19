@@ -32,10 +32,10 @@ class RebelsAidStationInfo(GarrisonableBuildingInfo):
     cls_name = "build_rebelregeneration"
     image_name = 'vgui/rebels/buildings/build_reb_aidstation'
     modelname = 'models/structures/resistance/aidstation.mdl'
-    health = 500
-    buildtime = 25.0
+    health = 1000
+    buildtime = 40.0
     placemaxrange = 260.0
-    costs = [[('requisition', 40), ('scrap', 10)], [('kills', 5)]]
+    costs = [[('requisition', 25), ('scrap', 20)], [('kills', 5)]]
     techrequirements = ['build_reb_triagecenter']
     attributes = ['defence']
     abilities   = {
@@ -56,3 +56,5 @@ class OverrunRebelsAidStationInfo(RebelsAidStationInfo):
     name = "overrun_build_reb_aidstation"
     techrequirements = ['or_tier2_research']
     hidden = True
+    costs = [('kills', 25)]
+    health = 3500

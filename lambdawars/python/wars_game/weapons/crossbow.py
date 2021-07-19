@@ -149,7 +149,7 @@ class CrossbowBolt(HomingProjectile):
 
 class UnitExplosiveBoltDamageInfo(UnitDamageControllerInfo):
     name = 'explosivebolt_damage'
-    attributes = ['explosive_bolt']
+    attributes = ['explosive']
     cls_name = 'unit_damage_controller_all'
 
 # TODO: should also become a homing projectile, but that version currently does not support targeting an origin
@@ -409,7 +409,7 @@ class WeaponCrossbow(WarsWeaponBase):
         
         self.SendWeaponAnim(Activity.ACT_VM_SECONDARYATTACK)
         
-        self.FireBolt(damage=150, bolt_factory=ExplosiveCrossbowBolt.BoltCreate, clsname='crossbow_explosivebolt', attributes=self.AttackExplosiveBolt(unit=owner).attributes, enemy=owner.enemy)
+        self.FireBolt(damage=self.AttackExplosiveBolt.damage, bolt_factory=ExplosiveCrossbowBolt.BoltCreate, clsname='crossbow_explosivebolt', attributes=self.AttackExplosiveBolt(unit=owner).attributes, enemy=owner.enemy)
         
         if isserver:
             owner.DispatchEvent('OnOutOfClip')
@@ -588,6 +588,9 @@ class WeaponCrossbow(WarsWeaponBase):
 
         def CanAttack(self, enemy):
             unit = self.unit
+            if unit.CanRangeAttack(enemy) and unit.unitinfo.sniperenemy:
+                return True
+
             if not unit.CanRangeAttack(enemy):
                 return False
 
@@ -603,14 +606,14 @@ class WeaponCrossbow(WarsWeaponBase):
 
         def Attack(self, enemy, action):
             unit = self.unit
-            if action and not unit.insteadyposition and not unit.garrisoned:
+            if action and not unit.insteadyposition and not unit.garrisoned and not unit.unitinfo.sniperenemy:
                 ability = unit.DoAbility(RebelAbilitySteadyPosition.name, [], autocasted=True, direct_from_attack=True)
                 return action.SuspendFor(ability.ActionDoSteadyPosition, 'Changing to steady position', ability, None)
             return super().Attack(enemy, action)
 
     class AttackExplosiveBolt(WarsWeaponBase.AttackRange):
-        damage = 50
-        attributes = ['crossbow']
+        damage = 200
+        attributes = ['explosive']
 
 class AbilityCrossbowAttack(AbilityAsAttack):
     name = 'crossbow_attack'
@@ -626,7 +629,7 @@ class AbilityCrossbowAttack(AbilityAsAttack):
         if unit.garrisoned:
             requirements.discard('uncontrollable')
             
-        if not getattr(unit, 'insteadyposition', False) and not unit.garrisoned:
+        if not getattr(unit, 'insteadyposition', False) and not unit.garrisoned and not unit.unitinfo.sniperenemy:
             requirements.add('rebel_steadyposition')
         return requirements
 

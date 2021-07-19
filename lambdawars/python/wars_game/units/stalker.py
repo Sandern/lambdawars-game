@@ -518,6 +518,8 @@ class StalkerInfo(StalkerShared):
     scrapdropchance = 0.0
     abilities = {
         0: 'combine_repair',
+        1: 'noattack',
+        2: 'allowattack',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
@@ -557,13 +559,24 @@ class StalkerOverrunInfo(StalkerShared):
     hidden = True
     tier = 0
     buildtime = 0
+    costs = [('kills', 10)]
     abilities = {
         0: 'combine_repair',
-        2: 'overrun_build_comb_regenerationpost',
-        3: 'overrun_build_comb_shieldgen',
-        4: 'overrun_build_comb_barricade',
-        5: 'overrun_comb_mountableturret',
-        6: 'overrun_build_comb_bunker',
+        1: 'noattack',
+        2: 'allowattack',
+        3: SubMenu(name='overrun_stalker_defensemenu',
+					displayname='#CombDefenseMenu_Name', description='#CombDefenseMenu_Description',  image_name = 'vgui/abilities/building_defence_menu.vmt', 
+					abilities={
+			0: 'overrun_build_comb_barricade',
+			1: 'overrun_comb_mountableturret',
+			2: 'overrun_build_comb_regenerationpost',
+			3: 'overrun_build_comb_shieldgen',
+			4: 'overrun_build_comb_bunker',
+			5: 'overrun_build_comb_mortar',
+			6: 'overrun_build_comb_headcrabcanisterlauncher',
+			7: 'overrun_build_comb_armory',
+            11: 'menuup',
+        }),
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',

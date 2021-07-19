@@ -5,7 +5,7 @@ from srcbase import SOLID_BBOX, FSOLID_NOT_STANDABLE, EF_NOSHADOW
 from vmath import Vector, vec3_origin
 from core.buildings import WarsBuildingInfo, UnitBaseBuilding as BaseClass, CreateDummy
 from core.abilities import AbilityTarget
-from core.units import UnitBase, PlaceUnit, CreateUnit, PrecacheUnit, UnitInfo, GroupMoveOrder
+from core.units import UnitBase, PlaceUnit, CreateUnit, PrecacheUnit, UnitInfo, GroupMoveOrder, CreateUnitFancy
 from srcbase import FL_NPC
 from entities import entity, D_LI, D_HT, DENSITY_NONE, FOWFLAG_UNITS_MASK
 from utils import UTIL_EntitiesInSphere, UTIL_Remove
@@ -18,6 +18,7 @@ from wars_game.statuseffects import StunnedEffectInfo
 from core.abilities import AbilityUpgrade, AbilityUpgradeValue
 from operator import itemgetter
 from navmesh import NavMeshGetPositionNearestNavArea
+from gamerules import gamerules
 
 if isserver:
     from core.units import BaseAction
@@ -57,7 +58,7 @@ class AbilityTeleportUnits(AbilityTarget):
     displayname = "#AbilityTeleportUnits_Name"
     description = "#AbilityTeleportUnits_Description"
     image_name = 'vgui/rebels/abilities/rebel_teleport_units.vmt'
-    rechargetime = 40
+    rechargetime = 10
     #costs = [('requisition', 30)]
     supportsautocast = False
     defaultautocast = False
@@ -102,9 +103,9 @@ class TeleporterInfo(WarsBuildingInfo):
     name = "build_reb_teleporter"
     cls_name = "build_reb_teleporter"
     health = 600
-    buildtime = 60.0
+    buildtime = 80.0
     techrequirements = ['build_reb_triagecenter']
-    costs = [('requisition', 50), ('scrap', 50)]
+    costs = [('requisition', 25), ('scrap', 25)]
     displayname = '#BuildRebTeleporter_Name'
     description = '#BuildRebTeleporter_Description'
     image_name = 'vgui/rebels/buildings/build_reb_teleporter'
@@ -209,17 +210,32 @@ class UnitTeleporterRift(UnitBase):
 
         DispatchParticleEffect(self.teleport_rift_end_fx_name, self.GetAbsOrigin(), self.GetAbsAngles())
 
+
+    def SpawnUnit(self):
+        self.SetThink(self.SpawnUnitThink, gpGlobals.curtime + self.lifetime, 'TeleportThink')
+    def SpawnUnitThink(self):
+        angle = self.GetAbsAngles()
+        pos = self.GetAbsOrigin()
+        for i in range(0, 10):
+            if gamerules.info.name == 'overrun':
+                CreateUnitFancy('overrun_unit_rebel', pos, angles=angle, owner_number=self.GetOwnerNumber())
+            else:
+                CreateUnitFancy('unit_rebel', pos, angles=angle, owner_number=self.GetOwnerNumber())
+        
+        UTIL_Remove(self)
+
     teleport_rift_fx = None
     teleport_rift_fx_name = 'begin_rift_BASE'
 
     teleport_rift_end_fx_name = 'rift_flash_BASE'
 
     fowflags = FOWFLAG_UNITS_MASK
+    
+    lifetime = 20
 
 class UnitTeleporterRiftInfo(UnitInfo):
     name = 'unit_teleporter_rift'
     cls_name = 'unit_teleporter_rift'
-    viewdistance = 1200.0
     health = 0
     population = 0
     minimapicon_name = 'hud_minimap_rift'

@@ -82,7 +82,7 @@ class AbilityDropSoldiers(AbilityTarget):
     set_initial_recharge = True
     population = 15
     techrequirements = ['build_comb_garrison', 'build_comb_armory', 'build_comb_specialops', 'build_comb_synthfactory', 'build_comb_mech_factory', 'build_comb_tech_center']
-    costs = [('requisition', 200)]
+    costs = [('requisition', 150)]
 
     @classmethod
     def GetRequirements(info, player, unit):
@@ -175,3 +175,41 @@ class AbilityDropSoldiers(AbilityTarget):
 class AbilityDropSoldiersDestroyHQ(AbilityDropSoldiers):
     name = 'dropsoldiers_destroyhq'
     techrequirements = ['build_comb_garrison_destroyhq', 'build_comb_armory_destroyhq', 'build_comb_specialops_destroyhq', 'build_comb_synthfactory_destroyhq', 'build_comb_mech_factory_destroyhq', 'build_comb_tech_center']
+
+class OverrunAbilityDropSoldiers(AbilityDropSoldiers):
+    name = 'overrun_dropsoldiers'
+    techrequirements = []
+    rechargetime = 360.0
+    set_initial_recharge = True
+    #population = 0
+    #costs = [('kills', 200)]
+    costs = []
+    if isserver:
+        def CreateDropship(self, dropposition):
+            #dropposition = self.mousedata.endpos
+
+            # Find a suitable entry position
+            unitinfo = GetUnitInfo('unit_combinedropship')
+
+
+
+            dropshipspawnpos = self.unit.GetAbsOrigin() + Vector(random.uniform(-512, 512), random.uniform(-512, 512), 2048)
+            dropshipexitpos = Vector(random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024),
+                                     random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024), 2048)
+            bloat = Vector(128, 128, 128)
+            CBaseFuncMapBoundary.SnapToNearestBoundary(dropshipspawnpos, unitinfo.mins - bloat, unitinfo.maxs + bloat,
+                                                       True)
+            CBaseFuncMapBoundary.SnapToNearestBoundary(dropshipexitpos, unitinfo.mins - bloat, unitinfo.maxs + bloat,
+                                                       True)
+
+            # Create the dropship
+            def SetupDropship(dropship):
+                dropship.targetdeploypos = dropposition
+                dropship.exitpos = dropshipexitpos
+                dropship.uncontrollable = True
+                #dropship.summoned = True
+                dropship.lifetime = 50.0
+                dropship.BehaviorGenericClass = CreateBehaviorDropshipDrop(dropship.BehaviorGenericClass)
+            dropship = CreateUnit('unit_combinedropship', dropshipspawnpos, owner_number=self.ownernumber,
+                                  fnprespawn=SetupDropship)
+            dropship.MoveOrder(dropposition)

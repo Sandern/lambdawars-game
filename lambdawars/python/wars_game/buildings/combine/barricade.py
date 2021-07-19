@@ -41,3 +41,4 @@ class CombineBarricadeInfo(BaseBarricadeInfo):
 class OverrunCombineBarricadeInfo(CombineBarricadeInfo):
     name = 'overrun_build_comb_barricade'
     techrequirements = []
+    costs = [('kills', 1)]

@@ -1,6 +1,7 @@
 from srcbase import *
 from vmath import Vector, QAngle, vec3_origin
 from core.gamerules import GamerulesInfo, WarsBaseGameRules
+from core.abilities import GetAbilityInfo, GetTechNode
 from playermgr import OWNER_LAST, OWNER_ENEMY, relationships
 from gamemgr import dblist, BaseInfo, BaseInfoMetaclass, dbgamepackages
 import random
@@ -9,27 +10,28 @@ import traceback
 from collections import defaultdict
 from math import ceil
 from gamerules import gamerules
-from core.units import unitlist, PrecacheUnit, CreateUnitNoSpawn, PlaceUnit, GetUnitInfo, UnitBase
+from core.units import unitlist, PrecacheUnit, CreateUnitNoSpawn, PlaceUnit, GetUnitInfo, UnitBase, CreateUnitFancy
 from core.buildings.base import constructedlistpertype, buildinglist
-from core.resources import SetResource, GiveResources
+from core.resources import SetResource, GiveResources, TakeResources
 from core.signals import unitremoved
 from wars_game.resources import ResKillsInfo
 from fow import FogOfWarMgr
 from navmesh import RandomNavAreaPosition, RandomNavAreaPositionWithin, RecastMgr
+from wars_game.statuseffects import StunnedEffectInfo
 import ndebugoverlay
 
 from profiler import StartProfiler, EndProfiler
 from vprof import vprofcurrentprofilee
 
 if isserver:
-    from entities import (entlist, MouseTraceData, CreateEntityByName, DispatchSpawn, D_LI, variant_t, g_EventQueue, \
+    from entities import (entlist, MouseTraceData, CreateEntityByName, DispatchSpawn, D_LI, D_HT, variant_t, g_EventQueue, \
         GetClassByClassname)
-    from utils import UTIL_HudMessageAll, hudtextparms, UTIL_FindPosition, FindPositionInfo, UTIL_DropToFloor
+    from utils import UTIL_HudMessageAll, hudtextparms, UTIL_FindPosition, FindPositionInfo, UTIL_DropToFloor, UTIL_PlayerByIndex
     from gameinterface import concommand, FCVAR_CHEAT, ConVar, AutoCompletion
     from core.usermessages import SendUserMessage, CReliableBroadcastRecipientFilter, CSingleUserRecipientFilter
     from core.units import UnitCombatAirNavigator
 
-    overrun_max_active_enemies = ConVar('overrun_max_active_enemies', '100')
+    overrun_max_active_enemies = ConVar('overrun_max_active_enemies', '30')
     
 # Wave type dictionary
 dbwavetypeid = 'overrun_wavetype'
@@ -72,6 +74,7 @@ def probchoice(items, probs):
         r = random.random()
         yield items[bisect.bisect(accumulator, r)]
 
+
 class Overrun(WarsBaseGameRules):
     if isserver:
         def InitGamerules(self):
@@ -89,6 +92,8 @@ class Overrun(WarsBaseGameRules):
             self.healthmodifiers = defaultdict(lambda: 1.0)
             self.healthgrowmodifiers = defaultdict(lambda: 1.0) # Modifies the above health modifiers each wave
             self.nextwave = gpGlobals.curtime + self.waveinterval
+            
+            self.basehealthgrowmodifier = 1.0
             
             self.constraints = defaultdict(lambda: defaultdict(lambda: 0)) # Format: [unittype][property] => [value]
 
@@ -136,9 +141,12 @@ class Overrun(WarsBaseGameRules):
             else:
                 self.EndGame(winners=[], losers=self.gameplayers)
             
+        def PreSuiciderSpawn(self, unit):
+            unit.BehaviorGenericClass = unit.BehaviorOverrunClass
+            unit.spawnsuiciders = False
         def OnUnitKilled(self, unit, *args, **kwargs):
             self.lastactivitytime = gpGlobals.curtime
-            
+
             if unit.GetOwnerNumber() == OWNER_ENEMY:
                 if getattr(unit, 'overrunspawned', False):
                     unittype = unit.GetUnitType()
@@ -213,6 +221,58 @@ class Overrun(WarsBaseGameRules):
             if not self.waveinfo:
                 return
 
+            if self.modificator_camera:
+                if not self.snapcameranexttime > gpGlobals.curtime:
+                    for i in range(1, gpGlobals.maxClients+1):
+                        player = UTIL_PlayerByIndex(i)
+                        if player is None or not player.IsConnected():
+                            continue     
+                        #player.SnapCameraTo(enemy.GetAbsOrigin() + Vector(0,0,1))
+                        player.SetLocalAngles(QAngle(random.randint(-180, 180), random.randint(-180, 180), 0))
+                        player.SnapEyeAngles(QAngle(random.randint(-180, 180), random.randint(-180, 180), 0))
+                    self.snapcameranexttime = gpGlobals.curtime + random.randint(10, 20)
+            if self.modificator_random:
+                if not self.checkplayersunit > gpGlobals.curtime:
+                    for i in range(1, gpGlobals.maxClients+1):
+                        player = UTIL_PlayerByIndex(i)
+                        if player is None or not player.IsConnected():
+                            continue
+                        playerowner = player.GetOwnerNumber()
+                        if self.modificator_random == 2:
+                            owner = player.GetOwnerNumber()
+                            unitowner = OWNER_ENEMY
+                        elif self.modificator_random == 1:
+                            owner = OWNER_ENEMY
+                            unitowner = player.GetOwnerNumber()
+                        if not len(unitlist[unitowner]) > 0:
+                            continue
+
+                        unit = random.choice(unitlist[unitowner])
+                        options = (['changeowner', 'suicide', 'requisition', 'stun', 'lowhp', 'morerequisition'], 
+                                   [0.059, 0.04, 0.45, 0.25, 0.2, 0.001])
+                        type = next(probchoice(options[0], options[1]))
+
+                        if type == 'changeowner':
+                            unit.SetOwnerNumber(owner)
+                        elif type == 'suicide':
+                            unit.Suicide()
+                        elif type == 'requisition':
+                            if self.modificator_random == 2:
+                                TakeResources(player.GetOwnerNumber(), [('kills', 100)])
+                            elif self.modificator_random == 1:
+                                GiveResources(player.GetOwnerNumber(), [('kills', 100)])
+                        elif type == 'morerequisition':
+                            if self.modificator_random == 2:
+                                TakeResources(player.GetOwnerNumber(), [('kills', 5000)])
+                            elif self.modificator_random == 1:
+                                GiveResources(player.GetOwnerNumber(), [('kills', 5000)])
+                        elif type == 'stun':
+                            StunnedEffectInfo.CreateAndApply(unit, attacker=None, duration=5.0)
+                        elif type == 'lowhp':
+                            unit.health = 1
+
+                    self.checkplayersunit = gpGlobals.curtime + 60
+
             vprofcurrentprofilee.EnterScope("Overrun", 0, "Overrun", False)
             StartProfiler('Overrun')
             
@@ -240,7 +300,20 @@ class Overrun(WarsBaseGameRules):
                     players = self.GetRealPlayers()
                     owners = set([p.GetOwnerNumber() for p in players])
                     DevMsg(1, "Wave %d ended. Active owners: %s\n" % (self.wave, str(owners)))
-                    income = int(round(self.waveincome))
+                    income = int(self.waveincome)
+                    if self.difficulty == 'easy':
+                        income *= 2
+                        if not income > 0:
+                            income = 200
+                    elif self.difficulty == 'normal':
+                        income *= 1.25
+                        if not income > 0:
+                            income = 50
+                    if self.modificator_suiciders == 1:
+                        income *= 5
+                    elif self.modificator_suiciders == 2:
+                        income *= 0.2
+                    income = (round(income))
                     for ownernumber in owners:
                         DevMsg(1, "Giving player %d resources (%d)\n" % (ownernumber, income))
                         GiveResources(ownernumber, [(ResKillsInfo, income)], firecollected=True)
@@ -309,18 +382,23 @@ class Overrun(WarsBaseGameRules):
             if self.manager and self.manager.usecustomconditions:
                 return False
                 
-            # Update defeated state
             for data in self.gameplayers:
                 if self.IsPlayerDefeated(data):
                     continue
-                owner = data['ownernumber']
-                playerbuildings = constructedlistpertype[owner]
-                count = 0
-                for bt in self.criticalbuildingtypes:
-                    count += len([b for b in playerbuildings[bt] if b.IsAlive()])
-                if count == 0:
+                ownernumber = data['ownernumber']
+                # Count the HQ buildings
+                countunitscomb = len([b for b in constructedlistpertype[ownernumber]['overrun_build_comb_hq'] if b.IsAlive()])
+                countunitsreb = len([b for b in constructedlistpertype[ownernumber]['overrun_build_reb_hq'] if b.IsAlive()])
+                countunits = countunitscomb + countunitsreb
+                for data1 in self.gameplayers:
+                    ownernumber1 = data1['ownernumber']
+                    # Count the HQ buildings
+                    countunitscomb = len([b for b in constructedlistpertype[ownernumber1]['overrun_build_comb_hq'] if b.IsAlive()])
+                    countunitsreb = len([b for b in constructedlistpertype[ownernumber1]['overrun_build_reb_hq'] if b.IsAlive()])
+                    countunits += countunitscomb + countunitsreb
+                if not countunits:
                     self.PlayerDefeated(data)
-        
+                        
             # Everybody should still be going
             everybodydefeated = True
             for data in self.gameplayers:
@@ -459,6 +537,12 @@ class Overrun(WarsBaseGameRules):
             for unit, growmod in self.healthgrowmodifiers.items():
                 self.healthmodifiers[unit] *= growmod
                 DevMsg(1, "UpdateHealthModifiers: Grown health mod %s to %f\n" % (unit, self.healthmodifiers[unit]))
+            if self.difficulty == 'hard':
+                self.basehealthgrowmodifier *= 1.05
+            elif self.difficulty == 'medium':
+                self.basehealthgrowmodifier *= 1.025
+            elif self.difficulty == 'easy':
+                self.basehealthgrowmodifier *= 1.001
                         
         def UpdateWaveInfo(self):
             """ Updates Wave settings. """
@@ -666,8 +750,17 @@ class Overrun(WarsBaseGameRules):
         unit.Activate() 
         
         # Apply (health) modifiers
-        unit.health = int(unit.health * self.healthmodifiers[unittype])
-        unit.maxhealth = int(unit.maxhealth * self.healthmodifiers[unittype])
+        if self.difficulty == 'hard':
+            healthmodifier = 1.0
+            unit.viewdistance = 1920
+            unit.sensedistance = 1920
+        elif self.difficulty == 'medium':
+            healthmodifier = 0.75
+        elif self.difficulty == 'easy':
+            healthmodifier = 0.5
+
+        unit.health = int(unit.health * self.healthmodifiers[unittype] * self.basehealthgrowmodifier * healthmodifier)
+        unit.maxhealth = int(unit.maxhealth * self.healthmodifiers[unittype] * self.basehealthgrowmodifier * healthmodifier)
         
         # Drop the unit to the floor
         UTIL_DropToFloor(unit, MASK_NPCSOLID)
@@ -678,6 +771,28 @@ class Overrun(WarsBaseGameRules):
         self.wavespawnedtypescount[unittype] += 1
         
         return unit
+    def SpawnUnit_Modificator(self, unit_list):
+        for u in unit_list:
+            info = FindPositionInfo(u.GetAbsOrigin(), -Vector(32, 32, 0), Vector(32, 32, 64), 0, 128)
+            UTIL_FindPosition(info)
+            if not info.success:
+                continue
+        
+            unittype = u.unitinfo.name
+            # Create and spawn unit
+            unit = CreateUnitNoSpawn(unittype, owner_number=u.GetOwnerNumber())
+            #unit.BehaviorGenericClass = unit.BehaviorOverrunClass
+            unit.SetAbsOrigin(info.position + Vector(random.randint(-32, 32), random.randint(-32, 32), 64))
+            DispatchSpawn(unit)
+            unit.Activate() 
+            unit.health = int(unit.health * 0.5)
+            unit.maxhealth = int(unit.maxhealth * 0.5)
+            u.health = int(u.health * 0.5)
+            u.maxhealth = int(u.maxhealth * 0.5)
+        
+            # Drop the unit to the floor
+            UTIL_DropToFloor(unit, MASK_NPCSOLID)
+        
         
     def CheckConstraintsSatisfied(self):
         """ Checks if constraints for current wave are satisfied. """
@@ -762,11 +877,34 @@ class Overrun(WarsBaseGameRules):
 
     def StartGame(self):
         super().StartGame()
-        
+        amount = 100
+        if self.modificator_suiciders == 1:
+            amount *= 5
+        elif self.modificator_suiciders == 2:
+            amount *= 0.25
+        if self.modificator_vampire == 1:
+            amount *= 1.2
+        elif self.modificator_vampire == 2:
+            amount *= 0.8
+        if self.difficulty == 'medium':
+            amount *= 2.0
+        elif self.difficulty == 'easy':
+            amount *= 4.0
+        amount = round(amount)
         self.RebuildSpawnPointsList()
         
         for data in self.gameplayers:
-            SetResource(data['ownernumber'], ResKillsInfo.name, 15)
+            SetResource(data['ownernumber'], ResKillsInfo.name, amount)
+        
+            if self.waveinfo.locksomeunits:
+                techlist = ['overrun_deploymanhack', 'overrun_unit_manhack', 'overrun_unit_strider', 'overrun_unit_scanner', 'overrun_unit_observer', 'overrun_unit_clawscanner']
+                for tech in techlist:
+                    technode = GetTechNode(tech, data['ownernumber'])
+                    technode.locked = True
+        if self.difficulty == 'hard':
+            for upgrade in self.hardmodeupgrades:
+                technode = GetTechNode(upgrade, OWNER_ENEMY)
+                technode.techenabled = True
             
         self.UpdateWaveInfo()
         self.nextwave = gpGlobals.curtime + self.waveinterval + random.uniform(-self.waveintervalnoise, self.waveintervalnoise)
@@ -776,6 +914,7 @@ class Overrun(WarsBaseGameRules):
         for ownernumber1 in range(OWNER_LAST, OWNER_LAST+12):
             for ownernumber2 in range(OWNER_LAST, OWNER_LAST+12):
                 relationships[(ownernumber1, ownernumber2)] = D_LI
+            relationships[(ownernumber1, OWNER_LAST+14)] = D_HT
             
     def ApplyDataToPlayer(self, player):
         rv = super().ApplyDataToPlayer(player)
@@ -795,16 +934,23 @@ class Overrun(WarsBaseGameRules):
         """ Returns a list of custom settings to be displayed in the game lobby settings. """
         
         # Build wave type list
-        wavetypes = []
+        wavetypes = ['random']
         for key, info in dbwavetypes.items():
             if info.ShouldAddWaveType():
                 wavetypes.append(key)
         wavetypes.sort()
         
         fields = {
-            'difficulty' : {'name' : '#Overrun_Difficulty', 'type' : 'choices', 'values' : ['easy', 'normal', 'hard'], 'default' : 'normal'},
-            'wavetype' : {'name' : '#Overrun_WaveType', 'type' : 'choices', 'values' : wavetypes, 'default' : wavetypes[0] if wavetypes else ''},
-            'waves' : {'name' : '#Overrun_Waves', 'type' : 'choices', 'values' : ['10', '15', 'endless'], 'default' : '10'},
+            '_difficulty' : {'name' : '#Overrun_Difficulty', 'type' : 'choices', 'values' : ['easy', 'normal', 'hard'], 'default' : 'hard'},
+            '_wavetype' : {'name' : '#Overrun_WaveType', 'type' : 'choices', 'values' : wavetypes, 'default' : wavetypes[0] if wavetypes else ''},
+            '_waves' : {'name' : '#Overrun_Waves', 'type' : 'choices', 'values' : ['10', '20', 'endless'], 'default' : 'endless'},
+            #'inversion' : {'name' : 'Inversion', 'type' : 'choices', 'values' : ['no', 'yes'], 'default' : 'no'},
+            'camera flip' : {'name' : '#Modificator_Camera', 'type' : 'choices', 'values' : ['no', 'yes'], 'default' : 'no'},
+            'armor' : {'name' : '#Modificator_Armor', 'type' : 'choices', 'values' : ['no', 'yes', 'inverted'], 'default' : 'no'},
+            #'vampire' : {'name' : 'Vampire', 'type' : 'choices', 'values' : ['no', 'yes', 'inverted'], 'default' : 'no'},
+            'suiciders' : {'name' : '#Modificator_Suiciders', 'type' : 'choices', 'values' : ['no', 'yes', 'inverted'], 'default' : 'no'},
+            'random effect' : {'name' : '#Modificator_Effect', 'type' : 'choices', 'values' : ['no', 'yes', 'inverted'], 'default' : 'no'},
+            #'consume' : {'name' : 'Consume', 'type' : 'choices', 'values' : ['no', 'yes'], 'default' : 'no'},
         }
         fields.update(super().GetCustomFields())
         return fields
@@ -813,13 +959,20 @@ class Overrun(WarsBaseGameRules):
         if super().ApplyCustomField(fieldname, value):
             return True
             
-        if fieldname == 'difficulty':
+        if fieldname == '_difficulty':
             self.difficulty = value
             return True
-        elif fieldname == 'wavetype':
-            self.wavetype = value
+        elif fieldname == '_wavetype':
+            if value == 'random':
+                wavetypes = []
+                for key, info in dbwavetypes.items():
+                    if info.ShouldAddWaveType():
+                        wavetypes.append(key)
+                self.wavetype = random.choice(wavetypes)
+            else:
+                self.wavetype = value
             return True
-        elif fieldname == 'waves':
+        elif fieldname == '_waves':
             try:
                 if value == 'endless':
                     self.finalwave = 0
@@ -828,6 +981,29 @@ class Overrun(WarsBaseGameRules):
             except ValueError:
                 self.finalwave = 0
             return True
+        elif fieldname == 'camera flip':
+            if value == 'yes':
+                self.modificator_camera = 1
+        elif fieldname == 'suiciders':
+            if value == 'yes':
+                self.modificator_suiciders = 1
+            elif value == 'inverted':
+                self.modificator_suiciders = 2
+        elif fieldname == 'vampire':
+            if value == 'yes':
+                self.modificator_vampire = 1
+            elif value == 'inverted':
+                self.modificator_vampire = 2
+        elif fieldname == 'armor':
+            if value == 'yes':
+                self.modificator_armor = 1
+            elif value == 'inverted':
+                self.modificator_armor = 2
+        elif fieldname == 'random effect':
+            if value == 'yes':
+                self.modificator_random = 1
+            elif value == 'inverted':
+                self.modificator_random = 2
             
         return False
         
@@ -838,7 +1014,7 @@ class Overrun(WarsBaseGameRules):
     wave = 0
     #: Final wave. Zero or None when the waves are endless.
     finalwave = 0
-    
+    basehealthgrowmodifier = 1.0
     manager = None
     maxspawnperinterval = 5
     spawninterval = 0.2
@@ -859,9 +1035,11 @@ class Overrun(WarsBaseGameRules):
     #: Map is indoor
     indoor = False
     
+    hardmodeupgrades = ['combine_hp_upgrade', 'mortarsynth_upgrade', 'strider_maxenergy_upgrade', 'medic_healrate_upgrade', 
+                        'medic_regenerate_upgrade', 'medic_maxenergy_upgrade', 'medic_smg1_upgrade', 'rebel_hp_upgrade']
     # Last time enemies were active, used for killing them off when wave is stuck
     lastactivitytime = 0.0
-    inactivitytimeout = 60.0
+    inactivitytimeout = 30.0
     
     curwavepointpriority = 0
     
@@ -880,6 +1058,18 @@ class Overrun(WarsBaseGameRules):
     difficulty = 'normal'
     curwavedistribution = None
     waveinfo = None
+    #Modificators:
+    modificator_inversion = 0
+    modificator_camera = 0
+    modificator_suiciders = 0
+    modificator_armor = 0
+    modificator_vampire = 0
+    modificator_random = 0
+    modificator_consume = 0
+    
+    checkplayersunit = 0
+    checkplayersunit_consume = 0
+    snapcameranexttime = 0
 
     supportsscrap = False # Don't drop scrap when units are killed
 
@@ -907,7 +1097,7 @@ class BaseWaveType(BaseInfo, metaclass=BaseWaveTypeMetaClass):
     
     priority = 0
     spawncloseaspossible = False # Spawn units close as possible, based on wave point priority
-    
+    locksomeunits = False
     # Dictionary containing your wave distribution.
     # The first number indicates at which wave the new info gets applied (you must specify 1).
     # For each waveinfo a new dictionary is created.
@@ -949,113 +1139,96 @@ class BaseWaveType(BaseInfo, metaclass=BaseWaveTypeMetaClass):
 
 class AntlionWaveType(BaseWaveType):
     name = 'antlions'
+    locksomeunits = True
                 
     distribution = {
         0: {
                 # Prepare time
-                'easy_waveinterval' : 70,
-                'normal_waveinterval' : 60,
-                'hard_waveinterval' : 45,
+                'easy_waveinterval' : 120,
+                'normal_waveinterval' : 90,
+                'hard_waveinterval' : 60,
                 
-                HModHard('unit_antlion') : 1.2,
-                HModHard('unit_antlionworker') : 1.2,
+                #HModHard('unit_antlion') : 1.2,
+                #HModHard('unit_antlionworker') : 1.2,
             },
         1: {
-                'spawnsize' : 18,
-                'maxenemiesalive' : 8,
+                'inactivitytimeout' : 20.0,
+                'spawnsize' : 75,
+                'maxenemiesalive' : 28,
+                'growrate' : 1.1,
+                'easy_waveinterval' : 120,
+                'normal_waveinterval' : 90,
+                'hard_waveinterval' : 60,
 				
-                'waveincome' : 7,
-                'waveincomegrow' : 1.15,
+                'waveincome' : 100,
+                'waveincomegrow' : 1.008,
         
-                'distribution' : (['unit_antlion'], 
+                'distribution' : (['unit_antlion_small'], 
                                  [1.0]),
             },
-        3: {
+        2: {
+                'easy_waveinterval' : 120,
+                'normal_waveinterval' : 60,
+                'hard_waveinterval' : 5,
                 'distribution' : (['unit_antlion', 'unit_antlionworker'], 
-                                  [0.80, 0.20]),
+                                  [0.85, 0.20]),
             },
-        5: {
-                'distribution' : (['unit_antlion', 'unit_antlionworker'], 
-                                  [0.75, 0.25]),
-                                  
-                HModGrowEasy('unit_antlion') : 1.05,
-                HModGrowNormal('unit_antlion') : 1.15,
-                HModGrowHard('unit_antlion') : 1.25,
-            },
-        6: {
-            'distribution': (['unit_antlion', 'unit_antlionworker', 'unit_antlionsuicider'],
-                             [0.75, 0.25, 0.10]),
-
-        },
         7: {
-                'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard'], 
-                                  [0.73, 0.15, 0.20, 0.02]),
-                'growrate' : 1.1,
-                
-                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
-                
-                'constraints' : {
-                    'unit_antlionguard' : {
-                        'min' : 0,
-                        'max' : 1,
-                    },
-                },
-                
-                HModGrowEasy('unit_antlionworker') : 1.05,
-                HModGrowNormal('unit_antlionworker') : 1.1,
-                HModGrowHard('unit_antlionworker') : 1.2,
+            'distribution': (['unit_antlion', 'unit_antlionworker', 'unit_antlionsuicider'],
+                             [0.8, 0.2, 0.05]),
+
             },
         8: {
-                'constraints' : {
-                    'unit_antlionguard' : {
-                        'min' : 1,
-                        'max' : 1,
-                        'mustkill' : 1,
-                        'maxspawnatprogress' : 0.6,
-                    },
-                },
+                'distribution' : (['unit_antlion', 'unit_antlionworker'], 
+                                  [0.4, 0.80]),
             },
         10: {
+                'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard'], 
+                                  [0.8, 0.15, 0.20, 0.05]),
+                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
+                
+                
+                
+            },
+        11: {
+                'distribution' : (['unit_antlion', 'unit_antlionworker'], 
+                                  [0.9, 0.20]),
+            },
+        12: {
+                'distribution' : (['unit_antlionsuicider', 'unit_antlionworker'], 
+                                  [1.0, 0.9]),
+            },
+        13: {
+                'distribution' : (['unit_antlionguardcavern', 'unit_antlionworker'], 
+                                  [0.15, 0.9]),
+            },
+        14: {
+                'distribution' : (['unit_antlionworker'], 
+                                  [1.0]),
+            },
+        15: {
                 'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard', 'unit_antlionguardcavern', 'unit_antlionguardcavernboss'], 
-                                  [0.72, 0.20, 0.20, 0.02, 0.008, 0.002]),
+                                  [0.7, 0.25, 0.20, 0.02, 0.008, 0.002]),
                 'growrate' : 1.05,
-                'waveincome' : 0,
-                'waveincomegrow' : 0.0,   
                 
-                'constraints' : {
-                    'unit_antlionguard' : {
-                        'min' : 1,
-                        'max' : 2,
-                        'mustkill' : 1,
-                        'maxspawnatprogress' : 0.5,
-                    },
-                    'unit_antlionguardcavernboss' : {
-                        'min' : 1,
-                        'max' : 1,
-                        'mustkill' : 1,
-                        'maxspawnatprogress' : 0.6,
-                    },
-                },
-                
-                HModGrowNormal('unit_antlionguard') : 1.05,
-                HModGrowHard('unit_antlionguard') : 1.1,
-                HModGrowNormal('unit_antlionguardcavern') : 1.05,
-                HModGrowHard('unit_antlionguardcavern') : 1.1,
-                HModGrowNormal('unit_antlionguardcavernboss') : 1.05,
-                HModGrowHard('unit_antlionguardcavernboss') : 1.1,
              },
+        16: {
+                'distribution' : (['unit_antlionguard', 'unit_antlionworker'], 
+                                  [1.0, 0.80]),
+            },
+        18: {
+                'distribution' : (['unit_antlionguardcavernboss', 'unit_antlionworker'], 
+                                  [1.0, 0.80]),
+            },
+        19: {
+                'distribution' : (['unit_antlionsuicider', 'unit_antlionguardcavern', 'unit_antlionworker'], 
+                                  [0.85, 0.20, 0.80]),
+            },
              
         20: {
-		        'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard', 'unit_antlionguardcavern', 'unit_antlionguardcavernboss'], 
-                                  [0.01, 0.20, 0.05, 0.10, 0.30, 0.50]),
-                'growrate' : 3.00,
-                'waveincome' : 0,
-                'waveincomegrow' : 0.0,
-                HModGrowEasy('unit_antlionguardcavernboss') : 3.00,
-                HModGrowNormal('unit_antlionguardcavernboss') : 3.00,
-                HModGrowHard('unit_antlionguardcavernboss') : 3.00,
-             },
-        25: {
+                'distribution' : (['unit_antlion', 'unit_antlionsuicider', 'unit_antlionworker', 'unit_antlionguard', 'unit_antlionguardcavern', 'unit_antlionguardcavernboss'], 
+                                  [0.01, 0.70, 0.05, 0.10, 0.30, 0.50]),
+                'growrate' : 1.2,
                 'waveincome' : 0,
                 'waveincomegrow' : 0.0,
              },
@@ -1064,219 +1237,122 @@ class AntlionWaveType(BaseWaveType):
 class ZombieWaveType(BaseWaveType):
     name = 'zombie'
     
-    spawncloseaspossible = False
+    #spawncloseaspossible = False
+    locksomeunits = True
     
     distribution = {
         0: {
                 # Zombies are slower, so have a larger time out
-                'inactivitytimeout' : 100.0,
+                'inactivitytimeout' : 80.0,
                 
                 # Prepare time
-                'easy_waveinterval' : 70,
+                'easy_waveinterval' : 120,
                 'normal_waveinterval' : 60,
-                'hard_waveinterval' : 45,
+                'hard_waveinterval' : 30,
                 
-                HModHard('unit_zombie') : 1.2,
-                HModHard('unit_fastzombie') : 1.2,
-                HModHard('unit_headcrab_fast') : 1.2,
-                HModHard('unit_headcrab') : 1.2,
+                #HModHard('unit_zombie') : 1.2,
+                #HModHard('unit_fastzombie') : 1.2,
+                #HModHard('unit_headcrab_fast') : 1.2,
+                #HModHard('unit_headcrab') : 1.2,
             },
         1: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie'], 
+                'distribution' : (['unit_headcrab', 'unit_zombie'], 
                                   [0.75, 0.25]),
-                'spawnsize' : 20,
-                'growrate' : 1.15,
-                'maxenemiesalive' : 10,
+                'spawnsize' : 50,
+                'growrate' : 1.01,
+                'maxenemiesalive' : 50,
                 
-                'waveincome' : 7,
-                'waveincomegrow' : 1.15,
+                'waveincome' : 30,
+                'waveincomegrow' : 1.05,
             },
         2: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie'], 
-                                  [0.5, 0.5]),
-                'growrate' : 1.10,
+                'distribution' : (['unit_headcrab_fast', 'unit_zombie', 'unit_headcrab'], 
+                                  [0.33, 0.4, 0.33]),
+                'easy_waveinterval' : 120,
+                'normal_waveinterval' : 60,
+                'hard_waveinterval' : 10,
                 
             },
-        3: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie', 'unit_fastzombie'], 
-                                  [0.2, 0.5, 0.3]),
+        4: {
+                'distribution' : (['unit_headcrab_fast', 'unit_fastzombie'], 
+                                  [0.75, 0.3]),
                        
-                HModGrowEasy('unit_zombie') : 1.02,
-                HModGrowNormal('unit_zombie') : 1.13,
-                HModGrowHard('unit_zombie') : 1.25,
-                
-                HModGrowEasy('unit_fastzombie') : 1.02,
-                HModGrowNormal('unit_fastzombie') : 1.06,
-                HModGrowHard('unit_fastzombie') : 1.12,
-                       
-                HModGrowEasy('unit_headcrab_fast') : 1.02,
-                HModGrowNormal('unit_headcrab_fast') : 1.08,
-                HModGrowHard('unit_headcrab_fast') : 1.2,
             },
             
         5: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie','unit_poisonzombieboss'], 
-                                  [0.4, 0.5, 0.1]),
+                'distribution' : (['unit_fastzombie'], 
+                                  [1.0]),
         
-                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
+                #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
                 
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 1,
-                        'max' : 2,
-                    },
-                },
             },
         6: {
-                'distribution' : (['unit_headcrab_fast','unit_fastzombie'], 
-                                  [0.6, 0.4]),
+                'distribution' : (['unit_headcrab_fast','unit_headcrab','unit_zombie'], 
+                                  [0.6, 0.25, 0.25]),
                 
-                'constraints' : {},
             },            
         7: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
-                                   'unit_poisonzombie'], 
-                                  [0.1, 0.05, 0.4, 0.3, 0.1, 0.05]),
+                'distribution' : (['unit_headcrab_fast', 'unit_zombie', 'unit_fastzombie'], 
+                                  [0.5, 0.1, 0.5]),
                                   
-                HModGrowEasy('unit_headcrab_poison') : 1.02,
-                HModGrowNormal('unit_headcrab_poison') : 1.08,
-                HModGrowHard('unit_headcrab_poison') : 1.15,
-                
-                HModGrowEasy('unit_zombine') : 1.02,
-                HModGrowNormal('unit_zombine') : 1.08,
-                HModGrowHard('unit_zombine') : 1.15,
                 
             },
             
         8: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
-                                   'unit_poisonzombie', 'unit_poisonzombieboss' ], 
-                                  [0.1, 0.05, 0.40, 0.3, 0.08, 0.02, 0.05]),
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 1,
-                        'max' : 2,
-                    },
-                },
+                'distribution' : (['unit_poisonzombie','unit_fastzombie','unit_zombie'], 
+                                  [0.5, 0.28, 0.25]),
+                
+            },
+        9: {
+                'distribution' : (['unit_fastzombie'], 
+                                  [1.0]),
+        
+                #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
+                
             },
             
         10: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
-                                   'unit_poisonzombie', 'unit_poisonzombieboss', 'unit_headcrab_poison_boss'], 
-                                  [0.1, 0.05, 0.40, 0.3, 0.08, 0.02, 0.025, 0.025]),
+                'distribution' : (['unit_headcrab_fast', 'unit_headcrab', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
+                                   'unit_poisonzombie'], 
+                                  [0.1, 0.05, 0.40, 0.3, 0.08, 0.02]),
                 'waveincome' : 0,
                 'waveincomegrow' : 0.0, 
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 1,
-                        'max' : 3,
-                        'maxspawnatprogress' : 0.5,
-                        'mustkill' : 1,
-                    },
-                    'unit_headcrab_poison_boss' : {
-                        'min' : 2,
-                        'max' : 2,
-                        'maxspawnatprogress' : 0.6,
-                        'mustkill' : 2,
-                    },
-                },
+                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
             },
 
         11: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie'], 
-                                  [0.5, 0.5]),
-                'constraints' : {}, 
+                'distribution' : (['unit_headcrab_fast', 'unit_fastzombie', 'unit_zombine','unit_headcrab_poison_boss'], 
+                                  [0.5, 0.5, 0.5, 0.5]),
             },
 
         12: {
                 'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
-                                   'unit_poisonzombie', 'unit_poisonzombieboss' ], 
+                                   'unit_poisonzombie', 'unit_poisonzombieboss'], 
                                   [0.1, 0.05, 0.40, 0.3, 0.08, 0.02, 0.05]),
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 1,
-                        'max' : 7,
-                    },
-                },
             },
 
         15: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
+                'distribution' : (['unit_headcrab_fast', 'unit_headcrab', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
                                    'unit_poisonzombie', 'unit_poisonzombieboss' ,'unit_headcrab_poison_boss'], 
                                   [0.1, 0.05, 0.40, 0.3, 0.08, 0.02, 0.025, 0.025]),
-                'waveincome' : 0,
-                'waveincomegrow' : 0.0, 
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 3,
-                        'max' : 5,
-                        'maxspawnatprogress' : 0.3,
-                        'mustkill' : 3,
-                    },
-                    'unit_headcrab_poison_boss' : {
-                        'min' : 4,
-                        'max' : 4,
-                        'maxspawnatprogress' : 0.6,
-                        'mustkill' : 3,
-                    },
-                },
+                #'waveincome' : 0,
+                #'waveincomegrow' : 0.0, 
             },
 
         16: {
-                'distribution' : (['unit_headcrab_fast', 'unit_zombie'], 
+                'distribution' : (['unit_poisonzombie', 'unit_zombine'], 
                                   [0.5, 0.5]),
-                'constraints' : {}, 
+            }, 
+        17: {
+                'distribution' : (['unit_headcrab_poison_boss', 'unit_poisonzombieboss'], 
+                                  [0.1, 0.9]),
             }, 
 
-        17: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
-                                   'unit_poisonzombie', 'unit_poisonzombieboss' ,'unit_headcrab_poison_boss'], 
-                                  [0.1, 0.05, 0.30, 0.3, 0.08, 0.02, 0.075, 0.075]),
-                
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 3,
-                        'max' : 5,
-                    },
-                    'unit_headcrab_poison_boss' : {
-                        'min' : 0,
-                        'max' : 3,
-                    },
-                },
-            },
-
         20: {
-                'waveincomegrow' : 0.0,
-                'growrate' : 3.00,
-             },
-        25: {
-                'waveincome' : 0,
-                'waveincomegrow' : 1.0,
-             },
-        27: {
-                'distribution' : (['unit_headcrab_poison_boss'], 
-                                  [1.0]),
-                    'unit_headcrab_poison_boss' : {
-                        'min' : 13,
-                        'max' : 13,
-                        'mustkill' : 10,
-                    },
-             },
-        28: {
-                'distribution' : (['unit_headcrab_fast', 'unit_headcrab_poison', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
+                'distribution' : (['unit_headcrab_fast', 'unit_headcrab', 'unit_zombie', 'unit_fastzombie', 'unit_zombine', 
                                    'unit_poisonzombie', 'unit_poisonzombieboss' ,'unit_headcrab_poison_boss'], 
-                                  [0.1, 0.01, 0.2, 0.3, 0.08, 0.02, 0.1, 0.19]),
+                                  [0.1, 0.05, 0.30, 0.3, 0.08, 0.02, 0.5, 0.1]),
                 
-                'constraints' : {
-                    'unit_poisonzombieboss' : {
-                        'min' : 3,
-                        'max' : 10,
-                    },
-                    'unit_headcrab_poison_boss' : {
-                        'min' : 0,
-                        'max' : 10,
-                    },
-                },
             },
     }
     
@@ -1312,6 +1388,11 @@ class ZombieWaveType(BaseWaveType):
             self.maxnextfire = 45.0
             self.minfirecan = 1
             self.maxfirecan = 2
+        elif wave == 20:
+            self.minnextfire = 20.0
+            self.maxnextfire = 30.0
+            self.minfirecan = 1
+            self.maxfirecan = 1
             
     def UpdateHeadcrabCannisters(self, gamerules):
         """ Fires headcrab canisters at random intervals during the wave. """
@@ -1427,135 +1508,80 @@ class CombineWaveType(BaseWaveType):
     distribution = {
         0: {
                 # Prepare time
-                'easy_waveinterval' : 70,
-                'normal_waveinterval' : 60,
+                'inactivitytimeout' : 20.0,
+                'easy_waveinterval' : 140,
+                'normal_waveinterval' : 70,
                 'hard_waveinterval' : 45,
             },
         1: {
-                'distribution' : (['unit_manhack','unit_combine_citizen'], 
+                'distribution' : (['unit_metropolice','unit_combine_citizen'], 
                                   [0.75,0.50]),
-                'spawnsize' : 15,
+                'spawnsize' : 10,
                 'growrate' : 1.1,
+                'maxenemiesalive' : 80,
                 
-                'waveincome' : 12,
-                'waveincomegrow' : 1.15,
+                'waveincome' : 10,
+                'waveincomegrow' : 1.41,
             },
         2: {
-                'distribution' : (['unit_metropolice'], 
-                                  [1.0]),
-                'spawnsize' : 5,  
+                'distribution' : (['unit_metropolice_smg1','unit_metropolice_riot','unit_metropolice'], 
+                                  [1.0, 1.0, 1.0]),
+                'easy_waveinterval' : 140,
+                'normal_waveinterval' : 70,
+                'hard_waveinterval' : 15,
             },
         3: {
-                'distribution' : (['unit_combine', 'unit_combine_sg'], 
-                                  [0.5, 0.5]),
-                'growrate' : 1.05,
-            },
-        4: {
-                'distribution' : (['unit_combine_ar2'], 
-                                  [1.0]),
+                'distribution' : (['unit_metropolice_smg1','unit_metropolice_riot','unit_metropolice','unit_manhack'], 
+                                  [1.0, 1.0, 1.0, 1.0]),
             },
         5: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_sniper'], 
-                                  [0.35, 0.30, 0.30,0.05]),
-                'waveincome' : 5,
-                'constraints' : {
-                    'unit_combine_sniper' : {
-                        'min' : 2,
-                        'max' : 5,
-                        'mustkill' : 1,
-                    },
-                },
+                'distribution' : (['unit_combine'], 
+                                  [1.0]),
             },
         6: {
-                'distribution' : (['unit_combine_elite', 'unit_combine_heavy'], 
-                                  [0.75, 0.50]),
-                'constraints' : {},  
+                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'enemy_unit_combine_sniper'], 
+                                  [0.8, 0.8, 0.8,0.2]),
             },
         7: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_combine_heavy'], 
-                                  [0.40, 0.30, 0.20, 0.10, 0.15]),
+                'distribution' : (['unit_combine', 'unit_combine_sg'], 
+                                  [0.75, 0.50]),
+            },
+        8: {
+                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'enemy_unit_combine_sniper'], 
+                                  [0.40, 0.30, 0.20, 0.10]),
                 #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
             },
         9: {
-                'distribution' : (['unit_combine', 'unit_combine_sniper'], 
-                                  [0.20, 0.80]),
+                'distribution' : (['unit_combine_heavy', 'unit_combine_elite'], 
+                                  [0.80, 0.20]),
             },
         10: {
-                'distribution' : (['unit_combine_sniper', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider', 'unit_combine_heavy', 'unit_mortar_synth'], 
-                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.20, 0.05]),
-                'growrate' : 1.02,
-                'waveincomegrow' : 0.0,
-                'waveincome' : 0,
-                'constraints' : {
-                    'unit_strider' : {
-                        'min' : 1,
-                        'max' : 1,
-                        'mustkill' : 1,
-                    },
-                },
+                'distribution' : (['enemy_unit_combine_sniper', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_hunter', 'unit_combine_heavy'], 
+                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.20]),
+                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
             },
         11: {
-                'distribution' : (['unit_combine_ar2', 'unit_combine_sg', 'unit_combine_heavy'], 
+                'distribution' : (['unit_combine_ar2', 'unit_hunter', 'unit_combine_heavy'], 
                                   [0.50, 0.50, 0.25]),
-                'constraints' : {
-                    'unit_mortar_synth': {
-                        'min': 2,
-                        'max': 2,
-                        'mustkill': 2,
-                    },
-                },
             },
-        12: {
-                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter', 'unit_mortar_synth'], 
+        14: {
+                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter', 'unit_crab_synth'], 
                                   [0.30, 0.30, 0.20, 0.10,0.20, 0.10]),
             },
         15: {
-                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite', 'unit_strider', 'unit_mortar_synth', 'unit_crab_synth'], 
-                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.15, 0.05]),
-                'constraints' : {
-                    'unit_mortar_synth': {
-                        'min': 2,
-                        'max': 2,
-                        'mustkill': 2,
-                    },
-                    'unit_strider' : {
-                        'min' : 2,
-                        'max' : 3,
-                        'mustkill' : 2,
-                    },
-                },
+                'distribution' : (['unit_combine_heavy', 'unit_hunter', 'unit_combine_ar2', 'unit_combine_elite', 'overrun_unit_mortar_synth', 'unit_crab_synth'], 
+                                  [0.30, 0.30, 0.10, 0.29, 0.01, 0.15]),
+                'waveincomegrow' : 0.0,
+                'waveincome' : 0,
             },
         16: {
-                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider'],
-                                  [0.35, 0.20, 0.20, 0.10,0.20,0.10]),
-                'constraints' : {
-                    'unit_mortar_synth': {
-                        'min': 2,
-                        'max': 2,
-                        'mustkill': 2,
-                    },
-                    'unit_crab_synth': {
-                        'min': 2,
-                        'max': 2,
-                        'mustkill': 2,
-                    },
-                },
+                'distribution' : (['unit_hunter','overrun_unit_mortar_synth','unit_crab_synth','unit_strider'],
+                                  [0.38, 0.33, 0.33, 0.1]),
             },
         20: {
-                'distribution' : (['unit_manhack', 'unit_combine_citizen'],
-                                  [0.75, 0.50]),
-                'waveincomegrow' : 0.0,
-                'waveincome' : 0,
-             },
-        21: {
-                'distribution' : (['unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter','unit_strider', 'unit_combine_heavy', 'unit_mortar_synth', 'unit_crab_synth'],
-                                  [0.05, 0.05, 0.20,0.20,0.50, 0.30, 0.25, 0.30]),
-                'growrate' : 3.00,
+                'distribution' : (['unit_hunter','overrun_unit_mortar_synth','unit_crab_synth','unit_strider','unit_combine_heavy','unit_combine_elite','unit_combine_ar2'],
+                                  [0.5, 0.5, 0.5, 0.1, 0.5, 0.5, 0.5]),
             },
-        25: {
-                'waveincome' : 0,
-                'waveincomegrow' : 0.0,
-             },
     }
 
 class RebelWaveType(BaseWaveType):
@@ -1563,110 +1589,263 @@ class RebelWaveType(BaseWaveType):
 
     distribution = {
         0: {
-            'easy_waveinterval': 70,
-            'normal_waveinterval': 60,
-            'hard_waveinterval': 45,
+            'inactivitytimeout' : 20.0,
+            'easy_waveinterval': 160,
+            'normal_waveinterval': 80,
+            'hard_waveinterval': 35,
         },
         1: {
                 'distribution' : (['unit_rebel_scout'], [1.0]),
 
-                'spawnsize' : 10,
-                'growrate' : 1.1,
+                'spawnsize' : 20,
+                'growrate' : 1.03,
+                'maxenemiesalive' : 80,
 
-                'waveincome' : 12,
-                'waveincomegrow' : 1.15,
+                'waveincome' : 45,
+                'waveincomegrow' : 1.06,
         },
         2: {
-                'distribution' : (['unit_rebel_scout', 'unit_rebel_partisan'], [0.7, 0.3]),
+                'distribution' : (['unit_rebel_scout', 'unit_rebel_partisan', 'unit_rebel_saboteur'], [0.7, 0.3, 0.4]),
 
-                'spawnsize' : 10,
-        },
-        3: {
-                'distribution' : (['unit_rebel', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.4, 0.4]),
-
-                'growrate' : 1.05,
-        },
-        4: {
-                'distribution' : (['unit_rebel', 'unit_rebel_sg'], [0.5, 0.5]),
+                'easy_waveinterval' : 160,
+                'normal_waveinterval' : 80,
+                'hard_waveinterval' : 16,
         },
         5: {
                 'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.2, 0.3, 0.10, 0.10, 0.10]),
-                'waveincome': 5,
-                'constraints': {
-                    'unit_rebel_veteran': {
-                        'min': 2,
-                        'max': 5,
-                        'mustkill': 2,
-                    },
-                },
+
             },
-        6: {
-                'distribution' : (['unit_rebel_flamer', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.3, 0.3, 0.1, 0.1]),
-                'constraints': {},
-        },
         7: {
-                'distribution' : (['unit_vortigaunt', 'unit_rebel', 'unit_rebel_sg', 'unit_rebel_medic'], [0.2, 0.6, 0.1, 0.1]),
+                'distribution' : (['unit_rebel_flamer', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.3, 0.3, 0.1, 0.1]),
+
+        },
+        8: {
+                'distribution' : (['unit_vortigaunt', 'unit_rebel', 'unit_rebel_sg', 'unit_rebel_medic', 'unit_rebel_winchester'], [0.2, 0.6, 0.1, 0.1, 0.2]),
         },
         9: {
-                'distribution' : (['unit_rebel_veteran', 'unit_rebel'], [0.8, 0.2])
+                'distribution' : (['enemy_unit_rebel_veteran', 'unit_rebel'], [0.8, 0.2])
         },
         10: {
             'distribution': (
-            ['unit_rebel_veteran', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_heavy'],
+            ['unit_vortigaunt', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_heavy'],
             [0.30, 0.30, 0.10, 0.30, 0.15]),
-            'growrate': 1.02,
-            'waveincomegrow': 0.0,
-            'waveincome': 0,
-            'constraints': {
-                'unit_rebel_partisan': {
-                    'min': 90,
-                    'max': 120,
-                    'mustkill': 90,
-                },
-                'unit_rebel_partisan_molotov': {
-                    'min': 90,
-                    'max': 120,
-                    'mustkill': 90,
-                },
-            },
+                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
         },
         11: {
-            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_heavy'], [0.5, 0.5, 0.20]),
-            'constraints' : {},
+            'distribution' : (['unit_rebel_rpg', 'unit_rebel_sg', 'unit_rebel_heavy', 'unit_rebel_winchester'], [0.5, 0.5, 0.20, 0.20]),
+
         },
-        12: {
+        14: {
             'distribution': (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_medic', 'unit_rebel_rpg', 'unit_vortigaunt', 'unit_rebel_heavy'], [0.10, 0.10, 0.10, 0.30, 0.10, 0.20, 0.10, 0.25]),
         },
         15: {
             'distribution': (
-            ['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_dog', 'unit_rebel_heavy'],
+            ['unit_rebel_rpg', 'unit_vortigaunt', 'unit_rebel_tau', 'unit_rebel_flamer', 'unit_dog', 'unit_rebel_heavy'],
             [0.30, 0.30, 0.10, 0.29, 0.01, 0.30]),
-            'constraints': {
-                'unit_dog': {
-                    'min': 2,
-                    'max': 3,
-                    'mustkill': 2,
-                },
-            },
+            'waveincomegrow': 0.0,
+            'waveincome': 0,
+
         },
         16: {
-            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_flamer', 'unit_vortigaunt', 'unit_rebel_rpg', 'unit_dog', 'unit_rebel_heavy'], [0.20, 0.20, 0.10, 0.10, 0.10, 0.10, 0.10, 0.10, 0.35]),
-            'constraints' : {},
+            'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'enemy_unit_rebel_veteran'], [0.20, 0.20, 0.20, 0.20, 0.20]),
+
+        },
+        17: {
+            'distribution' : (['unit_rebel_flamer', 'unit_rebel_tau', 'unit_rebel_rpg', 'unit_rebel_heavy', 'unit_vortigaunt'], [0.20, 0.20, 0.20, 0.20, 0.20]),
+
+        },
+        19: {
+            'distribution' : (['unit_rebel_engineer', 'unit_rebel_winchester'], [0.9, 0.1]),
+
         },
         20: {
-            'distribution' : (['unit_rebel_scout'], [1.0]),
-            'waveincome' : 0,
-            'waveincomegrow' : 0.0,
-        },
-        21: {
-            'distribution' : (['unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer','unit_vortigaunt','unit_dog', 'unit_rebel_heavy', 'unit_rebel_rpg'], [0.05, 0.05, 0.2, 0.2, 0.5, 0.40, 0.20]),
-            'growrate' : 3.0,
-        },
-        25: {
-            'waveincome' : 0,
-            'waveincomegrow' : 0.0,
+            'distribution' : (['unit_dog', 'unit_rebel_tau', 'unit_rebel_rpg', 'unit_rebel_heavy', 'unit_vortigaunt', 'unit_rebel_flamer', 'unit_rebel_ar2'], [0.20, 0.20, 0.20, 0.20, 0.20, 0.2, 0.2]),
+
         },
     }
+class AlltypesWaveType(BaseWaveType):
+    name = 'alltypes'
+    
+    #spawncloseaspossible = True
+    locksomeunits = False
+    
+    distribution = {
+        0: {
+                'inactivitytimeout' : 60.0,
+                
+                # Prepare time
+                'easy_waveinterval' : 180,
+                'normal_waveinterval' : 90,
+                'hard_waveinterval' : 50,
+                
+                #HModHard('unit_zombie') : 1.2,
+                #HModHard('unit_fastzombie') : 1.2,
+                #HModHard('unit_headcrab_fast') : 1.2,
+                #HModHard('unit_headcrab') : 1.2,
+            },
+        1: {
+                'distribution' : (['unit_headcrab', 'unit_rebel_partisan', 'unit_antlion', 'unit_combine_citizen'], 
+                                  [0.25, 0.25, 0.25, 0.25]),
+                'spawnsize' : 40,
+                'growrate' : 1.06,
+                'maxenemiesalive' : 100,
+                
+                'waveincome' : 75,
+                'waveincomegrow' : 1.15,
+            },
+        2: {
+                'distribution' : (['unit_headcrab_fast', 'unit_antlion', 'unit_headcrab', 'unit_rebel_scout', 'unit_metropolice_smg1', 'unit_rebel_saboteur'], 
+                                  [0.1, 0.15, 0.5, 0.2, 0.25, 0.1]),
+                'easy_waveinterval' : 180,
+                'normal_waveinterval' : 90,
+                'hard_waveinterval' : 5,
+                
+            },
+        5: {
+                'distribution' : (['unit_fastzombie', 'unit_antlionworker', 'unit_rebel', 'unit_manhack'],   
+                                  [0.5, 0.5, 0.5, 0.5]),
+                
+            },
+        6: {
+                'distribution' : (['unit_poisonzombie', 'unit_rebel_sg'], 
+                                  [1.0, 1.0]),
+                
+            },            
+        7: {
+                'distribution' : (['unit_antlionsuicider', 'unit_antlionworker'], 
+                                  [1.0, 1.0]),
+                                  
+                
+            },
+            
+        8: {
+                'distribution' : (['unit_combine_ar2','unit_combine_sg'], 
+                                  [0.5, 0.56]),
+                
+            },
+        9: {
+                'distribution' : (['unit_rebel_ar2','unit_rebel_engineer'], 
+                                  [0.5, 0.57]),
+        
+                #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
+                
+            },
+            
+        10: {
+                'distribution' : (['unit_rebel_medic', 'unit_rebel_tau', 'enemy_unit_combine_sniper', 'unit_combine_elite', 'unit_antlionguard', 
+                                   'unit_zombine'], 
+                                  [0.1, 0.05, 0.40, 0.3, 0.08, 0.02]),
+                'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
+            },
+
+        11: {
+                'distribution' : (['unit_poisonzombieboss', 'enemy_unit_rebel_veteran'], 
+                                  [0.5, 0.55]),
+            },
+
+        12: {
+                'distribution' : (['unit_antlionguardcavern', 'unit_combine_heavy'], 
+                                  [0.5, 0.54]),
+            },
+
+        13: {
+                'distribution' : (['unit_rebel_flamer', 'unit_rebel_heavy', 'unit_vortigaunt', 'unit_antlion'], 
+                                  [0.5, 0.51, 0.5, 0.5]),
+            },
+
+        14: {
+                'distribution' : (['unit_hunter', 'unit_crab_synth'], 
+                                  [0.5, 0.58]),
+            },
+
+        15: {
+                'distribution' : (['unit_hunter', 'unit_crab_synth', 'overrun_unit_mortar_synth', 'unit_combine_heavy', 'unit_rebel_flamer', 
+                                   'unit_rebel_heavy', 'unit_rebel_rpg','unit_vortigaunt','unit_headcrab_poison_boss','unit_antlionguardcavernboss'], 
+                                  [0.25, 0.25, 0.1, 0.3, 0.3, 0.3, 0.05, 0.05, 0.01, 0.01]),
+                #'waveincome' : 0,
+                #'waveincomegrow' : 0.0, 
+            },
+
+        16: {
+                'distribution' : (['unit_headcrab_poison_boss'], 
+                                  [1.0]),
+            }, 
+        17: {
+                'distribution' : (['unit_antlionguardcavernboss', 'unit_rebel_tau'], 
+                                  [1.0, 1.0]),
+            }, 
+        18: {
+                'distribution' : (['unit_dog', 'unit_rebel_rpg'], 
+                                  [0.5, 0.58]),
+            }, 
+        19: {
+                'distribution' : (['unit_strider'], 
+                                  [1.0]),
+            }, 
+
+        20: {
+                'distribution' : (['unit_strider', 'overrun_unit_mortar_synth', 'unit_dog', 'unit_rebel_rpg', 'unit_crab_synth', 'unit_rebel_flamer', 
+                                   'unit_antlionguardcavernboss', 'unit_antlionsuicider' ,'unit_headcrab_poison_boss'], 
+                                  [0.05, 0.2, 0.3, 0.4, 1.0, 0.6, 0.01, 0.01, 0.01]),
+                'waveincome' : 0,
+                'waveincomegrow' : 0.0, 
+                
+            },
+        21: {
+                'distribution' : (['unit_headcrab_poison_boss', 'unit_poisonzombieboss'], 
+                                  [0.5, 0.6]),
+            }, 
+        22: {
+                'distribution' : (['unit_antlionworker', 'unit_combine_elite'], 
+                                  [1.0, 1.0]),
+            }, 
+        23: {
+                'distribution' : (['unit_rebel_engineer', 'unit_rebel_tau'], 
+                                  [0.5, 0.6]),
+            }, 
+        24: {
+                'distribution' : (['unit_combine_citizen', 'unit_hunter'], 
+                                  [0.5, 0.6]),
+            }, 
+
+        25: {
+                'distribution' : (['overrun_unit_mortar_synth', 'unit_dog', 'unit_antlionsuicider', 'unit_headcrab_poison_boss'], 
+                                  [0.2, 0.7, 0.7, 0.01]),
+                #'waveincome' : 0,
+                #'waveincomegrow' : 0.0, 
+                
+            },
+        26: {
+                'distribution' : (['unit_headcrab_poison_boss', 'unit_poisonzombieboss', 'unit_zombine'], 
+                                  [0.5, 0.5, 0.9]),
+            }, 
+        27: {
+                'distribution' : (['unit_antlionsuicider', 'unit_antlionguardcavernboss', 'unit_antlionworker'], 
+                                  [1.0, 1.0, 1.0]),
+            }, 
+        28: {
+                'distribution' : (['unit_rebel_rpg', 'unit_rebel_heavy', 'unit_dog'], 
+                                  [0.5, 0.65, 1.0]),
+            }, 
+        29: {
+                'distribution' : (['unit_crab_synth', 'unit_strider', 'overrun_unit_mortar_synth'], 
+                                  [0.5, 0.75, 1.0]),
+            }, 
+
+        30: {
+                'distribution' : (['overrun_unit_mortar_synth', 'unit_dog', 'unit_antlionsuicider', 'unit_headcrab_poison_boss',
+                                   'unit_crab_synth', 'unit_rebel_heavy', 'unit_antlionguardcavernboss', 'unit_poisonzombieboss',
+                                   'unit_strider', 'unit_rebel_rpg', 'unit_antlionworker', 'unit_zombine'], 
+                                  [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]),
+                
+            },
+        31: {
+                'distribution' : (['unit_strider', 'unit_dog', 'unit_antlionsuicider', 'unit_headcrab_poison_boss'], 
+                                  [1.0, 1.0, 1.0, 1.0]),
+                
+            },
+    }
+    
 
 class InfectedWaveType(BaseWaveType):
     name = 'infected'

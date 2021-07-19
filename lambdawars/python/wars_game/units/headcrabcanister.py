@@ -495,6 +495,7 @@ class UnitHeadcrabCanister(BaseClass):
                 headcrab.SetParent(self, nHeadCrabAttachment)
                 headcrab.SetLocalOrigin(vec3_origin)
                 headcrab.SetLocalAngles(vec3_angle)
+                headcrab.uncontrollable = True
                 
             if self.headcrabcount != 0:
                 flWaitTime = random.uniform(0.4, 0.8)
@@ -520,7 +521,7 @@ class UnitHeadcrabCanister(BaseClass):
 
             if not self.HasSpawnFlags(self.SF_START_IMPACTED):
                 if not self.HasSpawnFlags(self.SF_WAIT_FOR_INPUT_TO_SPAWN_HEADCRABS):
-                    self.StartSpawningHeadcrabs(3.0)
+                    self.StartSpawningHeadcrabs(2.0)
 
         def WaitForOpenSequenceThink(self):
             """ Finish the opening sequence """
@@ -788,8 +789,8 @@ class UnitHeadcrabCanister(BaseClass):
         skyboxcanistercount = IntegerField(value=0.0, keyname='SkyboxCannisterCount')
         damageradius = FloatField(value=0.0, keyname='DamageRadius')
         damage = FloatField(value=0.0, keyname='Damage')
-        detonatedamageradius = FloatField(value=450.0, keyname='DetonateDamageRadius')
-        detonatedamage = FloatField(value=100.0, keyname='DetonateDamage')
+        detonatedamageradius = FloatField(value=300.0, keyname='DetonateDamageRadius')
+        detonatedamage = FloatField(value=250.0, keyname='DetonateDamage')
         
         onlaunched = OutputField(keyname="OnLaunched" )
         onimpacted = OutputField(keyname="OnImpacted")
@@ -811,7 +812,7 @@ class UnitHeadcrabCanister(BaseClass):
     
     initialzspeed = FloatField(value=0.0, networked=True)
     zacceleration = FloatField(value=0.0, networked=True)
-    horizspeed = FloatField(value=2048.0, networked=True) #speed
+    horizspeed = FloatField(value=3072.0, networked=True) #speed
     launchedfromwithinworld = BooleanField(value=False, networked=True)
     
     vecstartposition = VectorField(value=Vector(0, 0, 0), networked=True)
@@ -821,7 +822,7 @@ class UnitHeadcrabCanister(BaseClass):
     
     stunradius = FloatField(value=128.0, keyname='StunRadius')
     stunduration = FloatField(value=3.0, keyname='StunDuration')
-    stunchance = FloatField(value=1.0, keyname='StunChance')
+    stunchance = FloatField(value=1.01, keyname='StunChance')
         
     fowflags = FOWFLAG_UPDATER
     customeyeoffset = Vector(0,0,48)
@@ -878,6 +879,7 @@ class HeadcrabCanisterInfo(UnitInfo):
     cls_name = 'unit_headcrabcanister'
     modelname = UnitHeadcrabCanister.ENV_HEADCRABCANISTER_MODEL
     hidden = True
-    health = 300
+    health = 100
     attackpriority = -1
-    attributes = ['building', 'explosive']
+    population = 0
+    attributes = ['building', 'explosive_canister']

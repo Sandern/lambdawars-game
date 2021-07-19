@@ -47,7 +47,8 @@ class AbilitySteadyPosition(AbilityInstant):
 
             # Don't break cover when targeting an enemy
             def OnNewOrder(self, order):
-                if order.type == order.ORDER_ENEMY or (order.type == order.ORDER_ABILITY and order.ability.name == 'attackmove' and order.target):
+                pos = order.target.GetAbsOrigin() if order.target else None
+                if (order.type == order.ORDER_ENEMY or (order.type == order.ORDER_ABILITY and order.ability.name == 'attackmove' and order.target)) and pos.DistTo(self.outer.GetAbsOrigin()) <= self.outer.activeweapon.AttackPrimary.maxrange:
                     return self.SuspendFor(self.behavior.ActionHideSpotAttack,
                                            'Attacking enemy on order from cover/hold spot', order.target)
 

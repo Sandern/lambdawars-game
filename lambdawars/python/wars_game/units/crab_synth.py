@@ -45,7 +45,7 @@ class UnitCrabSynth(BaseClass):
                 for gibmodelname in self.gibmodelnames:
                     self.PrecacheModel(gibmodelname)
         
-            self.PrecacheScriptSound('Weapon_AR2.Single') 
+            self.PrecacheScriptSound('CrabSynth.Single') 
             self.PrecacheScriptSound('NPC_HeadCrab.Die')
         __firetimeout = 0.25
         
@@ -93,7 +93,7 @@ class UnitCrabSynth(BaseClass):
         self.FireBullets(info)
         self.DoMuzzleFlash()
 
-        self.EmitSound('Weapon_AR2.Single')
+        self.EmitSound('CrabSynth.Single')
     def DoMuzzleFlash(self):
         super().DoMuzzleFlash()
         
@@ -218,21 +218,21 @@ class CrabSynthInfo(UnitInfo):
     modelname = 'models/synth_crab.mdl'
     hulltype = 'HULL_LARGE'
     scale = 0.90
-    health = 1400
+    health = 1450
     buildtime = 40.0
-    costs = [('requisition', 125), ('power', 100)]
+    costs = [('requisition', 150), ('power', 150)]
     attributes = ['synth', 'mechanic']
     maxspeed = 120
     turnspeed = 50
     viewdistance = 896
-    sensedistance = 896
+    sensedistance = 1024
     techrequirements = ['build_comb_tech_center']
     population = 5
     regeneration = True
-    regenerationamount = 10
+    regenerationamount = 20
     regenerationtime = 1.0
-    unitenergy = 180
-    unitenergy_initial = 180
+    unitenergy = 200
+    unitenergy_initial = -1
     sound_select = 'unit_crab_synth_select'
     sound_move = 'unit_crab_synth_move'
     sound_attack = 'unit_crab_synth_attack'
@@ -244,14 +244,14 @@ class CrabSynthInfo(UnitInfo):
     }
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
-        damage = 14.0
-        attackspeed = 0.11
+        damage = 20.0
+        attackspeed = 0.1
         usesbursts = False
         maxrange = 768.0
     attacks = ['AttackRange']
     sai_hint = set(['sai_unit_combat'])
 class OverrunCrabSynthInfo(CrabSynthInfo):
 	name = 'overrun_unit_crab_synth'
-	costs = [('kills', 10)]
+	costs = [('kills', 40)]
 	techrequirements = ['or_tier3_research']
 	buildtime = 0

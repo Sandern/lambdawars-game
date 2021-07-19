@@ -948,7 +948,8 @@ class BehaviorGeneric(BaseBehavior):
         def OnNewEnemy(self, enemy):
             return self.SuspendFor(self.behavior.ActionAttackNoMovement, 'Enemy, lock on.', enemy)
 
-    class ActionHideSpotAttack(ActionAttackNoMovement):
+    class ActionHideSpotAttack(ActionAttackNoMovement):pass
+    """ 
         def Update(self):
             outer = self.outer
             enemy = self.enemy
@@ -977,8 +978,9 @@ class BehaviorGeneric(BaseBehavior):
                         if coverspot:
                             outer.MoveOrder(coverspot[1])
                             return self.Continue()
-
             return super().Update()
+    """
+
 
     class ActionCrouchHoldSpot(BaseAction):
         """ Hold position and crouch. Attack any nearby units. """

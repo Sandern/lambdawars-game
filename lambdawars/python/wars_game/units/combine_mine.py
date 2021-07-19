@@ -1007,7 +1007,7 @@ class BounceBomb(BaseClass):
     BOUNCEBOMB_WARN_RADIUS = 280.0  # Must be slightly less than physcannon!
     BOUNCEBOMB_DETONATE_RADIUS = 250.0
 
-    BOUNCEBOMB_EXPLODE_RADIUS = 450
+    BOUNCEBOMB_EXPLODE_RADIUS = 256
     #BOUNCEBOMB_EXPLODE_DAMAGE = 150
     
     BOUNCEBOMB_ACTIVATION_TIME = 0.5
@@ -1068,7 +1068,7 @@ class CombMineUpgrade(AbilityUpgradeValue):
     displayname = '#CombDepMineUpgr_Name'
     description = '#CombDepMineUpgr_Description'
     buildtime = 38.0
-    costs = [('requisition', 10), ('power', 25)]
+    costs = [[('requisition', 10), ('power', 25)], [('kills', 5)]]
     image_name = "vgui/abilities/infiltrate_comb_mine_upgrade"
     upgradevalue = 1
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
@@ -1096,8 +1096,8 @@ class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
     placemaxrange = 16.0
     zoffset = 48.0
     modelname = "models/props_combine/combine_mine01.mdl"
-    attributes = ['explosive_mines']
-    meleedamage = 100
+    attributes = ['explosive']
+    meleedamage = 300
     #techrequirements = ['combine_mine_unlock']
     requirerotation = False
     cancelonunitscleared = True
@@ -1207,16 +1207,17 @@ class OverrunAbilityCombineMine(AbilityCombineMine):
     name = 'overrun_combine_mine'
     hidden = True
     techrequirements = []
-    rechargetime = 12.0
+    rechargetime = 30.0
+    costs = []
 
 class AbilityRebelMineUnlock(AbilityUpgrade):
 	name = 'rebel_mine_unlock'
 	displayname = '#RebelMineUnlock_Name'
 	description = '#RebelMineUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
-	buildtime = 30.0
+	buildtime = 20.0
 	#techrequirements = ['build_reb_specialops']
-	costs = [('requisition', 30), ('scrap', 30)]
+	costs = [('requisition', 10), ('scrap', 20)]
 
 class DestroyHQSaboteurMine(AbilityCombineMine):
     def __init__(self):
@@ -1227,7 +1228,7 @@ class DestroyHQSaboteurMine(AbilityCombineMine):
     hidden = True
     techrequirements = ['rebel_mine_unlock']
     rechargetime = 10.0
-    costs = [('scrap', 15)]
+    costs = [('scrap', 10)]
     #mineskin = random.randint(1, 3)
 
 class AbilityCombineMineChar(AbilityCombineMine):

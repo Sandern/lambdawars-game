@@ -203,7 +203,7 @@ class UnitDog(BaseClass):
         dmg_radius = 192.0
         self.EmitSound("unit_rebel_dog_slam")
 
-        dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 150, 0)
+        dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 180, 0)
         dmg_info.attributes = {DogSlamImpactAttribute.name: DogSlamImpactAttribute(self)}
 
         RadiusDamage(dmg_info, origin, dmg_radius, CLASS_NONE, None)
@@ -368,7 +368,7 @@ class AbilityDogJump(AbilityJump):
     hidden = True
     rechargetime = 0
     maxrange = 896
-    energy = 50
+    energy = 25
     jumpstartsound = 'unit_rebel_dog_angry'
     jumpgravity = 1.2
     collision = True
@@ -387,13 +387,13 @@ class DogInfo(UnitInfo):
     image_name = 'vgui/rebels/units/unit_dog.vmt'
     health = 1400
     maxspeed = 334
-    viewdistance = 832
+    viewdistance = 896
     turnspeed = 75.0
     buildtime = 76.0
-    population = 6
+    population = 5
     unitenergy = 200
     unitenergy_initial = 50
-    costs = [('requisition', 180), ('scrap', 180)]
+    costs = [('requisition', 150), ('scrap', 150)]
     attributes = ['metal', 'large']
     modelname = 'models/dog_extended.mdl'
     hulltype = 'HULL_MEDIUM_TALL'
@@ -436,10 +436,10 @@ class DogUnlock(AbilityUpgrade):
 class OverrunDogInfo(DogInfo):
     #Dog is very tanky in overrun. Having him in overrun isn't half-bad for that purpose. Goal: need to make him be spawnable with a cooldown. Ability that spawns dog as an output with cooldown?
     name = 'overrun_unit_dog'
-    health = 2000
+    #health = 2000
     buildtime = 0
-    rechargetime = 120
-    unitenergy = 120
+    rechargetime = 0
+    unitenergy = 200
     costs = [('kills', 10)]
     hidden = True
     techrequirements = ['or_tier3_research']

@@ -558,6 +558,7 @@ class UnitBlackHeadcrab(UnitBaseHeadcrab):
 class BaseHeadcrabInfo(UnitInfo):
     maxspeed = 48.0
     turnspeed = 100.0
+    population = 0
 
 class HeadcrabInfo(BaseHeadcrabInfo):
     name = 'unit_headcrab'
@@ -569,7 +570,7 @@ class HeadcrabInfo(BaseHeadcrabInfo):
     maxspeed = 72.0 # Small speed buf compared to the original hl2 headcrab
     scrapdropchance = 0.0
     viewdistance = 896
-    attributes = ['light', 'creature', 'bite']
+    attributes = ['creature', 'bite']
     modelname = 'models/headcrabclassic.mdl'
     hulltype = 'HULL_TINY'
     sound_death = 'NPC_HeadCrab.Die'
@@ -581,8 +582,8 @@ class HeadcrabInfo(BaseHeadcrabInfo):
     }
     
     class AttackRange(BaseHeadcrabInfo.AttackRange):
-        maxrange = 480.0
-        damage = 20
+        maxrange = 512.0
+        damage = 50
         damagetype = DMG_SLASH
         attackspeed = 1.8
     attacks = 'AttackRange'
@@ -597,7 +598,7 @@ class FastHeadcrabInfo(BaseHeadcrabInfo):
     maxspeed = 256.0
     scrapdropchance = 0.0
     viewdistance = 896
-    attributes = ['light', 'creature', 'slash']
+    attributes = ['creature', 'slash']
     modelname = 'models/headcrab.mdl'
     hulltype = 'HULL_TINY'
     sound_death = 'NPC_FastHeadcrab.Die'
@@ -611,8 +612,8 @@ class FastHeadcrabInfo(BaseHeadcrabInfo):
     }
     
     class AttackRange(BaseHeadcrabInfo.AttackRange):
-        maxrange = 512.0
-        damage = 12
+        maxrange = 384.0
+        damage = 40
         damagetype = DMG_SLASH
         attackspeed = 1.2
     attacks = 'AttackRange'
@@ -623,10 +624,10 @@ class BlackHeadcrabInfo(BaseHeadcrabInfo):
     description = '#ZomHeadcrabPoison_Description'
     cls_name = 'unit_headcrab_poison'
     image_name = 'vgui/units/unit_shotgun.vmt'
-    health = 60
+    health = 120
     maxspeed = 32.0
     scrapdropchance = 0.0
-    attributes = ['heavy', 'creature', 'bite']
+    attributes = ['creature', 'bite']
     modelname = 'models/headcrabblack.mdl'
     hulltype = 'HULL_TINY'
     sound_death = 'NPC_BlackHeadcrab.Die'
@@ -638,7 +639,7 @@ class BlackHeadcrabInfo(BaseHeadcrabInfo):
     
     class AttackRange(BaseHeadcrabInfo.AttackRange):
         maxrange = 512.0
-        damage = 40
+        damage = 150
         attackspeed = 1.2
     attacks = 'AttackRange'
 

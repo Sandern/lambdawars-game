@@ -28,9 +28,8 @@ class TechCenterInfo(WarsBuildingInfo):
     scale = 0.85
     techrequirements = ['build_reb_specialops']
     abilities = {
-        0: 'c4explosive_unlock',
-        1: 'rebel_mine_unlock',
-        2: 'tau_alt_fire_unlock',
+        0: 'fireexplosivebolt_unlock',
+        1: 'tau_alt_fire_unlock',
         8: 'cancel',
     } 
     idleactivity = 'ACT_IDLE'

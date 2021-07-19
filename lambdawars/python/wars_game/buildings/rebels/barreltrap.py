@@ -171,7 +171,7 @@ class AbilityReleaseBarrels(AbilityTarget):
     displayname = "#AbilityReleaseBarrels_Name"
     description = "#AbilityReleaseBarrels_Description"
     image_name  = 'vgui/rebels/abilities/rebels_release_barrels.vmt'
-    rechargetime = 12
+    rechargetime = 6
     #costs = [('scrap', 4)]
     maxrange = FloatField(value=1408.0)
     supportsautocast = True
@@ -244,6 +244,10 @@ class AbilityReleaseBarrels(AbilityTarget):
         inst.SetControlPoint(4, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
         
     infoparticles = ['range_radius']
+class OverrunAbilityReleaseBarrels(AbilityReleaseBarrels):
+    name = 'overrun_release_barrels'
+    rechargetime = 3
+    maxrange = FloatField(value=1920.0)
 
 class BarrelTrapInfo(WarsBuildingInfo):
     name = "build_reb_barreltrap" 
@@ -256,14 +260,14 @@ class BarrelTrapInfo(WarsBuildingInfo):
     idleactivity = 'ACT_IDLE'
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
-    costs = [('requisition', 25), ('scrap', 10)]
+    costs = [('requisition', 25), ('scrap', 20)]
     techrequirements = ['build_reb_munitiondepot']
     health = 300
     viewdistance = 896
     buildtime = 20.0
     scale = 0.9
 
-    barreldmg = 300
+    barreldmg = 400
     barrelradius = 192
     barreltime = 4
 
@@ -293,6 +297,11 @@ class BarrelTrapInfo(WarsBuildingInfo):
 class DestroyHQBarrelTrapInfo(BarrelTrapInfo):
     name = 'build_reb_barreltrap_destroyhq'
     techrequirements = ['build_reb_munitiondepot_destroyhq']
+	
+class OverrunBarrelTrapInfo(BarrelTrapInfo):
+    name = 'overrun_build_reb_barreltrap'
+    techrequirements = ['or_tier2_research']
+    costs = [('kills', 20)]
 
 class BarrelTrapCharInfo(BarrelTrapInfo):
     name = 'build_reb_char_barreltrap'

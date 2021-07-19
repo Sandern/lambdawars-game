@@ -52,7 +52,7 @@ class MutaliskInfo(AntlionWorkerInfo):
     portrait = 'resource/portraits/antlionWorkerPortrait.bik'
     costs = [('grubs', 1)]
     buildtime = 3.5
-    health = 30
+    health = 120
     displayname = 'Mutalisk'
     description = 'Awesome mutalisk' 
     modelname = 'models/antlion_worker.mdl'

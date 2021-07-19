@@ -121,11 +121,12 @@ class BuildingAttributeInfo(AttributeInfo):
     dmgrecvmodifiers = { 
 		'bullet': ScaleBonusDamage(0.15),
 		'pulse': ScaleBonusDamage(0.30),
+		'ar1': ScaleBonusDamage(0.35),
 		'synth': ScaleBonusDamage(0.5),
 		'pulse_shotgun': ScaleBonusDamage(0.30),
 		'tau': ScaleBonusDamage(0.30),
-		'creature': ScaleBonusDamage(0.35),
-		'chitin': ScaleBonusDamage(2.86), # To compensate antlion damage
+		#'creature': ScaleBonusDamage(0.35),
+		#'chitin': ScaleBonusDamage(2.86), # To compensate antlion damage
     }
 
 class DefenceBuildingAttributeInfo(AttributeInfo):
@@ -135,10 +136,10 @@ class DefenceBuildingAttributeInfo(AttributeInfo):
         'bullet': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.3),
         'ar1': ScaleBonusDamage(0.35),
-		'synth': ScaleBonusDamage(0.8),
 		'pulse_shotgun': ScaleBonusDamage(0.35),
-        'shock': ScaleBonusDamage(0.6),
         'explosive': ScaleBonusDamage(1.10),
+		#'synth': ScaleBonusDamage(0.8),
+        #'shock': ScaleBonusDamage(0.6),
     }
 
 class CoverAttributeInfo(AttributeInfo):

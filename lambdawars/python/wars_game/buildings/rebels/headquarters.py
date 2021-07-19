@@ -95,6 +95,7 @@ class RebelHQInfo(WarsBuildingInfo):
         #1: 'unit_dog',
         0: 'unit_rebel_engineer',
         1: 'unit_rebel_scout',
+        3: 'reinforcement',
         #2: 'unit_rebel_partisan',
         8: 'cancel',
     }
@@ -130,18 +131,20 @@ class DestroyHQRebelHQInfo(RebelHQInfo):
     
 # OVERRUN version
 class OverrunRebelHQInfo(RebelHQInfo):
-    name = 'build_reb_hq_overrun'
+    name = 'overrun_build_reb_hq'
     #cls_name    = "build_reb_hq"
     #displayname = '#BuildRebHQ_Name'
     #description = '#BuildRebHQ_Description'
     #image_name  = 'vgui/rebels/buildings/build_reb_hq'
     #modelname = 'models/structures/resistance/hq.mdl'
     #costs = [('requisition', 20)]
-    #health = 2000
+    health = 4000
     #buildtime = 100.0
-    unitenergy = 0
+    unitenergy = 200
     abilities   = {
         0 : 'overrun_unit_rebel_engineer',
+        1 : 'overrun_scan',
+        2 : 'overrun_reinforcement',
         8 : 'or_tier2_research',
         3: SubMenu(name='rebel_t1_units',
                    displayname='#Tier1MenuUnits_Name',
@@ -149,8 +152,8 @@ class OverrunRebelHQInfo(RebelHQInfo):
                    image_name="VGUI/combine/abilities/tier_1_menu",
                    abilities={
                               0: 'overrun_unit_rebel_partisan_molotov',
-                              1: 'overrun_unit_rebel',
-                              #2: 'overrun_unit_rebel_partisan',
+                              1: 'overrun_unit_rebel_partisan',
+                              2: 'overrun_unit_rebel_scout',
                               11: 'menuup',
                               }),
         7: SubMenu(name='rebel_t2_units',
@@ -158,29 +161,32 @@ class OverrunRebelHQInfo(RebelHQInfo):
                    description='#Tier2MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_2_menu",
                    abilities={
-								 0: 'overrun_unit_rebel_sg',
-								 1: 'overrun_unit_rebel_ar2',
-								 2: 'overrun_unit_rebel_medic',
-								 3: 'overrun_unit_rebel_flamer',
-								 4: 'overrun_unit_rebel_heavy',
-								 5: 'overrun_unit_rebel_tau',
-								 11: 'menuup',
+                              0: 'overrun_unit_rebel',
+                              1: 'overrun_unit_rebel_sg',
+                              2: 'overrun_unit_rebel_ar2',
+                              3: 'overrun_unit_rebel_medic',
+                              4: 'overrun_unit_rebel_saboteur',
+                              11: 'menuup',
                               }),
         11: SubMenu(name='rebel_t3_units',
                    displayname='#Tier3MenuUnits_Name',
                    description='#Tier3MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_3_menu",
                    abilities={
-                              0: 'overrun_unit_vortigaunt',
-                              1: 'overrun_unit_rebel_veteran',
-                              2: 'overrun_unit_rebel_rpg',
-                              3: 'overrun_unit_dog',
+                              0: 'overrun_unit_rebel_flamer',
+                              1: 'overrun_unit_rebel_winchester',
+                              2: 'overrun_unit_rebel_tau',
+                              3: 'overrun_unit_rebel_veteran',
+                              4: 'overrun_unit_rebel_heavy',
+                              5: 'overrun_unit_rebel_rpg',
+                              6: 'overrun_unit_vortigaunt',
+                              7: 'overrun_unit_dog',
                               11: 'menuup',
                               }),
     }
     population = 0
-    providespopulation = 25
-    generateresources = {'type' : 'kills', 'amount' : 1.0, 'interval' : 20.0}
+    providespopulation = 50
+    generateresources = {'type' : 'kills', 'amount' : 1.0, 'interval' : 2.0}
     #sound_select = 'build_reb_hq'
     #sound_death = 'build_generic_explode1'
     #explodeparticleeffect = 'building_explosion'

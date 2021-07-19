@@ -200,4 +200,5 @@ class CombineRegenerationPostCharInfo(CombineRegenerationPostInfo):
 class OverrunCombineRegenerationPostInfo(CombineRegenerationPostInfo):
     name = 'overrun_build_comb_regenerationpost'
     techrequirements = ['or_tier2_research']
+    costs = [('kills', 15)]
     hidden = True

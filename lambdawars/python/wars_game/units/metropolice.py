@@ -660,12 +660,12 @@ class MetroPoliceInfo(UnitInfo):
     image_name = 'vgui/combine/units/unit_metropolice'
     portrait = 'resource/portraits/combineSMG.bik'
     costs = [[('requisition', 10)], [('kills', 1)]]
-    buildtime = 10.0
+    buildtime = 9.0
     health = 150
     maxspeed = 232
     viewdistance = 768
     scrapdropchance = 0.0
-    accuracy = 0.80
+    accuracy = 0.6
     attributes = ['light']
     sound_select = 'unit_combine_metropolice_select'
     sound_move = 'unit_combine_metropolice_move'
@@ -700,6 +700,7 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
     maxspeed = 224
     viewdistance = 768
     scrapdropchance = 0.0
+    accuracy = 0.5
     #techrequirements = ['build_comb_armory']
     abilities = {
         -2: 'garrison',
@@ -721,9 +722,9 @@ class MetroPoliceRiotInfo(MetroPoliceInfo):
     modelname = 'models/police_extended.mdl'
     #weapons = ['weapon_pistol', 'weapon_stunstick']
     weapons = ['weapon_stunstick']
-    costs = [[('requisition', 15)], [('kills', 1)]]
-    buildtime = 10.0
-    maxspeed = 232
+    costs = [[('requisition', 10)], [('kills', 1)]]
+    buildtime = 15.0
+    maxspeed = 248
     health = 200
     viewdistance = 768
     scrapdropchance = 0.0
@@ -746,6 +747,7 @@ class OverrunMetroPoliceInfo(MetroPoliceInfo):
     hidden = True
     buildtime = 0
     tier = 0
+    costs = [('kills', 1)]
     abilities = {
         -1: 'construct_floorturret',
         0: 'overrun_combine_mine',
@@ -755,14 +757,33 @@ class OverrunMetroPoliceInfo(MetroPoliceInfo):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+        -2: 'garrison',
     }
 
+class MetroPoliceSMG1Info(MetroPoliceSMG1Info):
+    name = 'overrun_unit_metropolice_smg1'
+    costs = [('kills', 2)]
+    hidden = True
+    buildtime = 0
+    tier = 0
+    abilities = {
+        -1: 'construct_floorturret',
+        0: 'overrun_combine_mine',
+        1: 'overrun_floor_turret',
+        2: 'overrun_deploymanhack',
+        7: 'mountturret',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+        -2: 'garrison',
+    }
 
 class OverrunMetroPoliceRiotInfo(MetroPoliceRiotInfo):
     name = 'overrun_unit_metropolice_riot'
     hidden = True
     tier = 0
     buildtime = 0
+    costs = [('kills', 2)]
     abilities = {
         -1: 'construct_floorturret',
         0: 'overrun_deploymanhack',
@@ -783,10 +804,10 @@ class TransformToMetropoliceSMG1(AbilityTransformUnit):
     displayname = '#CombTransMPSMG1_Name'
     description = '#CombTransMPSMG1_Description'
     transform_type = 'unit_metropolice_smg1'
-    transform_time = 3.0
+    transform_time = 12.0
     replaceweapons = True
     #techrequirements = ['build_comb_armory']
-    costs = [('requisition', 10)]
+    costs = [('requisition', 5)]
     image_name = 'vgui/combine/abilities/combine_transform_smg'
     activatesoundscript = 'ability_combine_smg1_upgrade'
 

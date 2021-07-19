@@ -3,7 +3,7 @@ Combine Mortar.
 '''
 from srcbase import DMG_BLAST, DMG_DISSOLVE, MASK_SOLID_BRUSHONLY, COLLISION_GROUP_NONE
 from vmath import Vector, QAngle, vec3_origin, VectorAngles
-from core.buildings import UnitBaseBuilding as BaseClass, CreateDummy
+from core.buildings import UnitBaseBuilding as BaseClass, CreateDummy, WarsBuildingInfo
 from .basepowered import PoweredBuildingInfo, BaseFactoryPoweredBuilding
 from core.abilities import AbilityTarget
 from entities import entity, MouseTraceData
@@ -18,8 +18,9 @@ if isserver:
     from utils import UTIL_ScreenShake, SHAKE_START, UTIL_DecalTrace, UTIL_TraceLine, trace_t
 
 
+#class CombineMortar(BaseFactoryPoweredBuilding, BaseClass):
 @entity('build_comb_mortar', networked=True)
-class CombineMortar(BaseFactoryPoweredBuilding, BaseClass):
+class CombineMortar(BaseClass):
     autoconstruct = False
     buildtarget = Vector(0, -280, 32)
     buildangle = QAngle(0, 0, 0)
@@ -33,8 +34,8 @@ class CombineMortar(BaseFactoryPoweredBuilding, BaseClass):
     senses = None
 
     isfiringmortar = False
-    damage = 100.0
-    dmgradius = 320.0
+    damage = 400.0
+    dmgradius = 300.0
     fireposition = vec3_origin
     
     def __init__(self):
@@ -121,6 +122,11 @@ class CombineMortar(BaseFactoryPoweredBuilding, BaseClass):
         RadiusDamage(info, self.fireposition, dmgradius, CLASS_NONE, None)
         
         UTIL_ScreenShake(self.fireposition, 10, 60, 1.0, 550, SHAKE_START, True)
+@entity('build_comb_mortar_powered', networked=True)
+class CombineMortarPowered(BaseFactoryPoweredBuilding, CombineMortar):
+    autoconstruct = False
+    #damage = 100.0
+    #dmgradius = 320.0
 
 
 class AbilityCombFireMortar(AbilityTarget):
@@ -128,12 +134,13 @@ class AbilityCombFireMortar(AbilityTarget):
     displayname = "#AbilityCombineFireMortar_Name"
     description = "#AbilityCombineFireMortar_Description"
     image_name  = 'vgui/combine/abilities/combine_fire_mortar.vmt'
-    rechargetime = 6
+    rechargetime = 5
     #costs = [('power', 20)]
-    energy = 40
+    energy = 20
     maxrange = FloatField(value=1280.0)
     supportsautocast = True
     defaultautocast = True
+    overrunmode = False
 
     sai_hint = AbilityTarget.sai_hint | set(['sai_grenade'])
     
@@ -157,10 +164,10 @@ class AbilityCombFireMortar(AbilityTarget):
         if FogOfWarMgr().PointInFOW(targetpos, owner):
             self.Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
             return
-            
-        if not self.unit.powered:
-            self.Cancel(cancelmsg='#Ability_NotPowered', debugmsg='Not in power generator range')
-            return
+        if not self.overrunmode:
+            if not self.unit.powered:
+                self.Cancel(cancelmsg='#Ability_NotPowered', debugmsg='Not in power generator range')
+                return
             
         startpos = self.unit.GetAbsOrigin()
         dist = startpos.DistTo(targetpos)
@@ -214,10 +221,20 @@ class AbilityCombFireMortar(AbilityTarget):
     #stuff for later:
     #maxhealth = UpgradeField(abilityname='defensecombine_tier_1', cppimplemented=True)
     #health = UpgradeField(abilityname='defensecombine_tier_1', cppimplemented=True)
+class OverrunAbilityCombFireMortar(AbilityCombFireMortar):
+    name = 'overrun_fire_mortar'
+    rechargetime = 6
+    #costs = [('power', 20)]
+    energy = 40
+    maxrange = FloatField(value=1920.0)
+    supportsautocast = True
+    defaultautocast = True
+    overrunmode = True
         
     
-class MortarInfo(PoweredBuildingInfo):
-    name = "build_comb_mortar" 
+
+class OverrunMortarInfo(WarsBuildingInfo):
+    name = "overrun_build_comb_mortar" 
     cls_name = "build_comb_mortar"
     displayname = '#BuildCombMortar_Name'
     description = '#BuildCombMortar_Description'
@@ -229,8 +246,40 @@ class MortarInfo(PoweredBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mortar_destruction.mdl'
     explodeactivity = 'ACT_EXPLODE'
+    costs = [('kills', 20)]
+    unitenergy = 80
+    unitenergy_initial = -1
+    techrequirements = ['or_tier3_research']
+    viewdistance = 768.0
+    health = 200
+    buildtime = 25.0
+    scale = 0.9
+    abilities = {
+        0: 'overrun_fire_mortar',
+        8: 'cancel',
+    }
+    explodeparticleeffect = 'building_explosion'
+    explodeshake = (2, 10, 2, 512) # Amplitude, frequence, duration, radius
+    sound_death = 'build_comb_mturret_explode'
+    
+    # Target ability setting
+    requirerotation = False
+    sai_hint = WarsBuildingInfo.sai_hint | set(['sai_tp_defense', 'sai_building'])
+class MortarInfo(PoweredBuildingInfo):
+    name = "build_comb_mortar" 
+    cls_name = "build_comb_mortar_powered"
+    displayname = '#BuildCombMortar_Name'
+    description = '#BuildCombMortar_Description'
+    image_name  = 'vgui/combine/buildings/build_comb_mortar'
+    modelname = 'models/props_combine/combine_mortar01a.mdl'
+    attributes = ['building', 'mortar']
+    modelname = 'models/pg_props/pg_buildings/combine/pg_combine_mortar.mdl'
+    idleactivity = 'ACT_IDLE'
+    constructionactivity = 'ACT_CONSTRUCTION'
+    explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mortar_destruction.mdl'
+    explodeactivity = 'ACT_EXPLODE'
     costs = [('requisition', 50), ('power', 20)]
-    unitenergy = 100
+    unitenergy = 80
     unitenergy_initial = 40
     techrequirements = ['build_comb_armory']
     viewdistance = 768.0

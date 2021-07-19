@@ -488,7 +488,7 @@ class UnitVortigaunt(BaseClass):
 
                 flFalloff = RemapValClamped(flDist, 0, flRadius*0.75, 1.0, 0.1)
                 
-                if isenemy:
+                if isenemy and bDispel:
                     self.ApplyKnockBack(enemy, vecDir, stunchance=1.0)
 
                 vecDir *= (flRadius * 1.5 * flFalloff)
@@ -528,13 +528,13 @@ class UnitVortigaunt(BaseClass):
             if bDispel:
                 self.EndHandGlow(self.VORTIGAUNT_BEAM_ALL)
                 
-        def ApplyKnockBack(self, target, dir, speed=400.0, stunchance=1.0, stunduration=1.05):
+        def ApplyKnockBack(self, target, dir, speed=200.0, stunchance=1.0, stunduration=1.05):
             """ Applies a knockback to the given target with a stun chance. """
             if self.larvalextract:
                 stunduration *= 2
             curvel = target.GetAbsVelocity().LengthSqr()
             if curvel < 2000.0 * 2000.0 and not (target.IsUnit() and target.isbuilding):
-                target.ApplyAbsVelocityImpulse((dir * speed) + Vector(0, 0, 85))
+                target.ApplyAbsVelocityImpulse((dir * speed) + Vector(0, 0, 1))
                 
             if target.IsUnit() and stunchance and random.random() < stunchance:
                 StunnedEffectInfo.CreateAndApply(target, attacker=self, duration=stunduration)
@@ -693,7 +693,7 @@ class UnitVortigaunt(BaseClass):
         self.energyregenratenotincombat = 1.6667
         self.energyregenrate = self.energyregenrate_old * self.energyregenrateincombat
         self.maxhealth = self.unitinfo.health + 80
-        self.maxenergy = self.unitinfo.unitenergy + 25
+        self.maxenergy = self.unitinfo.unitenergy + 50
         self.health += 80
         self.larvalextract = True
 
@@ -895,13 +895,13 @@ class VortigauntInfo(UnitInfo):
     description = '#Vortigaunt_Description'
     image_name = 'vgui/rebels/units/unit_vortigaunt.vmt'
     costs = [('requisition', 75), ('scrap', 75)]
-    buildtime = 45.0
-    viewdistance = 896.0
-    sensedistance = 896.0
+    buildtime = 38.0
+    viewdistance = 1280.0
+    sensedistance = -1.0
     health = 320
-    maxspeed = 216.0
+    maxspeed = 224.0
     unitenergy = 200
-    unitenergy_initial = 200
+    unitenergy_initial = -1
     selectionpriority = 5
     population = 3
     attributes = ['creature', 'shock']
@@ -932,11 +932,14 @@ class OverrunVortigauntInfo(VortigauntInfo):
     buildtime = 0
     techrequirements = ['or_tier3_research']
     unitenergy_initial = VortigauntInfo.unitenergy
-    costs = [('kills', 5)]
+    costs = [('kills', 15)]
     abilities = {
         0 : 'vortattack',
         1 : 'dispel',
         2 : 'inwardfocus',
+        4 : 'bugbait',
+        5 : 'bugbaitrecall',
+        6 : 'overrun_larvalextract',
         8 : 'attackmove',
         9 : 'holdposition',
         10 : 'patrol',

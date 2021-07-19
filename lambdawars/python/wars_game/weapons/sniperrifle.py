@@ -140,13 +140,16 @@ class WeaponSniperRifle(WarsWeaponBase):
     class AttackPrimary(AttackAbilityAsAttack):
         abi_attack_name = 'marksmanshot'
         maxrange = 1408.0
-        attackspeed = 3.5
+        attackspeed = 2.25
         damage = 20
         cone = UnitInfo.AttackRange.DOT_3DEGREE
         attributes = ['plasma']
 
         def CanAttack(self, enemy):
             unit = self.unit
+            if unit.CanRangeAttack(enemy) and unit.unitinfo.sniperenemy:
+                return True
+
             if not unit.CanRangeAttack(enemy):
                 return False
 
@@ -163,7 +166,7 @@ class WeaponSniperRifle(WarsWeaponBase):
         def Attack(self, enemy, action):
             unit = self.unit
             # First go into steady position when needed, except when garrisoned in a building.
-            if action and not unit.insteadyposition and not unit.garrisoned:
+            if action and not unit.insteadyposition and not unit.garrisoned and not unit.unitinfo.sniperenemy:
                 ability = unit.DoAbility(AbilitySteadyPosition.name, [], autocasted=True, direct_from_attack=True)
                 return ability and action.SuspendFor(ability.ActionDoSteadyPosition, 'Changing to steady position',
                                                      ability, None)
@@ -176,7 +179,7 @@ class AbilityMarkmanshot(AbilityAsAttack):
     description = '#CombMarkmanShot_Description'
     image_name = 'vgui/combine/abilities/marksmanshot'
     hidden = True
-    rechargetime = 3.5
+    rechargetime = 2.25
 
     @classmethod
     def GetRequirements(info, player, unit):
@@ -186,6 +189,6 @@ class AbilityMarkmanshot(AbilityAsAttack):
         if unit.garrisoned:
             requirements.discard('uncontrollable')
 
-        if not getattr(unit, 'insteadyposition', False) and not unit.garrisoned:
+        if not getattr(unit, 'insteadyposition', False) and not unit.garrisoned and not unit.unitinfo.sniperenemy:
             requirements.add('steadyposition')
         return requirements

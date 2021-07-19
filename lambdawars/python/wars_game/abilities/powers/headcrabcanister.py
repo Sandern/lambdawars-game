@@ -1,6 +1,6 @@
 from vmath import Vector, QAngle, vec3_origin
 from core.abilities import AbilityTarget
-from playermgr import OWNER_ENEMY
+from playermgr import OWNER_ENEMY, OWNER_LAST
 from fields import FloatField, StringField, IntegerField
 from fow import FogOfWarMgr
 from navmesh import NavMeshGetPositionNearestNavArea
@@ -17,11 +17,13 @@ class AbilityCanister(AbilityTarget):
     displayname = "#AbilityLaunchHeadcrabCanister_Name"
     description = "#AbilityLaunchHeadcrabCanister_Description"
     image_name = 'vgui/combine/abilities/combine_launch_headcrab'
-    rechargetime = 36.0
-    maxrange = FloatField(value=5120.0)
-    costs = [('requisition', 10), ('power', 5)]
+    rechargetime = 12.0
+    maxrange = FloatField(value=8192.0)
+    costs = [('requisition', 12), ('power', 5)]
+    overrunmode = False
     headcrabtype = StringField(value='unit_headcrab')
     headcrabcount = IntegerField(value=5)
+    ability_owner_enemy = True
     recharge_other_abilities = [
         'launch_headcrabcanister',
         'launch_headcrabcanister_fasttype',
@@ -32,7 +34,7 @@ class AbilityCanister(AbilityTarget):
     @classmethod 
     def GetRequirements(info, player, unit):
         requirements = super().GetRequirements(player, unit)
-        if not unit.powered:
+        if not info.overrunmode and not unit.powered:
             requirements.add('powered')
         return requirements
     
@@ -103,7 +105,7 @@ class AbilityCanister(AbilityTarget):
                 self.Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
                 return
                 
-            if not self.unit.powered:
+            if not self.overrunmode and not self.unit.powered:
                 self.Cancel(cancelmsg='#Ability_NotPowered', debugmsg='Not in power generator range')
                 return
                 
@@ -116,9 +118,9 @@ class AbilityCanister(AbilityTarget):
             if dist > self.maxrange:
                 self.Cancel(cancelmsg='#Ability_OutOfRange', debugmsg='must be fired within range')
                 return
-                
+            ability_owner = OWNER_ENEMY if self.ability_owner_enemy else OWNER_LAST+14
             self.unit.DoLaunchAnimation(launchendtime=2.0)
-            if not self.LaunchHeadcrabCanister(startpos, targetpos, OWNER_ENEMY):
+            if not self.LaunchHeadcrabCanister(startpos, targetpos, ability_owner):
                 self.Cancel(cancelmsg='#Ability_InvalidPosition', debugmsg='must be fired within range')
                 return
             self.SetRecharge(self.unit)
@@ -137,8 +139,8 @@ class AbilityCanisterFastType(AbilityCanister):
     name = 'launch_headcrabcanister_fasttype'
     headcrabtype = 'unit_headcrab_fast'
     headcrabcount = 4
-    maxrange = FloatField(value=5120.0)
-    costs = [('requisition', 10), ('power', 10)]
+    #maxrange = FloatField(value=5120.0)
+    costs = [('requisition', 15), ('power', 5)]
     image_name = 'vgui/combine/abilities/combine_launch_fast_headcrab'
     displayname = "#AbilityLaunchHeadcrabFastCanister_Name"
     description = "#AbilityLaunchHeadcrabFastCanister_Description"
@@ -147,8 +149,8 @@ class AbilityCanisterPoisonType(AbilityCanister):
     name = 'launch_headcrabcanister_poisontype'
     headcrabtype = 'unit_headcrab_poison'
     headcrabcount = 6
-    maxrange = FloatField(value=5120.0)
-    costs = [('requisition', 10), ('power', 5)]
+    #maxrange = FloatField(value=5120.0)
+    costs = [('requisition', 12), ('power', 5)]
     image_name = 'vgui/combine/abilities/combine_launch_poison_headcrab'
     displayname = "#AbilityLaunchHeadcrabPoisonCanister_Name"
     description = "#AbilityLaunchHeadcrabPoisonCanister_Description"
@@ -162,13 +164,13 @@ class AbilityCanisterPoisonBossType(AbilityCanister):
 class AbilityCanisterEmptyType (AbilityCanister):
     name = 'launch_headcrabcanister_emptytype'
     headcrabcount = 0
-    #costs = [('requisition', 10), ('power', 25)]
-    costs = [('requisition', 10)]
-    maxrange = FloatField(value=7680.0)
+    costs = [('requisition', 10), ('power', 5)]
+    #costs = [('power', 5)]
+    #maxrange = FloatField(value=7680.0)
     image_name = 'vgui/combine/abilities/combine_launch_empty_shell'
     displayname = "#AbilityLaunchHeadcrabEmptyCanister_Name"
     description = "#AbilityLaunchHeadcrabEmptyCanister_Description"
-    rechargetime = 12
+    rechargetime = 10
 
     def UpdateParticleEffects(self, inst, targetpos):
         if not self.unit:
@@ -178,3 +180,55 @@ class AbilityCanisterEmptyType (AbilityCanister):
         inst.SetControlPoint(4, self.unit.GetTeamColor() if self.unit else Vector(0, 1, 0))
         
     infoparticles = ['range_radius']
+
+
+
+
+class OverrunAbilityCanister(AbilityCanister):
+    name = 'overrun_launch_headcrabcanister'
+    costs = []
+    overrunmode = True
+    rechargetime = 30
+    ability_owner_enemy = False
+    recharge_other_abilities = [
+        'overrun_launch_headcrabcanister',
+        'overrun_launch_headcrabcanister_fasttype',
+        'overrun_launch_headcrabcanister_poisontype',
+        'overrun_launch_headcrabcanister_emptytype',
+    ]
+class OverrunAbilityCanisterFastType(AbilityCanisterFastType):
+    name = 'overrun_launch_headcrabcanister_fasttype'
+    costs = []
+    overrunmode = True
+    rechargetime = 45
+    ability_owner_enemy = False
+    recharge_other_abilities = [
+        'overrun_launch_headcrabcanister',
+        'overrun_launch_headcrabcanister_fasttype',
+        'overrun_launch_headcrabcanister_poisontype',
+        'overrun_launch_headcrabcanister_emptytype',
+    ]
+class OverrunAbilityCanisterPoisonType(AbilityCanisterPoisonType):
+    name = 'overrun_launch_headcrabcanister_poisontype'
+    costs = []
+    overrunmode = True
+    rechargetime = 30
+    ability_owner_enemy = False
+    recharge_other_abilities = [
+        'overrun_launch_headcrabcanister',
+        'overrun_launch_headcrabcanister_fasttype',
+        'overrun_launch_headcrabcanister_poisontype',
+        'overrun_launch_headcrabcanister_emptytype',
+    ]
+class OverrunAbilityCanisterEmptyType (AbilityCanisterEmptyType):
+    name = 'overrun_launch_headcrabcanister_emptytype'
+    costs = []
+    rechargetime = 20
+    overrunmode = True
+    ability_owner_enemy = False
+    recharge_other_abilities = [
+        'overrun_launch_headcrabcanister',
+        'overrun_launch_headcrabcanister_fasttype',
+        'overrun_launch_headcrabcanister_poisontype',
+        'overrun_launch_headcrabcanister_emptytype',
+    ]

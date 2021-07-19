@@ -1131,12 +1131,12 @@ class ManhackInfo(UnitInfo):
         9: 'holdposition',
         10: 'patrol',
     }
-    costs = [[('requisition', 10)], [('kills', 1)]]
+    costs = [[('requisition', 5)], [('kills', 1)]]
     #techrequirements = ['build_comb_armory']
-    buildtime = 15.0
+    buildtime = 8.0
     health = 40
     maxspeed = 328.0
-    viewdistance = 640
+    viewdistance = 896
     displayname = '#CombManhack_Name'
     description = '#CombManhack_Description' 
     image_name = 'vgui/combine/units/unit_manhack'
@@ -1148,7 +1148,12 @@ class ManhackInfo(UnitInfo):
     
     class AttackMelee(UnitInfo.AttackMelee):
         maxrange = 0.0
-        damage = 3
+        damage = 5
         damagetype = DMG_SLASH
         attackspeed = 1.0
     attacks = 'AttackMelee'
+class OverrunManhackInfo(ManhackInfo):
+    name = 'overrun_unit_manhack'
+    costs = [('kills', 1)]
+    buildtime = 0.0
+    techrequirements = []

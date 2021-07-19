@@ -30,8 +30,8 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     modelname = 'models/props_combine/bunker_gun01.mdl'
     image_name  = 'vgui/combine/buildings/build_comb_mountgun.vmt'
     image_dis_name = 'vgui/combine/buildings/build_comb_mountgun_dis.vmt'
-    health = 200
-    buildtime = 9.0
+    health = 300
+    buildtime = 18.0
     costs = [[('requisition', 20)], [('kills', 4)]]
     techrequirements = ['build_comb_armory']
     attributes = ['defence', 'ar1']
@@ -68,14 +68,15 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     }
     
     class AttackTurret(WarsDynMountTurretInfo.AttackTurret):
-        damage = 10
+        damage = 20
         attackspeed = 0.1
         attributes = ['ar1']
-        maxrange = 1024.0
+        maxrange = 1152.0
     attacks = 'AttackTurret'
     
 class OverrunMountableTurretInfo(MountableTurretInfo):
     name = "overrun_comb_mountableturret"
-    techrequirements = ['or_tier3_research']
+    techrequirements = ['or_tier2_research']
+    costs = [('kills', 30)]
     hidden = True
     

@@ -1,11 +1,12 @@
 from srcbase import *
 from vmath import *
 from entities import networked, entity, Activity, FireBulletsInfo_t, CreateEntityByName
-from fields import BooleanField, UpgradeField
+from fields import BooleanField, FlagsField, VectorField, FloatField, UpgradeField, SetField
 from gameinterface import CPASAttenuationFilter, CPVSFilter, CPASFilter
 from core.units import (UnitInfo, UnitBaseCombat as BaseClass, UnitBaseAirLocomotion, CreateUnitNoSpawn,
     EventHandlerAnimation, GetUnitInfo, UnitBaseAnimState, UnitCombatLocomotion, unitlistpertype)
 from core.abilities import AbilityUpgradeValue, GetTechNode
+from fow import FogOfWarMgr
 if isserver:
     from core.units import UnitCombatAirNavigator, BaseAction, UnitCombatNavigator
     from utils import ExplosionCreate
@@ -85,6 +86,10 @@ class UnitMortarSynth(BaseClass):
             self.ThrowEnergyGrenade(self.enemy.GetAbsOrigin())
     nextshoottime = 0
     def ThrowEnergyGrenade(self, origin):
+        if FogOfWarMgr().PointInFOW(origin, self.GetOwnerNumber()):
+            #Cancel(cancelmsg='#Ability_NoVision', debugmsg='Player has no vision at target point')
+            self.enemyorigin_abi = None
+            return
         unit = self
         enemy = unit.enemy
         grenades = self.unitinfo.grenades
@@ -204,6 +209,27 @@ class UnitMortarSynth(BaseClass):
         pFlame = CEntityFlame.Create(pChunk, False)
         if pFlame != None:
             pFlame.SetLifetime(pChunk.lifetime)
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
     if isserver:
         class BehaviorGenericClass(BaseClass.BehaviorGenericClass):
             class ActionDie(BaseAction):
@@ -224,9 +250,9 @@ class MortarSynthInfo(UnitInfo):
     description = '#CombMortarSynth_Description'
     image_name = 'vgui/combine/units/unit_mortar_synth'
     modelname = 'models/MortarSynth.mdl'
-    health = 150
+    health = 120
     buildtime = 35.0
-    costs = [[('requisition', 120), ('power', 120)], [('kills', 6)]]
+    costs = [[('requisition', 60), ('power', 90)], [('kills', 6)]]
     attributes = ['synth', 'mechanic']
     #maxspeed = 112
     hulltype = 'HULL_MEDIUM_TALL'
@@ -234,14 +260,15 @@ class MortarSynthInfo(UnitInfo):
     viewdistance = 768
     sensedistance = 1792
     techrequirements = ['build_comb_tech_center']
-    population = 4
+    population = 3
     scalebounds = 0.70
     grenades = 1
     sound_select = 'unit_scanner_select'
     sound_move = 'unit_scanner_move'
     abilities = {
+        #0 : 'overrun_mortarattack',
         0 : 'mortarattack',
-        #8: 'attackmove',
+        8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
     }
@@ -257,6 +284,7 @@ class OverrunMortarSynthInfo(MortarSynthInfo):
     name = 'overrun_unit_mortar_synth'
     techrequirements = ['or_tier3_research']
     buildtime = 0
+    costs = [('kills', 60)]
     abilities = {
         0 : 'overrun_mortarattack',
         8: 'attackmove',

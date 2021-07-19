@@ -230,6 +230,7 @@ class FastZombieInfo(BaseZombieInfo):
     cls_name = 'unit_fastzombie'
     image_name = 'vgui/units/unit_shotgun.vmt'
     health = 150
+    attributes = ['creature','slash']
     maxspeed = 224.0
     scrapdropchance = 0.0
     viewdistance = 896
@@ -246,15 +247,30 @@ class FastZombieInfo(BaseZombieInfo):
     
     class AttackMelee(BaseZombieInfo.AttackMelee):
         maxrange = 50.0
-        damage = 25
+        damage = 15
         damagetype = DMG_SLASH
         attackspeed = 0.5
     class AttackRange(BaseZombieInfo.AttackRange):
         minrange = 256.0
-        maxrange = 720.0
-        damage = 15
+        maxrange = 768.0
+        damage = 120
         damagetype = DMG_SLASH
-        attackspeed = 2.0
+        attackspeed = 0.0
         requiresmovement = True
+        
+        nextattacktime = 0.0
+        
+        def ShouldUpdateAttackInfo(self, unit): 
+            return self.nextattacktime < gpGlobals.curtime
+
+        def CanAttack(self, enemy):
+            unit = self.unit
+            if self.nextattacktime > gpGlobals.curtime:
+                return False
+            return unit.CanRangeAttack(enemy)
+
+        def Attack(self, enemy, action):
+            self.nextattacktime = gpGlobals.curtime + 2.0
+            return self.unit.StartRangeAttack(enemy)
     attacks = ['AttackMelee', 'AttackRange']
     

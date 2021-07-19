@@ -210,10 +210,10 @@ class UnitCrate(BaseClass):
         
         self.SetThink(self.SUB_Remove, gpGlobals.curtime + 10.0)
 
-    units_weak = ['unit_rebel_partisan', 'unit_antlion', 'unit_zombie']
-    units_med = ['unit_combine', 'unit_rebel', 'unit_combine_sg', 'unit_rebel_sg', 'unit_combine_ar2', 'unit_rebel_ar2', 'unit_zombine']
-    units_strong = ['unit_hunter', 'unit_vortigaunt', 'unit_poisonzombie', 'unit_combine_elite']
-    units_superstrong = ['unit_strider']
+    units_weak = ['unit_rebel_partisan', 'unit_antlion', 'unit_zombie', 'unit_metropolice']
+    units_med = ['unit_combine', 'unit_rebel', 'unit_combine_sg', 'unit_rebel_sg', 'unit_combine_ar2', 'unit_rebel_ar2', 'unit_zombine', 'unit_rebel_medic']
+    units_strong = ['unit_hunter', 'unit_vortigaunt', 'unit_poisonzombie', 'unit_combine_elite', 'unit_combine_heavy', 'unit_rebel_heavy']
+    units_superstrong = ['unit_strider', 'unit_dog']
     
     # Override to supress warning, don't care about eyeoffset
     customeyeoffset = Vector(0,0,0)
@@ -236,7 +236,7 @@ class CrateInfo(UnitInfo):
     maxs = Vector(32, 32, 64)
     oncreatedroptofloor = False
     options = (['explosion', 'explosivebarrel', 'requisition', 'unit_weak', 'unit_med', 'unit_strong', 'unit_superstrong'], 
-               [0.05, 0.1, 0.25, 0.3, 0.199, 0.1, 0.001])
+               [0.009, 0.04, 0.3, 0.2, 0.4, 0.05, 0.001])
     minimaphalfwide = 4
     minimaphalftall = 4
     minimaplayer = -1 # Draw earlier than units to avoid overlapping

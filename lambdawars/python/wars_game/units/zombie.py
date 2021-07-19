@@ -89,7 +89,7 @@ class ZombieInfo(BaseZombieInfo):
     image_name = 'vgui/units/unit_shotgun.vmt'
     health = 250
     maxspeed = 48.0
-    attributes = ['medium','creature']
+    attributes = ['creature','slash']
     turnspeed = 120.0
     scrapdropchance = 0.0
     viewdistance = 896
@@ -106,7 +106,7 @@ class ZombieInfo(BaseZombieInfo):
     
     class AttackMelee(BaseZombieInfo.AttackMelee):
         maxrange = 55.0
-        damage = 60
+        damage = 100
         damagetype = DMG_SLASH
         attackspeed = 1.9
     attacks = 'AttackMelee'

@@ -74,6 +74,7 @@ class AbilityHeadcrabInfest(AbilityInstant):
         
         if infestedzombie:
             infestedzombie.EmitSound('Zombie.Alert')
+            infestedzombie.uncontrollable = True
             
         if launcher_owner is not None and IsCommonGameMode():
             for player in ListPlayersForOwnerNumber(launcher_owner):

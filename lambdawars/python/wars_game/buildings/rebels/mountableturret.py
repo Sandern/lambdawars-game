@@ -53,9 +53,9 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
     #modelname = 'models/props_combine/bunker_gun01.mdl'
     #image_name  = 'vgui/combine/buildings/build_comb_mountgun.vmt'
     #image_dis_name = 'vgui/combine/buildings/build_comb_mountgun_dis.vmt'
-    health = 150
-    buildtime = 12.0
-    costs = [[('requisition', 25)], [('kills', 4)]]
+    health = 200
+    buildtime = 24.0
+    costs = [[('requisition', 20)], [('kills', 4)]]
     techrequirements = ['build_reb_munitiondepot']
     attributes = ['defence', 'ar1']
     zoffset = 28.0
@@ -133,10 +133,10 @@ class MountableTurretInfo(WarsDynMountTurretInfo):
         infoparticles = ['cone_of_fire']
 		
     class AttackTurret(WarsDynMountTurretInfo.AttackTurret):
-        damage = 10
+        damage = 20
         attackspeed = 0.1
         attributes = ['ar1']
-        maxrange = 1024.0
+        maxrange = 1152.0
     attacks = 'AttackTurret'
 	
 class DestroyHQMountableTurretInfo(MountableTurretInfo):
@@ -145,8 +145,9 @@ class DestroyHQMountableTurretInfo(MountableTurretInfo):
     
 class OverrunMountableTurretInfo(MountableTurretInfo):
     name = "overrun_reb_mountableturret"
-    techrequirements = ['or_tier3_research']
+    techrequirements = ['or_tier2_research']
     hidden = True
+    costs = [('kills', 30)]
 
 # ======================================================================================================================
 # ============================================ Squad Wars Barricade ====================================================

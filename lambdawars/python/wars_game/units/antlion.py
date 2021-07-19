@@ -744,8 +744,8 @@ class UnitAntlion(BaseClass):
     ANTLIONWORKER_BURSTDAMAGE = 25.0
     ANTLIONWORKER_BURSTRADIUS = 64.0
     ANTLIONWORKER_SPITSPEED = 600
-    ANTLIONSUICIDER_BURSTDAMAGE = 100.0
-    ANTLIONSUICIDER_BURSTRADIUS = 35.0
+    ANTLIONSUICIDER_BURSTDAMAGE = 200.0
+    ANTLIONSUICIDER_BURSTRADIUS = 200.0
     dontexplode = False
     
     jumpheight = 200.0
@@ -954,7 +954,8 @@ class UnitAntlion(BaseClass):
 class AntlionInfoShared(UnitInfo):
     cls_name = 'unit_antlion'
     hulltype = 'HULL_MEDIUM'
-    attributes = ['chitin']
+    #attributes = ['chitin']
+    attributes = ['creature']
     sound_select = 'unit_antlion_select'
     sound_move = 'unit_antlion_move'
     sound_attack = 'unit_antlion_attack'
@@ -971,12 +972,12 @@ class AntlionInfoShared(UnitInfo):
     
     # Antlion melee attack
     class AttackMelee(UnitInfo.AttackMelee):
-        damage = 10
+        damage = 25
         damagetype = DMG_SLASH
         attackspeed = 1.5
 
     class AttackSlash(AttackMelee):
-        damage = 2
+        damage = 25
         damagetype = DMG_SLASH
         attackspeed = 1.0
 
@@ -990,7 +991,7 @@ class AntlionInfoShared(UnitInfo):
     # Antlion jump attack
     class AttackLeap(UnitInfo.AttackBase):
         cone = 0.7
-        damage = 15
+        damage = 25
         damagetype = DMG_SLASH
         attackspeed = 2.0
         minrange = 256.0
@@ -1015,13 +1016,13 @@ class AntlionInfoShared(UnitInfo):
     attacks = ['AttackMelee']
 
     class AttackFly(AttackLeap):
-        damage = 120
+        damage = 25
         minrange = 64.0
         maxrange = 768.0
 
 class AntlionInfo(AntlionInfoShared):
     name = 'unit_antlion'
-    attributes = ['chitin', 'creature', 'slash']
+    attributes = ['creature', 'slash']
     abilities = {
         0 : 'burrow',
         1 : 'unburrow',
@@ -1064,7 +1065,7 @@ class AntlionWorkerInfo(AntlionInfoShared):
     
 class AntlionSuiciderInfo(AntlionInfoShared):
     name = 'unit_antlionsuicider'
-    attributes = ['chitin', 'creature', 'acid']
+    attributes = ['creature', 'acid']
     keyvalues = {'spawnflags' : str(UnitAntlion.SF_ANTLION_SUICIDER)}
     abilities = {
         0 : 'burrow',
@@ -1089,7 +1090,7 @@ class AntlionSuiciderInfo(AntlionInfoShared):
 # Mission versions
 class SmallAntlion(AntlionInfoShared):
     name = 'unit_antlion_small'
-    attributes = ['chitin', 'creature', 'crush']
+    attributes = ['creature']
     abilities = {
         0 : 'burrow',
         1 : 'unburrow',

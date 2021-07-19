@@ -9,7 +9,7 @@ class WeaponAr2Unlock(AbilityUpgrade):
     description = '#WeaponAr2Unlock_Description'
     image_name = "vgui/abilities/weaponar2_unlock"
     #techrequirements = ['rebel_upgrade_tier_mid']
-    buildtime = 72.0
+    buildtime = 82.0
     costs = [[('kills', 5)], [('requisition', 20), ('scrap', 20)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 

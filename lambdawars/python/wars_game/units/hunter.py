@@ -651,7 +651,8 @@ class UnitHunter(BaseClass):
             # UTIL_ScreenFade( target, red, 1.0, 0.1f, FFADE_IN )
         
         # Damage
-        flDamage = random.randrange(120, 400, 40)
+        #flDamage = random.randrange(120, 400, 40)
+        flDamage = 600
         
         # If it's being held by the player, break that bond
         #Pickup_ForcePlayerToDropThisObject( target )
@@ -959,10 +960,10 @@ class CombineHunterInfo(UnitInfo):
     displayname = '#CombHunter_Name'
     description = '#CombHunter_Description'
     image_name = 'vgui/combine/units/unit_hunter'
-    costs = [('requisition', 75), ('power', 75)]
-    buildtime = 43.0
-    health = 400
-    maxspeed = 365.0
+    costs = [('requisition', 75), ('power', 60)]
+    buildtime = 45.0
+    health = 500
+    maxspeed = 380.0
     population = 3
     viewdistance = 896
     attributes = ['synth', 'flechette']
@@ -982,21 +983,21 @@ class CombineHunterInfo(UnitInfo):
     }
     
     class AttackMelee(UnitInfo.AttackMelee):
-        damage = 80
+        damage = 100
         damagetype = DMG_SLASH
         attackspeed = 1.5
     
     class AttackRange(UnitInfo.AttackRange):
-        damage = 11
+        damage = 16
         cone = 0.99
         minrange = 64.0
-        maxrange = 768.0
+        maxrange = 512.0
         attackspeed = 0.1
         usesbursts = True
         minburst = 10
         maxburst = 10
-        minresttime = 1.2
-        maxresttime = 1.2
+        minresttime = 1.0
+        maxresttime = 1.0
     attacks = ['AttackMelee', 'AttackRange']
     infest_zombietype = None # Prevent zombiefying headcrab_infest ability
 
@@ -1006,4 +1007,4 @@ class OverrunCombineHunterInfo(CombineHunterInfo):
     buildtime = 0
     techrequirements = ['or_tier3_research']
     tier = 0
-    costs = [('kills', 5)]
+    costs = [('kills', 15)]

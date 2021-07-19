@@ -28,7 +28,7 @@ if isserver:
     from .statistics_collector import StatisticsCollector
     from utils import (UTIL_EntityByIndex, UTIL_PlayerByIndex, UTIL_SayTextAll, UTIL_GetLocalPlayer,
                        UTIL_GetPlayers, UTIL_ListPlayersForOwnerNumber, UTIL_GetCommandClient, UTIL_ClientPrintAll,
-                       HUD_PRINTTALK)
+                       HUD_PRINTTALK, UTIL_FindPosition, FindPositionInfo)
     from entities import entlist, DispatchSpawn, CreateEntityByName
     from playermgr import FindFirstFreeOwnerNumber, InfoStartWars
     from core.strategicai import CreateAIForFaction
@@ -49,8 +49,8 @@ mp_chattime = ConVarRef('mp_chattime')
 mp_timelimit = ConVarRef('mp_timelimit')
 
 if isserver:
-    sv_crate_minfreq = ConVar('sv_crate_minfreq', '5', FCVAR_CHEAT)
-    sv_crate_maxfreq = ConVar('sv_crate_maxfreq', '60', FCVAR_CHEAT)
+    sv_crate_minfreq = ConVar('sv_crate_minfreq', '1', FCVAR_CHEAT)
+    sv_crate_maxfreq = ConVar('sv_crate_maxfreq', '45', FCVAR_CHEAT)
     
 PANEL_SCOREBOARD = "scores"
 
@@ -838,9 +838,9 @@ class WarsBaseGameRules(CHL2WarsGameRules):
             building = player.GetUnit(0)
             if not building:
                 return True
-            if relationships[(building.GetOwnerNumber(), player.GetOwnerNumber())] != Disposition_t.D_LI:
-                return True
             unit = UTIL_EntityByIndex(int(args[1]))
+            if unit.GetOwnerNumber() != player.GetOwnerNumber() and building.GetOwnerNumber() != player.GetOwnerNumber():
+                return True
             building.UnGarrisonUnit(unit)
             return True
         elif command == 'player_sendres':
@@ -1004,6 +1004,54 @@ class WarsBaseGameRules(CHL2WarsGameRules):
                 crate = CreateUnitFancy('crate', pos)
                 if crate:
                     crate.lifetime = 25.0
+                    DevMsg(1, 'Spawned random crate\n')
+                self.nextrandomcratetime = gpGlobals.curtime + random.uniform(sv_crate_minfreq.GetFloat(), sv_crate_maxfreq.GetFloat())
+                self.cratesspawnretries = 0
+            else:
+                self.cratesspawnretries += 1
+                self.nextrandomcratetime = gpGlobals.curtime + 1.0 # Try again soon, but not too soon
+                
+        if self.cratesspawnretries > 10:
+            PrintWarning('Disabling random bonus crates due being unable to find a spot after 10 retries!\n')
+            self.crates = False
+    def UpdateRandomCrate(self):
+        if not self.crates:
+            return
+        if self.nextrandomcratetime < gpGlobals.curtime:
+            pos = None
+            pos1 = None
+            #for i in range(1, gpGlobals.maxClients+1):
+            for i in range(0,1):
+                player = UTIL_PlayerByIndex(random.randint(1, (gpGlobals.maxClients+1)))
+                if player is None:
+                    continue
+                owner = player.GetOwnerNumber()
+                if not len(unitlist[owner]) > 0:
+                    continue
+                unit = random.choice(unitlist[owner])
+                position = unit.GetAbsOrigin() + Vector(random.randint(-2000, 2000), random.randint(-2000, 2000), 0)
+                info = UTIL_FindPosition( FindPositionInfo(position, -Vector(32, 32, 0), Vector(32, 32, 64), 0, 128) )
+                if info.success and i == 0:
+                    pos = info.position
+                elif info.success and i == 1:
+                    pos1 = info.position
+            if not pos:
+                pos = RandomNavAreaPosition()
+            if not pos1:
+                pos1 = RandomNavAreaPosition()
+            pos2 = RandomNavAreaPosition() 
+            if pos != vec3_origin and pos1 != vec3_origin and pos2 != vec3_origin:
+                crate = CreateUnitFancy('crate', pos)
+                crate1 = CreateUnitFancy('crate', pos1)
+                crate2 = CreateUnitFancy('crate', pos2)
+                if crate:
+                    crate.lifetime = 30.0
+                    DevMsg(1, 'Spawned random crate\n')
+                if crate1:
+                    crate1.lifetime = 30.0
+                    DevMsg(1, 'Spawned random crate\n')
+                if crate2:
+                    crate2.lifetime = 30.0
                     DevMsg(1, 'Spawned random crate\n')
                 self.nextrandomcratetime = gpGlobals.curtime + random.uniform(sv_crate_minfreq.GetFloat(), sv_crate_maxfreq.GetFloat())
                 self.cratesspawnretries = 0

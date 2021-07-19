@@ -601,6 +601,7 @@ class PropCombineBall(BaseClass):
         def OnHitEntity(self, hitentity, flSpeed, index, pEvent):
             ownerent = hitentity.GetOwnerEntity()
             isstrider = FClassnameIs(hitentity, "unit_strider") or (ownerent and FClassnameIs(ownerent, "unit_strider"))
+            iscrab = FClassnameIs(hitentity, "unit_crab_synth")
             isdog = FClassnameIs(hitentity, "unit_dog")
             ishc = FClassnameIs(hitentity, "unit_headcrabcanister")
             istank = FClassnameIs(hitentity, "char_rebel_flamer") or FClassnameIs(hitentity, "char_metropolice_tank")
@@ -629,7 +630,7 @@ class PropCombineBall(BaseClass):
 
             if not isdissolving and shouldhit:
                 # Explode on hitting strider/dog, dissolve on regular units and just bounce on buildings
-                if isstrider or isdog or istank: #hitentity.VPhysicsGetObject() != None: #self.WasFiredByNPC() or self.maxbounces == -1:
+                if isstrider or isdog or istank or iscrab: #hitentity.VPhysicsGetObject() != None: #self.WasFiredByNPC() or self.maxbounces == -1:
                     # Since Combine balls fired by NPCs do a metered dose of damage per impact, we have to ignore touches
                     # for a little while after we hit someone, or the ball will immediately touch them again and do more
                     # damage. 

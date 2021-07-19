@@ -114,7 +114,7 @@ class FactionCombineOverrunInfo(FactionCombineInfo):
     name = 'overrun_combine'
     displayname = 'Combine'
     hud_name = 'combine_hud'
-    startbuilding = 'build_comb_hq_overrun'
+    startbuilding = 'overrun_build_comb_hq'
     startunit = 'overrun_unit_stalker'
     resources = ['kills']
     gamerulespattern = '^overrun$'
@@ -123,7 +123,7 @@ class FactionRebelsOverrunInfo(FactionRebelsInfo):
     name = 'overrun_rebels'
     displayname = 'Rebels'
     hud_name = 'rebels_hud'
-    startbuilding = 'build_reb_hq_overrun'
+    startbuilding = 'overrun_build_reb_hq'
     startunit = 'overrun_unit_rebel_engineer'
     resources = ['kills']
     gamerulespattern = '^overrun$'

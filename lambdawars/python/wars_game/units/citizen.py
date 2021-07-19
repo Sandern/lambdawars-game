@@ -31,6 +31,7 @@ class UnitCitizen(BaseClass):
             self.PrecacheScriptSound("NPC_Citizen.FootstepRight")
             self.PrecacheScriptSound("NPC_Citizen.Die")
             self.PrecacheScriptSound('HealthKit.Touch')
+            self.PrecacheScriptSound('AlyxEMP.Discharge')
             
             PrecacheParticleSystem('pg_partisan_revolution')
             #PrecacheParticleSystem('pg_heal')
@@ -238,6 +239,7 @@ class UnitCitizen(BaseClass):
         'ACT_IDLE_AR2',
         'ACT_FLAMER_IDLE',
         'ACT_RELOAD_AR2',
+        'ACT_COMBINE_AR2_ALTFIRE',
     ])
     
     # Events
@@ -245,6 +247,7 @@ class UnitCitizen(BaseClass):
     events.update({
         'ANIM_HEAL': EventHandlerAnimation('ACT_CIT_HEAL'),
         'ANIM_THROWGRENADE': EventHandlerAnimation('ACT_RANGE_ATTACK_THROW'),
+        'ANIM_ALTFIRE': EventHandlerAnimation('ACT_COMBINE_AR2_ALTFIRE'),
         'ANIM_RELOAD_LOW': EventHandlerAnimationMisc('reloadact_low', onlywhenstill=True, miscplaybackrate=1.35),
     })
     
@@ -636,7 +639,7 @@ class CombineCitizenInfo(CitizenInfo):
     displayname = '#CombCitizen_Name'
     description = '#CombCitizen_Description'
     image_name = 'VGUI/combine/units/unit_combine_citizen.vmt'
-    attributes = ['light', 'shock']
+    attributes = ['light']
     costs = [[('requisition', 5)], [('kills', 1)]]
     buildtime = 7.0
     health = 50
@@ -656,9 +659,9 @@ class CombineCitizenInfo(CitizenInfo):
 
     class AttackMelee(CitizenInfo.AttackMelee):
         maxrange = 55.0
-        damage = 4
+        damage = 3
         #damagetype = DMG_SLASH
-        attackspeed = 2.0
+        attackspeed = 1.5
     attacks = 'AttackMelee'
 
 class MissionTransformToRebelSMG(AbilityTransformUnit):
@@ -695,7 +698,8 @@ class BarricadeCitizenInfo(CitizenInfo):
         9: 'holdposition',
         10: 'patrol',
     }
-    weapons = ['weapon_hammer']
+    #weapons = ['weapon_hammer']
+    weapons = ['weapon_pistol']
     viewdistance = 900
     maxspeed = 217
     sai_hint = set(['sai_unit_builder', 'sai_unit_salvager', 'sai_unit_combat'])

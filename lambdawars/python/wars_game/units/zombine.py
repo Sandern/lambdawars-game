@@ -149,7 +149,7 @@ class ZombineInfo(BaseZombieInfo):
     legmodel = 'models/zombie/zombie_soldier_legs.mdl'
     torsomodel = 'models/zombie/zombie_soldier_torso.mdl'
     torsogibmodel = 'models/zombie/zombie_soldier_torso.mdl'
-    attributes = ['medium', 'creature']
+    attributes = ['medium', 'slash']
     
     sound_death = 'Zombine.Die'
     
@@ -162,7 +162,7 @@ class ZombineInfo(BaseZombieInfo):
     
     class AttackMelee(BaseZombieInfo.AttackMelee):
         maxrange = 55.0
-        damage = 60
+        damage = 125
         damagetype = DMG_SLASH
         attackspeed = 0.75
     attacks = 'AttackMelee'

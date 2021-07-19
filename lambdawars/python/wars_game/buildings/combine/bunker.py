@@ -37,14 +37,14 @@ class CombineBunkerInfo(BunkerInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodeactivity = 'ACT_EXPLODE'
     
-    health = 1000
+    health = 1500
     garrisoned_attributes = ['bunker']
     attributes = ['defence']
-    buildtime = 46.0
+    buildtime = 30.0
     attackpriority = 0
     #sense_distance = 2000
     techrequirements = ['build_comb_armory']
-    costs = [[('requisition', 50), ('power', 10)], [('kills', 5)]]
+    costs = [[('requisition', 40), ('power', 10)], [('kills', 5)]]
     sound_select = 'build_comb_bunker'
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'building_explosion'
@@ -62,3 +62,6 @@ class CombineBunkerInfo(BunkerInfo):
 class OverrunCombineBunkerInfo(CombineBunkerInfo):
     name = 'overrun_build_comb_bunker'
     techrequirements = ['or_tier2_research']
+    costs = [('kills', 25)]
+    buildtime = 30.0
+    health = 6000

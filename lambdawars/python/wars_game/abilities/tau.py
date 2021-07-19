@@ -27,7 +27,7 @@ if isserver:
         def Init(self, order, parent_action):
             target = order.target if order.target else order.position
             
-            super().Init(target, 896.0)
+            super().Init(target, 1024.0)
 
             self.parent_action = parent_action
             self.ability = order.ability
@@ -69,8 +69,8 @@ class TauAltFire(AbilityTarget):
     #costs = []
     rechargetime = 60
     techrequirements = ['tau_alt_fire_unlock']
-    damage = 200
-    damageradius = 32
+    damage = 400
+    damageradius = 64
     sai_hint = AbilityTarget.sai_hint | set(['sai_combine_ball'])
 
     # Ability
@@ -111,11 +111,18 @@ class TauAltFire(AbilityTarget):
         if not activeweapon or not FClassnameIs(activeweapon, 'weapon_tau'):
             return False
         return super().ShouldShowAbility(unit)
+class OverrunTauAltFire(TauAltFire):
+    name = "overrun_tau_alt_fire"
+    costs = []
+    rechargetime = 60
+    techrequirements = []
+    #damage = 200
+    #damageradius = 32
 class AbilityTauAltFireUnlock(AbilityUpgrade):
     name = 'tau_alt_fire_unlock'
     displayname = '#AbilityTauAltShotUnlock_Name'
     description = '#AbilityTauAltShotUnlock_Description'
     image_name = "vgui/rebels/abilities/tau_alt_unlock"
     #techrequirements = ['build_comb_specialops']
-    buildtime = 45.0
-    costs = [[('kills', 5)], [('requisition', 30), ('scrap', 30)]]
+    buildtime = 75.0
+    costs = [[('kills', 5)], [('requisition', 50), ('scrap', 75)]]

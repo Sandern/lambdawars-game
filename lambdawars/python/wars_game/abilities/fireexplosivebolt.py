@@ -126,7 +126,7 @@ class AbilityFireExplosiveBoltDestroyHQ(AbilityFireExplosiveBolt):
 class AbilityFireExplosiveBoltOverrun(AbilityFireExplosiveBolt):
     name = 'fireexplosivebolt_overrun'
     techrequirements = []
-    costs = [('kills', 1)]
+    costs = []
 
 class AbilityFireExplosiveBoltChar(AbilityFireExplosiveBolt):
     name = 'fireexplosivebolt_char'
@@ -140,8 +140,8 @@ class FireExplosiveBoltUnlock(AbilityUpgrade):
     description = '#RebExplosiveBoltUnlock_Description'
     image_name = "VGUI/rebels/abilities/rebel_explosivebolt_unlock"
     #techrequirements = ['build_reb_specialops']
-    buildtime = 44.0
-    costs = [[('kills', 1)], [('requisition', 25), ('scrap', 20)]]
+    buildtime = 60.0
+    costs = [[('kills', 1)], [('requisition', 40), ('scrap', 20)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 class FireExplosiveBoltUnlockDHQ(FireExplosiveBoltUnlock):
     name = 'fireexplosivebolt_unlock_destroyhq'

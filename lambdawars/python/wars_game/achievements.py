@@ -3,6 +3,7 @@ from core.dispatch import receiver
 from core.signals import endgame, map_endgame, unitkilled_by_attacker, abilitycompleted_by_name
 from core.units import unitlistpertype
 from wars_game.gamerules import AnnihilationInfo, DestroyHQInfo, OverrunInfo
+from core.gamerules.mission import MissionInfo
 
 from achievements import *
 from gamerules import gamerules
@@ -18,6 +19,9 @@ def IsCompetitiveGameMode():
 
 def IsCommonGameMode():
     return gamerules.info.name in __commonmodes
+
+def IsMissionGameMode():
+    return gamerules.info.name in __missionmodes
     
 def IsAbilityValid(ability):
     # Not executed in the regular way. For example, spawning an unit in Sandbox.
@@ -31,26 +35,36 @@ if isserver:
     # Achievements for completing single player maps
     @receiver(map_endgame['tutorial_annihilation_rebels'])
     def OnEndTutorial(gamerules, winners, losers, *args, **kwargs):
+        if not IsMissionGameMode():
+            return
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_GRADUATED)
 
     @receiver(map_endgame['sp_radio_tower'])
     def OnEndGameRadioTower(gamerules, winners, losers, *args, **kwargs):
+        if not IsMissionGameMode():
+            return
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_RADIO_TOWER)
 
     @receiver(map_endgame['sp_abandoned'])
     def OnEndGameAbandoned(gamerules, winners, losers, *args, **kwargs):
+        if not IsMissionGameMode():
+            return
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_ABANDONED)
             
     @receiver(map_endgame['sp_valley'])
     def OnEndGameValley(gamerules, winners, losers, *args, **kwargs):
+        if not IsMissionGameMode():
+            return
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_VALLEY)
 
     @receiver(map_endgame['sp_waste'])
     def OnEndGameWaste(gamerules, winners, losers, *args, **kwargs):
+        if not IsMissionGameMode():
+            return
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_WASTE)
 

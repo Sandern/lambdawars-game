@@ -1,9 +1,10 @@
 from core.statuseffects import StatusEffectInfo, TimedEffectInfo
 from core.units import UnitBaseCombat
 from playermgr import OWNER_ENEMY
+from srcbase import DMG_BURN
 
 if isserver:
-    from entities import CEntityFlame
+    from entities import CEntityFlame, CTakeDamageInfo
 
 
 class BurningEffectInfo(StatusEffectInfo):
@@ -13,18 +14,27 @@ class BurningEffectInfo(StatusEffectInfo):
     attacker = None
     owner_number = 0
 
-    flame_damage_per_second = 10.0
-    flame_radius_damage_per_second = 10.0
+    flame_damage_per_second = 2.0
+    flame_radius_damage_per_second = 16.0
     after_burn_duration = 2.0
+    limit_of_duration = 9.0
     
     def __init__(self, *args, **kwargs):
         attacker = kwargs.pop('attacker', None)
 
         super().__init__(*args, **kwargs)
 
-        self.dietime = gpGlobals.curtime + kwargs.get('dietime', 10.0)
+        self.dietime = gpGlobals.curtime + kwargs.get('dietime', 0.5)
         self.attacker = attacker
         self.owner_number = attacker.GetOwnerNumber() if attacker else OWNER_ENEMY
+
+
+        dps = CTakeDamageInfo(attacker, attacker, self.flame_damage_per_second, DMG_BURN)
+        dps.attributes = kwargs.pop('attributes', None)
+        dps = self.owner.ScaleDamageToAttributes(dps, self.owner.attributes)
+        damage = dps.GetDamage()
+
+        self.flame_damage_per_second = damage * 10
     
     def Remove(self):
         # Stop being on fire immediately
@@ -34,7 +44,7 @@ class BurningEffectInfo(StatusEffectInfo):
         super().Remove()
         
     def TryAdd(self, *args, **kwargs):
-        self.dietime = max(self.dietime, gpGlobals.curtime + 1.0)
+        self.dietime = min((gpGlobals.curtime + kwargs.get('dietime', 0.5) + self.dietime), (gpGlobals.curtime + self.limit_of_duration))
         return True
     
     def Update(self, thinkfreq):
@@ -58,9 +68,10 @@ class BurningMolotovEffectInfo(BurningEffectInfo):
     """ Lighter version of burning effect. Note it's separate effect for stacking purposes. """
     name = 'burning_molotov'
 
-    flame_damage_per_second = 20.0
-    flame_radius_damage_per_second = 6.0
-    after_burn_duration = 0.30
+    flame_damage_per_second = 1
+    flame_radius_damage_per_second = 12.0
+    after_burn_duration = 0.1
+    limit_of_duration = 4
 
 
 class StunnedEffectInfo(TimedEffectInfo):

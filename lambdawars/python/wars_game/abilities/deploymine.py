@@ -10,7 +10,7 @@ class AbilityDeployMine(AbilityInstant):
     description = '#CombDepMine_Description'
     image_name = 'vgui/combine/abilities/combine_clawscanner_dropmine'
     rechargetime = 15.0
-    costs = [[('power', 10)], [('kills', 1)]]
+    costs = [[('power', 5)], [('kills', 1)]]
     hidden = True
         
     # Ability
@@ -73,3 +73,11 @@ class AbilityProduceMine(AbilityInstant):
         def DoAbility(self):
             self.SelectGroupUnits()
             self.PlayActivateSound()
+
+class OverrunAbilityDeployMine(AbilityDeployMine):
+    name = 'overrun_deploymine'
+    displayname = '#CombDepMine_Name'
+    description = '#CombDepMine_Description'
+    image_name = 'vgui/combine/abilities/combine_clawscanner_dropmine'
+    rechargetime = 20.0
+    costs = []

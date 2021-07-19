@@ -9,6 +9,7 @@ from sound import CSoundEnvelopeController
 from entities import CBasePlayer, CreateEntityByName
 from te import te, TE_EXPLFLAG_NOPARTICLES
 from fields import UpgradeField, FloatField
+from gamerules import gamerules
 
 if isserver:
     from utils import (UTIL_PrecacheOther, UTIL_Remove, UTIL_SetSize, UTIL_ScreenShake, ExplosionCreate, 
@@ -317,7 +318,7 @@ class UnitCombineDropship(BaseClass):
     def __init__(self):
         super().__init__()
         self.savedrop = 2048.0
-        self.maxclimbheight = 4048.0
+        self.maxclimbheight = 8192.0
         self.testroutestartheight = 1024.0
         
     AnimStateClass = UnitBaseDropshipAnimState
@@ -341,6 +342,7 @@ class UnitCombineDropship(BaseClass):
 
         self.locomotion.desiredheight = 600.0
         #self.ammotype = GetAmmoDef().Index("CombineCannon")
+        self.SetCollisionGroup(WARS_COLLISION_GROUP_IGNORE_ALL_UNITS)
         
         if isclient:
             self.InitializeRotorSound()
@@ -546,7 +548,10 @@ class UnitCombineDropship(BaseClass):
             deployangle = QAngle(0, self.GetAbsAngles().y, 0)
         
         for i in range(0, 5):
-            CreateUnitFancy('unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
+            if gamerules.info.name == 'overrun':
+                CreateUnitFancy('overrun_unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
+            else:
+                CreateUnitFancy('unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
 
     def Remove(self):
 
@@ -605,7 +610,7 @@ class CombineDropshipInfo(UnitInfo):
     modelname = 'models/combine_dropship.mdl'
     hulltype = 'HULL_LARGE_CENTERED'
     health = 800
-    population = 0
+    population = 5
     turnspeed = 10
     maxspeed = 450
     viewdistance = 0

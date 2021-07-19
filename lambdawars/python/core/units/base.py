@@ -5,15 +5,18 @@ import traceback
 from core.notifications import DoNotificationEnt, GetNotifcationFilterForOwnerAndAllies
 from .cover import CoverSpot
 from .info import (UnitInfo, UnitFallBackInfo, GetUnitInfo, AddUnit, RemoveUnit, ChangeUnit, unitpopulationcount,
-                  ChangeUnitType, unitlist, NoSuchAbilityError, UnitListHandle, UnitListPerTypeHandle)
+                  ChangeUnitType, unitlist, NoSuchAbilityError, UnitListHandle, UnitListPerTypeHandle, CreateUnitFancy)
 from core.abilities import PrecacheAbility, GetTechNode, AbilityMenuBase, SubMenu, DoAbilitySimulated
-from playermgr import SimulatedPlayer, dbplayers, relationships
+from playermgr import SimulatedPlayer, dbplayers, relationships, OWNER_ENEMY, OWNER_LAST
 from core.signals import (FireSignalRobust, ScheduleFireSignalRobust, unitselected, unitdeselected, 
                           postlevelshutdown, gamepackageloaded, unitspawned, unitremoved)
 from core.dispatch import receiver
 import ndebugoverlay
 
+from core.resources import SetResource, GiveResources, TakeResources, HasEnoughResources
+from wars_game.resources import ResKillsInfo
 from gameinterface import concommand, ConVar, FCVAR_CHEAT, CPVSFilter, engine, ConVarRef
+from gamerules import gamerules
 from entities import (networked, Activity, ACT_INVALID, FOWFLAG_INITTRANSMIT, D_LI, D_HT, CHL2WarsPlayer,
                       SendProxyAlliesOnly)
 from animation import (ADD_ACTIVITY, ActivityList_IndexForName, EventList_RegisterPrivateEvent, 
@@ -949,6 +952,7 @@ class UnitBaseShared(object):
             if self.stunnedparticle:
                 self.ParticleProp().StopEmission(self.stunnedparticle, False, False, True)
                 self.stunnedparticle = None
+    spawnsuiciders = True
 
     if isserver:
         def Event_Killed(self, info):
@@ -971,10 +975,27 @@ class UnitBaseShared(object):
             inflictor = info.GetInflictor()
             if inflictor and inflictor.IsUnit():
                 FireSignalRobust(unitkilled_by_inflictor[inflictor.unitinfo.name], unit=self, dmginfo=info)
+            if gamerules.info.name == 'overrun':
+                if gamerules.modificator_suiciders and self.spawnsuiciders:
+                    if gamerules.modificator_suiciders == 1:
+                        a = CreateUnitFancy('unit_antlionsuicider', self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=OWNER_ENEMY, fnprespawn=self.PreSuiciderSpawn)
+                        if a:
+                            a.spawnsuiciders = False
+                    elif gamerules.modificator_suiciders == 2:
+                        a = CreateUnitFancy('unit_antlionsuicider', self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=OWNER_LAST+10, fnprespawn=self.PreSuiciderSpawn)
+                        if a:
+                            a.spawnsuiciders = False
+        def PreSuiciderSpawn(self, a):
+            a.BehaviorGenericClass = a.BehaviorOverrunClass
         
         # Count kills
         def Event_KilledOther(self, victim, info):
             super().Event_KilledOther(victim, info)
+            if gamerules.info.name == 'overrun':
+                if gamerules.modificator_vampire == 1 and self.GetOwnerNumber() == OWNER_ENEMY:
+                    self.health = int(self.health * 1.1)
+                elif gamerules.modificator_vampire == 2 and self.GetOwnerNumber() != OWNER_ENEMY:
+                    self.health = int(self.health * 1.1)
             
             self.kills += 1
             
@@ -1128,7 +1149,9 @@ class UnitBaseShared(object):
     def ScaleDamageToAttributes(self, dmg_info, my_attributes):
         """ Modify damage according to the attributes of these units. """
         attacker = dmg_info.GetAttacker()
-        if not attacker.IsUnit():
+        if not attacker:
+            attacker = None
+        elif not attacker.IsUnit():
             attacker = None
 
         att_attributes = dmg_info.attributes or (attacker and attacker.attributes) or None
@@ -1173,6 +1196,26 @@ class UnitBaseShared(object):
         # reduce damage if attacker is lower tier
         if attacker and attacker.unitinfo.tier is not 0 and self.IsUnit() and self.unitinfo.tier is not 0 and attacker.unitinfo.tier < self.unitinfo.tier:
             dmg_info.ScaleDamage(0.5)
+        if gamerules.info.name == 'overrun':
+            hq = False
+            if self.GetOwnerNumber() != OWNER_ENEMY:
+                if gamerules.difficulty == 'easy':
+                    dmg_info.ScaleDamage(0.5)
+                if gamerules.difficulty == 'hard':
+                    dmg_info.ScaleDamage(2.0)
+            if gamerules.modificator_armor == 1: 
+                if HasEnoughResources([('kills', 1)], self.GetOwnerNumber()): 
+                    TakeResources(self.GetOwnerNumber(), [('kills', 1)])
+                    dmg_info.ScaleDamage(0)
+            elif gamerules.modificator_armor == 2 and self.GetOwnerNumber() != OWNER_ENEMY: 
+                for unit in unitlist[self.GetOwnerNumber()]:
+                    if unit.unitinfo.cls_name == 'build_comb_hq' or unit.unitinfo.cls_name == 'build_reb_hq':
+                        hq = True
+                        break
+                if not HasEnoughResources([('kills', 1)], self.GetOwnerNumber()) and hq:
+                    dmg_info.ScaleDamage(0)
+                else: 
+                    dmg_info.ScaleDamage(2.0)
         
         return dmg_info
           
@@ -1495,7 +1538,9 @@ class UnitBaseShared(object):
     lasttakedamage = FloatField(value=0.0)
     #: Cover spots created by unit.
     cover_spots = ListField(value=[], save=False)
-    
+    #: Only for the 'allowattack' ability 
+    allowattack = True
+
     if isclient:
         # Called when this is the only selected unit
         # Allows the unit panel class to be changed

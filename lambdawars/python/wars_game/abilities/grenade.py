@@ -211,8 +211,8 @@ class AbilityGrenadeCombine(AbilityGrenade):
 
 class OverrunAbilityGrenade(AbilityGrenade):
 	name = "overrun_grenade"
-	techrequirements = ['or_tier2_research']
-	costs = [[('kills', 1)]]
+	techrequirements = []
+	costs = []
 	hidden = True
     
 # Unlock for grenade
@@ -262,6 +262,10 @@ class AbilityStunGrenade(AbilityGrenade):
     throwrange = 640.0
     throw_anim_speed = FloatField(value=1.5)
     costs = [[('requisition', 10)], [('kills', 1)]]
+class OverrunAbilityStunGrenade(AbilityStunGrenade):
+    name = 'overrun_stungrenade'
+    techrequirements = []
+    costs = []
 
 # Mission Versions
 class MissionAbilityGrenade(AbilityGrenade):

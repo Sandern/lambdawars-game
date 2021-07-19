@@ -87,7 +87,7 @@ class UnitPoisonZombie(BaseClass):
         if not (info.GetDamageType() & (DMG_BLAST | DMG_ALWAYSGIB)):
             self.EmitSound("NPC_PoisonZombie.Die")
 
-        if not self.istorso:
+        if not self.istorso and not self.IsOnFire() and not (info.GetDamageType() & DMG_BLAST):
             self.EvacuateNest(info.GetDamageType() == DMG_BLAST, info.GetDamage(), info.GetAttacker())
 
         super().Event_Killed(info)
@@ -277,7 +277,7 @@ class PoisonZombieInfo(BaseZombieInfo):
     
     class AttackMelee(BaseZombieInfo.AttackMelee):
         maxrange = 55.0
-        damage = 80
+        damage = 150
         damagetype = DMG_SLASH
         attackspeed = 1.9
         
@@ -287,17 +287,24 @@ class PoisonZombieInfo(BaseZombieInfo):
         nextattacktime = 0.0
         
         def ShouldUpdateAttackInfo(self, unit): 
-            return self.nextattacktime < gpGlobals.curtime
+            return self.nextattacktime < gpGlobals.curtime and self.unit.MAX_CRABS > 1
 
         def CanAttack(self, enemy):
             if self.nextattacktime > gpGlobals.curtime:
+                return False
+            if self.unit.IsOnFire():
+                return False
+            if self.unit.stunned:
+                return False
+            if self.unit.MAX_CRABS < 2:
                 return False
             return self.unit.CanRangeAttack(enemy)
 
         def Attack(self, enemy, action):
             self.nextattacktime = gpGlobals.curtime + 6.0
+            self.unit.MAX_CRABS = self.unit.MAX_CRABS - 1
             return super().Attack(enemy, action)
-        
+
     attacks = ['AttackMelee', 'AttackRange']
 
 class PoisonZombieBossInfo(PoisonZombieInfo):
@@ -314,4 +321,5 @@ class PoisonZombieBossInfo(PoisonZombieInfo):
     class AttackRange(PoisonZombieInfo.AttackRange):
         def Attack(self, enemy, action):
             self.nextattacktime = gpGlobals.curtime + 3.0
+            self.unit.MAX_CRABS = self.unit.MAX_CRABS - 1
             return super().Attack(enemy, action)

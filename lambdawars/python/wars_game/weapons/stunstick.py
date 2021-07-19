@@ -55,7 +55,7 @@ class WeaponStunStick(WarsWeaponMelee):
         damage = 15.0
         maxrange = 55.0
         attackspeed = 1
-        attributes = ['shock']
+        attributes = []
     
     def __init__(self):
         super().__init__()
