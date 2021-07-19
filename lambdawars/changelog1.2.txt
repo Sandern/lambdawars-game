@@ -1,0 +1,361 @@
+Lambda Wars Patch XX April 2021 (1.2)
+Fixes:
+- Metrocop riot: they won't accidentally stun your own units, increased attack range to hit running enemy units.
+- Fixed units attack inside bunkers when they had a delay when changing target.
+- Fixed control point being able to detect stealth units when losing owner.
+- Fixed Veteran's auto-attack button: now units can manually shoot bolts even when auto-attack is switched off.
+- Fixed Vortigaunt's energy bolt attack which didnt work at all when auto-attack was switched off.
+- Fixed Mortar-synth attack: now it shoots according to it's animation and not instantly.
+- Fixed "Dog repair" ability: now units follow dogs and repair them when ordered.
+- Shield generators no longer can be joined with the enemy's. Though, now they can be joined with one of the ally's.
+- Explosive barrels can no longer be destroyed by shots.
+- Fixed kills dealt with grenades, energy spheres and antlions, not being counted to their owner.
+- Fixed Mortar-synth attack: now it shoots according to it's animation and not instantly.
+- Summoned Antlions are now always dug out.
+- Fixed double announcements when losing/capturing points.
+- Fixed Molotov cocktail: It used to damage ally units after owner's death.
+- Headcrab canister cannot be annihilated by energy sphere anymore, it will ricochet.
+
+Balance:
+
+* Bullet attribute:
+	- Damage against light units increased from 4 to 5.
+* Control flags:
+	- Increased requsition amount for control points from 1500 to 2000.
+	- Lvl 0 gives now 15 req. per minute (8 before).
+	- Lvl 1 gives now 60 req. per minute (21 before), changed upgrade time from 27 sec. to 50, upgrade price changed from 25/15 to 50/0.
+	- Lvl 2 gives now 120 req. per minute (60 before), changed upgrade time from 45 sec. to 50, upgrade price changed from 35/25 to 100/0.
+* Units can now attack through control points and scrap points.
+* Added 'defence' attribute to bunkers and aidstation.
+* Grenade upgrade: price reduced from 0/30 to 0/20.
+* Grenade: takes 1.25 sec. to explode. (2.0 sec. before).
+* Grenade equipment requires now munition depot/armory.
+* Stun grenade: takes 0.80 sec. to explode. (1.25 before).
+* Units don't require now to be equipped with grenade. Throw animation slowed down by 15%.
+* AR2 transform: price changed from 15/20 to 0/10.
+* SG transform: price changed from 10/20 to 0/5.
+* SG unlock: price reduced from 25/10 to 15/10.
+* Allies can now take your bunker/mount. turrets.
+* Bunkers won't become neutral of no units inside.
+* Invisible units can take mount. turrets.
+Rebels:
+* Engineer:
+	- Price reduced from 20 to 15.
+	- Move speed reduced from 200 to 180.
+	- Salvage changed from 8.25 to 6.9.
+* Scout:
+	- Build time changed from 15 sec. to 14.
+	- View distance increased from 960 to 1024.
+	- Updated unit model.
+* Partisan with SMG:
+	- Price reduced from 12/0 to 10/0.
+	- Build time reduced from 16 sec. to 14.
+* Partisan with molotov:
+	- Build time reduced from 14 sec. to 10.
+	- Molotov throw range reduced from 768 to 640.
+	- Stink-bomb throw range reduced from 896 to 768.
+	- Burning effect will last 3.25 sec. (2.0 sec. before). 
+* Rebel medic:
+	- Health reduced from 160 to 150.
+	- Price changed from 30/10 to 25/0.
+	- Build time reduced from 22 sec. to 16.
+	- Heal rate upgrade: increased health regeneration from 75 to 100.
+	- Heal rate upgrade: price reduced from 25/10 to 15/0.
+	- Heal rate upgrade: research time reduced from 35 sec. to 25.
+	- Energy regen. upgrade: price reduced from 25/15 to 10/0.
+	- Energy regen. upgrade: research time reduced from 35 sec. to 20.
+	- Max. energy upgrade: price reduced from 25/15 to 15/0.
+	- Max. energy upgrade: research time reduced from 35 sec. to 25.
+	- Max. energy upgrade: max unit energy increased from 150 to 175.
+* Rebel with SMG:
+	- Health reduced from 160 to 150.
+	- Price changed from 30/0 to 20/0.
+	- Build time reduced from 22 sec. to 21.
+* Rebel with SG:
+	- Health reduced from 160 to 150.
+	- Price changed from 35/5 to 20/5.
+	- Build time increased from 22 to 23.
+* Rebel with AR2:
+	- Health reduced from 160 to 150.
+	- Price changed from 35/10 to 20/10.
+	- Build time increased from 24 to 25.
+* Veteran:
+	- Updated unit model.
+	- Price changed from 40/30 to 50/50.
+	- Steady position time changed from 2.24 sec. to 2.00.
+	- Attack speed changed from 1.99 sec. to 1.5.
+	- Requires now special ops.
+	- Added 50 bonus damage against heavy units.
+	- Added 50 bonus damage against synth units.
+	- Increased bonus damage against medium units from 20 to 100.
+	- Increased bonus damage against light units from 40 to 50.
+	- Attack range increased from 1152 to 1280.
+	- Explosive bolt: damage reduced from 100 to 50.
+	- Explosive bolt: damage radius increased from 64 to 128.
+* Flamer:
+	- Pop. cap. reduced from 3 to 2.
+	- Price changed from 40/25 to 50/20.
+	- Attack speed increased from 0.13 sec. to 0.10.
+	- Damage reduced from 3 to 2.
+	- Bonus damage against light/medium/heavy units increased from 8 to 10.
+	- Bonus damage against 'creature' attribute increased from 6 to 10.
+	- Burning effect will last 5 sec. (9 sec. before).
+* RPG:
+	- Price increased from 40/30 to 60/40.
+	- Attack speed changed from 2.392 to 3.0.
+	- Damage against metal increased from 100 to 255.
+	- Damage against synth units increased from 100 to 225.
+	- Removed stun chance for striders.
+* Tau gunner:
+	- Price changed from 30/40 to 60/30.
+	- Pop. cap reduced from 3 to 2.
+	- Attack range increased from 768 to 896.
+	- Changed attribute from 'heavy' to 'medium'.
+	- Added damage against heavy units +30.
+	- Damage against synth and metal units increased from 5 to 24.
+* Rebel Heavy:
+	- Price increased from 40/25 to 70/25.
+	- Damage reduced from 6 to 5.
+	- Added new attribute "ar1".
+* Rebel with RPG:
+	- Price increased from 40/30 to 60/45.
+* Saboteur:
+	- Price reduced from 20/20 to 15/10.
+	- Sabotage time reduced from 14 sec. to 11.2.
+	- Sabotage cost reduced from 30 energy to 25.
+	- C4 ability: price reduced from 0/10 to 0/0.
+* Vort:
+	- Added new ability: larva extract.
+	- Price increased from 40/50 to 75/75.
+	- Recall antlions ability: price now depends on how many antlions vort has.(0 energy if all 3 antlions are alive).
+	- Antlion recall ability: cooldown reduced from 20 sec. to 15.
+	- Antlion recall ability: price increased from 30 to 75.
+	- Antlions: health increased from 70 to 90.
+	- Antlions can now regen health if they didn't take any damage for 2 seconds.
+	- Antlions: changed 'slash' attribute to 'crush'.
+	- Build time increased from 40 sec. to 45.
+	- Health increased from 260 to 320.
+	- Damage increased from 26 to 60.
+	- Max. energy increased from 160 to 200.
+* Dog:
+	- Pop. cap. reduced from 8 to 6.
+	- Damage increased from 50 to 80.
+	- Max. energy increased from 100 to 200.
+	- Price increased from 80/80 to 180/180.
+	- Move speed reduced from 352 to 334.
+	- Removed bonus damage for slam ability against synth units.
+	- Added 200 bonus damage for slam ability against large attribute.
+* Junkyard:
+	- Price increased from 30 to 40.
+	- Build time increased from 20 sec. to 30.
+* Barrel trap:
+	- Price reduced from 30/30 to 25/10.
+	- Barrels won't explode if got shot.
+	- Build time reduced from 24 sec. to 20.
+* Munition Depot:
+	- Price changed from 40/40 to 50/25.
+	- Build time increased from 56 sec. to 60.
+* Mountable turret:
+	- Price reduced from 27 to 25.
+	- Health reduced from 175 to 150.
+	- Changed 'pulse' attribute to 'ar1'.
+	- Damage reduced from 12 to 10.
+* Aid station:
+	- Price changed from 40/0 to 50/10.
+* Bunker:
+	- Price changed from 20/30 to 50/10.
+	- Requires now munition depot.
+* Barracks:
+	- Build time reduced from 38 sec. to 30.
+* Billet:
+	- Build time reduced from 22 sec. to 20.
+* Special ops: 
+	- Price increased from 50/30 to 50/75.
+	- Build time increased from 44 sec. to 88.
+* Tech. center: 
+	- Price increased from 40/40 to 50/50.
+	- Build time increased from 48 to 80.
+* Triage center: 
+	- Price reduced from 40/20 to 25/25.
+* Vort. den.:	
+	- Build time increased from 54 sec. to 60.
+	- Added larva upgrade for vorts.
+* Teleporter: 
+	- Price reduced from 60/60 to 50/50.
+	- Build time increased from 50 sec. to 60.
+	- Teleport cooldown reduced from 50 sec. to 40.
+* Radio tower: 
+	- Price changed from 20/30 to 25/25.
+	- Build time reduced from 32 sec. to 30.
+	- Scan price reduced from 50 energy to 25.
+
+Combine:
+* Stalker:
+	- Can repair now rollermines, manhacks, scanners, striders.
+	- Price reduced from 20 to 15.
+	- Removed bonus damage against heavy units.
+	- Added +1 damage against light units.
+* Loyal citizen:
+	- Build time changed from 8 sec. to 7.
+* Floor turret upgrade: price changed from 20/20 to 5/5.
+* Floor turret: price changed from 15/20 to 5/5.
+* Metro riot:
+	- Stun chance increased from 33% to 100%.
+	- Stun duration changed from 1.00 sec. to 0.45.
+* Metrocop with Pistol:
+	- Price reduced from 15 to 10.
+	- Build time reduced from 13 sec. to 10.
+	- Deploy manhack ability: price reduced from 20 req. to 10.
+	- SMG equipment: price reduced from 12 req. to 10.
+* Metrocop with SMG:
+	- Price reduced from 20 to 15.
+	- Build time changed from 22 sec. to 24.
+	- Deploy manhack ability: price reduced from 20 req. to 10.
+* Combine with SMG:
+	- Health reduced from 220 to 200.
+	- Price changed from 40/0 to 25/0.
+	- Build time increased from 23 sec. to 24.
+* Combine with SG:
+	- Health reduced from 220 to 200.
+	- Price changed from 45/7 to 25/5.
+	- Build time increased from 23 sec. to 26.
+* Combine with AR2:
+	- Health reduced from 220 to 200.
+	- Price changed from 45/12 to 25/10.
+	- Build time increased from 23 to 28.
+* Combine Heavy:
+	- Damage increased from 30 to 50.
+	- Health increased from 250 to 350.
+	- Removed bonus damage against light units.
+	- Bonus damage against medium units reduced from 20 to 10.
+	- Added shield which blocks damage but it takes unit energy.
+	- Requires now special ops.
+	- Build time increased from 30 sec. to 32.
+* Combine Elite:
+	- Price increased from 50/20 to 60/40.
+	- Unit pop. cap. reduced from 3 to 2.
+	- Energyball can stun striders with 100% chance.
+	- Energyball costs 0 power again.
+	- Energyball ability coold down reduced from 30 sec. to 15.
+	- Energyball upgrade: research time reduced from 67 sec. to 30.
+	- Energyball upgrade: research price reduced from 30/30 to 25/25.
+* Sniper:
+	- Health reduced from 200 to 190.
+	- Price increased from 50/35 to 60/50.
+	- Damage reduced from 70 to 20.
+	- Damage against light units increased from 100 to 200.
+	- Damage against medium units increased from 100 to 200.
+	- Damage against heavy units increased from 60 to 230.
+	- Added 20 bonus damage against creature units.
+	- Attack speed changed from 2.49 sec. to 3.
+	- Steady position time changed from 4.67 sec. to 5.
+	- Attack range increased from 1152 to 1408.
+* Scanner:
+	- Price changed from 5/12 to 10/5.
+	- View distance increased from 1024 to 1152.
+* Manhack:
+	- Removed 'metal' attribute.
+	- Health increased from 25 to 40.
+	- Build time increased from 14 sec. to 15.
+	- Move speed increased from 320 to 328.
+	- Damage against light unit increased from 19 to 25.
+	- Added 30 damage against 'creature' attribute.
+	- Removed bonus damage against medium units.
+* Rollermine:
+	- Health increased from 115 to 160.
+	- Price increased from 10/10 to 20/15.
+	- Stun duration reduced from 1.34 sec. to 0.80.
+* Claw scanner:
+	- Price changed from 20/15 to 10/20.
+	- View distance increased from 1280 to 1408.
+* Hunter:
+	- Price increased from 65/50 to 75/75.
+	- Health increased from 300 to 400.
+	- Damage against 'large' attribute reduced from 7 to 5.
+	- Damage increased from 7 to 11.
+	- Move speed increased from 348 to 365.
+	- Pop. cap. reduced from 4 to 3.
+	- Attack range increased from 640 to 768.
+* Strider:
+	- Price increased from 100/80 to 180/180.
+	- Build time reduced from 84 sec. to 70.
+	- Damage reduced from 6 to 5.
+	- Added 12 damage against light units.
+	- Added 9 damage against creature attribute.
+	- Pop. cap. reduced from 8 to 6.
+	- Increased damage against medium units from 4 to 11.
+	- Increased damage against heavy units from 3 to 10.
+	- View distance increased from 896 to 1024.
+	- Cannon ability: damage increased from 350 to 400.
+	- Cannon ability: damage radius increased from 128 to 256.
+	- Cannon ability: price increased from 45 energy to 50.
+	- Cannon ability: cast range reduced from 1024 to 896.
+	- Health increased from 1125 to 1500.
+	- Requires now tech. center.
+* Crab synth:
+	- Price increased from 50/50 to 125/100
+	- Health increased from 800 to 1400.
+	- Pop. cap. reduced from 6 to 5.
+* Mortar Synth:
+	- Added 'mechanic' attribute.
+	- Price increased from 45/50 to 120/120.
+	- Pop. cap. increased from 3 to 4.
+	- Attack range increased from 1408 to 1792.
+	- Damage radius increased from 128 to 192.
+	- Damage increased from 250 to 300.
+* Armory:
+	- Price changed from 40/50 to 50/25.
+	- Build time increased from 56 sec. to 60.
+* Bunker:
+	- Price changed from 20/50 to 50/10.
+	- Requires now armory.
+* Shield generator:
+	- Price changed from 15/15 to 20/5.
+	- Can block enemy grenades/energyballs.
+	- Cannot be connected now to enemy shield gens.
+* Mortar:
+	- Price reduced from 60/50 to 50/20.
+	- Build time increased from 15 sec. to 25.
+	- Requires now armory.
+	- Initial energy increased from 35 to 40.
+* Regeneration post:
+	- Price changed from 50/0 to 25/10.
+* Energy cell:
+	- Build time reduced from 25 sec. to 20.
+* Power generator:
+	- Build time reduced from 17 sec. to 10.
+* Garrison:
+	- Build time reduced from 45 sec. to 40.
+* Scrap generator:
+	- Price increased from 35 to 40.
+	- Energy generation interval changed from 2.3 sec. to 2.0.
+	- Build time reduced from 35 sec. to 20.
+* Headcrab canister:
+	- Build price reduced from 40/65 to 40/25.
+	- Stun chance increased from 33% to 100%.
+	- Stun radius reduced from 256 to 128.
+	- Stun duration reduced from 5 sec. to 3.
+	- Headcrab canister: price reduced from 30/25 to 10/5.
+	- Fast headcrab canister: price reduced from 40/20 to 10/10.
+	- Poison headcrab canister: price reduced from 25/25 t0 10/5.
+	- Empty canister: price reduced from 25/25 to 10/0.
+* Mech factory:
+	- Requires now armory.
+	- Build time increased from 23 sec. to 40.
+	- Price reduced from 35/0 to 25/0.
+* Mountable turret:
+	- Price reduced from 23 to 20.
+	- Changed 'pulse' attribute to 'ar1'.
+	- Damage reduced from 12 to 10.
+* Comb special ops: 
+	- Price changed from 60/40 to 75/75.
+	- Build time increased from 54 to 70.
+* Synth factory: 
+	- Price changed from 60/80 to 100/100.
+	- Build time reduced from 60 sec. to 98.
+* Tech. center: 
+	- Price changed from 60/50 to 50/50.
+	- Build time increased from 48 to 70.
+	- Combine mine upgrade: price reduced from 15/30 to 10/25.
+	- Strider max energy upgrade: price reduced from 50/50 to 30/30.
+	- Upgrade for mortar synth: price reduced from 30/30 to 25/25.
