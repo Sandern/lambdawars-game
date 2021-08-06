@@ -3,6 +3,7 @@ from vmath import *
 from entities import entity
 from .basehelicopter import BaseHelicopter as BaseClass, UnitBaseHelicopterAnimState
 from core.units import UnitInfo, CreateUnitFancy
+from playermgr import OWNER_LAST, OWNER_ENEMY
 from gameinterface import CPASAttenuationFilter, CPASFilter
 from utils import UTIL_PlayerByIndex
 from sound import CSoundEnvelopeController
@@ -546,16 +547,37 @@ class UnitCombineDropship(BaseClass):
         else:
             deploypos = self.GetAbsOrigin()
             deployangle = QAngle(0, self.GetAbsAngles().y, 0)
-        
-        for i in range(0, 5):
-            if gamerules.info.name == 'overrun':
-                CreateUnitFancy('overrun_unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
+        if self.GetOwnerNumber() == OWNER_ENEMY:
+            if self.t3units:
+                unitlist = ['enemy_unit_combine_sniper', 'unit_combine_elite', 'unit_hunter']
+            elif random.random() < 0.25:
+                unitlist = ['unit_rollermine', 'unit_manhack', 'unit_combine_ar2']
             else:
-                CreateUnitFancy('unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
-
+                unitlist = ['unit_combine', 'unit_combine_sg', 'unit_metropolice']
+            for i in range(0, random.randint(1,7)):
+                unit = CreateUnitFancy(random.choice(unitlist), deploypos, angles=deployangle, owner_number=self.GetOwnerNumber(), fnprespawn=self.PreCombineSpawn)
+                #if gamerules.info.name == 'overrun':
+        else:
+            if gamerules.info.name == 'overrun':
+                for i in range(0, random.randint(2,8)):
+                    CreateUnitFancy(random.choice(self.overrun_unitlist), deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
+            else:
+                for i in range(0, 5):
+                    CreateUnitFancy('unit_combine', deploypos, angles=deployangle, owner_number=self.GetOwnerNumber())
+    
+    def PreCombineSpawn(self, unit):
+        #if self.GetOwnerNumber() == OWNER_ENEMY:
+        unit.health = int(unit.health * gamerules.healthmodifiers[unit.unitinfo.name]) 
+        unit.maxhealth = int(unit.maxhealth * gamerules.healthmodifiers[unit.unitinfo.name])
+        unit.overrunspawned = True 
+        unit.BehaviorGenericClass = unit.BehaviorOverrunClass
     def Remove(self):
 
         UTIL_Remove(self)
+
+    overrun_unitlist = ['overrun_unit_manhack', 'overrun_unit_combine', 'overrun_unit_combine_sg', 'overrun_unit_combine_ar2', 
+                        'overrun_unit_rollermine', 'overrun_unit_combine_heavy', 'overrun_unit_combine_elite', 'overrun_unit_combine_sniper',
+                        'overrun_unit_hunter', 'overrun_unit_mortar_synth']
 
     lifetime = FloatField(value=0)
     enginethrust = 1.0
@@ -568,6 +590,7 @@ class UnitCombineDropship(BaseClass):
     
     container = None
     lasttrooptoleave = None
+    t3units = False
     
     attachmenttroopdeploy = -1
     attachmentdeploystart = -1

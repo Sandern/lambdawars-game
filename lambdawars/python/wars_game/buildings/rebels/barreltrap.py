@@ -301,7 +301,7 @@ class DestroyHQBarrelTrapInfo(BarrelTrapInfo):
 class OverrunBarrelTrapInfo(BarrelTrapInfo):
     name = 'overrun_build_reb_barreltrap'
     techrequirements = ['or_tier2_research']
-    costs = [('kills', 20)]
+    costs = [('kills', 10)]
 
 class BarrelTrapCharInfo(BarrelTrapInfo):
     name = 'build_reb_char_barreltrap'

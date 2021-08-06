@@ -297,7 +297,7 @@ class MortarSynthSpeedUpgrade(AbilityUpgradeValue):
     description = '#MortarSynthSpeedUpgrade_Description'
     buildtime = 60.0
     upgradevalue = 144
-    costs = [[('requisition', 25), ('power', 25)], [('kills', 2)]]
+    costs = [[('requisition', 25), ('power', 25)], [('kills', 20)]]
     techrequirements = []
     image_name = 'vgui/combine/abilities/mortarsynth_upgrade'
     def OnUpgraded(self):

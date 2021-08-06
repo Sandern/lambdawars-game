@@ -12,7 +12,7 @@ from entities import GetClassByClassname, Activity
 import gamemgr
 from gamemgr import BaseInfoMetaclass, BaseInfo
 
-from gamerules import GameRules
+from gamerules import GameRules, gamerules
 from fields import IntegerField, FloatField, StringField, ListField, DictField, VectorField, BooleanField, GetField, ObjSetField
 from core.usermessages import usermessage
 from core.dispatch import receiver

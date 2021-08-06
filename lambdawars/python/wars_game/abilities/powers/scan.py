@@ -70,7 +70,7 @@ class AbilityScan(AbilityTarget):
     description = "#RebScan_Description"
     image_name = 'vgui/rebels/abilities/scan'
     hidden = True
-    energy = 25
+    energy = 15
     rechargetime = 2.0
     scanduration = FloatField(value=10.0)
     scanrange = FloatField(value=896.0)
@@ -81,7 +81,7 @@ class AbilityScan(AbilityTarget):
     supportsautocast = True
     defaultautocast = False
     lastpos = Vector(0, 0, 0)
-    energyOffset = 20 # Needs the required energy plus this to trigger autocast
+    energyOffset = 30 # Needs the required energy plus this to trigger autocast
     # Ability
     if isserver:
         def DoAbility(self):

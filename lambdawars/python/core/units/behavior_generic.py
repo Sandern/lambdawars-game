@@ -1363,9 +1363,15 @@ class BehaviorGeneric(BaseBehavior):
         def Update(self):
             outer = self.outer
             order = self.order
+            info = self.order.ability
             if outer.navigator.path.pathcontext != self or not outer.navigator.path.success:
                 return self.SuspendFor(self.behavior.ActionMoveInRange, 'Moving to spot', order.target if order.target else order.position, self.maxrange, 0, 32.0, pathcontext=self)
 
+            if info.rechargetime and info.uid in outer.abilitynexttime:
+                if outer.abilitynexttime[info.uid] > gpGlobals.curtime:
+                    info.Cancel()
+                    order.Remove()
+                    return self.Continue()
             if not order.ability.IsValidPosition(order.position):
                 order.ability.Cancel(cancelmsg='Failed to place building (invalid position)')
                 order.Remove()

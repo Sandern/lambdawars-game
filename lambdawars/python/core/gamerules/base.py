@@ -45,6 +45,7 @@ else:
 if __debug__:
     import mem_debug
     
+sv_cheats = ConVarRef('sv_cheats')
 mp_chattime = ConVarRef('mp_chattime')
 mp_timelimit = ConVarRef('mp_timelimit')
 
@@ -855,6 +856,8 @@ class WarsBaseGameRules(CHL2WarsGameRules):
             except ValueError:
                 PrintWarning("player_sendres: invalid arguments\n") 
                 return True
+            if relationships[(ownernumber, player.GetOwnerNumber())] != Disposition_t.D_LI:
+                return True
             
             costs = [(type, amount)]
             if not HasEnoughResources(costs, player.GetOwnerNumber()):
@@ -1080,7 +1083,7 @@ class WarsBaseGameRules(CHL2WarsGameRules):
     crates = False
     nextrandomcratetime = 0
     cratesspawnretries = 0
-    
+    allow_unit_limit = False
     #
     # Hud manipulation
     #

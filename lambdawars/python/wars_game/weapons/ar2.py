@@ -47,7 +47,7 @@ class WeaponAR2(WarsWeaponMachineGun):
 
         if isserver:
             vecShootOrigin, vecShootDir = self.GetShootOriginAndDirection()
-            vecVelocity = vecShootDir * 1000.0 * self.ballspeed
+            vecVelocity = vecShootDir * 1500.0 * self.ballspeed if owner.energyballupgraded else vecShootDir * 1000.0 * self.ballspeed
             
             # Fire the combine ball
             CreateCombineBall(vecShootOrigin, 
@@ -70,7 +70,7 @@ class WeaponAR2(WarsWeaponMachineGun):
     clientclassname = 'weapon_ar2'
     muzzleoptions = 'COMBINE MUZZLE'
     secondaryfiredelay = FloatField(value=0.5)
-    ballspeed = FloatField(value=1.5)
+    ballspeed = FloatField(value=1.0)
     balllife = FloatField(value=1.00)
     
     class AttackPrimary(WarsWeaponMachineGun.AttackPrimary):

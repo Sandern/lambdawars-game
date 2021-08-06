@@ -1089,7 +1089,7 @@ class StriderMaxEnergyUpgrade(AbilityUpgradeValue):
     description = '#StriderMaxEnUpgr_Description'
     #techrequirements = ['strider_unlock']
     buildtime = 56.0
-    costs = [[('requisition', 30), ('power', 30)], [('kills', 20)]]
+    costs = [[('requisition', 30), ('power', 30)], [('kills', 50)]]
     techrequirements = []
     upgradevalue = 150
     image_name = 'vgui/combine/abilities/combine_strider_energy_unlock'

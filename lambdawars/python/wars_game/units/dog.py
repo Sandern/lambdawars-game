@@ -6,10 +6,10 @@ from core.units import (UnitInfo, UnitBaseCombatHuman as BaseClass, EventHandler
                         EventHandlerMulti)
 from unit_helper import UnitAnimConfig, LegAnimType_t
 from wars_game.statuseffects import StunnedEffectInfo
-from core.abilities import AbilityUpgrade, AbilityJump
+from core.abilities import AbilityUpgrade, AbilityJump, AbilityUpgradeValue
 import random
 from wars_game.attributes import DogSlamImpactAttribute
-from fields import SetField
+from fields import SetField, UpgradeField
 
 from playermgr import relationships
 from achievements import ACHIEVEMENT_WARS_DOGDOG
@@ -235,7 +235,9 @@ class UnitDog(BaseClass):
             
         # Cap speed at four or more workers
         n = len(self.constructors)
-        if n > 1:
+        if n > 1 and self.unitinfo.overrunrepair:
+            intervalamount *= (n + 0.25) #(1 + ((n - 1) ** 0.5)) / n
+        elif n > 1:
             intervalamount *= (1 + ((n - 1) ** 0.5)) / n
             
         self.health += int(ceil(intervalamount*repairhpps))
@@ -359,6 +361,8 @@ class UnitDog(BaseClass):
     physicsent = None
     
     EFFECT_COUNT = 4
+    maxhealth = UpgradeField(abilityname='dog_hp_upgrade', cppimplemented=True)
+    health = UpgradeField(abilityname='dog_hp_upgrade', cppimplemented=True)
     
 class AbilityDogJump(AbilityJump):
     name = 'dogjump'
@@ -403,6 +407,7 @@ class DogInfo(UnitInfo):
     sound_death = "unit_rebel_dog_death"
     techrequirements = ['build_reb_techcenter']
     #tier = 3
+    overrunrepair = False
     abilities = {
         0: 'slamground',
         1: 'dogjump',
@@ -432,6 +437,15 @@ class DogUnlock(AbilityUpgrade):
     buildtime = 120.0
     costs = [[('requisition', 180), ('scrap', 180)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
+class DogHPUpgrade(AbilityUpgradeValue): 
+    name = 'dog_hp_upgrade'
+    displayname = '#DogHPUpgrade_Name'
+    description = '#DogHPUpgrade_Description'
+    buildtime = 180.0
+    costs = [[('requisition', 300), ('scrap', 300)], [('kills', 100)]]
+    upgradevalue = 3000
+    image_name = 'vgui/rebels/abilities/dog_hp_upgrade'
+    techrequirements = ['or_tier3_research']
 
 class OverrunDogInfo(DogInfo):
     #Dog is very tanky in overrun. Having him in overrun isn't half-bad for that purpose. Goal: need to make him be spawnable with a cooldown. Ability that spawns dog as an output with cooldown?
@@ -440,8 +454,9 @@ class OverrunDogInfo(DogInfo):
     buildtime = 0
     rechargetime = 0
     unitenergy = 200
-    costs = [('kills', 10)]
-    hidden = True
+    costs = [('kills', 30)]
+    #hidden = True
+    overrunrepair = True
     techrequirements = ['or_tier3_research']
     abilities = {
         0: 'slamground',

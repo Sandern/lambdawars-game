@@ -122,8 +122,8 @@ class AbilityC4ExplosiveUnlock(AbilityUpgrade):
 	description = '#AbilityC4ExplosiveUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_tnt_unlock.vmt"
 	techrequirements = ['build_reb_specialops']
-	buildtime = 24.0
-	costs = [[('kills', 4)], [('scrap', 20)]]
+	buildtime = 60.0
+	costs = [[('kills', 4)], [('requisition', 20), ('scrap', 20)]]
 
 class CharC4Explosive(AbilityC4Explosive):
     name = 'c4explosive_char'

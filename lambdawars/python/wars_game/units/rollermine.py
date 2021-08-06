@@ -5,6 +5,7 @@ from entities import entity, CBeam, D_HT, D_FR, EFL_NO_DISSOLVE
 from sound import CSoundEnvelopeController
 from utils import UTIL_TraceHull, trace_t
 from gameinterface import CPVSFilter, CPASAttenuationFilter, PrecacheMaterial
+from core.abilities import AbilityBase, AbilityInstant
 from te import te, CEffectData, DispatchEffect
 from sound import CSoundParameters
 from wars_game.statuseffects import StunnedEffectInfo
@@ -104,8 +105,9 @@ class UnitRollerMine(BaseClass):
     def UnitThink(self):
         super().UnitThink()
 
+        info = self.abilitiesbyname.get('rollermine_attackmode', None)
         enemy = self.enemy
-        if enemy:
+        if enemy and self.abilitycheckautocast.get(info.uid, False) and self.energy >= 50:
             threshold = self.ROLLERMINE_OPEN_THRESHOLD
 
             self.mv.maxspeed = 4500
@@ -122,11 +124,13 @@ class UnitRollerMine(BaseClass):
                 #    # Keep trying to hop when we're ramming a vehicle, so we're visible to the player
                 #    if ( vecVelocity.x != 0 && vecVelocity.y != 0 && flTorqueFactor > 3 && flDot > 0.0 )
                 #        Hop( 300 )
-        else:
+        elif not enemy and self.abilitycheckautocast.get(info.uid, False):
             self.mv.maxspeed = 1500
 
             if self.isopen:
                 self.Close()
+        if self.energy <= 0 and self.isopen:
+            self.Close()
 
     @property
     def is_active(self):
@@ -177,7 +181,7 @@ class UnitRollerMine(BaseClass):
         if self.HasSpawnFlags(self.SF_ROLLERMINE_FRIENDLY):
             return
 
-        if not self.isopen:
+        if not self.isopen and self.energy >= 25:
             self.SetModel("models/roller_spikes.mdl")
             self.SetRollerSkin()
 
@@ -192,6 +196,8 @@ class UnitRollerMine(BaseClass):
                 #    self.Hop( 256 )
                 #elif not self.enemy or self.enemy.Classify() != CLASS_BULLSEYE ): # Don't hop when attacking bullseyes
                     self.Hop( 128 )
+            self.TakeEnergy(25)
+            self.energyregenrate = -2
     
     def Close(self):
         # Not allowed to close while primed, because we're going to detonate on touch
@@ -207,6 +213,13 @@ class UnitRollerMine(BaseClass):
             self.isopen = False
 
             self.soundeventflags = self.ROLLERMINE_SE_CLEAR
+            self.energyregenrate = 1
+    if isserver:
+        def OnTakeDamage_Alive(self, dmg_info):
+            if not self.isopen:
+                dmg_info.ScaleDamage(0.8)
+            damage = super().OnTakeDamage_Alive(dmg_info)
+            return damage
         
     def SetRollerSkin(self):
         if self.powerdown == True:
@@ -577,7 +590,7 @@ class UnitRollerMine(BaseClass):
     ROLLERMINE_SE_TOSSED = 0x00000008
     
     ROLLERMINE_HOP_DELAY = 2 # Don't allow hops faster than this
-    ROLLERMINE_OPEN_THRESHOLD = 256
+    ROLLERMINE_OPEN_THRESHOLD = 1024
     
     SF_ROLLERMINE_FRIENDLY = (1 << 16)
     SF_ROLLERMINE_PROP_COLLISION = (1 << 17)
@@ -592,7 +605,7 @@ class UnitRollerMine(BaseClass):
     ROLL_SOUND_OPEN = 3
         
     powerdown = False
-    isopen = True
+    isopen = False
     isprimed = False
     shocktime = 0.0
     nexthop = 0.0
@@ -622,6 +635,8 @@ class RollerMineInfo(UnitInfo):
     description = '#CombRollermine_Description' 
     image_name = 'vgui/combine/units/unit_combine_roller'
     abilities = {
+        0: 'rollermine_attackmode',
+        1: 'rollermine_defensivemode',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
@@ -639,6 +654,7 @@ class RollerMineInfo(UnitInfo):
     attributes = ['metal', 'mechanic']
     costs = [[('requisition', 10), ('power', 15)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
+    unitenergy = 200
     #sai_hint = set(['sai_unit_support'])
 
     class AttackMelee(UnitInfo.AttackMelee):
@@ -651,3 +667,33 @@ class OverrunRollerMineInfo(RollerMineInfo):
     costs = [('kills', 2)]
     techrequirements = ['or_tier2_research']
     buildtime = 0.0
+class AbilityAttackModeRM(AbilityInstant):
+    name = "rollermine_attackmode"
+    image_name = 'vgui/combine/abilities/rollermine_attackmode'
+    displayname = "#AbilityAttackModeRM_Name"
+    description = "#AbilityAttackModeRM_Description"
+    hidden = True
+    serveronly = True
+    supportsautocast = True
+    defaultautocast = True
+    def DoAbility(self):
+        self.SelectGroupUnits()
+        for unit in list(self.units):
+            if not unit.isopen:
+                unit.Open()
+        self.SetRecharge(self.units)
+        self.Completed()
+class AbilityDefModeRM(AbilityAttackModeRM):
+    name = "rollermine_defensivemode"
+    image_name = 'vgui/combine/abilities/rollermine_defensivemode'
+    displayname = "#AbilityDefModeRM_Name"
+    description = "#AbilityDefModeRM_Description"
+    supportsautocast = False
+    defaultautocast = False
+    def DoAbility(self):
+        self.SelectGroupUnits()
+        for unit in list(self.units):
+            if unit.isopen:
+                unit.Close()
+        self.SetRecharge(self.units)
+        self.Completed()

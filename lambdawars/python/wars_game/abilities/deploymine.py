@@ -10,7 +10,7 @@ class AbilityDeployMine(AbilityInstant):
     description = '#CombDepMine_Description'
     image_name = 'vgui/combine/abilities/combine_clawscanner_dropmine'
     rechargetime = 15.0
-    costs = [[('power', 5)], [('kills', 1)]]
+    costs = [[('requisition', 5)], [('kills', 1)]]
     hidden = True
         
     # Ability

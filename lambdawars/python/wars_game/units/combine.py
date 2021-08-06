@@ -251,6 +251,7 @@ class UnitCombine(BaseClass):
             self.newjump = False
 
     buildtime = UpgradeField(abilityname='armycombine_tier_3', cppimplemented=True)
+    energyballupgraded = UpgradeField(value=False, abilityname='combineball_upgrade')
 
 @entity('unit_combinesniper', networked=True)
 class UnitCombineSniper(UnitCombine):
@@ -338,7 +339,7 @@ class CombineHPUpgrade(AbilityUpgradeValue):
     displayname = '#CombineHPUpgrade_Name'
     description = '#CombineHPUpgrade_Description'
     buildtime = 90.0
-    costs = [[('requisition', 30), ('power', 30)], [('kills', 10)]]
+    costs = [[('requisition', 30), ('power', 30)], [('kills', 50)]]
     upgradevalue = 240
     image_name = 'vgui/combine/abilities/combine_hp_upgrade'
 
@@ -353,8 +354,8 @@ class UnitCombineGrenadeUpgradeShared(UnitCombine):
     #def GetRequirements(self, requirements, info, player):
         #print('GetRequirements for', info.name)
         #if info.name == 'grenade_combine':
-        #    if not self.grenadeUnlocked:
-        #        requirements.add('needsupgrade')
+            #if not self.grenadeUnlocked:
+                #requirements.add('needsupgrade')
 
     def OnGrenadeUnlockedChanged(self):
         self.UpdateTranslateActivityMap()
@@ -480,7 +481,7 @@ class CombineEliteInfo(CombineSharedInfo):
     image_name = 'vgui/combine/units/unit_combine_elite'
     portrait = 'resource/portraits/combineAR2.bik'
     costs = [[('requisition', 60), ('power', 40)], [('kills', 4)]]
-    buildtime = 30.0
+    buildtime = 36.0
     health = 350
     maxspeed = 208
     sensedistance = 1024.0
@@ -560,7 +561,7 @@ class CombineSniperInfo(CombineSharedInfo):
     description = '#CombSniper_Description'
     image_name = 'vgui/combine/units/unit_combine_sniper'
     portrait = 'resource/portraits/combineSMG.bik'
-    costs = [[('requisition', 60), ('power', 30)], [('kills', 4)]]
+    costs = [[('requisition', 50), ('power', 20)], [('kills', 4)]]
     buildtime = 28.0
     health = 200
     maxspeed = 168.0
@@ -646,8 +647,8 @@ class OverrunCombineHeavyInfo(CombineHeavyInfo):
     techrequirements = ['or_tier3_research']
     #population = 3
     abilities = {
-        #7: 'mountturret',
         0: 'overrun_stungrenade',
+        7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',

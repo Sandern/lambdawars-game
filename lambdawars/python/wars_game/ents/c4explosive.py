@@ -15,12 +15,12 @@ class C4ExplosiveInfo(UnitObjectInfo):
     name = 'c4explosive_ent'
     cls_name = 'c4explosive'
     modelname = 'models/pg_props/pg_obj/ja_tnt.mdl'
-    attributes = ['explosive']
+    attributes = ['explosive', 'c4explosive']
     viewdistance = 128.0
     
     class AttackExplode(UnitObjectInfo.AttackBase):
         maxrange = 350.0
-        damage = 350.0
+        damage = 250.0
         damagetype = DMG_BLAST
         attackspeed = 0
     attacks = 'AttackExplode'

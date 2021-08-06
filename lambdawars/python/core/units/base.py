@@ -708,8 +708,9 @@ class UnitBaseShared(object):
 
     def CanPlayerControlUnit(self, player):
         """ Base method for checking if a player can control this unit. """
-        if player.GetOwnerNumber() != self.GetOwnerNumber():
-            return False
+        if gamerules.info.name != 'sandbox':
+            if player.GetOwnerNumber() != self.GetOwnerNumber():
+                return False
         return not self.uncontrollable
         
     def IsTargetable(self, ownernumber):

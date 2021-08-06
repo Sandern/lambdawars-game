@@ -2007,7 +2007,7 @@ if isserver:
     @concommand('units_spread', 'Spread the selected units', 0)  
     def cc_units_spread(args):
         if isserver:
-            if gamerules.info.name == 'destroyhq':
+            if gamerules.info.name == 'destroyhq' or gamerules.info.name == 'annihilation':
                 return
 
         player = UTIL_GetCommandClient()

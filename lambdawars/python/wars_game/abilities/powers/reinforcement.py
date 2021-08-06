@@ -19,11 +19,12 @@ class AbilityReinforcement(AbilityTarget):
     displayname = '#AbilityReinforcement_Name'
     description = '#AbilityReinforcement_Description'
     image_name = 'vgui/rebels/abilities/reinforcement'
-    rechargetime = 240.0
+    rechargetime = 360.0
     set_initial_recharge = True
-    population = 10
+    population = 5
     techrequirements = ['build_reb_barracks', 'build_reb_munitiondepot', 'build_reb_specialops', 'build_reb_vortigauntden', 'build_reb_triagecenter', 'build_reb_techcenter']
-    costs = [('requisition', 80)]
+    
+    costs = [('requisition', 100), ('scrap', 100)]
 
     @classmethod
     def GetRequirements(info, player, unit):
@@ -39,7 +40,7 @@ class AbilityReinforcement(AbilityTarget):
     if isserver:
         def CreateTeleport(self, position):
             def SetupTeleport(teleport):
-                teleport.lifetime = 20.0
+                teleport.lifetime = 15.0
             teleport = CreateUnit('unit_teleporter_rift', position, owner_number=self.ownernumber,
                                   fnprespawn=SetupTeleport)
             teleport.SpawnUnit()
@@ -79,9 +80,10 @@ class AbilityReinforcement(AbilityTarget):
 
 class OverrunAbilityReinforcement(AbilityReinforcement):
     name = 'overrun_reinforcement'
+    description = '#AbilityReinforcementOR_Description'
     techrequirements = []
-    rechargetime = 240.0
-    set_initial_recharge = True
-    #population = 0
-    #costs = [('kills', 200)]
-    costs = []
+    rechargetime = 60.0
+    set_initial_recharge = False
+    population = 10
+    costs = [('kills', 20)]
+    #costs = []

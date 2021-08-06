@@ -270,6 +270,8 @@ class RebelScoutInfo(RebelShared):
     modellist = GenerateModelList('SCOUT')
     abilities = {
         0: 'infiltrate_reb_scout',
+        1: 'noattack',
+        2: 'allowattack',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -402,12 +404,12 @@ class DestroyHQRebelPartisanMolotovInfo(RebelPartisanMolotovInfo):
 
 @entity('unit_rebel_grenade_upgrade', networked=True)
 class UnitRebelGrenadeUpgradeShared(UnitCitizen):
-    def GetRequirements(self, requirements, info, player):
-        super().GetRequirements(requirements, info, player)
+    #def GetRequirements(self, requirements, info, player):
+        #super().GetRequirements(requirements, info, player)
 
         #if info.name == 'grenade':
-        #    if not self.grenadeUnlocked:
-        #        requirements.add('needsupgrade')
+           # if not self.grenadeUnlocked:
+               # requirements.add('needsupgrade')
 
     def OnGrenadeUnlockedChanged(self):
         self.UpdateTranslateActivityMap()
@@ -492,7 +494,7 @@ class RebelW1886Info(RebelInfo):
     maxspeed = 218.0
     viewdistance = 1024
     sensedistance = 1280
-    population = 2
+    population = 1
 
 class RebelSGInfo(RebelInfo):
     name = 'unit_rebel_sg'
@@ -1001,7 +1003,7 @@ class RebelHPUpgrade(AbilityUpgradeValue):
     displayname = '#RebHpUpgrade_Name'
     description = '#RebHpUpgrade_Description'
     buildtime = 90.0
-    costs = [[('requisition', 30), ('scrap', 30)], [('kills', 10)]]
+    costs = [[('requisition', 30), ('scrap', 30)], [('kills', 50)]]
     upgradevalue = 180
     image_name = 'vgui/rebels/abilities/rebel_hp_upgrade'
 

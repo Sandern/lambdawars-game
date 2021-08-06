@@ -7,16 +7,18 @@ from gamemgr import dblist, BaseInfo, BaseInfoMetaclass, dbgamepackages
 import random
 import bisect
 import traceback
+from entities import GetMapBoundaryList, CBaseFuncMapBoundary
 from collections import defaultdict
 from math import ceil
 from gamerules import gamerules
-from core.units import unitlist, PrecacheUnit, CreateUnitNoSpawn, PlaceUnit, GetUnitInfo, UnitBase, CreateUnitFancy
+from core.units import unitlist, PrecacheUnit, CreateUnitNoSpawn, PlaceUnit, GetUnitInfo, UnitBase, CreateUnitFancy, CreateUnit
 from core.buildings.base import constructedlistpertype, buildinglist
 from core.resources import SetResource, GiveResources, TakeResources
 from core.signals import unitremoved
 from wars_game.resources import ResKillsInfo
 from fow import FogOfWarMgr
-from navmesh import RandomNavAreaPosition, RandomNavAreaPositionWithin, RecastMgr
+from navmesh import RandomNavAreaPosition, RandomNavAreaPositionWithin, RecastMgr, NavMeshGetPositionNearestNavArea
+from wars_game.abilities.powers.dropsoldiers import CreateBehaviorDropshipDrop
 from wars_game.statuseffects import StunnedEffectInfo
 import ndebugoverlay
 
@@ -306,9 +308,10 @@ class Overrun(WarsBaseGameRules):
                         if not income > 0:
                             income = 200
                     elif self.difficulty == 'normal':
-                        income *= 1.25
                         if not income > 0:
                             income = 50
+                    elif self.difficulty == 'hard':
+                        income *= 0.75
                     if self.modificator_suiciders == 1:
                         income *= 5
                     elif self.modificator_suiciders == 2:
@@ -751,11 +754,11 @@ class Overrun(WarsBaseGameRules):
         
         # Apply (health) modifiers
         if self.difficulty == 'hard':
-            healthmodifier = 1.0
+            healthmodifier = 1.5
             unit.viewdistance = 1920
             unit.sensedistance = 1920
         elif self.difficulty == 'medium':
-            healthmodifier = 0.75
+            healthmodifier = 1.0
         elif self.difficulty == 'easy':
             healthmodifier = 0.5
 
@@ -901,6 +904,8 @@ class Overrun(WarsBaseGameRules):
                 for tech in techlist:
                     technode = GetTechNode(tech, data['ownernumber'])
                     technode.locked = True
+            technode = GetTechNode('combineball_upgrade', data['ownernumber'])
+            technode.techenabled = True
         if self.difficulty == 'hard':
             for upgrade in self.hardmodeupgrades:
                 technode = GetTechNode(upgrade, OWNER_ENEMY)
@@ -1154,7 +1159,7 @@ class AntlionWaveType(BaseWaveType):
         1: {
                 'inactivitytimeout' : 20.0,
                 'spawnsize' : 75,
-                'maxenemiesalive' : 28,
+                'maxenemiesalive' : 15,
                 'growrate' : 1.1,
                 'easy_waveinterval' : 120,
                 'normal_waveinterval' : 90,
@@ -1163,13 +1168,14 @@ class AntlionWaveType(BaseWaveType):
                 'waveincome' : 100,
                 'waveincomegrow' : 1.008,
         
-                'distribution' : (['unit_antlion_small'], 
+                'distribution' : (['unit_antlion'], 
                                  [1.0]),
             },
         2: {
                 'easy_waveinterval' : 120,
                 'normal_waveinterval' : 60,
                 'hard_waveinterval' : 5,
+                'maxenemiesalive' : 35,
                 'distribution' : (['unit_antlion', 'unit_antlionworker'], 
                                   [0.85, 0.20]),
             },
@@ -1233,6 +1239,98 @@ class AntlionWaveType(BaseWaveType):
                 'waveincomegrow' : 0.0,
              },
     }
+    def OnNewWave(self, wave):
+        if 3 > wave >= 1:
+            self.minnextfire = 5.0
+            self.maxnextfire = 15.0
+            self.minfirecan = 1
+            self.maxfirecan = 25
+        elif 10 > wave >= 3:
+            self.minnextfire = 1.0
+            self.maxnextfire = 10.0
+            self.minfirecan = 1
+            self.maxfirecan = 50
+        elif 15 > wave >= 10:
+            self.minnextfire = 1.0
+            self.maxnextfire = 10.0
+            self.minfirecan = 1
+            self.maxfirecan = 75
+        elif wave >= 15:
+            self.minnextfire = 1.0
+            self.maxnextfire = 5.0
+            self.minfirecan = 1
+            self.maxfirecan = 100
+    def UpdateAntlions(self, gamerules):
+        if gamerules.indoor or not gamerules.waveinprogress:
+            return
+    
+        if self.nextfirecannisters == -1:
+            self.nextfirecannisters = gpGlobals.curtime + random.uniform(50.0, 100.0)
+            
+        if self.nextfirecannisters < gpGlobals.curtime:
+            self.nextfirecannisters = gpGlobals.curtime + random.uniform(self.minnextfire, self.maxnextfire)
+            self.firecannistersleft += random.randint(self.minfirecan, self.maxfirecan)
+            
+        if self.firecannistersleft <= 0 or self.nextallowfirecannisters > gpGlobals.curtime:
+            return
+
+        self.nextallowfirecannisters = gpGlobals.curtime + 0.1
+        
+        
+        n = self.firecannistersleft
+        for i in range(0, n):
+            # Get target position
+            centerpos = None
+            
+            building = self.RandomEnemyBuilding1()
+            if building:
+                centerpos = building.GetAbsOrigin()
+                radius = 512.0
+                
+            # Get a random target position within the extent
+            if centerpos:
+                hextent = Vector(radius, radius, 0.0)
+                targetpos = RandomNavAreaPositionWithin(centerpos - hextent, centerpos + hextent)
+            else:
+                targetpos = None
+                
+            if targetpos == vec3_origin or targetpos == None:
+                continue
+
+            # And fire
+            self.firecannistersleft -= 1
+            self.SpawnAntlion(targetpos)
+                
+    def Update(self, gamerules):
+        self.UpdateAntlions(gamerules)
+                
+    def RandomEnemyBuilding1(self):
+        buildings = []
+        for l in buildinglist.values():
+            buildings += l.copy()
+        return random.choice(buildings) if buildings else None
+    if isserver:
+        def SpawnAntlion(self, spawnpos):
+            units = (['unit_antlion', 'unit_antlionworker', 'unit_antlionsuicider'], 
+                        [0.5, 0.4, 0.1])
+            unitname = next(probchoice(units[0], units[1]))
+            keydata = {'burrowed' : '1'}
+
+            def SetupUnit(unit):
+                unit.tamer = unit
+                unit.overrunspawned = True 
+                unit.BehaviorGenericClass = unit.BehaviorOverrunClass
+            antlion = CreateUnit(unitname, spawnpos, owner_number=OWNER_ENEMY,
+                                 keyvalues=keydata, fnprespawn=SetupUnit)
+            #eventqueue.AddEvent(antlion, "Unburrow", variant_t(), 0.3, None, None, 0 )
+    spotid = 0
+    nextfirecannisters = -1
+    nextallowfirecannisters = 0.0
+    firecannistersleft = 0
+    minnextfire = 100.0
+    maxnextfire = 100.0
+    minfirecan = 1
+    maxfirecan = 1
 
 class ZombieWaveType(BaseWaveType):
     name = 'zombie'
@@ -1520,8 +1618,8 @@ class CombineWaveType(BaseWaveType):
                 'growrate' : 1.1,
                 'maxenemiesalive' : 80,
                 
-                'waveincome' : 10,
-                'waveincomegrow' : 1.41,
+                'waveincome' : 30,
+                'waveincomegrow' : 1.35,
             },
         2: {
                 'distribution' : (['unit_metropolice_smg1','unit_metropolice_riot','unit_metropolice'], 
@@ -1539,7 +1637,7 @@ class CombineWaveType(BaseWaveType):
                                   [1.0]),
             },
         6: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'enemy_unit_combine_sniper'], 
+                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite'], 
                                   [0.8, 0.8, 0.8,0.2]),
             },
         7: {
@@ -1547,7 +1645,7 @@ class CombineWaveType(BaseWaveType):
                                   [0.75, 0.50]),
             },
         8: {
-                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'enemy_unit_combine_sniper'], 
+                'distribution' : (['unit_combine', 'unit_combine_sg', 'unit_combine_ar2', 'unit_manhack'], 
                                   [0.40, 0.30, 0.20, 0.10]),
                 #'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
             },
@@ -1565,11 +1663,11 @@ class CombineWaveType(BaseWaveType):
                                   [0.50, 0.50, 0.25]),
             },
         14: {
-                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'unit_combine_ar2', 'unit_combine_elite','unit_hunter', 'unit_crab_synth'], 
+                'distribution' : (['unit_combine_heavy', 'unit_combine_sg', 'enemy_unit_combine_sniper', 'unit_combine_elite','unit_hunter', 'unit_crab_synth'], 
                                   [0.30, 0.30, 0.20, 0.10,0.20, 0.10]),
             },
         15: {
-                'distribution' : (['unit_combine_heavy', 'unit_hunter', 'unit_combine_ar2', 'unit_combine_elite', 'overrun_unit_mortar_synth', 'unit_crab_synth'], 
+                'distribution' : (['unit_combine_heavy', 'unit_hunter', 'enemy_unit_combine_sniper', 'unit_combine_elite', 'overrun_unit_mortar_synth', 'unit_crab_synth'], 
                                   [0.30, 0.30, 0.10, 0.29, 0.01, 0.15]),
                 'waveincomegrow' : 0.0,
                 'waveincome' : 0,
@@ -1579,23 +1677,136 @@ class CombineWaveType(BaseWaveType):
                                   [0.38, 0.33, 0.33, 0.1]),
             },
         20: {
-                'distribution' : (['unit_hunter','overrun_unit_mortar_synth','unit_crab_synth','unit_strider','unit_combine_heavy','unit_combine_elite','unit_combine_ar2'],
+                'distribution' : (['unit_hunter','overrun_unit_mortar_synth','unit_crab_synth','unit_strider','unit_combine_heavy','unit_combine_elite','enemy_unit_combine_sniper'],
                                   [0.5, 0.5, 0.5, 0.1, 0.5, 0.5, 0.5]),
             },
     }
+    def OnNewWave(self, wave):
+
+        if 5 > wave >= 1:
+            self.minnextfire = 10.0
+            self.maxnextfire = 60.0
+            self.minfirecan = 0
+            self.maxfirecan = 2
+        elif 10 > wave >= 5:
+            self.minnextfire = 15.0
+            self.maxnextfire = 40.0
+            self.minfirecan = 0
+            self.maxfirecan = 2
+        elif 15 > wave >= 10:
+            self.minnextfire = 20.0
+            self.maxnextfire = 80.0
+            self.minfirecan = 0
+            self.maxfirecan = 4
+        elif wave >= 15:
+            self.minnextfire = 10.0
+            self.maxnextfire = 30.0
+            self.minfirecan = 1
+            self.maxfirecan = 8
+    def UpdateCombineDropShip(self, gamerules):
+        if gamerules.indoor or not gamerules.waveinprogress:
+            return
+    
+        if self.nextfirecannisters == -1:
+            self.nextfirecannisters = gpGlobals.curtime + random.uniform(50.0, 100.0)
+            
+        if self.nextfirecannisters < gpGlobals.curtime:
+            self.nextfirecannisters = gpGlobals.curtime + random.uniform(self.minnextfire, self.maxnextfire)
+            self.firecannistersleft += random.randint(self.minfirecan, self.maxfirecan)
+            
+        if self.firecannistersleft <= 0 or self.nextallowfirecannisters > gpGlobals.curtime:
+            return
+
+        self.nextallowfirecannisters = gpGlobals.curtime + 0.1
+        
+        
+        n = self.firecannistersleft
+        for i in range(0, n):
+            # Get target position
+            centerpos = None
+            
+            building = self.RandomEnemyBuilding1()
+            if building:
+                centerpos = building.GetAbsOrigin()
+                radius = 512.0
+                
+            # Get a random target position within the extent
+            if centerpos:
+                hextent = Vector(radius, radius, 0.0)
+                targetpos = RandomNavAreaPositionWithin(centerpos - hextent, centerpos + hextent)
+            else:
+                targetpos = None
+                
+            if targetpos == vec3_origin or targetpos == None:
+                continue
+
+            # And fire
+            self.firecannistersleft -= 1
+            self.DropSoldiers(targetpos)
+                
+    def Update(self, gamerules):
+        self.UpdateCombineDropShip(gamerules)
+                
+    def RandomEnemyBuilding1(self):
+        buildings = []
+        for l in buildinglist.values():
+            buildings += l.copy()
+        return random.choice(buildings) if buildings else None
+    if isserver:
+        def DropSoldiers(self, targetpos):
+            dropposition = targetpos
+
+            adjustedtargetpos = NavMeshGetPositionNearestNavArea(dropposition, beneathlimit=2048.0)
+            if adjustedtargetpos != vec3_origin:
+                dropposition = adjustedtargetpos
+
+            self.CreateDropship(dropposition)
+        def CreateDropship(self, dropposition):
+            unitinfo = GetUnitInfo('unit_combinedropship')
+            dropshipspawnpos = Vector(random.uniform(-MAX_COORD_FLOAT + 2048, MAX_COORD_FLOAT - 2048),
+                                      random.uniform(-MAX_COORD_FLOAT + 2048, MAX_COORD_FLOAT) - 2048, 0)
+            dropshipexitpos = Vector(random.uniform(-MAX_COORD_FLOAT + 2048, MAX_COORD_FLOAT - 2048),
+                                     random.uniform(-MAX_COORD_FLOAT + 2048, MAX_COORD_FLOAT - 2048), 2048)
+            bloat = Vector(128, 128, 128)
+            CBaseFuncMapBoundary.SnapToNearestBoundary(dropshipspawnpos, unitinfo.mins - bloat, unitinfo.maxs + bloat,
+                                                       True)
+            CBaseFuncMapBoundary.SnapToNearestBoundary(dropshipexitpos, unitinfo.mins - bloat, unitinfo.maxs + bloat,
+                                                       True)
+
+            # Create the dropship
+            def SetupDropship(dropship):
+                dropship.targetdeploypos = dropposition
+                dropship.exitpos = dropshipexitpos
+                dropship.lifetime = 40.0
+                if self.t3units:
+                    dropship.t3units = True
+                dropship.BehaviorGenericClass = CreateBehaviorDropshipDrop(dropship.BehaviorGenericClass)
+                dropship.SetCanBeSeen(False)
+            dropship = CreateUnit('unit_combinedropship', dropshipspawnpos, owner_number=OWNER_ENEMY,
+                                  fnprespawn=SetupDropship)
+            dropship.MoveOrder(dropposition)
+    spotid = 0
+    nextfirecannisters = -1
+    nextallowfirecannisters = 0.0
+    firecannistersleft = 0
+    minnextfire = 100.0
+    maxnextfire = 100.0
+    minfirecan = 1
+    maxfirecan = 1
+    t3units = False
 
 class RebelWaveType(BaseWaveType):
     name = 'rebels'
 
     distribution = {
         0: {
-            'inactivitytimeout' : 20.0,
+            'inactivitytimeout' : 25.0,
             'easy_waveinterval': 160,
             'normal_waveinterval': 80,
             'hard_waveinterval': 35,
         },
         1: {
-                'distribution' : (['unit_rebel_scout'], [1.0]),
+                'distribution' : (['unit_rebel_scout', 'unit_rebel_partisan', 'unit_rebel_saboteur'], [0.7, 0.3, 0.4]),
 
                 'spawnsize' : 20,
                 'growrate' : 1.03,
@@ -1604,30 +1815,26 @@ class RebelWaveType(BaseWaveType):
                 'waveincome' : 45,
                 'waveincomegrow' : 1.06,
         },
-        2: {
-                'distribution' : (['unit_rebel_scout', 'unit_rebel_partisan', 'unit_rebel_saboteur'], [0.7, 0.3, 0.4]),
+        3: {
+                'distribution' : (['unit_rebel', 'unit_rebel_sg'], [0.7, 0.3]),
 
-                'easy_waveinterval' : 160,
-                'normal_waveinterval' : 80,
-                'hard_waveinterval' : 16,
+                'easy_waveinterval' : 90,
+                'normal_waveinterval' : 30,
+                'hard_waveinterval' : 5,
         },
-        5: {
-                'distribution' : (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.2, 0.3, 0.10, 0.10, 0.10]),
-
-            },
         7: {
-                'distribution' : (['unit_rebel_flamer', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_partisan', 'unit_rebel_partisan_molotov'], [0.2, 0.3, 0.3, 0.1, 0.1]),
+                'distribution' : (['unit_rebel_flamer', 'unit_rebel_ar2', 'unit_rebel_medic', 'unit_rebel_sg', 'unit_rebel_winchester'], [0.2, 0.3, 0.3, 0.1, 0.1]),
 
         },
         8: {
-                'distribution' : (['unit_vortigaunt', 'unit_rebel', 'unit_rebel_sg', 'unit_rebel_medic', 'unit_rebel_winchester'], [0.2, 0.6, 0.1, 0.1, 0.2]),
+                'distribution' : (['unit_vortigaunt', 'unit_rebel_flamer', 'unit_rebel_sg', 'unit_rebel_heavy', 'unit_rebel_winchester'], [0.2, 0.6, 0.1, 0.1, 0.2]),
         },
         9: {
-                'distribution' : (['enemy_unit_rebel_veteran', 'unit_rebel'], [0.8, 0.2])
+                'distribution' : (['unit_rebel_winchester', 'unit_rebel_ar2'], [0.8, 0.2])
         },
         10: {
             'distribution': (
-            ['unit_vortigaunt', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_heavy'],
+            ['unit_vortigaunt', 'unit_rebel_tau', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_heavy'],
             [0.30, 0.30, 0.10, 0.30, 0.15]),
                 'waveintervaldecreaserate' : 1, # At this point we added a lot of time, so we start decreasing again.
         },
@@ -1636,7 +1843,7 @@ class RebelWaveType(BaseWaveType):
 
         },
         14: {
-            'distribution': (['unit_rebel', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_medic', 'unit_rebel_rpg', 'unit_vortigaunt', 'unit_rebel_heavy'], [0.10, 0.10, 0.10, 0.30, 0.10, 0.20, 0.10, 0.25]),
+            'distribution': (['enemy_unit_rebel_veteran', 'unit_rebel_sg', 'unit_rebel_ar2', 'unit_rebel_flamer', 'unit_rebel_medic', 'unit_rebel_rpg', 'unit_vortigaunt', 'unit_rebel_heavy'], [0.10, 0.10, 0.10, 0.30, 0.10, 0.20, 0.10, 0.25]),
         },
         15: {
             'distribution': (
@@ -1663,6 +1870,122 @@ class RebelWaveType(BaseWaveType):
 
         },
     }
+    spotid = 0 #пока что тупо скопипастил. по-хорошему стоило бы переименовать переменные но да ладно
+    nextfire = -1
+    nextallowfire = 0.0
+    firetpleft = 0
+    minnextfire = 100.0
+    maxnextfire = 100.0
+    min_amount = 1
+    max_amount = 1
+    unitlist = []
+    
+    @classmethod
+    def Precache(cls):
+        super().Precache()
+        
+        PrecacheUnit('unit_teleporter_rift')
+    
+    def OnNewWave(self, wave):
+            
+        if 1 < wave < 5:
+            self.minnextfire = 5.0
+            self.maxnextfire = 30.0
+            self.min_amount = 1
+            self.max_amount = 6
+            self.unitlist = ['unit_rebel_partisan', 'unit_rebel_partisan_molotov', 'unit_rebel_scout', 'unit_rebel_saboteur']
+        elif 5 <= wave < 10:
+            self.minnextfire = 5.0
+            self.maxnextfire = 30.0
+            self.min_amount = 2
+            self.max_amount = 10
+            self.unitlist = ['unit_rebel_sg', 'unit_rebel', 'unit_rebel_ar2']
+        elif 10 <= wave < 15:
+            self.minnextfire = 5.0
+            self.maxnextfire = 30.0
+            self.min_amount = 1
+            self.max_amount = 10
+            self.unitlist = ['unit_rebel_flamer', 'unit_vortigaunt', 'unit_rebel_medic', 'unit_rebel_winchester']
+        elif 15 <= wave < 19:
+            self.minnextfire = 1.0
+            self.maxnextfire = 30.0
+            self.min_amount = 1
+            self.max_amount = 10
+            self.unitlist = ['unit_rebel_tau', 'unit_rebel_heavy', 'unit_rebel_rpg', 'enemy_unit_rebel_veteran']
+        elif wave >= 19:
+            self.minnextfire = 1
+            self.maxnextfire = 10
+            self.min_amount = 1
+            self.max_amount = 100
+            self.unitlist = ['enemy_unit_rebel_veteran', 'unit_rebel_rpg', 'unit_dog', 'unit_rebel_flamer', 'unit_vortigaunt']
+            
+    def UpdateTeleporter(self, gamerules):
+        if gamerules.indoor or not gamerules.waveinprogress:
+            return
+    
+        if self.nextfire == -1:
+            self.nextfire = gpGlobals.curtime + random.uniform(50.0, 100.0)
+            
+        if self.nextfire < gpGlobals.curtime:
+            self.nextfire = gpGlobals.curtime + random.uniform(self.minnextfire, self.maxnextfire)
+            self.firetpleft += random.randint(self.min_amount, self.max_amount)
+            
+        if self.firetpleft <= 0 or self.nextallowfire > gpGlobals.curtime:
+            return
+
+        self.nextallowfire = gpGlobals.curtime + 1.0
+        
+        spawnpoints = gamerules.BuildHeadcrabCannisterSpawnPointsList()
+        
+        unitinfo = GetUnitInfo('unit_teleporter_rift', fallback=None)
+        if not unitinfo:
+            return
+        
+        n = self.firetpleft
+        for i in range(0, n):
+            # Get target position
+            centerpos = None
+            
+            building = self.RandomEnemyBuilding()
+            if building:
+                centerpos = building.GetAbsOrigin()
+                radius = 512.0
+                
+            # Get a random target position within the extent
+            if centerpos:
+                hextent = Vector(radius, radius, 0.0)
+                targetpos = RandomNavAreaPositionWithin(centerpos - hextent, centerpos + hextent)
+            else:
+                targetpos = None
+                
+            if targetpos == vec3_origin or targetpos == None:
+                continue
+                
+
+            # And fire
+            self.firetpleft -= 1
+            self.Teleport(targetpos)
+                
+    def Update(self, gamerules):
+        self.UpdateTeleporter(gamerules)
+                
+    def RandomEnemyBuilding(self):
+        buildings = []
+        for l in buildinglist.values():
+            buildings += l.copy()
+        return random.choice(buildings) if buildings else None
+        
+    if isserver:
+        def Teleport(self, targetpos):
+            unit = CreateUnit('unit_teleporter_rift', 
+                              position=targetpos,
+                              owner_number=OWNER_ENEMY)
+            if not unit:
+                return None
+            unit.unitlist = self.unitlist
+            unit.SetLifeDuration(2.5)
+        
+            self.spotid += 1
 class AlltypesWaveType(BaseWaveType):
     name = 'alltypes'
     

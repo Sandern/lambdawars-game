@@ -48,8 +48,9 @@ class RebelGrenadeUnlockAbility(GrenadeUnlockAbility):
     name = 'rebel_grenade_upgrade'
     displayname = '#AbilityGrenadeUpgrade_Name'
     description = '#AbilityGrenadeUpgrade_Description'
-    costs = [('requisition', 10),('scrap', 5)]
+    costs = [('requisition', 10)]
     techrequirements = ['grenade_unlock']
+    #techrequirements = []
     sai_hint = set(['sai_grenade_unit_unlock'])
 
     
@@ -57,6 +58,6 @@ class CombineGrenadeUnlockAbility(GrenadeUnlockAbility):
     name = 'combine_grenade_upgrade'
     displayname = '#AbilityGrenadeUpgrade_Name'
     description = '#AbilityGrenadeUpgrade_Description'
-    costs = [('requisition', 10),('power', 10)]
+    costs = [('requisition', 10)]
     techrequirements = ['grenade_unlock_combine']
     sai_hint = set(['sai_grenade_unit_unlock'])

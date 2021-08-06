@@ -1,4 +1,4 @@
-from srcbase import MAX_COORD_FLOAT
+from srcbase import MAX_COORD_FLOAT, COLLISION_GROUP_DEBRIS
 from vmath import Vector, QAngle, AngleVectors, vec3_origin
 from core.abilities import AbilityTarget, AbilityUpgradeValue
 from core.units import GetUnitInfo, CreateUnit, unitpopulationcount, GetMaxPopulation
@@ -78,11 +78,11 @@ class AbilityDropSoldiers(AbilityTarget):
     displayname = '#AbilityDropsoldiers_Name'
     description = '#AbilityDropsoldiers_Description'
     image_name = "VGUI/combine/abilities/ability_combine_dropship"
-    rechargetime = 360.0
+    rechargetime = 180.0
     set_initial_recharge = True
     population = 15
-    techrequirements = ['build_comb_garrison', 'build_comb_armory', 'build_comb_specialops', 'build_comb_synthfactory', 'build_comb_mech_factory', 'build_comb_tech_center']
-    costs = [('requisition', 150)]
+    techrequirements = ['build_comb_garrison', 'build_comb_armory', 'build_comb_specialops', 'build_comb_mech_factory']
+    costs = [('requisition', 250)]
 
     @classmethod
     def GetRequirements(info, player, unit):
@@ -104,8 +104,9 @@ class AbilityDropSoldiers(AbilityTarget):
 
 
 
-            dropshipspawnpos = Vector(random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024),
-                                      random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT) - 1024, 0)
+            #dropshipspawnpos = Vector(random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024),
+            #                          random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT) - 1024, 0)
+            dropshipspawnpos = self.unit.GetAbsOrigin() + Vector(random.uniform(-256, 256), random.uniform(-256, 256), 2048)
             dropshipexitpos = Vector(random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024),
                                      random.uniform(-MAX_COORD_FLOAT + 1024, MAX_COORD_FLOAT - 1024), 2048)
             bloat = Vector(128, 128, 128)
@@ -124,7 +125,10 @@ class AbilityDropSoldiers(AbilityTarget):
                 dropship.BehaviorGenericClass = CreateBehaviorDropshipDrop(dropship.BehaviorGenericClass)
             dropship = CreateUnit('unit_combinedropship', dropshipspawnpos, owner_number=self.ownernumber,
                                   fnprespawn=SetupDropship)
-            dropship.MoveOrder(dropposition)
+            if dropship:
+                dropship.MoveOrder(dropposition)
+                dropship.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+                dropship.container.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 
 
 
@@ -179,11 +183,11 @@ class AbilityDropSoldiersDestroyHQ(AbilityDropSoldiers):
 class OverrunAbilityDropSoldiers(AbilityDropSoldiers):
     name = 'overrun_dropsoldiers'
     techrequirements = []
-    rechargetime = 360.0
+    rechargetime = 180.0
     set_initial_recharge = True
-    #population = 0
-    #costs = [('kills', 200)]
-    costs = []
+    population = 25
+    costs = [('kills', 100)]
+    #costs = []
     if isserver:
         def CreateDropship(self, dropposition):
             #dropposition = self.mousedata.endpos
@@ -212,4 +216,7 @@ class OverrunAbilityDropSoldiers(AbilityDropSoldiers):
                 dropship.BehaviorGenericClass = CreateBehaviorDropshipDrop(dropship.BehaviorGenericClass)
             dropship = CreateUnit('unit_combinedropship', dropshipspawnpos, owner_number=self.ownernumber,
                                   fnprespawn=SetupDropship)
-            dropship.MoveOrder(dropposition)
+            if dropship:
+                dropship.MoveOrder(dropposition)
+                dropship.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
+                dropship.container.SetCollisionGroup(COLLISION_GROUP_DEBRIS)

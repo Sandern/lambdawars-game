@@ -209,6 +209,27 @@ class UnitCrabSynth(BaseClass):
             self.regenerationtime = self.unitinfo.regenerationtime + gpGlobals.curtime
             self.health = min(self.health+regenerationamount, self.maxhealth) 
             self.TakeEnergy(energy)
+    def RepairStep(self, intervalamount, repairhpps):
+        if self.health >= self.maxhealth:
+            return True
+            
+        # Cap speed at four or more workers
+        n = len(self.constructors)
+        if n > 1:
+            intervalamount *= (1 + ((n - 1) ** 0.5)) / n
+            
+        self.health += int(ceil(intervalamount*repairhpps))
+        self.health = min(self.health, self.maxhealth)
+        if self.health >= self.maxhealth:
+            self.OnHealed()
+            return True
+        return False  
+    def OnHealed(self):pass
+    def NeedsUnitConstructing(self, unit=None):
+        return True
+    repairable = True
+    constructors = SetField(networked=True, save=False)
+    constructability = 'combine_repair'
 class CrabSynthInfo(UnitInfo):
     name = 'unit_crab_synth'
     cls_name = 'unit_crab_synth'

@@ -812,7 +812,7 @@ class UnitHeadcrabCanister(BaseClass):
     
     initialzspeed = FloatField(value=0.0, networked=True)
     zacceleration = FloatField(value=0.0, networked=True)
-    horizspeed = FloatField(value=3072.0, networked=True) #speed
+    horizspeed = FloatField(value=1600.0, networked=True) #speed
     launchedfromwithinworld = BooleanField(value=False, networked=True)
     
     vecstartposition = VectorField(value=Vector(0, 0, 0), networked=True)

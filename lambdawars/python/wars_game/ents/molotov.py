@@ -135,7 +135,7 @@ class Molotov(BaseClass):
             dmg_info = CTakeDamageInfo(self, attacker, 0, DMG_BURN)
             dmg_info.SetDamagePosition(srcdamage)
             dmg_info.attributes = attributes
-            dmg_info.forcefriendlyfire = True
+            #dmg_info.forcefriendlyfire = True
 
             target.TakeDamage(dmg_info)
 

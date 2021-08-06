@@ -201,9 +201,22 @@ class WinchesterAttribute(AttributeInfo):
 
     dmgmodifiers = {
         'medium': ConstantBonusDamage(25),
-        'heavy': ConstantBonusDamage(25),
+        'creature': ConstantBonusDamage(50),
     }
 
+
+class WinchesterAltAttribute(AttributeInfo):
+    name = 'winchester_alt'
+
+    dmgmodifiers = {
+        'medium': ConstantBonusDamage(50),
+        'creature': ConstantBonusDamage(100),
+        'light': ConstantBonusDamage(12),
+        'synth': ScaleBonusDamage(0.25),
+        'metal': ScaleBonusDamage(0.25),
+        'building': ScaleBonusDamage(0.15),
+        'defence': ScaleBonusDamage(0.25),
+    }
 
 class PulseAttribute(AttributeInfo):
     name = 'pulse'
@@ -344,6 +357,18 @@ class ExplosiveAttribute(AttributeInfo):
         'synth': ScaleBonusDamage(0.25),
     }
 
+
+class C4ExplosiveAttribute(AttributeInfo):
+    """ C4 """
+    name = 'c4explosive'
+
+    dmgmodifiers = {
+        #'building': ScaleBonusDamage(3.0),
+    }
+
+    def ApplyToTarget(self, target, dmg_info):
+        if target.IsAlive() and getattr(target, 'isbuilding', False):
+            dmg_info.ScaleDamage(3.0)
 
 class ExplosiveCanisterAttribute(AttributeInfo):
     """ Headcrab Canisters """

@@ -19,7 +19,7 @@ class AbilityCanister(AbilityTarget):
     image_name = 'vgui/combine/abilities/combine_launch_headcrab'
     rechargetime = 12.0
     maxrange = FloatField(value=8192.0)
-    costs = [('requisition', 12), ('power', 5)]
+    costs = [('requisition', 10), ('power', 5)]
     overrunmode = False
     headcrabtype = StringField(value='unit_headcrab')
     headcrabcount = IntegerField(value=5)
@@ -150,7 +150,7 @@ class AbilityCanisterPoisonType(AbilityCanister):
     headcrabtype = 'unit_headcrab_poison'
     headcrabcount = 6
     #maxrange = FloatField(value=5120.0)
-    costs = [('requisition', 12), ('power', 5)]
+    costs = [('requisition', 10), ('power', 10)]
     image_name = 'vgui/combine/abilities/combine_launch_poison_headcrab'
     displayname = "#AbilityLaunchHeadcrabPoisonCanister_Name"
     description = "#AbilityLaunchHeadcrabPoisonCanister_Description"
@@ -164,7 +164,7 @@ class AbilityCanisterPoisonBossType(AbilityCanister):
 class AbilityCanisterEmptyType (AbilityCanister):
     name = 'launch_headcrabcanister_emptytype'
     headcrabcount = 0
-    costs = [('requisition', 10), ('power', 5)]
+    costs = [('requisition', 5), ('power', 5)]
     #costs = [('power', 5)]
     #maxrange = FloatField(value=7680.0)
     image_name = 'vgui/combine/abilities/combine_launch_empty_shell'

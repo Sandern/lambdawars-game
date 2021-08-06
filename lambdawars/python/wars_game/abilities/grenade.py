@@ -222,12 +222,12 @@ class AbilityGrenadeUnlock(AbilityUpgrade):
     description = '#AbilityGrenadeUnlock_Description'
     image_name = "vgui/abilities/unlock_grenade.vmt"
     buildtime = 40.0
-    costs = [[('kills', 4)], [('scrap', 20)]]
+    costs = [[('requisition', 15), ('scrap', 15)], [('kills', 2)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_grenade_upgrade'])
 
 class AbilityGrenadeUnlockCombine(AbilityGrenadeUnlock):
     name = 'grenade_unlock_combine'
-    costs = [('power', 20)]
+    costs = [[('requisition', 15), ('power', 15)], [('kills', 2)]]
     
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_grenade_upgrade'])
 

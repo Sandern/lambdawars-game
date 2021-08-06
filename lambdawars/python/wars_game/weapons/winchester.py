@@ -1,5 +1,6 @@
 from entities import entity, FireBulletsInfo_t, WeaponSound, Activity
 from core.weapons import WarsWeaponBase, WarsWeaponMachineGun, VECTOR_CONE_1DEGREES
+from wars_game.attributes import WinchesterAltAttribute
 
 
 @entity('weapon_winchester1886', networked=True)
@@ -64,8 +65,8 @@ class WeaponWinchester(WarsWeaponBase):
         info.ammotype = self.primaryammotype
         info.tracerfreq = 0
         info.damage = (2 * float(self.overrideammodamage)) # * self.dmg
-        info.attributes = self.primaryattackattributes
-        #info.attributes = {WinchesterAltAttribute.name: WinchesterAltAttribute(owner)}
+        #info.attributes = self.primaryattackattributes
+        info.attributes = {WinchesterAltAttribute.name: WinchesterAltAttribute(owner)}
 
         owner.FireBullets(info)
         owner.DoAnimation(owner.ANIM_ALTFIRE)

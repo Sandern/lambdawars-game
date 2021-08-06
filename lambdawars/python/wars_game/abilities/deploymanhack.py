@@ -11,9 +11,9 @@ class AbilityDeployManhack(AbilityInstant):
     displayname = '#CombDepManhack_Name'
     description = '#CombDepManhack_Description'
     image_name = 'vgui/combine/abilities/deploymanhack'
-    rechargetime = 30.0
+    rechargetime = 60.0
     population = 1
-    costs = [('requisition', 10)]
+    costs = [('requisition', 5)]
     techrequirements = ['build_comb_mech_factory']
     activatesoundscript = '#deploymanhacks'
     hidden = True

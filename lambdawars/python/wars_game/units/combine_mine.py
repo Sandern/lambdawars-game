@@ -1068,7 +1068,7 @@ class CombMineUpgrade(AbilityUpgradeValue):
     displayname = '#CombDepMineUpgr_Name'
     description = '#CombDepMineUpgr_Description'
     buildtime = 38.0
-    costs = [[('requisition', 10), ('power', 25)], [('kills', 5)]]
+    costs = [[('requisition', 10), ('power', 25)], [('kills', 10)]]
     image_name = "vgui/abilities/infiltrate_comb_mine_upgrade"
     upgradevalue = 1
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
@@ -1215,9 +1215,9 @@ class AbilityRebelMineUnlock(AbilityUpgrade):
 	displayname = '#RebelMineUnlock_Name'
 	description = '#RebelMineUnlock_Description'
 	image_name = "vgui/rebels/abilities/rebel_mine_unlock.vmt"
-	buildtime = 20.0
+	buildtime = 90.0
 	#techrequirements = ['build_reb_specialops']
-	costs = [('requisition', 10), ('scrap', 20)]
+	costs = [('requisition', 30), ('scrap', 30)]
 
 class DestroyHQSaboteurMine(AbilityCombineMine):
     def __init__(self):
@@ -1228,7 +1228,8 @@ class DestroyHQSaboteurMine(AbilityCombineMine):
     hidden = True
     techrequirements = ['rebel_mine_unlock']
     rechargetime = 10.0
-    costs = [('scrap', 10)]
+    #cloakallowed = True
+    costs = [('requisition', 15)]
     #mineskin = random.randint(1, 3)
 
 class AbilityCombineMineChar(AbilityCombineMine):

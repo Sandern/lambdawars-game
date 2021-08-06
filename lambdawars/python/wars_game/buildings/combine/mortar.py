@@ -246,7 +246,7 @@ class OverrunMortarInfo(WarsBuildingInfo):
     constructionactivity = 'ACT_CONSTRUCTION'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_mortar_destruction.mdl'
     explodeactivity = 'ACT_EXPLODE'
-    costs = [('kills', 20)]
+    costs = [('kills', 15)]
     unitenergy = 80
     unitenergy_initial = -1
     techrequirements = ['or_tier3_research']

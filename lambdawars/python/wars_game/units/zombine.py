@@ -141,7 +141,7 @@ class ZombineInfo(BaseZombieInfo):
     description = '#ZomZombine_Description'
     cls_name = 'unit_zombine'
     image_name = 'vgui/units/unit_shotgun.vmt'
-    health = 220
+    health = 300
     maxspeed = 200.0
     scrapdropchance = 0.0
     viewdistance = 896
@@ -149,7 +149,7 @@ class ZombineInfo(BaseZombieInfo):
     legmodel = 'models/zombie/zombie_soldier_legs.mdl'
     torsomodel = 'models/zombie/zombie_soldier_torso.mdl'
     torsogibmodel = 'models/zombie/zombie_soldier_torso.mdl'
-    attributes = ['medium', 'slash']
+    attributes = ['creature', 'slash']
     
     sound_death = 'Zombine.Die'
     

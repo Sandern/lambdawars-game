@@ -1,6 +1,7 @@
 from vmath import VectorNormalize, Vector
-from core.abilities import AbilityTarget, AbilityUpgrade
+from core.abilities import AbilityTarget, AbilityUpgrade, AbilityUpgradeValue
 from entities import FClassnameIs
+from gamerules import gamerules
 
 if isserver:
     from utils import UTIL_PrecacheOther
@@ -71,7 +72,7 @@ class AbilityCombineBall(AbilityTarget):
     image_dis_name = 'vgui/abilities/ability_ar2orb.vmt'
     #costs = [('power', 10)]
     rechargetime = 15
-    techrequirements = ['combineball_unlock']
+    #techrequirements = ['combineball_unlock']
     activatesoundscript = '#energyball'
     sai_hint = AbilityTarget.sai_hint | set(['sai_combine_ball'])
 
@@ -127,6 +128,21 @@ class AbilityCombineBallUnlock(AbilityUpgrade):
     techrequirements = ['build_comb_specialops']
     buildtime = 30.0
     costs = [[('kills', 5)], [('requisition', 25), ('power', 25)]]
+class AbilityCombineBallUpgrade(AbilityUpgradeValue):
+    name = 'combineball_upgrade'
+    displayname = '#CombBallUpgrade_DisplayName'
+    description = '#CombBallUpgrade_Description'
+    image_name = "vgui/abilities/ability_ar2orb_upgrade"
+    techrequirements = ['build_comb_specialops']
+    buildtime = 72.0
+    upgradevalue = True
+    costs = [[('kills', 15)], [('requisition', 25), ('power', 25)]]
+    @classmethod    
+    def GetRequirements(info, player, unit):
+        requirements = set()
+        if gamerules.info.name == 'overrun':
+            requirements.discard('available')
+        return requirements | super().GetRequirements(player, unit)
 
 class AbilityCombineBallOverrun(AbilityCombineBall):
 	name = 'combineball_overrun'

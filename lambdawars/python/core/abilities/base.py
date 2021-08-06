@@ -791,7 +791,7 @@ class AbilityBase(AbilityInfo):
     resourcestaken = None
     
     #: Allow direct recasting of the ability when holding down the hotkey
-    allowcontinueability = False
+    allowcontinueability = True
     #: Clear mouse when the "speed" key is released (IN_SPEED), used when the ability was continued after holding shift (client only setting)
     clearmouseonspeedbuttonrelease = False
     #: Clear mouse when the active hotkey is released, used when the ability was continued after holding the hotkey (client only setting)

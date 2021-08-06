@@ -99,9 +99,9 @@ class OverrunHeadcrabCanisterLauncherInfo(WarsBuildingInfo):
     workactivity = 'ACT_WORK'
     explodeactivity = 'ACT_EXPLODE'
     techrequirements = ['or_tier3_research']
-    costs = [('kills', 50)]
+    costs = [('kills', 60)]
     health = 400
-    buildtime = 90.0
+    buildtime = 60.0
     scale = 1.0
     abilities = {
         0: 'overrun_launch_headcrabcanister',

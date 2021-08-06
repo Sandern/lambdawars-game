@@ -19,6 +19,8 @@ from core.abilities import AbilityUpgrade, AbilityUpgradeValue
 from operator import itemgetter
 from navmesh import NavMeshGetPositionNearestNavArea
 from gamerules import gamerules
+from wars_game.gamerules.overrun import probchoice
+import random
 
 if isserver:
     from core.units import BaseAction
@@ -58,7 +60,7 @@ class AbilityTeleportUnits(AbilityTarget):
     displayname = "#AbilityTeleportUnits_Name"
     description = "#AbilityTeleportUnits_Description"
     image_name = 'vgui/rebels/abilities/rebel_teleport_units.vmt'
-    rechargetime = 10
+    rechargetime = 15
     #costs = [('requisition', 30)]
     supportsautocast = False
     defaultautocast = False
@@ -148,6 +150,25 @@ class DestroyHQTeleporterInfo(TeleporterInfo):
 class UnitTeleporterRift(UnitBase):
     """ Represents the rift being created while teleporting, displayed at the teleport target location.
     """
+    if isserver:
+        def SetLifeDuration(self, lifetime=60):
+            self.SetThink(self.Teleportenemyunit, gpGlobals.curtime + lifetime, 'LifeDuration')
+        def Teleportenemyunit(self):
+            def SetupUnit(unit):
+                unit.BehaviorGenericClass = unit.BehaviorOverrunClass
+            for i in range(0, 5):
+                unit = CreateUnit(random.choice(self.unitlist), 
+                                  self.GetAbsOrigin(),
+                                  self.GetAbsAngles(),
+                                  self.GetOwnerNumber(),
+                                  fnprespawn=SetupUnit)
+                if unit:
+                    PlaceUnit(unit, self.GetAbsOrigin())
+                    unit.overrunspawned = True 
+            UTIL_Remove(self)
+    lifetime = 2.5
+    unitlist = ['enemy_unit_rebel']
+
     def ShouldDraw(self):
         return False
 
@@ -216,14 +237,22 @@ class UnitTeleporterRift(UnitBase):
     def SpawnUnitThink(self):
         angle = self.GetAbsAngles()
         pos = self.GetAbsOrigin()
-        for i in range(0, 10):
-            if gamerules.info.name == 'overrun':
-                CreateUnitFancy('overrun_unit_rebel', pos, angles=angle, owner_number=self.GetOwnerNumber())
-            else:
-                CreateUnitFancy('unit_rebel', pos, angles=angle, owner_number=self.GetOwnerNumber())
+        #for i in range(0, 10):
+        if gamerules.info.name == 'overrun':
+            for i in range(0, random.randint(1, 10)):
+                unitname = next(probchoice(self.overrun_unitlist[0], self.overrun_unitlist[1]))
+                CreateUnitFancy(unitname, pos, angles=angle, owner_number=self.GetOwnerNumber())
+        else:
+            CreateUnitFancy('unit_dog', pos, angles=angle, owner_number=self.GetOwnerNumber())
         
         UTIL_Remove(self)
 
+    overrun_unitlist = (['overrun_unit_rebel_partisan_molotov', 'overrun_unit_rebel', 'overrun_unit_rebel_sg', 'overrun_unit_rebel_ar2', 
+                         'overrun_unit_rebel_flamer', 'overrun_unit_rebel_winchester', 'overrun_unit_vortigaunt', 'overrun_unit_rebel_veteran',
+                         'overrun_unit_rebel_heavy', 'overrun_unit_rebel_tau', 'overrun_unit_rebel_rpg', 'overrun_unit_dog'],  
+                         [0.2, 0.2, 0.15, 0.12,
+                          0.08, 0.07, 0.06, 0.05,
+                          0.025, 0.025, 0.019, 0.001])
     teleport_rift_fx = None
     teleport_rift_fx_name = 'begin_rift_BASE'
 
