@@ -113,9 +113,9 @@ class UnitRollerMine(BaseClass):
             self.mv.maxspeed = 4500
 
             # Open the spikes if i'm close enough to cut the enemy!!
-            if not self.isopen and (self.EnemyDistance(enemy) <= threshold or not self.is_active):
+            if not self.isopen and (self.EnemyDistance(enemy) <= threshold or not self.is_active) and not self.trigger_isnotopen:
                 self.Open()
-            elif self.isopen:
+            elif self.isopen and not self.trigger_isopen:
                 dist = self.EnemyDistance(enemy)
                 if dist >= threshold:
                     # Otherwise close them if the enemy is getting away!
@@ -124,11 +124,15 @@ class UnitRollerMine(BaseClass):
                 #    # Keep trying to hop when we're ramming a vehicle, so we're visible to the player
                 #    if ( vecVelocity.x != 0 && vecVelocity.y != 0 && flTorqueFactor > 3 && flDot > 0.0 )
                 #        Hop( 300 )
+            if self.isopen and self.trigger_isopen:
+                self.trigger_isopen = False
         elif not enemy and self.abilitycheckautocast.get(info.uid, False):
             self.mv.maxspeed = 1500
 
-            if self.isopen:
+            if self.isopen and not self.trigger_isopen:
                 self.Close()
+            if not self.isopen and self.trigger_isnotopen:
+                self.trigger_isnotopen = False
         if self.energy <= 0 and self.isopen:
             self.Close()
 
@@ -176,7 +180,7 @@ class UnitRollerMine(BaseClass):
 
         return True
         
-    def Open(self):
+    def Open(self, trigger=False):
         # Friendly rollers cannot open
         if self.HasSpawnFlags(self.SF_ROLLERMINE_FRIENDLY):
             return
@@ -198,8 +202,12 @@ class UnitRollerMine(BaseClass):
                     self.Hop( 128 )
             self.TakeEnergy(25)
             self.energyregenrate = -2
+            if trigger:
+                self.trigger_isopen = True
+                self.trigger_isnotopen = False
+
     
-    def Close(self):
+    def Close(self, trigger=False):
         # Not allowed to close while primed, because we're going to detonate on touch
         if self.isprimed:
             return
@@ -214,6 +222,9 @@ class UnitRollerMine(BaseClass):
 
             self.soundeventflags = self.ROLLERMINE_SE_CLEAR
             self.energyregenrate = 1
+            if trigger:
+                self.trigger_isopen = False
+                self.trigger_isnotopen = True
     if isserver:
         def OnTakeDamage_Alive(self, dmg_info):
             if not self.isopen:
@@ -618,6 +629,8 @@ class UnitRollerMine(BaseClass):
     held = False
     active_time = 0
     vehicle_stuck_to = False
+    trigger_isopen = False
+    trigger_isnotopen = False
 
     selectionparticlename = 'unit_circle_simple_ground'
 
@@ -680,7 +693,7 @@ class AbilityAttackModeRM(AbilityInstant):
         self.SelectGroupUnits()
         for unit in list(self.units):
             if not unit.isopen:
-                unit.Open()
+                unit.Open(trigger=True)
         self.SetRecharge(self.units)
         self.Completed()
 class AbilityDefModeRM(AbilityAttackModeRM):
@@ -694,6 +707,6 @@ class AbilityDefModeRM(AbilityAttackModeRM):
         self.SelectGroupUnits()
         for unit in list(self.units):
             if unit.isopen:
-                unit.Close()
+                unit.Close(trigger=True)
         self.SetRecharge(self.units)
         self.Completed()
