@@ -476,7 +476,7 @@ class RebelW1886Info(RebelInfo):
     description = '#RebWinchester_Description'
     buildtime = 36.0
     health = 150
-    costs = [[('requisition', 50), ('scrap', 30)], [('kills', 1)]]
+    costs = [[('requisition', 25), ('scrap', 15)], [('kills', 1)]]
     techrequirements = ['build_reb_specialops']
     weapons = ['weapon_winchester1886']
     image_name = 'vgui/rebels/units/unit_rebel_winchester'
