@@ -319,7 +319,10 @@ class UnitCombineDropship(BaseClass):
     def __init__(self):
         super().__init__()
         self.savedrop = 2048.0
-        self.maxclimbheight = 8192.0
+        if gamerules.info.name == 'overrun':
+            self.maxclimbheight = 8192.0
+        else:
+            self.maxclimbheight = 400.0
         self.testroutestartheight = 1024.0
         
     AnimStateClass = UnitBaseDropshipAnimState
