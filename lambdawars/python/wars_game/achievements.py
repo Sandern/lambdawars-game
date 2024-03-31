@@ -13,6 +13,7 @@ from collections import defaultdict
 # Some common methods to test if we allow testing for the achievement
 __competitivemodes = set([AnnihilationInfo.name, DestroyHQInfo.name])
 __commonmodes = set([AnnihilationInfo.name, DestroyHQInfo.name, OverrunInfo.name])
+__missionmodes = set([MissionInfo.name])
 
 def IsCompetitiveGameMode():
     return gamerules.info.name in __competitivemodes
@@ -22,7 +23,7 @@ def IsCommonGameMode():
 
 def IsMissionGameMode():
     return gamerules.info.name in __missionmodes
-    
+
 def IsAbilityValid(ability):
     # Not executed in the regular way. For example, spawning an unit in Sandbox.
     if ability.ischeat:
@@ -37,6 +38,7 @@ if isserver:
     def OnEndTutorial(gamerules, winners, losers, *args, **kwargs):
         if not IsMissionGameMode():
             return
+
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_GRADUATED)
 
@@ -44,6 +46,7 @@ if isserver:
     def OnEndGameRadioTower(gamerules, winners, losers, *args, **kwargs):
         if not IsMissionGameMode():
             return
+
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_RADIO_TOWER)
 
@@ -51,6 +54,7 @@ if isserver:
     def OnEndGameAbandoned(gamerules, winners, losers, *args, **kwargs):
         if not IsMissionGameMode():
             return
+
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_ABANDONED)
             
@@ -58,6 +62,7 @@ if isserver:
     def OnEndGameValley(gamerules, winners, losers, *args, **kwargs):
         if not IsMissionGameMode():
             return
+
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_VALLEY)
 
@@ -65,6 +70,7 @@ if isserver:
     def OnEndGameWaste(gamerules, winners, losers, *args, **kwargs):
         if not IsMissionGameMode():
             return
+
         for player in gamerules.GetGamePlayers(winners):
             player.AwardAchievement(ACHIEVEMENT_WARS_MISSION_WASTE)
 
@@ -72,7 +78,7 @@ if isserver:
     # other team combine. The winning team is awarded with an achievement.
     @receiver(endgame)
     def OnEndGameTheClashAchievement(gamerules, winners, losers, *args, **kwargs):
-        if not IsCompetitiveGameMode():
+        if not IsCommonGameMode():
             return
             
         # Must be a 4 vs 4 match
@@ -175,10 +181,11 @@ if isserver:
     # Partisan achievement. Collect 50 partisan units in one game.
     @receiver(abilitycompleted_by_name['unit_rebel_partisan'])
     @receiver(abilitycompleted_by_name['unit_rebel_partisan_molotov'])
+    @receiver(abilitycompleted_by_name['unit_citizen_barricade'])
     def CollectPartisanAchievement(ability, *args, **kwargs):
         if not IsCommonGameMode():
             return
         owner = ability.ownernumber
-        if len(unitlistpertype[owner]['unit_rebel_partisan_molotov'] + unitlistpertype[owner]['unit_rebel_partisan']) >= 50:
+        if len(unitlistpertype[owner]['unit_rebel_partisan_molotov'] + unitlistpertype[owner]['unit_rebel_partisan'] + unitlistpertype[owner]['unit_citizen_barricade']) >= 50:
             for player in ListPlayersForOwnerNumber(owner):
                 player.AwardAchievement(ACHIEVEMENT_WARS_PARTISAN)
