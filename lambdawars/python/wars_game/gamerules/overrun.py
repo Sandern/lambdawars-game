@@ -542,7 +542,7 @@ class Overrun(WarsBaseGameRules):
                 DevMsg(1, "UpdateHealthModifiers: Grown health mod %s to %f\n" % (unit, self.healthmodifiers[unit]))
             if self.difficulty == 'hard':
                 self.basehealthgrowmodifier *= 1.05
-            elif self.difficulty == 'medium':
+            elif self.difficulty == 'normal':
                 self.basehealthgrowmodifier *= 1.025
             elif self.difficulty == 'easy':
                 self.basehealthgrowmodifier *= 1.001
@@ -757,7 +757,7 @@ class Overrun(WarsBaseGameRules):
             healthmodifier = 1.5
             unit.viewdistance = 1920
             unit.sensedistance = 1920
-        elif self.difficulty == 'medium':
+        elif self.difficulty == 'normal':
             healthmodifier = 1.0
         elif self.difficulty == 'easy':
             healthmodifier = 0.5
@@ -889,7 +889,7 @@ class Overrun(WarsBaseGameRules):
             amount *= 1.2
         elif self.modificator_vampire == 2:
             amount *= 0.8
-        if self.difficulty == 'medium':
+        if self.difficulty == 'normal':
             amount *= 2.0
         elif self.difficulty == 'easy':
             amount *= 4.0
