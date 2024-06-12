@@ -29,7 +29,7 @@ Lambda Wars features full-fledged RTS gameplay and a robust RTS interface and is
 * [Official webcite](http://lambdawars.com)
 * [Steam community](https://steamcommunity.com/app/270370)
 * [ВКонтакте](https://vk.com/lambdawars)
-* [Discord](https://discord.gg/2Ncfg9TX)
+* [Discord](https://discord.gg/PsQkXv7)
 
 
 
