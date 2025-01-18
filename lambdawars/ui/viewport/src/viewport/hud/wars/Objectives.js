@@ -25,14 +25,24 @@ export class Objectives extends ViewportElement {
 		});
 		
 		//Roll Over
-		$( "#wars_objectiv_button" ).mouseover(function() {
+		$( ".rebels #wars_objectiv_button" ).mouseover(function() {
 			$('#wars_objectiv_button').attr('src','wars/objectives/frame_hide_over.png');
 			return false;
 		});
 
+		$( ".combine #wars_objectiv_button" ).mouseover(function() {
+			$('#wars_objectiv_button').attr('src','wars/objectives/combine_frame_hide_over.png');
+			return false;
+		});
+
 		//Mouse Out
-		$( "#wars_objectiv_button" ).mouseout(function() {
+		$( ".rebels #wars_objectiv_button" ).mouseout(function() {
 			$('#wars_objectiv_button').attr('src','wars/objectives/frame_hide.png');
+			return false;
+		});
+
+		$( ".combine #wars_objectiv_button" ).mouseout(function() {
+			$('#wars_objectiv_button').attr('src','wars/objectives/combine_frame_hide.png');
 			return false;
 		});
 		//---END Hide Button---
