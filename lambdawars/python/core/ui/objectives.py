@@ -1,5 +1,7 @@
 from cef import viewport, CefPanel
 from core.signals import prelevelinit
+from playermgr import dbplayers
+from core.signals import playerchangedfaction
 
 class CefObjectivesPanel(CefPanel):
     htmlfile = 'ui/viewport/wars/objectives.html'
@@ -15,16 +17,22 @@ class CefObjectivesPanel(CefPanel):
         super().__init__(*args, **kwargs)
         
         prelevelinit.connect(self.OnPreLevelInit)
+        playerchangedfaction.connect(self.OnPlayerFactionChanged)
         
     def OnLoaded(self):
         super().OnLoaded()
         
         self.RebuildObjectiveList(self.objectiveents)
+    
+    # hook into the player changed faction signal and change objectives HUD
+    def OnPlayerFactionChanged(self, player, oldfaction, **kwargs):
+        self.ChangeHTMLFile('ui/viewport/wars/objectives_'+player.GetFaction()+'.html')
         
     def OnRemove(self):
         super().OnRemove()
         
         prelevelinit.disconnect(self.OnPreLevelInit)
+        playerchangedfaction.disconnect(self.OnPlayerFactionChanged)
         
     def OnPreLevelInit(self, **kwargs):
         ''' Resets the objective list on level init. '''

@@ -400,6 +400,8 @@ class CefPanel(object):
         self.viewport = viewport
         
         self.jsmethods = {}
+        self.is_changing_html = False  # Flag to prevent multiple calls
+
 
         viewport.AddElement(self)
         
@@ -446,6 +448,32 @@ class CefPanel(object):
         
     def InvokeWithResult(self, *args, **kwargs):
         return self.viewport.InvokeWithResult(self.element, *args, **kwargs)
+    
+    def ChangeHTMLFile(self, new_htmlfile):
+        """ Change the HTML file and reload the content. """
+        if self.is_changing_html:
+            return  # Prevent re-entry if already changing HTML
+
+        if self.htmlfile == new_htmlfile:
+            return  # No need to change if the new HTML file is the same
+
+        self.is_changing_html = True
+        self.isloaded = False
+        self.htmlfile = new_htmlfile
+        self.LoadCode()
+        
+        # Remove the current element from the viewport
+        viewport.RemoveElement(self)
+        
+        # Replace the content with the new HTML code
+        self.ReplaceContent(self.htmlcode)
+        
+        # Re-add the element to the viewport
+        viewport.AddElement(self)
+        
+        self.isloaded = True
+        self.visible = self._visible  # Restore the visibility state
+        self.is_changing_html = False  # Reset the flag
         
     @property
     def visible(self):
