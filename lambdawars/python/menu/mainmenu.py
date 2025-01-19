@@ -545,9 +545,9 @@ class CefMainMenu(WebView, MainMenuPersonaStateChangeCallback, GameLobbyJoinRequ
         " } " + \
         " game { " + \
         " mode mission " + \
-        " mission tutorial_annihilation_rebels " + \
+        " mission " + methodargs[0] + " " + \
         " } "
-        );
+        )
 
         settings.SetString("Game/difficulty", '')
 

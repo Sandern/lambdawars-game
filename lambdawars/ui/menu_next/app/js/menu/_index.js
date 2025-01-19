@@ -7,6 +7,7 @@ import './load-game.controller';
 import './main-buttons.controller';
 import './missions.controller';
 import './missions.service';
+import './tutorials.controller';
 import './multiplayer.controller';
 import './online-games.controller';
 import './player-info.controller';

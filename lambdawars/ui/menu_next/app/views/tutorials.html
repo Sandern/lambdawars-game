@@ -1,0 +1,21 @@
+<section class="content content-menu" id="content-tutorials">
+    <main>
+        <h1>{{ 'SP_Tutorials_HeadLine' | translate }}</h1>
+        <ul class="menu submenu" id="submenu-tutorials">
+            <li>
+                <a href ng-click="playtutorial('tutorial_annihilation_rebels')">
+                    {{ 'SP_Tutorial' | translate }}
+                    <p>{{ 'SP_Tutorial_Desc' | translate }}</p>
+                </a>
+            </li>
+            <li>
+                <a href ng-click="playtutorial('sp_eradicate')">
+                    {{ 'SP_Tutorial_Combine' | translate }}
+                    <p>{{ 'SP_Tutorial_Combine_Desc' | translate }}</p>
+                </a>
+            </li>
+        </ul>
+    </main>
+</section>
+
+<span global-chat/>
