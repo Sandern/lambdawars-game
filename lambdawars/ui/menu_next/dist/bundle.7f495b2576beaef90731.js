@@ -17819,17 +17819,8 @@ menu_module.factory('gamelobbylist', gamelobbylistService);
 
 class HomeController {
 	/*@ngInject*/
-    constructor($scope, $http, $sce) {
+    constructor($scope) {
 		$scope.pageID = 'content';
-
-		$http.get('https://www.lambdawars.com/game/news2.php')
-			.then(function(response) {
-				$scope.news = $sce.trustAsHtml('<main>' + response.data + '</main>');
-			})
-			.catch(function(response) {
-				$scope.news = $sce.trustAsHtml('<main><h1>Unable to retrieve latest news</h1></main>');
-				console.error('Failed to fetch news: ', response.data);
-			});
     }
 
 }
@@ -18246,23 +18237,12 @@ menu_module.controller('WorkshopController', WorkshopController);
 
 
 /*@ngInject*/
-function badgesService($http, $q) {
+function badgesService($q) {
     var deferred = $q.defer();
-    $http.get('https://lambdawars.com/json/badges.json').then(function(res){
-
-        // Temp hack. Json shouldn't contain image paths in the first place :(
-        for (var badgeIdx = 0; badgeIdx < res.data.badges.length; badgeIdx++){
-            res.data.badges[badgeIdx].image = res.data.badges[badgeIdx].image.replace('../mainmenu/', '../../mainmenu/');
+    deferred.resolve({
+        data: {
+            badges: []
         }
-
-        deferred.resolve(res);
-    }).catch(function (e) {
-        console.error('Unable to retrieve badges: ', e);
-        deferred.resolve({
-            data: {
-                badges: []
-            }
-        });
     });
     
     this.getBadges = function (){
