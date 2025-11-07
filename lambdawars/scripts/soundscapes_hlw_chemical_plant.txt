@@ -1,0 +1,83 @@
+"chemical_plant.ambient"
+{
+	"playlooping"
+	{
+		"volume"	"0.55"
+		"pitch"		"105"
+		"wave"		"null.wav"
+	}
+	
+				"playrandom"
+	{
+		"time"		"20.0,46.0"
+		"volume"	"0.20,0.24"
+		"pitch"		"95,105"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+
+			"wave"		"ambient/levels/canals/toxic_slime_sizzle1.wav"
+			"wave"		"ambient/levels/canals/toxic_slime_gurgle3.wav"
+			"wave"		"ambient/levels/canals/toxic_slime_gurgle4.wav"
+			"wave"		"ambient/levels/canals/toxic_slime_gurgle5.wav"
+			"wave"		"ambient/levels/canals/toxic_slime_gurgle6.wav"
+			"wave"		"ambient/levels/canals/toxic_slime_sizzle2.wav"
+		}
+	}
+	
+				"playrandom"
+	{
+		"time"		"32.0,48.0"
+		"volume"	"0.15,0.22"
+		"pitch"		"90,105"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+			"wave"		"ambient/creatures/rats1.wav"
+			"wave"		"ambient/creatures/rats2.wav"
+			"wave"		"ambient/creatures/rats3.wav"
+			"wave"		"ambient/creatures/rats4.wav"
+
+		}
+	}
+	
+					"playrandom"
+	{
+		"time"		"45.0,95.0"
+		"volume"	"0.20,0.25"
+		"pitch"		"95,100"
+		"position"	"random"
+		"soundlevel"	"SNDLVL_95dB"
+		
+		"rndwave"
+		{
+
+			"wave"		"ambient/materials/rustypipes1.wav"
+			"wave"		"ambient/materials/rustypipes2.wav"
+			"wave"		"ambient/materials/shipgroan3.wav"
+			"wave"		"ambient/materials/shipgroan4.wav"
+
+		}
+	}
+					"playrandom"
+	{
+		"time"		"25.0,60.0"
+		"volume"	"0.27,0.32"
+		"pitch"		"95,100"
+		"soundlevel"	"SNDLVL_120dB"
+		
+		"rndwave"
+		{
+
+			"wave"		"ambient/wind/wind_hit1.wav"
+			"wave"		"ambient/wind/wind_hit2.wav"
+			"wave"		"ambient/wind/wind_hit3.wav"
+			"wave"		"ambient/wind/wind_snippet4.wav"
+			"wave"		"ambient/wind/wind_snippet5.wav"
+			"wave"		"ambient/atmosphere/city_skypass1.wav"
+
+		}
+	}
+}
