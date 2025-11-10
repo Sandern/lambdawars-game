@@ -94,7 +94,7 @@ class ArmoryPoweredInfo(PoweredBuildingInfo):
     name = 'build_comb_armory' 
     displayname = '#BuildCombArmory_Name'
     description = '#BuildCombArmory_Description'
-    cls_name = 'build_comb_armory'
+    cls_name = 'build_comb_armory_powered'
     image_name = 'vgui/combine/buildings/build_comb_armory'
     modelname = 'models/pg_props/pg_buildings/combine/pg_combine_armory.mdl'
     explodemodel = 'models/pg_props/pg_buildings/combine/pg_combine_armory_des.mdl'
