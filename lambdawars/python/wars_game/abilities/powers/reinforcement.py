@@ -41,6 +41,7 @@ class AbilityReinforcement(AbilityTarget):
         def CreateTeleport(self, position):
             def SetupTeleport(teleport):
                 teleport.lifetime = 15.0
+                teleport.population = 5
             teleport = CreateUnit('unit_teleporter_rift', position, owner_number=self.ownernumber,
                                   fnprespawn=SetupTeleport)
             teleport.SpawnUnit()
