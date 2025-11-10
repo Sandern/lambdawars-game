@@ -1,5 +1,6 @@
 from srcbase import *
 from vmath import *
+from math import ceil
 from entities import networked, entity, Activity, FireBulletsInfo_t, CreateEntityByName
 from fields import BooleanField, FlagsField, VectorField, FloatField, UpgradeField, SetField
 from gameinterface import CPASAttenuationFilter, CPVSFilter, CPASFilter
