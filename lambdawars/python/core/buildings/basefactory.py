@@ -1,3 +1,7 @@
+"""Factory building classes for Lambda Wars.
+
+Provides base classes for factory buildings that can produce units and abilities.
+"""
 from vmath import Vector, QAngle, VectorYawRotate, vec3_origin
 from gameinterface import ConVar, FCVAR_CHEAT
 from gamerules import GameRules
@@ -25,12 +29,21 @@ if isserver:
 
 
 class RallyPointModel(CBaseAnimating):
+    """Model entity for rally point visualization."""
     def CreateRallyMark(self):
+        """Create the rally point mark visualization."""
         pass
 
     
 class QueuedAbility(object):
+    """Represents an ability queued for production at a factory."""
     def __init__(self, ability_name, ability):
+        """Initialize a queued ability.
+        
+        Args:
+            ability_name (str): Name of the ability.
+            ability: Ability instance.
+        """
         super().__init__()
         
         self.ability_name = ability_name
@@ -38,18 +51,30 @@ class QueuedAbility(object):
         self.didpopwarning = False
         
 class UnitBaseFactoryShared(object):
+    """Shared base class for factory building entities.
+    
+    Provides common functionality for factories including build queues,
+    production management, and rally points.
+    """
     def __init__(self):
+        """Initialize the factory entity."""
         super().__init__()
         
         self.buildqueue = []
 
     def OnBuildStateChanged(self):
+        """Update building state based on build queue."""
         if not self.buildamount or self.buildamount[0] == 0:
             self.building = False
         else:
             self.building = True
             
     def GetBuildProgress(self):
+        """Get the current build progress (0.0 to 1.0).
+        
+        Returns:
+            float: Build progress from 0.0 (not started) to 1.0 (complete).
+        """
         progress = 0
         if self.building and self.buildtime:
             if not self.onhold:

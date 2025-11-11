@@ -1,3 +1,7 @@
+"""Combat unit classes for Lambda Wars.
+
+Provides base classes for combat units that can move, attack, and follow orders.
+"""
 from srcbase import *
 from vmath import *
 from vprof import vprofcurrentprofilee
@@ -52,8 +56,13 @@ unitcombatdebugoverlays = 0
 
 @networked
 class UnitBaseCombat(BaseClass):
-    """ Base class for movable/attackable units with simple animations/attacks """
+    """Base class for movable/attackable units with simple animations/attacks.
+    
+    Provides combat functionality including movement, navigation, orders,
+    behaviors, and attack capabilities.
+    """
     def __init__(self):
+        """Initialize the combat unit."""
         super().__init__()
         
         self.orders = [] 
@@ -73,10 +82,14 @@ class UnitBaseCombat(BaseClass):
 
     if isserver:
         def OnPlayerDefeated(self):
+            """Handle player defeat by removing this unit."""
             self.Suicide()
 
     def UpdateOnRemove(self):
-        # ALWAYS CHAIN BACK!
+        """Clean up unit components and orders when removed.
+        
+        ALWAYS CHAIN BACK!
+        """
         super().UpdateOnRemove()
         
         if isserver:
@@ -99,6 +112,7 @@ class UnitBaseCombat(BaseClass):
             self.fn_perform_navigation = lambda: None
         
     def CreateComponents(self):
+        """Create unit components (locomotion, animation, navigation, sensing)."""
         self.locomotion = self.LocomotionClass(self)
         self.animstate = self.AnimStateClass(self, self.animconfig)
 
@@ -117,6 +131,7 @@ class UnitBaseCombat(BaseClass):
         self.componentsinitalized = True
         
     def DestroyComponents(self):
+        """Destroy all unit components to free memory."""
         if self.componentsinitalized:
             if isserver:
                 self.DestroyBehaviors() # Destroy AI first, in case the OnEnd methods of actions still access other components
@@ -128,24 +143,38 @@ class UnitBaseCombat(BaseClass):
             self.eventcomponents = []
         
     def CreateBehaviors(self):
+        """Create default behaviors for the unit."""
         self.AddBehavior('behaviorgeneric', self.BehaviorGenericClass(self))
         
     def DestroyBehaviors(self):
+        """Destroy all unit behaviors."""
         for behavior in self.behaviors:
             delattr(self, behavior.name)
             behavior.Destroy()
         self.behaviors = []
         
     def AddBehavior(self, name, behavior):
+        """Add a behavior to the unit.
+        
+        Args:
+            name (str): Behavior name.
+            behavior: Behavior instance.
+        """
         self.behaviors.append(behavior)
         setattr(self, name, behavior)
         behavior.name = name
     
     def RunBehaviors(self):
+        """Run all unit behaviors."""
         for behavior in self.behaviors:
             behavior.Run()
             
     def RemoveItems(self, dmginfo=None):
+        """Remove items from the unit.
+        
+        Args:
+            dmginfo: Optional damage info that caused item removal.
+        """
         if not self.items:
             return
             

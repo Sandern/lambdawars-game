@@ -1,4 +1,8 @@
-""" """
+"""Intention system for Lambda Wars units.
+
+Provides action and behavior system for unit AI, allowing units to perform
+complex sequences of actions with transitions and suspension.
+"""
 import srcmgr
 srcmgr.VerifyIsServer()
 from unit_helper import UnitComponent
@@ -17,28 +21,49 @@ DONE = 'DONE'
 
 
 class BaseAction(object):
+    """Base class for unit actions.
+    
+    Actions represent discrete behaviors that units can perform, such as
+    moving, attacking, or using abilities. Actions can transition to other
+    actions or be suspended and resumed.
+    """
     def __init__(self, outer, behavior):
+        """Initialize an action.
+        
+        Args:
+            outer: Unit entity performing the action.
+            behavior: Behavior that owns this action.
+        """
         super().__init__()
         
         self.outer = outer
         self.behavior = behavior
         
     def Init(self):
-        """ Initializes the action. """
+        """Initialize the action. Called when action starts."""
         pass
         
     # Action Transitions
     # Return these in the action processing
     def Continue(self):
-        """ No transition, continue this Action next think. """
+        """No transition, continue this Action next think.
+        
+        Returns:
+            str: CONTINUE transition constant.
+        """
         return CONTINUE
         
     def ChangeTo(self, nextaction, reason, *args, **kwargs):
-        """ Exit the current Action and transition into NextAction.
+        """Exit the current Action and transition into NextAction.
 
-            Args:
-                nextaction (BaseAction): action class to which to change
-                reason (str): string describing the reason, for debug purposes.
+        Args:
+            nextaction (BaseAction): Action class to which to change.
+            reason (str): String describing the reason, for debug purposes.
+            *args: Arguments to pass to next action Init.
+            **kwargs: Keyword arguments to pass to next action Init.
+            
+        Returns:
+            str: CHANGETO transition constant.
         """
         if not self.valid:
             DevMsg(1, '#%s INVALID CHANGETO, already in transition: next action is %s for reason "%s"\n\tDiscarding action %s with reason "%s"\n' % 
@@ -50,11 +75,16 @@ class BaseAction(object):
         return CHANGETO
         
     def SuspendFor(self, nextaction, reason, *args, **kwargs):
-        """ Put the current Action 'on hold' (bury it) and enter NextAction
+        """Put the current Action 'on hold' (bury it) and enter NextAction.
 
-            Args:
-                nextaction (BaseAction): action class for which to suspend
-                reason (str): string describing the reason, for debug purposes.
+        Args:
+            nextaction (BaseAction): Action class for which to suspend.
+            reason (str): String describing the reason, for debug purposes.
+            *args: Arguments to pass to next action Init.
+            **kwargs: Keyword arguments to pass to next action Init.
+            
+        Returns:
+            str: SUSPENDFOR transition constant.
         """
         if not self.valid:
             DevMsg(1, '#%s INVALID SUSPENDFOR, already in transition: next action is %s for reason "%s"\n\tDiscarding action %s with reason "%s"\n' % 
@@ -66,10 +96,13 @@ class BaseAction(object):
         return SUSPENDFOR
         
     def Done(self, reason):
-        """ This Action is finished. Resume the 'buried' Action.
+        """This Action is finished. Resume the 'buried' Action.
 
-            Args:
-                reason (str): string describing the reason, for debug purposes.
+        Args:
+            reason (str): String describing the reason, for debug purposes.
+            
+        Returns:
+            str: DONE transition constant.
         """
         if not self.valid:
             DevMsg(1, '#%s INVALID DONE, already in transition: next action is %s for reason "%s"\n\tDiscarding DONE with reason "%s"\n' % 
@@ -80,22 +113,37 @@ class BaseAction(object):
 
     # Encapsulation of Action processing
     def OnStart(self):
-        """ Executed when the Action is transtioned into 
-            Can return an immediate transition """
+        """Executed when the Action is transitioned into.
+        
+        Can return an immediate transition.
+        
+        Returns:
+            str: Optional transition constant, or None.
+        """
         pass
             
     def Update(self):
-        """ Does the 'work' of the Action
-            Update can return a transition to a new Action """
+        """Do the 'work' of the Action.
+        
+        Update can return a transition to a new Action.
+        
+        Returns:
+            str: Transition constant (CONTINUE, CHANGETO, SUSPENDFOR, DONE).
+        """
         return self.Continue()
             
     def OnEnd(self):
-        """ Is executed when the Action is transitioned out of """
+        """Executed when the Action is transitioned out of."""
         pass
         
     def OnSuspend(self):
-        """ Executed when Action has been put on hold for another Action
-            Can return a transition """
+        """Executed when Action has been put on hold for another Action.
+        
+        Can return a transition.
+        
+        Returns:
+            str: Optional transition constant, or None.
+        """
         return None
         
     def OnResume(self):

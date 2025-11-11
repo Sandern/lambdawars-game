@@ -1,3 +1,8 @@
+"""Base strategic AI classes for Lambda Wars.
+
+Provides base classes for the strategic AI system that controls CPU players,
+including building construction, unit management, and decision making.
+"""
 import random
 import traceback
 from operator import attrgetter
@@ -28,11 +33,21 @@ wars_strategicai_debug = ConVar('wars_strategicai_debug', '0', FCVAR_CHEAT)
 wars_strategicai_debug_rules = ConVar('wars_strategicai_debug_rules', '0', FCVAR_CHEAT)
 
 def SAIMsg(msg, verbose=1):
+    """Print strategic AI debug message if verbosity level is met.
+    
+    Args:
+        msg (str): Message to print.
+        verbose (int): Required verbosity level.
+    """
     if wars_strategicai_debug.GetInt() >= verbose:
         print(msg)
 
 class StrategicAIDefault(StrategicAIInfo):
-    """ Default base Strategic AI. """
+    """Default base Strategic AI.
+    
+    Provides the core strategic AI implementation for CPU players,
+    including building management, unit production, and tactical decisions.
+    """
     destroying = False
     
     name = 'cpu_wars_default'
@@ -42,6 +57,12 @@ class StrategicAIDefault(StrategicAIInfo):
     accumulatingrequisition = False
     
     def __init__(self, ownernumber, difficulty='medium'):
+        """Initialize the strategic AI.
+        
+        Args:
+            ownernumber (int): Owner number for this AI player.
+            difficulty (str): Difficulty level ('easy', 'medium', 'hard').
+        """
         super().__init__()
         
         if difficulty == None:
@@ -68,6 +89,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.difficulty = difficulty
 
     def Initialize(self):
+        """Initialize the strategic AI and connect to game signals."""
         SAIMsg('SAI#%d Initialize' % (self.ownernumber))
     
         # Use think rates as an indirect way to slow down decision making
@@ -93,6 +115,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.RecalcPendingPopulationCount()
         
     def Shutdown(self):
+        """Shutdown the strategic AI and clean up resources."""
         SAIMsg('SAI#%d Shutdown' % (self.ownernumber))
         
         self.destroying = True
@@ -122,7 +145,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.groups = set([])
         
     def OnRestore(self):
-        ''' Called after restoring the cpu player from a save file. '''
+        """Called after restoring the CPU player from a save file."""
         pass
         
     __difficulty = None

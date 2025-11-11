@@ -1,3 +1,7 @@
+"""Human combat unit classes for Lambda Wars.
+
+Provides base classes for human-like units that can aim and carry weapons.
+"""
 from vmath import VectorNormalize, VectorAngles, QAngle, Vector
 from .basecombat import UnitBaseCombat as BaseClass
 from entities import Activity, networked
@@ -10,25 +14,30 @@ if isserver:
 
 @networked
 class UnitBaseCombatHuman(BaseClass):
-    """ Defines a human like unit.
-        The main difference is that it can aim by 
-        controlling the upper body pitch and yaw and
-        can carry weapons. """
+    """Base class for human-like combat units.
+    
+    The main difference from base combat units is that it can aim by
+    controlling the upper body pitch and yaw and can carry weapons.
+    """
     if isserver:
         def OnPlayerDefeated(self):
+            """Handle player defeat by removing this unit."""
             self.Suicide()
 
         def CreateComponents(self):
+            """Create unit components including expresser."""
             super().CreateComponents()
             
             self.expresser = UnitExpresser(self)
 
         def DestroyComponents(self):
+            """Destroy unit components including expresser."""
             if self.componentsinitalized:
                 del self.expresser
             super().DestroyComponents()
 
         def Precache(self):
+            """Precache unit resources including weapons."""
             super().Precache()
             
             for weapon in self.unitinfo.weapons:
@@ -38,7 +47,10 @@ class UnitBaseCombatHuman(BaseClass):
             self.PrecacheScriptSound("unit_combine_hurt")
 
     def Spawn(self):
-        """ On Spawn, adds weapons to the unit using the info class. """
+        """Spawn the human unit and equip weapons.
+        
+        On Spawn, adds weapons to the unit using the info class.
+        """
         super().Spawn()
         
         self.hackedgunpos = Vector(0, 0, 55)
@@ -47,7 +59,7 @@ class UnitBaseCombatHuman(BaseClass):
         self.EquipWeapons()
 
     def EquipWeapons(self):
-        """ Create weapons and equip """
+        """Create weapons and equip them to the unit."""
         if not isserver or not self.unitinfo.weapons:
             return
         for weapon in self.unitinfo.weapons:

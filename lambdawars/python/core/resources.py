@@ -41,9 +41,18 @@ dbid = 'resources'
 dbresources = gamemgr.dblist[dbid]
 
 def GetResourceInfo(name):
+    """Get resource info by name.
+    
+    Args:
+        name (str): Resource name.
+        
+    Returns:
+        ResourceInfo: The resource info object, or None if not found.
+    """
     return dbresources.get(name, None)
 
 class ResourceInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass for ResourceInfo that sets up display name and icon on client."""
     def __new__(cls, name, bases, dct):
         newcls = gamemgr.BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
@@ -57,6 +66,11 @@ class ResourceInfoMetaClass(gamemgr.BaseInfoMetaclass):
         return newcls
     
 class ResourceInfo(gamemgr.BaseInfo, metaclass=ResourceInfoMetaClass):
+    """Information class for a resource type.
+    
+    Defines resource properties including display name, icon, and whether
+    the resource has a cap/maximum value.
+    """
     id = dbid
     
     #: Name for display
@@ -73,21 +87,21 @@ class ResourceInfo(gamemgr.BaseInfo, metaclass=ResourceInfoMetaClass):
     # Resource amount method
     @classmethod
     def TakeResources(cls, owner, amount):
-        """ Default implementation for taking resources.
+        """Default implementation for taking resources.
 
-            Args:
-                owner (int): The owner from who the resource is taken.
-                amount (float): Amount being taken.
+        Args:
+            owner (int): The owner from who the resource is taken.
+            amount (float): Amount being taken.
         """
         UpdateResource(owner, cls.name, -amount)
         
     @classmethod
     def GiveResources(cls, ownernumber, amount):
-        """ Default implementation for giving resources.
+        """Default implementation for giving resources.
 
-            Args:
-                owner (int): Receiver of resource
-                amount (float): Amount being received.
+        Args:
+            ownernumber (int): Receiver of resource.
+            amount (float): Amount being received.
         """
         if cls.iscapped:
             amount = min(resourcecaps[ownernumber][cls.name] - resources[ownernumber][cls.name], amount)
@@ -97,16 +111,37 @@ class ResourceInfo(gamemgr.BaseInfo, metaclass=ResourceInfoMetaClass):
         
     @classmethod
     def GetResourceAmount(cls, ownernumber):
+        """Get the current amount of this resource for an owner.
+        
+        Args:
+            ownernumber (int): Owner number.
+            
+        Returns:
+            int: Current resource amount.
+        """
         return resources[ownernumber][cls.name]
         
     # Resource max methods (if used)
     @classmethod
     def GetResourceCap(cls, ownernumber):
+        """Get the resource cap/maximum for an owner.
+        
+        Args:
+            ownernumber (int): Owner number.
+            
+        Returns:
+            int: Current resource cap.
+        """
         return resourcecaps[ownernumber][cls.name]
 
     @classmethod
     def UpdateResourceCap(cls, ownernumber, capchange):
-        """ Updates the resource cap/maximum. Only used if "iscapped" is True! """
+        """Update the resource cap/maximum. Only used if "iscapped" is True!
+        
+        Args:
+            ownernumber (int): Owner number.
+            capchange (int): Change to apply to the cap (can be negative).
+        """
         resourcecaps[ownernumber][cls.name] +=  capchange
         if cls.nocapoverflow:
             if resourcecaps[ownernumber][cls.name] < resources[ownernumber][cls.name]:
@@ -139,6 +174,10 @@ def ClientUpdateResourceCap(ownernumber, resourcetype, amount, **kwargs):
 
 
 def CheckClientResources():
+    """Check for resource changes and update clients if needed.
+    
+    Called periodically to sync resource amounts and caps to clients.
+    """
     for ownernumber, ownresources in resources.items():
         for type, amount in ownresources.items():
             if resourceslast[ownernumber][type] != amount:
@@ -170,6 +209,7 @@ if isserver:
     
 # Resource methods    
 def InitializeResources():
+    """Initialize the resource system by clearing all resource data."""
     global resources
     # Usage: resources[OWNER_NUMBER][RESOURCE_TYPE]
     resources.clear()
@@ -177,12 +217,27 @@ def InitializeResources():
     resourceslast.clear()
     
 def ResetResource(type):
+    """Reset a resource type to zero for all owners.
+    
+    Args:
+        type (str): Resource type name.
+    """
     for ownernumber in resources.keys():
         resources[ownernumber][type] = 0
         resourcesaccumlated[ownernumber][type] = 0
         resourceslast[ownernumber][type] = 0
     
 def UpdateResource(ownernumber, type, amount):
+    """Update resource amount for an owner.
+    
+    Uses accumulated fractional amounts to handle fractional resource changes
+    while only storing integer values.
+    
+    Args:
+        ownernumber (int): Owner number.
+        type (str): Resource type name.
+        amount (float): Amount to add (can be negative).
+    """
     resourcesaccumlated[ownernumber][type] += amount
     
     if resourcesaccumlated[ownernumber][type] < 0:
@@ -197,6 +252,13 @@ def UpdateResource(ownernumber, type, amount):
     FireSignalRobust(resourceupdated, ownernumber=ownernumber, type=type, amount=amount)
     
 def SetResource(ownernumber, type, amount):
+    """Set resource amount to a specific value.
+    
+    Args:
+        ownernumber (int): Owner number.
+        type (str): Resource type name.
+        amount (int): New resource amount.
+    """
     resources[ownernumber][type] = amount
     resourcesaccumlated[ownernumber][type] = 0
     
@@ -213,11 +275,14 @@ def HasEnoughResources(costs, ownernumber):
     return True
     
 def FindFirstCostSet(c, ownernumber):
-    """ Returns the first list of costs in the Cost class satisfying
-        the resources the player has.
+    """Find the first cost set in the Cost class that the player can afford.
+    
+    Args:
+        c (C): Cost class instance containing lists of cost tuples.
+        ownernumber (int): Owner number to check resources for.
         
-        Input:
-        c - an instance of C.
+    Returns:
+        list: First affordable cost list, or None if none are affordable.
     """
     for l in c:
         if HasEnoughResources(l, ownernumber):
@@ -276,7 +341,12 @@ if isserver:
             SendResourceInfo(filter, client.GetOwnerNumber(), type)        
         
     def UpdateClientsResource(ownernumber, type):
-        """ For each player with this ownernumber update resource of the given type """
+        """Update resource amount for all players with this owner number.
+        
+        Args:
+            ownernumber (int): Owner number.
+            type (str): Resource type name.
+        """
         filter = CRecipientFilter()
         filter.MakeReliable() 
         for i in range(1, gpGlobals.maxClients+1):
@@ -288,6 +358,12 @@ if isserver:
         SendResourceInfo(filter, ownernumber, type)
         
     def UpdateClientsResourceCap(ownernumber, type):
+        """Update resource cap for all players with this owner number.
+        
+        Args:
+            ownernumber (int): Owner number.
+            type (str): Resource type name.
+        """
         filter = CRecipientFilter()
         filter.MakeReliable() 
         for i in range(1, gpGlobals.maxClients+1):
@@ -299,9 +375,23 @@ if isserver:
         SendResourceCapInfo(filter, ownernumber, type)
         
     def SendResourceInfo(filter, ownernumber, type):
+        """Send resource amount update to clients.
+        
+        Args:
+            filter: Recipient filter.
+            ownernumber (int): Owner number.
+            type (str): Resource type name.
+        """
         ClientUpdateResource(ownernumber, type, resources[ownernumber][type], filter=filter)   
         
     def SendResourceCapInfo(filter, ownernumber, type):
+        """Send resource cap update to clients.
+        
+        Args:
+            filter: Recipient filter.
+            ownernumber (int): Owner number.
+            type (str): Resource type name.
+        """
         ClientUpdateResourceCap(ownernumber, type, resourcecaps[ownernumber][type], filter=filter)   
 
     @receiver(playerchangedownernumber)
@@ -346,12 +436,33 @@ else:
 
 # Defines costs
 class C(list):
+    """Cost class for defining resource costs.
+    
+    Represents a list of alternative cost sets. Each cost set is a list of
+    (resource_type, amount) tuples. The first affordable cost set is used.
+    
+    Supports & (AND) and | (OR) operators for combining costs.
+    """
     def __init__(self, costname=None, value=None):
+        """Initialize a cost object.
+        
+        Args:
+            costname (str, optional): Resource type name for a single cost.
+            value (int, optional): Amount for the single cost.
+        """
         super(C, self).__init__()
         if costname:
             self.append([(costname, value)])
         
     def __and__(self, other):
+        """Combine costs with AND operator (merge cost sets).
+        
+        Args:
+            other (C): Another cost object.
+            
+        Returns:
+            C: New cost object with merged cost sets.
+        """
         if not isinstance(other, C):
             raise TypeError(other)
         c = copy.deepcopy(self)
@@ -362,6 +473,14 @@ class C(list):
         return c
         
     def __or__(self, other):
+        """Combine costs with OR operator (add alternative cost sets).
+        
+        Args:
+            other (C): Another cost object.
+            
+        Returns:
+            C: New cost object with additional alternative cost sets.
+        """
         if not isinstance(other, C):
             raise TypeError(other)
         c = copy.deepcopy(self)
@@ -371,6 +490,11 @@ class C(list):
 # Save/restore of resources
 @receiver(saverestore_save)
 def SaveResources(fields, *args, **kwargs):
+    """Save resource data to the save/restore fields.
+    
+    Args:
+        fields (dict): Dictionary to store save data in.
+    """
     for owner, resourcespertype in resources.items():
         for type, amount in resourcespertype.items():
             fields['resource_%d_%s' % (owner, type)] = str(amount)
@@ -382,6 +506,11 @@ def SaveResources(fields, *args, **kwargs):
             
 @receiver(saverestore_restore)
 def RestoreResources(fields, *args, **kwargs):
+    """Restore resource data from the save/restore fields.
+    
+    Args:
+        fields (dict): Dictionary containing saved resource data.
+    """
     resource = re.compile('resource_(?P<owner>\d+)_(?P<type>[a-zA-Z]+)')
     resourceacc = re.compile('resourceacc_(?P<owner>\d+)_(?P<type>[a-zA-Z]+)')
     resourcecap = re.compile('resourcecap_(?P<owner>\d+)_(?P<type>[a-zA-Z]+)')

@@ -1,3 +1,8 @@
+"""Brush-based building classes for Lambda Wars.
+
+Provides base classes for buildings implemented as brush entities (BSP geometry)
+rather than model-based entities.
+"""
 from srcbase import SOLID_BSP, MOVETYPE_NONE, FL_WORLDBRUSH
 from core.units import UnitBaseShared
 from .base import UnitBaseBuildingShared
@@ -12,7 +17,12 @@ else:
     from entities import C_FuncUnit as BaseClass
 
 class FuncBaseSimple(UnitBaseShared, BaseClass):
+    """Base class for simple brush-based units.
+    
+    Provides basic functionality for units implemented as brush entities.
+    """
     def Spawn(self):
+        """Spawn the brush unit and set up think function."""
         super().Spawn()
 
         if isserver:
@@ -39,7 +49,9 @@ class FuncBaseSimple(UnitBaseShared, BaseClass):
 
 @entity('func_brush_building', networked=True)
 class FuncBaseBuilding(UnitBaseBuildingShared, FuncBaseSimple):
+    """Base class for brush-based building entities."""
     def Spawn(self):
+        """Spawn the brush building and enable constructed list."""
         super().Spawn()
         self.constructedlisthandle.Enable()
     fowflags = FOWFLAG_ALL_MASK # Set back to FOWFLAG_BUILDINGS_NEUTRAL_MASK once reliable overflow error is fixed again. Test on sp_abandoned.
@@ -47,7 +59,9 @@ class FuncBaseBuilding(UnitBaseBuildingShared, FuncBaseSimple):
 
 @entity('func_brush_factory', networked=True)
 class FuncBaseFactory(UnitBaseFactoryShared, FuncBaseBuilding):
+    """Base class for brush-based factory building entities."""
     def Spawn(self):
+        """Spawn the brush factory and enable constructed list."""
         super().Spawn()
         self.constructedlisthandle.Enable()
     fowflags = FOWFLAG_BUILDINGS_NEUTRAL_MASK
@@ -55,13 +69,16 @@ class FuncBaseFactory(UnitBaseFactoryShared, FuncBaseBuilding):
 
 @entity('func_brush_garrisonable', networked=True)
 class FuncBaseGarrisonable(UnitBaseGarrisonableShared, FuncBaseBuilding):
+    """Base class for brush-based garrisonable building entities."""
     def Spawn(self):
+        """Spawn the brush garrisonable building and enable constructed list."""
         super().Spawn()
         self.constructedlisthandle.Enable()
     fowflags = FOWFLAG_BUILDINGS_NEUTRAL_MASK
 
 
 class FuncGarrisonableInfo(GarrisonableBuildingInfo):
+    """Information class for brush-based garrisonable buildings."""
     name = 'func_garrisonable'
     cls_name = 'func_brush_garrisonable'
     hidden = True

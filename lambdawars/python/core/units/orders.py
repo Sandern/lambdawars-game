@@ -1,3 +1,8 @@
+"""Order system for Lambda Wars units.
+
+Provides order classes and management for unit commands including move,
+attack, and ability orders.
+"""
 from srcbuiltins import RegisterTickMethod, UnregisterTickMethod
 from vmath import vec3_origin, vec3_angle, Vector
 from operator import itemgetter
@@ -103,20 +108,24 @@ if isclient:
                     ent1=prevorder.target, ent2=nextorder.target)
 
 class Order(object):
+    """Base class for unit orders.
+    
+    Represents a command given to a unit such as move, attack, or use ability.
+    """
     def __init__(self, type=0, position=vec3_origin, angle=vec3_angle, 
                        target=None, selection=[], originalposition=None, repeat=False):
-        """ Creates a new Order object for an Unit.
+        """Create a new Order object for a unit.
         
-            Kwargs:
-               type (int): The type of order (Move, attack, ability)
-               position (Vector): Target position (if used)
-               angle (QAngle): Unit arrival facing direction (if used)
-               target (Entity): Target entity of this Order (if used)
-               selection (list): The selection of the player during issuing the order
-               originalposition (Vector): The original position ordered by the player.
-                                          Units may modify the position to avoid cluttering to the same
-                                          target position when moving.
-               repeat (bool): If this order is repeated or not. This is used for patrolling.
+        Kwargs:
+           type (int): The type of order (Move, attack, ability)
+           position (Vector): Target position (if used)
+           angle (QAngle): Unit arrival facing direction (if used)
+           target (Entity): Target entity of this Order (if used)
+           selection (list): The selection of the player during issuing the order
+           originalposition (Vector): The original position ordered by the player.
+                                      Units may modify the position to avoid cluttering to the same
+                                      target position when moving.
+           repeat (bool): If this order is repeated or not. This is used for patrolling.
         """
         super().__init__()
         self.type = type
@@ -128,20 +137,33 @@ class Order(object):
         self.repeat = repeat
        
     def __str__(self):
+        """Get string representation of the order."""
         return '<unit: %s, order type %s, ability: %s, repeat: %s>' % (self.unit, self.type, self.ability, self.repeat)
         
     def AllowAutoCast(self, unit):
+        """Check if auto-cast is allowed for this order.
+        
+        Args:
+            unit: Unit entity.
+            
+        Returns:
+            bool: True if auto-cast is allowed, False otherwise.
+        """
         if self.ability:
             return self.ability.AllowAutoCast(unit)
         return False
         
     def Remove(self, dispatchevent=True, allowrepeat=False):
-        """ Removes the order from the owning unit.
-            No-op in casen no unit is attached.
-
-            Kwargs:
-                dispatchevent (bool): Dispatch clear order event.
-                allowrepeat (bool): Can be repeated (patrol code)
+        """Remove the order from the owning unit.
+        
+        No-op in case no unit is attached.
+        
+        Args:
+            dispatchevent (bool): Dispatch clear order event.
+            allowrepeat (bool): Can be repeated (patrol code).
+            
+        Returns:
+            bool: True if order was removed, False if no unit attached.
         """
         unit = self.unit
         if not unit:

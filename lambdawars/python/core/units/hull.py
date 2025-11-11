@@ -1,3 +1,8 @@
+"""Hull definitions for Lambda Wars units.
+
+Provides predefined hull sizes for different unit types, used for
+collision detection and unit sizing.
+"""
 from vmath import Vector, vec3_origin
 
 # Format for each type: mins maxs smallmins smallmaxs
@@ -54,22 +59,78 @@ hull = {
 }
 
 def Mins(id):
+    """Get minimum bounds for a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        Vector: Minimum bounds vector.
+    """
     return hull[id][0]
 
 def Maxs(id):
+    """Get maximum bounds for a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        Vector: Maximum bounds vector.
+    """
     return hull[id][1]
 
 def SmallMins(id):
+    """Get small minimum bounds for a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        Vector: Small minimum bounds vector.
+    """
     return hull[id][2]
 
 def SmallMaxs(id):
+    """Get small maximum bounds for a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        Vector: Small maximum bounds vector.
+    """
     return hull[id][3]
 
 def Length(id):
+    """Get length (X dimension) of a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        float: Length in units.
+    """
     return (hull[id][1].x - hull[id][0].x) 
 
 def Width(id):
+    """Get width (Y dimension) of a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        float: Width in units.
+    """
     return (hull[id][1].y - hull[id][0].y)
 
 def Height(id):
+    """Get height (Z dimension) of a hull type.
+    
+    Args:
+        id (str): Hull type identifier.
+        
+    Returns:
+        float: Height in units.
+    """
     return (hull[id][1].z - hull[id][0].z)

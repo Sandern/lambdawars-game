@@ -1,3 +1,9 @@
+"""Core game package for Lambda Wars RTS.
+
+This package provides the base classes and systems for the Half-Life 2 based
+real-time strategy game, including units, abilities, buildings, weapons, and
+game rules.
+"""
 from . import signals
 from gamedb import RegisterGamePackage
 from gameinterface import engine
@@ -189,6 +195,11 @@ RegisterGamePackage(
 )  
 
 def LoadGame(*args, **kwargs):
+    """Initialize game-specific console space variables.
+    
+    Sets up unit list variables in the console space module for use with
+    console commands like "py_run...".
+    """
     # Set vars for consolespace module (module space for "py_run... " )
     from core.units import unitlist, unitlistpertype
     import consolespace
@@ -198,6 +209,17 @@ def LoadGame(*args, **kwargs):
     
 if isserver:
     def ApplyGameSettings(settings):
+        """Apply game settings from the settings dictionary.
+        
+        Configures the game mode and map based on the provided settings.
+        Currently handles mission mode setup.
+        
+        Args:
+            settings (dict): Dictionary containing game and map settings.
+            
+        Returns:
+            bool: True if settings were applied successfully, False otherwise.
+        """
         from core.gamerules import SetNextLevelGamerules
         
         game = settings.get('game', {})

@@ -1,4 +1,7 @@
-"""Provides a python base for weapons."""
+"""Base weapon classes for Lambda Wars.
+
+Provides base classes for weapons used by units including ranged and melee weapons.
+"""
 from entities import CWarsWeapon as BaseClass
 from core.units import UnitInfo
 from kvdict import LoadFileIntoDictionaries
@@ -6,8 +9,9 @@ from gamerules import GetAmmoDef
 from fow import FogOfWarMgr
 
 class WarsWeaponBase(BaseClass):
-    """ Base for weapons."""
+    """Base class for weapons."""
     def __init__(self):
+        """Initialize the weapon and update attack settings."""
         super().__init__()
         
         attackprimary = self.AttackPrimary
@@ -18,6 +22,11 @@ class WarsWeaponBase(BaseClass):
             self.SetOverrideClassname(self.clientclassname)
             
     def UpdateAttackSettings(self, attackprimary):
+        """Update weapon attack settings from attack info.
+        
+        Args:
+            attackprimary: Primary attack info object.
+        """
         self.firerate = attackprimary.attackspeed
         self.maxrange1 = attackprimary.maxrange
         self.overrideammodamage = attackprimary.damage
@@ -30,13 +39,31 @@ class WarsWeaponBase(BaseClass):
         self.primaryattackattributes = attackprimary.attributes
         
     def UpdateEnemyTransmissionInfo(self, owner, enemy):
+        """Update fog of war transmission for enemy visibility.
+        
+        Args:
+            owner: Weapon owner unit.
+            enemy: Enemy unit.
+            
+        Returns:
+            list: List of enemy origins for transmission.
+        """
         if enemy:
             FogOfWarMgr().ForceTransmitUpdateEntity(owner, enemy.GetOwnerNumber())
             return [enemy.GetAbsOrigin()]
         return []
             
     def StartRangeAttack(self, enemy):
-        """ Called by units to do a range attack. """
+        """Start a ranged attack against an enemy.
+        
+        Called by units to do a range attack.
+        
+        Args:
+            enemy: Enemy unit to attack.
+            
+        Returns:
+            bool: False (attack started, not completed).
+        """
         owner = self.GetOwner()
         enemyorigins = self.UpdateEnemyTransmissionInfo(owner, enemy)
         owner.DoAnimation(owner.ANIM_ATTACK_PRIMARY, extraorigins=enemyorigins)
@@ -45,7 +72,16 @@ class WarsWeaponBase(BaseClass):
         return False
 
     def StartMeleeAttack(self, enemy):
-        """ Called by units to do a melee attack. """
+        """Start a melee attack against an enemy.
+        
+        Called by units to do a melee attack.
+        
+        Args:
+            enemy: Enemy unit to attack.
+            
+        Returns:
+            bool: False (attack started, not completed).
+        """
         owner = self.GetOwner()
         enemyorigins = self.UpdateEnemyTransmissionInfo(owner, enemy)
         owner.DoAnimation(owner.ANIM_MELEE_ATTACK1, extraorigins=enemyorigins)

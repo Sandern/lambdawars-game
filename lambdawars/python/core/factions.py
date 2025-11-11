@@ -1,3 +1,7 @@
+"""Faction system for Lambda Wars.
+
+Manages player factions, their properties, HUDs, and starting configurations.
+"""
 from srcbase import *
 from vmath import Vector
 import traceback
@@ -31,6 +35,7 @@ faction_hud_cef = None # CEF version
 
 # Factions info entry
 class FactionInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass for FactionInfo that compiles the gamerules pattern regex."""
     def __new__(cls, name, bases, dct):
         newcls = gamemgr.BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
@@ -39,6 +44,11 @@ class FactionInfoMetaClass(gamemgr.BaseInfoMetaclass):
         return newcls
         
 class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
+    """Information class for a player faction.
+    
+    Defines faction properties including starting units/buildings, HUD,
+    resources, colors, and announcer sounds.
+    """
     id = dbid
     #: Display name in gamelobby and other places.
     displayname = LocalizedStringField(value='')
@@ -77,6 +87,7 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
 
     @classmethod
     def Precache(info):
+        """Precache faction-specific sounds and particle effects."""
         # TODO: Should be precached from here
         #if isserver:
         #    from core.units import PrecacheUnit
@@ -109,6 +120,14 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
         
     @classmethod
     def PopulateStartSpot(info, gamerules, startspot, ownernumber, playerSteamID=None):
+        """Spawn the faction's starting building and unit at a start spot.
+        
+        Args:
+            gamerules: Current game rules instance.
+            startspot: Start spot entity where units should spawn.
+            ownernumber (int): Owner number for the spawned units.
+            playerSteamID: Optional Steam ID of the player.
+        """
         if not info.startbuilding or not info.startunit:
             PrintWarning('Faction %s has no start building or unit specified! Unable to populate start spot.\n')
             return
@@ -126,6 +145,11 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
         
     @classmethod           
     def OnLoaded(info):        
+        """Called when the faction info is loaded.
+        
+        Sets up the faction HUD convar and initializes the HUD if the
+        local player belongs to this faction.
+        """
         name = info.name 
         if isclient:
             # Dynamically create a convar for the hud named like: factionname_hud
@@ -139,15 +163,34 @@ class FactionInfo(gamemgr.BaseInfo, metaclass=FactionInfoMetaClass):
         
     @classmethod       
     def OnUnLoaded(info):
+        """Called when the faction info is unloaded.
+        
+        Cleans up the faction HUD convar and destroys the HUD.
+        """
         name = info.name 
         if isclient:
             dbfactions[name].faction_hud_cvar = None
             DestroyHud()
         
 def GetFactionInfo(faction_name):
+    """Get faction info by name.
+    
+    Args:
+        faction_name (str): Name of the faction.
+        
+    Returns:
+        FactionInfo: The faction info object, or None if not found.
+    """
     return dbfactions.get(faction_name, None)
 
 def HudConvarChanged(var, old_value, f_old_value):
+    """Callback when the faction HUD convar is changed.
+    
+    Args:
+        var: The convar that changed.
+        old_value: Previous value.
+        f_old_value: Previous float value.
+    """
     # Retrieve the faction name
     name = var.GetName().rstrip('_hud')
     hud_name = var.GetString()
@@ -163,6 +206,11 @@ def HudConvarChanged(var, old_value, f_old_value):
         
 # Hud create/destroy methods
 def CreateHud(name):
+    """Create the HUD for a faction.
+    
+    Args:
+        name (str): Faction name.
+    """
     global faction_hud_helper, faction_hud_cef
     DestroyHud()
     
@@ -202,6 +250,7 @@ def CreateHud(name):
             traceback.print_exc()
         
 def DestroyHud():
+    """Destroy the current faction HUD."""
     global faction_hud_helper, faction_hud_cef
     
     try:
@@ -233,6 +282,11 @@ warnedmissingsound = set()
 # Play a sound
 @usermessage(messagename='playfactionsound')
 def PlayFactionSound(factionsoundname, **kwargs):
+    """Play a faction-specific sound for the local player.
+    
+    Args:
+        factionsoundname (str): Name of the faction sound attribute to play.
+    """
     player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
     if not player or not player.GetFaction():
         return
@@ -253,6 +307,12 @@ def PlayFactionSound(factionsoundname, **kwargs):
 # Called when player changed his faction
 @receiver(playerchangedfaction)
 def PlayerChangedFaction(player, oldfaction, **kwargs):
+    """Handle when a player changes faction.
+    
+    Args:
+        player: The player entity.
+        oldfaction (str): Previous faction name.
+    """
     if not player:
         return
     faction_name = player.GetFaction()
