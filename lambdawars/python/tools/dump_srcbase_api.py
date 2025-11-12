@@ -24,13 +24,13 @@ def dump(filename="srcbase_api_dump.txt"):
             ),
             key=lambda x: x[0],
         ):
-            f.write(f"{name} :: {type(obj).__name__}\n")
+            f.write("{} :: {}\n".format(name, type(obj).__name__))
             doc = inspect.getdoc(obj) or ""
             if doc:
                 f.write(textwrap.fill(doc, width=100, subsequent_indent="    "))
                 f.write("\n")
             f.write("\n")
-    print(f"Wrote {path}")
+    print("Wrote {}".format(path))
 
 
 if __name__ == "__main__":

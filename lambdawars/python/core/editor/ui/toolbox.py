@@ -1,6 +1,4 @@
-'''
-Controller code for toolbox panel in editor mode.
-'''
+""" Controller code for toolbox CEF panel in in-game editor mode. """
 from srcbase import IN_DUCK, KeyValues
 from cef import CefPanel
 from gameinterface import engine, ConVarRef
