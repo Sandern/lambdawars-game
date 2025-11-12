@@ -1,3 +1,8 @@
+"""Building event listener entity for Lambda Wars.
+
+Listens for building started/finished signals and fires map outputs
+that can be hooked up in Hammer/logic scripts.
+"""
 from entities import CPointEntity, entity
 from fields import input, OutputField, BooleanField, FloatField, IntegerField, StringField, FlagsField, fieldtypes, input
 if isserver:

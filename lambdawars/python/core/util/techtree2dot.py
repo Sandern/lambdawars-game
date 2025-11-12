@@ -1,3 +1,4 @@
+"""Generate DOT/PNG technology trees for abilities and factions."""
 import os
 try:
     import pydot
@@ -12,6 +13,7 @@ from gameinterface import concommand
 
 # Methods to add edges between nodes based on the abilities an ability has.
 def AddEdges(info, node, graph, nodes):
+    """Add edges from an ability node to all of its dependent abilities."""
     try: abilities = info.abilities
     except AttributeError: abilities = None
     try: successorability = info.successorability
@@ -36,6 +38,7 @@ def AddEdges(info, node, graph, nodes):
         AddEdges(dbabilities[transform_type], nodes[transform_type], graph, nodes)
     
 def CreateEdges(graph, nodes):
+    """Iterate over nodes and wire up relationships using ``AddEdges``."""
     for name, node in nodes.items():
         if issubclass(dbabilities[name], AbilityMenuBase):
             continue
@@ -43,9 +46,7 @@ def CreateEdges(graph, nodes):
 
 
 def ParseAbilitiesTree():
-    """ Turn all abilities in the dbabilities dict into nodes. 
-        Then create edges by walking the abilities dicts of
-        the abilities (mainly of units and buildings). """
+    """Turn the global ability database into a single PNG tech tree."""
     if not pydot:
         PrintWarning("ParseAbilitiesTree: pydot missing!\n")
         return
@@ -73,6 +74,7 @@ def ParseAbilitiesTree():
     graph.write_png(path)
     
 def RecursiveCreateNodes(info, nodes):
+    """Recursively create pydot nodes for an ability and its descendants."""
     if info.name in nodes:
         return
         
@@ -96,6 +98,7 @@ def RecursiveCreateNodes(info, nodes):
         RecursiveCreateNodes(dbabilities[transform_type], nodes)
         
 def ParseAbilitiesTreeFactions():
+    """Generate per-faction tech trees rooted at each faction's start building."""
     if not pydot:
         Warning("ParseAbilitiesTreeFactions: pydot missing!\n")
         return
@@ -125,10 +128,12 @@ def ParseAbilitiesTreeFactions():
         
 @concommand('generate_abilitiestree')
 def CCGenerateAbilitiesTree(args):
+    """Console command to render the global abilities tree to PNG."""
     ParseAbilitiesTree()
     
 @concommand('generate_abilitiestree_factions')
 def CCGenerateAbilitiesTreeFactions(args):
+    """Console command to render a tech tree PNG for every faction."""
     ParseAbilitiesTreeFactions()
     
         

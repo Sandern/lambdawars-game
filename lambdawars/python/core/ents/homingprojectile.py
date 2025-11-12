@@ -1,3 +1,8 @@
+"""Homing projectile entity for Lambda Wars.
+
+Defines a projectile that homes in on a target and applies damage on impact,
+with optional particle effects and explosion behavior.
+"""
 from srcbase import *
 from vmath import *
 from entities import CBaseAnimating as BaseClass, entity

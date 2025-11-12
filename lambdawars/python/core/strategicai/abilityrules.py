@@ -1,3 +1,4 @@
+"""Rules used by the strategic AI to evaluate abilities and production tasks."""
 import random
 import math
 from collections import defaultdict
@@ -22,11 +23,13 @@ dbabilityrules = dblist[dbid]
 
 @receiver(postlevelshutdown)
 def LevelShutdown(sender, **kwargs):
+    """Reset cached state on all registered ability rules when the map ends."""
     for name, info in dbabilityrules.items():
         info.OnLevelShutdown()
 
 
 class AbilityRuleMetaClass(BaseInfoMetaclass):
+    """Metaclass that normalises match-hint declarations for ability rules."""
     def __new__(cls, name, bases, dct):
         newcls = BaseInfoMetaclass.__new__(cls, name, bases, dct)
 
@@ -38,6 +41,11 @@ class AbilityRuleMetaClass(BaseInfoMetaclass):
 
 
 class AbilityRuleBase(BaseInfo, metaclass=AbilityRuleMetaClass):
+    """Base class for all strategic AI ability rules.
+
+    Ability rules decide which ability a unit should execute, keep track of
+    priorities, and can contribute debug information when no action is taken.
+    """
     id = dbid
     autogenname = True
     priority = 0

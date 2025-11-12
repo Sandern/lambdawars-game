@@ -1,3 +1,8 @@
+"""Simple HUD timer panel driven by gamerule events and tick updates.
+
+Provides a minimal VGUI panel that can show elapsed or remaining time during
+missions, updating regularly via tick signals.
+"""
 from srcbase import Color, HIDEHUD_STRATEGIC
 from vgui import GetClientMode, CHudElement, scheme, AddTickSignal
 from vgui.controls import Panel, Label
@@ -6,6 +11,11 @@ from utils import ScreenWidth, ScreenHeight
 from gamerules import gamerules
 
 class HudTimer(CHudElement, Panel):
+    """Displays a simple countdown or elapsed time label on the HUD.
+
+    Loads its own scheme, updates the label via tick callbacks, and exposes
+    helper attributes for gamerules to set the current time to display.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudTimer")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudTimer")

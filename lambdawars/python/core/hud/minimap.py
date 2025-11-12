@@ -1,3 +1,9 @@
+"""HUD minimap implementation with fog-of-war, unit tracking, and pings.
+
+Handles rendering of the strategic minimap, keeps track of unit markers,
+reacts to fog-of-war changes, and processes ping signals from the gameplay
+systems.
+"""
 from srcbase import Color
 from vmath import Vector2D, Vector
 from vgui import cursors, GetClientMode, surface, FontVertex_t, vgui_input, scheme
@@ -23,6 +29,12 @@ FOW_TILESIZE = 64
 minimapflash = Signal(providing_args=['ent', 'duration'])
 
 class BaseHudMinimap(BaseMinimap):
+    """Client minimap panel that renders units, fog-of-war, and incoming pings.
+
+    Maintains local caches of map objects, subscribes to unit spawn/remove
+    signals, responds to networked ping events, and provides helper methods
+    for translating world coordinates into minimap space.
+    """
     def __init__(self, parent):
         # Vars
         self.backgroundtextureid = -1

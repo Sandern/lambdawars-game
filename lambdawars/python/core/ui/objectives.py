@@ -1,7 +1,17 @@
+"""Objectives HUD panel rendered via CEF and driven by objective entities.
+
+Rebuilds the displayed objective list whenever the game sends updates so the
+HTML view stays in sync with the current mission objectives.
+"""
 from cef import viewport, CefPanel
 from core.signals import prelevelinit
 
 class CefObjectivesPanel(CefPanel):
+    """Displays mission objectives, rebuilding content when objectives change.
+
+    Listens for level-init signals, tracks the current set of objective
+    entities, and pushes sorted objective information into the HTML panel.
+    """
     htmlfile = 'ui/viewport/wars/objectives.html'
     classidentifier = 'viewport/hud/wars/Objectives'
     cssfiles = CefPanel.cssfiles + ['wars/objectives.css']

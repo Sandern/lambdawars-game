@@ -1,3 +1,8 @@
+"""Follow entity controller for players.
+
+Provides a map entity that can force players to follow an entity or group,
+optionally freezing them while the camera is attached.
+"""
 from srcbase import *
 from vmath import *
 from fields import EHandleField, FloatField, BooleanField, FlagsField, input, fieldtypes
@@ -12,6 +17,7 @@ else:
 
 @entity('wars_player_follow_entity', networked=True, iconsprite='editor/wars_player_follow_entity.vmt')
 class PlayerFolowEntity(CBaseEntity):
+    """Entity that controls player camera to follow target entities/groups."""
     def UpdateTransmitState(self):
         return self.SetTransmitState(FL_EDICT_ALWAYS)
 

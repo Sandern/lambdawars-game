@@ -1,3 +1,7 @@
+"""Map filter entities for Lambda Wars.
+
+Defines filters to select entities based on owner, unit type, or carried items.
+"""
 
 if isserver:
     from entities import CBaseFilter, entity

@@ -1,9 +1,19 @@
+"""Waiting-for-players CEF panel showing lobby status, host banner, and MOTD.
+
+Handles updating the HTML view with current lobby information while players
+connect or load into the match.
+"""
 from cef import viewport, CefPanel
 from gamerules import gamerules
 from gameui import GetMainMenu
 from steam import CSteamID, steamapicontext
 
 class CefWaitingForPlayers(CefPanel):
+    """Displays lobby information while waiting for players to connect.
+
+    Updates banner/MOTD content, resolves player names via Steam, and feeds
+    timeout plus player status data into the HTML UI until the match starts.
+    """
     name = 'waitingforplayers'
     htmlfile = 'ui/viewport/wars/waitingforplayers.html'
     classidentifier = 'viewport/hud/wars/WaitingForPlayersPanel'

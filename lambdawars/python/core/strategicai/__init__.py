@@ -1,3 +1,4 @@
+"""Server-side strategic AI package exports for Lambda Wars."""
 import srcmgr
 srcmgr.VerifyIsServer()
 

@@ -1,3 +1,8 @@
+"""Legacy VGUI win/lose dialog shown after a match ends.
+
+Provides a simple countdown popup listing winners and losers before closing
+itself automatically.
+"""
 from srcbase import Color
 from vgui import GetClientMode, scheme, AddTickSignal
 from vgui.controls import Panel, Label, Button
@@ -5,6 +10,11 @@ from utils import ScreenWidth
 from gameinterface import engine
 
 class WinLoseDialog(Panel):
+    """Simple VGUI popup that lists winners/losers and auto-dismisses.
+
+    Configures fonts and layout for winner/loser text and destroys itself via
+    a timer so the dialog disappears after a short duration.
+    """
     def __init__(self, winners, losers, iswinner):
         super().__init__(GetClientMode().GetViewport(), "WinLoseDialog")
        

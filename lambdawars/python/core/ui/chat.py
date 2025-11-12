@@ -1,3 +1,9 @@
+"""CEF-based in-game chat panel for player communication.
+
+Implements the chat overlay that captures keyboard focus, relays messages
+between the engine and the HTML UI, and updates placeholder text when the
+input language changes.
+"""
 from cef import viewport, CefPanel
 from core.signals import receiveclientchat, startclientchat, gameui_inputlanguage_changed
 from playermgr import dbplayers, OWNER_LAST
@@ -7,6 +13,12 @@ from input import KEY_ENTER
 import gameui
 
 class CefChatPanel(CefPanel):
+    """Chat overlay using CEF to render HTML/JS UI for player communication.
+
+    Subscribes to chat-related signals, forwards text to the HTML view,
+    handles localization of the input field, and exposes functions that the
+    UI can invoke to start chat or display new messages.
+    """
     htmlfile = 'ui/viewport/wars/chat.html'
     classidentifier = 'viewport/hud/wars/Chat'
     cssfiles = CefPanel.cssfiles + ['wars/chat.css']

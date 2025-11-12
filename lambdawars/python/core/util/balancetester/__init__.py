@@ -1,3 +1,4 @@
+"""Server-only utilities for running the balancing tester tooling."""
 if not isserver:
     raise Exception('balancetester should be runned from server!')
     

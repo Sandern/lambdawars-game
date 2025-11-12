@@ -1,3 +1,4 @@
+"""Group behaviour definitions used by the strategic AI to control units."""
 import random
 import traceback
 
@@ -17,6 +18,7 @@ dbgroups = dblist[dbid]
 
 
 class GroupBaseMetaClass(BaseInfoMetaclass):
+    """Metaclass that normalises match-hint declarations for AI groups."""
     def __new__(cls, name, bases, dct):
         newcls = BaseInfoMetaclass.__new__(cls, name, bases, dct)
 

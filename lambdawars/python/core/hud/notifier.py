@@ -7,6 +7,11 @@ from input import ButtonCode_t
 from entities import C_HL2WarsPlayer
 
 class NotifierLine(Panel):
+    """Single notification line showing text/icon in the HUD notifier stack.
+
+    Wraps a RichText control and optional icon so notifications can fade in,
+    animate out, and respond to mouse interaction (e.g., jump to location).
+    """
     def __init__(self, notification, text, icon=images.GetImage('vgui/units/unit_unknown.vmt'), color=Color(255, 255, 0, 255)):
         super().__init__(GetClientMode().GetViewport(), 'NotifierLine')
         
@@ -89,6 +94,12 @@ class NotifierLine(Panel):
         self.CallParentFunction(KeyValues("MouseWheeled", "delta", delta))
         
 class HudNotifier(CHudElement, Panel):
+    """Manages the notification stack HUD element with queueing and animations.
+
+    Receives notifier entries from gameplay systems, queues them, animates
+    them into view, and handles automatic fading/removal while ensuring the
+    stack maintains spacing for newly arriving messages.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudNotifier")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudNotifier")

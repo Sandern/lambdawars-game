@@ -1,3 +1,8 @@
+"""HUD widgets for building production queues and construction status.
+
+Provides panels and buttons used to display building production queues,
+construction progress, and related ability information on the HUD.
+"""
 from srcbase import Color
 from vgui import images, surface, scheme, XRES, YRES, vgui_input
 from vgui.controls import Panel, Label, BitmapButton
@@ -8,6 +13,11 @@ from .units import BaseHudSingleUnit
 from .infobox import QueueUnitHudInfo
 
 class BuildQueueButton(BitmapButton):
+    """Button representing a queued unit/structure with count and progress.
+
+    Draws the production count, build progress overlay, and forwards hover
+    events to show the related ability information panel.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.EnableSBuffer(False)

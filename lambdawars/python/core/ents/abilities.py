@@ -1,3 +1,9 @@
+"""Ability-related map entity classes for Lambda Wars.
+
+Provides an entity to manipulate abilities at runtime (lock, unlock,
+research, hide/show, and cost adjustments) and emits outputs on
+ability completion/cancellation.
+"""
 from entities import CPointEntity, entity
 from fields import OutputField, fieldtypes, input, GetField
 from core.abilities import GetAbilityInfo, GetTechNode

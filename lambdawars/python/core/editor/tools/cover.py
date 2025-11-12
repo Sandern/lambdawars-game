@@ -1,3 +1,4 @@
+"""Editor place tool that populates cover nodes within the map."""
 from srcbase import IN_DUCK
 from vmath import Vector
 from .placetool import PlaceTool
@@ -9,6 +10,7 @@ from navmesh import GetHidingSpotsInRadius
 from editorsystem import EditorSystem
 
 class CoverTool(PlaceTool):
+    """Tool for painting or removing cover nodes in the editor."""
     name = 'editor_tool_cover'
     hidden = True
     placetoolradius = 40.0
@@ -17,6 +19,7 @@ class CoverTool(PlaceTool):
     tobeplaced = 0.0
     
     def GetPlaceOrigin(self):
+        """Return the world-space position under the mouse cursor."""
         data = self.player.GetMouseData()
         placeorigin = data.endpos
         return placeorigin
@@ -28,6 +31,7 @@ class CoverTool(PlaceTool):
 
     @serveronly
     def DoPlace(self):
+        """Queue create/destroy commands based on input state."""
         placeorigin = self.GetPlaceOrigin()
         if self.player.buttons & IN_DUCK:
             self.tobeplaced += self.ticksignal * self.density * 10

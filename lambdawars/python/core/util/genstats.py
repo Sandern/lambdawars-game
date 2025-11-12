@@ -1,3 +1,4 @@
+"""Generate HTML statistics reports for units, abilities, attributes, and factions."""
 from srcbase import *
 from core.units.info import dbunits, UnitInfo
 from core.abilities.info import dbabilities
@@ -12,6 +13,7 @@ import os
 from datetime import datetime
 
 def WriteRow(fp, elements, helpstring=None):
+    """Write a single HTML table row for the stats output."""
     fp.write('<tr>\n')
     for e in elements:
         if type(e) == tuple:
@@ -21,6 +23,7 @@ def WriteRow(fp, elements, helpstring=None):
     fp.write('</tr>\n')
 
 def StringifyCosts(costs):
+    """Return a human-readable string summarizing cost sets."""
     if not costs:
         return '-'
     out = ''
@@ -32,12 +35,14 @@ def StringifyCosts(costs):
     return out
 
 def GetAttribute(cls, name, defaultvalue=None):
+    """Safely fetch an attribute from a class, returning a default when missing."""
     try:
         return getattr(cls, name)
     except AttributeError:
         return defaultvalue
 
 def WriteHeader(fp, title):
+    """Emit the HTML header used by all stats pages."""
     fp.write('<!DOCTYPE HTML>\n')
     fp.write('<html>\n')
     fp.write('<head>\n')
@@ -71,9 +76,11 @@ def WriteHeader(fp, title):
     fp.write('<p><b>Generated %s UTC - Version %s</b></p>' % (datetime.utcnow(), srcmgr.DEVVERSION if srcmgr.DEVVERSION else str(srcmgr.VERSION)))
 
 def WriteEnd(fp):
+    """Close the HTML document for a stats page."""
     fp.write('</body>\n</html>\n')
 
 def GenerateStats(filename, units, title='Unit Statistics'):
+    """Write an HTML summary table for the provided unit dictionary."""
     folder = os.path.dirname(filename)
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -145,6 +152,7 @@ def GenerateStats(filename, units, title='Unit Statistics'):
         WriteEnd(fp)
 
 def GenerateAttributeStats():
+    """Generate an attribute summary page listing all modifiers."""
     with open('stats/attributes.html', mode='wt', encoding='utf-8') as fp:
         # Write header + table start
         WriteHeader(fp, 'Attributes')
@@ -175,6 +183,7 @@ def GenerateAttributeStats():
         WriteEnd(fp)
 
 def GenerateStatsAbilities(filename, abilities, title='Unit Statistics'):
+    """Write an HTML summary table for ability definitions."""
     folder = os.path.dirname(filename)
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -212,9 +221,11 @@ def GenerateStatsAbilities(filename, abilities, title='Unit Statistics'):
 
 @concommand('generate_stats')
 def CCGenerateStats(args):
+    """Console command to generate the global unit statistics report."""
     GenerateStats('stats/stats.html', dbunits)
 
 def RecursiveCollectAbilities(info, done, rsabilities):
+    """Collect abilities recursively by following ability trees/successors."""
     if info in done:
         return
         
@@ -240,6 +251,7 @@ def RecursiveCollectAbilities(info, done, rsabilities):
             PrintWarning('RecursiveCollectAbilities: could not find ability %s\n' % (name))
         
 def FilterBuildings(abilities):
+    """Return only non-building abilities from the provided dict."""
     filtered = dict()
     for name, info in abilities.items():
         if issubclass(info, WarsBuildingInfo):
@@ -248,6 +260,7 @@ def FilterBuildings(abilities):
     return filtered
     
 def FilterUnits(abilities):
+    """Return only non-unit abilities (i.e., buildings and abilities)."""
     filtered = dict()
     for name, info in abilities.items():
         if issubclass(info, UnitInfo) and not issubclass(info, WarsBuildingInfo):
@@ -256,6 +269,7 @@ def FilterUnits(abilities):
     return filtered
     
 def FilterAbilities(abilities):
+    """Return only entries that are units or buildings."""
     filtered = dict()
     for name, info in abilities.items():
         if not issubclass(info, WarsBuildingInfo) and not issubclass(info, UnitInfo):
@@ -264,6 +278,7 @@ def FilterAbilities(abilities):
     return filtered
         
 def GetAbilitiesFaction(faction):
+    """Collect abilities reachable from a faction's start building."""
     factionabi = dict()
     factioninfo  = dbfactions[faction]
     if factioninfo.startbuilding:
@@ -274,6 +289,7 @@ def GetAbilitiesFaction(faction):
     
 @concommand('generate_statsfaction')
 def CCGenerateStatsFaction(args):
+    """Generate stats for all abilities/units belonging to a faction."""
     if args.ArgC() < 2:
         print('Usage: generate_statsfaction faction')
         return
@@ -283,6 +299,7 @@ def CCGenerateStatsFaction(args):
     
 @concommand('generate_statsfaction_unitsonly')
 def CCGenerateStatsFactionUnitsOnly(args):
+    """Generate stats for only the unit entries of a faction."""
     if args.ArgC() < 2:
         print('Usage: generate_statsfaction_unitsonly faction')
         return
@@ -293,6 +310,7 @@ def CCGenerateStatsFactionUnitsOnly(args):
     
 @concommand('generate_statsfaction_buildingsonly')
 def CCGenerateStatsFactionBuildingsOnly(args):
+    """Generate stats for only the building entries of a faction."""
     if args.ArgC() < 2:
         print('Usage: generate_statsfaction_buildingsonly faction')
         return
@@ -303,6 +321,7 @@ def CCGenerateStatsFactionBuildingsOnly(args):
     
 @concommand('generate_statsfaction_all')
 def CCGenerateStatsFactionAll(args):
+    """Generate the global report and per-faction reports in one command."""
     engine.ClientCommand('generate_stats')
     for faction in dbfactions.values():
         engine.ClientCommand('generate_statsfaction %s' % (faction.name))
@@ -311,10 +330,12 @@ def CCGenerateStatsFactionAll(args):
         
 @concommand('generate_stats_attributes')
 def CCGenerateStatsAttributes(args):
+    """Generate the attributes summary page."""
     GenerateAttributeStats()
     
 @concommand('generate_statsabilities')
 def CCGenerateStatsAbilities(args):
+    """Generate the abilities statistics page (excluding buildings/units)."""
     abilities = FilterUnits(dbabilities)
     abilities = FilterBuildings(abilities)
     GenerateStatsAbilities('stats/statsabilities.html', abilities, title='Ability Statistics')

@@ -1,3 +1,4 @@
+"""Registration and lifecycle helpers for strategic AI CPU players."""
 import re
 from gameinterface import concommand, FCVAR_CHEAT
 from gamemgr import dblist, BaseInfo, BaseInfoMetaclass
@@ -14,6 +15,7 @@ strategicplayers = {}
 
 @receiver(postlevelshutdown)
 def LevelShutdown(sender, **kwargs):
+    """Shut down all active strategic AI instances when the map ends."""
     ShutdownAllStrategicAI()
     
 # Creation
@@ -43,12 +45,13 @@ def CreateAIForFaction(owner, cputype='cpu_wars_default', difficulty=None):
     return sai
     
 def ShutdownAllStrategicAI():
-    ''' Shutdowns all cpu players. '''
+    """Shut down every registered strategic AI player (CPU player) and clear the mapped players dictionary."""
     for sai in strategicplayers.values():
         sai.Shutdown()
     strategicplayers.clear()
         
 class StrategicAIInfoMetaClass(BaseInfoMetaclass):
+    """Metaclass that lowercases difficulty keys and exposes helpers on info classes."""
     def __new__(cls, name, bases, dct):
         # Make sure difficulty keys are lower cased
         if 'supporteddifficulties' in dct:
@@ -112,12 +115,14 @@ def DisableStrategicAI(owner):
 # Save/restore of cpu players
 @receiver(saverestore_save)
 def SaveActiveCPUPlayers(fields, *args, **kwargs):
+    """Serialize active strategic AI players into the save/restore fields."""
     for owner, sai in strategicplayers.items():
         fields['saicpuplayer_%d_%s' % (owner, sai.difficulty)] = str(sai.name)
         #print('Saving cpu player %s=%s' % (('saicpuplayer_%d_%d' % (owner, sai.difficulty)), str(sai.name)))
         
 @receiver(saverestore_restore)
 def RestoreActiveCPUPlayers(fields, *args, **kwargs):
+    """Recreate strategic AI players from saved state and call ``OnRestore``."""
     cpuplayer = re.compile('saicpuplayer_(?P<owner>\d+)_(?P<difficulty>\d+)')
     
     for name, value in fields.items():

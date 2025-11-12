@@ -1,3 +1,4 @@
+"""Custom player entity used while running the in-game editor mode."""
 from srcbase import IN_SPEED
 from vmath import QAngle, Vector, AngleVectors
 from entities import entity, CHL2WarsPlayer
@@ -11,7 +12,9 @@ if isclient:
 
 @entity('editor_player', networked=True)
 class EditorPlayer(CHL2WarsPlayer):
+    """Extends the base player so it can manipulate editor tools and selection."""
     def ClientCommand(self, args):
+        """Handle editor-specific client commands dispatched from the UI."""
         command = args[0]
         ability = self.GetSingleActiveAbility()
         if command == 'wars_editor_setplacetoolradius':
@@ -48,6 +51,7 @@ class EditorPlayer(CHL2WarsPlayer):
         return super().ClientCommand(args)
  
     def OnLeftMouseButtonReleased(self, data):
+        """Process selection logic when the editor releases the primary mouse button."""
         super().OnLeftMouseButtonReleased(data)
 
         if gamerules.activemode == 'select':

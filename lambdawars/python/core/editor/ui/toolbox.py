@@ -15,6 +15,7 @@ from editorsystem import EditorSystem
 from _recast import RecastMgr
 
 class CefToolbox(CefPanel):
+    """CEF panel that exposes editor modes, assets, and nav-mesh settings."""
     name = 'toolbox'
     htmlfile = 'ui/viewport/tools/toolbox.html'
     classidentifier = 'ui/editor/Toolbox'

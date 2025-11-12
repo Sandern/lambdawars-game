@@ -1,4 +1,9 @@
-'''
+"""CEF-based message box dialog for scripted Hammer entities.
+
+Provides functions to show, lock, and smooth-close message boxes triggered
+from map scripts and receives callbacks from the HTML UI when players interact.
+"""
+"""
 Created on 04.07.2013
 Message box that can be displayed with a hammer entity.<br>
 You can define the text and speech bubble style.
@@ -7,7 +12,7 @@ Update 11.08.2013
 - Added support for looking/unlooking the "Continue" button.
 
 @author: ProgSys
-'''
+"""
 from cef import viewport, CefPanel
 from gameinterface import PlayerInfo, concommand, engine
 from playermgr import dbplayers
@@ -16,6 +21,11 @@ import operator
 from core.signals import postlevelshutdown
 
 class CefMessagePanel(CefPanel):
+    """Message box UI panel used by map scripts to display dialogs.
+
+    Loads the messagebox HTML, exposes functions that Hammer entities call
+    into, and relays visibility/locking commands to the browser instance.
+    """
     htmlfile = 'ui/viewport/wars/messagebox.html'
     classidentifier = 'viewport/hud/wars/MessageBox'
     cssfiles = CefPanel.cssfiles + ['wars/messagebox.css']

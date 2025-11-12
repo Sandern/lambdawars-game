@@ -1,3 +1,8 @@
+"""CEF panel listing players, lobby info, and connection status for matches.
+
+Aggregates data from the main menu lobby, Steam friends, and in-game
+resources to display current player states and statistics.
+"""
 from srcbuiltins import Color
 from cef import viewport, CefPanel
 from gameinterface import PlayerInfo, concommand, engine
@@ -8,6 +13,11 @@ from steam import CSteamID, steamapicontext, k_EAccountTypeIndividual
 from gameui import GetMainMenu
 
 class CefStatusPlayers(CefPanel):
+    """Displays player and lobby status information using a CEF UI.
+
+    Collects lobby slot data, steam persona names, and in-game stats, then
+    forwards the combined information to the HTML UI for rendering.
+    """
     htmlfile = 'ui/viewport/wars/playerstatuspanel.html'
     classidentifier = 'viewport/hud/wars/PlayerStatusPanel'
     cssfiles = CefPanel.cssfiles + ['wars/playerstatuspanel.css']

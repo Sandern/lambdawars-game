@@ -1,3 +1,9 @@
+"""HUD panels for unit selection grids, portraits, and garrison displays.
+
+Contains the button and container widgets that render selected units,
+including health bars, ability hooks, garrison/transport information, and
+interaction handling (dragging, selection, context menus).
+"""
 from srcbase import Color, IN_DUCK
 from vgui import cursors, surface, AddTickSignal, HudIcons, scheme, vgui_input, images
 from vgui.controls import Panel, Label, TextEntry

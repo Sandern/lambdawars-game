@@ -1,3 +1,9 @@
+"""Information panels for the HUD: ability/unit descriptions, stats, and resources.
+
+Provides helper widgets and objects used by HUD panels to render rich
+information about abilities, units, factions, and resources, including
+formatted labels and dynamic descriptions.
+"""
 from srcbase import Color
 from vgui import scheme, GetClientMode, surface, scheme, AddTickSignal, RemoveTickSignal, vgui_input, localize
 from vgui.controls import Panel, Label, TextEntry

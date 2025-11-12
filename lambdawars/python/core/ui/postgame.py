@@ -1,3 +1,8 @@
+"""CEF post-game summary panel displayed after matches complete.
+
+Shows winners/losers and exposes a disconnect button so players can leave
+or review match results once the game has ended.
+"""
 from cef import viewport, CefPanel
 from gamerules import gamerules
 

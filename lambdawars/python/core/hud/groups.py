@@ -1,3 +1,8 @@
+"""HUD control-group widgets for selecting and managing unit groups.
+
+Defines the base panel and button types that render control group slots,
+respond to selection changes, and integrate with the ability info panels.
+"""
 from srcbase import Color
 from vgui import surface, AddTickSignal, HudIcons, scheme
 from vgui.controls import Panel, Label
@@ -7,6 +12,12 @@ from .abilitybutton import AbilityButton
 from core.signals import groupchanged
 
 class GroupButton(AbilityButton):
+    """Ability-style button representing a numbered control group slot.
+
+    Paints the group digit overlay, updates selection hover state, and
+    notifies the parent control panel when the mouse enters or leaves so
+    the HUD can highlight matching units in the grid.
+    """
     def __init__(self, parent, text, groupnumber, controlpanel):
         super().__init__(parent, text)
     

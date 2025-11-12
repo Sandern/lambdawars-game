@@ -1,3 +1,7 @@
+"""HUD Abilities panel for Lambda Wars.
+
+Provides UI for displaying and interacting with unit and player abilities.
+"""
 from srcbase import Color
 from vgui import surface, AddTickSignal, HudIcons, scheme
 from vgui.controls import Panel

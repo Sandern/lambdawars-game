@@ -1,3 +1,7 @@
+"""CPU player control entity for Lambda Wars.
+
+Provides inputs to enable/disable the strategic AI for a specified CPU player.
+"""
 from entities import CPointEntity, entity, entitylist, GetClassByClassname
 from fields import input, PlayerField, IntegerField, BooleanField, fieldtypes, input
 if isserver:
@@ -7,6 +11,7 @@ if isserver:
         base=['Targetname', 'Parentname', 'Angles'],
         iconsprite='editor/wars_cpu_player.vmt')
 class EntCPUPlayer(CPointEntity):
+    """Entity used to enable or disable the CPU player strategic AI."""
     @input(inputname='EnableCPUPlayer', helpstring='Enables the CPU Player')
     def InputEnableCPUPlayer(self, inputdata):
         difficulty = None

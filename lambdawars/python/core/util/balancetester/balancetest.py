@@ -1,3 +1,4 @@
+"""Balance tester definitions used to spawn units, run steps, and record results."""
 from vmath import vec3_origin, QAngle, VectorAngles, VectorNormalize
 from core.units import CreateUnitFancy
 from utils import UTIL_RemoveImmediate
@@ -8,6 +9,11 @@ from collections import defaultdict
 import traceback
 
 class BalanceTest(object):
+    """Represents a single balance-test scenario parsed from a definition file.
+
+    Responsible for spawning unit groups, executing scripted steps, recording
+    health/cost metrics, and collecting info/errors for later reporting.
+    """
     def __init__(self, filename, testname, definition):
         super().__init__()
         

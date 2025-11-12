@@ -1,3 +1,9 @@
+"""HUD overlays for displaying health and control state of the player's unit.
+
+Adds panels that react to control events and render health bars or other
+status information for the unit currently being directly controlled by the
+player.
+"""
 from srcbase import Color, HIDEHUD_UNIT
 from vgui import CHudElement, scheme, GetClientMode, CHudElementHelper, surface
 from vgui.controls import Panel
@@ -6,6 +12,12 @@ from entities import C_HL2WarsPlayer
 from core.signals import playercontrolunit, playerleftcontrolunit
 
 class HudUnitDisplayHealth(CHudElement, Panel):
+    """Displays a health bar for the unit the player has direct control over.
+
+    Hooks into control signals so the overlay is only visible while the
+    player is in direct-control mode, and renders a proportional health bar
+    anchored to the bottom of the screen.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudUnitDisplayHealth")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudUnitDisplayHealth")
