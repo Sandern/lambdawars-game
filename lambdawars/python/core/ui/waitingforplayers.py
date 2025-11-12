@@ -33,12 +33,6 @@ class CefWaitingForPlayers(CefPanel):
                 if steamid and 'playername' not in gp:
                     gp['playername'] = steamfriends.GetFriendPersonaName(steamid)
     
-        hostcontent = gamerules.GetTableInfoString('hostfile')
-        if hostcontent:
-            if hostcontent.startswith('http://'):
-                self.Invoke("updateBanner", [hostcontent])
-            else:
-                self.Invoke("updateBannerFromContent", [hostcontent])
             
         motdcontent = gamerules.GetTableInfoString('motd')
         if motdcontent:
