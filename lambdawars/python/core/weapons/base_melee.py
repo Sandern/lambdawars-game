@@ -151,7 +151,7 @@ class WarsWeaponMelee(BaseClass):
 
         swingStart, forward = self.GetShootOriginAndDirection()
 
-        swingEnd = swingStart + forward * (self.AttackPrimary.maxrange + 10)
+        swingEnd = swingStart + forward * (self.AttackPrimary.maxrange + 32)
         UTIL_TraceLine(swingStart, swingEnd, MASK_SHOT_HULL, pOwner, COLLISION_GROUP_NONE, traceHit )
         nHitActivity = self.hitactivity
 
