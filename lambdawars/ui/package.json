@@ -1,0 +1,22 @@
+{
+  "name": "lambdawars-ui",
+  "version": "1.0.0",
+  "description": "Lambda Wars UI - Main menu and viewport projects",
+  "scripts": {
+    "watch": "npm-run-all --parallel watch:*",
+    "watch:menu": "cd menu_next && npm run watch",
+    "watch:viewport": "cd viewport && npm run watch",
+    "build": "npm-run-all build:*",
+    "build:menu": "cd menu_next && npm run build",
+    "build:viewport": "cd viewport && npm run build",
+    "install:all": "npm-run-all install:*",
+    "install:menu": "cd menu_next && npm install",
+    "install:viewport": "cd viewport && npm install"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "volta": {
+    "node": "8.17.0"
+  }
+}
