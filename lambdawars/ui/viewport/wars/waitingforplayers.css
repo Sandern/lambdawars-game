@@ -4,30 +4,41 @@
 	position: absolute;
 	top: calc(50% - 290px);
 	left: calc(50% - 302px);
-	background: rgba(39, 39, 39, 0.4);
+	background: rgba(39, 39, 39, 0.6);
 	border-radius: 0px;
 	color: #FFFFFF;
 	width: 605px;
 	height: 580px;
+	border-radius: 15px;
+	overflow: hidden;
 }
 
 #wars_waitingforplayers_container h1 {
-	font-family: 'Roboto', 'Open Sans', Arial;
+	font-family: 'Open Sans', Arial;
 	margin-left:auto;
 	margin-right:auto;
 	font-size: 20px;
-	font-weight: 400;
+	font-weight: bold;
 	line-height: 24px;
 	padding: 10px 20px;
 	margin: 0 0 20px;
 	background: rgba(39, 39, 39, 0.8);
-	border-bottom: 4px solid rgba(255, 255, 255, 0.2);
-	color: #cf880d;
+	color: white;
 	text-transform: uppercase;
+	background-color: #cf880d;
 }
 
 #wars_waitingforplayers_container h1 span {
-	color: #999;
+	color: white;
+}
+
+#wars_waitingforplayers_banner {
+	margin-left:auto;
+	margin-right:auto;
+	overflow: hidden;
+	width: 605px;
+	height: 122px;
+	background-image:  url(../images/waitingforplayers_banner.png);
 }
 
 h1 span#wars_waitingforplayers_lobbyname {
@@ -63,14 +74,6 @@ h1 span#wars_waitingforplayers_lobbyname {
 #wars_waitingforplayers_container ul li span {
 	color: #cf880d;
 	font-weight: normal;
-}
-
-#wars_waitingforplayers_banner {
-	margin-left:auto;
-	margin-right:auto;
-	overflow: hidden;
-	width: 605px;
-	height: 122px;
 }
 
 #wars_waitingforplayers_motd {
