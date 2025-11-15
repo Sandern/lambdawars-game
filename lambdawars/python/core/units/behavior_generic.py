@@ -10,13 +10,16 @@ import ndebugoverlay
 from _recast import RecastMgr
 from navmesh import NavMeshGetPositionNearestNavArea
 
+
 class BehaviorGeneric(BaseBehavior):
     """ Defines a single behavior that covers moving and attacking. """
+
     class ActionIdle(BaseBehavior.ActionInterruptible, BaseAction):
         """ Idle action of the unit. The unit starts with this action.
 
             The idle action will listen to events like new orders and new enemies.
         """
+
         def Init(self, updateidleposition=True):
             super().Init()
             self.updateidleposition = updateidleposition
@@ -58,7 +61,8 @@ class BehaviorGeneric(BaseBehavior):
                         return self.SuspendFor(self.behavior.ActionMoveToIdlePosition, "Return to position", hidespot[1], tolerance=64.0, hidespot=hidespot)
                     else:
                         clampedidlepos = NavMeshGetPositionNearestNavArea(lastidleposition, unit=outer)
-                        return self.SuspendFor(self.behavior.ActionMoveToIdlePosition, "Return to position", clampedidlepos if clampedidlepos != vec3_origin else lastidleposition, tolerance=64.0)
+                        return self.SuspendFor(self.behavior.ActionMoveToIdlePosition, "Return to position", clampedidlepos if clampedidlepos != vec3_origin else lastidleposition,
+                                               tolerance=64.0)
                 self.nexttoidleposition = gpGlobals.curtime + 1.0
             return self.Continue()
 
@@ -73,7 +77,7 @@ class BehaviorGeneric(BaseBehavior):
                 outer.lastidleposition = outer.GetAbsOrigin()
                 self.updateidleposition = False
             else:
-                self.nexttoidleposition = 0 # Directly return to idle position
+                self.nexttoidleposition = 0  # Directly return to idle position
 
             # Check for an order transition
             trans = self.CheckOrders()
@@ -110,7 +114,7 @@ class BehaviorGeneric(BaseBehavior):
                 if action:
                     return self.ChangeTo(action, 'Ability order received', o)
             else:
-                assert(0)
+                assert (0)
 
         def CheckOrders(self):
             """ Checks if we need to do an order. """
@@ -159,7 +163,7 @@ class BehaviorGeneric(BaseBehavior):
             """ Listens to the OnStartClimb event."""
             if self.outer.aiclimb:
                 return self.ChangeTo(self.behavior.ActionStartClimbing, 'Starting climbing',
-                    climbheight, direction)
+                                     climbheight, direction)
 
         def OnRequestMoveAway(self, frompoint, distance):
             if self.outer.orders:
@@ -168,7 +172,7 @@ class BehaviorGeneric(BaseBehavior):
             dir.z = 0.0
             self.updateidleposition = True
             return self.SuspendFor(self.behavior.ActionMoveAway, 'Moving away on request', -dir,
-                (distance/self.outer.mv.maxspeed))
+                                   (distance / self.outer.mv.maxspeed))
 
         def OnAutocastChanged(self, info):
             """ Event triggered on changed autocast setting on unit.
@@ -182,15 +186,16 @@ class BehaviorGeneric(BaseBehavior):
         updateidleposition = True
         nexttoidleposition = 0.0
         maxchasedist = 2048.0
-        idlewaitmoveuntilunderattack = True # On sensing an enemy, don't chase by default in idle action
+        idlewaitmoveuntilunderattack = True  # On sensing an enemy, don't chase by default in idle action
 
     class ActionDie(BaseAction):
         """ Executed when the unit cannot become a ragdoll or did not gib. Plays the die animation. """
+
         def OnStart(self):
             if self.outer.animstate.HasActivity(Activity.ACT_DIESIMPLE):
                 self.outer.DoAnimation(self.outer.ANIM_DIE)
                 self.timeout = gpGlobals.curtime + 5.0
-                #return self.SuspendFor(self.behavior.ActionWaitForActivity, 'Waiting for die animation')
+                # return self.SuspendFor(self.behavior.ActionWaitForActivity, 'Waiting for die animation')
             else:
                 self.outer.SetThink(self.outer.SUB_Remove, gpGlobals.curtime)
 
@@ -225,7 +230,8 @@ class BehaviorGeneric(BaseBehavior):
             If the action is suspended, the path will be saved. On resume it will restore
             the saved path.
         """
-        def Init(self, target, tolerance=0.0, goalflags=GF_REQTARGETALIVE|GF_USETARGETDIST, maxmovedist=0, pathcontext=None):
+
+        def Init(self, target, tolerance=0.0, goalflags=GF_REQTARGETALIVE | GF_USETARGETDIST, maxmovedist=0, pathcontext=None):
             """ Inialize method.
 
                 Args:
@@ -271,7 +277,7 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnSuspend(self):
             """ Suspended for an another action. Stop moving and save our path information"""
-            self.savedpath = UnitBasePath(self.outer.navigator.path) # Copy and save path
+            self.savedpath = UnitBasePath(self.outer.navigator.path)  # Copy and save path
             self.outer.navigator.StopMoving()
             return super().OnSuspend()
 
@@ -291,7 +297,6 @@ class BehaviorGeneric(BaseBehavior):
         target = None
         targetorigin = Vector(vec3_origin)
         savedpath = None
-
 
     class ActionMoveToIdlePosition(ActionMoveTo):
         def Init(self, idleposition, tolerance=64.0, hidespot=None, **kwargs):
@@ -341,7 +346,7 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnNewEnemy(self, enemy):
             if gpGlobals.curtime - self.startedtime < 3.0:
-                return self.Continue() # Eat event, don't want idle action to change actions because of this
+                return self.Continue()  # Eat event, don't want idle action to change actions because of this
 
         startedtime = 0.0
         hidespot = None
@@ -351,7 +356,8 @@ class BehaviorGeneric(BaseBehavior):
 
             Behaves the same way as ActionMoveTo.
         """
-        def Init(self, target, maxrange, minrange=0.0, tolerance=0.0, goalflags=GF_REQTARGETALIVE|GF_USETARGETDIST,
+
+        def Init(self, target, maxrange, minrange=0.0, tolerance=0.0, goalflags=GF_REQTARGETALIVE | GF_USETARGETDIST,
                  maxmovedist=0, fncustomloscheck=None, pathcontext=None):
             """ Initialise method.
 
@@ -398,8 +404,9 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnStart(self):
             outer = self.outer
-            outer.disable_update_active_enemy = True # No OnNewEnemy and OnLostEnemy events
+            outer.disable_update_active_enemy = True  # No OnNewEnemy and OnLostEnemy events
             return super().OnStart()
+
         def OnEnd(self):
             super().OnEnd()
 
@@ -422,19 +429,21 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnNewOrder(self, order):
             if self.ending:
-                return # No longer eat event, fall through to parent actions
+                return  # No longer eat event, fall through to parent actions
             self.orders_changed = True
-            return self.Continue() # Eat event
+            return self.Continue()  # Eat event
+
         def OnAllOrdersCleared(self):
             if self.ending:
-                return # No longer eat event, fall through to parent actions
+                return  # No longer eat event, fall through to parent actions
             self.orders_changed = True
-            return self.Continue() # Eat event
+            return self.Continue()  # Eat event
 
     class ActionAttackSharedNotActive(object):
         """ Base code for actions with attack code that do not use
             the attack target as the active navigation goal
             (use ActionAttack in this case)."""
+
         def CheckAttacks(self):
             outer = self.outer
             enemy = self.enemy
@@ -497,6 +506,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionOrderMove(ActionAttackSharedNotActive, ActionMoveTo):
         """ Action for a move order. Clears the order on nav complete and failure."""
+
         def Init(self, order, tolerance=320.0):
             """ Initialize method.
 
@@ -520,7 +530,7 @@ class BehaviorGeneric(BaseBehavior):
                 if self.outer.TakeCoverSpot(hidespot[0], hidespot[1]):
                     self.tolerance = 32.0
                 else:
-                    self.order.hidespot = None # For some reason this hiding spot was already taken
+                    self.order.hidespot = None  # For some reason this hiding spot was already taken
 
             transition = super().OnStart()
 
@@ -549,12 +559,12 @@ class BehaviorGeneric(BaseBehavior):
                 senses = getattr(followtarget, 'senses', None)
                 if senses:
                     # If we are following a (friendly) unit, then suspend to attack the enemy
-                    #isnearfollowtarget = followtarget.senses.HasOther(outer)
+                    # isnearfollowtarget = followtarget.senses.HasOther(outer)
                     if enemy or followtarget.enemy:
                         return self.SuspendFor(self.behavior.ActionAttack, 'Got an enemy', enemy or followtarget.enemy)
 
             if not outer.canshootmove or not enemy:
-                outer.navigator.facingtarget = None # Make sure we are not facing the enemy anymore
+                outer.navigator.facingtarget = None  # Make sure we are not facing the enemy anymore
                 return self.Continue()
             return self.CheckAttacks()
 
@@ -566,9 +576,9 @@ class BehaviorGeneric(BaseBehavior):
 
             path = outer.navigator.path
             if len(outer.orders) > 1 and path:
-                path.goalflags &= ~(GF_NOCLEAR|GF_ATGOAL_RELAX)
+                path.goalflags &= ~(GF_NOCLEAR | GF_ATGOAL_RELAX)
             else:
-                path.goalflags |= (GF_NOCLEAR|GF_ATGOAL_RELAX)
+                path.goalflags |= (GF_NOCLEAR | GF_ATGOAL_RELAX)
 
         def OnOrderQueued(self, order):
             self.UpdateGoalFlags()
@@ -613,6 +623,7 @@ class BehaviorGeneric(BaseBehavior):
             in range. However the unit will not attempt to move closer (regardless of
             whether the unit is capable of doing so).
         """
+
         def Init(self, enemy):
             """ Initialize method.
 
@@ -632,12 +643,12 @@ class BehaviorGeneric(BaseBehavior):
             # Just need to store the updated max attack range...
             self.attackrange = self.outer.maxattackrange
 
-
     class ActionAttack(ActionMoveInRange):
         """ The unit executing this action will try to attack the enemy when
             in range. It will also try to move into range when it's not in range yet.
         """
-        def Init(self, enemy, goalflags=GF_NOCLEAR|GF_REQTARGETALIVE|GF_USETARGETDIST, forcedenemy=False, maxmovedist=0,
+
+        def Init(self, enemy, goalflags=GF_NOCLEAR | GF_REQTARGETALIVE | GF_USETARGETDIST, forcedenemy=False, maxmovedist=0,
                  waitmoveuntilunderattack=False):
             """ Inialize method.
 
@@ -654,7 +665,7 @@ class BehaviorGeneric(BaseBehavior):
             self.forcedenemy = forcedenemy
             self.waitmoveuntilunderattack = waitmoveuntilunderattack
             super().Init(enemy, self.attackrange,
-                    self.outer.minattackrange, 0.0, goalflags, maxmovedist)
+                         self.outer.minattackrange, 0.0, goalflags, maxmovedist)
 
         def OnStart(self):
             outer = self.outer
@@ -704,7 +715,8 @@ class BehaviorGeneric(BaseBehavior):
                     enemyattacked = (gpGlobals.curtime - enemy.lasttakedamage) < 2.0
                 else:
                     enemyattacked = False
-                if self.atgoal or beingattacked or enemyattacked or friendattacked or (dist <= engagedistance and outer.FastLOSCheck(enemy.BodyTarget(outer.GetAbsOrigin(), False))):
+                if self.atgoal or beingattacked or enemyattacked or friendattacked or (
+                        dist <= engagedistance and outer.FastLOSCheck(enemy.BodyTarget(outer.GetAbsOrigin(), False))):
                     self.ClearWaitMoveUntilUnderAttack()
 
             # Update attack range if we have more than one attack
@@ -762,7 +774,7 @@ class BehaviorGeneric(BaseBehavior):
         # Weapon related events
         def OnBurstFinished(self):
             activeweapon = self.outer.activeweapon
-            assert activeweapon, 'expecting an active weapon in OnBurstFinished event' # Must have a weapon, otherwise this event makes no sense
+            assert activeweapon, 'expecting an active weapon in OnBurstFinished event'  # Must have a weapon, otherwise this event makes no sense
             # Rest
             self.outer.nextattacktime = gpGlobals.curtime + random.uniform(activeweapon.minresttime, activeweapon.maxresttime)
             return self.Continue()
@@ -776,18 +788,20 @@ class BehaviorGeneric(BaseBehavior):
         # covered by OnEnemyLost.
         def OnNavComplete(self):
             return self.Continue()
-        #def OnNavFailed(self):
+
+        # def OnNavFailed(self):
         #    return self.Continue()
 
         onresumedone = False
         atgoal = False
         isfacingtarget = False
-        waitmoveuntilunderattack = False # Wait moving to enemy until we are under attack
+        waitmoveuntilunderattack = False  # Wait moving to enemy until we are under attack
 
     class ActionOrderAttack(ActionAttack):
         """ Order version of the attack action.
             Clears the order when the enemy died.
         """
+
         def Init(self, order):
             """ Inialize method.
 
@@ -804,6 +818,7 @@ class BehaviorGeneric(BaseBehavior):
     class ActionAttackMove(ActionMoveTo):
         """ The attack move action will make the unit move towards the goal position and
             eliminate (or die while trying) all enemies along the path."""
+
         def OnStart(self):
             transition = super().OnStart()
             if self.outer.enemy:
@@ -821,11 +836,12 @@ class BehaviorGeneric(BaseBehavior):
             if enemy.IsAlive():
                 return self.SuspendFor(self.behavior.ActionAttack, 'New enemy', enemy)
             else:
-                return self.SuspendFor(self.behavior.ActionAttack, 'New enemy (not alive)', enemy, goalflags=GF_NOCLEAR|GF_USETARGETDIST)
+                return self.SuspendFor(self.behavior.ActionAttack, 'New enemy (not alive)', enemy, goalflags=GF_NOCLEAR | GF_USETARGETDIST)
 
     class ActionOrderAttackMove(ActionAttackMove):
         """ Same as ActionAttackMove, but is done on resume when the current order is
             different from the provided one. """
+
         def Init(self, order, *args, **kwargs):
             super().Init(*args, **kwargs)
             self.order = order
@@ -845,7 +861,7 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnNavComplete(self):
             self.order.Remove(dispatchevent=False, allowrepeat=True)
-            
+
             return super().OnNavComplete()
 
     class ActionAbilityAttackMove(BaseBehavior.ActionInterruptible, BaseBehavior.ActionAbility):
@@ -857,7 +873,7 @@ class BehaviorGeneric(BaseBehavior):
                     self.htrelapplied = True
                     self.outer.AddEntityRelationship(target, D_HT, 10)
                     self.outer.senses.ForcePerformSensing()
-                    self.outer.UpdateEnemy(self.outer.senses) # Extra check
+                    self.outer.UpdateEnemy(self.outer.senses)  # Extra check
                 goalflags = GF_REQTARGETALIVE if target.IsAlive() else 0
                 return self.SuspendFor(self.behavior.ActionOrderAttackMove, "Attack move target", self.order, target, tolerance=32.0, goalflags=goalflags)
             return self.SuspendFor(self.behavior.ActionOrderAttackMove, "Attack move position", self.order, self.order.position, tolerance=32.0, goalflags=0)
@@ -897,6 +913,7 @@ class BehaviorGeneric(BaseBehavior):
 
         def OnNewEnemy(self, enemy):
             return self.SuspendFor(self.behavior.ActionAttackNoMovement, 'Enemy, lock on.', enemy)
+
         def OnEnemyLost(self):
             return self.SuspendFor(self.behavior.ActionNoop, 'Lost enemy')
 
@@ -948,7 +965,9 @@ class BehaviorGeneric(BaseBehavior):
         def OnNewEnemy(self, enemy):
             return self.SuspendFor(self.behavior.ActionAttackNoMovement, 'Enemy, lock on.', enemy)
 
-    class ActionHideSpotAttack(ActionAttackNoMovement):pass
+    class ActionHideSpotAttack(ActionAttackNoMovement):
+        pass
+
     """ 
         def Update(self):
             outer = self.outer
@@ -981,9 +1000,9 @@ class BehaviorGeneric(BaseBehavior):
             return super().Update()
     """
 
-
     class ActionCrouchHoldSpot(BaseAction):
         """ Hold position and crouch. Attack any nearby units. """
+
         def OnStart(self):
             # Take movement control
             outer = self.outer
@@ -1012,7 +1031,7 @@ class BehaviorGeneric(BaseBehavior):
                 outer = self.outer
                 if not outer.IsMoving():
                     self.addedobstacled = True
-                    #ndebugoverlay.Box(outer.GetAbsOrigin(), -Vector(12, 12, 8), Vector(12, 12, 8), 0, 255, 0, 255, 5.0)
+                    # ndebugoverlay.Box(outer.GetAbsOrigin(), -Vector(12, 12, 8), Vector(12, 12, 8), 0, 255, 0, 255, 5.0)
                     outer.EnableAsNavObstacle()
             return super().Update()
 
@@ -1030,6 +1049,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionHideSpot(ActionCrouchHoldSpot):
         """ In addition to ActionCrouchHoldSpot, applies cover bonus. """
+
         def Init(self, hidespot):
             super().Init()
             self.hidespot = hidespot
@@ -1061,6 +1081,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionReload(BaseAction):
         """ Plays the reload action and waits for it. """
+
         def OnStart(self):
             outer = self.outer
             outer.DoAnimation(outer.ANIM_RELOAD_LOW if outer.crouching else outer.ANIM_RELOAD)
@@ -1071,6 +1092,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionFaceTarget(BaseAction):
         """ Generic action for facing a given target (position or entity) """
+
         def Init(self, target, facingcone=0.994):
             """ Initialize method.
 
@@ -1105,6 +1127,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionLockAim(ActionFaceTarget):
         """ Locks aim at target for a given duration. """
+
         def Init(self, target, facingcone=0.994, duration=1.0):
             super().Init(target, facingcone=facingcone)
 
@@ -1120,7 +1143,7 @@ class BehaviorGeneric(BaseBehavior):
                 return self.Done("End locking target")
 
         def OnFacingTarget(self):
-            pass # Do nothing on facing target
+            pass  # Do nothing on facing target
 
     class ActionFaceYaw(BaseAction):
         """ Generic action for facing a given absolute yaw.
@@ -1128,6 +1151,7 @@ class BehaviorGeneric(BaseBehavior):
             Calls OnFacingIdealYaw when it satisfies the ideal yaw.
             By default this methods returns the transition Done.
         """
+
         def Init(self, idealyaw, tolerance=2.5):
             """ Inialize method.
 
@@ -1158,7 +1182,8 @@ class BehaviorGeneric(BaseBehavior):
             face the target. Finally it calls OnInRangeAndFacing, which should
             return a transition (by default it returns Done).
         """
-        def Init(self, target, maxrange=1024.0, facingcone=0.994, goalflags=GF_REQTARGETALIVE|GF_USETARGETDIST,
+
+        def Init(self, target, maxrange=1024.0, facingcone=0.994, goalflags=GF_REQTARGETALIVE | GF_USETARGETDIST,
                  fncustomloscheck=None, pathcontext=None):
             """ Inialize method.
 
@@ -1197,6 +1222,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionMoveAway(BaseAction):
         """ Move away in the given direction for a duration. """
+
         def Init(self, dir, duration=1.0):
             self.dir = dir
             self.duration = duration
@@ -1215,6 +1241,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionConstruct(BaseBehavior.ActionInterruptible, BaseBehavior.ActionAbility):
         """ Generic construct action. """
+
         def OnStart(self):
             outer = self.outer
             if not self.order.target:
@@ -1246,7 +1273,7 @@ class BehaviorGeneric(BaseBehavior):
             dist = self.outer.EnemyDistance(target)
             if not self.isinrange and dist > self.constructmaxrange:
                 self.movinginrange = True
-                goalflags = GF_USETARGETDIST|GF_OWNERISTARGET
+                goalflags = GF_USETARGETDIST | GF_OWNERISTARGET
                 if self.constructmaxrange < 64.0:
                     goalflags |= GF_NOLOSREQUIRED
                 return self.SuspendFor(self.behavior.ActionMoveInRange, "Moving to spot (dist: %f)" % (dist), target, self.constructmaxrange, goalflags=goalflags)
@@ -1260,7 +1287,7 @@ class BehaviorGeneric(BaseBehavior):
             if not self.StartConstructing():
                 return self.ChangeToIdle('Unit cannot construct or repair.')
             target.ConstructStep(self.outer.think_freq)
-            return self.Continue() # Don't wait for activity
+            return self.Continue()  # Don't wait for activity
 
         def OnEnd(self):
             outer = self.outer
@@ -1279,7 +1306,7 @@ class BehaviorGeneric(BaseBehavior):
             return super().OnResume()
 
         def OnSuspend(self):
-            self.StopConstructing() # Don't construct while suspended
+            self.StopConstructing()  # Don't construct while suspended
             return super().OnSuspend()
 
         def StartConstructing(self):
@@ -1315,6 +1342,7 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionRepair(ActionConstruct):
         """ Generic repair action. """
+
         def Update(self):
             abi = self.order.ability
             autocasted = abi and abi.autocasted
@@ -1328,7 +1356,7 @@ class BehaviorGeneric(BaseBehavior):
                 self.isinrange = False
             if not self.isinrange and dist > self.constructmaxrange:
                 self.movinginrange = True
-                goalflags = GF_USETARGETDIST|GF_OWNERISTARGET
+                goalflags = GF_USETARGETDIST | GF_OWNERISTARGET
                 if self.constructmaxrange < 64.0: goalflags |= GF_NOLOSREQUIRED
                 return self.SuspendFor(self.behavior.ActionMoveInRange, 'Moving to spot (dist: %f)' % (dist), target, self.constructmaxrange, goalflags=goalflags)
 
@@ -1340,6 +1368,7 @@ class BehaviorGeneric(BaseBehavior):
                 return self.ChangeToIdle('Unit cannot construct or repair.')
             target.RepairStep(self.outer.think_freq, self.outer.repairhpps)
             return self.Continue()
+
         def OnResume(self):
             if self.movinginrange:
                 if self.outer.navigator.path.success:
@@ -1351,6 +1380,7 @@ class BehaviorGeneric(BaseBehavior):
         """ Core action for placing objects.
 
         """
+
         def OnStart(self):
             super().OnStart()
 
@@ -1365,7 +1395,8 @@ class BehaviorGeneric(BaseBehavior):
             order = self.order
             info = self.order.ability
             if outer.navigator.path.pathcontext != self or not outer.navigator.path.success:
-                return self.SuspendFor(self.behavior.ActionMoveInRange, 'Moving to spot', order.target if order.target else order.position, self.maxrange, 0, 32.0, pathcontext=self)
+                return self.SuspendFor(self.behavior.ActionMoveInRange, 'Moving to spot', order.target if order.target else order.position, self.maxrange, 0, 32.0,
+                                       pathcontext=self)
 
             if info.rechargetime and info.uid in outer.abilitynexttime:
                 if outer.abilitynexttime[info.uid] > gpGlobals.curtime:
@@ -1392,7 +1423,7 @@ class BehaviorGeneric(BaseBehavior):
                         distance = (unit.GetAbsOrigin() - order.position).Length2D()
                         try:
                             unit.DispatchEvent('OnRequestMoveAway', order.position,
-                                self.maxrange - distance + unit.CollisionProp().BoundingRadius2D() + 16.0)
+                                               self.maxrange - distance + unit.CollisionProp().BoundingRadius2D() + 16.0)
                         except AttributeError:
                             PrintWarning('ActionPlaceObject.Update: %s is not a unit' % (str(unit)))
                             continue
@@ -1405,7 +1436,7 @@ class BehaviorGeneric(BaseBehavior):
                             dir = (order.position - outer.GetAbsOrigin())
                             dir.z = 0.0
                             self.movedaway = True
-                            return self.SuspendFor(self.behavior.ActionMoveAway, 'Moving away from construction spot', -dir, (distance/outer.mv.maxspeed))
+                            return self.SuspendFor(self.behavior.ActionMoveAway, 'Moving away from construction spot', -dir, (distance / outer.mv.maxspeed))
 
                     self.placetimeout = gpGlobals.curtime + 8.0
 
@@ -1436,6 +1467,9 @@ class BehaviorGeneric(BaseBehavior):
 
     class ActionPlaceBuilding(ActionPlaceObject):
         def PostPlaceObject(self, object):
+            if not object:
+                return
+
             if not object.autoconstruct:
                 leftpressed = MouseTraceData()
                 leftpressed.ent = object
@@ -1453,6 +1487,7 @@ class BehaviorGeneric(BaseBehavior):
 
             Calls StartClimbing when ready and then by default changes to ActionClimb.
         """
+
         def Init(self, climbheight, direction):
             """ Action start climbing init.
 
@@ -1489,6 +1524,7 @@ class BehaviorGeneric(BaseBehavior):
             movement to make it climb up. In case the target height is reached,
             the unit z value is clamped.
         """
+
         def Init(self, climbheight):
             """ Inialize method.
 
@@ -1501,12 +1537,12 @@ class BehaviorGeneric(BaseBehavior):
             self.startz = self.outer.GetAbsOrigin().z
             self.desiredz = self.startz + self.climbheight
             minmaxs = Vector(8, 8, 1)
-            #ndebugoverlay.Box(self.outer.GetAbsOrigin(), -minmaxs, minmaxs, 255, 0, 0, 100, 10.0)
-            #ndebugoverlay.Box(self.outer.GetAbsOrigin() + Vector(0, 0, self.desiredz - self.startz), -minmaxs, minmaxs, 0, 255, 0, 100, 10.0)
+            # ndebugoverlay.Box(self.outer.GetAbsOrigin(), -minmaxs, minmaxs, 255, 0, 0, 100, 10.0)
+            # ndebugoverlay.Box(self.outer.GetAbsOrigin() + Vector(0, 0, self.desiredz - self.startz), -minmaxs, minmaxs, 0, 255, 0, 100, 10.0)
             self.outer.AddFlag(FL_FLY)
             self.outer.locomotionenabled = False
             self.outer.climbing = True
-            self.outer.UpdateServerAnimation() # Extra update to ensure the correct animation is running for automovement
+            self.outer.UpdateServerAnimation()  # Extra update to ensure the correct animation is running for automovement
             if self.CheckArrived():
                 self.outer.DoAnimation(self.outer.ANIM_CLIMBDISMOUNT)
                 return self.ChangeTo(self.behavior.ActionClimbDismount, 'Done climbing, dismounting..', self.desiredz,
@@ -1516,11 +1552,11 @@ class BehaviorGeneric(BaseBehavior):
             self.outer.RemoveFlag(FL_FLY)
             self.outer.locomotionenabled = True
             self.outer.climbing = False
-            #UTIL_DropToFloor(self.outer, MASK_NPCSOLID)
+            # UTIL_DropToFloor(self.outer, MASK_NPCSOLID)
 
         def CheckArrived(self):
             curz = self.outer.GetAbsOrigin().z
-            if (curz - self.startz) >= self.climbheight - self.outer.climbdismountz - 1.0: # Assume the dismount will travel another x units
+            if (curz - self.startz) >= self.climbheight - self.outer.climbdismountz - 1.0:  # Assume the dismount will travel another x units
                 return True
             return False
 
@@ -1537,6 +1573,7 @@ class BehaviorGeneric(BaseBehavior):
         """ Called when the desired height is reached.
             Plays the dismount animation.
         """
+
         def Init(self, desiredz, *args, **kwargs):
             """ Inialize method.
 
@@ -1569,6 +1606,7 @@ class BehaviorGeneric(BaseBehavior):
     # Charging (hunter, antlion guard)
     class ActionPreChargeMove(BaseBehavior.ActionAbility):
         """ Move in range and face target """
+
         def Update(self):
             ability = self.order.ability
             target = self.order.target if self.order.target else self.order.position
@@ -1577,7 +1615,7 @@ class BehaviorGeneric(BaseBehavior):
             # In range?
             minfacingcone = ability.minfacingcone
             startchargedist = ability.startchargedist
-            #dist = (targetpos - self.outer.GetAbsOrigin()).Length2D()
+            # dist = (targetpos - self.outer.GetAbsOrigin()).Length2D()
             if not self.inrangeandfacing:
                 return self.SuspendFor(self.behavior.ActionMoveInRangeAndFace, 'Not in range of target', target, maxrange=startchargedist, facingcone=minfacingcone)
 
@@ -1596,9 +1634,9 @@ class BehaviorGeneric(BaseBehavior):
             ability = self.order.ability
             self.oldyawspeed = outer.mv.yawspeed
             self.oldmaxspeed = outer.mv.maxspeed
-            outer.chargehitunits = set() # Reset hit units
-            outer.mv.yawspeed = ability.yawturnspeed # Make turning very slow
-            outer.navigator.StopMoving() # Make sure we are not already moving
+            outer.chargehitunits = set()  # Reset hit units
+            outer.mv.yawspeed = ability.yawturnspeed  # Make turning very slow
+            outer.navigator.StopMoving()  # Make sure we are not already moving
             outer.aimoving = True
             outer.DoAnimation(outer.ANIM_STARTCHARGE)
             self.startposition = outer.GetAbsOrigin()
