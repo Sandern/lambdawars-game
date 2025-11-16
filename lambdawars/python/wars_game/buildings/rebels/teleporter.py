@@ -13,7 +13,6 @@ from sound import soundengine
 from fields import IntegerField, VectorField, FloatField, ListField
 from particles import PrecacheParticleSystem, PATTACH_POINT_FOLLOW, PATTACH_POINT, PATTACH_ABSORIGIN, DispatchParticleEffect
 from fow import FogOfWarMgr
-#from gameinterface import CPASAttenuationFilter
 from wars_game.statuseffects import StunnedEffectInfo
 from core.abilities import AbilityUpgrade, AbilityUpgradeValue
 from operator import itemgetter
@@ -25,9 +24,11 @@ import random
 if isserver:
     from core.units import BaseAction
 
+
     class TeleportAction(BaseAction):
         """ Overrides the AI state of an unit and disables locomotion.
         """
+
         def OnStart(self):
             outer = self.outer
             outer.ClearAllOrders(dispatchevent=False)
@@ -37,13 +38,13 @@ if isserver:
             outer.GetHandle().attackpriority = -4
             self.was_locomotionenabled = outer.locomotionenabled
             outer.locomotionenabled = False
-            #self.was_uncontrollable = outer.uncontrollable
-            #outer.uncontrollable = True
+            # self.was_uncontrollable = outer.uncontrollable
+            # outer.uncontrollable = True
 
         def OnEnd(self):
             outer = self.outer
             outer.teleporting = False
-            #outer.uncontrollable = self.was_uncontrollable
+            # outer.uncontrollable = self.was_uncontrollable
             outer.GetHandle().attackpriority = self.old_attack_priority
             outer.locomotionenabled = self.was_locomotionenabled
 
@@ -51,7 +52,7 @@ if isserver:
             return self.ChangeTo(self.behavior.ActionIdle, 'Done teleporting')
 
         was_locomotionenabled = True
-        #was_uncontrollable = False
+        # was_uncontrollable = False
         old_attack_priority = 0
 
 
@@ -61,7 +62,7 @@ class AbilityTeleportUnits(AbilityTarget):
     description = "#AbilityTeleportUnits_Description"
     image_name = 'vgui/rebels/abilities/rebel_teleport_units.vmt'
     rechargetime = 15
-    #costs = [('requisition', 30)]
+    # costs = [('requisition', 30)]
     supportsautocast = False
     defaultautocast = False
     hidden = True
@@ -123,6 +124,9 @@ class TeleporterInfo(WarsBuildingInfo):
     sound_death = 'build_generic_explode1'
     explodeparticleeffect = 'pg_rebel_junkyard_explosion'
     explodeshake = (2, 10, 2, 512)  # Amplitude, frequence, duration, radius
+    abilities = {
+        8: 'cancel',
+    }
 
     teleport_stun_duration = FloatField(value=3.0, helpstring='Stun duration of units after teleport')
     teleport_max_units_pop = IntegerField(value=15, helpstring='Max pop number of units to teleport')
@@ -136,10 +140,11 @@ class TeleporterInfo(WarsBuildingInfo):
             blocknavareas=False,
             blockdensitytype=DENSITY_NONE,
             attackpriority=-1,
-            #ignoreunitmovement = True,
+            # ignoreunitmovement = True,
         ),
     ]
     requirerotation = False
+
 
 class DestroyHQTeleporterInfo(TeleporterInfo):
     name = "build_reb_teleporter_destroyhq"
@@ -153,18 +158,20 @@ class UnitTeleporterRift(UnitBase):
     if isserver:
         def SetLifeDuration(self, lifetime=60):
             self.SetThink(self.Teleportenemyunit, gpGlobals.curtime + lifetime, 'LifeDuration')
+
         def Teleportenemyunit(self):
             def SetupUnit(unit):
                 unit.BehaviorGenericClass = unit.BehaviorOverrunClass
+
             for i in range(0, 5):
-                unit = CreateUnit(random.choice(self.unitlist), 
+                unit = CreateUnit(random.choice(self.unitlist),
                                   self.GetAbsOrigin(),
                                   self.GetAbsAngles(),
                                   self.GetOwnerNumber(),
                                   fnprespawn=SetupUnit)
                 if unit:
                     PlaceUnit(unit, self.GetAbsOrigin())
-                    unit.overrunspawned = True 
+                    unit.overrunspawned = True
             UTIL_Remove(self)
     lifetime = 2.5
     unitlist = ['enemy_unit_rebel']
@@ -218,7 +225,7 @@ class UnitTeleporterRift(UnitBase):
             return
         self.teleport_rift_fx = self.ParticleProp().Create(self.teleport_rift_fx_name, PATTACH_ABSORIGIN)
         self.EmitSound('rebels_teleport_rift_loop')
-        #DispatchParticleEffect(self.teleport_rift_fx_name, self.teleport_target_pos, self.GetAbsAngles())
+        # DispatchParticleEffect(self.teleport_rift_fx_name, self.teleport_target_pos, self.GetAbsAngles())
 
     def DestroyRift(self):
         if not self.teleport_rift_fx:
@@ -231,36 +238,37 @@ class UnitTeleporterRift(UnitBase):
 
         DispatchParticleEffect(self.teleport_rift_end_fx_name, self.GetAbsOrigin(), self.GetAbsAngles())
 
-
     def SpawnUnit(self):
         self.SetThink(self.SpawnUnitThink, gpGlobals.curtime + self.lifetime, 'TeleportThink')
+
     def SpawnUnitThink(self):
         angle = self.GetAbsAngles()
         pos = self.GetAbsOrigin()
-        #for i in range(0, 10):
+        # for i in range(0, 10):
         if gamerules.info.name == 'overrun':
             for i in range(0, random.randint(1, 10)):
                 unitname = next(probchoice(self.overrun_unitlist[0], self.overrun_unitlist[1]))
                 CreateUnitFancy(unitname, pos, angles=angle, owner_number=self.GetOwnerNumber())
         else:
             CreateUnitFancy('unit_dog', pos, angles=angle, owner_number=self.GetOwnerNumber())
-        
+
         UTIL_Remove(self)
 
-    overrun_unitlist = (['overrun_unit_rebel_partisan_molotov', 'overrun_unit_rebel', 'overrun_unit_rebel_sg', 'overrun_unit_rebel_ar2', 
+    overrun_unitlist = (['overrun_unit_rebel_partisan_molotov', 'overrun_unit_rebel', 'overrun_unit_rebel_sg', 'overrun_unit_rebel_ar2',
                          'overrun_unit_rebel_flamer', 'overrun_unit_rebel_winchester', 'overrun_unit_vortigaunt', 'overrun_unit_rebel_veteran',
-                         'overrun_unit_rebel_heavy', 'overrun_unit_rebel_tau', 'overrun_unit_rebel_rpg', 'overrun_unit_dog'],  
-                         [0.2, 0.2, 0.15, 0.12,
-                          0.08, 0.07, 0.06, 0.05,
-                          0.025, 0.025, 0.019, 0.001])
+                         'overrun_unit_rebel_heavy', 'overrun_unit_rebel_tau', 'overrun_unit_rebel_rpg', 'overrun_unit_dog'],
+                        [0.2, 0.2, 0.15, 0.12,
+                         0.08, 0.07, 0.06, 0.05,
+                         0.025, 0.025, 0.019, 0.001])
     teleport_rift_fx = None
     teleport_rift_fx_name = 'begin_rift_BASE'
 
     teleport_rift_end_fx_name = 'rift_flash_BASE'
 
     fowflags = FOWFLAG_UNITS_MASK
-    
+
     lifetime = 20
+
 
 class UnitTeleporterRiftInfo(UnitInfo):
     name = 'unit_teleporter_rift'
@@ -273,6 +281,7 @@ class UnitTeleporterRiftInfo(UnitInfo):
     minimaplayer = -1  # Draw earlier than units to avoid overlapping
     viewdistance = 200.0
 
+
 class TeleporterUnlock(AbilityUpgrade):
     name = 'teleporter_unlock'
     displayname = '#RebTeleporterUnlock_Name'
@@ -282,6 +291,7 @@ class TeleporterUnlock(AbilityUpgrade):
     buildtime = 60.0
     costs = [[('requisition', 150), ('scrap', 100)], [('kills', 5)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
+
 
 @entity('build_reb_teleporter', networked=True)
 class RebelsTeleporter(BaseClass):
@@ -399,13 +409,13 @@ class RebelsTeleporter(BaseClass):
             return
         super().BlockAreas()
 
-    #Sequence SPINUP
+    # Sequence SPINUP
     def StartTeleport(self, target_pos):
         ditched_units = self.SelectAndLockUnits()
 
         self.teleporting_state = self.STATE_WINDUP
         self.CreateRingBlocker()
-        #self.SetModel(self.unitinfo.modelname_blocking)
+        # self.SetModel(self.unitinfo.modelname_blocking)
         self.teleport_target_pos = target_pos
         self.SetThink(self.WindUpEndThink, gpGlobals.curtime + 5.0, self.teleport_think_context)
         self.SetPoseParameter('progress', 1)
@@ -416,19 +426,19 @@ class RebelsTeleporter(BaseClass):
         for unit in ditched_units:
             PlaceUnit(unit, self.GetAbsOrigin())
 
-    #Sequence SPIN
+    # Sequence SPIN
     def WindUpEndThink(self):
         self.teleporting_state = self.STATE_TELEPORTING
         self.CreateRift()
         self.StopSound('rebels_teleport_windup')
         self.EmitSound('rebels_teleport_loop_charging2')
         self.SetPoseParameter('progress', 3)
-        #for x in range(1, 3):
-            #self.SetThink(self.SetPoseParameter('progress', x), gpGlobals.curtime + (self.teleport_time/4.0)*x, self.teleport_think_context)
+        # for x in range(1, 3):
+        # self.SetThink(self.SetPoseParameter('progress', x), gpGlobals.curtime + (self.teleport_time/4.0)*x, self.teleport_think_context)
 
         self.SetThink(self.TeleportUnitsThink, gpGlobals.curtime + self.teleport_time, self.teleport_think_context)
 
-    #Sequence SPINDOWN (teleport units)
+    # Sequence SPINDOWN (teleport units)
     def TeleportUnitsThink(self):
         self.StopSound('rebels_teleport_loop_charging2')
         self.EmitSound('rebels_teleport_winddown')
@@ -437,10 +447,10 @@ class RebelsTeleporter(BaseClass):
         self.teleporting_state = self.STATE_WINDDOWN
         self.SetThink(self.TeleportEnd, gpGlobals.curtime + 3.6, self.teleport_think_context)
 
-    #Sequence IDLE
+    # Sequence IDLE
     def TeleportEnd(self):
         self.teleporting_state = self.STATE_NONE
-        #self.SetModel(self.unitinfo.modelname)
+        # self.SetModel(self.unitinfo.modelname)
         self.SetPoseParameter('progress', 0)
         self.UnblockAreas()
         self.DestroyRingBlocker()
@@ -482,8 +492,8 @@ class RebelsTeleporter(BaseClass):
 
             StunnedEffectInfo.CreateAndApply(unit, attacker=self, duration=teleport_stun_duration)
 
-        #filter = CPASAttenuationFilter(targetpos, 'rebels_teleport_loop_charging1')
-        #self.EmitSoundFilter(filter, 0, 'rebels_teleport_loop_charging1', targetpos)
+        # filter = CPASAttenuationFilter(targetpos, 'rebels_teleport_loop_charging1')
+        # self.EmitSoundFilter(filter, 0, 'rebels_teleport_loop_charging1', targetpos)
 
         del self.selected_units[:]
 
@@ -522,9 +532,9 @@ class RebelsTeleporter(BaseClass):
         if not self.teleport_ring01_fx:
             return
 
-        self.ParticleProp().StopEmission(self.teleport_ring01_fx,bForceRemoveInstantly=True)
-        self.ParticleProp().StopEmission(self.teleport_ring02_fx,bForceRemoveInstantly=True)
-        self.ParticleProp().StopEmission(self.teleport_ring03_fx,bForceRemoveInstantly=True)
+        self.ParticleProp().StopEmission(self.teleport_ring01_fx, bForceRemoveInstantly=True)
+        self.ParticleProp().StopEmission(self.teleport_ring02_fx, bForceRemoveInstantly=True)
+        self.ParticleProp().StopEmission(self.teleport_ring03_fx, bForceRemoveInstantly=True)
         self.teleport_ring01_fx = None
         self.teleport_ring02_fx = None
         self.teleport_ring03_fx = None
@@ -571,8 +581,8 @@ class RebelsTeleporter(BaseClass):
     def DestroyRingBlocker(self):
         self.DestroyDummies()
 
-    #blocknavareas = False
-    #blockdensitytype = DENSITY_NONE
+    # blocknavareas = False
+    # blockdensitytype = DENSITY_NONE
     autoconstruct = False
     barsoffsetz = 150.0
 
@@ -621,4 +631,3 @@ class RebelsTeleporter(BaseClass):
 
     unitinfofallback = TeleporterInfo
     unitinfovalidationcls = TeleporterInfo
-
