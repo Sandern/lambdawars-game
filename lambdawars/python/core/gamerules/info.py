@@ -1,3 +1,7 @@
+"""Game rules information system for Lambda Wars.
+
+Provides base classes and utilities for defining game modes and their properties.
+"""
 from srcbase import *
 
 from fields import StringField, LocalizedStringField, BooleanField
@@ -29,7 +33,22 @@ dbgamerules = gamemgr.dblist[dbid]
 
 # Gamerules entry
 class GamerulesInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass for game rules info classes.
+    
+    Compiles regex patterns for map and faction filtering.
+    """
     def __new__(cls, name, bases, dct):
+        """Create a new game rules info class.
+        
+        Args:
+            cls: Metaclass.
+            name (str): Class name.
+            bases: Base classes.
+            dct: Class dictionary.
+            
+        Returns:
+            GamerulesInfo: New game rules info class.
+        """
         newcls = gamemgr.BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
         newcls.mapfilter = re.compile(newcls.mappattern)
@@ -38,6 +57,11 @@ class GamerulesInfoMetaClass(gamemgr.BaseInfoMetaclass):
         return newcls
 
 class GamerulesInfo(gamemgr.BaseInfo, metaclass=GamerulesInfoMetaClass):
+    """Information class for game rules.
+    
+    Defines properties and settings for game modes including map/faction
+    restrictions, HUDs, and lobby options.
+    """
     id = dbid
     
     #: Reference to the gamerules class
@@ -83,8 +107,11 @@ class GamerulesInfo(gamemgr.BaseInfo, metaclass=GamerulesInfoMetaClass):
     
     @classmethod
     def BuildSettingsErrorVariables(cls):
-        """ Returns a dictionary with possible error variable for game mode
-            validation error strings. """
+        """Return a dictionary with possible error variables for game mode validation error strings.
+        
+        Returns:
+            dict: Dictionary with error variables.
+        """
         return {
             'name' : cls.displayname,
             'minplayers' : cls.minplayers,
@@ -92,7 +119,14 @@ class GamerulesInfo(gamemgr.BaseInfo, metaclass=GamerulesInfoMetaClass):
         
     @classmethod
     def ConstructErrorString(cls, unlocalizedMsg):
-        """ Helper method to create a localized error msg for game mode settings validation. """
+        """Helper method to create a localized error message for game mode settings validation.
+        
+        Args:
+            unlocalizedMsg (str): Unlocalized error message key.
+            
+        Returns:
+            str: Localized error message.
+        """
         msg = localize.Find(unlocalizedMsg)
         if not msg:
             return '<Unknown Error>'

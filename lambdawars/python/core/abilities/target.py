@@ -1,3 +1,9 @@
+"""Targeted abilities that require player input for targeting.
+
+Provides base classes for abilities that require the player to select a target
+(position or entity) before execution. Handles mouse input, visual feedback,
+and target validation.
+"""
 from srcbase import Color, EF_NOSHADOW
 from vmath import Vector, vec3_angle, vec3_origin, matrix3x4_t, AngleMatrix, VectorRotate
 from .base import StopInit, AbilityBase

@@ -1,3 +1,8 @@
+"""Cancel building upgrade ability.
+
+Allows players to cancel ongoing building upgrades, refunding resources
+and restoring the building to its previous state.
+"""
 from .instant import AbilityInstant
 
 class AbilityCancel(AbilityInstant): 

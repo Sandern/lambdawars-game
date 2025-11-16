@@ -1,3 +1,8 @@
+"""Garrisonable building classes for Lambda Wars.
+
+Provides base classes for buildings that can garrison units inside them,
+providing cover and healing capabilities.
+"""
 from srcbase import *
 from vmath import Vector, QAngle, VectorYawRotate, VectorAngles, VectorNormalize, vec3_origin, DotProduct, AngleVectors
 from entities import entity, FClassnameIs
@@ -20,8 +25,14 @@ if isserver:
 
 
 class UnitBaseGarrisonableShared(object):
+    """Shared base class for garrisonable building entities.
+    
+    Provides common functionality for buildings that can garrison units,
+    including enter/exit points, healing, and unit management.
+    """
     if isserver:
         def Spawn(self):
+            """Spawn the garrisonable building and set up enter/exit points."""
             super().Spawn()
 
             # Do not interfere with range checks of garrisoned units
@@ -65,6 +76,7 @@ class UnitBaseGarrisonableShared(object):
                     self.exitoffset = info.position
 
         def UpdateOnRemove(self):
+            """Clean up garrisoned units when building is removed."""
             self.UnGarrisonAll()
             self.senses = None
             
@@ -72,11 +84,17 @@ class UnitBaseGarrisonableShared(object):
             super().UpdateOnRemove()
                 
         def Event_Killed(self, info):
+            """Handle building destruction and ungarrison all units.
+            
+            Args:
+                info: Damage information.
+            """
             super().Event_Killed(info)
             
             self.UnGarrisonAll()
 
         def HealThink(self):
+            """Heal garrisoned units if medics are present."""
             medicCount = len([unit for unit in self.units if 'heal' in unit.unitinfo.abilities.values()])
             if medicCount > 0:
                 dt = gpGlobals.curtime - self.GetLastThink()
@@ -91,6 +109,7 @@ class UnitBaseGarrisonableShared(object):
                         unit.health += min(heal, (unit.maxhealth - unit.health))
 
         def BuildThink(self):
+            """Perform building think including healing and enemy sensing."""
             self.HealThink()
             super().BuildThink()
 

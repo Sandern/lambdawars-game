@@ -1,3 +1,9 @@
+"""Building upgrade abilities.
+
+Provides abilities for upgrading buildings, changing their properties,
+appearance, or capabilities. Upgrades can be instant or take time to
+complete, and can be canceled during construction.
+"""
 from . base import AbilityBase
 from . placeobject import AbilityPlaceObjectShared
 from fields import FloatField, StringField

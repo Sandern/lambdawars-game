@@ -1,3 +1,8 @@
+"""Base unit classes for Lambda Wars.
+
+Provides base classes for unit entities including health, energy,
+abilities, selection, and unit-specific functionality.
+"""
 from srcbase import *
 from vmath import *
 import random
@@ -57,6 +62,7 @@ else:
 # Reset per level variables
 @receiver(postlevelshutdown)
 def Reset(*args, **kwargs):
+    """Reset per-level unit variables on level shutdown."""
     UnitBaseShared.nextplayselectsound = 0.0
     UnitBaseShared.nextordersound = 0.0
     UnitBaseShared.lasttakedamageperowner.clear()
@@ -65,24 +71,38 @@ def Reset(*args, **kwargs):
     
 @receiver(gamepackageloaded)
 def OnLoadGamepackage(*args, **kwargs):
+    """Rebuild attribute properties for all units when a game package is loaded."""
     for l in unitlist.values():
         for unit in l:
             unit.BuildAttributeProperties()
     
 global_lasttakedamage = 0 
 def NotificationEnt(name, ent, filter=filter):
+    """Send a notification for an entity with throttling.
+    
+    Args:
+        name (str): Notification name.
+        ent: Entity to notify about.
+        filter: Recipient filter.
+    """
     global global_lasttakedamage
     if global_lasttakedamage < gpGlobals.curtime or global_lasttakedamage == 0:
         DoNotificationEnt(name, ent, filter=filter) 
         global_lasttakedamage = gpGlobals.curtime + 10
 if isclient:
     class UnitHealthBarScreen(UnitBarScreen):
-        """ Draws the unit health bar. """
+        """Draws the unit health bar."""
         def __init__(self, unit):
+            """Initialize the health bar for a unit.
+            
+            Args:
+                unit: Unit entity.
+            """
             super().__init__(unit,
                 Color(), Color(40, 40, 40, 250), Color(150, 150, 150, 250))
             
         def Draw(self):
+            """Draw the health bar."""
             if not self.unit or not self.unit.IsAlive() or self.unit.IsDormant():
                 return
             panel = self.GetPanel()
@@ -95,13 +115,19 @@ if isclient:
             super().Draw()
             
     class UnitEnergyBarScreen(UnitBarScreen):
-        """ Draws the unit health bar. """
+        """Draws the unit energy bar."""
         def __init__(self, unit):
+            """Initialize the energy bar for a unit.
+            
+            Args:
+                unit: Unit entity.
+            """
             super().__init__(unit,
                 Color(0, 0, 255, 250), Color(40, 40, 40, 250), Color(150, 150, 150, 250),
                 offsety=4.0 )
             
         def Draw(self):
+            """Draw the energy bar."""
             if not self.unit or not self.unit.IsAlive() or self.unit.IsDormant():
                 return
             panel = self.GetPanel()
@@ -110,12 +136,18 @@ if isclient:
             super().Draw()
             
     class UnitChannelBarScreen(UnitBarScreen):
-        """ Draws the unit health bar. """
+        """Draws the unit channel time bar."""
         def __init__(self, unit):
+            """Initialize the channel bar for a unit.
+            
+            Args:
+                unit: Unit entity.
+            """
             super().__init__(unit,
                 barcolor=Color(10, 239, 235, 250), fillcolor=Color(100, 100, 100, 250), outlinecolor=Color(180, 180, 180, 0), offsety=16.0, worldsizey=7.0, worldbloatx=14.0)
             
         def Draw(self):
+            """Draw the channel time bar."""
             if not self.unit or not self.unit.IsAlive() or self.unit.IsDormant():
                 return
             if not self.unit.ShouldShowChannelTimeBar():
@@ -127,16 +159,33 @@ if isclient:
             super().Draw()
         
 class UnitListObjectField(ObjectField):
+    """Field for managing a unit's presence in a unit list."""
     def __init__(self, *objectargs, **objectkwargs):
+        """Initialize a unit list object field.
+        
+        Args:
+            *objectargs: Arguments to pass to UnitListHandle.
+            **objectkwargs: Keyword arguments to pass to UnitListHandle.
+        """
         super().__init__(UnitListHandle, *objectargs, **objectkwargs)
         
     def InitField(self, inst):
+        """Initialize the field on an instance.
+        
+        Args:
+            inst: Instance to initialize on.
+        """
         h = self.objectcls(inst, *self.objectargs, **self.objectkwargs)
         inst._unitlisthandles.append(h)
         setattr(inst, self.name, h)
 
     def Restore(self, instance, restorehelper):
-        ''' Restores the object. '''
+        """Restore the object after save/load.
+        
+        Args:
+            instance: Instance to restore.
+            restorehelper: Restore helper object.
+        """
         super().Restore(instance, restorehelper)
         
         h = getattr(instance, self.name)
@@ -145,7 +194,14 @@ class UnitListObjectField(ObjectField):
         h.Update(owner)
         
 class UnitListPerTypeObjectField(ObjectField):
+    """Field for managing a unit's presence in a per-type unit list."""
     def __init__(self, *objectargs, **objectkwargs):
+        """Initialize a per-type unit list object field.
+        
+        Args:
+            *objectargs: Arguments to pass to UnitListPerTypeHandle.
+            **objectkwargs: Keyword arguments to pass to UnitListPerTypeHandle.
+        """
         super().__init__(UnitListPerTypeHandle, *objectargs, **objectkwargs)
         
     def InitField(self, inst):

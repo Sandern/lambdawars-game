@@ -1,3 +1,4 @@
+"""Sandbox-derived game rules that enable the in-game editor mode."""
 from core.gamerules.sandbox import Sandbox, SandBoxInfo
 from core.signals import editormapchanged, editorselectionchanged
 from gameinterface import engine, concommand, ConVarRef
@@ -12,6 +13,11 @@ from editorsystem import EditorSystem, CEditorSystem
 sv_fogofwar = ConVarRef('sv_fogofwar')
 
 class EditorMode(Sandbox):
+    """Gamerules implementation that powers the interactive editor mode.
+
+    Keeps the editor system active, respawns players as editor avatars, and
+    wires signals so the UI stays in sync with selection changes.
+    """
     interactionmodes = {
         'select' : CEditorSystem.EDITORINTERACTION_SELECT,
         'translate' : CEditorSystem.EDITORINTERACTION_TRANSLATE,
@@ -82,6 +88,7 @@ class EditorMode(Sandbox):
             engine.ServerCommand('wars_editor_setmode %s' % value)
             
 class EditorModeInfo(SandBoxInfo):
+    """Game package metadata for launching the editor mode gamerules."""
     name = 'editormode'
     hidden = True
     displayname = '#Editor_Name'
@@ -96,18 +103,21 @@ class EditorModeInfo(SandBoxInfo):
 if isserver:
     @concommand('wars_editor')
     def CCWarsEditor(args):
+        """Switch the current gamerules to editor mode."""
         if not UTIL_IsCommandIssuedByServerAdmin():
             return
         engine.ServerCommand('wars_setgamerules %s\n' % (EditorModeInfo.name))
         
     @concommand('wars_editor_save')
     def CCWarsEditorSave(args):
+        """Persist the currently loaded VMF from the editor system."""
         if not UTIL_IsCommandIssuedByServerAdmin():
             return
         gamerules.SaveCurrentMap()
         
     @concommand('wars_editor_setmode')
     def CCWarsEditorSetMode(args):
+        """Change the active editor interaction mode."""
         if not UTIL_IsCommandIssuedByServerAdmin():
             return
         gamerules.activemode = args[1]

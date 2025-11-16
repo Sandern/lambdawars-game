@@ -1,3 +1,8 @@
+"""Follow entity controller for players.
+
+Provides a map entity that can force players to follow an entity or group,
+optionally freezing them while the camera is attached.
+"""
 from srcbase import *
 from vmath import *
 from fields import EHandleField, FloatField, BooleanField, FlagsField, input, fieldtypes
@@ -12,10 +17,16 @@ else:
 
 @entity('wars_player_follow_entity', networked=True, iconsprite='editor/wars_player_follow_entity.vmt')
 class PlayerFolowEntity(CBaseEntity):
+    """Entity that controls player camera to follow target entities/groups.
+
+    Can be triggered to attach the camera to one or more target entities,
+    optionally freezing affected players while the follow view is active.
+    """
     def UpdateTransmitState(self):
         return self.SetTransmitState(FL_EDICT_ALWAYS)
 
     def OnFollowEntityChanged(self):
+        """Client callback that switches the local camera to the new follow target(s)."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         if not player:
             return
@@ -30,6 +41,7 @@ class PlayerFolowEntity(CBaseEntity):
 
     @input(inputname='CamFollowEntity', helpstring='', fieldtype=fieldtypes.FIELD_STRING)
     def InputCamFollowEntity(self, inputdata):
+        """Start following all entities with the given targetname."""
         if not self.enabled or (self.triggeronce and self.istriggeredonce):
             return
             
@@ -58,6 +70,7 @@ class PlayerFolowEntity(CBaseEntity):
         
     @input(inputname='CamReleaseFollowEntity', helpstring='')
     def InputCamReleaseFollowEntity(self, inputdata):
+        """Release the follow camera and unfreeze affected players."""
         if not self.enabled:
             return
         if self.GetSpawnFlags() & self.SF_FREEZE_PLAYER:

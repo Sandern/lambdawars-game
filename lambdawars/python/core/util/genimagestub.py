@@ -1,3 +1,4 @@
+"""Generate placeholder ability/unit icons using ImageMagick and VTEX."""
 from core.units import UnitInfo
 from core.buildings import WarsBuildingInfo
 from core.units.info import dbunits
@@ -27,6 +28,12 @@ except KeyError:
     IMAGEMAGICKEXE = 'convert.exe'
         
 def GetOutput(stderr, stdout):
+    """Drain stdout/stderr from a subprocess and return their contents.
+
+    Returns:
+        tuple[str, str]: ``(stderr_output, stdout_output)`` strings read from
+        the supplied file-like descriptors.
+    """
     stdout_output = list()
     while True:
         data = stdout.read()
@@ -52,6 +59,7 @@ def GetOutput(stderr, stdout):
     return stderr_output, stdout_output
     
 def Classify(info):
+    """Return the high-level category name for a given info class."""
     if issubclass(info, WarsBuildingInfo):
         return 'buildings'
     if issubclass(info, UnitInfo):
@@ -59,6 +67,15 @@ def Classify(info):
     return 'abilities'
         
 def GenerateImage(info, targetfolder, targetoutputfolder, nosubcat=False):
+    """Generate placeholder text-based icons for the provided info class.
+
+    Args:
+        info: Ability/unit info class supplying display metadata.
+        targetfolder (str): Material source directory to write intermediate files.
+        targetoutputfolder (str): Compiled materials directory for the final VTF/VMT.
+        nosubcat (bool): When True, skip automatic categorisation into units/
+            buildings/abilities subfolders.
+    """
     if not nosubcat:
         subcat = Classify(info)
     else:
@@ -140,6 +157,14 @@ nomip 1
     fp.close()
     
 def RecursiveCreateImages(info, done, targetfolder, targetoutputfolder):
+    """Recursively generate icons for an ability and its dependencies.
+
+    Args:
+        info: Ability info object to start from.
+        done (set): Set used to avoid regenerating the same icons.
+        targetfolder (str): Material source directory root.
+        targetoutputfolder (str): Compiled materials directory root.
+    """
     if info in done:
         return
         
@@ -160,6 +185,12 @@ def RecursiveCreateImages(info, done, targetfolder, targetoutputfolder):
         
 @concommand('generate_stubicons')
 def CCGenerateStubIcons(args):
+    """Generate stub icons for all abilities of a faction.
+
+    Args:
+        args: Console arguments where ``args[1]`` optionally specifies the
+            faction name to generate icons for.
+    """
     if args.ArgC() < 2:
         print('Usage: generate_stubicons faction')
         return
@@ -183,6 +214,12 @@ def CCGenerateStubIcons(args):
         
 @concommand('generate_singlestubicon')
 def CCGenerateSingleStubIcon(args):
+    """Generate a single stub icon for the specified ability/output path.
+
+    Args:
+        args: Console arguments; ``args[1]`` is the ability name and
+            ``args[2]`` the relative output materials path.
+    """
     if args.ArgC() < 3:
         print('Usage: generate_stubicons ability materialpath')
         return

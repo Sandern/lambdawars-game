@@ -1,4 +1,9 @@
-""" General ability for placing objects. """
+"""Ability for placing buildings and other objects in the world.
+
+Provides a targeted ability that allows players to place buildings or other
+objects at specific locations. Handles placement validation, collision
+detection, range checking, and visual feedback during placement.
+"""
 from srcbase import Color, MASK_NPCSOLID, COLLISION_GROUP_NONE, RenderMode_t
 from vmath import Vector
 from .target import AbilityTarget

@@ -7,8 +7,14 @@ from fields import StringField, FloatField, TargetSrcField, TargetDestField, Boo
 @entity('wars_choose_random_order',
         iconsprite='editor/wars_choose_random_order.vmt')
 class GiveOrderRandom(CPointEntity):
+    """Helper entity that routes an input unit to one of several outputs at random.
+
+    Uses per-output chance fields as weights to pick exactly one of the
+    `OnTriggerOutputXX` outputs when triggered.
+    """
     @input(inputname='InputTriggerUnit', fieldtype=fieldtypes.FIELD_EHANDLE, helpstring='Takes the input unit and outputs it randomly, from one if the outputs.')
     def InputTriggerUnit(self, inputdata):
+        """Pick a random output based on weights and fire it with the input unit."""
         unit = inputdata.value.Entity()
         totalvalue = (self.onTriggerOutput01Chance+self.onTriggerOutput02Chance+self.onTriggerOutput03Chance+self.onTriggerOutput04Chance+self.onTriggerOutput05Chance+self.onTriggerOutput06Chance+self.onTriggerOutput07Chance+self.onTriggerOutput08Chance)
         randomevalue = random.random()* totalvalue

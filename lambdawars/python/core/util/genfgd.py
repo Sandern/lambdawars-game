@@ -1,3 +1,4 @@
+"""Generate Hammer FGD files based on registered entity classes and packages."""
 from entities import GetAllClassnames, GetClassByClassname
 from gameinterface import concommand
 from utils import UTIL_IsCommandIssuedByServerAdmin
@@ -109,6 +110,12 @@ fgdtemplate = '''%(ClassType)s %(EntityProperties)s %(EntityExtraProperties)s = 
 '''
 
 def AddInputMethods(cls, pythonproperties, processed=None):
+    """Collect FGD input definitions from a class hierarchy.
+
+    Walks the class and all base classes to find attributes decorated with
+    ``fgdinputentry`` metadata, ensuring each input name is only emitted once
+    into the FGD output.
+    """
     # Scan all attributes
     if not processed: 
         processed = set()
@@ -133,6 +140,12 @@ def AddInputMethods(cls, pythonproperties, processed=None):
 
 @concommand('generate_fgd')
 def CCGenFGD(args):
+    """Console command that writes a Lambda Wars FGD describing all entities.
+
+    Args:
+        args: Engine-supplied console arguments. Optional space-separated
+            game package names filter the exported entities to those packages.
+    """
     if not UTIL_IsCommandIssuedByServerAdmin():
         return
     gamepackages = set(args.ArgS().split())

@@ -7,6 +7,11 @@ from input import ButtonCode_t
 from entities import C_HL2WarsPlayer
 
 class NotifierLine(Panel):
+    """Single notification line showing text/icon in the HUD notifier stack.
+
+    Wraps a RichText control and optional icon so notifications can fade in,
+    animate out, and respond to mouse interaction (e.g., jump to location).
+    """
     def __init__(self, notification, text, icon=images.GetImage('vgui/units/unit_unknown.vmt'), color=Color(255, 255, 0, 255)):
         super().__init__(GetClientMode().GetViewport(), 'NotifierLine')
         
@@ -41,6 +46,12 @@ class NotifierLine(Panel):
         self.SetScheme(schemeobj)
         
     def ApplySchemeSettings(self, schemeobj):
+        """Configure fonts/colors for the queued notification line.
+
+        Args:
+            schemeobj: The lobby/game HUD scheme so the notifier text matches
+                the Source UI theme.
+        """
         super().ApplySchemeSettings(schemeobj)
         hfontmedium = schemeobj.GetFont( "HeadlineLarge" )
         self.text.SetFont(hfontmedium)
@@ -48,6 +59,7 @@ class NotifierLine(Panel):
         self.SetAlpha(0)
         
     def PerformLayout(self):
+        """Size the notification line and position the icon/text label."""
         super().PerformLayout()
         
         self.SetSize(self.GetParent().GetWide(),
@@ -57,11 +69,13 @@ class NotifierLine(Panel):
         self.text.SetSize(self.GetWide()-self.iconsize, self.GetTall())
         
     def Paint(self):
+        """Render the icon background and foreground with the current alpha."""
         surface().ClearProxyUITeamColor()
         self.iconbg.DoPaint(0, 0, self.iconsize, self.iconsize, 0, self.GetAlpha()/255.0)
         self.icon.DoPaint(0, 0, self.iconsize, self.iconsize, 0, self.GetAlpha()/255.0)
         
     def OnMousePressed(self, code):
+        """Jump the camera when the player clicks the icon portion of a line."""
         super().OnMousePressed(code)
         
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
@@ -89,6 +103,12 @@ class NotifierLine(Panel):
         self.CallParentFunction(KeyValues("MouseWheeled", "delta", delta))
         
 class HudNotifier(CHudElement, Panel):
+    """Manages the notification stack HUD element with queueing and animations.
+
+    Receives notifier entries from gameplay systems, queues them, animates
+    them into view, and handles automatic fading/removal while ensuring the
+    stack maintains spacing for newly arriving messages.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudNotifier")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudNotifier")
@@ -105,22 +125,26 @@ class HudNotifier(CHudElement, Panel):
         AddTickSignal(self.GetVPanel(), 350)
         
     def LevelInit(self):
+        """Reset queued/active notifications when a new map loads."""
         # Reset
         self.messages = []
         self.queuedmessages = []
         self.movingmessagesup = False
         
     def InsertMessage(self, newmsg):
+        """Queue a new notification line so it animates into the stack."""
         self.queuedmessages.append(newmsg)
         self.UpdateMessages()
         
     def MoveMessagesUp(self):
+        """Slide existing notifications upward to make room for new ones."""
         basex, basey = self.GetPos()
         for msg in self.messages:
             msg.targety -= self.msgtall
             GetAnimationController().RunAnimationCommand(msg, "ypos", msg.targety, 0.0, self.msgmovetime, AnimationController.INTERPOLATOR_LINEAR)
             
     def CheckSpaceNewMessage(self):
+        """Return True if there is vertical space for another message line."""
         if not self.messages:
             return True
         basex, basey = self.GetPos()
@@ -131,6 +155,7 @@ class HudNotifier(CHudElement, Panel):
         return False
         
     def UpdateMessages(self):
+        """Cull expired notifications and insert queued ones with animations."""
         basex, basey = self.GetPos()
     
         # Check expire time and remove expired messages
@@ -164,10 +189,12 @@ class HudNotifier(CHudElement, Panel):
                 self.movingmessagesup = True
                     
     def OnTick(self):
+        """Tick handler that advances fade/out animations and processes queue."""
         super().OnTick()
         self.UpdateMessages()
         
     def PerformLayout(self):
+        """Resize the container panel and reposition all notification lines."""
         super().PerformLayout()
         
         dy = scheme().GetProportionalScaledValueEx(self.GetScheme(), 20) #scale

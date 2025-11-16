@@ -1,3 +1,9 @@
+"""Debug ability for testing navigation mesh path distances.
+
+A development tool that allows measuring the path distance between
+two points on the navigation mesh. Used for debugging and testing
+pathfinding functionality.
+"""
 from navmesh import NavMeshGetPathDistance
 from .base import AbilityBase
 

@@ -1,3 +1,8 @@
+"""Homing projectile entity for Lambda Wars.
+
+Defines a projectile that homes in on a target and applies damage on impact,
+with optional particle effects and explosion behavior.
+"""
 from srcbase import *
 from vmath import *
 from entities import CBaseAnimating as BaseClass, entity
@@ -11,12 +16,13 @@ if isserver:
     
 @entity('projectile_homing', networked=True)
 class HomingProjectile(BaseClass):
-    """ Projectile that always hits the target. """
+    """Projectile entity that steers toward a target. Always hits the target."""
     def UpdateTransmitState(self):
         return self.SetTransmitState(FL_EDICT_ALWAYS)
         
     projfx = None
     def OnDataChanged(self, type):
+        """Client update hook used to keep the particle trail in sync."""
         super().OnDataChanged(type)
 
         if self.projfx:
@@ -30,6 +36,7 @@ class HomingProjectile(BaseClass):
                 return
                 
     def OnParticleEffectChanged(self):
+        """(Client) Create or clear the homing particle effect if settings change."""
         if self.particleeffect and self.projtarget:
             prop = self.ParticleProp()
             
@@ -46,12 +53,14 @@ class HomingProjectile(BaseClass):
             self.projfx = None
 
     def UpdateLastKnowOrigin(self):
+        """Update the cached target position the projectile is steering toward."""
         if not self.projtarget:
             return
         self.lastorigin = self.projtarget.BodyTarget(self.GetAbsOrigin(), False)
             
     if isserver:
         def Precache(self):
+            """Precache particle systems and model used by the projectile."""
             super().Precache()
 
             if self.particleeffect:
@@ -62,6 +71,7 @@ class HomingProjectile(BaseClass):
                 self.PrecacheModel(self.modelname)
             
         def Spawn(self):
+            """Initialize collision, model, and trigger/think behavior."""
             self.health = 1
             self.Precache()
 
@@ -79,6 +89,7 @@ class HomingProjectile(BaseClass):
             self.SetTouch(self.ProjectileTouch)
 
         def SetTargetAndFire(self, projtarget):
+            """Assign a target entity and start thinking toward it."""
             if not projtarget:
                 PrintWarning("Firing projectile with invalid target!\n")
                 self.Remove()
@@ -89,6 +100,7 @@ class HomingProjectile(BaseClass):
             
         @classmethod
         def SpawnProjectile(cls, owner, origin, target, damage, velocity, particleeffect=None, modelname=None, pexplosioneffect=None):
+            """Factory helper for spawning and launching a homing projectile."""
             projectile = CreateEntityByName('projectile_homing')
             projectile.SetOwnerEntity(owner)
             projectile.SetOwnerNumber(owner.GetOwnerNumber())
@@ -102,6 +114,7 @@ class HomingProjectile(BaseClass):
             projectile.SetTargetAndFire(target)
             
         def ProjectileThink(self):
+            """Advance the projectile toward its target and handle lifetime."""
             self.UpdateLastKnowOrigin()
             origin = self.GetAbsOrigin()
             dir = self.lastorigin - origin
@@ -135,11 +148,13 @@ class HomingProjectile(BaseClass):
             self.SetNextThink(gpGlobals.curtime + self.thinkfreq)
 
         def OnReachEndDestination(self):
+            """Stop movement callbacks when the projectile has reached its end."""
             self.died = True
             self.SetTouch(None)
             self.SetThink(None)
 
         def ProjectileTouch(self, other):
+            """Touch handler that only reacts to hostile entities."""
             if relationships[(self.GetOwnerNumber(), other.GetOwnerNumber())] != D_HT:
                 return
             self.OnReachEndDestination()
@@ -154,6 +169,7 @@ class HomingProjectile(BaseClass):
             self.Explode()
             
         def Explode(self):
+            """Apply knockback and damage in a radius, then schedule removal."""
             if self.pexplosioneffect:
                 DispatchParticleEffect(self.pexplosioneffect, PATTACH_ABSORIGIN, self)
             #StopParticleEffects(self)

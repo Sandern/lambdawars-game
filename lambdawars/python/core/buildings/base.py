@@ -1,3 +1,8 @@
+"""Base building classes for Lambda Wars.
+
+Provides base classes for buildings including construction, resource generation,
+and building-specific functionality.
+"""
 from srcbase import *
 from vmath import Vector, vec3_origin, vec3_angle, VectorYawRotate
 from core.units import UnitBase as BaseClass
@@ -41,6 +46,7 @@ else:
 
 
 class BuildingInfoMetaClass(UnitInfoMetaClass):
+    """Metaclass for building info that sets up dummy buildings and place range."""
     def __new__(cls, name, bases, dct):
         newcls = UnitInfoMetaClass.__new__(cls, name, bases, dct)
 
@@ -63,6 +69,11 @@ class BuildingInfoMetaClass(UnitInfoMetaClass):
 
 
 class WarsBuildingInfo(AbilityPlaceObjectShared, UnitInfo, metaclass=BuildingInfoMetaClass):
+    """Base class for building information.
+    
+    Defines properties and behavior for buildings including construction,
+    resource generation, population provision, and building-specific attributes.
+    """
     displayname = '#Building_Unknown'
 
     #: Resource category (match statistics)
@@ -280,6 +291,7 @@ class WarsBuildingInfo(AbilityPlaceObjectShared, UnitInfo, metaclass=BuildingInf
 
 
 class BuildingFallBackInfo(WarsBuildingInfo):
+    """Fallback building info used when an invalid building is requested."""
     name = 'build_unknown'
     displayname = 'Unknown Building'
     attributes = []
@@ -295,13 +307,23 @@ priobuildinglist = CreateUnitList()
 
 if isclient:
     class UnitProgressBarScreen(UnitBarScreen):
+<<<<<<< HEAD
+        """Draws the building construction progress bar."""
+=======
         """ Draws the unit health bar. """
 
+>>>>>>> origin/master
         def __init__(self, unit):
+            """Initialize the progress bar for a building.
+            
+            Args:
+                unit: Building entity.
+            """
             super().__init__(unit,
                              Color(136, 209, 215, 250), Color(60, 60, 60, 250), Color(150, 150, 150, 0), offsety=-4.0)
 
         def Draw(self):
+            """Draw the construction progress bar."""
             if not self.unit or not self.unit.IsAlive() or self.unit.IsDormant():
                 return
             panel = self.GetPanel()
@@ -310,7 +332,13 @@ if isclient:
 
 
 class UnitBaseBuildingShared(object):
+    """Shared base class for building entities.
+    
+    Provides common functionality for buildings including navigation blocking,
+    dummy building management, and building-specific properties.
+    """
     def __init__(self):
+        """Initialize the building entity."""
         super().__init__()
 
         if isserver:
@@ -350,6 +378,11 @@ class UnitBaseBuildingShared(object):
         areasblocked = False
 
         def GetNavBlockBB(self):
+            """Get bounding box for navigation blocking.
+            
+            Returns:
+                tuple: (mins, maxs) bounding box vectors for navigation blocking.
+            """
             # Prefer collide bounds. Fallback to manual or model bounds.
             mins, maxs = GetCollideAABB(self)
             if mins != None:
@@ -367,7 +400,9 @@ class UnitBaseBuildingShared(object):
             return mins, maxs
 
         def BlockAreas(self):
-            """ Blocks the navigation areas beneath the building.
+            """Block the navigation areas beneath the building.
+            
+            Prevents units from pathfinding through the building's footprint.
             """
             if not self.IsSolid():
                 return
@@ -389,7 +424,9 @@ class UnitBaseBuildingShared(object):
             self.areasblocked = True
 
         def UnblockAreas(self):
-            """ Unblocks the navigation areas beneath the building.
+            """Unblock the navigation areas beneath the building.
+            
+            Allows units to pathfind through the building's footprint again.
             """
             if not self.areasblocked:
                 return
@@ -774,7 +811,14 @@ class UnitBaseBuildingShared(object):
 
 @entity('build_base', networked=True)
 class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
+    """Base class for building entities.
+    
+    Server-side building entity class that handles building-specific
+    functionality including construction, resource generation, and
+    navigation blocking.
+    """
     def __init__(self):
+        """Initialize the building entity."""
         super().__init__()
 
         # self.dummies = []

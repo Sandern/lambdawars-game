@@ -10,6 +10,12 @@ dbhuds = gamemgr.dblist[dbid]
 
 # Hud info entry
 class HudInfo(gamemgr.BaseInfo):
+    """Info object that links a HUD name to its Python HUD classes.
+
+    Holds references to both the VGUI panel class (`cls`) and the CEF panel
+    class (`cefcls`) so code elsewhere can spawn the correct implementation
+    by name.
+    """
     donotregister = False
     id = dbid
     #: Reference to VGUI class

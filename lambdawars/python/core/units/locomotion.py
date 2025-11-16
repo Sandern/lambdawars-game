@@ -1,3 +1,7 @@
+"""Locomotion classes for Lambda Wars units.
+
+Provides movement and jumping functionality for units.
+"""
 from srcbase import *
 from vmath import *
 from math import sqrt
@@ -10,8 +14,9 @@ from gameinterface import ConVarRef
 sv_gravity = ConVarRef('sv_gravity')
 
 class UnitCombatLocomotion(UnitBaseLocomotion):
+    """Locomotion system for combat units with jumping support."""
     def HandleJump(self):
-        """ Jump if needed """ 
+        """Handle jump movement including double jump support."""
         if not self.GetGroundEntity():
             if (self.supportdoublejump and not self.doublejumped and 
                     self.outer.mv.jump and self.doublejumpallowtime < gpGlobals.curtime):
@@ -51,4 +56,5 @@ class UnitCombatLocomotion(UnitBaseLocomotion):
     doublejumpallowtime = 0.0
         
 class UnitBaseAirLocomotion(BaseAirClass):
+    """Base locomotion system for air units."""
     pass

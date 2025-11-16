@@ -1,3 +1,7 @@
+"""Map filter entities for Lambda Wars.
+
+Defines filters to select entities based on owner, unit type, or carried items.
+"""
 
 if isserver:
     from entities import CBaseFilter, entity
@@ -6,7 +10,7 @@ if isserver:
     @entity('filter_owner',
             iconsprite='editor/filter_name.vmt')
     class OwnerFilter(CBaseFilter):
-        ''' Filters on the owner of the entity.'''
+        """Filters on the owner of the entity."""
         def PassesFilterImpl(self, caller, entity):
             if entity.GetOwnerNumber() != self.GetOwnerNumber():
                 return False
@@ -15,7 +19,7 @@ if isserver:
     @entity('filter_unittype',
             iconsprite='editor/filter_name.vmt')
     class UnitTypeFilter(CBaseFilter):
-        ''' Filters on unit type. '''
+        """Filters on unit type. """
         def PassesFilterImpl(self, caller, entity):
             if not entity.IsUnit():
                 return False
@@ -30,7 +34,7 @@ if isserver:
             iconsprite='editor/filter_name.vmt',
             base=['BaseFilter', 'Wars', 'Targetname'])
     class ItemFilter(CBaseFilter):
-        ''' Filters on the target item. '''
+        """Filters on the target item."""
         def PassesFilterImpl(self, caller, entity):
             if not entity.IsUnit():
                 return False

@@ -1,7 +1,13 @@
-''' Small system for setting attributes of classes containing fields in Sandbox mode.
+"""Attribute management system for Sandbox mode.
 
-    Not to be confused with attributes of units!
-'''
+Allows editing of class attributes (fields) in Sandbox game mode through
+console commands and a client-side UI. This system works with ability info
+classes, unit classes, and player info, allowing real-time modification
+of game values for testing and balancing purposes.
+
+Not to be confused with unit attributes (damage modifiers) - this system
+is for editing the fields/properties of game classes themselves.
+"""
 
 from srcbase import Color
 from core.units import GetUnitInfo, UnitBase
@@ -52,6 +58,16 @@ def PlayerInfoSetAttr(apply, name, fieldname, default, **kwargs):
     
 # Apply attribute types
 def GetStringValue(unitname, keyname, value):
+    """Get string representation of an ability info field value.
+    
+    Args:
+        unitname (str): Ability name.
+        keyname (str): Field name.
+        value: Field value.
+        
+    Returns:
+        str: String representation of the value, or empty string if not found.
+    """
     info = GetAbilityInfo(unitname)
     if not info:
         return ''
@@ -63,6 +79,16 @@ def GetStringValue(unitname, keyname, value):
     return field.ToString(value)
     
 def GetStringClassValue(unitname, keyname, value):
+    """Get string representation of a class field value.
+    
+    Args:
+        unitname (str): Ability name.
+        keyname (str): Field name.
+        value: Field value.
+        
+    Returns:
+        str: String representation of the value, or empty string if not found.
+    """
     info = GetAbilityInfo(unitname)
     if not info:
         return ''
@@ -78,6 +104,16 @@ def GetStringClassValue(unitname, keyname, value):
     return field.ToString(value)
 
 def ApplyAbilityAttribute(unitname, keyname, rawvalue):
+    """Apply an attribute change to an ability info.
+    
+    Args:
+        unitname (str): Ability name.
+        keyname (str): Field name.
+        rawvalue (str): Raw string value to set.
+        
+    Returns:
+        tuple: (success (bool), updated_value) or (False, None) on failure.
+    """
     info = GetAbilityInfo(unitname)
     if not info:
         return False, None
@@ -94,6 +130,16 @@ def ApplyAbilityAttribute(unitname, keyname, rawvalue):
     return True, field.Get(info, allowdefault=True)
     
 def ApplyClassAttribute(unitname, keyname, rawvalue):
+    """Apply an attribute change to a class.
+    
+    Args:
+        unitname (str): Ability name.
+        keyname (str): Field name.
+        rawvalue (str): Raw string value to set.
+        
+    Returns:
+        tuple: (success (bool), updated_value) or (False, None) on failure.
+    """
     info = GetAbilityInfo(unitname)
     if not info:
         return False, None
@@ -114,12 +160,27 @@ def ApplyClassAttribute(unitname, keyname, rawvalue):
     return True, field.Get(cls, allowdefault=True)
     
 def ApplyPlayerAttribute(ownernumber, keyname, rawvalue):
+    """Apply an attribute change to a player info.
+    
+    Args:
+        ownernumber (int): Owner number.
+        keyname (str): Field name.
+        rawvalue (str): Raw string value to set.
+    """
     playerinfo = playermgr.dbplayers[ownernumber]
     SetAttribute(playerinfo, keyname, rawvalue)
         
 # Attribute edit commands
 if isserver:
     def SendFilepathAttribute(fnsetter, obj, unitname, sendfilter):
+        """Send the source file path attribute to a client.
+        
+        Args:
+            fnsetter: Function to call to set the attribute.
+            obj: Object to get source file from.
+            unitname (str): Unit/ability name.
+            sendfilter: Recipient filter.
+        """
         try:
             # Get source file path
             path = inspect.getsourcefile(obj)
@@ -131,6 +192,17 @@ if isserver:
 
     # Method that sends all attributes of an obj + baseclasses
     def SendAllAttributes(fnsetter, obj, unitname, filterflags, sendfilter, stopbasecls, done):
+        """Send all attributes of an object and its base classes to a client.
+        
+        Args:
+            fnsetter: Function to call to set each attribute.
+            obj: Object to get attributes from.
+            unitname (str): Unit/ability name.
+            filterflags (int): Filter flags to apply.
+            sendfilter: Recipient filter.
+            stopbasecls (list): List of base classes to stop recursion at.
+            done (list): List of already processed attribute names.
+        """
         for name, field in obj.__dict__.items():
             if not isinstance(field, BaseField):
                 continue

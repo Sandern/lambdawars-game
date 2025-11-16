@@ -13,6 +13,12 @@ dispositionchoices = [
         base=['Targetname', 'Parentname', 'Angles'],
         iconsprite='editor/wars_player_relation.vmt')
 class EntPlayerRelation(CPointEntity):
+    """Map entity that adjusts the relationship between two players.
+    
+    When triggered it writes an entry to the global relationship table so
+    AI and ownership logic can treat the subject/target players as allies,
+    enemies, or neutral, optionally in both directions.
+    """
     @input(inputname='ApplyRelation', helpstring='')
     def InputApplyRelation(self, inputdata):
         key = (self.subjectplayer, self.targetplayer)

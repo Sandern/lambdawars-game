@@ -21,7 +21,13 @@ if isserver:
 
 @entity('flamer_projectile')
 class FlamerProjectile(BaseClass):
+    """Projectile entity used by the flamer weapon to apply burn damage.
+    
+    Handles movement, collision/trace logic, damage application, and ignition
+    of nearby flora along its path.
+    """
     def Spawn(self):
+        """Set up physics, collision, lifetime, and visual effects for the pellet."""
         self.Precache()
         
         self.SetAllowNavIgnore(True)
@@ -52,6 +58,7 @@ class FlamerProjectile(BaseClass):
         #SetNextThink(gpGlobals.curtime + 1.0)
 
     def CreateEffects(self):
+        """Create and attach sprite/glow trail effects if they exist."""
         # Start up the eye glow
         #self.mainglow = CSprite::SpriteCreate( "swarm/sprites/whiteglow1.vmt", GetLocalOrigin(), False )
 
@@ -76,6 +83,7 @@ class FlamerProjectile(BaseClass):
             self.glowtrail.SetLifeTime(0.5)
 
     def CreateVPhysics(self):
+        """Initialize VPhysics collision for the projectile."""
         # Create the object in the physics system
         self.VPhysicsInitNormal(SOLID_BBOX, FSOLID_NOT_STANDABLE, False)
         return True
@@ -86,6 +94,7 @@ class FlamerProjectile(BaseClass):
     '''
 
     def Precache(self):
+        """Precache models used by the projectile visuals."""
         self.PrecacheModel(PELLET_MODEL)
 
         self.PrecacheModel("swarm/sprites/whiteglow1.vmt")
@@ -94,6 +103,13 @@ class FlamerProjectile(BaseClass):
         super().Precache()
 
     def FlameHit(self, pOther, vecHitPos, bOnlyHurtUnignited):
+        """Handle collision with an entity and apply burn damage if appropriate.
+        
+        Args:
+            pOther: Entity that was hit.
+            vecHitPos: World-space impact position.
+            bOnlyHurtUnignited (bool): When True, skip entities that are already on fire.
+        """
         if not pOther:
             return
 
@@ -192,6 +208,18 @@ class FlamerProjectile(BaseClass):
 
     @classmethod
     def Flamer_Projectile_Create(cls, damage, position, angles, velocity, angVelocity, pOwner, pEntityToCreditForTheDamage= None, pCreatorWeapon=None):
+        """Factory helper to spawn and initialize a flamer projectile.
+        
+        Args:
+            damage (float): Base damage dealt on hit.
+            position: Spawn origin.
+            angles: Spawn orientation.
+            velocity: Initial linear velocity.
+            angVelocity: Initial angular velocity.
+            pOwner: Owning marine/unit.
+            pEntityToCreditForTheDamage: Optional entity that gets kill credit.
+            pCreatorWeapon: Weapon instance that fired this projectile.
+        """
         pellet = CreateEntityByName( "flamer_projectile" )
         pellet.SetAbsAngles( angles )
         pellet.Spawn()

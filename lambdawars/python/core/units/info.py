@@ -92,7 +92,21 @@ dmgtypes = {
 }
 
 
+"""Unit information system for Lambda Wars.
+
+Provides base classes and utilities for unit definitions, creation,
+and management including unit lists, population tracking, and
+unit-specific properties.
+"""
 def BuildDamageTypeString(ent_dmg_types):
+    """Build a string representation of damage types.
+    
+    Args:
+        ent_dmg_types (int): Bitmask of damage types.
+        
+    Returns:
+        str: Pipe-separated string of damage type names.
+    """
     s = ''
     for k, v in dmgtypes.items():
         if k & ent_dmg_types:
@@ -103,7 +117,17 @@ def BuildDamageTypeString(ent_dmg_types):
 
 
 class AbilitiesDictField(DictField):
+    """Field for unit abilities that parses ability slot definitions."""
     def Parse(self, cls, name):
+        """Parse ability slot definitions from class attributes.
+        
+        Args:
+            cls: Class to parse.
+            name (str): Field name.
+            
+        Returns:
+            dict: Parsed abilities dictionary.
+        """
         self.default = dict(self.default)
 
         for i in range(0, 12):
@@ -120,6 +144,7 @@ class AbilitiesDictField(DictField):
 
 
 class UnitInfoMetaClass(AbilityInfoMetaClass):
+    """Metaclass for UnitInfo that sets up accuracy, hull bounds, and abilities."""
     def __new__(cls, name, bases, dct):
         # Replace accuracy if a string
         # Do before call to base __new__, because it initializes the fields.
@@ -219,15 +244,19 @@ class UnitInfoMetaClass(AbilityInfoMetaClass):
 
 
 class NoSuchAbilityError(Exception):
+    """Exception raised when an ability is not found for a unit."""
     pass
 
 
 def ParseAttributes(info, parseattributes):
-    """ Convert attributes names to refs to the info class of that attribute.
+    """Convert attributes names to refs to the info class of that attribute.
 
-        Args:
-            info (object): unit or attack info, for debugging purposes
-            parseattributes (list): Attributes to be parsed.
+    Args:
+        info (object): Unit or attack info, for debugging purposes.
+        parseattributes (list): Attributes to be parsed.
+        
+    Returns:
+        list: List of attribute info objects.
     """
     attributes = []
     if parseattributes:
@@ -245,15 +274,26 @@ def ParseAttributes(info, parseattributes):
 
 
 class MetaAttackBase(BaseInfoMetaclass):
+    """Base metaclass for attack information."""
     def __new__(cls, name, bases, dct):
+        """Create a new attack info class."""
         cls = BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
         return cls
 
     def __str__(self):
+        """Get string representation of the attack."""
         return self.GetDescription()
         
     def GetDescription(self, accuracy=1.0):
+        """Get a description string for the attack.
+        
+        Args:
+            accuracy (float): Accuracy multiplier for damage calculation.
+            
+        Returns:
+            str: Description string including damage, speed, range, and DPS.
+        """
         damage = self.damage * accuracy
         desc = '%s - %d dmg - %.2f speed - %.2f range' % (self.name, 
             damage, self.attackspeed, self.maxrange)
@@ -721,6 +761,7 @@ class UnitInfo(AbilityTargetGroup, metaclass=UnitInfoMetaClass):
 
 
 class UnitFallBackInfo(UnitInfo):
+    """Fallback unit info used when an invalid unit is requested."""
     name = 'unit_unknown'
     displayname = 'Unknown Unit'
     description = ''
@@ -859,6 +900,17 @@ def CreateUnitFancy(name, position, owner_number=0, startradius=0, maxradius=Non
 
 
 def PlaceUnit(unit, testposition, startradius=0, maxradius=None):
+    """Place a unit at a valid position near the test position.
+    
+    Args:
+        unit: Unit entity to place.
+        testposition (Vector): Desired position.
+        startradius (float): Start search radius.
+        maxradius (float): Maximum search radius.
+        
+    Returns:
+        bool: True if unit was placed successfully, False otherwise.
+    """
     unitinfo = unit.unitinfo
     position = Vector(testposition)
     if unitinfo.placeatmins:
@@ -888,9 +940,21 @@ def PlaceUnit(unit, testposition, startradius=0, maxradius=None):
 
 
 def CreateUnitsInArea(unit_name, origin, mins, maxs, z, amount, ownernumber):
-    """ Creates the given number of units in an area specified by origin, mins and maxs.
+    """Create the given number of units in an area specified by origin, mins and maxs.
     
-        Uses the method CreateUnitFancy for unit creation. The positions are random.
+    Uses the method CreateUnitFancy for unit creation. The positions are random.
+    
+    Args:
+        unit_name (str|list): Unit name or list of unit names to randomly choose from.
+        origin (Vector): Origin point of the area.
+        mins (Vector): Minimum bounds relative to origin.
+        maxs (Vector): Maximum bounds relative to origin.
+        z (float): Z coordinate for unit placement.
+        amount (int): Number of units to create.
+        ownernumber (int): Owner number for the units.
+        
+    Returns:
+        list: List of created unit entities.
     """
     ul = []
     mins = origin + mins
@@ -904,7 +968,11 @@ def CreateUnitsInArea(unit_name, origin, mins, maxs, z, amount, ownernumber):
     
 if isserver:
     def PrecacheUnit(name):
-        """ Precaches an unit. """
+        """Precache a unit's models and resources.
+        
+        Args:
+            name (str): Unit name to precache.
+        """
         if isunitprecached[name]:
             return
 
@@ -916,11 +984,16 @@ if isserver:
         isunitprecached[name] = True
 else:
     def PrecacheUnit(name):
+        """Client-side stub for precaching (no-op on client)."""
         pass
 
 
 @receiver(postlevelshutdown)
 def LevelInit(sender, **kwargs):
+    """Initialize unit system on level start.
+    
+    Clears precached units, unit lists, and population counts.
+    """
     global isunitprecached, unitlist, unitlistpertype
     # Reset precached
     isunitprecached.clear()
@@ -932,7 +1005,15 @@ def LevelInit(sender, **kwargs):
 
 
 def GetUnitInfo(unit_name, fallback=UnitFallBackInfo):
-    """ Returns the information object for a given unit. """
+    """Get the information object for a given unit.
+    
+    Args:
+        unit_name (str): Unit name.
+        fallback: Fallback unit info to return if unit not found.
+        
+    Returns:
+        UnitInfo: The unit info object, or fallback if not found.
+    """
     return dbunits.get(unit_name, fallback)
 
 #       
@@ -960,36 +1041,72 @@ if isserver:
 # List classes
 #        
 class UnitList(list):
+    """List of unit weak references that automatically resolves to unit entities."""
     def __getitem__(self, index):
+        """Get unit entity at index.
+        
+        Args:
+            index (int): List index.
+            
+        Returns:
+            Unit entity from weak reference.
+        """
         return super().__getitem__(index)()
         
     def __iter__(self):
+        """Iterate over unit entities."""
         for ref in list.__iter__(self):
             yield ref()
             
     def copy(self):
+        """Create a copy of the list with resolved unit entities.
+        
+        Returns:
+            list: List of unit entities (not weak references).
+        """
         # De-weakref them
         return [unit for unit in self]
 
 
 def CreateUnitList():
-    """ Creates a list of the format: [owner][units]. """
+    """Create a unit list of the format: [owner][units].
+    
+    Returns:
+        defaultdict: Dictionary mapping owner numbers to UnitList objects.
+    """
     return defaultdict(UnitList)
 
 
 def CreateUnitListPerType():
-    """ Creates a list of the format: [owner][type][units]. """
+    """Create a unit list of the format: [owner][type][units].
+    
+    Returns:
+        defaultdict: Nested dictionary mapping owner numbers and unit types to UnitList objects.
+    """
     return defaultdict(lambda : defaultdict(UnitList))
 
 
 class UnitListHandle(object):
+    """Handle for managing a unit's presence in a unit list."""
     def __init__(self, unit, unitlist, startdisabled=True):
+        """Initialize a unit list handle.
+        
+        Args:
+            unit: Unit entity.
+            unitlist: Unit list to manage.
+            startdisabled (bool): Whether to start disabled.
+        """
         super().__init__()
         self.unitlist = unitlist
         self.disabled = startdisabled
         self.wrunit = weakref.ref(unit)
         
     def Update(self, ownernumber):
+        """Update the unit's position in the list based on owner number.
+        
+        Args:
+            ownernumber (int): New owner number.
+        """
         if self.disabled:
             self.ownernumber = ownernumber
             return
@@ -1006,6 +1123,7 @@ class UnitListHandle(object):
         self.unitlist[self.ownernumber].append(self.wrunit)
         
     def Disable(self):
+        """Disable the handle and remove unit from the list."""
         if self.disabled:
             return
         self.disabled = True
@@ -1015,6 +1133,7 @@ class UnitListHandle(object):
         self.ownernumber = -1
         
     def Enable(self):
+        """Enable the handle and add unit to the list."""
         if not self.disabled:
             return
         self.disabled = False
@@ -1027,13 +1146,27 @@ class UnitListHandle(object):
 
 
 class UnitListPerTypeHandle(object):
+    """Handle for managing a unit's presence in a per-type unit list."""
     def __init__(self, unit, unitpertypelist, startdisabled=True):
+        """Initialize a per-type unit list handle.
+        
+        Args:
+            unit: Unit entity.
+            unitpertypelist: Per-type unit list to manage.
+            startdisabled (bool): Whether to start disabled.
+        """
         super().__init__()
         self.unitpertypelist = unitpertypelist
         self.disabled = startdisabled
         self.wrunit = weakref.ref(unit)
         
     def Update(self, ownernumber, unittype):
+        """Update the unit's position in the list based on owner and type.
+        
+        Args:
+            ownernumber (int): New owner number.
+            unittype (str): New unit type.
+        """
         if self.disabled:
             self.ownernumber = ownernumber
             self.unittype = unittype
@@ -1052,6 +1185,7 @@ class UnitListPerTypeHandle(object):
         self.unitpertypelist[self.ownernumber][self.unittype].append(self.wrunit)
         
     def Disable(self):
+        """Disable the handle and remove unit from the list."""
         if self.disabled:
             return
         self.disabled = True
@@ -1062,6 +1196,7 @@ class UnitListPerTypeHandle(object):
         self.ownernumber = -1
         
     def Enable(self):
+        """Enable the handle and add unit to the list."""
         if not self.disabled:
             return
         self.disabled = False
@@ -1085,6 +1220,11 @@ unitpopulationcount = defaultdict(lambda : 0)
 
 
 def AddUnit(unit):
+    """Add a unit to the global unit lists.
+    
+    Args:
+        unit: Unit entity to add.
+    """
     h = unit.GetHandle()
     unitlist[unit.GetOwnerNumber()].append(h)
     unitlistpertype[unit.GetOwnerNumber()][unit.GetUnitType()].append(h)
@@ -1092,6 +1232,11 @@ def AddUnit(unit):
 
 
 def RemoveUnit(unit):
+    """Remove a unit from the global unit lists.
+    
+    Args:
+        unit: Unit entity to remove.
+    """
     try:
         h = unit.GetHandle()
         unitlist[unit.GetOwnerNumber()].remove(h)
@@ -1103,6 +1248,12 @@ def RemoveUnit(unit):
 
 
 def ChangeUnit(unit, oldownernumber):
+    """Change a unit's owner in the global unit lists.
+    
+    Args:
+        unit: Unit entity.
+        oldownernumber (int): Previous owner number.
+    """
     h = unit.GetHandle()
     try:
         unitlist[oldownernumber].remove(h)
@@ -1119,10 +1270,24 @@ def ChangeUnit(unit, oldownernumber):
 
 
 def CountUnits(ownernumber):
+    """Count the number of units for an owner.
+    
+    Args:
+        ownernumber (int): Owner number.
+        
+    Returns:
+        int: Number of units for this owner.
+    """
     return len(unitlist[ownernumber])
 
 
 def ChangeUnitType(unit, oldtype):
+    """Change a unit's type in the per-type unit lists.
+    
+    Args:
+        unit: Unit entity.
+        oldtype (str): Previous unit type.
+    """
     h = unit.GetHandle()
     if oldtype:
         unitlistpertype[unit.GetOwnerNumber()][oldtype].remove(h)
@@ -1130,8 +1295,11 @@ def ChangeUnitType(unit, oldtype):
 
 
 def RefreshUnitList():
-    """ Fixes the global unit list when it contains invalid unit handles. 
-        Only for development (used after the class def of an entity changed). """
+    """Fix the global unit list when it contains invalid unit handles.
+    
+    Only for development (used after the class def of an entity changed).
+    Rebuilds the unit lists from valid unit handles.
+    """
     newunitlist = defaultdict(set)
     newunitpopulationcount = defaultdict(lambda : 0)
     for ownernumber, ul in unitlist.items():
@@ -1146,12 +1314,17 @@ def RefreshUnitList():
 
 
 def VerifyUnitList():
+    """Verify that all unit handles in the lists are valid.
+    
+    Raises an assertion error if any invalid handles are found.
+    """
     for ownernumber, ul in unitlist.items():
         for unit in ul:
             assert(unit != None)
 
 
 def KillAllUnits():
+    """Remove all units from the game and refresh the unit lists."""
     for ownernumber, ul in unitlist.items():
         for unit in list(ul):
             unit.Remove()
@@ -1164,21 +1337,38 @@ playerpopulationcap = defaultdict(lambda : 0)
 
 
 def AddPopulation(ownernumber, pop):
-    """ Adds population to the specified ownernumber. """
+    """Add population cap to the specified owner number.
+    
+    Args:
+        ownernumber (int): Owner number.
+        pop (int): Population amount to add.
+    """
     assert(isserver)
     playerpopulationcap[ownernumber] += pop
     SendPopToClient(ownernumber)
 
 
 def RemovePopulation(ownernumber, pop):
-    """ Removes population from the specified ownernumber. """
+    """Remove population cap from the specified owner number.
+    
+    Args:
+        ownernumber (int): Owner number.
+        pop (int): Population amount to remove.
+    """
     assert(isserver)
     playerpopulationcap[ownernumber] -= pop
     SendPopToClient(ownernumber)
 
 
 def GetMaxPopulation(ownernumber):
-    """ Returns the max population for the specified ownernumber. """
+    """Get the max population cap for the specified owner number.
+    
+    Args:
+        ownernumber (int): Owner number.
+        
+    Returns:
+        int: Maximum population cap for this owner.
+    """
     pop = playerpopulationcap[ownernumber]
     return min(pop, sv_unitlimit.GetInt())
 

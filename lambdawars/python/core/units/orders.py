@@ -1,3 +1,8 @@
+"""Order system for Lambda Wars units.
+
+Provides order classes and management for unit commands including move,
+attack, and ability orders.
+"""
 from srcbuiltins import RegisterTickMethod, UnregisterTickMethod
 from vmath import vec3_origin, vec3_angle, Vector
 from operator import itemgetter
@@ -43,15 +48,18 @@ if isclient:
         return vec3_origin
         
     def ClearSpots(spots, deletespots):
+        """Stop particle effects for spot ids that should be removed."""
         for key in deletespots:
             spots[key].StopEmission(False, True, False, True)
             del spots[key]
         
     def ClearAllSpots():
+        """Remove all currently active cover-spot particle effects."""
         ClearSpots(curspots, list(curspots.keys()))
         ClearSpots(curspotshover, list(curspotshover.keys()))
         
     def CreateNewSpots(spots, hidespots, newspots, effectname):
+        """Spawn particle effects for the new hiding spot ids."""
         for key in newspots:
             size = Vector(12, 12, 12)
             spots[key] = CNewParticleEffect.Create(None, effectname)
@@ -60,6 +68,7 @@ if isclient:
             spots[key].SetControlPoint(2, size)
             
     def UpdateHidingSpots():
+        """Tick handler that tracks nearby cover spots while issuing orders."""
         player = C_HL2WarsPlayer.GetLocalPlayer()
         selection = player.GetSelection() if player else []
         if (not player or len(selection) > coverspotsearchmaxunits or 
@@ -96,6 +105,7 @@ if isclient:
     # Rally line methods
     class OrderRallyLine(FXRallyLine):
         def __init__(self, prevorder, nextorder, rallylinemat='vgui/rallyline'):
+            """Create a rally line between two orders for HUD visualization."""
             self.nextorder = nextorder
             
             super().__init__(rallylinemat, Vector(1, 1, 1), 
@@ -103,20 +113,24 @@ if isclient:
                     ent1=prevorder.target, ent2=nextorder.target)
 
 class Order(object):
+    """Base class for unit orders.
+    
+    Represents a command given to a unit such as move, attack, or use ability.
+    """
     def __init__(self, type=0, position=vec3_origin, angle=vec3_angle, 
                        target=None, selection=[], originalposition=None, repeat=False):
-        """ Creates a new Order object for an Unit.
+        """Create a new Order object for a unit.
         
-            Kwargs:
-               type (int): The type of order (Move, attack, ability)
-               position (Vector): Target position (if used)
-               angle (QAngle): Unit arrival facing direction (if used)
-               target (Entity): Target entity of this Order (if used)
-               selection (list): The selection of the player during issuing the order
-               originalposition (Vector): The original position ordered by the player.
-                                          Units may modify the position to avoid cluttering to the same
-                                          target position when moving.
-               repeat (bool): If this order is repeated or not. This is used for patrolling.
+        Kwargs:
+           type (int): The type of order (Move, attack, ability)
+           position (Vector): Target position (if used)
+           angle (QAngle): Unit arrival facing direction (if used)
+           target (Entity): Target entity of this Order (if used)
+           selection (list): The selection of the player during issuing the order
+           originalposition (Vector): The original position ordered by the player.
+                                      Units may modify the position to avoid cluttering to the same
+                                      target position when moving.
+           repeat (bool): If this order is repeated or not. This is used for patrolling.
         """
         super().__init__()
         self.type = type
@@ -128,20 +142,33 @@ class Order(object):
         self.repeat = repeat
        
     def __str__(self):
+        """Get string representation of the order."""
         return '<unit: %s, order type %s, ability: %s, repeat: %s>' % (self.unit, self.type, self.ability, self.repeat)
         
     def AllowAutoCast(self, unit):
+        """Check if auto-cast is allowed for this order.
+        
+        Args:
+            unit: Unit entity.
+            
+        Returns:
+            bool: True if auto-cast is allowed, False otherwise.
+        """
         if self.ability:
             return self.ability.AllowAutoCast(unit)
         return False
         
     def Remove(self, dispatchevent=True, allowrepeat=False):
-        """ Removes the order from the owning unit.
-            No-op in casen no unit is attached.
-
-            Kwargs:
-                dispatchevent (bool): Dispatch clear order event.
-                allowrepeat (bool): Can be repeated (patrol code)
+        """Remove the order from the owning unit.
+        
+        No-op in case no unit is attached.
+        
+        Args:
+            dispatchevent (bool): Dispatch clear order event.
+            allowrepeat (bool): Can be repeated (patrol code).
+            
+        Returns:
+            bool: True if order was removed, False if no unit attached.
         """
         unit = self.unit
         if not unit:
@@ -241,9 +268,11 @@ class GroupMoveOrder(UnitProjector):
         self.findhidespot = findhidespot
 
     def AddUnit(self, unit):
+        """Add a unit to the formation list."""
         self.units.append(unit)
 
     def ComputeSquareFormation(self):
+        """Compute positions arranged in a square grid centered on target point."""
         self.positions = []
         sizesqrt = int(ceil(sqrt(len(self.units))))
         hsizesqrt = int(sizesqrt/2)
@@ -254,6 +283,7 @@ class GroupMoveOrder(UnitProjector):
                 self.positions.append(Vector(x, y, self.position.z))
 
     def Apply(self):
+        """Finalize target positions (and cover search) then execute move orders."""
         # Remove target if in selection
         if self.target in self.units:
             self.target = None
@@ -268,6 +298,7 @@ class GroupMoveOrder(UnitProjector):
         self.Execute()
 
     def ExecuteUnitForPosition(self, unit, target_pos):
+        """Issue a move order for a single unit to the computed slot."""
         data = self.player.GetMouseDataRightPressed()
         angle = unit.CalculateArrivalAngle(data, self.player.GetMouseDataRightReleased())
 
@@ -280,6 +311,7 @@ class GroupMoveOrder(UnitProjector):
 
 groupmoveorder = None
 def AddToGroupMoveOrder(unit):
+    """Append a unit to the current group move order, if one exists."""
     if groupmoveorder:
         groupmoveorder.AddUnit(unit)
         return True
@@ -287,6 +319,7 @@ def AddToGroupMoveOrder(unit):
 
 @receiver(pre_orderunits)
 def PreOrderUnits(player, **kwargs):
+    """Create the group move order instance before processing commands."""
     global groupmoveorder
     data = player.GetMouseDataRightPressed()
     
@@ -306,6 +339,7 @@ def PreOrderUnits(player, **kwargs):
     
 @receiver(post_orderunits)
 def PostOrderUnits(player, **kwargs):
+    """Execute the group move order and play click feedback after issuing commands."""
     global groupmoveorder
 
     if groupmoveorder:
