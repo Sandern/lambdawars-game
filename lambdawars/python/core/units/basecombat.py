@@ -112,7 +112,12 @@ class UnitBaseCombat(BaseClass):
             self.fn_perform_navigation = lambda: None
         
     def CreateComponents(self):
-        """Create unit components (locomotion, animation, navigation, sensing)."""
+        """Create all locomotion, animation, navigation, and sensing components.
+
+        Instantiates locomotion and animation state on both client/server, then
+        builds navigator/senses/behaviors server-side and records which objects
+        should receive event callbacks.
+        """
         self.locomotion = self.LocomotionClass(self)
         self.animstate = self.AnimStateClass(self, self.animconfig)
 
@@ -170,8 +175,8 @@ class UnitBaseCombat(BaseClass):
             behavior.Run()
             
     def RemoveItems(self, dmginfo=None):
-        """Remove items from the unit.
-        
+        """Detach and clean up any items the unit is carrying.
+
         Args:
             dmginfo: Optional damage info that caused item removal.
         """
@@ -198,6 +203,7 @@ class UnitBaseCombat(BaseClass):
         PrecacheParticleSystem(cls.incoverparticlename)
         
     def GetActiveAttributes(self):
+        """Return the merged attribute dict from the unit and its attacks."""
         attrs = dict(self.attributes)
         for at in self.attacks:
             if at.attributes:
@@ -213,6 +219,7 @@ class UnitBaseCombat(BaseClass):
     __active_cover_attribute = None
 
     def OnInCoverChanged(self):
+        """Apply/remove cover bonuses and particle effects when cover state flips."""
         if self.__active_cover_attribute:
             self.RemoveAttribute(self.__active_cover_attribute)
             self.__active_cover_attribute = None
@@ -239,6 +246,7 @@ class UnitBaseCombat(BaseClass):
             ScheduleFireSignalRobust(refreshhud)
 
     def OnGarrisonedChanged(self):
+        """Grant or remove range bonuses when the unit enters/leaves garrison."""
         if self.garrisoned:
             self.AddRangeBonus('bunkerrange', 128)
         else:
@@ -270,13 +278,14 @@ class UnitBaseCombat(BaseClass):
         self.OnIsNavObstacleChanged()
 
     def OnConstructingChanged(self):
-        """ Starts or stops the constructing animation of this unit/builder. """
+        """Play or stop the construction animation when building state changes."""
         if self.constructing:
             self.DoAnimation(self.ANIM_CONSTRUCT)
         else:
             self.animstate.RestartMainSequence()
 
     def UpdateLocomotionSettings(self):
+        """Recalculate locomotion max speed/yaw when unit info or modifiers change."""
         if not self.mv:
             return
         unitinfo = self.unitinfo
@@ -289,16 +298,14 @@ class UnitBaseCombat(BaseClass):
             self.speed_mod = speed_mod
 
     def AddSpeedModifier(self, speed_mod, apply_instantly=True):
-        """ Applies a speed modification.
+        """Applies a speed modification and optionally does it immediately.
 
-            Args:
-                speed_mod (float): The speed to add.
+        Args:
+            speed_mod (float): Speed delta to add to the base value.
+            apply_instantly (bool): Updates unit maxspeed directly. If False, expects caller to update it.
 
-            Kwargs:
-                apply_instantly (bool): Updates unit maxspeed directly. If False, expects caller to update it.
-
-            Returns:
-                SpeedModification: object used as reference for the active speed modification.
+        Returns:
+            SpeedModification: Object used as reference for the active speed modification. Handle that can later be removed.
         """
         speed_mod_object = self.SpeedModification(speed_mod)
         self.speed_modifiers.add(speed_mod_object)
@@ -307,13 +314,13 @@ class UnitBaseCombat(BaseClass):
         return speed_mod_object
 
     def RemoveSpeedModifier(self, speed_mod_object, apply_instantly=True):
-        """ Remove the speed mod.
+        """Remove a previously added speed modification.
+        
+        Args:
+            speed_mod_object (object): object created for the speed modification.
 
-            Args:
-                speed_mod_object (object): object created for the speed modification.
-
-            Kwargs:
-                apply_instantly (bool): Updates unit maxspeed directly. If False, expects caller to update it.
+        Kwargs:
+            apply_instantly (bool): Updates unit maxspeed directly. If False, expects caller to update it.
         """
         self.speed_modifiers.discard(speed_mod_object)
         if apply_instantly:

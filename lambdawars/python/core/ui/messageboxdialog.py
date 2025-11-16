@@ -33,49 +33,57 @@ class CefMessagePanel(CefPanel):
     msgboxname = ''
     
     def SetupFunctions(self):
+        """Expose close/hide callbacks to the HTML/JS side."""
         self.CreateFunction('onClose', False)
         self.CreateFunction('hide', False)
     
     def OnLoaded(self):
+        """Hide the panel initially and listen for level shutdown."""
         super().OnLoaded()
         self.visible = False
         postlevelshutdown.connect(self.OnPostLevelShutdown)
         
     def OnRemove(self):
+        """Disconnect level shutdown signal when the panel is destroyed."""
         super().OnRemove()
         
         postlevelshutdown.disconnect(self.OnPostLevelShutdown)
         
     def OnPostLevelShutdown(self, **kwargs):
-        ''' Resets the objective list on level init. '''
+        """Reset state when a map ends so future message boxes start clean. Resets the objective list on level init, in other words."""
         if not self.isloaded:
             return
         self.visible = False
         self.msgboxname = ''
         
     def LockMessageBox(self, msgboxname):
+        """Tell the HTML panel to lock the Continue button for this message box."""
         if self.msgboxname == msgboxname:
             self.Invoke("LookMessageBox")
         
     def UnlockMessageBox(self, msgboxname):
+        """Unlock the Continue button again for the active message box."""
         if self.msgboxname == msgboxname:
             self.Invoke("UnlockMessageBox")
 
     def SmoothCloseMessageBox(self, msgboxname):
+        """Trigger the smooth-close animation when scripts request it."""
         if self.msgboxname == msgboxname:
             self.Invoke("SmoothCloseMessageBox")
 
     def ShowMessageBox(self, msgboxname, text):
+        """Display the message box with the provided text."""
         self.visible = True
         self.Invoke("MessageBoxText", [text])
         self.msgboxname = msgboxname
        
     def HideMessageBox(self, msgboxname):
+        """Hide the message box immediately and clear the active id."""
         self.visible = False
         self.msgboxname = ''
         
     def onClose(self, methodargs, callbackid):
-        ''' Called from javascript on pressing the close button. '''
+        """Called from JavaScript when the close button is pressed."""
         self.visible = False
         if not self.msgboxname:
             PrintWarning('CefMessagePanel.onClose: Not displaying any current message box!\n')
@@ -85,6 +93,7 @@ class CefMessagePanel(CefPanel):
         self.msgboxname = ''
 
     def hide(self, methodargs, callbackid):
+        """Called from JavaScript when the panel should hide instantly."""
         self.visible = False
         
           

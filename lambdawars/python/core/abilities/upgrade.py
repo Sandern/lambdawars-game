@@ -1,14 +1,19 @@
+"""Upgrade and research abilities.
+
+Provides abilities that can be researched at buildings to unlock new
+technologies, units, or improvements. Upgrades can be used as prerequisites
+for other abilities and units in the tech tree.
+"""
 from .info import GetTechNode, BaseTechNode
 from .base import AbilityBase
 from fields import UpgradeField
     
 class AbilityUpgrade(AbilityBase):
-    """ Generic upgrade ability.
+    """Generic upgrade ability for researching technologies.
     
-        Add derived upgrade abilities to the ability list of a building.
-        This building can then research this ability.
-        Such an upgrade can then be used as a technology requirement for 
-        other abilities or units.
+    Add derived upgrade abilities to the ability list of a building.
+    This building can then research this ability. Such an upgrade can then
+    be used as a technology requirement for other abilities or units.
     """
     #: Resource category (match statistics)
     resource_category = 'technology'

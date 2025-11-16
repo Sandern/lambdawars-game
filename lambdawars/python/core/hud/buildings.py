@@ -47,7 +47,14 @@ class BuildQueueButton(BitmapButton):
         self.numberfont = schemeobj.GetFont('Default')
         
     def PaintNumbers(self, font, xpos, ypos, value):
-        """ Paints a number at the specified position """
+        """Paint a number at the specified position.
+        
+        Args:
+            font: Font to use for drawing.
+            xpos (int): X position.
+            ypos (int): Y position.
+            value (int): Number to display.
+        """
         surface().DrawSetTextColor(self.amountcolor)
         surface().DrawSetTextFont(font)
 
@@ -64,6 +71,11 @@ class BuildQueueButton(BitmapButton):
         self.HideAbility()
         
     def ShowAbility(self):
+        """Show ability information panel when hovering over this queue slot.
+        
+        Displays the ability info panel at the cursor position with details
+        about the queued ability.
+        """
         if self.info:
             infopanel = self.GetParent().infopanel
             # for some reason LocalToScreen doesn't works like it should, so just use GetCursorPosition
@@ -77,6 +89,10 @@ class BuildQueueButton(BitmapButton):
             infopanel.ShowAbility(self.info, contextpanel=self)
 
     def HideAbility(self):
+        """Hide the ability information panel.
+        
+        Called when mouse cursor leaves the queue slot.
+        """
         infopanel = self.GetParent().infopanel
         infopanel.HideAbility()
         infopanel.unit = None
@@ -101,6 +117,12 @@ class BuildQueueButton(BitmapButton):
 white = Color(255, 255, 255, 255)
     
 class HudBuildQueue(Panel):
+    """HUD panel for displaying building production queues.
+    
+    Shows the production queue for a selected building, including queued
+    units/abilities, build progress, health, and energy. Displays ability
+    information when hovering over queue slots.
+    """
     def __init__(self, parent, config):
         super().__init__(parent, "HudBuildQueue")
         
@@ -118,9 +140,19 @@ class HudBuildQueue(Panel):
         self.infopanel = QueueUnitHudInfo()
         
     def UpdateOnDelete(self):
-        if self.infopanel: self.infopanel.DeletePanel()
+        """Clean up the floating info panel when this HUD element is removed."""
+        if self.infopanel:
+            self.infopanel.DeletePanel()
         
     def CreateButtonQueue(self, command):
+        """Create a new queue button for the production queue.
+        
+        Args:
+            command (str): Command string to execute when clicked.
+            
+        Returns:
+            BuildQueueButton: The created button instance.
+        """
         slot = BuildQueueButton(self, command)
         slot.SetOverlayImage(slot.BUTTON_ENABLED_MOUSE_OVER, images.GetImage("VGUI/button_hover"), Color(255, 255, 255, 255))
         slot.SetOverlayImage(slot.BUTTON_PRESSED, images.GetImage("VGUI/button_selected"), Color(255, 255, 255, 255))
@@ -131,9 +163,15 @@ class HudBuildQueue(Panel):
         return slot
         
     def OnShowHud(self):
+        """Called when this HUD section becomes visible (currently no-op)."""
         pass
         
     def Update(self):
+        """Update the build queue display with current building state.
+        
+        Refreshes queue slots, unit counts, build progress, and building
+        health/energy information for the currently selected building.
+        """
         if self.IsVisible() == False:
             return
             
@@ -187,7 +225,7 @@ class HudBuildQueue(Panel):
         self.energy.SetFgColor(Color(0,0,255,255))
         
     def PerformLayout(self):
-        """ Setup the unit buttons """
+        """Arrange the queue buttons plus label positions inside the panel."""
         super().PerformLayout()
         
         width, tall = self.GetSize()
@@ -218,6 +256,7 @@ class HudBuildQueue(Panel):
         self.energy.SetSize(int(w*1.0), int(h*0.075))
         
     def OnCommand(self, command):
+        """Send commands to the server when the player clicks queue slots."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         splitted = command.split('_')
         if splitted[0] == 'queue':
@@ -227,12 +266,18 @@ class HudBuildQueue(Panel):
         raise Exception('Unknown command ' + command)
         
     def OnSelectionChanged(self, player, **kwargs):
+        """Refresh queue display whenever the player's selection changes."""
         self.Update()
         
     # Settings
     BUILDQUEUEBUTTONS = 5
 
 class HudBuildSingleUnit(BaseHudSingleUnit):
+    """HUD panel for displaying single building information.
+    
+    Shows building details including resource generation limits for
+    buildings that generate resources over time.
+    """
     def __init__(self, parent, config):
         super().__init__(parent, config)
         
@@ -249,6 +294,7 @@ class HudBuildSingleUnit(BaseHudSingleUnit):
         self.resourcesleft.SetFgColor(Color(255,255,255,255))
 
     def OnShowHud(self):
+        """Make resource-left label visible only for generators with tracking."""
         super().OnShowHud()
     
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
@@ -262,6 +308,7 @@ class HudBuildSingleUnit(BaseHudSingleUnit):
         self.resourcesleft.SetVisible(resourcetype in unit.resourcesleft)
                 
     def Update(self):
+        """Update base panel info plus remaining resource readout."""
         super().Update()
         
         if self.resourcesleft.IsVisible():
@@ -278,6 +325,7 @@ class HudBuildSingleUnit(BaseHudSingleUnit):
             self.resourcesleft.SetText('Max left: %s' % (str(int(maxgenerate))))
         
     def PerformLayout(self):
+        """Align the 'resources left' label under the main stats block."""
         super().PerformLayout()
         
         w, h = self.GetSize()
@@ -285,6 +333,11 @@ class HudBuildSingleUnit(BaseHudSingleUnit):
         self.resourcesleft.SetSize(w-int(0.1 * w), scheme().GetProportionalScaledValueEx(self.GetScheme(), 20))
     
 class HudBuildConstruction(BaseHudSingleUnit):
+    """HUD panel for displaying building construction progress.
+    
+    Shows the construction progress percentage for buildings that are
+    currently being built or upgraded.
+    """
     def __init__(self, parent, config):
         super().__init__(parent, config)
 
@@ -301,6 +354,7 @@ class HudBuildConstruction(BaseHudSingleUnit):
         self.constructionstate.SetFgColor(Color(255,255,255,255))
 
     def Update(self):
+        """Update base stats and show the latest construction percentage."""
         super().Update()
         
         # Retrieve the building 
@@ -313,6 +367,7 @@ class HudBuildConstruction(BaseHudSingleUnit):
         self.constructionstate.SetText('Construction Progress: %s' % (str(int(unit.constructprogress*100))))
         
     def PerformLayout(self):
+        """Position the construction progress label relative to panel size."""
         super().PerformLayout()
         
         w, h = self.GetSize()

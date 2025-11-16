@@ -38,12 +38,21 @@ class EntAbilityManager(CPointEntity):
         abilitycompleted.disconnect(self.OnAbilityCompleted)
         
     def OnAbilityCanceled(self, ability=None, *args, **kwargs):
+        """Handle ability-canceled signal and fire the `AbilityCanceled` output.
+        
+        Chooses an appropriate activator (ability unit, last removed unit, or
+        the manager itself) and passes the ability name to the output.
+        """
         activator = ability.unit if ability.unit else self
         if not activator and ability.removedunits:
             activator = ability.removedunits[0]()
         self.abilitycanceled.Set(ability.name, activator, self)
         
     def OnAbilityCompleted(self, ability, *args, **kwargs):
+        """Handle ability-completed signal and fire the `AbilityCompleted` output.
+        
+        Uses the ability unit or last removed unit as activator where possible.
+        """
         if ability.unit:
             activator = ability.unit
         elif ability.removedunits:
@@ -55,6 +64,11 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='LockAbility', helpstring='Locks the specified ability for the owner of this entity', fieldtype=fieldtypes.FIELD_STRING)
     def InputLockAbility(self, inputdata):
+        """Lock the specified ability in the tech tree for this entity's owner.
+        
+        Args:
+            inputdata: Hammer input carrying the ability name as a string.
+        """
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputLockAbility: no ability name specified!\n')
@@ -71,6 +85,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='UnlockAbility', helpstring='Unlocks the specified ability for the owner of this entity', fieldtype=fieldtypes.FIELD_STRING)
     def InputUnlockAbility(self, inputdata):
+        """Unlock the specified ability in the tech tree for this entity's owner."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputUnlockAbility: no ability name specified!\n')
@@ -87,6 +102,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='HideAbilityOnUnavailabe', helpstring='Hides ability from UI if unavailable', fieldtype=fieldtypes.FIELD_STRING)
     def InputHideAbilityOnUnavailabe(self, inputdata):
+        """Hide the ability in the HUD when it is unavailable/locked."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputHideAbilityOnUnavailabe: no ability name specified!\n')
@@ -103,6 +119,7 @@ class EntAbilityManager(CPointEntity):
 
     @input(inputname='ShowAbilityOnUnavailabe', helpstring='Shows ability in UI even if unavailable', fieldtype=fieldtypes.FIELD_STRING)
     def InputShowAbilityOnUnavailabe(self, inputdata):
+        """Show the ability in the HUD even when it is unavailable/locked."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputShowAbilityOnUnavailabe: no ability name specified!\n')
@@ -119,6 +136,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='ResearchAbility', helpstring='Researches an ability immediately. Note: some abilities may become "unresearched" again due other events.', fieldtype=fieldtypes.FIELD_STRING)
     def InputResearchAbility(self, inputdata):
+        """Immediately mark the ability as researched/enabled in the tech tree."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputResearchAbility: no ability name specified!\n')
@@ -135,6 +153,7 @@ class EntAbilityManager(CPointEntity):
 
     @input(inputname='UnResearchAbility', helpstring='Unresearches an ability. Note: some abilities may become "researched" again due other events.', fieldtype=fieldtypes.FIELD_STRING)
     def InputUnResearchAbility(self, inputdata):
+        """Mark the ability as unresearched (disabled) in the tech tree."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputUnResearchAbility: no ability name specified!\n')
@@ -151,6 +170,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='MakeAbilityFree', helpstring='Makes the target ability free of costs (other requirements might still apply!)', fieldtype=fieldtypes.FIELD_STRING)
     def InputMakeAbilityFree(self, inputdata):
+        """Remove resource costs for the specified ability."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputMakeAbilityFree: no ability name specified!\n')
@@ -167,6 +187,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='MakeAbilityPaid', helpstring='Makes the target ability paid.', fieldtype=fieldtypes.FIELD_STRING)
     def InputMakeAbilityPaid(self, inputdata):
+        """Restore normal resource costs for the specified ability."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputMakeAbilityPaid: no ability name specified!\n')
@@ -183,6 +204,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='RemoveRequirements', helpstring='', fieldtype=fieldtypes.FIELD_STRING)
     def InputRemoveRequirements(self, inputdata):
+        """Clear all tech requirements from the ability info definition."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputRemoveRequirements: no ability name specified!\n')
@@ -199,6 +221,7 @@ class EntAbilityManager(CPointEntity):
         
     @input(inputname='ResetRequirements', helpstring='', fieldtype=fieldtypes.FIELD_STRING)
     def InputResetRequirements(self, inputdata):
+        """Reset the ability's tech requirements back to their info defaults."""
         abilityname = inputdata.value.String()
         if not abilityname:
             PrintWarning('wars_ability_manager.InputResetRequirements: no ability name specified!\n')

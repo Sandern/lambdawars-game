@@ -1,6 +1,12 @@
-""" Defines the base class for abilities.
+"""Base class and infrastructure for abilities.
 
-    Provides common methods for completing, cancelling, taking resources, selecting units, etc.
+Defines the base class for all abilities in Lambda Wars. Provides common
+functionality including initialization, resource management, completion,
+cancellation, unit selection, and synchronization between server and client.
+
+Abilities can be executed by players or units, can have costs, requirements,
+and can be instant or require targeting. The system handles ability lifecycle
+from creation through completion or cancellation.
 """
 
 from srcbase import IN_SPEED

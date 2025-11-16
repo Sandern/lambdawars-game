@@ -92,6 +92,7 @@ class UnitBaseCombatHuman(BaseClass):
             self.eyepitch = angle.x
             
     def Mount(self):
+        """Mark the unit as mounted (holsters weapon and updates animations)."""
         if self.mounted:
             return
         self.mounted = True
@@ -100,6 +101,7 @@ class UnitBaseCombatHuman(BaseClass):
         self.UpdateTranslateActivityMap()
         
     def Dismount(self):
+        """Mark the unit as unmounted (deploys weapon and updates animations)."""
         if not self.mounted:
             return
         self.mounted = False
@@ -108,11 +110,13 @@ class UnitBaseCombatHuman(BaseClass):
         self.UpdateTranslateActivityMap()
         
     def Order(self, player):
+        """Ignore orders when garrisoned, otherwise fall back to base behavior."""
         if self.garrisoned:
             return
         return super().Order(player)
         
     def IsSelectableByPlayer(self, player, target_selection):
+        """Prevent selection when garrisoned, or when mounted in multi-select."""
         if self.garrisoned:
             return False
         if len(target_selection) > 1 and self.mounted:
@@ -120,6 +124,7 @@ class UnitBaseCombatHuman(BaseClass):
         return super().IsSelectableByPlayer(player, target_selection)
         
     def UpdateTranslateActivityMap(self):
+        """Swap to mounted activity map when riding a turret."""
         if self.mounted:
             table = self.acttransmaps['mounted']
             self.animstate.SetActivityMap(table)
@@ -141,6 +146,7 @@ class UnitBaseCombatHuman(BaseClass):
                 self.activeweapon.SetOwnerNumber(self.GetOwnerNumber())
                 
     def EventHandlerPrimaryAttack(self, data=0):
+        """Handle primary attack events and trigger muzzle effects."""
         self.lasttakedamageperowner[self.GetOwnerNumber()] = gpGlobals.curtime
     
         # Play range attack animation (use fire layer?)
@@ -158,6 +164,7 @@ class UnitBaseCombatHuman(BaseClass):
             activeweapon.PrimaryAttack()
 
     def EventHandlerSecondaryAttack(self, data=0):
+        """Handle secondary attack events and trigger muzzle effects."""
         self.lasttakedamageperowner[self.GetOwnerNumber()] = gpGlobals.curtime
         
         # Just dispatch the muzzle flash effect manually here
@@ -171,6 +178,7 @@ class UnitBaseCombatHuman(BaseClass):
             activeweapon.SecondaryAttack()
             
     def EventHandlerMeleeAttack1(self, data=0):
+        """Play the first melee animation and keep combat state active."""
         self.lasttakedamageperowner[self.GetOwnerNumber()] = gpGlobals.curtime
         
         animstate = self.animstate
@@ -182,6 +190,7 @@ class UnitBaseCombatHuman(BaseClass):
         animstate.miscplaybackrate = 1.0
         
     def EventHandlerMeleeAttack2(self, data=0):
+        """Play the second melee animation and keep combat state active."""
         self.lasttakedamageperowner[self.GetOwnerNumber()] = gpGlobals.curtime
         
         animstate = self.animstate

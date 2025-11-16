@@ -20,6 +20,7 @@ class CefTopBar(CefPanel):
     cssfiles = CefPanel.cssfiles + ['wars/topbar.css']
     
     def __init__(self, *args, **kwargs):
+        """Initialize handler registry for CEF button callbacks."""
         super().__init__(*args, **kwargs)
         
         self.handlers = {}
@@ -28,6 +29,7 @@ class CefTopBar(CefPanel):
         super().SetupFunctions()
         
     def OnLoaded(self):
+        """Bind HTML functions and ask gamerules to populate the top bar."""
         super().OnLoaded()
         
         self.handlers.clear()
@@ -40,10 +42,12 @@ class CefTopBar(CefPanel):
         self.visible = True
         
     def InsertButton(self, name, text='', imagepath='', order=0, handler=None, floatright=False):
+        """Insert a button in the HTML top bar and register a Python handler."""
         self.Invoke("insertButton", [name, text, imagepath, order, floatright])
         self.handlers[name] = handler
 
     def onButtonPressed(self, methodargs, callbackid):
+        """CEF callback that dispatches button press events to registered handlers."""
         buttonname = methodargs[0]
         handler = self.handlers.get(buttonname, None)
         if handler:

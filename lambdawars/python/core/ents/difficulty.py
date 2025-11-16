@@ -17,6 +17,12 @@ if isserver:
             base=[],
             iconsprite='editor/wars_sp_difficulty.vmt')
     class WarsSpDifficulty(CBaseEntity):
+        """Entity that resolves and fires outputs for the chosen SP difficulty.
+        
+        Reads the player's difficulty from matchmaking/session overrides (or
+        the `Defaultdifficulty` keyvalue) and then fires the appropriate
+        OnSpawn*/OnTrigger* outputs so map logic can branch on Easy/Normal/Hard.
+        """
         # Outputs
         onspawn = OutputField(keyname='OnSpawn')
         onspawneasy = OutputField(keyname='OnSpawnEasy')
@@ -36,6 +42,7 @@ if isserver:
         difficulty = StringField(value=None)
         
         def Activate(self):
+            """Fire spawn outputs and apply difficulty once the entity activates."""
             super().Activate()
             
             self.onspawn.FireOutput(self, self)
@@ -43,6 +50,7 @@ if isserver:
         
         @input(inputname='Trigger', helpstring='Trigger the entity')
         def Trigger(self, inputdata):
+            """Input hook that re-applies difficulty and fires trigger outputs."""
             self.ontrigger.FireOutput(self, self)
             self.ApplyDifficulty(False)
             
@@ -58,6 +66,12 @@ if isserver:
             return None
             
         def ApplyDifficulty(self, spawn):
+            """Resolve the desired difficulty and forward to `DifficultyDecision`.
+            
+            Args:
+                spawn (bool): True when called from `Activate` (OnSpawn paths),
+                    False when called from `Trigger` (OnTrigger paths).
+            """
             playerdefaultdiff = self.GetPlayerDefaultDifficulty()
             if playerdefaultdiff != None:
                 self.DifficultyDecision(playerdefaultdiff, spawn)
@@ -65,6 +79,12 @@ if isserver:
                 self.DifficultyDecision(self.defaultdifficulty, spawn)
         
         def DifficultyDecision(self, difficulty, spawn):
+            """Fire the correct outputs based on the resolved difficulty string.
+            
+            Args:
+                difficulty (str): Difficulty name ('easy', 'normal', 'hard').
+                spawn (bool): Whether to use spawn outputs or trigger outputs.
+            """
             difficulty = difficulty.lower()
             self.difficulty = difficulty
             DevMsg(1, "Difficulty Entity: %s\n" % difficulty)

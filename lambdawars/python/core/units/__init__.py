@@ -1,3 +1,9 @@
+"""Unit system for Lambda Wars.
+
+Provides base classes and infrastructure for all unit types including combat
+units, vehicles, buildings, and objects. Handles unit creation, navigation,
+combat, abilities, and unit-specific behaviors.
+"""
 from .info import (UnitInfo, UnitInfoMetaClass, UnitFallBackInfo,
                      CreateUnitNoSpawn, CreateUnit, CreateUnitFancy, CreateUnitsInArea, PlaceUnit,
                      PrecacheUnit, GetUnitInfo, NoSuchAbilityError,

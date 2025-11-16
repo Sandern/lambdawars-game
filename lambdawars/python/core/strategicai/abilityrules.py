@@ -147,7 +147,11 @@ class AbilityRuleBase(BaseInfo, metaclass=AbilityRuleMetaClass):
 
 
 class AbilityProdRuleRandom(AbilityRuleBase):
-    ''' Matches all buildings, picks a random entry.'''
+    '''Matches all buildings and picks a random production ability.
+
+    Used as a simple fallback rule when no more specific production
+    rules apply for a given structure.
+    '''
     priority = -20
     ability = None
 
@@ -158,10 +162,17 @@ class AbilityProdRuleRandom(AbilityRuleBase):
         return self.ability.costs if self.ability else None
 
     def MatchesUnit(self, unit):
+        """Limit this rule to buildings that own a build queue."""
         buildqueue = getattr(unit, 'buildqueue', None)
         return buildqueue is not None
 
     def FindRuleAction(self):
+        """Choose a random usable production ability for this building, if any.
+
+        Returns:
+            AbilityProdRuleRandom | None: This rule instance when an ability
+                was found, or None when it cannot act.
+        """
         unit = self.unit
 
         # Don't do anything if we already got stuff in the build queue
@@ -186,12 +197,22 @@ class AbilityProdRuleRandom(AbilityRuleBase):
 
 
 class AbilityProdRuleHintBased(AbilityProdRuleRandom):
-    ''' Matches all buildings, chooses based on hints and current counts.'''
+    """Matches all buildings, chooses production based on hints and counts.
+
+    Favors builders, tech buildings, or combat units depending on the
+    current army composition and difficulty level.
+    """
     priority = -10
 
     name = 'production'
 
     def FindAbilityBasedOnHints(self, unit, hints):
+        """Pick a random ability whose hints intersect with the given set.
+
+        Args:
+            unit: Building entity whose abilities are being tested.
+            hints (set[str]): Desired ability hint tags.
+        """
         abilities = []
         for abi in unit.sai_abilities:
             if abi.sai_hint & hints:
@@ -211,6 +232,11 @@ class AbilityProdRuleHintBased(AbilityProdRuleRandom):
         return self
 
     def FindRuleAction(self):
+        """Build a hint set from current counts and pick a suitable ability.
+
+        Handles population-upgrade abilities specially so the AI can cancel
+        incompatible queue entries when it decides more population is needed.
+        """
         unit = self.unit
         sai = self.sai
         ownernumber = sai.ownernumber
@@ -302,6 +328,11 @@ class AbilityProdRuleHintBased(AbilityProdRuleRandom):
 
 
 class AbilityPlaceBuildingRuleRandom(AbilityRuleBase):
+    """Rule that places any suitable building at a valid nearby position.
+
+    Scans around existing priority buildings to find a buildable navmesh
+    position and issues the placement ability there.
+    """
     priority = -5
     ability = None
 
@@ -326,10 +357,11 @@ class AbilityPlaceBuildingRuleRandom(AbilityRuleBase):
         return self.ability.costs if self.ability else None
 
     def GetBuildingList(self):
+        """Return priority-ordered buildings owned by this AI player."""
         return priobuildinglist[self.sai.ownernumber]
 
     def FindPosition(self, ability):
-        """ Loop through our building list and find a position.
+        """Loop through our building list and find a placement position.
 
             Returns:
                 position (Vector): either a position, or vec3_origin for invalid/not found.
@@ -401,13 +433,16 @@ class AbilityPlaceBuildingRuleRandom(AbilityRuleBase):
         return pos
 
     def GetAbilities(self):
-        # Get ability list. Filter them here if needed.
+        """Return all candidate building abilities for the current unit.
+
+        Can be overridden to filter or reorder the ability list.
+        """
         abilities = set(self.unit.sai_abilities)
         self.unit.sai_abilities.clear()  # Grab all.
         return abilities
 
     def GetBuildingHints(self):
-        # Anything common with these hints will be considered
+        """Return the base set of building hints this rule has in common."""
         return set(['sai_building'])
 
     def FindRuleAction(self):

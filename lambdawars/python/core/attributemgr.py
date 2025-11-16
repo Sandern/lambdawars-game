@@ -1,7 +1,13 @@
-''' Small system for setting attributes of classes containing fields in Sandbox mode.
+"""Attribute management system for Sandbox mode.
 
-    Not to be confused with attributes of units!
-'''
+Allows editing of class attributes (fields) in Sandbox game mode through
+console commands and a client-side UI. This system works with ability info
+classes, unit classes, and player info, allowing real-time modification
+of game values for testing and balancing purposes.
+
+Not to be confused with unit attributes (damage modifiers) - this system
+is for editing the fields/properties of game classes themselves.
+"""
 
 from srcbase import Color
 from core.units import GetUnitInfo, UnitBase

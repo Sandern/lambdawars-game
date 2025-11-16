@@ -1,3 +1,8 @@
+"""Hold position order ability.
+
+Allows players to order units to hold their current position and not move,
+while still allowing them to attack enemies within range.
+"""
 from .instant import AbilityInstant
 
 class AbilityHoldPosition(AbilityInstant):

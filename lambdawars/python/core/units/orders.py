@@ -48,15 +48,18 @@ if isclient:
         return vec3_origin
         
     def ClearSpots(spots, deletespots):
+        """Stop particle effects for spot ids that should be removed."""
         for key in deletespots:
             spots[key].StopEmission(False, True, False, True)
             del spots[key]
         
     def ClearAllSpots():
+        """Remove all currently active cover-spot particle effects."""
         ClearSpots(curspots, list(curspots.keys()))
         ClearSpots(curspotshover, list(curspotshover.keys()))
         
     def CreateNewSpots(spots, hidespots, newspots, effectname):
+        """Spawn particle effects for the new hiding spot ids."""
         for key in newspots:
             size = Vector(12, 12, 12)
             spots[key] = CNewParticleEffect.Create(None, effectname)
@@ -65,6 +68,7 @@ if isclient:
             spots[key].SetControlPoint(2, size)
             
     def UpdateHidingSpots():
+        """Tick handler that tracks nearby cover spots while issuing orders."""
         player = C_HL2WarsPlayer.GetLocalPlayer()
         selection = player.GetSelection() if player else []
         if (not player or len(selection) > coverspotsearchmaxunits or 
@@ -101,6 +105,7 @@ if isclient:
     # Rally line methods
     class OrderRallyLine(FXRallyLine):
         def __init__(self, prevorder, nextorder, rallylinemat='vgui/rallyline'):
+            """Create a rally line between two orders for HUD visualization."""
             self.nextorder = nextorder
             
             super().__init__(rallylinemat, Vector(1, 1, 1), 
@@ -263,9 +268,11 @@ class GroupMoveOrder(UnitProjector):
         self.findhidespot = findhidespot
 
     def AddUnit(self, unit):
+        """Add a unit to the formation list."""
         self.units.append(unit)
 
     def ComputeSquareFormation(self):
+        """Compute positions arranged in a square grid centered on target point."""
         self.positions = []
         sizesqrt = int(ceil(sqrt(len(self.units))))
         hsizesqrt = int(sizesqrt/2)
@@ -276,6 +283,7 @@ class GroupMoveOrder(UnitProjector):
                 self.positions.append(Vector(x, y, self.position.z))
 
     def Apply(self):
+        """Finalize target positions (and cover search) then execute move orders."""
         # Remove target if in selection
         if self.target in self.units:
             self.target = None
@@ -290,6 +298,7 @@ class GroupMoveOrder(UnitProjector):
         self.Execute()
 
     def ExecuteUnitForPosition(self, unit, target_pos):
+        """Issue a move order for a single unit to the computed slot."""
         data = self.player.GetMouseDataRightPressed()
         angle = unit.CalculateArrivalAngle(data, self.player.GetMouseDataRightReleased())
 
@@ -302,6 +311,7 @@ class GroupMoveOrder(UnitProjector):
 
 groupmoveorder = None
 def AddToGroupMoveOrder(unit):
+    """Append a unit to the current group move order, if one exists."""
     if groupmoveorder:
         groupmoveorder.AddUnit(unit)
         return True
@@ -309,6 +319,7 @@ def AddToGroupMoveOrder(unit):
 
 @receiver(pre_orderunits)
 def PreOrderUnits(player, **kwargs):
+    """Create the group move order instance before processing commands."""
     global groupmoveorder
     data = player.GetMouseDataRightPressed()
     
@@ -328,6 +339,7 @@ def PreOrderUnits(player, **kwargs):
     
 @receiver(post_orderunits)
 def PostOrderUnits(player, **kwargs):
+    """Execute the group move order and play click feedback after issuing commands."""
     global groupmoveorder
 
     if groupmoveorder:

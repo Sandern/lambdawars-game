@@ -1,4 +1,9 @@
-""" A generic base for a jumping ability. """
+"""Jump ability for units to traverse terrain.
+
+Provides a targeted ability that allows units to jump to locations,
+bypassing obstacles or gaps. Handles jump trajectory calculation, range
+validation, and can support homing jumps that target specific entities.
+"""
 import math
 from .target import AbilityTarget
 from ..util.locomotion import CalcJumpVelocityChecked

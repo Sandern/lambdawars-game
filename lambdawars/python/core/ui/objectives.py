@@ -22,28 +22,31 @@ class CefObjectivesPanel(CefPanel):
     objectiveents = []
     
     def __init__(self, *args, **kwargs):
+        """Register for level-init signals so objectives refresh on map load."""
         super().__init__(*args, **kwargs)
         
         prelevelinit.connect(self.OnPreLevelInit)
         
     def OnLoaded(self):
+        """Populate the HTML list with whatever objectives we already know."""
         super().OnLoaded()
         
         self.RebuildObjectiveList(self.objectiveents)
         
     def OnRemove(self):
+        """Disconnect level-init signal when the panel is destroyed."""
         super().OnRemove()
         
         prelevelinit.disconnect(self.OnPreLevelInit)
         
     def OnPreLevelInit(self, **kwargs):
-        ''' Resets the objective list on level init. '''
+        """Reset any cached objective info when a new level is starting."""
         self.objectiveinfo = []
         if self.isloaded:
             self.UpdateObjectiveList()
         
     def RebuildObjectiveList(self, objectiveents):
-        ''' Rebuilds the objective list from scratch from the passed objective entities list. '''
+        """Rebuild the internal objective list from the supplied entities."""
         self.objectiveents = objectiveents
         
         # Build info list
@@ -61,7 +64,7 @@ class CefObjectivesPanel(CefPanel):
         self.UpdateObjectiveList()
         
     def UpdateObjectiveList(self):
-        ''' Calls the javascript part to rebuild the html list of objectives. '''
+        """Send the current objective list to the HTML panel for rendering."""
         # Got anything to display?
         if not self.objectiveinfo:
             self.visible = False

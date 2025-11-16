@@ -202,6 +202,7 @@ class UnitVortigaunt(BaseClass):
             return False
         
         wasincombat = None
+
         def UnitThink(self):
             super().UnitThink()
                 

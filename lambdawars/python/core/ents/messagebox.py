@@ -18,24 +18,29 @@ if isclient:
     
 @usermessage('displaymessage')
 def ClientDisplayMesssage(msgboxname, message, *args, **kwargs):
+    """Client handler that shows a message box with optional localization."""
     if message and message[0] == '#':
         message = localize.Find(message)
     messageboxpanel.ShowMessageBox(msgboxname, message)
     
 @usermessage('hidemessage')
 def ClientHideMesssage(msgboxname, *args, **kwargs):
+    """Client handler that hides the currently shown message box."""
     messageboxpanel.HideMessageBox(msgboxname)
 
 @usermessage('lookmessage')
 def ClientLookMesssageBox(msgboxname, *args, **kwargs):
+    """Client handler that locks the message box continue button."""
     messageboxpanel.LockMessageBox(msgboxname)
 
 @usermessage('unlookmessage')
 def ClientUnlookMesssageBox(msgboxname, *args, **kwargs):
+    """Client handler that unlocks the message box continue button."""
     messageboxpanel.UnlockMessageBox(msgboxname)
 
 @usermessage('smoothclosemessage')
 def SmoothCloseMesssageBox(msgboxname, *args, **kwargs):
+    """Client handler that closes the message box with a smooth animation."""
     messageboxpanel.SmoothCloseMessageBox(msgboxname)
 
 
@@ -59,6 +64,7 @@ class WarsMessagebox(CBaseEntity):
     visible = BooleanField(value=False)
     
     def DisplayMessage(self):
+        """Send usermessages to show/lock/animate the configured message box."""
         ClientDisplayMesssage(self.GetEntityName(), self.description)
         if self.locked:
             ClientLookMesssageBox(self.GetEntityName())

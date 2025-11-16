@@ -21,9 +21,11 @@ class CefWaitingForPlayers(CefPanel):
     wfptimeout = 0
     
     def OnLoaded(self):
+        """Placeholder hook; panel shows once an update arrives."""
         super().OnLoaded()
         
     def BuildPlayerStatuses(self, gameplayers):
+        """Return a list of player status dicts compatible with the HTML UI."""
         statuses = []
         
         for gp in gameplayers:
@@ -33,6 +35,12 @@ class CefWaitingForPlayers(CefPanel):
         return statuses
         
     def UpdatePanel(self, wfptimeout, gameplayers):
+        """Refresh banner/MOTD/player list information in the HTML panel.
+        
+        Args:
+            wfptimeout (float): Server timeout value used to compute remaining time.
+            gameplayers (list): Player dictionaries from the gamerules lobby.
+        """
         self.wfptimeout = wfptimeout
         
         # Fill in playername from steamid if no playername is present

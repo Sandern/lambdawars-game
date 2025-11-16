@@ -27,17 +27,29 @@ class GroupButton(AbilityButton):
         self.SetZPos(-5)
 
     def Paint(self):
+        """Paint the base ability button plus overlay the numeric group label."""
         super().Paint()
         
         self.PaintNumbers(self.numberfont, 5, 2, self.groupnumber)
         
     def ApplySchemeSettings(self, schemeobj):
+        """Cache the scheme font so digit overlays match the HUD style."""
         super().ApplySchemeSettings(schemeobj)
         
         self.numberfont = schemeobj.GetFont('Default')
         
     def PaintNumbers(self, font, xpos, ypos, value):
-        """ Paints a number at the specified position """
+        """Paints a number at the specified position.
+        
+        Sets the draw color/font, moves the text draw position, and renders the
+        provided value using those settings.
+        
+        Args:
+            font: VGUI font handle used to draw the text.
+            xpos (int): X coordinate inside the button.
+            ypos (int): Y coordinate inside the button.
+            value (int): Number/string to render.
+        """
         surface().DrawSetTextColor(self.numbercolor)
         surface().DrawSetTextFont(font)
 
@@ -46,20 +58,26 @@ class GroupButton(AbilityButton):
         surface().DrawUnicodeString(str(value))
         
     def OnCursorEntered(self):
+        """Notify the parent panel so it can highlight matching units."""
         super().OnCursorEntered()
         self.controlpanel.OnCursorEnteredButton(self)
         
     def OnCursorExited(self):
+        """Notify the parent panel when the cursor leaves this group slot."""
         super().OnCursorExited()
         self.controlpanel.OnCursorExitedButton(self)
         
     numbercolor = Color(255, 255, 255, 200)
     
 class BaseHudGroups(Panel):
-    """ Generic panel for group buttons.
-        
+    """Base panel for displaying control group buttons in the HUD.
+    
+    Manages a row of buttons representing numbered control groups (1-9).
+    Each button shows the icon of the first unit in that group and allows
+    selecting the group by clicking. Updates automatically when groups change.
     """
     def __init__(self, parent, config={}):
+        """Initialize the horizontal row of group buttons using HUD skin data."""
         super().__init__(parent, "HudGroups")
         
         self.SetMouseInputEnabled(True)
@@ -77,12 +95,14 @@ class BaseHudGroups(Panel):
         groupchanged.connect(self.OnGroupChanged)
 
     def UpdateOnDelete(self):
+        """Disconnect signals and delete any spawned group buttons."""
         groupchanged.disconnect(self.OnGroupChanged)
         for slot in self.slots:
             slot.DeletePanel()
         self.slots = []
             
     def SetVisible(self, visible):
+        """Show/hide buttons and refresh icons when re-enabled."""
         super().SetVisible(visible)
         
         if not visible:
@@ -95,6 +115,16 @@ class BaseHudGroups(Panel):
                     self.OnGroupChanged(player, slot.groupnumber-1)
         
     def OnGroupChanged(self, player, group, **kwargs):
+        """Handle when a control group changes.
+        
+        Updates the group button visibility and icon based on whether
+        the group has units. Shows the first unit's icon if the group
+        has units, hides the button if empty.
+        
+        Args:
+            player: Player entity.
+            group (int): Group number (0-based).
+        """
         try:
             slot = self.slots[group]
         except IndexError:
@@ -113,6 +143,15 @@ class BaseHudGroups(Panel):
             slot.SetVisible(False)
             
     def CreateGroupButton(self, command, group):
+        """Create a new control group button.
+        
+        Args:
+            command (str): Command string to execute when clicked.
+            group (int): Group number (1-based).
+            
+        Returns:
+            GroupButton: The created button instance.
+        """
         slot = GroupButton(self.GetParent(), command, group, self)
         slot.iconcoords = self.buttoniconcoords
         slot.SetAllImages(HudIcons().GetIcon(self.buttontexture), Color(255, 255, 255, 255) )
@@ -125,7 +164,7 @@ class BaseHudGroups(Panel):
         return slot
         
     def PerformLayout(self):
-        """ Setup the unit buttons """
+        """Setup the unit buttons horizontally with proportional spacing."""
         super().PerformLayout()
         
         width, tall = self.GetSize()
@@ -144,6 +183,13 @@ class BaseHudGroups(Panel):
             self.slots[i].SetPos(x+i*buttonwidth+i*spacingx, y)
 
     def OnCommand(self, command):
+        """Handle control group button click commands.
+        
+        Selects the control group when a group button is clicked.
+        
+        Args:
+            command (str): Command string in format 'group_N'.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         splitted = command.split('_')
         if splitted[0] == 'group':
@@ -153,8 +199,21 @@ class BaseHudGroups(Panel):
             return
         raise Exception('Unknown command ' + command)
         
-    def OnCursorEnteredButton(self, button): pass
-    def OnCursorExitedButton(self, button): pass
+    def OnCursorEnteredButton(self, button):
+        """Handle when mouse enters a group button.
+        
+        Args:
+            button: GroupButton that was entered.
+        """
+        pass
+        
+    def OnCursorExitedButton(self, button):
+        """Handle when mouse exits a group button.
+        
+        Args:
+            button: GroupButton that was exited.
+        """
+        pass
     
     buttontextureselected = 'hud_classic_button_selected'
     buttontexturehover = 'hud_classic_button_hover'

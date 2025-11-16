@@ -14,6 +14,11 @@ class EntCPUPlayer(CPointEntity):
     """Entity used to enable or disable the CPU player strategic AI."""
     @input(inputname='EnableCPUPlayer', helpstring='Enables the CPU Player')
     def InputEnableCPUPlayer(self, inputdata):
+        """Enable the strategic AI for the configured CPU player.
+        
+        Determines the desired difficulty (from `wars_sp_difficulty` or its
+        default) and calls `EnableStrategicAI` with that difficulty.
+        """
         difficulty = None
         difficultyent = entitylist.FindEntityByClassname(None, 'wars_sp_difficulty')
         if difficultyent:
@@ -28,6 +33,7 @@ class EntCPUPlayer(CPointEntity):
         
     @input(inputname='DisableCPUPlayer', helpstring='Disables the CPU Player')
     def InputDisableCPUPlayer(self, inputdata):
+        """Disable the strategic AI for the configured CPU player."""
         DisableStrategicAI(self.cpuplayer)
         
     cpuplayer = PlayerField(keyname='CPUPlayer', displayname='CPU Player',helpstring='Target CPU player to be enabled or disabled' )

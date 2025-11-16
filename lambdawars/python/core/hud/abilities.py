@@ -15,13 +15,19 @@ from core.units import GetUnitInfo
 from core.signals import selectionchanged, abilitymenuchanged, refreshhud, resourceset
 
 class AbilitySectionButton(AbilityButton):
+    """Button for displaying individual ability slots in the abilities panel.
+    
+    Extends AbilityButton to show recharge progress overlay and handle
+    ability information display on hover.
+    """
     def ApplySchemeSettings(self, scheme):
+        """Strip borders so the slot artwork occupies the full button area."""
         super().ApplySchemeSettings(scheme)
-        
         self.SetBorder(None)
     
     #@profile('AbilitySectionButton.Paint')
     def Paint(self):
+        """Draw the underlying button art and a cooldown overlay if needed."""
         super().Paint()
         if not self.rechargecomplete or self.rechargecomplete == float("inf") or self.rechargetime == 0:
             return
@@ -35,21 +41,32 @@ class AbilitySectionButton(AbilityButton):
         surface().DrawFilledRect(0, 0, int(w * weight), h)
             
     def OnCursorEntered(self):
+        """Show the tooltip and force a tick so the data is current."""
         super().OnCursorEntered()
         self.ShowAbility()
         self.GetParent().OnTick() # Do an extra tick to update infobox for now 
         
     def OnCursorExited(self):
+        """Hide the tooltip when the cursor leaves the ability slot."""
         super().OnCursorExited()
         self.HideAbility()
         
     def ShowAbility(self):
+        """Show ability information panel when hovering over this button.
+        
+        Displays the ability info panel with details about the ability
+        in this slot.
+        """
         if self.info:
             infopanel = self.GetParent().infopanel
             infopanel.MoveToDefault()
             infopanel.ShowAbility(self.info, self.slot, contextpanel=self)
 
     def HideAbility(self):
+        """Hide the ability information panel.
+        
+        Called when mouse cursor leaves the button.
+        """
         self.GetParent().infopanel.HideAbility()
         
     rechargecomplete = None
@@ -58,6 +75,12 @@ class AbilitySectionButton(AbilityButton):
     info = None
 
 class BaseHudAbilities(Panel):
+    """Base panel for displaying unit abilities in the HUD.
+    
+    Manages a grid of ability buttons that display available abilities
+    for the selected unit type. Handles ability availability, recharge
+    states, autocast indicators, and ability execution.
+    """
     def __init__(self, parent, infopanel, config={}):
         super().__init__(parent, "HudAbilities")
         
@@ -113,11 +136,13 @@ class BaseHudAbilities(Panel):
             self.OnSelectionChanged(player)
         
     def SetVisible(self, visible):
+        """Ensure the infopanel hides when the ability grid itself is hidden."""
         super().SetVisible(visible)
         if not visible and self.infopanel:
             self.infopanel.HideAbility()
         
     def UpdateOnDelete(self):
+        """Disconnect HUD signals when the panel is destroyed/reloaded."""
         selectionchanged.disconnect(self.OnSelectionChanged)
         abilitymenuchanged.disconnect(self.OnAbilityMenuChanged)
         refreshhud.disconnect(self.OnRefreshHud)
@@ -125,7 +150,7 @@ class BaseHudAbilities(Panel):
         self.infopanel = None
         
     def PerformLayout(self):      
-        """ Setup the abilities buttons """
+        """Compute slot dimensions from proportional margins and place buttons. Sets up the ability buttons."""
         super().PerformLayout()
         
         margintop = scheme().GetProportionalScaledValueEx(self.GetScheme(), self.margintop) 
@@ -145,6 +170,12 @@ class BaseHudAbilities(Panel):
                 
     #@profile('BaseHudAbilities.OnTick')
     def OnTick(self):
+        """Update ability buttons on each tick.
+        
+        Refreshes enabled/disabled states and recharge progress overlays
+        for all ability buttons based on current unit selection and ability
+        recharge times.
+        """
         if not self.IsVisible():
             return
             
@@ -177,6 +208,12 @@ class BaseHudAbilities(Panel):
                 slot.rechargetime = info.rechargetime
 
     def GetActiveUnitInfo(self):
+        """Get the unit info for the currently selected unit type.
+        
+        Returns:
+            UnitInfo: Unit info object for the selected unit type, or None
+                     if no unit is selected.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         if not player:
             return None
@@ -188,12 +225,30 @@ class BaseHudAbilities(Panel):
         return unitinfo
         
     def AbilityInUnits(self, info, units):
+        """Check if any of the given units have this ability.
+        
+        Args:
+            info: AbilityInfo to check for.
+            units: List of unit entities.
+            
+        Returns:
+            bool: True if at least one unit has the ability, False otherwise.
+        """
         for unit in units:
             if info.name in unit.abilitiesbyname:
                 return True
         return False
         
     def HasUnitAutocastOn(self, info, units):
+        """Check if any unit has autocast enabled for this ability.
+        
+        Args:
+            info: AbilityInfo to check autocast for.
+            units: List of unit entities.
+            
+        Returns:
+            bool: True if at least one unit has autocast enabled, False otherwise.
+        """
         if not info.supportsautocast:
             return False
         for unit in units:
@@ -204,6 +259,12 @@ class BaseHudAbilities(Panel):
         return False
         
     def RefreshSlots(self):
+        """Refresh all ability slots with current selection state.
+        
+        Updates button visibility, icons, enabled/disabled states, and
+        autocast indicators based on the currently selected units and
+        their available abilities.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         if not player:
             return
@@ -272,6 +333,18 @@ class BaseHudAbilities(Panel):
                 
         
     def CalculateCanDoAbility(self, info, player):
+        """Calculate if the ability can be used and when it will be ready.
+        
+        Checks all selected units to see if any can use the ability.
+        If none can, returns the earliest recharge completion time.
+        
+        Args:
+            info: AbilityInfo to check.
+            player: Player entity.
+            
+        Returns:
+            tuple: (can_do (bool), recharge_complete_time (float))
+        """
         minrechargecomplete = float('inf')
         
         for unit in player.GetSelection():
@@ -287,6 +360,13 @@ class BaseHudAbilities(Panel):
         return False, minrechargecomplete    
     
     def OnCommand(self, command):
+        """Handle ability button click commands.
+        
+        Executes the ability on left click or toggles autocast on right click.
+        
+        Args:
+            command (str): Command string in format 'abilityslot_N' or 'abilityslotright_N'.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         hlmin, hlmax = player.GetSelectedUnitTypeRange()
         splitted = command.split('_')
@@ -307,6 +387,14 @@ class BaseHudAbilities(Panel):
         raise Exception('Unknown command ' + command)
         
     def OnSelectionChanged(self, player, **kwargs):
+        """Handle when unit selection changes.
+        
+        Updates the selected unit type and refreshes ability slots to
+        show abilities for the newly selected unit type.
+        
+        Args:
+            player: Player entity.
+        """
         # Update highlighted units area
         unitcount = player.CountUnits()
         if unitcount == 0:
@@ -324,10 +412,18 @@ class BaseHudAbilities(Panel):
         self.OnTick() # Extra tick to make changes look smooth
         
     def OnAbilityMenuChanged(self, **kwargs):
+        """Handle when the ability menu structure changes.
+        
+        Refreshes ability slots when entering/exiting sub-menus.
+        """
         self.RefreshSlots()
         self.OnTick() # Extra tick to make changes look smooth
         
     def OnRefreshHud(self, **kwargs):
+        """Handle HUD refresh signal.
+        
+        Refreshes ability slots when resources or other game state changes.
+        """
         self.RefreshSlots()
         self.OnTick() # Extra tick to make changes look smooth
 

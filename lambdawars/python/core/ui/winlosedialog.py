@@ -16,6 +16,7 @@ class WinLoseDialog(Panel):
     a timer so the dialog disappears after a short duration.
     """
     def __init__(self, winners, losers, iswinner):
+        """Create the popup and start the auto-dismiss timer."""
         super().__init__(GetClientMode().GetViewport(), "WinLoseDialog")
        
         schemeobj = scheme().LoadSchemeFromFile("resource/SourceScheme.res", "SourceScheme")
@@ -37,10 +38,12 @@ class WinLoseDialog(Panel):
         AddTickSignal(self.GetVPanel(), 15000)
         
     def OnTick(self):
+        """Called once after the timeout; closes and deletes the dialog."""
         self.DeletePanel()
         self.selfref = None
             
     def ApplySchemeSettings(self, schemeobj):
+        """Apply fonts/colors from the Source scheme."""
         super().ApplySchemeSettings(schemeobj)
         hfontsmall = schemeobj.GetFont( "FriendsSmall" )
         hfontmedium = schemeobj.GetFont( 'HeadlineLarge' )
@@ -53,6 +56,7 @@ class WinLoseDialog(Panel):
         self.losers.SetFont(hfontmedium)
         
     def PerformLayout(self):
+        """Center the dialog and lay out the winner/loser labels."""
         super().PerformLayout()
         
         wide = scheme().GetProportionalScaledValueEx( self.GetScheme(), 200 )

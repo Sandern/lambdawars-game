@@ -1,4 +1,15 @@
-""" Resource management WARS game """
+"""Resource management system for Lambda Wars.
+
+Manages player resources including amounts, caps, and resource types.
+Handles resource transactions (giving/taking), accumulation of fractional
+amounts, and synchronization between server and clients. Resources are
+stored as integer values but can be modified with fractional amounts that
+are accumulated until they reach whole numbers.
+
+The system supports resource caps/maximums, save/restore functionality (WIP),
+and provides signals for resource changes that can be used by other
+systems for notifications or statistics tracking.
+"""
 from collections import defaultdict
 import copy
 from math import floor

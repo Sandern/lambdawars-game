@@ -1,3 +1,8 @@
+"""Ungarrison ability for evacuating units from buildings.
+
+Allows players to order all garrisoned units to exit a building,
+freeing up the building for other uses or repositioning units.
+"""
 from .base import AbilityBase
 
 class AbilityUngarrison(AbilityBase):

@@ -67,8 +67,13 @@ class StrategicAIInfoMetaClass(BaseInfoMetaclass):
             setattr(newcls, 'difficulty_%s' % (k), v)
         
         return newcls
-
+        
 class StrategicAIInfo(BaseInfo, metaclass=StrategicAIInfoMetaClass):
+    """Info class describing a strategic AI implementation.
+    
+    Holds display name and supported difficulty levels, and exposes helpers
+    to validate and shut down AI instances associated with this info type.
+    """
     id = dbid
     displayname = LocalizedStringField(value='')
     
@@ -80,10 +85,12 @@ class StrategicAIInfo(BaseInfo, metaclass=StrategicAIInfoMetaClass):
 
     @classmethod
     def IsValidAI(cls, sai):
+        """Return True if the given strategic AI instance is still registered."""
         return sai.ownernumber in strategicplayers
     
     @classmethod
     def ShutdownAI(cls, sai):
+        """Shut down and unregister the given strategic AI instance if present."""
         ownernumber = sai.ownernumber
         if ownernumber in strategicplayers:
             strategicplayers[ownernumber].Shutdown()
@@ -93,6 +100,7 @@ class StrategicAIInfo(BaseInfo, metaclass=StrategicAIInfoMetaClass):
         
     @classmethod 
     def OnUnLoaded(info):
+        """Called when this info type is unloaded; shuts down all AI instances."""
         super().OnUnLoaded()
         
         ShutdownAllStrategicAI()
@@ -102,10 +110,16 @@ class StrategicAIInfo(BaseInfo, metaclass=StrategicAIInfoMetaClass):
         pass
         
 def EnableStrategicAI(owner, cputype='cpu_wars_default', difficulty=None):
+    """Convenience wrapper that creates and initializes a strategic AI player."""
     return CreateAIForFaction(owner, cputype=cputype, difficulty=difficulty)
     
 def DisableStrategicAI(owner):
-    ownernumber = int(args[1])
+    """Shut down the strategic AI for the given owner if it exists.
+
+    Args:
+        owner (int): Owner number whose AI should be disabled.
+    """
+    ownernumber = int(owner)
     if ownernumber in strategicplayers:
         strategicplayers[ownernumber].Shutdown()
         del strategicplayers[ownernumber]
@@ -136,16 +150,19 @@ def RestoreActiveCPUPlayers(fields, *args, **kwargs):
     
 @concommand('wars_strategicai_enable', flags=FCVAR_CHEAT)
 def CCEnableStrategicAI(args):
+    """Console command wrapper to enable strategic AI for an owner slot."""
     CreateAIForFaction(int(args[1]))
 
 @concommand('wars_strategicai_disable', flags=FCVAR_CHEAT)
 def CCDisableStrategicAI(args):
+    """Console command wrapper to disable strategic AI for an owner slot."""
     ownernumber = int(args[1])
     if not DisableStrategicAI(ownernumber):
         print('No strategic AI for %d' % (ownernumber))
         
 @concommand('wars_strategicai_debugprint', flags=FCVAR_CHEAT)
 def DebugPrintStrategicAI(args):
+    """Print debug info for one or all active strategic AI instances."""
     if args.ArgC() > 1:
         owners = [int(args[1])]
         if owners[0] not in strategicplayers:

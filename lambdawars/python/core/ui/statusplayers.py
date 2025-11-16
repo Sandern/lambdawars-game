@@ -23,9 +23,11 @@ class CefStatusPlayers(CefPanel):
     cssfiles = CefPanel.cssfiles + ['wars/playerstatuspanel.css']
     
     def SetupFunctions(self):
+        """Placeholder for future CEF function bindings (none yet)."""
         super().SetupFunctions()
         
     def OnLoaded(self):
+        """Populate player data as soon as the HTML UI is ready."""
         super().OnLoaded()
 
         self.UpdateAllPlayers()
@@ -35,10 +37,12 @@ class CefStatusPlayers(CefPanel):
         super().OnRemove()
         
     def UpdateAllPlayers(self):
+        """Collect lobby/ingame player data and send it to the HTML UI."""
         gameplayers, players = self.CollectPlayers()
         self.Invoke("updatePlayers", [gameplayers, players])
         
     def CollectPlayers(self):
+        """Gather lobby slots and connected player data for display."""
         gameplayers = []
         players = []
         
@@ -101,6 +105,7 @@ class CefStatusPlayers(CefPanel):
         return gameplayers, players
                 
     def OnTick(self):
+        """Refresh the player list on a timer while the panel is visible."""
         if not self.visible:
             return
         self.UpdateAllPlayers()

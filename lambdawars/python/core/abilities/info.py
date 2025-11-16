@@ -1,3 +1,10 @@
+"""Ability information and technology system.
+
+Defines the AbilityInfo class which stores metadata about abilities including
+costs, requirements, display information, and technology dependencies. The
+tech system tracks which abilities are available and enabled for each player,
+handling prerequisites and dependencies between abilities.
+"""
 import traceback
 import ast
 
