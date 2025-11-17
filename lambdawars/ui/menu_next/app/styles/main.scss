@@ -247,6 +247,9 @@ body {
 	background: $darkgray90;
 	position: relative;
 	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 .left-float {
@@ -286,17 +289,11 @@ body {
 	cursor: pointer;
 }
 
-
 //The lambda wars logo at the top left
 a#menu-logo {
-	margin: 1rem 0 0 2rem;
-	float: left;
 	opacity: 0.85;
 	transition: all .2s;
-
-	img {
-		float: left;
-	}
+	margin-left: 1rem;
 
 	&:hover {
 		opacity: 1;
@@ -338,18 +335,14 @@ a#menu-logo {
 }
 
 #player-info {
-	float: right;
-	color: $lightbrown;
-	text-align: left;
 	font-size: 1.1rem;
-	height: 7.2rem;
 	line-height: 1.4rem;
 	font-family: 'Roboto';
-	text-transform: uppercase;
-	position: relative;
-	padding-right: 6.2rem;
-	padding-top: 1.6rem;
-	padding-left: 1rem;
+	margin-left: auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-right: 1rem;
 
 	span {
 		color: $orange;
@@ -372,11 +365,7 @@ a#menu-logo {
 	}
 
 	img {
-		position: absolute;
-		top: 1rem;
-		right: 0;
-		width: 5.2rem;
-		height: 5.2rem;
+		margin-left: 1rem;
 	}
 }
 
