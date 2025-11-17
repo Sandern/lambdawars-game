@@ -42,6 +42,15 @@ body {
 	font-family: 'Open Sans';
 }
 
+.flex{
+	display: flex;
+}
+
+.flex-row{
+	flex-direction: row;
+	display: flex;
+}
+
 .linkDisabled {
 	cursor: not-allowed;
 	pointer-events: none;
@@ -113,9 +122,10 @@ body {
 	background: $darkgray80;
 	outline: none;
 	color: $orange;
-	padding: 0.2rem;
+	// padding: 0.2rem;
 	margin: 0.2rem;
 	cursor: pointer;
+	padding: 0.6rem 0.2rem;
 
 	&:disabled{
 		color: $white40;
@@ -646,10 +656,18 @@ a.menu-btn {
 main, .box {
 	display: block;
 	position: relative;
-	background: $darkgray80;
+	background: $darkgray95;
 	font-size: 2rem;
 	padding: 2rem;
 	color: $white;
+
+	&.nobg{
+		background: transparent;
+	}
+
+	&.rounded{
+		border-radius: $border-radius-large;
+	}
 
 	@media (max-width: 1180px) {
 			font-size: 1.0rem;
@@ -662,7 +680,7 @@ main, .box {
 		line-height: 2.4rem;
 		padding: 1rem 2rem;
 		margin: -2rem -2rem 2rem;
-		background: $darkgray80;
+		background: $darkgray95;
 		border-bottom: 0.4rem solid $white20;
 		color: $white80;
 		text-transform: uppercase;
@@ -711,12 +729,37 @@ main, .box {
 #chat-global {
 	display: none;
 }
+
+.actions{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+    align-items: center;
+	height: 50px;
+
+	.action{
+		margin-right: 25px;
+
+		&.btn{
+			height: 100%;
+		}
+	}
+
+	.left{
+		flex-direction: row;
+	}
+
+	.right{
+		flex-direction: row;
+	}
+}
 // the buttons in the lobby and chat
 a.btn {
 	background: $lightbrown;
 	color: $black;
 	display: inline-block;
-	padding: 0 1rem;
+	padding: 0 2rem;
 	height: 3.4rem;
 	margin-right: 1rem;
 	font-family: 'Roboto Condensed';
@@ -727,6 +770,12 @@ a.btn {
 	text-transform: uppercase;
 	opacity: 0.8;
 	transition: all .2s;
+	border-radius: $border-radius-small;
+	font-weight: bold;
+
+	display: flex;
+    justify-content: center;
+    align-items: center;
 
 	@media (max-width: 1180px) {
 		font-size: 1.4rem;
@@ -744,6 +793,8 @@ a.btn {
 		opacity: 1;
 		background: $darkbrown;
 		color: $white;
+
+		transform: scale(1.05);
 	}
 
 	&.btn-small {
@@ -982,19 +1033,44 @@ a.disabled {
 	}
 }
 
+
+
 #playerlist {
 	display: block;
 	float: left;
 	height: 100%;
+	border-radius: $border-radius-large;
+	padding: $padding-base;
+
+	.teamGroup{
+		background: $darkgray80;
+		border-radius: $border-radius-large;
+		margin-top: 25px;
+		overflow: hidden;
+		padding: 0;
+	}
 
 	.box-header {
 		margin-bottom: 1rem;
 	}
 
+	.box-footer{
+		padding-top: 2rem;
+		background-color: $darkgray80;
+		border-radius: $border-radius-large;
+	}
+
 	h2.team-header {
 		text-transform: uppercase;
-		padding: 6px 0;
-		margin: 0 0 4px;
+		padding: 1rem 2rem;
+		margin: 0;
+		// background-color: $orange;
+		// color: white;
+		font-weight: bold;
+
+		border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+		color: $orange;
+		background: rgba(39, 39, 39, 0.8);
 	}
 
 	ul.playerlist {
@@ -1043,10 +1119,22 @@ a.disabled {
 		li.player {
 			display: block;
 			font-size: 0;
-			padding: 0.9rem;
-			background: $darkgray80;
+			// padding: 0.8rem 0;
+			// background: $darkgray80;
 			overflow: hidden;
-			margin-bottom: 0.4rem;
+			margin-bottom: 0.8rem;
+			overflow: hidden;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			border-bottom: 1px solid $orange;
+
+			padding: 1rem;
+
+			&:last-of-type {
+				margin-bottom: 0;
+				border-bottom: none;
+			}
 
 			&.ready {
 				background: $orange80;
@@ -1077,7 +1165,7 @@ a.disabled {
 				font-size: 1.8rem;
 				display: inline-block;
 				vertical-align: top;
-				color: $offwhite;
+				color: white;
 				margin-top: 0;
 				
 				&:disabled{
@@ -1093,11 +1181,12 @@ a.disabled {
 			
 
 			img.steam-avatar {
-				display: inline-block;
+				display: flex;
 				margin-right: 1rem;
-				width: 3.2rem;
-				height: 3.2rem;
-				
+				width: 5rem;
+				height: 5rem;
+				position: relative;
+
 				@media (max-width: 1180px) {
 					width: 2.2rem;
 					height: 2.2rem;
@@ -1301,6 +1390,9 @@ a.disabled {
 	height: 35rem;
 	margin-bottom: 2rem;
 	overflow-y: scroll;
+	padding: $padding-base;
+	border-radius: $border-radius-large;
+	background: $darkgray80;
 
 	.gameinfo-dropdown
 	{
@@ -1383,6 +1475,9 @@ a.disabled {
 .chat, #chat, #chat-menu {
 	background: $darkgray80;
 	position: relative;
+	border-radius: $border-radius-large;
+	padding: $padding-base;
+	overflow: hidden;
 
 	.box-header {
 		span.active {
@@ -1551,8 +1646,25 @@ a.disabled {
 	margin-top:10px;
 	background-color: rgba(208, 130, 20, 0.2);
 	border-radius: 5px;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	font-size: 2rem;
+	border-radius: $border-radius-base;
+	overflow: hidden;
+
 	@media (max-width: 1180px) {
 		font-size: 1.0rem;
+	}
+
+	p{
+		padding: 15px;
+		transition: 0.3s;
+	}
+
+	h2{
+		background: $orange;
+		padding: 15px;
+		font-weight: bold;
 	}
 
 }

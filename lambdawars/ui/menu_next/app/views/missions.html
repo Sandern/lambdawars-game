@@ -1,5 +1,5 @@
 <section class="content-full content-menu" id="content-missions">
-    <main>
+    <main class="rounded">
 		<div id="mission_wrap_pictures">
 			<img  id="mission_pic_left" class="mis_pic_left" ng-src="{{ leftmissionpic }}"  title="Left Pic" alt="Left">
 			<img  id="mission_pic_right" class="mis_pic_right" ng-src="{{ rightmissionpic }}"  title="Right Pic" alt="Right" >
@@ -23,14 +23,18 @@
 			{{ mapname }}
 		</div>
 		<div id="mission_wrap_description"  class="textStyleNav2" ng-bind-html-unsafe="description">
-			<b>{{ 'Mission_Desc' | translate }} <span ng-bind-html="description"></span></b>
+			<h2>{{ 'Mission_Desc' | translate }}</h2>
+			<p><span ng-bind-html="description"></span></p>
 		</div>
 		
-		<select class="select-style" ng-model="selectedDifficulty">
-			<option value="easy">{{ 'Mission_Easy' | translate }}</option>
-			<option value="normal">{{ 'Mission_Normal' | translate }}</option>
-			<option value="hard">{{ 'Mission_Hard' | translate }}</option>
-		</select>
-		<a href class="btn btn-highlight" ng-click="launch_mission()">{{ 'Mission_Launch' | translate }}</a>
+		<div class="actions">
+			<select class="select-style action" ng-model="selectedDifficulty">
+				<option value="easy">{{ 'Mission_Easy' | translate }}</option>
+				<option value="normal">{{ 'Mission_Normal' | translate }}</option>
+				<option value="hard">{{ 'Mission_Hard' | translate }}</option>
+			</select>
+			<a href class="btn btn-highlight action" ng-click="launch_mission()">{{ 'Mission_Launch' | translate }}</a>
+		</div>
+		
     </main>
 </section>

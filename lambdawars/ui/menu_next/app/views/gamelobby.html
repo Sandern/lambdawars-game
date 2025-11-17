@@ -1,4 +1,4 @@
-<section id="playerlist" class="content box noselect" ng-controller="GamelobbyPlayerListController" ng-show="!isShowScores">
+<section id="playerlist" class="content box noselect nobg" ng-controller="GamelobbyPlayerListController" ng-show="!isShowScores">
 
 	<h2 class="box-header">
 		<span class="right-float" ng-if="lobbytype.value !== 'offline'">
@@ -28,7 +28,7 @@
 			<span ng-if="state === 'gameended'" class="success">{{ 'GL_StatusGameEnded' | translate }}</span>
 		</div>
 
-		<div ng-repeat="teamEntry in teamSlots">
+		<div class="teamGroup" ng-repeat="teamEntry in teamSlots">
 			<h2 class="team-header">{{ teamEntry.header }}</h2>
 			<li ng-repeat="slot in teamEntry.slots"  ng-class='("player" + playerClass(slots[slot.slotid]))' class="{{(slots[slot.slotid].type === 'player' && isPlayerReadyByID(slot.slotid))?'ready':''}}">
 				<span ng-switch on="lobbymembers[slots[slot.slotid].player.steamid].connectstate">
@@ -89,9 +89,9 @@
 				{{$last ? '' : ', '}}
 				</span>
 		</div>
-		<div class="left-float">
+		<div class="left-float flex-row">
 			<a href id="leave-game" class="btn" ng-click="leavelobby()">{{ 'GL_LeaveLobby' | translate }}</a>
-			<span ng-show="state === 'lobbying' && !match_uuid">
+			<span class="flex-row" ng-show="state === 'lobbying' && !match_uuid">
 				<a ng-if="state === 'lobbying'" href id="spectate" class="btn" ng-click="spectate()">{{ 'GL_Spectate' | translate }}</a>
 				<a ng-if="state === 'lobbying' && islobbyowner" href id="invite" class="btn" ng-click="invite()">{{ 'GL_Invite' | translate }}</a>
 			</span>
