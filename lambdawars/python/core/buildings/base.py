@@ -307,16 +307,7 @@ priobuildinglist = CreateUnitList()
 
 if isclient:
     class UnitProgressBarScreen(UnitBarScreen):
-<<<<<<< Updated upstream
-<<<<<<< HEAD
         """Draws the building construction progress bar."""
-=======
-        """ Draws the unit health bar. """
-
->>>>>>> origin/master
-=======
-        """Draws the building construction progress bar."""
->>>>>>> Stashed changes
         def __init__(self, unit):
             """Initialize the progress bar for a building.
             
