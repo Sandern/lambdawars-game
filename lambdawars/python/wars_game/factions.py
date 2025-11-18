@@ -9,24 +9,27 @@ from core.factions import FactionInfo
 from core.units import CreateUnitFancy, CreateUnitNoSpawn, PrecacheUnit
 from core.buildings import UnitBaseBuilding, CreateDummy
 from particles import PrecacheParticleSystem
-if isserver: 
+
+if isserver:
     from entities import DispatchSpawn
+
 
 class WarsFactionInfo(FactionInfo):
     if isserver:
         @classmethod
         def Precache(info):
             super().Precache()
-            
+
             for fortifyunittype in info.fortifyunittypes.values():
                 PrecacheUnit(fortifyunittype)
-                
+
     #: Control point model definition.
     #: Defines model information for each possible upgrade level.
     fortifyunittypes = {}
-    
+
     #: Overrun hud html file
     overrunhud_htmlfile = 'ui/viewport/wars/overrun_rebels.html'
+
 
 class FactionAntlionInfo(WarsFactionInfo):
     name = 'antlions'
@@ -35,13 +38,13 @@ class FactionAntlionInfo(WarsFactionInfo):
     startbuilding = 'build_ant_colony'
     startunit = 'unit_antlionguard'
     resources = ['grubs']
-    
+
     @classmethod
     def PopulateStartSpot(info, gamerules, startspot, ownernumber, playerSteamID=None):
         if not info.startbuilding or not info.startunit:
             PrintWarning('Faction %s has no start building or unit specified! Unable to populate start spot.\n')
             return
-            
+
         # Spawn start building
         if info.startbuilding:
             unit = CreateUnitNoSpawn(info.startbuilding)
@@ -50,12 +53,13 @@ class FactionAntlionInfo(WarsFactionInfo):
             unit.SetOwnerNumber(ownernumber)
             unit.KeyValue('startgrubs', 10)  # TODO: move to antlion gamerules
             DispatchSpawn(unit)
-            unit.Activate()  
-        
-        # Spawn a start unit
+            unit.Activate()
+
+            # Spawn a start unit
         if info.startunit:
-            CreateUnitFancy(info.startunit, startspot.GetAbsOrigin()+Vector(270, 0, 48), owner_number=ownernumber, angles=startspot.GetAbsAngles())
-        
+            CreateUnitFancy(info.startunit, startspot.GetAbsOrigin() + Vector(270, 0, 48), owner_number=ownernumber, angles=startspot.GetAbsAngles())
+
+
 class FactionCombineInfo(WarsFactionInfo):
     name = 'combine'
     displayname = 'Combine'
@@ -71,18 +75,19 @@ class FactionCombineInfo(WarsFactionInfo):
     announcer_more_population_required = 'announcer_combine_more_population_required'
     announcer_unit_under_attack = 'announcer_combine_unit_under_attack'
     announcer_building_under_attack = 'announcer_combine_building_under_attack'
-    color = Vector(0.1, 0.6, 0.9) 
+    color = Vector(0.1, 0.6, 0.9)
     victoryparticleffect = 'pg_comb_victory'
     defeatparticleffect = 'pg_comb_defeat'
-    
+
     # Model configuration for control point fortification
     fortifyunittypes = {
-        1 : 'control_point_comb_lvl1',
-        2 : 'control_point_comb_lvl2',
+        1: 'control_point_comb_lvl1',
+        2: 'control_point_comb_lvl2',
     }
-    
+
     overrunhud_htmlfile = 'ui/viewport/wars/overrun_combine.html'
-    
+
+
 class FactionRebelsInfo(WarsFactionInfo):
     name = 'rebels'
     displayname = 'Rebels'
@@ -101,15 +106,16 @@ class FactionRebelsInfo(WarsFactionInfo):
     color = Vector(0.9, 0.6, 0.1)
     victoryparticleffect = 'pg_reb_victory'
     defeatparticleffect = 'pg_reb_defeat'
-    
+
     # Model configuration for control point fortification
     fortifyunittypes = {
-        1 : 'control_point_reb_lvl1',
-        2 : 'control_point_reb_lvl2',
+        1: 'control_point_reb_lvl1',
+        2: 'control_point_reb_lvl2',
     }
-    
+
     overrunhud_htmlfile = 'ui/viewport/wars/overrun_rebels.html'
-    
+
+
 class FactionCombineOverrunInfo(FactionCombineInfo):
     name = 'overrun_combine'
     displayname = 'Combine'
@@ -118,7 +124,8 @@ class FactionCombineOverrunInfo(FactionCombineInfo):
     startunit = 'overrun_unit_stalker'
     resources = ['kills']
     gamerulespattern = '^overrun$'
-    
+
+
 class FactionRebelsOverrunInfo(FactionRebelsInfo):
     name = 'overrun_rebels'
     displayname = 'Rebels'
@@ -127,18 +134,23 @@ class FactionRebelsOverrunInfo(FactionRebelsInfo):
     startunit = 'overrun_unit_rebel_engineer'
     resources = ['kills']
     gamerulespattern = '^overrun$'
-    
+
+
 class FactionRebelsDestroyHQInfo(FactionRebelsInfo):
     name = 'destroyhq_rebels'
     displayname = 'Rebels'
     hud_name = 'rebels_hud'
-    startbuilding = 'build_reb_hq'
-    startunit = 'unit_rebel_engineer'
+    startbuilding = 'build_reb_hq_destroyhq'
+    startunit = 'destroyhq_unit_rebel_engineer'
     resources = ['requisition', 'scrap', 'power']
-    
+
+
 class FactionCombineDestroyHQInfo(FactionCombineInfo):
     name = 'destroyhq_combine'
     displayname = 'Combine'
+    startbuilding = 'build_comb_hq_destroyhq'
+    startunit = 'unit_stalker_destroy_hq'
+
 
 class FactionSquadWarsInfo(WarsFactionInfo):
     name = 'squad_wars'
@@ -151,7 +163,7 @@ class FactionSquadWarsInfo(WarsFactionInfo):
 
 
 class SquadWarsRebelInfo(FactionInfo):
-    #name = 'sw_rebel_soldier'
+    # name = 'sw_rebel_soldier'
     displayname = ''
     hud_name = 'rebels_hud'
     startbuilding = 'build_reb_barricade'
