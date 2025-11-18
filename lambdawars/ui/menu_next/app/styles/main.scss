@@ -1616,60 +1616,16 @@ a.disabled {
 	cursor:default;
 	pointer-events:none;
 }
-// does not work?????
-#content_missions
-{
-	width: 100%;
-	display: none;
-}
-// does not work?????
-#mission_wrap
-{
-	position:absolute;
-	width: 100%;
-	top:50px;
-	left:0;
-}
+
 
 #mission_wrap_name
 {
 	text-align: center;
 	width:100%;
-
 	margin: 0 auto;
-	margin-top:350px;
+	margin-bottom:25px;
 }
 
-#mission_wrap_description
-{
-	width:50%;
-
-	margin: 0 auto;
-	margin-top:10px;
-	background-color: rgba(208, 130, 20, 0.2);
-	border-radius: 5px;
-	margin-top: 25px;
-	margin-bottom: 25px;
-	font-size: 2rem;
-	border-radius: $border-radius-base;
-	overflow: hidden;
-
-	@media (max-width: 1180px) {
-		font-size: 1.0rem;
-	}
-
-	p{
-		padding: 15px;
-		transition: 0.3s;
-	}
-
-	h2{
-		background: $orange;
-		padding: 15px;
-		font-weight: bold;
-	}
-
-}
 .mis_pic_left{
 	position:absolute;
 	left:40px;
@@ -1789,4 +1745,116 @@ a.disabled {
 		line-height: 1.5;
 		text-align: center;
 	}
+}
+
+// Animated Mission Selector
+.mission-carousel-wrapper {
+	position: relative;
+	margin-top: 40px;
+	min-height: 350px;
+	overflow: hidden;
+	box-sizing: content-box;
+	display: flex;
+	background-color: $darkgray;
+	padding: 25px;
+	border-radius: $border-radius-large;
+	flex-direction: column;
+}
+
+.mission-carousel {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.mission-item {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	opacity: 0;
+	transition: all 0.5s ease-in-out;
+	
+	opacity: 0;
+	transform: translateX(25%) scale(0.6);
+	z-index: 0;
+	
+	img {
+		max-width: 400px;
+		width: 100%;
+	}
+
+	&.active {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+		z-index: 2;
+    }
+
+	&.incoming{
+		opacity: 1;
+		transform: translateX(25%) scale(0.6);
+		z-index: 1;
+	}
+
+	&.passed{
+		opacity: 1;
+		transform: translateX(-25%) scale(0.6);
+		z-index: 1;
+	}
+}
+
+.carousel-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: rgba(255, 255, 255, 0.2);
+	border: none;
+	color: $white;
+	font-size: 3rem;
+	padding: 10px 20px;
+	cursor: pointer;
+	transition: background 0.3s;
+	z-index: 2;
+	
+	&:hover {
+		background: rgba(255, 255, 255, 0.4);
+	}
+	
+	&.prev {
+		left: 20px;
+	}
+	
+	&.next {
+		right: 20px;
+	}
+}
+
+#mission_wrap_description
+{
+	width:50%;
+
+	margin: 0 auto;
+	margin-top:10px;
+	background-color: $darkgray;
+	border-radius: 5px;
+	margin-top: 25px;
+	margin-bottom: 25px;
+	font-size: 2rem;
+	border-radius: $border-radius-base;
+	overflow: hidden;
+
+	@media (max-width: 1180px) {
+		font-size: 1.0rem;
+	}
+
+	p{
+		padding: 15px;
+		transition: 0.3s;
+	}
+
+	h2{
+		background: $orange;
+		padding: 15px;
+		font-weight: bold;
+	}
+
 }

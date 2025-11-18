@@ -1,32 +1,27 @@
 <section class="content-full content-menu" id="content-missions">
-    <main class="rounded">
-		<div id="mission_wrap_pictures">
-			<img  id="mission_pic_left" class="mis_pic_left" ng-src="{{ leftmissionpic }}"  title="Left Pic" alt="Left">
-			<img  id="mission_pic_right" class="mis_pic_right" ng-src="{{ rightmissionpic }}"  title="Right Pic" alt="Right" >
-			<img  id="mission_pic_middle" class="mis_pic_mid" ng-src="{{ middlemissionpic }}"  title="Middle Pic" alt="Middle" >
-			<img  id="mission_right_arrow" class="mis_right_arrow" title="right_arrow" alt="right_arrow"
-			ng-init="right_arrow = '../../mainmenu/arrow_big_right.png'"
-			ng-mouseenter="right_arrow = '../../mainmenu/arrow_big_right_over.png'" 
-			ng-mouseleave="right_arrow = '../../mainmenu/arrow_big_right.png'" 
-			ng-src="{{right_arrow}}"
-			ng-click="next_mission()"
-			>
-			<img  id="mission_left_arrow" class="mis_left_arrow" title="left_arrow" alt="left_arrow" 
-			ng-init="left_arrow = '../../mainmenu/arrow_big_left.png'"
-			ng-mouseenter="left_arrow = '../../mainmenu/arrow_big_left_over.png'" 
-			ng-mouseleave="left_arrow = '../../mainmenu/arrow_big_left.png'" 
-			ng-src="{{left_arrow}}"
-			ng-click="previous_mission()"
-			>
+	<main class="rounded nobg">
+		<!-- Animated Mission Selector -->
+		<div class="mission-carousel-wrapper">
+			<div id="mission_wrap_name" class="textStyle">
+				{{ mapname }}
+			</div>
+
+			<div class="mission-carousel">
+				<div class="mission-item"
+					ng-class="{'active': $index === currentIndex, 'incoming': $index === (currentIndex + 1), 'passed': $index < currentIndex}"
+					ng-repeat="mission in missions track by $index">
+					<img ng-src="{{ mission.image }}"/>
+				</div>
+			</div>
+			<button class="carousel-nav prev" ng-click="prevMission()">‹</button>
+			<button class="carousel-nav next" ng-click="nextMission()">›</button>
 		</div>
-		<div id="mission_wrap_name" class="textStyle">
-			{{ mapname }}
-		</div>
-		<div id="mission_wrap_description"  class="textStyleNav2" ng-bind-html-unsafe="description">
+
+		<div id="mission_wrap_description" class="textStyleNav2" ng-bind-html-unsafe="description">
 			<h2>{{ 'Mission_Desc' | translate }}</h2>
 			<p><span ng-bind-html="description"></span></p>
 		</div>
-		
+
 		<div class="actions">
 			<select class="select-style action" ng-model="selectedDifficulty">
 				<option value="easy">{{ 'Mission_Easy' | translate }}</option>
@@ -35,6 +30,7 @@
 			</select>
 			<a href class="btn btn-highlight action" ng-click="launch_mission()">{{ 'Mission_Launch' | translate }}</a>
 		</div>
-		
-    </main>
+
+
+	</main>
 </section>

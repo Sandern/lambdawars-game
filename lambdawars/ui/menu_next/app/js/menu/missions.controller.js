@@ -18,6 +18,10 @@ class MissionsController {
         $scope.middlemissionpic = unknownMissionImg;
         $scope.rightmissionpic = unknownMissionImg;
         
+        // Animated carousel
+        $scope.missions = missions.missions;
+        $scope.currentIndex = missions.missions_index;
+        
         $scope.updateInfo = function() {
             var preventry = missions.missions[missions.missions_index-1];
             var nextentry = missions.missions[missions.missions_index+1];
@@ -42,6 +46,9 @@ class MissionsController {
             } else {
                 $scope.rightmissionpic = nullMissionImg;
             }
+            
+            // Update carousel index
+            $scope.currentIndex = missions.missions_index;
         };
         
         $scope.next_mission = function() {
@@ -57,6 +64,10 @@ class MissionsController {
             }
         };
         
+        // Carousel navigation functions
+        $scope.nextMission = $scope.next_mission;
+        $scope.prevMission = $scope.previous_mission;
+        
         $scope.launch_mission = function() {
             var entry = missions.missions[missions.missions_index];
             if( entry !== undefined ) {
@@ -67,6 +78,12 @@ class MissionsController {
         };
         
         missions.update(function() {
+            // Set default images for missions that don't have one
+            $scope.missions = missions.missions.map(function(mission) {
+                return Object.assign({}, mission, {
+                    image: mission.image || unknownMissionImg
+                });
+            });
             $scope.updateInfo();
             $scope.$digest();
         });
