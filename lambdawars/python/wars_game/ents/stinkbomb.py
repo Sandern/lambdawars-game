@@ -54,9 +54,18 @@ class StinkBomb(BaseClass):
 
     def VPhysicsCollision(self, index, event):
         super().VPhysicsCollision(index, event)
-        
-        # Require a short minimum time before we zero the velocity on collision
-        if gpGlobals.curtime - self.spawntime < 0.15:
+
+        min_fly_time = 0.15
+        max_fly_dist = 32.0
+
+        dist = 0.0
+        if hasattr(self, 'spawnpos') and self.spawnpos is not None:
+            try:
+                dist = (self.GetAbsOrigin() - self.spawnpos).Length()
+            except:
+                dist = 0.0
+
+        if gpGlobals.curtime - self.spawntime < min_fly_time and dist > max_fly_dist:
             return
 
         # Try merge with nearby dropped stinkbombs to reduce clutter
