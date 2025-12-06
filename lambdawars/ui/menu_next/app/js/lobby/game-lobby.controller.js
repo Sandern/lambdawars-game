@@ -76,6 +76,9 @@ class GamelobbyController {
         $scope.kickPlayerBySteamID = function(steamid) {
             gamelobby.kickPlayerBySteamID(steamid);
         };
+        $scope.transferHost = function(steamid) {
+            gamelobby.transferHost(steamid);
+        };
 
         $scope.playerClass = function(slot) {
             if( slot.type === 'open' ) {

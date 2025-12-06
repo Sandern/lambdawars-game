@@ -152,6 +152,43 @@ class WebGameLobby(WebLobby):
         self.settingsinfo.FindAndRemovePlayerFromSlot(playersteamid)
         
     @jsbind()
+    def transferHost(self, methodargs):
+        """ Transfers lobby host rights to another player.
+        
+            Only the current lobby owner can transfer host rights. The target
+            player must be a member of the lobby (can be a spectator).
+            
+            Args:
+                methodargs (list): contains one argument, the steam id (str) of the target player.
+        """
+        if not self.islobbyowner:
+            return
+            
+        if self.isofflinelobby:
+            # Offline lobbies don't support host transfer
+            return
+            
+        steammatchmaking = steamapicontext.SteamMatchmaking()
+        if not steammatchmaking:
+            return
+            
+        targetsteamid = CSteamID(int(methodargs[0]))
+        currentownerid = self.GetLobbyOwner()
+        
+        # Can't transfer to yourself
+        if targetsteamid == currentownerid:
+            return
+            
+        # Verify target is in the lobby
+        if not self.HasLobbyMemberWithSteamID(targetsteamid):
+            PrintWarning('transferHost: Target player is not in the lobby\n')
+            return
+            
+        # Transfer ownership via Steam API
+        steammatchmaking.SetLobbyOwner(self.steamidlobby, targetsteamid)
+        print('Transferred lobby host to %s' % (str(targetsteamid)))
+        
+    @jsbind()
     def goSpectate(self, methodargs):
         self.SendLobbyChatMsg('spectate')
         

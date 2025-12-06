@@ -65,6 +65,7 @@
 					<select ng-if='slots[slot.slotid].editable' class="player-faction select-style" ng-disabled="isPlayerReady()" ng-model="selectedFaction[slot.slotid]" ng-options="faction.displayname for (id , faction) in availablefactions" ng-change="updatePlayerData('faction', selectedFaction[slot.slotid].name, slot.slotid)"></select>
 
 					<a ng-if='state === "lobbying" && islobbyowner && slots[slot.slotid].iscpu' href class="btn btn-highlight"  ng-class="{linkDisabled: isPlayerReady()}" ng-click="removeCPU(slot.slotid)"> &#10060; <!--{{ 'GL_RemoveCPU' | translate }}--></a>
+					<a ng-if='state === "lobbying" && islobbyowner && !slots[slot.slotid].iscpu && !slots[slot.slotid].player.islocaluser && !slots[slot.slotid].player.isLobbyLeader && lobbytype.value !== "offline"' href class="btn btn-highlight" ng-click="transferHost(slots[slot.slotid].player.steamid)">{{ 'GL_TransferHost' | translate }}</a>
 					<a ng-if='state === "lobbying" && islobbyowner && !slots[slot.slotid].iscpu && !slots[slot.slotid].player.islocaluser' href class="btn btn-highlight"  ng-click="kickPlayer(slot.slotid)">{{ 'GL_Kick' | translate }}</a>
 					
 					<a ng-if='state === "lobbying" && slots[slot.slotid].player.islocaluser && lobbytype.value !== "offline"' href ng-class="slots[slot.slotid].player.ready ? ['player-ready', 'checked'] : ['player-ready']" ng-click="updatePlayerData('ready', slots[slot.slotid].player.ready ? '0' : '1', slot.slotid)">
@@ -85,7 +86,11 @@
 			<span>{{ 'GL_SpectatorsLabel' | translate }}</span>
 			<span ng-repeat="spectator in spectators">
 				<a ng-if="!islobbyowner || spectator.islocaluser">{{spectator.name}}</a>
-				<a ng-if="islobbyowner && !spectator.islocaluser" href ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{spectator.name}}</a>
+				<span ng-if="islobbyowner && !spectator.islocaluser && lobbytype.value !== 'offline'">
+					<a href ng-click="transferHost(spectator.steamid)" ng-tooltip="{{ 'GL_TransferHost' | translate }}" class="btn btn-highlight btn-small" style="margin-right: 5px;">{{ 'GL_TransferHost' | translate }}</a>
+					<a href ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{spectator.name}}</a>
+				</span>
+				<a ng-if="islobbyowner && !spectator.islocaluser && lobbytype.value === 'offline'" href ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{spectator.name}}</a>
 				{{$last ? '' : ', '}}
 				</span>
 		</div>
