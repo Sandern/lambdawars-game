@@ -1,9 +1,13 @@
 from cef import viewport, CefPanel
 from core.signals import receiveclientchat, startclientchat, gameui_inputlanguage_changed
 from playermgr import dbplayers, OWNER_LAST
-from entities import PlayerResource
+from entities import PlayerResource, CBasePlayer
 from vgui import vgui_input
 from input import KEY_ENTER
+from utils import UTIL_PlayerByIndex
+from srcbase import TEAM_SPECTATOR
+from gamerules import gamerules
+from wars_game.gamerules import DestroyHQInfo
 import gameui
 
 class CefChatPanel(CefPanel):
@@ -37,6 +41,15 @@ class CefChatPanel(CefPanel):
         if playerindex == 0:
             self.Invoke("printChatNotification", [msg])
         else:
+            # If the game is in Destroy HQ mode, only allow spectators to chat
+            if gamerules and gamerules.info and isinstance(gamerules.info, DestroyHQInfo):
+                sender = UTIL_PlayerByIndex(playerindex)
+                local_player = CBasePlayer.GetLocalPlayer()
+
+                if sender and sender.GetTeamNumber() == TEAM_SPECTATOR:
+                    if not local_player or local_player.GetTeamNumber() != TEAM_SPECTATOR:
+                        return
+            
             say = msg.partition(':')
             owner = PlayerResource().GetOwnerNumber(playerindex) if PlayerResource() else OWNER_LAST
             c = dbplayers[owner].color
