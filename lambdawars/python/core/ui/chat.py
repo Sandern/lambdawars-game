@@ -7,7 +7,6 @@ from input import KEY_ENTER
 from utils import UTIL_PlayerByIndex
 from srcbase import TEAM_SPECTATOR
 from gamerules import gamerules
-from wars_game.gamerules import DestroyHQInfo
 import gameui
 
 class CefChatPanel(CefPanel):
@@ -41,14 +40,15 @@ class CefChatPanel(CefPanel):
         if playerindex == 0:
             self.Invoke("printChatNotification", [msg])
         else:
-            # If the game is in Destroy HQ mode, only allow spectators to chat
-            if gamerules and gamerules.info and isinstance(gamerules.info, DestroyHQInfo):
+            # Only filter spectator chat in Competitive (destroyhq) mode
+            if gamerules and gamerules.info and gamerules.info.name == 'destroyhq':
                 sender = UTIL_PlayerByIndex(playerindex)
                 local_player = CBasePlayer.GetLocalPlayer()
-
+                
+                # If sender is spectator and local player is not, don't show the message
                 if sender and sender.GetTeamNumber() == TEAM_SPECTATOR:
                     if not local_player or local_player.GetTeamNumber() != TEAM_SPECTATOR:
-                        return
+                        return  # Hide spectator chat from alive players in Competitive mode
             
             say = msg.partition(':')
             owner = PlayerResource().GetOwnerNumber(playerindex) if PlayerResource() else OWNER_LAST
