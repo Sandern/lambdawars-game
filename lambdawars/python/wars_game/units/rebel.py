@@ -1052,6 +1052,7 @@ class MedicSMG1Upgrade(AbilityUpgrade):
 
         self.UpgradeMedicInfo(RebelMedicInfo, RebelMedicSmg1Info)
         self.UpgradeMedicInfo(DestroyHQRebelMedicInfo, DestroyHQRebelMedicSmg1Info)
+        self.UpgradeMedicInfo(OverrunRebelMedicInfo, OverrunRebelMedicSmg1Info)
 
     def UpgradeMedicInfo(self, info, successor_info):
         # Ensure buildings producing this unit now produce the medic with smg1
@@ -1256,6 +1257,13 @@ class OverrunRebelMedicInfo(RebelMedicInfo):
         -1: 'garrison',
     }
 
+class OverrunRebelMedicSmg1Info(RebelMedicSmg1Info):
+    name = 'overrun_unit_rebel_medic_smg1'
+    costs = [('kills', 5)]
+    hidden = True
+    buildtime = 0
+    tier = 0
+    techrequirements = ['or_tier2_research']
 	
 class OverrunRebelTauInfo(RebelTauInfo):
 	name = 'overrun_unit_rebel_tau'
