@@ -96,8 +96,10 @@ class UnitBaseZombie(BaseClass):
         #
         vecMins = self.WorldAlignMins()
         vecMaxs = self.WorldAlignMaxs()
-        vecMins.z = vecMins.x
-        vecMaxs.z = vecMaxs.x
+        # Using the Z axis here gives more reliable melee traces than using the X axis.
+        # This fixes issues with hitting small units (manhacks, headcrabs) and enemies standing on ledges.
+        vecMins.z = -24
+        vecMaxs.z = 24
 
         '''
         pHurt = None
