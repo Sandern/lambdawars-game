@@ -315,6 +315,29 @@ class UnitCombineHeavy(UnitCombine):
             super().Precache()
             
             self.PrecacheScriptSound( "combine_heavy_shield" )
+
+        class CombineHeavyThrowGrenade(UnitCombine.CombineThrowGrenade):
+            def HandleEvent(self, unit, event):
+                abi = unit.grenadeability
+                if not abi:
+                    return
+
+                if abi.grenadeclsname:
+                    self.SetGrenadeClass(abi.grenadeclsname)
+
+                startpos = Vector()
+                unit.GetAttachment("anim_attachment_RH", startpos)
+                targetpos = abi.throwtarget.GetAbsOrigin() if abi.throwtarget else abi.throwtargetpos
+
+                grenade = self.TossGrenade(unit, startpos, targetpos, unit.CalculateIgnoreOwnerCollisionGroup())
+
+                if grenade:
+                    abi.OnGrenadeThrowed(unit, grenade)
+                    grenade.SetVelocity(grenade.GetAbsVelocity(), Vector(0, 0, 0))
+                    grenade.SetTimer(2.5, 2.5 - grenade.FRAG_GRENADE_WARN_TIME)
+                    
+        aetable = dict(UnitCombine.aetable)
+        aetable[UnitCombine.COMBINE_AE_GREN_TOSS] = CombineHeavyThrowGrenade('grenade_frag', UnitCombine.COMBINE_GRENADE_THROW_SPEED)
             
 # Register unit
 class CombineSharedInfo(UnitInfo):
