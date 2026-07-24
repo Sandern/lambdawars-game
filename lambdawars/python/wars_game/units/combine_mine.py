@@ -1079,7 +1079,7 @@ class CombMineUpgrade(AbilityUpgradeValue):
         self.UpgradeCombineMines()
 
     def UpgradeCombineMines(self):
-        units = list(unitlistpertype[self.ownernumber]['combine_mine'])
+        units = (list(unitlistpertype[self.ownernumber].get('combine_mine', [])) + list(unitlistpertype[self.ownernumber].get('overrun_combine_mine', [])))
         for unit in units:
             unit.Cloak()
 
