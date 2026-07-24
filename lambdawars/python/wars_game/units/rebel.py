@@ -223,8 +223,6 @@ class MissionUnitRebelEngineer(UnitRebelEngineer):
 class UnitRebelMedic(UnitRebel):
     energyregenrate = UpgradeField(value=1.0, abilityname='medic_regenerate_upgrade')
     maxenergy = UpgradeField(abilityname='medic_maxenergy_upgrade', cppimplemented=True)
-    maxhealth = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
-    health = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
 
 
 class RebelShared(UnitInfo):
@@ -431,9 +429,7 @@ class UnitRebelGrenadeUpgradeShared(UnitCitizen):
         if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
             self.EmitSound('unit_rebel_hurt')
         return super().OnTakeDamage(dmginfo)
-
-    maxhealth = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
-    health = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
+        
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
 
 
@@ -450,6 +446,7 @@ class RebelInfo(RebelShared):
     image_name = 'vgui/rebels/units/unit_rebel'
     weapons = ['weapon_smg1']
     attributes = ['medium']
+    hpupgrades = ['rebel_hp_upgrade']
     techrequirements = ['build_reb_munitiondepot']
     # tier = 2
     abilities = {
@@ -586,6 +583,7 @@ class RebelTauInfo(RebelInfo):
     }
     sensedistance = 1152.0
     attributes = ['heavy']
+    hpupgrades = []
     image_name = 'vgui/rebels/units/unit_rebel_tau'
     infest_zombietype = ''
 
@@ -617,6 +615,7 @@ class RebelHeavyInfo(RebelInfo):
     }
     sensedistance = 1024.0
     attributes = ['heavy']
+    hpupgrades = []
     image_name = 'vgui/rebels/units/unit_rebel_heavy'
     infest_zombietype = ''
 
@@ -641,6 +640,7 @@ class RebelMedicInfo(RebelShared):
     techrequirements = ['build_reb_triagecenter']
     modellist = GenerateModelList('MEDIC')
     attributes = ['medium']
+    hpupgrades = ['rebel_hp_upgrade']
     abilities = {
         0: 'heal',
         7: 'mountturret',
@@ -1014,9 +1014,18 @@ class RebelHPUpgrade(AbilityUpgradeValue):
     description = '#RebHpUpgrade_Description'
     buildtime = 90.0
     costs = [[('requisition', 30), ('scrap', 30)], [('kills', 50)]]
-    upgradevalue = 180
+    upgradevalue = 30
     image_name = 'vgui/rebels/abilities/rebel_hp_upgrade'
 
+    def OnUpgraded(self):
+        super().OnUpgraded()
+
+        ownernumber = self.ownernumber
+        from core.units.info import unitlist
+        for unit in unitlist[ownernumber]:
+            if not unit.IsAlive():
+                continue
+            unit.ApplyHealthUpgrades()
 
 # Medic upgrades
 class MedicHealRateUpgrade(AbilityUpgradeValue):

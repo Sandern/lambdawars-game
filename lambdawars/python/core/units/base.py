@@ -315,7 +315,42 @@ class UnitBaseShared(object):
         
         # Reset precache register for PrecacheUnitType
         cls.precacheregister = set()
-            
+    
+    def GetHealthUpgradeBonus(self):
+        total = 0
+
+        for upgrade in getattr(self.unitinfo, 'hpupgrades', []):
+            if isinstance(upgrade, tuple):
+                upname, value = upgrade
+            else:
+                upname = upgrade
+                value = None
+
+            technode = GetTechNode(upname, self.GetOwnerNumber())
+            if not technode or not technode.techenabled:
+                continue
+
+            if value is None:
+                total += int(technode.upgradevalue)
+            else:
+                total += int(value)
+
+        return total
+        
+    def ApplyHealthUpgrades(self):
+        total = self.GetHealthUpgradeBonus()
+        previous = getattr(self, "_hp_bonus_applied", 0)
+
+        delta = total - previous
+
+        if not delta:
+            return
+
+        self.maxhealth += delta
+        self.health = min(max(self.health + delta, 1), self.maxhealth)
+
+        self._hp_bonus_applied = total
+    
     def Spawn(self):
         """ Called when the unit is spawned into the world.
         
@@ -329,6 +364,9 @@ class UnitBaseShared(object):
             if self.health == 0:
                 self.health = unitinfo.health 
             self.maxhealth = self.health
+            
+            self.ApplyHealthUpgrades()
+            
             self.energy = unitinfo.unitenergy_initial if unitinfo.unitenergy_initial != -1 else unitinfo.unitenergy
             # UpgradeFields may modify maxenergy, so prefer that over this. TODO: improvement desirable. Not very clear.
             if self.maxenergy == 0:
