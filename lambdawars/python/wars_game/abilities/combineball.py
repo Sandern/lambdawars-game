@@ -28,7 +28,10 @@ if isserver:
 
     class ActionShootCombineBall(BehaviorGeneric.ActionMoveInRangeAndFace):
         def Init(self, order, parent_action):
-            target = order.target if order.target else order.position
+            target = order.target
+
+            if not target or FClassnameIs(target, "prop_combine_ball"):
+                target = order.position
             
             super().Init(target, 1024.0)
 
