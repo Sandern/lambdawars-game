@@ -383,7 +383,48 @@ class AbilityBase(AbilityInfo):
             for unit in units:
                 for uid in abi_uids:
                     unit.abilitynexttime[uid] = gpGlobals.curtime + self.rechargetime + t
-                
+                    
+                if not hasattr(unit, '_recharge_all'):
+                    unit._recharge_all = set()
+
+                unit._recharge_all.add(self.uid)
+    
+    @serveronly_assert
+    def AddRechargeToAll(cls, ability_names, time=0, owner_number=None):
+        if owner_number is None and hasattr(cls, 'ownernumber'):
+            owner_number = cls.ownernumber
+
+        if isinstance(ability_names, str):
+            ability_names = [ability_names]
+
+        from core.units.info import unitlist
+
+        uid_set = set()
+        for name in ability_names:
+            abi = GetAbilityInfo(name)
+            if not abi:
+                continue
+            uid_set.add(abi.uid)
+
+        for units in unitlist.values():
+            for unit in units:
+                if not unit:
+                    continue
+
+                if owner_number is not None and unit.GetOwnerNumber() != owner_number:
+                    continue
+
+                for uid in uid_set:
+                    if hasattr(unit, '_recharge_all') and uid in unit._recharge_all:
+                        continue
+
+                    current = unit.abilitynexttime.get(uid, gpGlobals.curtime)
+                    base = max(current, gpGlobals.curtime)
+                    unit.abilitynexttime[uid] = base + time
+
+                if hasattr(unit, '_recharge_all'):
+                    unit._recharge_all.clear()
+    
     @serveronly_assert
     def Refund(self):
         """ Refunds taken resources to the player.

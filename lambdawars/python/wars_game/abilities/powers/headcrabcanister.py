@@ -124,6 +124,7 @@ class AbilityCanister(AbilityTarget):
                 self.Cancel(cancelmsg='#Ability_InvalidPosition', debugmsg='must be fired within range')
                 return
             self.SetRecharge(self.unit)
+            self.AddRechargeToAll(["launch_headcrabcanister", "launch_headcrabcanister_fasttype", "launch_headcrabcanister_poisontype", "launch_headcrabcanister_emptytype"], time=1.0)
             self.Completed()
         
     def UpdateParticleEffects(self, inst, targetpos):
