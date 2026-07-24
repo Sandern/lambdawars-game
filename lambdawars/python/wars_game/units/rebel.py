@@ -657,7 +657,6 @@ class RebelMedicSmg1Info(RebelMedicInfo):
     weapons = ['weapon_smg1']
     displayname = '#RebMedicSmg1_Name'
     description = '#RebMedicSmg1_Description'
-    techrequirements = []
 
 
 class DestroyHQRebelMedicInfo(RebelMedicInfo):
