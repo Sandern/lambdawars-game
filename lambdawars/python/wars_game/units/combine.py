@@ -82,7 +82,8 @@ class UnitCombine(BaseClass):
                     self.SetGrenadeClass(abi.grenadeclsname)
 
                 startpos = Vector()
-                unit.GetAttachment("lefthand", startpos)
+                if not unit.GetAttachment("lefthand", startpos):
+                    unit.GetAttachment("anim_attachment_RH", startpos)
 
                 targetpos = abi.throwtarget.GetAbsOrigin() if abi.throwtarget else abi.throwtargetpos
 
