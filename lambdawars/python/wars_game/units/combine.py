@@ -383,7 +383,7 @@ class CombineInfo(CombineSharedInfo):
     costs = [[('requisition', 25)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
     buildtime = 24.0
-    health = 200
+    health = 190
     maxspeed = 216.0
     viewdistance = 768
     attributes = ['medium']
@@ -452,7 +452,7 @@ class CombineAR2Info(CombineInfo):
     techrequirements = ['build_comb_armory','weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
     buildtime = 28.0
-    health = 200
+    health = 175
     maxspeed = 184
     sensedistance = 1024.0
     viewdistance = 832

@@ -261,7 +261,7 @@ class RebelScoutInfo(RebelShared):
     description = '#RebScout_Description'
     cls_name = 'unit_rebel'
     health = 35
-    maxspeed = 282.0
+    maxspeed = 288.0
     buildtime = 14.0
     unitenergy = 50
     unitenergy_initial = 5
@@ -440,7 +440,7 @@ class RebelInfo(RebelShared):
     costs = [[('requisition', 20)], [('kills', 1)]]
     maxspeed = 224.0
     viewdistance = 768
-    health = 150
+    health = 140
     displayname = '#RebSMG_Name'
     description = '#RebSMG_Description'
     image_name = 'vgui/rebels/units/unit_rebel'
@@ -521,7 +521,7 @@ class RebelSGInfo(RebelInfo):
 
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_sg'
-    maxspeed = 260.0
+    maxspeed = 264.0
     viewdistance = 768
 
 
@@ -537,6 +537,7 @@ class RebelAR2Info(RebelInfo):
     buildtime = 25.0
     maxspeed = 208
     viewdistance = 832
+    health = 125
     costs = [[('requisition', 20), ('scrap', 10)], [('kills', 2)]]
     techrequirements = ['build_reb_munitiondepot', 'weaponar2_unlock']
     # accuracy = 0.626
@@ -913,7 +914,6 @@ class RebelVeteran(RebelShared):
         10: 'patrol',
         -1: 'garrison',
     }
-    # weapons = ['weapon_shotgun', 'weapon_ar2']
     weapons = ['weapon_crossbow']
     sensedistance = 1536.0
     # techrequirements = ['rebel_veteran_unlock']
@@ -1013,7 +1013,7 @@ class RebelHPUpgrade(AbilityUpgradeValue):
     description = '#RebHpUpgrade_Description'
     buildtime = 90.0
     costs = [[('requisition', 30), ('scrap', 30)], [('kills', 50)]]
-    upgradevalue = 30
+    upgradevalue = 40
     image_name = 'vgui/rebels/abilities/rebel_hp_upgrade'
 
     def OnUpgraded(self):
@@ -1277,6 +1277,7 @@ class OverrunRebelMedicInfo(RebelMedicInfo):
         -1: 'garrison',
     }
 
+
 class OverrunRebelMedicSmg1Info(RebelMedicSmg1Info):
     name = 'overrun_unit_rebel_medic_smg1'
     costs = [('kills', 5)]
@@ -1284,6 +1285,7 @@ class OverrunRebelMedicSmg1Info(RebelMedicSmg1Info):
     buildtime = 0
     tier = 0
     techrequirements = ['or_tier2_research']
+
 
 class OverrunRebelTauInfo(RebelTauInfo):
     name = 'overrun_unit_rebel_tau'

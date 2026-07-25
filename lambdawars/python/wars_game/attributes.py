@@ -44,7 +44,6 @@ class SynthAttributeInfo(AttributeInfo):
 
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.25),
-        #'buckshot': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.25),
         'ar1': ScaleBonusDamage(0.25),
     }
@@ -57,7 +56,6 @@ class MetalAttributeInfo(AttributeInfo):
 
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.25),
-        #'buckshot': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.25),
         'ar1': ScaleBonusDamage(0.25),
     }
@@ -191,9 +189,9 @@ class BuckShotAttribute(AttributeInfo):
     name = 'buckshot'
 
     dmgmodifiers = {
-        'light': ScaleBonusDamage(4),
-        'creature': ScaleBonusDamage(4),
-        'medium': ScaleBonusDamage(2.4),
+        'light': ConstantBonusDamage(50),
+        'creature': ConstantBonusDamage(50),
+        'medium': ConstantBonusDamage(20),
     }
 
 class WinchesterAttribute(AttributeInfo):
@@ -224,6 +222,14 @@ class PulseAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(4),
         'medium': ConstantBonusDamage(5),
+    }
+
+class Ar2Attribute(AttributeInfo):
+    name = 'ar2'
+
+    dmgmodifiers = {
+        'light': ConstantBonusDamage(4),
+        'medium': ConstantBonusDamage(1),
     }
 
 class AR1Attribute(AttributeInfo):
