@@ -640,7 +640,6 @@ class RebelMedicInfo(RebelShared):
     techrequirements = ['build_reb_triagecenter']
     modellist = GenerateModelList('MEDIC')
     attributes = ['medium']
-    hpupgrades = ['rebel_hp_upgrade']
     abilities = {
         0: 'heal',
         7: 'mountturret',

@@ -579,7 +579,6 @@ class CombineSniperInfo(CombineSharedInfo):
     unitenergy_initial = 30
     #techrequirements = ['combine_sniper_unlock']
     attributes = ['medium']
-    hpupgrades = ['combine_hp_upgrade']
     sound_select = 'unit_combine_select'
     sound_move = 'unit_combine_move'
     sound_attack = 'unit_combine_attack'
