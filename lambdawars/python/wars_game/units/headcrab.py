@@ -585,7 +585,7 @@ class HeadcrabInfo(BaseHeadcrabInfo):
         maxrange = 512.0
         damage = 50
         damagetype = DMG_SLASH
-        attackspeed = 1.8
+        attackspeed = 1.25
     attacks = 'AttackRange'
 
 class FastHeadcrabInfo(BaseHeadcrabInfo):
@@ -615,7 +615,7 @@ class FastHeadcrabInfo(BaseHeadcrabInfo):
         maxrange = 384.0
         damage = 40
         damagetype = DMG_SLASH
-        attackspeed = 1.2
+        attackspeed = 1.5
     attacks = 'AttackRange'
 
 class BlackHeadcrabInfo(BaseHeadcrabInfo):
@@ -639,8 +639,8 @@ class BlackHeadcrabInfo(BaseHeadcrabInfo):
     
     class AttackRange(BaseHeadcrabInfo.AttackRange):
         maxrange = 512.0
-        damage = 150
-        attackspeed = 1.2
+        damage = 75
+        attackspeed = 1.1
     attacks = 'AttackRange'
 
 @entity('unit_headcrab_poison_boss', networked=True)
