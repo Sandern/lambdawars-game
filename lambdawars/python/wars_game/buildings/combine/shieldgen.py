@@ -357,20 +357,26 @@ class CombineShieldGeneratorPowered(BasePoweredBuilding, CombineShieldGenerator)
     def Spawn(self):
         super().Spawn()
 
-        self.SetCanBeSeen(False)
+        self.SetUseCustomCanBeSeenCheck(False)
     if isserver:
         def OnPoweredChanged(self):
             BasePoweredBuilding.OnPoweredChanged(self)
             if not self.powered:
                 self.DestroyAllLinks()
-                self.SetCanBeSeen(True)
+                self.SetUseCustomCanBeSeenCheck(False)
             else:
                 self.LinkToNearest()
-                self.SetCanBeSeen(False)
+                self.SetUseCustomCanBeSeenCheck(True)
                 
         def CreateLink(self, othergen):
             if self.powered:
                 super().CreateLink(othergen)
+    
+        def CustomCanBeSeen(self, unit=None):
+            if unit: 
+                if relationships[(self.GetOwnerNumber(), unit.GetOwnerNumber())] != D_LI:
+                    return False
+            return True
             
     autoconstruct = False
     buildtarget = Vector(0, -210, 0)
