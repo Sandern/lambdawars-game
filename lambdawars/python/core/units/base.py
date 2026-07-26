@@ -316,6 +316,23 @@ class UnitBaseShared(object):
         # Reset precache register for PrecacheUnitType
         cls.precacheregister = set()
     
+    def UpdateMaxHealth(self, set_max_health=None):
+        previous_health = self.health
+        previous_maxhealth = self.maxhealth
+
+        if set_max_health is not None:
+            new_max_health = max(1, set_max_health)
+        else:
+            new_max_health = max(1, self.unitinfo.health)
+
+        delta = new_max_health - previous_maxhealth
+        self.maxhealth = new_max_health
+
+        if delta >= 0:
+            self.health = previous_health + delta
+        else:
+            self.health = min(previous_health, new_max_health)
+    
     def GetHealthUpgradeBonus(self):
         total = 0
 
