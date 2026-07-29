@@ -261,7 +261,7 @@ class RebelScoutInfo(RebelShared):
     description = '#RebScout_Description'
     cls_name = 'unit_rebel'
     health = 35
-    maxspeed = 288.0
+    maxspeed = 280.0
     buildtime = 14.0
     unitenergy = 50
     unitenergy_initial = 5
