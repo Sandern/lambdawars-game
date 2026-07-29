@@ -5,6 +5,8 @@ from core.attributes import CoverAttributeInfo
 from core.units import (UnitInfo, UnitBaseCombatHuman as BaseClass, EventHandlerAnimation, CreateUnitNoSpawn,
                         PrecacheUnit, GroupMoveOrder, CoverSpot)
 from core.abilities import AbilityBase
+from gamerules import gamerules
+from wars_game.gamerules import OverrunInfo
 from core.units.abilities import AbilityTransformUnit
 from entities import entity, Activity, CBaseAnimating as BaseClassShield
 from fields import ListField, BooleanField, FloatField, EHandleField
@@ -228,10 +230,10 @@ class UnitMetroPolice(BaseClass):
         '''
         
         self.manhacks = []
-        
+        manhack_type = "overrun_unit_manhack" if gamerules.info.name == OverrunInfo.name else "unit_manhack"
         for i in range(0, 1):
             # Create the manhack to throw
-            manhack = CreateUnitNoSpawn("unit_manhack", owner_number=self.GetOwnerNumber())
+            manhack = CreateUnitNoSpawn(manhack_type, owner_number=self.GetOwnerNumber())
             
             vecOrigin = Vector()
             vecAngles = QAngle()
