@@ -1244,22 +1244,22 @@ class AntlionWaveType(BaseWaveType):
             self.minnextfire = 5.0
             self.maxnextfire = 15.0
             self.minfirecan = 1
-            self.maxfirecan = 25
+            self.maxfirecan = 5
         elif 10 > wave >= 3:
             self.minnextfire = 1.0
             self.maxnextfire = 10.0
             self.minfirecan = 1
-            self.maxfirecan = 50
+            self.maxfirecan = 15
         elif 15 > wave >= 10:
             self.minnextfire = 1.0
             self.maxnextfire = 10.0
             self.minfirecan = 1
-            self.maxfirecan = 75
+            self.maxfirecan = 25
         elif wave >= 15:
             self.minnextfire = 1.0
             self.maxnextfire = 5.0
             self.minfirecan = 1
-            self.maxfirecan = 100
+            self.maxfirecan = 35
     def UpdateAntlions(self, gamerules):
         if gamerules.indoor or not gamerules.waveinprogress:
             return
@@ -1892,31 +1892,31 @@ class RebelWaveType(BaseWaveType):
             self.minnextfire = 5.0
             self.maxnextfire = 30.0
             self.min_amount = 1
-            self.max_amount = 6
+            self.max_amount = 4
             self.unitlist = ['unit_rebel_partisan', 'unit_rebel_partisan_molotov', 'unit_rebel_scout', 'unit_rebel_saboteur']
         elif 5 <= wave < 10:
             self.minnextfire = 5.0
             self.maxnextfire = 30.0
             self.min_amount = 2
-            self.max_amount = 10
+            self.max_amount = 8
             self.unitlist = ['unit_rebel_sg', 'unit_rebel', 'unit_rebel_ar2']
         elif 10 <= wave < 15:
             self.minnextfire = 5.0
             self.maxnextfire = 30.0
             self.min_amount = 1
-            self.max_amount = 10
+            self.max_amount = 14
             self.unitlist = ['unit_rebel_flamer', 'unit_vortigaunt', 'unit_rebel_medic', 'unit_rebel_winchester']
         elif 15 <= wave < 19:
             self.minnextfire = 1.0
             self.maxnextfire = 30.0
             self.min_amount = 1
-            self.max_amount = 10
+            self.max_amount = 20
             self.unitlist = ['unit_rebel_tau', 'unit_rebel_heavy', 'unit_rebel_rpg', 'enemy_unit_rebel_veteran']
         elif wave >= 19:
             self.minnextfire = 1
             self.maxnextfire = 10
             self.min_amount = 1
-            self.max_amount = 100
+            self.max_amount = 24
             self.unitlist = ['enemy_unit_rebel_veteran', 'unit_rebel_rpg', 'unit_dog', 'unit_rebel_flamer', 'unit_vortigaunt']
             
     def UpdateTeleporter(self, gamerules):
