@@ -993,6 +993,8 @@ class BounceBomb(BaseClass):
     modification = 0
     senses = None
     
+    spawnsuiciders = False
+    
     fowflags = FOWFLAG_UNITS_MASK
     
     useteamcolorglow = True

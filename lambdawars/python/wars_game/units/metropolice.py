@@ -755,6 +755,7 @@ class OverrunMetroPoliceInfo(MetroPoliceInfo):
         0: 'overrun_combine_mine',
         1: 'overrun_floor_turret',
         2: 'overrun_deploymanhack',
+        5: 'overrun_comb_mp_transform_smg1',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -812,6 +813,13 @@ class TransformToMetropoliceSMG1(AbilityTransformUnit):
     costs = [('requisition', 5)]
     image_name = 'vgui/combine/abilities/combine_transform_smg'
     activatesoundscript = 'ability_combine_smg1_upgrade'
+
+
+class OverrunTransformToMetropoliceSMG1(TransformToMetropoliceSMG1):
+    name = 'overrun_comb_mp_transform_smg1'
+    transform_type = 'overrun_unit_metropolice_smg1'
+    transform_time = 0.0
+    costs = [('kills', 1)]
 
 
 # Mission Versions
