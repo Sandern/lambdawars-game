@@ -357,7 +357,7 @@ class CombineShieldGeneratorPowered(BasePoweredBuilding, CombineShieldGenerator)
     def Spawn(self):
         super().Spawn()
 
-        self.SetUseCustomCanBeSeenCheck(False)
+        self.SetUseCustomCanBeSeenCheck(True)
     if isserver:
         def OnPoweredChanged(self):
             BasePoweredBuilding.OnPoweredChanged(self)
