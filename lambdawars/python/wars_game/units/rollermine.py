@@ -8,6 +8,7 @@ from gameinterface import CPVSFilter, CPASAttenuationFilter, PrecacheMaterial
 from core.abilities import AbilityBase, AbilityInstant
 from te import te, CEffectData, DispatchEffect
 from sound import CSoundParameters
+from physics import PhysSetGameFlags, FVPHYSICS_NO_NPC_IMPACT_DMG
 from wars_game.statuseffects import StunnedEffectInfo
 from fields import SetField
 from math import ceil
@@ -177,6 +178,8 @@ class UnitRollerMine(BaseClass):
         self.SetMoveType(MOVETYPE_VPHYSICS)
 
         phys_obj.Wake()
+ 
+        PhysSetGameFlags(phys_obj, FVPHYSICS_NO_NPC_IMPACT_DMG)
 
         return True
         
