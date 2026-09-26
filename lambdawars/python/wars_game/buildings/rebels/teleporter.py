@@ -171,7 +171,8 @@ class UnitTeleporterRift(UnitBase):
                                   fnprespawn=SetupUnit)
                 if unit:
                     PlaceUnit(unit, self.GetAbsOrigin())
-                    unit.overrunspawned = True
+                    unit.overrunspawned = False
+                    unit.spawnsuiciders = False
             UTIL_Remove(self)
     lifetime = 2.5
     unitlist = ['enemy_unit_rebel']
