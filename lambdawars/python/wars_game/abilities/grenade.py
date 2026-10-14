@@ -257,6 +257,7 @@ class AbilityStunGrenade(AbilityGrenade):
     rechargetime = 30.0
     techrequirements = []
     damageradius = FloatField(value=128.0)
+    image_name = 'vgui/abilities/ability_grenade_stun'
     displayname = "#AbilityStunGrenade_Name"
     description = "#AbilityStunGrenade_Description"
     throwrange = 640.0
