@@ -175,6 +175,12 @@ class WebWorkshop(WebViewComponent):
 
         publishedfileid = self.LoadPublishedInfo().get(mapname, {}).get('publishedfileid', '')
 
+        # Players only mount items with allowed content, which includes the files embedded in the map
+        contentpath = self.StageMap(mapname)
+        valid, reason = _workshop.ValidateItemFolder(contentpath)
+        if not valid:
+            raise PublishError('The map can\'t be published: %s' % reason)
+
         self.publishjob = {
             'mapname': mapname,
             'title': title,
@@ -184,7 +190,7 @@ class WebWorkshop(WebViewComponent):
             'previewpath': previewpath,
             'publishedfileid': int(publishedfileid) if publishedfileid else 0,
             'needslegalagreement': False,
-            'contentpath': self.StageMap(mapname),
+            'contentpath': contentpath,
         }
 
         if self.publishjob['publishedfileid']:
