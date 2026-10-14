@@ -181,6 +181,12 @@ class SettingsInfo(object):
                     continue
                 maplist.append(base)
 
+        # Maps from subscribed Steam Workshop items, mounted by the client under the WORKSHOP search path
+        for f in filesystem.ListDir(path='maps/', pathid='WORKSHOP', wildcard='*.bsp'):
+            base, ext = os.path.splitext(f)
+            if base not in maplist:
+                maplist.append(base)
+
         # Read map info cache, or create one if empty
         mapinfocache_path = 'lobbymapinfo.cache'
         mapinfocache_path_default = 'lobbymapinfo_default.cache'
