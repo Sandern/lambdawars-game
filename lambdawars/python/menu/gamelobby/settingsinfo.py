@@ -12,6 +12,8 @@ import readmap
 import kvdict
 import traceback
 
+from .workshopmap import FindMapWorkshopItem, GetMapRevision
+
 from core.gamerules.info import dbgamerules
 from core.factions import dbfactions
 
@@ -223,7 +225,12 @@ class SettingsInfo(object):
 
             # Get from cache, fill if needed
             if mapname not in mapinfocache_maps or mapinfocache_maps[mapname].get('maprevision', 'invalid') != header.maprevision:
-                mapinfocache_maps[mapname] = self.BuildMapInfoCacheEntry(header, maplocation)
+                # Maps can come from the Steam Workshop, so a broken map should not break the lobby
+                try:
+                    mapinfocache_maps[mapname] = self.BuildMapInfoCacheEntry(header, maplocation)
+                except (OSError, ValueError, AssertionError) as e:
+                    PrintWarning('Skipping map %s: failed to read map info (%s)\n' % (mapname, e))
+                    continue
                 mapinfocache_changed = True
             mapinfocache_entry = mapinfocache_maps[mapname]
 
@@ -613,6 +620,10 @@ class SettingsInfo(object):
             if entry:
                 if datamodel.teamsetup not in entry['supportedmodes'] or datamodel.teamsetup == 'FFA':
                     datamodel.teamsetup = self.FindHighestSupportedTeamMode() or 'FFA'
+
+            # Lets other players download the map if it comes from the Steam Workshop
+            datamodel.map_workshopid = FindMapWorkshopItem(datamodel.map)
+            datamodel.map_revision = GetMapRevision(datamodel.map) or ''
                     
         self.RebuildSlots()
         self.RebuildAvailableFactions()

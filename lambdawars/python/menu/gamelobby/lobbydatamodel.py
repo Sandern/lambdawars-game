@@ -142,7 +142,29 @@ class LobbyGameDataModel(LobbyDataModel):
         if self.map == value:
             return
         self.SetLobbyData('map', value)
-        
+
+    # Published file id of the Steam Workshop item providing the map, empty if the map is part of the game
+    @property
+    def map_workshopid(self):
+        return self.GetLobbyData('map_workshopid', default='')
+
+    @map_workshopid.setter
+    def map_workshopid(self, value):
+        if self.map_workshopid == value:
+            return
+        self.SetLobbyData('map_workshopid', value)
+
+    # Revision of the host's copy of the map, so players can detect a different version
+    @property
+    def map_revision(self):
+        return self.GetLobbyData('map_revision', default='')
+
+    @map_revision.setter
+    def map_revision(self, value):
+        if self.map_revision == value:
+            return
+        self.SetLobbyData('map_revision', value)
+
     # The team setup
     @property
     def teamsetup(self):

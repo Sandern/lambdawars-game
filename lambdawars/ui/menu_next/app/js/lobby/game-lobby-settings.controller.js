@@ -16,8 +16,14 @@ class GamelobbySettingsController {
         $scope.teamsetup = undefined;
         $scope.selectedCustomFields = {};
         $scope.minimapsrc = '';
+        $scope.mapname = '';
+        $scope.mapstatus = undefined;
         
         $scope.updateGameInfoFromSettings = function(settings) {
+            // Shown while the map is not available yet, for example while downloading it from the Workshop
+            $scope.mapname = settings.map;
+            $scope.mapstatus = settings.mapstatus;
+
             // Update available settings if needed
             if( !angular.equals($scope.availablemodes, settings.availablemodes ) ) {
                 $scope.availablemodes = settings.availablemodes;

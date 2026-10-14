@@ -15,6 +15,7 @@ from ..lobby import WebLobby
 from .lobbydatamodel import LobbyGameDataModel
 from .settingsinfo import SettingsInfo
 from .lobbymatchmaking import LobbyMatchmaking
+from .workshopmap import LobbyMapStatus
 
 import srcmgr
 import kvdict
@@ -60,7 +61,9 @@ class WebGameLobby(WebLobby):
         super().__init__(*args, **kwargs)
 
         self.kicked_from_lobbies = []
-        
+        #: Availability of the lobby map for the local player
+        self.mapstatus = LobbyMapStatus()
+
         lobby_gameended.connect(self.OnLobbyGameEnded)
         lobby_match_uuid.connect(self.OnLobbyMatchUUID)
         lobby_received_pong.connect(self.OnReceivedPong)
@@ -89,6 +92,10 @@ class WebGameLobby(WebLobby):
         key = methodargs[0]
         value = methodargs[1]
         slotid = methodargs[2]
+        if key == 'ready' and str(value) == '1' and self.mapstatus.state != 'ok':
+            if self.jshandler:
+                self.Invoke(self.jshandler, 'OnLobbyChatMsg', ['', 'You can\'t get ready until you have the map.'])
+            return
         self.SendLobbyChatMsg('player', '%s=%s %s' % (key, value, slotid))
     
     @jsbind()
@@ -647,6 +654,15 @@ class WebGameLobby(WebLobby):
             self.OnLobbyOwnerChanged(self.lobbyownerid)
             
         if not islobbyowner:
+            # Download the map from the Steam Workshop if needed
+            datamodel = self.datamodel
+            if self.mapstatus.Update(datamodel.map, datamodel.map_workshopid, datamodel.map_revision):
+                self.settingsinfo.RebuildMapList()
+                self.settingsinfo.OnMapChanged()
+        else:
+            self.mapstatus.Update(None, '', '')
+
+        if not islobbyowner:
             # Check for map changes for non lobby owners
             # They need the map information for displaying the minimap
             if self._old_map != self.datamodel.map:
@@ -752,6 +768,7 @@ class WebGameLobby(WebLobby):
                 'localslotid': foundslot['slotid'] if foundslot else None,
                 'mm_password': mm_password.GetString(),
                 'match_uuid': datamodel.match_uuid,
+                'mapstatus': self.mapstatus.ToDict(),
             })
             
             if self.settingsinfo:
@@ -965,6 +982,7 @@ class WebGameLobby(WebLobby):
         self.settingsinfo.FindAndRemovePlayerFromSlot(steamiduser)
         
     __nexttestgameserver = 0
+    __nextmapstatusupdate = 0
 
     def OnThink(self):
         """ Called each frame to update the webview when visible. """
@@ -989,6 +1007,11 @@ class WebGameLobby(WebLobby):
         if self.__nexttestgameserver < curtime:
             self.__nexttestgameserver = curtime + 1.0
             self.TestGameServerGameInProgress()
+
+        # Update the download progress of the lobby map
+        if self.mapstatus.state == 'downloading' and self.__nextmapstatusupdate < curtime:
+            self.__nextmapstatusupdate = curtime + 0.5
+            self.UpdateLobby()
             
     def OnNAError(self):
         """ Received n/a error from matchmaking...

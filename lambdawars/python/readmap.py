@@ -14,7 +14,8 @@ def ParseMapEntitiesToBlocks(mapname):
         lines = f.read(header.lumps[LUMP_ENTITIES].filelen)
         lines = lines.decode("utf-8").split('\n')'''
     # maxbytes is +1 because we want to read number of bytes
-    lines = filesystem.ReadFile(mapname, 'MOD', maxbytes=header.lumps[LUMP_ENTITIES].filelen + 1,
+    # GAME also finds maps mounted from the Steam Workshop
+    lines = filesystem.ReadFile(mapname, 'GAME', maxbytes=header.lumps[LUMP_ENTITIES].filelen + 1,
                                 startingbyte=header.lumps[LUMP_ENTITIES].fileofs)
     lines = lines.decode("utf-8").split('\n')
     

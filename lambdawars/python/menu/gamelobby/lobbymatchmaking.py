@@ -68,6 +68,10 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
         if mm_force_findserver.GetBool() or mm_nolocal_hosting.GetBool():
             return False
 
+        # Dedicated servers can't download maps from the Steam Workshop yet
+        if self.lobby.datamodel.map_workshopid:
+            return True
+
         # Never when mm_password is set, we want our server.
         if mm_password.GetString():
             return False

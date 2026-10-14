@@ -129,7 +129,8 @@
 	<ul>
 		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_GameMode' | translate }}:</span> <span class="gameinfo-text">{{ mode.name }}</span><!--<span ng-tooltip="{{ mode.description }}">?</span>--></li>
 		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_GameMode' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="mode" ng-options="mode.name for (id , mode) in availablemodes" ng-change="updateSetting('mode', mode.id)"></select><span class="tooltip-icon" ng-tooltip="{{ mode.description }}">?</span></li>
-		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <span class="gameinfo-text">{{ map.mapname }}</span></li>
+		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <span class="gameinfo-text">{{ map.mapname || mapname }}</span></li>
+		<li ng-if="!islobbyowner && mapstatus && mapstatus.state !== 'ok'" class="map-status"><span class="gameinfo-text">{{ ('GL_MapStatus_' + mapstatus.state) | translate }} <span ng-if="mapstatus.state === 'downloading' && mapstatus.progress > 0">{{ mapstatus.progress }}%</span> {{ mapstatus.error }}</span></li>
 		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="map" ng-options="map.displayname for (id , map) in availablemaps" ng-change="updateSetting('map', map.id)"></select></li>
 		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <span class="gameinfo-text">{{ teamsetup.name }}</span></li>
 		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="teamsetup" ng-options="teamsetup.name for (id , teamsetup) in availableteamsetups" ng-change="updateSetting('teamsetup', teamsetup.id)"></select></li>
