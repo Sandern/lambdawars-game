@@ -52,6 +52,12 @@ function OnConfig($locationProvider, $compileProvider, $translateProvider, $rout
         }
     })
     .when('/Workshop', {
+        template: require('../views/workshop-browse.html'),
+        controller: 'WorkshopBrowseController',
+        resolve: {
+        }
+    })
+    .when('/WorkshopPublish', {
         template: require('../views/workshop.html'),
         controller: 'WorkshopController',
         resolve: {

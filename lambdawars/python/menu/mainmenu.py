@@ -3,10 +3,11 @@ from .gamelobby import WebGameLobby
 from .settings import WebVideoSettings
 from .savedgames import WebSavedGames
 try:
-    from .workshop import WebWorkshop
+    from .workshop import WebWorkshop, WebWorkshopBrowser
 except ImportError:
     DevMsg(1, 'Update steam api')
     WebWorkshop = None
+    WebWorkshopBrowser = None
 
 from srcbase import KeyValues
 from cef import WebView, jsbind, NT_ONLYFILEPROT
@@ -102,6 +103,7 @@ class CefMainMenu(WebView, MainMenuPersonaStateChangeCallback, GameLobbyJoinRequ
         self.components.append(WebSavedGames(self))
         if WebWorkshop:
             self.components.append(WebWorkshop(self))
+            self.components.append(WebWorkshopBrowser(self))
         
         steam_serversconnected.connect(self.OnSteamServersConnected)
         steam_serversdisconnected.connect(self.OnSteamServersDisconnected)

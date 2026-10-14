@@ -2,6 +2,8 @@
 	<main class="rounded">
 		<h1>{{ 'WS_Headline' | translate }}</h1>
 
+		<p class="workshop-hint"><a href="#!/Workshop">{{ 'WS_BrowseMaps' | translate }}</a></p>
+
 		<p class="workshop-message" ng-if="loaded && !available">
 			{{ 'WS_Unavailable' | translate }} {{ error }}
 		</p>

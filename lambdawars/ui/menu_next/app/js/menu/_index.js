@@ -15,3 +15,4 @@ import './settings.controller';
 import './singleplayer.controller';
 import './swarm-keeper-bonus.controller';
 import './workshop.controller';
+import './workshop-browse.controller';
