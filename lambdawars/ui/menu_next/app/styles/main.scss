@@ -1676,3 +1676,100 @@ a.disabled {
 		text-align: center;
 	}
 }
+
+// Workshop publishing page
+#content-workshop {
+	.workshop-message, .workshop-hint {
+		font-size: 1.5rem;
+		color: $offwhite;
+		margin: 0 0 1rem;
+	}
+
+	.workshop-form {
+		label {
+			display: block;
+			margin: 0 0 1.2rem;
+
+			span {
+				display: block;
+				font-size: 1.5rem;
+				color: $lightorange;
+				margin: 0 0 0.4rem;
+			}
+
+			small {
+				display: block;
+				font-size: 1.2rem;
+				color: $white40;
+				margin: 0.3rem 0 0;
+			}
+		}
+
+		input, textarea, select {
+			display: block;
+			width: 100%;
+			box-sizing: border-box;
+			background: $darkgray;
+			color: $white;
+			font-size: 1.5rem;
+			border: 1px solid $white40;
+			padding: 0.5rem 0.8rem;
+
+			&:focus {
+				border-color: $orange;
+				outline: none;
+			}
+
+			&:disabled {
+				color: $white40;
+			}
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+		a {
+			color: $orange;
+
+			&:hover {
+				color: $lightorange;
+			}
+		}
+	}
+
+	.workshop-actions {
+		margin: 2rem 0 0;
+	}
+
+	.workshop-progress {
+		margin: 2rem 0 0;
+		font-size: 1.5rem;
+
+		.workshop-progress-bar {
+			height: 0.8rem;
+			background: $white10;
+			border-radius: 8px;
+			overflow: hidden;
+
+			div {
+				height: 100%;
+				background: $orange;
+				transition: width .2s;
+			}
+		}
+	}
+
+	.workshop-result {
+		margin: 2rem 0 0;
+		font-size: 1.5rem;
+
+		.workshop-success {
+			color: $green;
+		}
+
+		.workshop-error {
+			color: $orange;
+		}
+	}
+}

@@ -1,12 +1,77 @@
-<section class="content-full" id="content-news">
-	<main>
-		<form ng-submit="submit()">
-			<label>Content Folder: <input type="text" ng-model="item.folder"></input></label><br />
-			<label>Title: <input type="text" ng-model="item.title" name="title" /></label><br />
-			<label>Description: <input type="text" ng-model="item.description" name="description" /></label><br />
-			<label>Preview: <input type="text" ng-model="item.preview"></input></label><br />
-			<input type="submit" id="submit" value="Submit" /><br />
+<section class="content content-menu" id="content-workshop">
+	<main class="rounded">
+		<h1>{{ 'WS_Headline' | translate }}</h1>
+
+		<p class="workshop-message" ng-if="loaded && !available">
+			{{ 'WS_Unavailable' | translate }} {{ error }}
+		</p>
+
+		<form class="workshop-form" ng-if="available" ng-submit="publish()">
+			<label>
+				<span>{{ 'WS_Map' | translate }}</span>
+				<select ng-model="selected.map" ng-change="selectMap()" ng-disabled="publishing"
+						ng-options="map as map.name for map in maps track by map.name">
+					<option value="">{{ 'WS_SelectMap' | translate }}</option>
+				</select>
+			</label>
+
+			<div ng-if="selected.map">
+				<p class="workshop-hint">
+					<span ng-if="!selected.map.publishedfileid">{{ 'WS_NotPublished' | translate }}</span>
+					<span ng-if="selected.map.publishedfileid">
+						{{ 'WS_PublishedAs' | translate }}
+						<a href ng-click="openItem(selected.map.publishedfileid)">{{ selected.map.publishedfileid }}</a>
+					</span>
+				</p>
+
+				<label>
+					<span>{{ 'WS_Title' | translate }}</span>
+					<input type="text" ng-model="form.title" maxlength="128" ng-disabled="publishing" />
+				</label>
+				<label>
+					<span>{{ 'WS_Description' | translate }}</span>
+					<textarea ng-model="form.description" maxlength="8000" rows="5" ng-disabled="publishing"></textarea>
+				</label>
+				<label>
+					<span>{{ 'WS_Visibility' | translate }}</span>
+					<select ng-model="form.visibility" ng-disabled="publishing"
+							ng-options="v.value as (v.label | translate) for v in visibilities"></select>
+				</label>
+				<label>
+					<span>{{ 'WS_Preview' | translate }}</span>
+					<input type="text" ng-model="form.preview" ng-disabled="publishing" />
+					<small>{{ 'WS_Preview_Desc' | translate }}</small>
+				</label>
+				<label ng-if="selected.map.publishedfileid">
+					<span>{{ 'WS_ChangeNote' | translate }}</span>
+					<input type="text" ng-model="form.changenote" ng-disabled="publishing" />
+				</label>
+
+				<div class="workshop-actions">
+					<a href class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="publish()">
+						{{ (selected.map.publishedfileid ? 'WS_Update' : 'WS_Publish') | translate }}
+					</a>
+				</div>
+			</div>
+
+			<div class="workshop-progress" ng-if="publishing">
+				<p>{{ statusLabel() | translate }} <span ng-if="progress > 0">{{ progress }}%</span></p>
+				<div class="workshop-progress-bar"><div ng-style="{width: progress + '%'}"></div></div>
+			</div>
+
+			<div class="workshop-result" ng-if="result">
+				<p ng-if="result.success" class="workshop-success">{{ 'WS_Success' | translate }}</p>
+				<p ng-if="!result.success" class="workshop-error">{{ 'WS_Failed' | translate }} {{ result.message }}</p>
+				<p ng-if="result.needslegalagreement">
+					{{ 'WS_LegalAgreement' | translate }}
+					<a href ng-click="openLegalAgreement()">{{ 'WS_OpenLegalAgreement' | translate }}</a>
+				</p>
+				<p ng-if="result.success && result.publishedfileid">
+					<a href ng-click="openItem(result.publishedfileid)">{{ 'WS_ViewItem' | translate }}</a>
+				</p>
+			</div>
 		</form>
 	</main>
 </section>
 
+<span global-chat/>
