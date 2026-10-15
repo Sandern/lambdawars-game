@@ -165,6 +165,13 @@ class BugBait(BaseClass):
             
             if len(abibugbait_antlions) < maxantlions:
                 for i in range(0, maxantlions-len(abibugbait_antlions)):
+                    if self.bugbaitability != None:
+                        abi_maxantlions = self.bugbaitability.maxantlions
+                        if abi_maxantlions <= 0:
+                            break
+                        per_antlion = (self.bugbaitability.energy / abi_maxantlions)
+                        if not self.bugbaitability.TakeEnergy(tamer, per_antlion):
+                            continue
                     # Spawn new Antlion when we don't have enough yet
                     keydata = {'burrowed' : '1', 'Uncontrollable' : '1'}
                     antlion = CreateUnitFancy('unit_antlion_small', origin, owner_number=owner, keyvalues=keydata, fnprespawn=self.PreAntlionSpawn)
