@@ -1690,7 +1690,7 @@ class CharacterRebelSoldier(RebelInfo):
     rechargetime = 180.0
 
 
-class CharacterRebelFlamer(UnitRebel):
+class CharacterRebelFlamer(RebelFlamer):
     name = 'char_rebel_flamer'
     cls_name = 'char_rebel_flamer'  # so that flamer doesn't explode when shot in the back
     displayname = '#CharRebFlamer_Name'
