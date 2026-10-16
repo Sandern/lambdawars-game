@@ -250,7 +250,7 @@ class UnitAntlion(BaseClass):
         return self.unitinfo.name == 'unit_antlionworker'
         
     def IsSuicider(self):
-        return self.unitinfo.name == 'unit_antlionsuicider'
+        return self.unitinfo.name in ('unit_antlionsuicider', 'overrun_unit_antlionsuicider_small')
             
     # Server only function, called when the sequence changes
     def OnSequenceSet(self, oldsequence):
@@ -379,7 +379,8 @@ class UnitAntlion(BaseClass):
         self.EmitSound("NPC_Antlion.PoisonBurstExplode" )
         
     def DoSuicidePoisonBurst(self):
-        info = CTakeDamageInfo( None, None, self.ANTLIONSUICIDER_BURSTDAMAGE, DMG_BLAST | DMG_POISON| DMG_PREVENT_PHYSICS_FORCE )
+        burstdamage = self.ANTLIONSUICIDER_BURSTDAMAGE * getattr(self.unitinfo, 'burst_damage', 1.0)
+        info = CTakeDamageInfo( self, self, burstdamage, DMG_BLAST | DMG_POISON| DMG_PREVENT_PHYSICS_FORCE )
 
         RadiusDamage( info, self.WorldSpaceCenter(), self.ANTLIONSUICIDER_BURSTRADIUS, Class_T.CLASS_NONE, self )
 
@@ -1037,7 +1038,7 @@ class AntlionInfo(AntlionInfoShared):
     displayname = '#Antlion_Name'
     description = '#Antlion_Description'
     modelname = 'models/antlion.mdl'
-    attacks = ['AttackMelee', 'AttackLeap']
+    attacks = ['AttackMelee', 'AttackFly']
     population = 0
 
 class AntlionWorkerInfo(AntlionInfoShared):
@@ -1129,3 +1130,17 @@ class MissionAntlionSuicider(AntlionSuiciderInfo):
     buildtime = 2.0
     health = 35
     scale = 0.6
+    
+# Overrun versions
+class OverrunAntlionSmallInfo(AntlionInfo):
+    name = 'overrun_unit_antlion_small'
+    health = 50
+    scale = 0.75
+    attributes = ['creature']
+    attacks = ['AttackMelee']
+    
+class OverrunAntlionSuiciderSmallInfo(AntlionSuiciderInfo):
+    name = 'overrun_unit_antlionsuicider_small'
+    scale = 0.75
+    burst_damage = 0.1
+    attributes = ['light']
