@@ -195,9 +195,9 @@ class BuckShotAttribute(AttributeInfo):
     name = 'buckshot'
 
     dmgmodifiers = {
-        'light': ConstantBonusDamage(50),
-        'creature': ConstantBonusDamage(50),
-        'medium': ConstantBonusDamage(20),
+        'light': ConstantBonusDamage(40),
+        'creature': ConstantBonusDamage(40),
+        'medium': ConstantBonusDamage(10),
     }
 
 class WinchesterAttribute(AttributeInfo):
