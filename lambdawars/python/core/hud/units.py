@@ -578,8 +578,8 @@ class BaseHudGarrisonUnits(BaseHudUnits):
         building = units[0]
         if not hasattr(building, 'units'):
             return
-        self.UpdateUnits(building.units)
         self.building = building
+        self.UpdateUnits(building.units)
         
     def OnGarrisonChanged(self, building, **kwargs):
         """Handle when garrisoned units change in a building.
@@ -589,6 +589,8 @@ class BaseHudGarrisonUnits(BaseHudUnits):
         Args:
             building: Building entity whose garrison changed.
         """
+        if building != self.building:
+            return
         self.UpdateUnits(building.units)
         
     def OnSlotLeftClick(self, slot):
