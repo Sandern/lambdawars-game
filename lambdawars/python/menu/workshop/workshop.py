@@ -16,6 +16,7 @@ import json
 import shutil
 import hashlib
 import time
+import base64
 
 from cef import WebViewComponent, jsbind
 from srcbuiltins import RegisterTickMethod, UnregisterTickMethod, IsTickMethodRegistered
@@ -37,7 +38,9 @@ OFFICIAL_MAPLIST_PATH = 'maplist.txt'
 MAP_FILE_SUFFIXES = ['.bsp', '.res', '.recast', '.wars', '.layout', 'mapheightfielddata.bin']
 WORKSHOP_TAGS = ['Map']
 MAX_PREVIEW_SIZE = 1024 * 1024
-PREVIEW_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif']
+#: Preview image types, with the mime type used to show them in the menu
+PREVIEW_TYPES = {'.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png'}
+PREVIEW_EXTENSIONS = sorted(PREVIEW_TYPES.keys())
 MAX_TITLE_LENGTH = 128
 MAX_DESCRIPTION_LENGTH = 8000
 #: Time Steam gets to start and finish downloading the current version of an item when reviewing an update
@@ -146,6 +149,8 @@ class WebWorkshop(WebViewComponent):
     myitemsjob = None
     #: State of the Workshop item being linked to a local map, or None
     linkjob = None
+    #: Callback of the open preview image file dialog, or None
+    previewdialogcallback = None
 
     def OnDestroy(self):
         super().OnDestroy()
@@ -154,6 +159,7 @@ class WebWorkshop(WebViewComponent):
         self.CancelReview()
         self.CancelMyItems()
         self.CancelLink()
+        self.StopPreviewDialogTick()
 
     @jsbind()
     def sethandler(self, methodargs):
@@ -229,6 +235,44 @@ class WebWorkshop(WebViewComponent):
         except PublishError as e:
             self.linkjob = None
             self.SendCallback(callbackid, [False, str(e), ''])
+
+    @jsbind(hascallback=True, manuallycallback=True)
+    def choosepreview(self, methodargs, callbackid):
+        """ Opens a file dialog to choose the preview image, starting in the folder of the current one.
+
+            Args: current preview image path
+            Callback args: chosen path (empty if cancelled), error message
+        """
+        if not _workshop:
+            self.SendCallback(callbackid, ['', 'Workshop module not available'])
+            return
+        currentfolder = os.path.dirname(os.path.abspath(methodargs[0])) if methodargs[0] else ''
+        if not os.path.isdir(currentfolder):
+            currentfolder = ''
+        patterns = ';'.join('*' + ext for ext in PREVIEW_EXTENSIONS)
+        if self.previewdialogcallback is not None or \
+                not _workshop.OpenFileDialog('Choose a preview image', 'Images (%s)' % patterns, patterns, currentfolder):
+            self.SendCallback(callbackid, ['', 'A file dialog is already open'])
+            return
+        self.previewdialogcallback = callbackid
+        RegisterTickMethod(self.OnPreviewDialogTick, 0.1, True, True)
+
+    @jsbind(hascallback=True)
+    def getpreviewimage(self, methodargs):
+        """ Loads a preview image to show it in the menu, which can't load local files.
+
+            Args: preview image path
+            Callback args: image as data URI (empty if not valid), error message
+        """
+        previewpath = os.path.abspath(methodargs[0])
+        try:
+            self.ValidatePreviewImage(previewpath)
+            with open(previewpath, 'rb') as f:
+                data = base64.b64encode(f.read()).decode('ascii')
+        except (PublishError, OSError) as e:
+            return ['', str(e)]
+        mimetype = PREVIEW_TYPES[os.path.splitext(previewpath)[1].lower()]
+        return ['data:%s;base64,%s' % (mimetype, data), '']
 
     @jsbind()
     def openlegalagreement(self, methodargs):
@@ -312,13 +356,16 @@ class WebWorkshop(WebViewComponent):
             raise PublishError('The description is longer than %d characters' % MAX_DESCRIPTION_LENGTH)
         if previewpath:
             previewpath = os.path.abspath(previewpath)
-            if not os.path.isfile(previewpath):
-                raise PublishError('Preview image %s does not exist' % previewpath)
-            if os.path.splitext(previewpath)[1].lower() not in PREVIEW_EXTENSIONS:
-                raise PublishError('The preview image must be a jpg, png or gif file')
-            if os.path.getsize(previewpath) > MAX_PREVIEW_SIZE:
-                raise PublishError('The preview image must be smaller than 1 MB')
+            self.ValidatePreviewImage(previewpath)
         return previewpath
+
+    def ValidatePreviewImage(self, previewpath):
+        if not os.path.isfile(previewpath):
+            raise PublishError('Preview image %s does not exist' % previewpath)
+        if os.path.splitext(previewpath)[1].lower() not in PREVIEW_EXTENSIONS:
+            raise PublishError('The preview image must be a jpg or png file')
+        if os.path.getsize(previewpath) > MAX_PREVIEW_SIZE:
+            raise PublishError('The preview image can be at most 1 MB')
 
     def StageAndValidateMap(self, mapname):
         """ Stages the map files and checks the content is allowed. Returns the staging folder. """
@@ -665,6 +712,26 @@ class WebWorkshop(WebViewComponent):
     def StopLinkTick(self):
         if IsTickMethodRegistered(self.OnLinkTick):
             UnregisterTickMethod(self.OnLinkTick)
+
+    # Preview image file dialog
+    def OnPreviewDialogTick(self):
+        path = _workshop.GetFileDialogResult()
+        if path is None:
+            return
+        callbackid = self.previewdialogcallback
+        self.StopPreviewDialogTick()
+        error = ''
+        if path:
+            try:
+                self.ValidatePreviewImage(path)
+            except PublishError as e:
+                error = str(e)
+        self.SendCallback(callbackid, [path, error])
+
+    def StopPreviewDialogTick(self):
+        self.previewdialogcallback = None
+        if IsTickMethodRegistered(self.OnPreviewDialogTick):
+            UnregisterTickMethod(self.OnPreviewDialogTick)
 
     def StageMap(self, mapname):
         """ Copies the files of a map into a staging folder mirroring the game directory.

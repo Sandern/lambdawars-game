@@ -61,11 +61,17 @@
 					<select ng-model="form.visibility" ng-disabled="publishing"
 							ng-options="v.value as (v.label | translate) for v in visibilities"></select>
 				</label>
-				<label>
+				<div class="workshop-field">
 					<span>{{ 'WS_Preview' | translate }}</span>
-					<input type="text" ng-model="form.preview" ng-disabled="publishing" />
+					<div class="workshop-preview-row">
+						<input type="text" ng-model="form.preview" ng-disabled="publishing" />
+						<a href class="btn btn-small" ng-class="{linkDisabled: publishing || choosingPreview}" ng-click="choosePreview()">{{ 'WS_PreviewBrowse' | translate }}</a>
+						<a href class="btn btn-small" ng-if="form.preview" ng-class="{linkDisabled: publishing}" ng-click="clearPreview()">{{ 'WS_PreviewClear' | translate }}</a>
+					</div>
 					<small>{{ 'WS_Preview_Desc' | translate }}</small>
-				</label>
+					<small class="workshop-error" ng-if="previewError">{{ previewError }}</small>
+					<div class="workshop-preview-image" ng-if="previewImage"><img ng-src="{{ previewImage }}" /></div>
+				</div>
 
 				<div class="workshop-actions" ng-if="!review">
 					<a href ng-if="!selected.map.publishedfileid" class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="publish()">

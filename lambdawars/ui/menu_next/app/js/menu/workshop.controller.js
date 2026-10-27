@@ -93,7 +93,62 @@ class WorkshopController {
                 preview: map.preview,
             };
             $scope.update.changenote = '';
+            $scope.previewError = '';
         };
+
+        // CEF can't provide the path of a chosen file, so a native file dialog is opened from Python
+        $scope.choosingPreview = false;
+        $scope.previewError = '';
+
+        $scope.choosePreview = function() {
+            if( $scope.choosingPreview || $scope.publishing ) {
+                return;
+            }
+            var map = $scope.selected.map;
+            $scope.choosingPreview = true;
+            workshop.choosepreview($scope.form.preview || '', function(path, error) {
+                $timeout(function() {
+                    $scope.choosingPreview = false;
+                    if( $scope.selected.map !== map ) {
+                        return;
+                    }
+                    $scope.previewError = error;
+                    if( path && !error ) {
+                        $scope.form.preview = path;
+                    }
+                });
+            });
+        };
+
+        $scope.clearPreview = function() {
+            $scope.form.preview = '';
+            $scope.previewError = '';
+        };
+
+        // Shows the chosen preview image, loaded by Python as the menu can't load local files.
+        // Waits a moment after typing, so not every keystroke loads the image.
+        $scope.previewImage = '';
+        var previewImageTimer = null;
+        var lastPreviewImageId = 0;
+        $scope.$watch('form.preview', function(path) {
+            $timeout.cancel(previewImageTimer);
+            var previewImageId = ++lastPreviewImageId;
+            $scope.previewImage = '';
+            if( !path ) {
+                return;
+            }
+            previewImageTimer = $timeout(function() {
+                workshop.getpreviewimage(path, function(image, error) {
+                    $timeout(function() {
+                        if( previewImageId !== lastPreviewImageId ) {
+                            return;
+                        }
+                        $scope.previewImage = image;
+                        $scope.previewError = error;
+                    });
+                });
+            }, 300);
+        });
 
         $scope.refresh = function(done) {
             workshop.getinfo(function(available, error, maps, publishing) {

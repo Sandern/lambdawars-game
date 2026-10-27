@@ -1686,7 +1686,7 @@ a.disabled {
 	}
 
 	.workshop-form {
-		label {
+		label, .workshop-field {
 			display: block;
 			margin: 0 0 1.2rem;
 
@@ -1722,6 +1722,31 @@ a.disabled {
 
 			&:disabled {
 				color: $white40;
+			}
+		}
+
+		.workshop-preview-row {
+			display: flex;
+			align-items: center;
+
+			input {
+				flex: 1;
+			}
+
+			.btn {
+				margin: 0 0 0 0.6rem;
+				white-space: nowrap;
+			}
+		}
+
+		.workshop-preview-image {
+			margin: 0.8rem 0 0;
+
+			img {
+				display: block;
+				max-width: 32rem;
+				max-height: 18rem;
+				border: 1px solid $white40;
 			}
 		}
 
