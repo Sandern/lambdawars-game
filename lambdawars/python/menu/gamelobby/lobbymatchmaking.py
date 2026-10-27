@@ -4,6 +4,11 @@ import matchmaking
 
 from core.signals import lobby_gameserver_accept, lobby_gameserver_denied
 
+try:
+    import _workshop
+except ImportError:
+    _workshop = None
+
 mm_nolocal_hosting = ConVar('mm_nolocal_hosting', '0', 0,
                             'Prevents from falling back to local server hosting. '
                             'May fail to start the game if no server is available.')
@@ -12,6 +17,8 @@ mm_debug_findserver = ConVar('mm_debug_findserver', '0', 0,
 mm_debug_no_request_server = ConVar('mm_debug_no_request_server', '0', 0,
                                     'Test server finding, but do not actually request and join a server')
 mm_force_findserver = ConVar('mm_force_findserver', '0', 0, 'Forces to find a server.')
+mm_lan_findserver = ConVar('mm_lan_findserver', '0', 0,
+                           'Finds dedicated servers on the local network instead of the internet, for testing.')
 mm_dedicated_server_max_ping = ConVar('mm_dedicated_server_max_ping', '110', 0,
                                       'Discards dedicated servers with ping higher than specified.')
 
@@ -54,9 +61,14 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
         if not self.issearching or self.lobby.isofflinelobby:
             return
 
-        if self.requestingserver_start_time and Plat_FloatTime() - self.requestingserver_start_time > 30.0:
+        if self.requestingserver_start_time and Plat_FloatTime() - self.requestingserver_start_time > self.GetRequestTimeout():
             print('Server request timed out. Skipping...')
             self.TryNextGameServerResult()
+
+    def GetRequestTimeout(self):
+        """ Time a requested server gets to accept or deny the game.
+            Servers may need to download a Workshop map first (see wars_gameserver_workshop_timeout). """
+        return 120.0 if self.lobby.datamodel.map_workshopid else 30.0
 
     def ShouldLocalHost(self, gamedata):
         # Offline games are always local.
@@ -67,10 +79,6 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
         # Force finding a server, for debugging
         if mm_force_findserver.GetBool() or mm_nolocal_hosting.GetBool():
             return False
-
-        # Dedicated servers can't download maps from the Steam Workshop yet
-        if self.lobby.datamodel.map_workshopid:
-            return True
 
         # Never when mm_password is set, we want our server.
         if mm_password.GetString():
@@ -119,6 +127,9 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
                 gamedataand_value += ',password:%s' % mm_password.GetString()
 
             self.gametagsfilter = 'Available'
+            # Only servers with the Workshop tag can download the map
+            if self.lobby.datamodel.map_workshopid:
+                self.gametagsfilter += ',Workshop'
 
             # Start a new list call
             # TO CHECK: not sure if gamedata can be publicly queried, in which can the password/code could be
@@ -137,8 +148,17 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
                 print('\tSearch filters: %s' % str(filters))
             
             self.resultlist = []
-            self.activelistrequest = matchmakingservers.RequestInternetServerList(
-                steamapicontext.SteamUtils().GetAppID(), filters, self)
+            if mm_lan_findserver.GetBool() and _workshop:
+                # Filters are not supported, ServerResponded checks the servers
+                self.activelistrequest = _workshop.RequestLANServerList(steamapicontext.SteamUtils().GetAppID(), self)
+            else:
+                self.activelistrequest = matchmakingservers.RequestInternetServerList(
+                    steamapicontext.SteamUtils().GetAppID(), filters, self)
+
+            # Without a list request, RefreshComplete is never called to fall back to local hosting
+            if not self.activelistrequest:
+                PrintWarning('StartSearch: failed to request the server list\n')
+                self.OnEndResultList()
         
     def StopSearch(self):
         # Stop any list call

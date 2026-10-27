@@ -314,6 +314,10 @@ class WebGameLobby(WebLobby):
         game = KeyValues('game')
         game.SetString('mode', datamodel.mode)
         game.SetString('mission', datamodel.map)
+        if datamodel.map_workshopid:
+            # Lets dedicated servers download the map from the Steam Workshop
+            game.SetString('workshopid', datamodel.map_workshopid)
+            game.SetString('maprevision', datamodel.map_revision)
         game.SetString('type', datamodel.teamsetup)
         
         # Add custom fields
