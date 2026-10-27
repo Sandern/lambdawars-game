@@ -2103,3 +2103,122 @@ a.disabled {
 .player-mapstatus-missing, .player-mapstatus-failed, .player-mapstatus-mismatch {
 	color: $orange;
 }
+
+// Workshop page: published maps and the update review
+#content-workshop {
+	h2 {
+		font-size: 1.8rem;
+		color: $white80;
+		margin: 1.5rem 0 0.8rem;
+	}
+
+	h3 {
+		font-size: 1.5rem;
+		color: $lightorange;
+		margin: 1.5rem 0 0.5rem;
+	}
+
+	.workshop-items {
+		margin: 0 0 2rem;
+
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		li {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0.6rem 1rem;
+			margin: 0 0 0.4rem;
+			background: $darkgray;
+			border-radius: 8px;
+
+			&.workshop-item-selected {
+				box-shadow: inset 0.3rem 0 0 $orange;
+			}
+		}
+
+		.workshop-item-title {
+			display: block;
+			font-size: 1.5rem;
+			color: $white;
+		}
+
+		small {
+			font-size: 1.2rem;
+			color: $white40;
+
+			a {
+				color: $orange;
+			}
+		}
+	}
+
+	.workshop-review {
+		margin: 2rem 0 0;
+		padding: 1rem 1.5rem;
+		background: $darkgray;
+		border-radius: 8px;
+		font-size: 1.4rem;
+
+		h2 {
+			margin-top: 0.5rem;
+		}
+
+		.workshop-review-summary {
+			color: $lightorange;
+
+			&.workshop-review-nochanges {
+				color: $white40;
+			}
+		}
+	}
+
+	.workshop-review-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 1.3rem;
+
+		th {
+			text-align: left;
+			font-weight: normal;
+			color: $white40;
+			padding: 0.3rem 0.6rem;
+		}
+
+		td {
+			padding: 0.3rem 0.6rem;
+			border-top: 1px solid $white10;
+			vertical-align: top;
+		}
+
+		.review-field {
+			color: $white40;
+			white-space: nowrap;
+		}
+
+		.review-text {
+			white-space: pre-wrap;
+			word-wrap: break-word;
+		}
+
+		.review-path {
+			word-break: break-all;
+		}
+
+		.review-size, .review-status {
+			white-space: nowrap;
+		}
+
+		.review-same {
+			color: $white40;
+		}
+
+		.review-changed .review-status {
+			color: $orange;
+		}
+	}
+}

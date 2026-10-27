@@ -7,8 +7,30 @@
 		<p class="workshop-message" ng-if="loaded && !available">
 			{{ 'WS_Unavailable' | translate }} {{ error }}
 		</p>
+		<!-- The player's Workshop maps, with a button to review and upload an update -->
+		<div class="workshop-items" ng-if="available && (workshopItems.length || myItemsLoading || myItemsError)">
+			<h2>{{ 'WS_MyItems' | translate }}</h2>
+			<ul>
+				<li ng-repeat="entry in workshopItems track by entry.id" ng-class="{'workshop-item-selected': entry.map && selected.map === entry.map}">
+					<div class="workshop-item-info">
+						<span class="workshop-item-title">{{ entry.title }}</span>
+						<small>
+							<span ng-if="entry.map">{{ entry.map.name }} &middot; </span>
+							<a href ng-click="openItem(entry.id)">{{ entry.id }}</a>
+							<span ng-if="entry.lastupload"> &middot; {{ 'WS_LastUpload' | translate }} {{ formatDate(entry.lastupload) }}</span>
+							<span ng-if="!entry.map"> &middot; {{ 'WS_NotLinked' | translate }}</span>
+						</small>
+					</div>
+					<a href class="btn btn-small btn-highlight" ng-class="{linkDisabled: publishing || reviewing || linking}" ng-click="updateWorkshopItem(entry)">{{ 'WS_Update' | translate }}</a>
+				</li>
+			</ul>
+			<p class="workshop-hint" ng-if="myItemsLoading">{{ 'WS_LoadingMyItems' | translate }}</p>
+			<p class="workshop-hint workshop-error" ng-if="myItemsError">{{ myItemsError }}</p>
+			<p class="workshop-hint" ng-if="linking">{{ 'WS_Linking' | translate }} <span ng-if="reviewProgress > 0">{{ reviewProgress }}%</span></p>
+			<p class="workshop-hint workshop-error" ng-if="linkError">{{ 'WS_LinkFailed' | translate }} {{ linkError }}</p>
+		</div>
 
-		<form class="workshop-form" ng-if="available" ng-submit="publish()">
+		<form class="workshop-form" ng-if="available" ng-submit="selected.map.publishedfileid ? startReview() : publish()">
 			<label>
 				<span>{{ 'WS_Map' | translate }}</span>
 				<select ng-model="selected.map" ng-change="selectMap()" ng-disabled="publishing"
@@ -44,15 +66,80 @@
 					<input type="text" ng-model="form.preview" ng-disabled="publishing" />
 					<small>{{ 'WS_Preview_Desc' | translate }}</small>
 				</label>
-				<label ng-if="selected.map.publishedfileid">
-					<span>{{ 'WS_ChangeNote' | translate }}</span>
-					<input type="text" ng-model="form.changenote" ng-disabled="publishing" />
-				</label>
 
-				<div class="workshop-actions">
-					<a href class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="publish()">
-						{{ (selected.map.publishedfileid ? 'WS_Update' : 'WS_Publish') | translate }}
+				<div class="workshop-actions" ng-if="!review">
+					<a href ng-if="!selected.map.publishedfileid" class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="publish()">
+						{{ 'WS_Publish' | translate }}
 					</a>
+					<a href ng-if="selected.map.publishedfileid" class="btn btn-highlight" ng-class="{linkDisabled: !canPublish() || reviewing}" ng-click="startReview()">
+						{{ 'WS_ReviewUpdate' | translate }}
+					</a>
+				</div>
+			</div>
+
+			<!-- What an update changes on the Workshop -->
+			<div class="workshop-review" ng-if="reviewing || review || reviewError">
+				<p ng-if="reviewing">{{ 'WS_Reviewing' | translate }} <span ng-if="reviewProgress > 0">{{ reviewProgress }}%</span></p>
+				<p ng-if="reviewError" class="workshop-error">{{ 'WS_ReviewFailed' | translate }} {{ reviewError }}</p>
+
+				<div ng-if="review">
+					<h2>{{ 'WS_ReviewHeadline' | translate }}</h2>
+					<p class="workshop-review-summary" ng-class="{'workshop-review-nochanges': !review.haschanges}">
+						<span ng-if="review.haschanges">
+							{{ review.numchangedfiles }} {{ 'WS_ReviewFilesChange' | translate }},
+							{{ review.numsamefiles }} {{ 'WS_ReviewFilesSame' | translate }}
+						</span>
+						<span ng-if="!review.haschanges">{{ 'WS_ReviewNoChanges' | translate }}</span>
+					</p>
+
+					<h3>{{ 'WS_ReviewDetails' | translate }}</h3>
+					<table class="workshop-review-table">
+						<tr>
+							<th></th>
+							<th>{{ 'WS_ReviewCurrent' | translate }}</th>
+							<th>{{ 'WS_ReviewAfterUpdate' | translate }}</th>
+							<th></th>
+						</tr>
+						<tr ng-repeat="field in review.fields" ng-class="field.changed ? 'review-changed' : 'review-same'">
+							<td class="review-field">{{ fieldLabels[field.key] | translate }}</td>
+							<td ng-if="field.key === 'visibility'">{{ visibilityLabel(field.current) | translate }}</td>
+							<td ng-if="field.key === 'visibility'">{{ visibilityLabel(field.new) | translate }}</td>
+							<td ng-if="field.key !== 'visibility'" class="review-text">{{ field.current | limitTo: 200 }}{{ field.current.length > 200 ? '...' : '' }}</td>
+							<td ng-if="field.key !== 'visibility'" class="review-text">{{ field.new | limitTo: 200 }}{{ field.new.length > 200 ? '...' : '' }}</td>
+							<td class="review-status">{{ (field.changed ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
+						</tr>
+						<tr ng-class="review.preview.status === 'changed' ? 'review-changed' : 'review-same'">
+							<td class="review-field">{{ 'WS_Preview' | translate }}</td>
+							<td>{{ 'WS_ReviewCurrentImage' | translate }}</td>
+							<td>{{ review.preview.status === 'keep' ? ('WS_ReviewKeepImage' | translate) : review.preview.file }}</td>
+							<td class="review-status">{{ (review.preview.status === 'changed' ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
+						</tr>
+					</table>
+					<p class="workshop-hint" ng-if="review.detailssource === 'lastupload'">{{ 'WS_ReviewDetailsFromLastUpload' | translate }}</p>
+
+					<h3>{{ 'WS_ReviewFiles' | translate }}</h3>
+					<p class="workshop-hint">
+						<span ng-if="review.filessource === 'workshop'">{{ 'WS_ReviewFilesWorkshop' | translate }}</span>
+						<span ng-if="review.filessource === 'lastupload'">{{ 'WS_ReviewFilesLastUpload' | translate }} {{ formatDate(review.lastupload) }}</span>
+						<span ng-if="review.filessource === 'none'">{{ 'WS_ReviewFilesUnknown' | translate }}</span>
+					</p>
+					<table class="workshop-review-table">
+						<tr ng-repeat="file in review.files" ng-class="file.status === 'same' ? 'review-same' : 'review-changed'">
+							<td class="review-path">{{ file.path }}</td>
+							<td class="review-size">{{ formatSize(file.size) }}</td>
+							<td class="review-status">{{ (review.filessource === 'none' ? 'WS_ReviewFile_upload' : 'WS_ReviewFile_' + file.status) | translate }}</td>
+						</tr>
+					</table>
+
+					<label>
+						<span>{{ 'WS_ChangeNote' | translate }}</span>
+						<input type="text" ng-model="update.changenote" />
+					</label>
+
+					<div class="workshop-actions">
+						<a href class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="confirmUpdate()">{{ 'WS_UploadUpdate' | translate }}</a>
+						<a href class="btn" ng-click="cancelReview()">{{ 'Dialog_Cancel' | translate }}</a>
+					</div>
 				</div>
 			</div>
 
