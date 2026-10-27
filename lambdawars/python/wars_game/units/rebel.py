@@ -996,6 +996,19 @@ class TransformToRebelAR2(AbilityTransformUnit):
     image_name = 'vgui/rebels/abilities/rebel_transform_ar2'
     activatesoundscript = 'ability_combine_ar2_upgrade'
 
+class OverrunTransformToRebelSG(TransformToRebelSG):
+    name = 'overrun_rebel_transform_sg'
+    transform_type = 'overrun_unit_rebel_sg'
+    transform_time = 0
+    techrequirements = []
+    costs = [('kills', 2)]
+
+class OverrunTransformToRebelAR2(TransformToRebelAR2):
+    name = 'overrun_rebel_transform_ar2'
+    transform_type = 'overrun_unit_rebel_ar2'
+    transform_time = 0
+    techrequirements = []
+    costs = [('kills', 4)]
 
 class UnlockRebelTierMiddle(AbilityUpgrade):
     name = 'rebel_upgrade_tier_mid'
@@ -1117,6 +1130,8 @@ class OverrunRebelInfo(RebelInfo):
     costs = [('kills', 4)]
     abilities = {
         0: 'overrun_grenade',
+        5: 'overrun_rebel_transform_sg',
+        6: 'overrun_rebel_transform_ar2',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',

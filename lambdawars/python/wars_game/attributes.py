@@ -358,6 +358,16 @@ class AcidAttribute(AttributeInfo):
     }
 
 
+class GrenadeSpitBossAttribute(AttributeInfo):
+    name = 'boss_spit'
+    
+    dmgmodifiers = {
+        'building': ScaleBonusDamage(0.33),
+        'heavy': ScaleBonusDamage(0.9),
+        'metal': ScaleBonusDamage(2.0),
+    }
+
+
 class ExplosiveAttribute(AttributeInfo):
     """ Explosives, mines, etc. """
     name = 'explosive'

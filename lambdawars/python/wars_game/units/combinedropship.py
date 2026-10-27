@@ -572,7 +572,8 @@ class UnitCombineDropship(BaseClass):
         #if self.GetOwnerNumber() == OWNER_ENEMY:
         unit.health = int(unit.health * gamerules.healthmodifiers[unit.unitinfo.name]) 
         unit.maxhealth = int(unit.maxhealth * gamerules.healthmodifiers[unit.unitinfo.name])
-        unit.overrunspawned = True 
+        unit.overrunspawned = False 
+        unit.spawnsuiciders = False 
         unit.BehaviorGenericClass = unit.BehaviorOverrunClass
     def Remove(self):
 
