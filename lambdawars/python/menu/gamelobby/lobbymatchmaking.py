@@ -68,7 +68,7 @@ class LobbyMatchmaking(SteamMatchmakingServerListResponse, SteamMatchmakingRules
     def GetRequestTimeout(self):
         """ Time a requested server gets to accept or deny the game.
             Servers may need to download a Workshop map first (see wars_gameserver_workshop_timeout). """
-        return 120.0 if self.lobby.datamodel.map_workshopid else 30.0
+        return 300.0 if self.lobby.datamodel.map_workshopid else 30.0
 
     def ShouldLocalHost(self, gamedata):
         # Offline games are always local.
