@@ -22,6 +22,9 @@ except ImportError:
 WORKSHOP_DIR = 'workshop'
 PUBLISHED_INFO_PATH = os.path.join(WORKSHOP_DIR, 'published.json')
 STAGING_DIR = os.path.join(WORKSHOP_DIR, 'staging')
+#: Official maps of the game, which can't be published. One quoted map name per line.
+#: Releases only include the maps in this list.
+OFFICIAL_MAPLIST_PATH = 'maplist.txt'
 
 #: Files belonging to a map, found next to maps/<name>.bsp
 MAP_FILE_SUFFIXES = ['.bsp', '.res', '.recast', '.wars', '.layout', 'mapheightfielddata.bin']
@@ -51,6 +54,16 @@ RESULT_MESSAGES = {
 
 class PublishError(Exception):
     pass
+
+
+def LoadOfficialMaps():
+    """ Returns the lowercase names of the official maps of the game. """
+    try:
+        with open(OFFICIAL_MAPLIST_PATH, 'rt', encoding='utf-8', errors='replace') as f:
+            return {line.strip().strip('"').lower() for line in f if line.strip()}
+    except IOError:
+        PrintWarning('Workshop: could not read the official map list %s\n' % OFFICIAL_MAPLIST_PATH)
+        return set()
 
 
 def LoadPublishedInfo():
@@ -122,12 +135,13 @@ class WebWorkshop(WebViewComponent):
 
     # Local maps and published info
     def ListLocalMaps(self):
-        """ Lists the maps in the mod maps folder, with info from previous publishes. """
+        """ Lists the maps in the mod maps folder, except the official maps, with info from previous publishes. """
         publishedinfo = self.LoadPublishedInfo()
+        officialmaps = LoadOfficialMaps()
         maps = []
         for filename in sorted(os.listdir('maps')):
             mapname, ext = os.path.splitext(filename)
-            if ext != '.bsp':
+            if ext != '.bsp' or mapname.lower() in officialmaps:
                 continue
             info = publishedinfo.get(mapname, {})
             maps.append({
@@ -163,6 +177,8 @@ class WebWorkshop(WebViewComponent):
             raise PublishError('Steam Workshop is not available')
         if not os.path.isfile(os.path.join('maps', mapname + '.bsp')):
             raise PublishError('Map %s does not exist' % mapname)
+        if mapname.lower() in LoadOfficialMaps():
+            raise PublishError('%s is an official map and can\'t be published' % mapname)
         if not title:
             raise PublishError('A title is required')
         if len(title) > MAX_TITLE_LENGTH:
