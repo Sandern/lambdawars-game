@@ -333,6 +333,8 @@ class UnitBaseHeadcrab(BaseClass):
                 if enemy and unit.controllerplayer is None:
                     if unit.committedtojump:
                         unit.JumpAttack(False, unit.veccommittedjumppos)
+                    elif getattr(enemy, 'hd_jump_target_worldcenter', False):
+                        unit.JumpAttack(False, enemy.WorldSpaceCenter())
                     else:
                         # Jump at my enemy's eyes.
                         unit.JumpAttack(False, enemy.EyePosition())
