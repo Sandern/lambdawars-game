@@ -15,7 +15,7 @@ from ..lobby import WebLobby
 from .lobbydatamodel import LobbyGameDataModel
 from .settingsinfo import SettingsInfo
 from .lobbymatchmaking import LobbyMatchmaking
-from .workshopmap import LobbyMapStatus
+from .workshopmap import LobbyMapStatus, LobbyWorkshopMapInfo, FormatPlayerMapStatus, IsValidPlayerMapStatus
 
 import srcmgr
 import kvdict
@@ -63,6 +63,10 @@ class WebGameLobby(WebLobby):
         self.kicked_from_lobbies = []
         #: Availability of the lobby map for the local player
         self.mapstatus = LobbyMapStatus()
+        #: Workshop details of the lobby map, shown in the lobby
+        self.workshopinfo = LobbyWorkshopMapInfo()
+        #: Last map status reported to the lobby owner
+        self.reportedmapstatus = None
 
         lobby_gameended.connect(self.OnLobbyGameEnded)
         lobby_match_uuid.connect(self.OnLobbyMatchUUID)
@@ -80,7 +84,14 @@ class WebGameLobby(WebLobby):
         if self.lobbymatchmaking:
             self.lobbymatchmaking.OnDestroy()
             self.lobbymatchmaking = None
-    
+
+        self.workshopinfo.Cancel()
+
+    @jsbind()
+    def subscribeWorkshopMap(self, methodargs):
+        """ Subscribes the local player to the Steam Workshop item of the lobby map. """
+        self.workshopinfo.Subscribe()
+
     @jsbind()
     def setPlayerData(self, methodargs):
         """ Sets a player specific setting.
@@ -665,6 +676,7 @@ class WebGameLobby(WebLobby):
                 self.settingsinfo.OnMapChanged()
         else:
             self.mapstatus.Update(None, '', '')
+        self.ReportMapStatus()
 
         if not islobbyowner:
             # Check for map changes for non lobby owners
@@ -689,6 +701,40 @@ class WebGameLobby(WebLobby):
                 lobby_members = self.BuildLobbyMembersInfoList()
                 self.Invoke(self.jshandler, 'OnLobbyDataChanged', [settings, lobby_members, self.datamodel.slots])
             
+    def ReportMapStatus(self):
+        """ Lets other players see whether the local player has the Steam Workshop map.
+
+            Reported like other player data: the lobby owner applies it to the lobby data.
+            Progress is reported in steps of 10%, to limit the number of messages.
+        """
+        datamodel = self.datamodel
+        if not datamodel.map_workshopid or self.isofflinelobby:
+            return
+
+        progress = self.mapstatus.progress // 10 * 10 if self.mapstatus.state == 'downloading' else 0
+        value = FormatPlayerMapStatus(datamodel.map_workshopid, self.mapstatus.state, progress)
+        if value == self.reportedmapstatus:
+            return
+        self.reportedmapstatus = value
+
+        if self.islobbyowner:
+            datamodel.SetPlayerLobbyData(steamapicontext.SteamUser().GetSteamID(), 'mapstatus', value)
+        else:
+            self.SendLobbyChatMsg('player', 'mapstatus=%s' % value)
+
+    def BuildMapWaitingList(self):
+        """ Players that don't have the Steam Workshop map yet, shown in the map settings. """
+        waiting = []
+        for slot in self.datamodel.slots:
+            player = slot['player']
+            if player and player['mapstate'] and player['mapstate'] != 'ok':
+                waiting.append({
+                    'name': player['name'],
+                    'state': player['mapstate'],
+                    'progress': player['mapprogress'],
+                })
+        return waiting
+
     def BuildSpectatorList(self):
         spectators = []
         steamfriends = steamapicontext.SteamFriends()
@@ -705,10 +751,13 @@ class WebGameLobby(WebLobby):
             for i in range(0, steammatchmaking.GetNumLobbyMembers(self.steamidlobby)):
                 usersteamid = steammatchmaking.GetLobbyMemberByIndex(self.steamidlobby, i)
                 if not self.datamodel.FindPlayerSlot(usersteamid):
+                    mapstate, mapprogress = self.datamodel.GetPlayerMapStatus(str(usersteamid))
                     spectators.append({
                         'name': steamfriends.GetFriendPersonaName(usersteamid),
                         'steamid': str(usersteamid),
-                        'islocaluser': usersteamid == steamapicontext.SteamUser().GetSteamID()
+                        'islocaluser': usersteamid == steamapicontext.SteamUser().GetSteamID(),
+                        'mapstate': mapstate,
+                        'mapprogress': mapprogress,
                     })
         return spectators
 
@@ -773,6 +822,8 @@ class WebGameLobby(WebLobby):
                 'mm_password': mm_password.GetString(),
                 'match_uuid': datamodel.match_uuid,
                 'mapstatus': self.mapstatus.ToDict(),
+                'mapworkshop': self.workshopinfo.ToDict(),
+                'mapwaiting': self.BuildMapWaitingList(),
             })
             
             if self.settingsinfo:
@@ -852,6 +903,7 @@ class WebGameLobby(WebLobby):
     def OnJoinOrCreateLobby(self, lobbymembers):
         self._lastlobbystate = None
         self._nexttryconnect = 0
+        self.reportedmapstatus = None
         self.lobbymatchmaking = LobbyMatchmaking(self, gamedir=srcmgr.GetModDirectory())
         self.settingsinfo = SettingsInfo(self)
         self.datamodel.InitSettingsInfoCallbacks(self, self.islobbyowner)
@@ -959,6 +1011,12 @@ class WebGameLobby(WebLobby):
                 PrintWarning('Trying to set invalid difficulty %s for player %s\n' % (value, str(steamiduser)))
                 return
             datamodel.SetSlotLobbyData(slotid, 'difficulty', value)
+        elif key == 'mapstatus':
+            # Whether the player has the Steam Workshop map, see ReportMapStatus
+            if not IsValidPlayerMapStatus(value):
+                PrintWarning('Trying to set invalid map status %s for player %s\n' % (value, str(steamiduser)))
+                return
+            datamodel.SetPlayerLobbyData(steamiduser, 'mapstatus', value)
         elif key == 'ready':
             #if lobbyowner == steamiduser:
             #    value = True
@@ -1012,10 +1070,12 @@ class WebGameLobby(WebLobby):
             self.__nexttestgameserver = curtime + 1.0
             self.TestGameServerGameInProgress()
 
-        # Update the download progress of the lobby map
-        if self.mapstatus.state == 'downloading' and self.__nextmapstatusupdate < curtime:
+        # Update the Workshop details and download progress of the lobby map
+        if datamodel and self.__nextmapstatusupdate < curtime:
             self.__nextmapstatusupdate = curtime + 0.5
-            self.UpdateLobby()
+            workshopinfochanged = self.workshopinfo.Update(datamodel.map_workshopid)
+            if workshopinfochanged or self.mapstatus.state == 'downloading':
+                self.UpdateLobby()
             
     def OnNAError(self):
         """ Received n/a error from matchmaking...

@@ -2,6 +2,7 @@ from steam import steamapicontext, CSteamID
 from ..lobbydatamodel import LobbyDataModel
 
 from core.factions import GetFactionInfo
+from .workshopmap import ParsePlayerMapStatus
 import random
 
 def _customfield(fieldname):
@@ -254,6 +255,12 @@ class LobbyGameDataModel(LobbyDataModel):
                     'isLobbyLeader': playersteamid == str(self.lobby.GetLobbyOwner()),
                 }
                 
+                # Whether the player has the Steam Workshop map
+                if iscpu:
+                    playerdata['mapstate'], playerdata['mapprogress'] = '', 0
+                else:
+                    playerdata['mapstate'], playerdata['mapprogress'] = self.GetPlayerMapStatus(playersteamid)
+
                 # Do some enriching for the js code
                 if playerdata['faction'] == '__random__':
                     playerdata['factionname'] = 'Random'
@@ -307,6 +314,12 @@ class LobbyGameDataModel(LobbyDataModel):
         
         self.changecallbacks['slots']()
         
+    def GetPlayerMapStatus(self, steamid):
+        """ Returns (state, progress) of the Steam Workshop map for a player, see LobbyMapStatus.
+            State is empty if the map is not from the Workshop or the player didn't report it yet. """
+        value = self.GetLobbyData(_playerfield(steamid, 'mapstatus'), default='')
+        return ParsePlayerMapStatus(value, self.map_workshopid)
+
     def FindPlayerSlot(self, playersteamid, slots=None):
         """ Finds existing slot of player. None if not found. """
 

@@ -53,6 +53,15 @@ class PublishError(Exception):
     pass
 
 
+def LoadPublishedInfo():
+    """ Returns the info of maps published by the local player, by map name. """
+    try:
+        with open(PUBLISHED_INFO_PATH, 'rt', encoding='utf-8') as f:
+            return json.load(f)
+    except (IOError, ValueError):
+        return {}
+
+
 class WebWorkshop(WebViewComponent):
     defaultobjectname = 'workshop'
 
@@ -132,11 +141,7 @@ class WebWorkshop(WebViewComponent):
         return maps
 
     def LoadPublishedInfo(self):
-        try:
-            with open(PUBLISHED_INFO_PATH, 'rt', encoding='utf-8') as f:
-                return json.load(f)
-        except (IOError, ValueError):
-            return {}
+        return LoadPublishedInfo()
 
     def SavePublishedInfo(self, job):
         publishedinfo = self.LoadPublishedInfo()

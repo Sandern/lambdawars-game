@@ -18,11 +18,35 @@ class GamelobbySettingsController {
         $scope.minimapsrc = '';
         $scope.mapname = '';
         $scope.mapstatus = undefined;
+        $scope.mapworkshop = null;
+        $scope.mapwaiting = [];
+        $scope.minimapurl = '';
         
+        // Overview of the map, or the Workshop preview image if the map has no overview (yet)
+        function updateMinimapUrl() {
+            if( $scope.minimapsrc ) {
+                $scope.minimapurl = $scope.minimapsrc + '.vtf';
+            } else {
+                $scope.minimapurl = $scope.mapworkshop ? $scope.mapworkshop.previewurl : '';
+            }
+        }
+
+        $scope.subscribeWorkshopMap = function() {
+            gamelobby.subscribeWorkshopMap();
+        };
+
+        $scope.openWorkshopPage = function() {
+            if( $scope.mapworkshop && 'workshop' in window ) {
+                window.workshop.openitem($scope.mapworkshop.id);
+            }
+        };
+
         $scope.updateGameInfoFromSettings = function(settings) {
             // Shown while the map is not available yet, for example while downloading it from the Workshop
             $scope.mapname = settings.map;
             $scope.mapstatus = settings.mapstatus;
+            $scope.mapworkshop = settings.mapworkshop || null;
+            $scope.mapwaiting = settings.mapwaiting || [];
 
             // Update available settings if needed
             if( !angular.equals($scope.availablemodes, settings.availablemodes ) ) {
@@ -55,11 +79,13 @@ class GamelobbySettingsController {
                 $scope.availableteamsetups = supportedmodes;
                 $scope.teamsetup = $scope.fixSelectedDropdown(settings.teamsetup, $scope.availableteamsetups);
                 $scope.minimapsrc = settings.availablemaps[settings.map].overviewsrc;
+                updateMinimapUrl();
                 //console.log('map positions: ', settings.availablemaps[settings.map]['positioninfo']);
             } else {
                 $scope.availableteamsetups = [];
                 $scope.teamsetup = undefined;
                 $scope.minimapsrc = '';
+                updateMinimapUrl();
             }
         };
         

@@ -51,6 +51,11 @@
 						{{ slots[slot.slotid].player.name + (slots[slot.slotid].iscpu ? ' - ' + (difficultyLabels[slots[slot.slotid].difficulty] | translate) : '') }}
 					</a>
 
+					<!-- Steam Workshop map not available yet for this player -->
+					<span ng-if="slots[slot.slotid].player.mapstate && slots[slot.slotid].player.mapstate !== 'ok'" class="player-mapstatus" ng-class="'player-mapstatus-' + slots[slot.slotid].player.mapstate">
+						{{ ('GL_PlayerMap_' + slots[slot.slotid].player.mapstate) | translate }}<span ng-if="slots[slot.slotid].player.mapstate === 'downloading'"> {{ slots[slot.slotid].player.mapprogress }}%</span>
+					</span>
+
 					<select ng-if='state === "lobbying" && slots[slot.slotid].iscpu && islobbyowner' class="player-name select-style" ng-disabled="isPlayerReady()" ng-options="'CPU - ' + (difficulty.displayname | translate) for difficulty in availabledifficulties" ng-model="selectedDifficulty[slot.slotid]" ng-change="updatePlayerData('difficulty', selectedDifficulty[slot.slotid].id, slot.slotid)">
 					</select>
 
@@ -86,6 +91,7 @@
 			<span ng-repeat="spectator in spectators">
 				<a ng-if="!islobbyowner || spectator.islocaluser">{{spectator.name}}</a>
 				<a ng-if="islobbyowner && !spectator.islocaluser" href ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{spectator.name}}</a>
+				<span ng-if="spectator.mapstate && spectator.mapstate !== 'ok'" class="player-mapstatus" ng-class="'player-mapstatus-' + spectator.mapstate">({{ ('GL_PlayerMap_' + spectator.mapstate) | translate }}<span ng-if="spectator.mapstate === 'downloading'"> {{ spectator.mapprogress }}%</span>)</span>
 				{{$last ? '' : ', '}}
 				</span>
 		</div>
@@ -124,7 +130,7 @@
 	<h2 class="box-header">{{ 'GL_GameSettings' | translate }}</h2>
 
 	<div class="info-container">
-	<img class="map-small" ng-src="{{ minimapsrc }}.vtf" />
+	<img class="map-small" ng-if="minimapurl" ng-src="{{ minimapurl }}" />
 
 	<ul>
 		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_GameMode' | translate }}:</span> <span class="gameinfo-text">{{ mode.name }}</span><!--<span ng-tooltip="{{ mode.description }}">?</span>--></li>
@@ -132,6 +138,19 @@
 		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <span class="gameinfo-text">{{ map.mapname || mapname }}</span></li>
 		<li ng-if="!islobbyowner && mapstatus && mapstatus.state !== 'ok'" class="map-status"><span class="gameinfo-text">{{ ('GL_MapStatus_' + mapstatus.state) | translate }} <span ng-if="mapstatus.state === 'downloading' && mapstatus.progress > 0">{{ mapstatus.progress }}%</span> {{ mapstatus.error }}</span></li>
 		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="map" ng-options="map.displayname for (id , map) in availablemaps" ng-change="updateSetting('map', map.id)"></select></li>
+		<li ng-if="mapworkshop" class="map-workshop">
+			<span class="workshop-badge">{{ 'GL_WorkshopMap' | translate }}</span>
+			<span class="gameinfo-text" ng-if="mapworkshop.title">{{ mapworkshop.title }}<span ng-if="mapworkshop.author"> {{ 'GL_WorkshopBy' | translate }} {{ mapworkshop.author }}</span></span>
+			<div class="map-workshop-actions">
+				<a href ng-if="!mapworkshop.subscribed" class="btn btn-small btn-highlight" ng-click="subscribeWorkshopMap()">{{ 'GL_SubscribeNow' | translate }}</a>
+				<span ng-if="mapworkshop.subscribed" class="map-workshop-subscribed">&#x2713; {{ 'GL_Subscribed' | translate }}</span>
+				<a href class="btn btn-small" ng-click="openWorkshopPage()">{{ 'GL_ViewOnWorkshop' | translate }}</a>
+			</div>
+		</li>
+		<li ng-if="mapworkshop && mapwaiting.length" class="map-waiting">
+			<span class="gameinfo-heading">{{ 'GL_WaitingForMap' | translate }}</span>
+			<span class="gameinfo-text" ng-repeat="player in mapwaiting">{{ player.name }} ({{ ('GL_PlayerMap_' + player.state) | translate }}<span ng-if="player.state === 'downloading'"> {{ player.progress }}%</span>){{ $last ? '' : ', ' }}</span>
+		</li>
 		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <span class="gameinfo-text">{{ teamsetup.name }}</span></li>
 		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="teamsetup" ng-options="teamsetup.name for (id , teamsetup) in availableteamsetups" ng-change="updateSetting('teamsetup', teamsetup.id)"></select></li>
 

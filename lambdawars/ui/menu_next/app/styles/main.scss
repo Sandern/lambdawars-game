@@ -2052,3 +2052,54 @@ a.disabled {
 		}
 	}
 }
+
+// Steam Workshop map in the game lobby
+#gameinfo {
+	// The Workshop preview image is shown when the map has no overview, keep its aspect ratio
+	.map-small {
+		object-fit: cover;
+	}
+
+	.map-workshop {
+		.workshop-badge {
+			display: inline-block;
+			margin: 0 0.6rem 0.3rem 0;
+			padding: 0.1rem 0.6rem;
+			border-radius: 8px;
+			background: $orange;
+			color: $black;
+			font-size: 1.1rem;
+			text-transform: uppercase;
+		}
+
+		.map-workshop-actions {
+			margin: 0.4rem 0 0.6rem;
+
+			a.btn {
+				margin-right: 0.6rem;
+			}
+		}
+
+		.map-workshop-subscribed {
+			margin-right: 0.8rem;
+			color: $green;
+			font-size: 1.3rem;
+		}
+	}
+
+	.map-waiting .gameinfo-text {
+		color: $lightorange;
+	}
+}
+
+// Players that don't have the Steam Workshop map yet
+.player-mapstatus {
+	margin: 0 0.6rem;
+	color: $lightorange;
+	font-size: 1.2rem;
+	white-space: nowrap;
+}
+
+.player-mapstatus-missing, .player-mapstatus-failed, .player-mapstatus-mismatch {
+	color: $orange;
+}

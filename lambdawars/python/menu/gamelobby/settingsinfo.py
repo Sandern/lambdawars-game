@@ -252,7 +252,12 @@ class SettingsInfo(object):
             if filesystem.FileExists(maprespath):
                 kvres = kvdict.LoadFileIntoDictionaries(maprespath)
                 overviewpath = kvres.get('material', '')
-                entry['overviewsrc'] = 'vtf://%s' % (overviewpath)
+                # Maps from the Steam Workshop may not include their overview, the lobby shows the
+                # Workshop preview image instead
+                if overviewpath and filesystem.FileExists('materials/%s.vtf' % overviewpath):
+                    entry['overviewsrc'] = 'vtf://%s' % (overviewpath)
+                else:
+                    entry['overviewsrc'] = ''
                 
                 # Normalize positions in a range from 0 to 1
                 try:
