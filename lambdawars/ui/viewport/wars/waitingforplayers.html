@@ -1,17 +1,31 @@
-<div id="wars_waitingforplayers_container">
-	
-	<div id="wars_waitingforplayers_banner"></div>
+<div id="wars_waitingforplayers_container" class="wfp">
+	<span class="wfp-corner"></span>
+	<div class="wfp-banner"><div class="wfp-banner-shade"></div></div>
 
-	<h1 id="wars_waitingforplayers_title">
-	<span>{{ 'WFP_LobbyName' | translate }}:</span> 
-	<span id="wars_waitingforplayers_lobbyname">{{ 'WFP_WaitText' | translate }}</span>
-	<div id="wars_waitingforplayers_countdown"></div>
-	</h1>
-	
-<ul id="wars_waitingforplayers_playerlist"></ul>
+	<div class="wfp-heading">
+		<div class="wfp-heading-text">
+			<span class="wfp-eyebrow"><span class="wfp-dot"></span><span class="wfp-eyebrow-text"></span></span>
+			<h1 class="wfp-title">{{ 'WFP_WaitText' | translate }}</h1>
+			<p class="wfp-subtitle"></p>
+		</div>
+		<div class="wfp-timer">
+			<span class="wfp-timer-label"></span>
+			<span class="wfp-countdown" id="wars_waitingforplayers_countdown"></span>
+		</div>
+	</div>
 
-<!--<h2><span>Message of the Day:</span></h2>-->
+	<div class="wfp-progress">
+		<div class="wfp-progress-row">
+			<span class="wfp-progress-text"></span>
+			<span class="wfp-progress-count"></span>
+		</div>
+		<div class="wfp-progress-bar"><div class="wfp-progress-fill"></div></div>
+	</div>
 
-<div id="wars_waitingforplayers_motd"></div>
+	<div class="wfp-teams" id="wars_waitingforplayers_playerlist"></div>
 
+	<div class="wfp-motd-section">
+		<h2>{{ 'WFP_ServerMessage' | translate }}</h2>
+		<div id="wars_waitingforplayers_motd"></div>
+	</div>
 </div>

@@ -1,36 +1,76 @@
-<section class="content-full content-menu" id="content-missions">
-    <main>
-		<div id="mission_wrap_pictures">
-			<img  id="mission_pic_left" class="mis_pic_left" ng-src="{{ leftmissionpic }}"  title="Left Pic" alt="Left">
-			<img  id="mission_pic_right" class="mis_pic_right" ng-src="{{ rightmissionpic }}"  title="Right Pic" alt="Right" >
-			<img  id="mission_pic_middle" class="mis_pic_mid" ng-src="{{ middlemissionpic }}"  title="Middle Pic" alt="Middle" >
-			<img  id="mission_right_arrow" class="mis_right_arrow" title="right_arrow" alt="right_arrow"
-			ng-init="right_arrow = '../../mainmenu/arrow_big_right.png'"
-			ng-mouseenter="right_arrow = '../../mainmenu/arrow_big_right_over.png'" 
-			ng-mouseleave="right_arrow = '../../mainmenu/arrow_big_right.png'" 
-			ng-src="{{right_arrow}}"
-			ng-click="next_mission()"
-			>
-			<img  id="mission_left_arrow" class="mis_left_arrow" title="left_arrow" alt="left_arrow" 
-			ng-init="left_arrow = '../../mainmenu/arrow_big_left.png'"
-			ng-mouseenter="left_arrow = '../../mainmenu/arrow_big_left_over.png'" 
-			ng-mouseleave="left_arrow = '../../mainmenu/arrow_big_left.png'" 
-			ng-src="{{left_arrow}}"
-			ng-click="previous_mission()"
-			>
+<div class="pg-page pg-missions">
+	<aside class="ms-list">
+		<div class="ms-list-header">
+			<h1 class="ms-list-title">{{ 'MS_Missions' | translate }} <span class="lb-count">{{ visible.length }}</span></h1>
+			<span class="lb-segmented" ng-if="workshopEnabled">
+				<button type="button" ng-repeat="f in filters track by f.id" ng-class="{active: filter === f.id}" ng-click="setFilter(f.id)">{{ f.label | translate }}</button>
+			</span>
 		</div>
-		<div id="mission_wrap_name" class="textStyle">
-			{{ mapname }}
+
+		<div class="ms-items">
+			<button type="button" class="ms-item" ng-repeat="mission in visible track by mission.mapname" ng-class="{selected: mission === selected}"
+				aria-current="{{ mission === selected }}" ng-click="select(mission)">
+				<span class="ms-item-image" ng-class="{'ms-hatch': !mission.image}">
+					<img ng-if="mission.image" ng-src="{{ mission.image }}" />
+					<wars-icon ng-if="!mission.image" name="image"></wars-icon>
+				</span>
+				<span class="ms-item-text">
+					<span class="ms-item-title">{{ mission.title }}</span>
+					<span class="ms-item-meta">
+						<span ng-if="workshopEnabled"><span class="ms-source" ng-class="{workshop: mission.workshop}">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span> &middot; </span>{{ mission.mapname }}
+					</span>
+				</span>
+			</button>
+			<p class="pg-empty" ng-if="loaded && !visible.length">{{ 'MS_NoMatches' | translate }}</p>
 		</div>
-		<div id="mission_wrap_description"  class="textStyleNav2" ng-bind-html-unsafe="description">
-			<b>{{ 'Mission_Desc' | translate }} <span ng-bind-html="description"></span></b>
+
+		<!-- Visual only for now, Workshop missions come with the Workshop integration -->
+		<span class="ms-workshop-link" ng-if="workshopEnabled"><wars-icon name="wrench"></wars-icon>{{ 'MS_FindMore' | translate }}<wars-icon name="chevron-right"></wars-icon></span>
+	</aside>
+
+	<section class="ms-main" ng-if="selected">
+		<div class="ms-top">
+			<div class="ms-info">
+				<div class="ms-info-header">
+					<span class="pg-eyebrow">{{ 'MS_Mission' | translate }} {{ position() }}</span>
+					<span class="ms-nav">
+						<button type="button" class="lb-btn lb-btn-small" ng-click="go(-1)" aria-label="{{ 'Button_Previous' | translate }}"><wars-icon name="chevron-left"></wars-icon></button>
+						<button type="button" class="lb-btn lb-btn-small" ng-click="go(1)" aria-label="{{ 'Button_Next' | translate }}"><wars-icon name="chevron-right"></wars-icon></button>
+					</span>
+				</div>
+				<h2 class="pg-title">{{ selected.title }}</h2>
+				<div class="ms-tags">
+					<span class="ms-tag" ng-if="workshopEnabled" ng-class="{workshop: selected.workshop}">{{ (selected.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span>
+					<span class="ms-tag">{{ 'MS_SinglePlayer' | translate }}</span>
+					<span class="ms-tag ms-tag-plain">{{ selected.mapname }}</span>
+				</div>
+				<span class="lb-label ms-briefing-label">{{ 'MS_Briefing' | translate }}</span>
+				<div class="ms-briefing" ng-if="selected.description" ng-bind-html="selected.description"></div>
+				<p class="ms-briefing lb-muted" ng-if="!selected.description">{{ 'MS_NoBriefing' | translate }}</p>
+			</div>
+
+			<figure class="ms-preview">
+				<i class="lb-corner lb-corner-tl"></i>
+				<i class="lb-corner lb-corner-tr"></i>
+				<i class="lb-corner lb-corner-bl"></i>
+				<i class="lb-corner lb-corner-br"></i>
+				<img ng-if="selected.image" ng-src="{{ selected.image }}" alt="{{ selected.title }}" />
+				<div class="ms-preview-none ms-hatch" ng-if="!selected.image">
+					<wars-icon name="image"></wars-icon>
+					<span>{{ 'MS_NoPreview' | translate }}</span>
+				</div>
+			</figure>
 		</div>
-		
-		<select class="select-style" ng-model="selectedDifficulty">
-			<option value="easy">{{ 'Mission_Easy' | translate }}</option>
-			<option value="normal">{{ 'Mission_Normal' | translate }}</option>
-			<option value="hard">{{ 'Mission_Hard' | translate }}</option>
-		</select>
-		<a href class="btn btn-highlight" ng-click="launch_mission()">{{ 'Mission_Launch' | translate }}</a>
-    </main>
-</section>
+
+		<div class="ms-launch">
+			<span class="lb-label">{{ 'MS_Difficulty' | translate }}</span>
+			<span class="lb-segmented">
+				<button type="button" ng-repeat="d in difficulties track by d.id" ng-class="{active: difficulty === d.id}" ng-click="setDifficulty(d.id)">{{ d.label | translate }}</button>
+			</span>
+			<span class="ms-launch-hint">{{ selected.mapname }} &middot; {{ difficultyLabel() | translate }}</span>
+			<button type="button" class="lb-btn lb-btn-launch ms-launch-btn" ng-disabled="launching" ng-click="launch()">
+				{{ (launching ? 'MS_Loading' : 'Mission_Launch') | translate }}<wars-icon name="arrow-right"></wars-icon>
+			</button>
+		</div>
+	</section>
+</div>

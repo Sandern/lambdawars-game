@@ -9,7 +9,7 @@ from cef import WebViewComponent, jsbind
 from steam import (steamapicontext, CSteamID, LobbyMatchListCallResult, ELobbyDistanceFilter, ELobbyComparison,
                    k_uAPICallInvalid, ELobbyType, EResult, EChatEntryType, LobbyCreatedCallResult, LobbyCreated_t,
                    LobbyEnterCallResult, LobbyChatMsgCallback, LobbyChatUpdateCallback, LobbyDataUpdateCallback,
-                   EChatMemberStateChange)
+                   EChatMemberStateChange, EChatRoomEnterResponse)
 from .lobbydatamodel import LobbyDataModel
 from gameinterface import engine
 
@@ -162,12 +162,16 @@ class WebLobby(WebViewComponent, LobbyChatMsgCallback, LobbyChatUpdateCallback, 
     # Matchmaking/chat rooms methods
     @jsbind(hascallback=True, manuallycallback=True)
     def listlobbies(self, methodargs, callbackid):
+        """ Answers with the list of lobbies and whether the request failed. Always answers, so the page can
+            try again when Steam isn't ready yet. """
         matchmaking = steamapicontext.SteamMatchmaking()
         if not matchmaking:
+            PrintWarning('listlobbies: Steam matchmaking is not available\n')
+            self.SendCallback(callbackid, [[], True])
             return
-        
+
         self.AddLobbyListFilters()
-        
+
         steamapicall = matchmaking.RequestLobbyList()
         if steamapicall != k_uAPICallInvalid:
             callback = WebLobbyMatchListCallResult(steamapicall)
@@ -175,7 +179,8 @@ class WebLobby(WebViewComponent, LobbyChatMsgCallback, LobbyChatUpdateCallback, 
             callback.callbackid = callbackid
             self.lobbycallback = callback
         else:
-            PrintWarning('listchatlobbies: Failed to make lobby list request\n')
+            PrintWarning('listlobbies: Failed to make lobby list request\n')
+            self.SendCallback(callbackid, [[], True])
             
     @jsbind()
     def createlobby(self, methodargs):
@@ -291,6 +296,9 @@ class WebLobby(WebViewComponent, LobbyChatMsgCallback, LobbyChatUpdateCallback, 
         if self.isofflinelobby:
             self.OnOfflineLobbyChatMsg('%s %s' % (msgtype, msg))
         else:
+            if not self.steamidlobby:
+                PrintWarning('%s: not in a lobby, message not sent\n' % self.defaultobjectname)
+                return
             steammatchmaking = steamapicontext.SteamMatchmaking()
             if not steammatchmaking:
                 return
@@ -369,10 +377,18 @@ class WebLobby(WebViewComponent, LobbyChatMsgCallback, LobbyChatUpdateCallback, 
     def OnLobbyJoined(self, data, iofailure):
         self.callback_lobby_join = None
 
+        # Joining failed: forget the lobby, it would otherwise look like an active lobby
         if iofailure:
             PrintWarning('OnLobbyJoined failed (io failure)\n')
+            self.steamidlobby = None
             if self.jshandler:
                 self.Invoke(self.jshandler, 'OnCreateLobbyFailed', [-1, 'OnLobbyJoined failed (io failure)'])
+            return False
+        if data and data.chatroomenterresponse != EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess:
+            PrintWarning('OnLobbyJoined failed (response %d)\n' % data.chatroomenterresponse)
+            self.steamidlobby = None
+            if self.jshandler:
+                self.Invoke(self.jshandler, 'OnCreateLobbyFailed', [data.chatroomenterresponse, 'OnLobbyJoined failed'])
             return False
             
         self.datamodel = self.CreateLobbyDataModel(self.steamidlobby)
