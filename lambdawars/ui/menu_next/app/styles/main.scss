@@ -388,7 +388,7 @@ ul {
 	overflow: hidden;
 }
 
-#content-onlinegames, #content-loadgame {
+#content-loadgame {
 	main {
 		height: 100%;
 	}
@@ -415,10 +415,6 @@ ul {
 			margin-left: auto;
 		}
 	}
-}
-
-#content-onlinegames{
-	overflow-y: hidden;
 }
 
 .content {
@@ -556,9 +552,6 @@ main, .box {
 		color: $white80;
 		text-transform: uppercase;
 
-		#content-onlinegames & {
-			color: $orange;
-		}
 		@media (max-width: 1180px) {
 			font-size: 1.4rem;
 		}
@@ -718,149 +711,6 @@ a.disabled {
 	background-color: red;
 	margin: 0;
 	padding: 5px;
-}
-
-// Online gamelobby list
-#onlinelobbylist {
-	display: block;
-	overflow-y: scroll;
-	height: calc(100% - 100px);
-	
-	ul.lobbylist {
-		li.lobby-header {
-			display: block;
-			font-size: 0;
-			padding: 0.1rem;
-			overflow: hidden;
-			margin-bottom: 0.6rem;
-			//background-color: #b0c4de;
-			// cursor: pointer;
-
-			div, a {
-				padding: 0 1rem;
-				line-height: 3.2rem;
-				font-size: 1.6rem;
-				display: inline-block;
-				vertical-align: top;
-				color: $offwhite;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				overflow: hidden;
-				// cursor: pointer;
-				@media (max-width: 1180px) {
-					font-size: 1.0rem;
-				}
-			}
-
-			.map-preview {
-				width: 3.2rem;
-				margin-right: 0.7rem;
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-				}
-			}
-
-			.lobby-name {
-				width: 20rem;
-				margin-right: 2rem;
-				@media (max-width: 1180px) {
-					width: 15rem;
-					margin-right: 0.7rem;
-				}
-			}
-			.lobby-map {
-				width: 18rem;
-				margin-right: 1.5rem;
-				@media (max-width: 1180px) {
-					width: 12rem;
-					margin-right: 0.7rem;
-				}
-			}
-
-			.lobby-mode {
-				width: 12rem;
-				margin-right: 0.2rem;
-			}
-		}
-
-		li.lobby {
-			display: block;
-			font-size: 0;
-			padding: 0.9rem;
-			background: $darkgray80;
-			overflow: hidden;
-			margin-bottom: 0.6rem;
-			// cursor: pointer;
-
-			// &:hover {
-			// 	background: $orange;
-			// }
-
-			&:last-of-type {
-				margin-bottom: 0;
-			}
-
-			div, a {
-				padding: 0 1rem;
-				line-height: 3.2rem;
-				font-size: 1.5rem;
-				display: inline-block;
-				vertical-align: top;
-				color: $offwhite;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				overflow: hidden;
-				// cursor: pointer;
-				@media (max-width: 1180px) {
-					font-size: 1.0rem;
-				}
-			}
-
-			.map-preview {
-				width: 3.2rem;
-				height: 3.2rem;
-				display: inline-block;
-				margin-right: 0.7rem;
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-					height: 2.2rem;
-				}
-			}
-
-			.lobby-name {
-				width: 20rem;
-				margin-right: 2rem;
-				@media (max-width: 1180px) {
-					width: 15rem;
-					margin-right: 0.7rem;
-				}
-			}
-			.lobby-map {
-				width: 18rem;
-				margin-right: 1.5rem;
-				@media (max-width: 1180px) {
-					width: 12rem;
-					margin-right: 0.7rem;
-				}
-			}
-
-			.lobby-mode {
-				width: 12rem;
-				margin-right: 0.2rem;
-			}
-
-			.lobby-join-btn {
-				color: $black;
-				float: right;
-				width: 3.2rem;
-				height: 3.2rem;
-				background: no-repeat center/cover url("../images/join_icon.jpg");
-				border-radius: 2px;
-				box-shadow: 1px 1px 1px 4px rgba(0, 0, 0, 0.1);
-			}
-		}
-	}
-
 }
 
 .chat, #chat, #chat-menu {
