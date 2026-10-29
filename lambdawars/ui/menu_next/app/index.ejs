@@ -70,7 +70,7 @@
         <div ng-if="beta === 'dev'" id="dev-text"><b>Developers Build {{ devrevision }}</b></div>
     </header>
 
-    <div class="content-all" id="{{ pageID }}" ng-view></div>
+    <div class="content-all" id="{{ pageID }}" ng-class="pageClass" ng-view></div>
 
     <!-- Global chat drawer, for pages without a chat of their own -->
     <div ng-controller="ChatDrawerController">

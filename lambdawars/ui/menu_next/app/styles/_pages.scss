@@ -2153,3 +2153,314 @@
 		padding: 0.6rem 0;
 	}
 }
+
+
+// In game menu: a card over the game, which stays visible behind a lighter shade
+
+#page.page-ingame::before {
+	background: radial-gradient(ellipse at 50% 45%, rgba($ui-black, 0.55), rgba($ui-black, 0.82));
+}
+
+.ig-page {
+	align-items: center;
+	overflow-y: auto;
+}
+
+.ig-card {
+	position: relative;
+	flex-shrink: 0;
+	width: 60rem;
+	margin: 6rem 0 2rem;
+	padding: 3.6rem 4rem 3.2rem;
+	background: rgba(18, 20, 22, 0.94);
+	border: 1px solid $white10;
+	border-radius: 0.4rem;
+	box-shadow: 0 3rem 8rem rgba($black, 0.65);
+	animation: st-up .18s ease-out;
+}
+
+.ig-heading {
+	display: flex;
+	align-items: center;
+}
+
+.ig-chip {
+	display: flex;
+	align-items: center;
+	height: 2.2rem;
+	margin-left: 1rem;
+	padding: 0 0.8rem;
+	border: 1px solid rgba($white, 0.14);
+	border-radius: 0.3rem;
+	@include lb-caps(1.2rem, 0.16rem);
+	color: $ui-text-soft;
+}
+
+.ig-chip-extra {
+	margin-left: 0.5rem;
+}
+
+.ig-chip-dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	margin-right: 0.6rem;
+	border-radius: 50%;
+	background: $ui-green;
+}
+
+.ig-title {
+	margin: 1rem 0 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 3.8rem;
+	line-height: 4.6rem;
+	color: $white;
+}
+
+.ig-status {
+	margin: 0.6rem 0 0;
+	font-size: 1.6rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+}
+
+.lb-btn-launch.ig-return {
+	justify-content: flex-start;
+	width: 100%;
+	height: 6.4rem;
+	margin-top: 2.8rem;
+	padding: 0 2.2rem;
+	@include lb-caps(2rem, 0.4rem);
+
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		margin: 0 1.4rem 0 0;
+	}
+}
+
+.ig-key {
+	display: flex;
+	align-items: center;
+	height: 2.6rem;
+	margin-left: auto;
+	padding: 0 0.8rem;
+	border: 1px solid rgba($ui-on-orange, 0.35);
+	border-radius: 0.3rem;
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.3rem;
+	letter-spacing: 0;
+}
+
+.ig-rows {
+	margin-top: 2rem;
+	border-top: 1px solid $lb-border;
+}
+
+.ig-row {
+	display: flex;
+	align-items: center;
+	height: 6.4rem;
+	padding: 0 0.8rem 0 0.4rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+	color: $ui-text;
+	transition: background-color .15s;
+
+	&:hover {
+		background-color: rgba($white, 0.04);
+	}
+
+	> .icon, > wars-icon .icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		color: $ui-text-muted;
+	}
+}
+
+.ig-row-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 3.6rem;
+	height: 3.6rem;
+	margin-right: 1.6rem;
+	background: rgba($white, 0.05);
+	border-radius: 0.3rem;
+
+	.icon {
+		width: 1.8rem;
+		height: 1.8rem;
+		color: $ui-text-soft;
+	}
+}
+
+.ig-row-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.ig-row-title {
+	display: flex;
+	align-items: center;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.ig-dev {
+	margin-left: 0.8rem;
+	@include lb-caps(1.1rem, 0.16rem);
+	color: $ui-text-muted;
+}
+
+.ig-row-desc {
+	margin-top: 0.3rem;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.ig-section-title {
+	margin: 2.6rem 0 1.2rem;
+	@include lb-caps(1.3rem, 0.25rem);
+	color: $ui-text-muted;
+}
+
+.ig-leave {
+	display: flex;
+	flex-direction: row;
+}
+
+.ig-leave-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	flex: 1;
+	min-width: 0;
+	min-height: 7.6rem;
+	padding: 1.2rem 1.6rem;
+	background: transparent;
+	border: 1px solid rgba($white, 0.16);
+	border-radius: 0.3rem;
+	outline: none;
+	text-align: left;
+	color: $ui-text;
+	cursor: pointer;
+	transition: background-color .15s, border-color .15s, color .15s;
+
+	& + & {
+		margin-left: 1.2rem;
+	}
+
+	&:hover {
+		border-color: $white40;
+		color: $white;
+	}
+
+	&.ig-danger {
+		border-color: rgba($lb-danger, 0.45);
+		color: $lb-danger;
+
+		.ig-leave-desc {
+			color: #b98580;
+		}
+
+		&:hover {
+			background: rgba($lb-danger, 0.1);
+			border-color: $lb-danger;
+		}
+	}
+}
+
+.ig-leave-title {
+	display: flex;
+	align-items: center;
+	@include lb-caps(1.5rem, 0.12rem);
+	white-space: nowrap;
+
+	.icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-right: 0.8rem;
+	}
+}
+
+.ig-leave-desc {
+	margin-top: 0.5rem;
+	font-family: 'Roboto';
+	font-size: 1.3rem;
+	line-height: 1.35;
+	color: $ui-text-muted;
+}
+
+.ig-confirm {
+	padding: 1.8rem 1.8rem 1.6rem;
+	background: rgba($lb-danger, 0.08);
+	border: 1px solid rgba($lb-danger, 0.45);
+	border-radius: 0.3rem;
+	animation: st-up .18s ease-out;
+}
+
+.ig-confirm-question {
+	margin: 0;
+	font-size: 1.6rem;
+	line-height: 1.45;
+	color: $white;
+}
+
+.ig-confirm-text {
+	margin: 0.4rem 0 0;
+	font-size: 1.4rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+}
+
+.ig-confirm-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1.6rem;
+
+	.lb-btn + .lb-btn {
+		margin-left: 1rem;
+	}
+}
+
+.lb-btn.ig-danger-solid {
+	background: #c9473f;
+	border-color: #c9473f;
+	color: $white;
+
+	&:hover:not(:disabled) {
+		background: #dd5a51;
+		border-color: #dd5a51;
+		color: $white;
+	}
+}
+
+@media (max-height: 820px) {
+	.ig-card {
+		margin-top: 2rem;
+		padding: 2.8rem 3.2rem 2.6rem;
+	}
+
+	.ig-title {
+		font-size: 3.2rem;
+		line-height: 4rem;
+	}
+
+	.lb-btn-launch.ig-return {
+		height: 5.6rem;
+		margin-top: 2rem;
+	}
+
+	.ig-row {
+		height: 5.6rem;
+	}
+
+	.ig-section-title {
+		margin-top: 2rem;
+	}
+}

@@ -32,6 +32,11 @@ var ICONS = {
     'sound': '<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>',
     'mouse': '<rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v4"/>',
     'keyboard': '<rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/>',
+    'play': '<path d="M7 4.5v15l12-7.5z" fill="currentColor"/>',
+    'save': '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4"/><path d="M8 20v-6h8v6"/>',
+    'folder': '<path d="M3 7h7l2 2h9v10H3z"/><path d="M12 12v5"/><path d="M9.5 14.5L12 17l2.5-2.5"/>',
+    'settings': '<circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.5 7.5 0 0 0-1.7-1L15 3.5h-4l-.3 2.5a7.5 7.5 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.5 7.5 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.5 7.5 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.5 7.5 0 0 0 1.7-1l2.4 1 2-3.4z"/>',
+    'flag': '<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
     'info': '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/>',
     'wrench': '<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
 };
