@@ -269,3 +269,23 @@ a.menu-btn {
 	@include lb-caps(1.3rem, 0.15rem);
 	color: $ui-green;
 }
+
+// Narrower screens: tighter spacing, so the chat button and the player fit
+@media (max-width: 1400px) {
+	a#menu-logo {
+		margin-right: 3rem;
+	}
+
+	a.menu-btn {
+		margin: 0 1.4rem;
+		letter-spacing: 0.2rem;
+	}
+
+	.top-bar-divider {
+		margin: 0 1.6rem;
+	}
+
+	.menu-chat-online {
+		display: none;
+	}
+}

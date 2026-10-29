@@ -7,7 +7,7 @@ const nullMissionImg = require("../../images/null.png");
 
 class MissionsController {
     /*@ngInject*/
-    constructor($scope, missions) {
+    constructor($scope, missions, recent) {
         $scope.pageID = 'content';
         
         $scope.mapname = missions.mapname;
@@ -71,6 +71,7 @@ class MissionsController {
         $scope.launch_mission = function() {
             var entry = missions.missions[missions.missions_index];
             if( entry !== undefined ) {
+                recent.setLastMission(entry.mapname, $scope.selectedDifficulty);
                 gameui.launchmission(entry.mapname, $scope.selectedDifficulty);
             } else {
                 console.error('Invalid mission selected!');

@@ -1,7 +1,132 @@
-<section class="content" id="content-news" ng-bind-html="news">
-    <main>
-        
-    </main>
-</section>
+<div class="pg-page pg-home">
+	<div class="hm-main">
+		<header class="hm-heading">
+			<div class="pg-heading">
+				<span class="pg-eyebrow">{{ 'HM_WelcomeBack' | translate }}</span>
+				<h1 class="pg-title">{{ playername }}</h1>
+			</div>
+			<div class="hm-stats">
+				<div class="hm-stat">
+					<span class="hm-stat-value"><span class="pg-pulse"></span>{{ numcurplayers }}</span>
+					<span class="hm-stat-label">{{ 'OL_PlayersOnline' | translate }}</span>
+				</div>
+				<div class="hm-stat">
+					<span class="hm-stat-value">{{ lobbies.length }}</span>
+					<span class="hm-stat-label">{{ 'OL_OpenLobbies' | translate }}</span>
+				</div>
+				<div class="hm-stat">
+					<span class="hm-stat-value">{{ waiting.length }}</span>
+					<span class="hm-stat-label">{{ 'HM_NeedPlayers' | translate }}</span>
+				</div>
+			</div>
+		</header>
 
-<span global-chat/>
+		<div class="pg-cards">
+			<a href="#!/OnlineGames" class="pg-card pg-card-hot">
+				<span class="pg-card-corner"></span>
+				<wars-icon name="search" class="pg-card-icon"></wars-icon>
+				<span class="pg-card-title">{{ 'HM_FindGame' | translate }}</span>
+				<span class="pg-card-text">{{ 'HM_FindGame_Desc' | translate }}</span>
+				<span class="pg-card-footer">
+					<span>{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ waiting.length }} {{ 'HM_NeedPlayers' | translate }}</span>
+					<wars-icon name="arrow-right"></wars-icon>
+				</span>
+			</a>
+			<a href="#!/Gamelobby" class="pg-card">
+				<wars-icon name="plus" class="pg-card-icon"></wars-icon>
+				<span class="pg-card-title">{{ 'OL_CreateGame' | translate }}</span>
+				<span class="pg-card-text">{{ 'HM_CreateGame_Desc' | translate }}</span>
+				<span class="pg-card-footer">
+					<span>{{ 'OL_CreateGame_Types' | translate }}</span>
+					<wars-icon name="arrow-right"></wars-icon>
+				</span>
+			</a>
+			<a href="#!/Missions" class="pg-card hm-mission-card" ng-style="missionImage ? {'background-image': 'url(' + missionImage + ')'} : {}">
+				<span class="hm-mission-shade"></span>
+				<span class="pg-eyebrow">{{ 'HM_SinglePlayer' | translate }}</span>
+				<span class="pg-card-title">{{ 'HM_PlayMission' | translate }}</span>
+				<span class="pg-card-footer">
+					<span ng-if="lastMission">{{ 'HM_LastPlayed' | translate }} {{ lastMission.mapname }} &middot; {{ lastMissionDifficulty | translate }}</span>
+					<span ng-if="!lastMission">{{ 'HM_PlayMission_Desc' | translate }}</span>
+					<wars-icon name="arrow-right"></wars-icon>
+				</span>
+			</a>
+		</div>
+
+		<div class="pg-lower">
+			<section class="pg-section pg-grow">
+				<div class="pg-section-header">
+					<h2>{{ 'OL_WaitingForPlayersTitle' | translate }}</h2>
+					<a href="#!/OnlineGames" class="pg-link">{{ 'HM_AllLobbies' | translate }}<wars-icon name="chevron-right"></wars-icon></a>
+				</div>
+				<ul class="pg-rows">
+					<li class="pg-row" ng-repeat="lobby in waiting | limitTo: 5 track by lobby.steamid">
+						<span class="pg-thumb"><img ng-if="lobby.overviewsrc" ng-src="{{ lobby.overviewsrc }}.vtf" /></span>
+						<span class="hm-row-text">
+							<span class="pg-row-name">{{ lobby.name }}</span>
+							<span class="hm-row-meta">{{ lobby.modeLabel }} &middot; {{ lobby.map }}</span>
+						</span>
+						<span class="pg-fill">
+							<span class="pg-fill-bar"><span ng-style="{width: lobby.fill + '%'}"></span></span>
+							<span class="pg-fill-count">{{ lobby.taken }} / {{ lobby.total }}</span>
+						</span>
+						<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="joinlobby(lobby.steamid)">{{ 'GL_Join' | translate }}</button>
+					</li>
+				</ul>
+				<p class="pg-empty" ng-if="!loaded">{{ 'OL_Loading' | translate }}</p>
+				<p class="pg-empty" ng-if="loaded && !waiting.length">{{ 'OL_NoWaiting' | translate }}</p>
+			</section>
+
+			<div class="pg-section pg-side hm-side" ng-if="lastGame || workshopMaps.length">
+				<section class="hm-side-section" ng-if="lastGame">
+					<div class="pg-section-header">
+						<h2>{{ 'HM_HostAgain' | translate }}</h2>
+					</div>
+					<div class="hm-host-again">
+						<span class="pg-thumb hm-thumb-large"><img ng-if="lastGame.overviewsrc" ng-src="{{ lastGame.overviewsrc }}.vtf" /></span>
+						<span class="hm-host-again-text">
+							<span class="hm-host-again-title">{{ lastGameTitle }}</span>
+							<span class="hm-row-meta">
+								{{ lastGame.map }} &middot; {{ lastGameType | translate }} &middot;
+								<span ng-if="!lastGame.nummodifiers">{{ 'HM_NoModifiers' | translate }}</span>
+								<span ng-if="lastGame.nummodifiers">{{ lastGame.nummodifiers }} {{ 'HM_Modifiers' | translate }}</span>
+							</span>
+						</span>
+					</div>
+					<a ng-href="{{ hostAgainUrl }}" class="lb-btn hm-host-again-btn"><wars-icon name="refresh"></wars-icon>{{ 'HM_CreateWithLastSettings' | translate }}</a>
+				</section>
+
+				<!-- Visual only for now: workshopMaps is filled by the Workshop integration -->
+				<section class="hm-side-section" ng-if="workshopMaps.length">
+					<div class="pg-section-header">
+						<h2>{{ 'HM_YourWorkshopMaps' | translate }}</h2>
+						<span class="pg-link">{{ 'HM_Manage' | translate }}<wars-icon name="chevron-right"></wars-icon></span>
+					</div>
+					<div class="hm-workshop-row" ng-repeat="item in workshopMaps">
+						<span class="hm-row-text">
+							<span class="hm-workshop-title">{{ item.title }}</span>
+							<span class="hm-row-meta" ng-class="{'hm-warning': !item.linked}">{{ item.linked ? item.updated : ('HM_NotLinked' | translate) }}</span>
+						</span>
+						<span class="hm-row-meta"><wars-icon name="users"></wars-icon> {{ item.subscribers }}</span>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+
+	<!-- Docked global chat, a drawer from the top bar on smaller screens -->
+	<aside class="hm-chat lb-chat">
+		<div class="chat-drawer-header">
+			<h2>{{ 'Chat_Global' | translate }}</h2>
+			<span class="chat-drawer-online">{{ numcurplayers }} {{ 'Menu_StatusOnline' | translate }}</span>
+		</div>
+		<div class="lb-chat-pane">
+			<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="chatlobby"></chat-lines>
+			<div class="lb-chat-controls" ng-controller="LobbySendChatController" chat-service="chatlobby">
+				<form ng-submit="sendChat()" class="lb-chat-form"><input type="text" ng-model="text" placeholder="{{ 'GL_ChatPlaceholderGlobal' | translate }}" /></form>
+				<span class="lb-chat-language" ng-if="inputlanguage">{{ inputlanguage }}</span>
+				<a href class="lb-chat-send" ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
+			</div>
+		</div>
+	</aside>
+</div>

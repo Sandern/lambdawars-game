@@ -4,7 +4,7 @@ import lobbyModule from './module';
 
 class GamelobbyController {
     /*@ngInject*/
-    constructor($scope, gamelobbymanager, ngDialog) {
+    constructor($scope, $routeParams, gamelobbymanager, ngDialog, recent) {
         $scope.pageID = 'gamelobby';
         $scope.lobbyname = '';
         $scope.lobbytype = null;
@@ -180,7 +180,7 @@ class GamelobbyController {
         });
 
         if( gamelobbymanager.state === 'none' ) {
-            gamelobbymanager.createLobby();
+            gamelobbymanager.createLobby($routeParams.preset === 'last' ? recent.lastGame() : null);
         }
 
         if( gamelobbymanager.settings !== undefined ) {
