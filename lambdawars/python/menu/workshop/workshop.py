@@ -73,6 +73,30 @@ RESULT_MESSAGES = {
 }
 
 
+#: Steam's EItemUpdateStatus, logged while uploading
+UPDATE_STATUS_NAMES = {
+    0: 'invalid (Steam has no upload for this handle)',
+    1: 'preparing config',
+    2: 'preparing content',
+    3: 'uploading content',
+    4: 'uploading preview image',
+    5: 'committing changes',
+}
+#: Seconds between the log lines while the status of an upload doesn't change
+PUBLISH_LOG_INTERVAL = 10.0
+
+
+def LogPublish(message):
+    """ Console output of each publishing step, to find out why an upload fails on a PC. """
+    print('Workshop publish: %s' % message)
+
+
+def FormatCallResult(result):
+    return 'result %d (%s), item %s, io failure %s, needs legal agreement %s' % (
+        result['result'], 'OK' if result['result'] == _workshop.RESULT_OK else RESULT_MESSAGES.get(result['result'], 'unknown'),
+        result['publishedfileid'], result['iofailure'], result['needslegalagreement'])
+
+
 class PublishError(Exception):
     pass
 
@@ -319,6 +343,7 @@ class WebWorkshop(WebViewComponent):
             self.StartPublish(mapname, title.strip(), description.strip(), int(visibility),
                               changenote.strip(), previewpath.strip())
         except PublishError as e:
+            LogPublish('failed before uploading: %s' % e)
             self.publishjob = None
             self.NotifyFinished(False, '', str(e))
 
@@ -614,11 +639,13 @@ class WebWorkshop(WebViewComponent):
             'files': BuildFileList(contentpath),
             'previewsha1': HashFile(previewpath) if previewpath else None,
         }
+        self.LogPublishRequest()
 
         if self.publishjob['publishedfileid']:
             self.StartUpload()
         else:
             call = _workshop.CreateItem()
+            LogPublish('creating a new item, call %s' % call)
             if call == _workshop.API_CALL_INVALID:
                 raise PublishError('Failed to create the Workshop item')
             self.publishjob['state'] = 'creating'
@@ -979,27 +1006,63 @@ class WebWorkshop(WebViewComponent):
             raise PublishError('Failed to copy map files: %s' % e)
         return stagingpath
 
+    def LogPublishRequest(self):
+        """ What is uploaded: the item, the files of the content folder and the preview image. """
+        job = self.publishjob
+        LogPublish('map %s, %s' % (job['mapname'], 'updating item %s' % job['publishedfileid']
+                                   if job['publishedfileid'] else 'publishing as a new item'))
+        try:
+            from steam import steamapicontext
+            LogPublish('app id %s, Steam user %s' % (steamapicontext.SteamUtils().GetAppID(),
+                                                     steamapicontext.SteamUser().GetSteamID().ConvertToUint64()))
+        except Exception as e:
+            LogPublish('could not read the app id and Steam user: %s' % e)
+        LogPublish('content folder %s' % job['contentpath'])
+        total = 0
+        for root, dirs, files in os.walk(job['contentpath']):
+            for name in files:
+                path = os.path.join(root, name)
+                size = os.path.getsize(path)
+                total += size
+                LogPublish('  %s (%d bytes)' % (os.path.relpath(path, job['contentpath']), size))
+        LogPublish('%d bytes in the content folder' % total)
+        if job['previewpath']:
+            LogPublish('preview image %s (%d bytes)' % (job['previewpath'], os.path.getsize(job['previewpath'])))
+        else:
+            LogPublish('no preview image')
+
     def StartUpload(self):
         job = self.publishjob
         handle = _workshop.StartItemUpdate(job['publishedfileid'])
+        LogPublish('update handle %s for item %s' % (handle, job['publishedfileid']))
         if handle == _workshop.UPDATE_HANDLE_INVALID:
             raise PublishError('Failed to start the Workshop item update')
 
-        if not (_workshop.SetItemTitle(handle, job['title']) and
-                _workshop.SetItemDescription(handle, job['description']) and
-                _workshop.SetItemVisibility(handle, job['visibility']) and
-                _workshop.SetItemTags(handle, WORKSHOP_TAGS) and
-                _workshop.SetItemContent(handle, job['contentpath'])):
-            raise PublishError('Failed to set the Workshop item properties')
-        if job['previewpath'] and not _workshop.SetItemPreview(handle, job['previewpath']):
-            raise PublishError('Failed to set the preview image')
+        # One at a time, so the log shows which one Steam refused
+        settings = [
+            ('title', lambda: _workshop.SetItemTitle(handle, job['title'])),
+            ('description', lambda: _workshop.SetItemDescription(handle, job['description'])),
+            ('visibility', lambda: _workshop.SetItemVisibility(handle, job['visibility'])),
+            ('tags', lambda: _workshop.SetItemTags(handle, WORKSHOP_TAGS)),
+            ('content folder', lambda: _workshop.SetItemContent(handle, job['contentpath'])),
+        ]
+        if job['previewpath']:
+            settings.append(('preview image', lambda: _workshop.SetItemPreview(handle, job['previewpath'])))
+        for name, setting in settings:
+            if not setting():
+                LogPublish('Steam refused the %s' % name)
+                raise PublishError('Failed to set the %s of the Workshop item' % name)
 
         call = _workshop.SubmitItemUpdate(handle, job['changenote'])
+        LogPublish('submitted the update, call %s' % call)
         if call == _workshop.API_CALL_INVALID:
             raise PublishError('Failed to submit the Workshop item')
         job['state'] = 'uploading'
         job['updatehandle'] = handle
         job['call'] = call
+        job['submittime'] = time.time()
+        job['loggedstatus'] = None
+        job['loggedtime'] = 0.0
 
     def OnPublishTick(self):
         job = self.publishjob
@@ -1012,6 +1075,7 @@ class WebWorkshop(WebViewComponent):
                 result = _workshop.GetCreateItemResult(job['call'])
                 if result is None:
                     return
+                LogPublish('created the item: %s' % FormatCallResult(result))
                 self.CheckResult(result, 'Failed to create the Workshop item')
                 job['publishedfileid'] = result['publishedfileid']
                 job['needslegalagreement'] = result['needslegalagreement']
@@ -1023,9 +1087,17 @@ class WebWorkshop(WebViewComponent):
                 job['progress'] = (status, processed, total)
                 self.NotifyProgress(status, processed, total)
 
+                now = time.time()
+                if status != job['loggedstatus'] or now - job['loggedtime'] >= PUBLISH_LOG_INTERVAL:
+                    job['loggedstatus'] = status
+                    job['loggedtime'] = now
+                    LogPublish('upload status %s: %d of %d bytes, %.0f seconds after submitting' % (
+                        UPDATE_STATUS_NAMES.get(status, status), processed, total, now - job['submittime']))
+
                 result = _workshop.GetSubmitItemUpdateResult(job['call'])
                 if result is None:
                     return
+                LogPublish('uploaded: %s' % FormatCallResult(result))
                 self.CheckResult(result, 'Failed to upload the map')
                 job['needslegalagreement'] = job['needslegalagreement'] or result['needslegalagreement']
                 self.SavePublishedInfo(job, uploaded=True)
@@ -1041,6 +1113,7 @@ class WebWorkshop(WebViewComponent):
             raise PublishError('%s: %s' % (message, reason))
 
     def FinishPublish(self, success, message):
+        LogPublish('done' if success else 'failed: %s' % message)
         job = self.publishjob
         self.publishjob = None
         self.StopPublishTick()
