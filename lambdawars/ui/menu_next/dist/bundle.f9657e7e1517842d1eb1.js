@@ -18368,7 +18368,7 @@ menu_module.factory('missions', missionsService);
 
 
 
-var DISCORD_URL = 'https://discord.gg/gXTSX3vVrX';
+var DISCORD_URL = 'https://discord.gg/SdAtwCJhrH';
 var multiplayer_controller_LOBBY_LIST_INTERVAL = 10000;
 
 class MultiplayerController {

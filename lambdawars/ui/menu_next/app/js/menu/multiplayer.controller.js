@@ -2,7 +2,7 @@
 
 import menuModule from './module';
 
-var DISCORD_URL = 'https://discord.gg/gXTSX3vVrX';
+var DISCORD_URL = 'https://discord.gg/SdAtwCJhrH';
 var LOBBY_LIST_INTERVAL = 10000;
 
 class MultiplayerController {
