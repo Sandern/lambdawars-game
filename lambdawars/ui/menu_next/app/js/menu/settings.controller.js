@@ -555,22 +555,68 @@ class SettingsController {
 
 menuModule.controller('SettingsController', SettingsController);
 
+// Width of the slider thumb in pixels, see .st-slider in _pages.scss
+var SLIDER_THUMB_WIDTH = 16;
+
 // Range input that shows a value without writing back a value the browser adjusted to the step.
+// Dragging is done here with mouse events, the browser of the game only moves the thumb on a click.
 // Usage: <input type="range" settings-range="value" settings-change="slide($value)">
 /*@ngInject*/
-function settingsRange() {
+function settingsRange($document) {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
-            scope.$watch(attrs.settingsRange, function(value) {
-                element.val(value);
-            });
-            element.on('input change', function() {
-                var value = parseFloat(element.val());
+            var input = element[0];
+            var document = $document[0];
+
+            function change(value) {
                 scope.$apply(function() {
                     scope.$eval(attrs.settingsChange, {$value: value});
                 });
+            }
+
+            // The value under the mouse, rounded to the step
+            function setFromMouse(event) {
+                var rect = input.getBoundingClientRect();
+                var min = parseFloat(attrs.min), max = parseFloat(attrs.max), step = parseFloat(attrs.step) || 1;
+                var ratio = (event.clientX - rect.left - SLIDER_THUMB_WIDTH / 2) / (rect.width - SLIDER_THUMB_WIDTH);
+                ratio = Math.max(0, Math.min(1, ratio));
+                var value = parseFloat((min + Math.round(ratio * (max - min) / step) * step).toFixed(4));
+                if( value !== parseFloat(element.val()) ) {
+                    element.val(value);
+                    change(value);
+                }
+            }
+
+            function onMouseMove(event) {
+                event.preventDefault();
+                setFromMouse(event);
+            }
+
+            function stopDragging() {
+                document.removeEventListener('mousemove', onMouseMove, true);
+                document.removeEventListener('mouseup', stopDragging, true);
+            }
+
+            element.on('mousedown', function(event) {
+                if( event.button !== 0 || input.disabled ) {
+                    return;
+                }
+                event.preventDefault();
+                input.focus();
+                setFromMouse(event);
+                document.addEventListener('mousemove', onMouseMove, true);
+                document.addEventListener('mouseup', stopDragging, true);
             });
+
+            scope.$watch(attrs.settingsRange, function(value) {
+                element.val(value);
+            });
+            // Keyboard
+            element.on('input change', function() {
+                change(parseFloat(element.val()));
+            });
+            scope.$on('$destroy', stopDragging);
         },
     };
 }

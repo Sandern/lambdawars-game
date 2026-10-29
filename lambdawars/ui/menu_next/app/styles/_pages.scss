@@ -1683,12 +1683,19 @@
 .st-calibration-symbols {
 	display: flex;
 	margin-right: 4rem;
-	color: $orange;
+}
 
-	svg {
-		width: 7.2rem;
-		height: 7.2rem;
-		margin-right: 2.8rem;
+// The lambda of the logo image, at its own size
+.st-calibration-logo {
+	flex-shrink: 0;
+	width: 60px;
+	height: 52px;
+	margin-right: 2.8rem;
+	overflow: hidden;
+
+	img {
+		display: block;
+		height: 52px;
 	}
 }
 
@@ -1999,12 +2006,10 @@
 
 	.st-calibration-symbols {
 		margin-right: 2.4rem;
+	}
 
-		svg {
-			width: 5.2rem;
-			height: 5.2rem;
-			margin-right: 1.6rem;
-		}
+	.st-calibration-logo {
+		margin-right: 1.6rem;
 	}
 
 	.st-category {

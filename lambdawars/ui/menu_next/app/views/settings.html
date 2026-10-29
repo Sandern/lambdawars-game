@@ -24,10 +24,9 @@
 
 		<div class="st-calibration" ng-if="loaded && category.id === 'brightness'">
 			<span class="st-calibration-symbols">
-				<svg ng-repeat="opacity in calibration() track by $index" viewBox="0 0 34 34" ng-style="{opacity: opacity}" aria-hidden="true">
-					<circle cx="17" cy="17" r="14.6" fill="none" stroke="currentColor" stroke-width="2.4"></circle>
-					<path d="M10.5 9 H14 L24 26 H20.5 L17 20 L13.5 26 H10 L15.2 17.4 Z" fill="currentColor"></path>
-				</svg>
+				<span class="st-calibration-logo" ng-repeat="opacity in calibration() track by $index" ng-style="{opacity: opacity}">
+					<img ng-src="images/lw-logo.png" alt="" />
+				</span>
 			</span>
 			<p>{{ 'ST_Brightness_Calibrate' | translate }}</p>
 		</div>
