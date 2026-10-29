@@ -14,6 +14,11 @@ dbstatuseffects.priority = 2  # Increase priority to ensure it registered before
 
 # Status Effect info entry
 class StatusEffectInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass that post-processes status effect display strings.
+
+    On the client it ensures a fallback display name and prefixes the
+    description with the effect name so tooltips have a consistent format.
+    """
     def __new__(cls, name, bases, dct):
         newcls = gamemgr.BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
@@ -49,9 +54,11 @@ class StatusEffectInfo(gamemgr.BaseInfo, metaclass=StatusEffectInfoMetaClass):
         self.owner = unit.GetHandle()
         
     def Init(self):
+        """Perform initial setup for the effect (override in subclasses)."""
         return True
         
     def Remove(self):
+        """Remove this status effect from its owning unit safely."""
         if self.removed:
             PrintWarning('Trying to remove status effect %s twice!\n' % self.__class__.__name__)
             return
@@ -60,6 +67,7 @@ class StatusEffectInfo(gamemgr.BaseInfo, metaclass=StatusEffectInfoMetaClass):
         self.removed = True
 
     def Update(self, thinkfreq):
+        """Update hook called by the unit; default implementation removes self."""
         PrintWarning('Status Effect %s has no Update implementation! Removing...\n')
         self.Remove()
         
@@ -71,6 +79,11 @@ class StatusEffectInfo(gamemgr.BaseInfo, metaclass=StatusEffectInfoMetaClass):
         
     @classmethod
     def CreateAndApply(cls, targetunit, *args, **kwargs):
+        """Create a new effect instance and attach it to the unit.
+        
+        If an instance of the same effect is already present, gives it a
+        chance to merge via `TryAdd` instead of spawning a duplicate.
+        """
         for se in targetunit.statuseffects:
             if se.name != cls.name:
                 continue
@@ -118,5 +131,6 @@ class TimedEffectInfo(StatusEffectInfo):
         return True
         
     def Update(self, thinkfreq):
+        """Call Remove() if the effect should end."""
         if self.dietime < gpGlobals.curtime:
             self.Remove()

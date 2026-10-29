@@ -1,3 +1,8 @@
+"""Turret building classes for Lambda Wars.
+
+Provides base classes for defensive turret buildings that can automatically
+target and attack enemies.
+"""
 from srcbase import *
 from vmath import Vector, QAngle, anglemod, ApproachAngle, AngleDiff, VectorAngles, AngleVectors, DotProduct, VectorNormalize
 from .base import UnitBaseBuilding as BaseClass, WarsBuildingInfo
@@ -11,6 +16,11 @@ else:
     from entities import DataUpdateType_t
     
 class WarsTurretInfo(WarsBuildingInfo):
+    """Base class for turret building information.
+    
+    Defines properties for defensive turrets including attack settings,
+    sensing distance, and turret-specific attributes.
+    """
     attackpriority = 0
     sensedistance = 1024.0
     ispriobuilding = False # Not important for game modes logic
@@ -24,6 +34,7 @@ class WarsTurretInfo(WarsBuildingInfo):
     requirenavmesh = False
     
     class AttackTurret(WarsBuildingInfo.AttackRange):
+        """Default attack configuration for turrets."""
         cone = 0.99862953475 # 3 degrees
         damage = 12
         attackspeed = 1.0
@@ -31,13 +42,21 @@ class WarsTurretInfo(WarsBuildingInfo):
     attacks = 'AttackTurret'
     
 class TurretFallBackInfo(WarsTurretInfo):
+    """Fallback turret info used when an invalid turret is requested."""
     name = 'turret_unknown'
     displayname = 'Unknown Turret'
     attributes = []
     hidden = True
     
 class UnitBaseTurretAnimState(UnitBaseAnimState):
+    """Animation state for turret aiming and rotation."""
     def Update(self, eyeyaw, eyepitch):
+        """Update turret animation state based on target.
+        
+        Args:
+            eyeyaw (float): Eye yaw angle.
+            eyepitch (float): Eye pitch angle.
+        """
         outer = self.outer
         enemy = outer.enemy
         
@@ -57,7 +76,13 @@ class UnitBaseTurretAnimState(UnitBaseAnimState):
 
 @networked
 class UnitBaseTurret(BaseClass):
+    """Base class for turret building entities.
+    
+    Server-side turret entity class that handles automatic targeting,
+    aiming, and attacking of enemies.
+    """
     def __init__(self):
+        """Initialize the turret entity."""
         super().__init__()
 
         if isserver:
@@ -73,6 +98,11 @@ class UnitBaseTurret(BaseClass):
         self.animstate = self.CreateAnimState()
         
     def CreateAnimState(self):
+        """Create the animation state for this turret.
+        
+        Returns:
+            UnitBaseTurretAnimState: Animation state instance.
+        """
         return UnitBaseTurretAnimState(self)
                 
     def UpdateOnRemove(self):

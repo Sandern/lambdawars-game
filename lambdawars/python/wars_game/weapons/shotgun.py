@@ -26,7 +26,7 @@ class WeaponShotgun(WarsWeaponBase):
         self.nextprimaryattack = gpGlobals.curtime + self.firerate
 
         info = FireBulletsInfo_t()
-        info.shots = 8
+        info.shots = 7
         info.vecsrc = vecShootOrigin
         info.vecdirshooting = vecShootDir
         info.vecspread = self.bulletspread
@@ -43,8 +43,7 @@ class WeaponShotgun(WarsWeaponBase):
 
     class AttackPrimary(WarsWeaponBase.AttackRange):
         maxrange = 512.0
-        attackspeed = 0.65
-        damage = 25
+        attackspeed = 0.60
+        damage = 35
         cone = WarsWeaponBase.AttackRange.DOT_6DEGREE
-        #attributes = ['bullet']
-        attributes = ['bullet', 'buckshot']
+        attributes = ['buckshot']

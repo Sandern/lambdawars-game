@@ -82,13 +82,14 @@ def GetUILanguage():
 # However this also requires updating/checking the different hud elements making use of it.
 class WebViewShared(SrcCefBrowser):
     def GetGameUITranslations(self):
+        # English is the base, so texts missing in a translation are shown in English
+        english_translations_file = os.path.join('resource', 'lambdawars_ui_english.txt')
+        tokens = dict(LoadFileIntoDictionaries(english_translations_file, default={}).get('Tokens', {}))
         language = GetUILanguage()
-        translations_file = os.path.join('resource', 'lambdawars_ui_%s.txt' % language)
-        translations = LoadFileIntoDictionaries(translations_file, default={})
-        if not translations:
-            english_translations_file = os.path.join('resource', 'lambdawars_ui_english.txt')
-            translations = LoadFileIntoDictionaries(english_translations_file, default={})
-        return translations.get('Tokens', {})
+        if language != 'english':
+            translations_file = os.path.join('resource', 'lambdawars_ui_%s.txt' % language)
+            tokens.update(LoadFileIntoDictionaries(translations_file, default={}).get('Tokens', {}))
+        return tokens
 
 
 class WebView(WebViewShared):

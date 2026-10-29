@@ -1,3 +1,4 @@
+"""Helpers for projecting unit formations when issuing group movement orders."""
 from srcbase import MASK_NPCSOLID_BRUSHONLY
 from vmath import Vector, VectorNormalize, DotProduct
 from utils import UTIL_FindPosition, FindPositionInfo
@@ -6,10 +7,14 @@ from operator import itemgetter
 
 
 class UnitProjector(object):
-    """ Project a set of units to around another spot.
+    """Project a set of units into valid positions around a destination.
+
+    Computes suitable formation slots near the target location, pairs them
+    with units based on ordering heuristics, and issues the final move
+    commands so the group spreads intelligently.
     """
     def __init__(self, position, units):
-        """ Creates a new unit projector.
+        """Creates a new unit projector.
 
             Args:
                 position (Vector): target position

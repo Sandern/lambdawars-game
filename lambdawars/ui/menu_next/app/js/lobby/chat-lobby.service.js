@@ -182,6 +182,7 @@ function ChatlobbyServiceFactory($rootScope, $translate, $sanitize, $timeout, ga
         $timeout(() =>{
             this.history.push({
                 id:this.idcount,
+                time: new Date(),
                 text: text,
                 username: username+':',
                 steamid: usersteamid,
@@ -315,10 +316,18 @@ function ChatlobbyServiceFactory($rootScope, $translate, $sanitize, $timeout, ga
 
 lobbyModule.factory('ChatlobbyService', ChatlobbyServiceFactory);
 
+// Seconds before searching the chat lobby again, after Steam couldn't list the lobbies or didn't answer
+var CHAT_RETRY_DELAY = 5;
+var CHAT_SEARCH_TIMEOUT = 15;
+
 /*@ngInject*/
-function chatlobby($rootScope, ChatlobbyService, $translate) {
+function chatlobby($rootScope, ChatlobbyService, $translate, $timeout) {
     var GlobalChatService = function(/*broadcastname*/) {
         ChatlobbyService.apply(this, arguments);
+        // In the chat lobby, and searching for it
+        this.joined = false;
+        this.searching = false;
+        this.retryTimer = null;
     };
 
     GlobalChatService.prototype = new ChatlobbyService();
@@ -333,17 +342,70 @@ function chatlobby($rootScope, ChatlobbyService, $translate) {
     ;
     GlobalChatService.prototype.ingameStateChanged = function(event, ingame/*, ishosting, isoffline*/) {
         if( ingame ) {
+            this.stopSearching();
+            this.joined = false;
             this.lobbybinding.leavelobby();
         } else {
             this.findAndJoinLobby();
         }
     };
 
+    GlobalChatService.prototype.OnJoinOrCreateLobby = function() {
+        ChatlobbyService.prototype.OnJoinOrCreateLobby.apply(this, arguments);
+        this.joined = true;
+    };
+
+    // Creating or joining failed: search again later
+    GlobalChatService.prototype.OnCreateLobbyFailed = function() {
+        ChatlobbyService.prototype.OnCreateLobbyFailed.apply(this, arguments);
+        this.joined = false;
+        this.retryLater();
+    };
+
+    GlobalChatService.prototype.stopSearching = function() {
+        this.searching = false;
+        if( this.retryTimer ) {
+            $timeout.cancel(this.retryTimer);
+            this.retryTimer = null;
+        }
+    };
+
+    GlobalChatService.prototype.retryLater = function() {
+        var _self = this;
+        this.stopSearching();
+        this.retryTimer = $timeout(function() {
+            _self.retryTimer = null;
+            _self.findAndJoinLobby();
+        }, CHAT_RETRY_DELAY * 1000);
+    };
+
     GlobalChatService.prototype.findAndJoinLobby = function() {
         var lobbybinding = this.lobbybinding;
+        if( this.searching || this.joined ) {
+            return;
+        }
+        this.stopSearching();
+        this.searching = true;
 
         var _self = this;
-        lobbybinding.listlobbies(function(chatLobbies) {
+        // Steam may not answer at all, search again then
+        var searchTimeout = $timeout(function() {
+            if( _self.searching ) {
+                _self.retryLater();
+            }
+        }, CHAT_SEARCH_TIMEOUT * 1000);
+
+        lobbybinding.listlobbies(function(chatLobbies, failed) {
+            $timeout.cancel(searchTimeout);
+            if( !_self.searching ) {
+                return;
+            }
+            _self.searching = false;
+            // Steam couldn't list the lobbies: try again, creating a lobby now would make a second chat lobby
+            if( failed ) {
+                _self.retryLater();
+                return;
+            }
             if( chatLobbies.length === 0 ) {
                 lobbybinding.createlobby('Global Chat Lobby');
             } else {
@@ -354,6 +416,19 @@ function chatlobby($rootScope, ChatlobbyService, $translate) {
             });
 
         });
+    };
+
+    // Not in the chat lobby: say so and join it, instead of sending to no lobby
+    GlobalChatService.prototype.sendChatMessage = function(/*text*/) {
+        if( !this.joined ) {
+            var _self = this;
+            $translate('Chat_NotConnected').then(function(notConnected) {
+                _self.OnLobbyChatMsg("", notConnected);
+            });
+            this.findAndJoinLobby();
+            return;
+        }
+        ChatlobbyService.prototype.sendChatMessage.apply(this, arguments);
     };
 
     var globalChatInstance = new GlobalChatService('globalchat');

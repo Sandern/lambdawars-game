@@ -1,6 +1,4 @@
-'''
-Controller code for toolbox panel in editor mode.
-'''
+""" Controller code for toolbox CEF panel in in-game editor mode. """
 from srcbase import IN_DUCK, KeyValues
 from cef import CefPanel
 from gameinterface import engine, ConVarRef
@@ -15,6 +13,7 @@ from editorsystem import EditorSystem
 from _recast import RecastMgr
 
 class CefToolbox(CefPanel):
+    """CEF panel that exposes editor modes, assets, and nav-mesh settings."""
     name = 'toolbox'
     htmlfile = 'ui/viewport/tools/toolbox.html'
     classidentifier = 'ui/editor/Toolbox'

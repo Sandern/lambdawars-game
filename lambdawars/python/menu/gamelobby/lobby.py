@@ -846,6 +846,12 @@ class WebGameLobby(WebLobby):
                 'numtakenslots': steammatchmaking.GetLobbyData(steamidlobby, 'numtakenslots'),
             })
             
+            # Shown in the lobby lists of the menu
+            info = dbgamerules.get(settingsinfo['mode'], None)
+            settingsinfo['modename'] = info.displayname if info else settingsinfo['mode']
+            settingsinfo['mapinstalled'] = filesystem.FileExists(os.path.join('maps', settingsinfo['map']) + '.bsp')
+            settingsinfo['teams'] = self.datamodel.BuildTeamCounts()
+
             maprespath = os.path.join('maps', settingsinfo['map']) + '.res'
             if filesystem.FileExists(maprespath):
                 kvres = kvdict.LoadFileIntoDictionaries(maprespath)

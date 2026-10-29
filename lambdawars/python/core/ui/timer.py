@@ -1,3 +1,8 @@
+"""Simple HUD timer panel driven by gamerule events and tick updates.
+
+Provides a minimal VGUI panel that can show elapsed or remaining time during
+missions, updating regularly via tick signals.
+"""
 from srcbase import Color, HIDEHUD_STRATEGIC
 from vgui import GetClientMode, CHudElement, scheme, AddTickSignal
 from vgui.controls import Panel, Label
@@ -6,7 +11,13 @@ from utils import ScreenWidth, ScreenHeight
 from gamerules import gamerules
 
 class HudTimer(CHudElement, Panel):
+    """Displays a simple countdown or elapsed time label on the HUD.
+
+    Loads its own scheme, updates the label via tick callbacks, and exposes
+    helper attributes for gamerules to set the current time to display.
+    """
     def __init__(self):
+        """Initialize the timer label and register for tick updates."""
         CHudElement.__init__(self, "HudTimer")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudTimer")
         self.SetHiddenBits( HIDEHUD_STRATEGIC ) 
@@ -25,12 +36,14 @@ class HudTimer(CHudElement, Panel):
         AddTickSignal( self.GetVPanel(), 100 )
         
     def ApplySchemeSettings(self, schemeobj):
+        """Apply background/foreground colors from the HUD scheme."""
         super(HudTimer, self).ApplySchemeSettings(schemeobj)
         
         self.timer.SetBgColor(Color(60, 60, 60, 170))
         self.timer.SetFgColor(Color(255, 255, 255, 255))
         
     def PerformLayout(self):
+        """Position the timer along the left edge of the screen."""
         super(HudTimer, self).PerformLayout()
         
         self.SetSize( scheme().GetProportionalScaledValueEx( self.GetScheme(), 40 ),
@@ -43,9 +56,11 @@ class HudTimer(CHudElement, Panel):
         self.timer.SetPos(marginleft, margintop)
 
     def OnTick(self):
+        """Called by VGUI every tick; refreshes the displayed time string."""
         super(HudTimer, self).OnTick()
         self.ShowTimer()
     def ShowTimer(self): 
+        """Update the label with the current `self.time` if the timer is active."""
         if not self.gametime:
             return
         color = (0, 0, 0)

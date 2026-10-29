@@ -39,6 +39,13 @@ class Molotov(BaseClass):
             self.SetCollisionGroup(COLLISION_GROUP_DEBRIS)
 
             self.CreateVPhysics()
+            
+            thrower = self.GetThrower()
+            if thrower:
+                self.spawnpos = thrower.GetAbsOrigin()
+                self.SetAbsOrigin(self.spawnpos)
+            else:
+                self.spawnpos = self.GetAbsOrigin()
 
             self.Ignite(12.0, False)
             flame_entity = self.GetEffectEntity() # Above Ignite call sets the effect entity to the flame entity
@@ -47,7 +54,7 @@ class Molotov(BaseClass):
             flame_entity.SetFlameRadiusDamagePerSecond(0) # Pure visual
 
             #self.SetTouch(self.MolotovTouch)
-        
+            
     def CreateVPhysics(self):
         # Create the object in the physics system
         self.VPhysicsInitNormal(SOLID_BBOX, 0, False)
@@ -67,15 +74,22 @@ class Molotov(BaseClass):
         
     def VPhysicsCollision(self, index, event):
         super().VPhysicsCollision(index, event)
-        
-        # Require a short minimum time before we zero the velocity on collision
-        if gpGlobals.curtime - self.spawntime < 0.15:
+
+        min_fly_time = 0.15
+        max_fly_dist = 32.0
+
+        dist = 0.0
+        if hasattr(self, 'spawnpos'):
+            try:
+                dist = (self.GetAbsOrigin() - self.spawnpos).Length()
+            except:
+                dist = 0.0
+
+        if gpGlobals.curtime - self.spawntime < min_fly_time and dist <= max_fly_dist:
             return
 
-        # Will create another fire effect
         self.Extinguish()
 
-        # Try merge with nearby dropped molotovs to reduce clutter
         targets = UTIL_EntitiesInSphere(320, self.GetAbsOrigin(), 16.0, 0)
         for target in targets:
             if target and target != self and target.GetClassname() == self.GetClassname() and target.is_burning_on_ground:
@@ -84,13 +98,14 @@ class Molotov(BaseClass):
                 # Remove our self
                 self.SetThink(self.SUB_Remove, gpGlobals.curtime)
                 return
-            
+
         physobj = self.VPhysicsGetObject()
-        vel = Vector()
-        ang = Vector()
-        physobj.GetVelocity(vel, ang)
-        vel.x = vel.y = 0.0
-        physobj.SetVelocity(vel, ang)
+        if physobj:
+            vel = Vector()
+            ang = Vector()
+            physobj.GetVelocity(vel, ang)
+            vel.x = vel.y = 0.0
+            physobj.SetVelocity(vel, ang)
 
         self.Detonate(None)
 

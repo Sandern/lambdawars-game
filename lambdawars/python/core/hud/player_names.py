@@ -1,3 +1,8 @@
+"""HUD overlay for rendering player names above units under direct control.
+
+Listens to control-unit signals and positions player name labels in screen
+space so teammates can easily identify which units belong to which players.
+"""
 from vmath import Vector
 from vgui import surface, GetClientMode, CHudElement, CHudElementHelper, scheme, FontDrawType_t
 from vgui.controls import Panel
@@ -9,6 +14,12 @@ from core.signals import playercontrolunit, playerleftcontrolunit
 import playermgr
 
 class HudPlayerNames(CHudElement, Panel):
+    """Displays floating player names for units the local player controls.
+
+    Tracks the set of directly controlled units, converts their world-space
+    positions to screen coordinates, and draws the owning player's name
+    using the configured HUD fonts.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudPlayerNames")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudPlayerNames")

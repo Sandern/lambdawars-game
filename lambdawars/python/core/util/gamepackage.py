@@ -1,4 +1,8 @@
-""" Util for reading or writing keyvalue/json game packages. """
+"""Utilities for reading, writing, and copying game package definitions.
+
+Supports exporting packages to KeyValues or JSON formats, reloading package
+scripts from disk, and providing console helpers for duplicating packages.
+"""
 from gamedb import RegisterGamePackage, dbgamepackages, scriptgamepackages_path, dblist
 from srcbuiltins import DictToKeyValues, WriteKeyValuesToFile
 from gameinterface import concommand
@@ -11,6 +15,7 @@ import traceback
 
 
 def BuildScriptGamePackages():
+    """Scan ``scripts/balancetests`` for JSON packages and register them."""
     for filename in filesystem.ListDir(scriptgamepackages_path, 'MOD'):
         full_path = os.path.join(scriptgamepackages_path, filename)
         root, ext = os.path.splitext(full_path)
@@ -84,6 +89,7 @@ def WriteKeyValueGamePackage(name, outname):
 
 
 def default_handler(o):
+    """Fallback JSON serializer used when dumping game packages."""
     PrintWarning('Could not handle object: %s\n' % o)
     return '<error>'
     # Let the base class default method raise the TypeError
@@ -91,6 +97,7 @@ def default_handler(o):
 
 
 def WriteJSONGamePackage(name, outname):
+    """Write an existing package to a JSON file in ``scripts/gamepackages``."""
     if not name:
         raise Exception('WriteJSONGamePackage: name not specified')
     if not outname:
@@ -135,6 +142,7 @@ def WriteJSONGamePackage(name, outname):
                          json.dumps(out_gp, sort_keys=True, indent=4, separators=(',', ': '), default=default_handler))
 
 def ReadJSONGamePackage(gp):
+    """Load JSON definitions from disk into the provided game package."""
     path = gp.script_path
 
     if not filesystem.FileExists(path):
@@ -195,4 +203,5 @@ def ReadJSONGamePackage(gp):
 
 @concommand('gp_copy')
 def GPCopy(args):
+    """Console command that copies one package to another JSON file."""
     WriteJSONGamePackage(args[1], args[2])

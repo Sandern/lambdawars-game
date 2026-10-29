@@ -1,3 +1,4 @@
+"""Utility functions for computing jump trajectories and simulation traces."""
 import math
 from vmath import vec3_origin, vec3_angle
 from srcbase import MASK_SOLID, MASK_SOLID_BRUSHONLY
@@ -12,18 +13,20 @@ g_debug_checkthrowtolerance = ConVarRef('g_debug_checkthrowtolerance')
 
 
 def CalcJumpVelocity(startpos, endpos, minheight, maxheight, clampspeed, grav_modifier=1.0):
-    """ Calculates velocity for a jump. This is the most simple version and
+    """ Calculates velocity for a jump without checking collisions. This is the most simple version and
         does not validate if the jump is possible.
 
-        Args:
-            startpos (Vector): Starting position
-            endpos (Vector): end position
-            minheight (float): Min height for jump
-            maxheight (float): Max height for jump
-            clampspeed (float): Max speed at which the velocity is clamped
+    Args:
+        startpos (Vector): Start position.
+        endpos (Vector): End position.
+        minheight (float): Minimum height for the jump (units).
+        maxheight (float): Maximum height for the jump (units).
+        clampspeed (float): Maximum speed allowed for the final vector (clamped speed).
+        grav_modifier (float, optional): Gravity modifier applied on top of
+            ``sv_gravity``. Defaults to ``1.0``.
 
-        Kwargs:
-            grav_modifier (float): Gravity modifier
+    Returns:
+        Vector: Velocity vector that will reach ``endpos`` in a perfect arc.
     """
     gravity = sv_gravity.GetFloat()
     if gravity <= 1:
@@ -62,20 +65,23 @@ def CalcJumpVelocity(startpos, endpos, minheight, maxheight, clampspeed, grav_mo
     return jumpdir
 
 def PerformJump(unit, endpos, minheight, maxheight, clampspeed):
+    """Apply the computed jump velocity to a unit's physics state."""
     unit.SetAbsVelocity(CalcJumpVelocity(unit.GetAbsOrigin(), endpos, minheight, maxheight, clampspeed))
 
+
 def CalcJumpVelocityChecked(entity, spot1, spot2, speed, tolerance, collisiongroup):
-    """ Calculates jump velocity from spot1 and spot2 and checks if it's a valid jump for the given entity.
+    """Calculate a jump velocity between two spots and validate if it's a valid jump for the given entity.
 
-        Args:
-            entity (entity): Entity/unit going to perform the jump
-            spot1 (Vector): Start spot
-            spot2 (Vector): End spot
-            speed (float): Speed of jump
-            tolerance (float): Tolerance when trace does not fully reach the end spot
-            collisiongroup (int): Collision group for tracing
+    Args:
+        entity: Entity/unit performing the jump.
+        spot1 (Vector): Start position.
+        spot2 (Vector): End position.
+        speed (float): Desired jump speed.
+        tolerance (float): Tolerance (Allowed distance) when trace does not fully reach the end spot from the end position.
+        collisiongroup (int): Collision group used for traces.
 
-        Returns: jump direction/velocity (Vector)
+    Returns:
+        Vector: Velocity vector (jump direction) if the jump is valid; ``vec3_origin`` otherwise.
     """
     speed = max(1.0, speed)
     hullmins = entity.CollisionProp().OBBMins()

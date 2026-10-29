@@ -1,3 +1,4 @@
+"""Group behaviour definitions used by the strategic AI to control units."""
 import random
 import traceback
 
@@ -17,6 +18,7 @@ dbgroups = dblist[dbid]
 
 
 class GroupBaseMetaClass(BaseInfoMetaclass):
+    """Metaclass that normalises match-hint declarations for AI groups."""
     def __new__(cls, name, bases, dct):
         newcls = BaseInfoMetaclass.__new__(cls, name, bases, dct)
 
@@ -285,12 +287,17 @@ class GroupBase(BaseInfo, metaclass=GroupBaseMetaClass):
 
 
 class GroupBuildings(GroupBase):
-    ''' Managing all default buildings
-        Just loops through all buildings and tries to find production rules to execute.
-    '''
+    """Group that manages production for all standard buildings.
+
+    Iterates the group's buildings, queries ability rules for each, and
+    enqueues any production actions the rules decide on.
+    
+    In other words just loops through all buildings and tries to find production rules to execute.
+    """
     matchunithints = set(['sai_building'])
 
     def UpdateBuilding(self, building):
+        """Evaluate ability rules for a single building and queue actions."""
         try:
             rules = self.sai.GetAbilityRules(building)
             self.sai.FindRuleAndAdd(building, rules)
@@ -317,18 +324,20 @@ class GroupGeneric(GroupBase):
     mincountactive = 0
 
     def Init(self):
+        """Initialise gather timeout and minimum unit count for activation."""
         super().Init()
 
         self.nextgatherunitstimeout = gpGlobals.curtime + self.gatherunitstimeout if self.gatherunitstimeout else None
         self.mincountactive = random.randint(self.mincountunits, self.maxcountunits)
 
     def FindAndAddUnitRules(self):
-        # Try to find rules for a small number of units in the group
+        """Find ability rules for a small random subset of units in the group."""
         units = random.sample(self.units, min(3, len(self.units)))
         self.FindRulesForUnits(units)
 
     # Decide on whether to add this unit to this existing group
     def TryAddUnit(self, unit):
+        """Decide whether this unit should join the group in its current state."""
         if self.state != 'inactive' and self.maxadddistanceactive and (
             self.GroupOrigin() - unit.GetAbsOrigin()).Length2D() > self.maxadddistanceactive:
             return False
@@ -340,6 +349,7 @@ class GroupGeneric(GroupBase):
         return True
 
     def StateInActive(self):
+        """Gather units until thresholds are met, then switch to active state."""
         self.FindAndAddUnitRules()
 
         if len(self.units) >= self.mincountactive or (
@@ -352,7 +362,11 @@ class GroupGeneric(GroupBase):
 
 
 class GroupRandomAttackMove(GroupGeneric):
-    ''' Randomly pick positions and attack move. '''
+    '''Combat group that roams the map using random attack-move orders.
+
+    Gathers a small army, then periodically chooses a random reachable
+    position and issues an attack-move for all members.
+    '''
     mincountunits = 4
     maxcountunits = 8
     gatherunitstimeout = 200.0
@@ -383,6 +397,7 @@ class GroupAttackEnemyBuilding(GroupRandomAttackMove):
     curtarget = None
 
     def MatchesUnit(self, unit):
+        """Select units for an attack group that focuses on enemy structures."""
         if not super().MatchesUnit(unit):
             return False
 
@@ -394,6 +409,7 @@ class GroupAttackEnemyBuilding(GroupRandomAttackMove):
         return True
 
     def StateActive(self):
+        """Attack-move toward the current target building or disband when done."""
         unit = random.sample(self.units, 1)[0]
 
         if not self.curtarget:
@@ -431,6 +447,7 @@ class GroupDefend(GroupGeneric):
     category = 'defense'
 
     def MatchesUnit(self, unit):
+        """Select combat units to form (or extend) a single defensive group."""
         if not super().MatchesUnit(unit):
             return False
 
@@ -457,6 +474,7 @@ class GroupDefend(GroupGeneric):
         return True
 
     def FindDefendTarget(self):
+        """Pick a building or control point that is currently under attack."""
         # Get a random sample of buildings to consider
         mybuildings = buildinglist[self.sai.ownernumber]
         samplebuildings = random.sample(mybuildings, min(10, len(mybuildings)))
@@ -482,9 +500,11 @@ class GroupDefend(GroupGeneric):
         return rettarget
 
     def TargetNeedsDefending(self, target):
+        """Return True if the target has taken damage recently."""
         return target and (gpGlobals.curtime - target.lasttakedamage < 3.0)
 
     def FindPatrolTarget(self):
+        """Fallback target: pick a random owned building to patrol around."""
         mybuildings = buildinglist[self.sai.ownernumber]
         if not mybuildings:
             return None
@@ -492,6 +512,11 @@ class GroupDefend(GroupGeneric):
         return random.sample(mybuildings, 1)[0].GetHandle()
 
     def StateActive(self):
+        """Hold or patrol around the defend target and possibly convert to attack.
+
+        When idle for a while, this group may decide to convert into an
+        attacking group if enough units are present and the category is allowed.
+        """
         unit = random.sample(self.units, 1)[0]
 
         self.FindAndAddUnitRules()

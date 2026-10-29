@@ -17596,6 +17596,125 @@ function gameService() {
 }
 
 core_module.factory('gameservice', gameService);
+// CONCATENATED MODULE: ./app/js/core/icon.directive.js
+
+
+
+
+// Line icons drawn on a 24x24 grid, coloured with the text color (currentColor).
+// Usage: <wars-icon name="globe"></wars-icon>
+var ICONS = {
+    'globe': '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>',
+    'lock': '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    'leave': '<path d="M10 4H5v16h5"/><path d="M14 8l4 4-4 4"/><path d="M18 12H9"/>',
+    'invite': '<circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M19 8v6M16 11h6"/>',
+    'eye': '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    'check': '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    'arrow-right': '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>',
+    'external': '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v6H4V6h6"/>',
+    'chevron-down': '<path d="M6 9l6 6 6-6"/>',
+    'chevron-left': '<path d="M15 6l-6 6 6 6"/>',
+    'close': '<path d="M6 6l12 12M18 6L6 18"/>',
+    'power': '<path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>',
+    'chat': '<path d="M4 5h16v11H9l-5 4z"/>',
+    'discord': '<path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h.01M15 10h.01"/>',
+    'users': '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.3c1.9.8 3 2.9 3 5.7"/>',
+    'search': '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+    'plus': '<path d="M12 5v14M5 12h14"/>',
+    'refresh': '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
+    'arrow-left': '<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>',
+    'chevron-right': '<path d="M9 6l6 6-6 6"/>',
+    'image': '<rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/>',
+    'tutorial': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/>',
+    'monitor': '<rect x="3" y="5" width="18" height="12"/><path d="M8 21h8M12 17v4"/>',
+    'brightness': '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',
+    'sound': '<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/>',
+    'mouse': '<rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v4"/>',
+    'keyboard': '<rect x="3" y="6" width="18" height="12" rx="1"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/>',
+    'play': '<path d="M7 4.5v15l12-7.5z" fill="currentColor"/>',
+    'save': '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4"/><path d="M8 20v-6h8v6"/>',
+    'folder': '<path d="M3 7h7l2 2h9v10H3z"/><path d="M12 12v5"/><path d="M9.5 14.5L12 17l2.5-2.5"/>',
+    'settings': '<circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.5 7.5 0 0 0-1.7-1L15 3.5h-4l-.3 2.5a7.5 7.5 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.5 7.5 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.5 7.5 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.5 7.5 0 0 0 1.7-1l2.4 1 2-3.4z"/>',
+    'flag': '<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
+    'info': '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/>',
+    'wrench': '<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
+};
+
+/*@ngInject*/
+function warsIcon() {
+    return {
+        restrict: 'E',
+        template: function(element, attrs) {
+            return iconSvg(attrs.name);
+        },
+        link: function(scope, element, attrs) {
+            // Names from an expression, like name="{{ category.icon }}"
+            attrs.$observe('name', function(name) {
+                if( name && element.children().attr('class') !== 'icon icon-' + name ) {
+                    element.html(iconSvg(name));
+                }
+            });
+        },
+    };
+}
+
+function iconSvg(name) {
+    return '<svg class="icon icon-' + name + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        (ICONS[name] || '') + '</svg>';
+}
+core_module.directive('warsIcon', warsIcon);
+
+// CONCATENATED MODULE: ./app/js/core/recent.service.js
+
+
+
+
+// The last mission and the last hosted game, shown on the home page. Kept in the browser
+// storage of the menu, which persists between sessions (CEF cache folder).
+var STORAGE_KEY = 'lambdawars.recent';
+
+/*@ngInject*/
+function recentService() {
+    function load() {
+        try {
+            return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || {};
+        } catch( e ) {
+            return {};
+        }
+    }
+
+    function save(data) {
+        try {
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch( e ) {
+            // Not remembered, the home page just doesn't show it
+        }
+    }
+
+    return {
+        lastMission: function() {
+            return load().mission || null;
+        },
+        setLastMission: function(mapname, difficulty) {
+            var data = load();
+            data.mission = {mapname: mapname, difficulty: difficulty, time: Date.now()};
+            save(data);
+        },
+        lastGame: function() {
+            return load().game || null;
+        },
+        setLastGame: function(game) {
+            var data = load();
+            data.game = game;
+            data.game.time = Date.now();
+            save(data);
+        },
+    };
+}
+
+core_module.factory('recent', recentService);
+
 // EXTERNAL MODULE: ./node_modules/tether/dist/js/tether.js
 var js_tether = __webpack_require__(23);
 var tether_default = /*#__PURE__*/__webpack_require__.n(js_tether);
@@ -17668,13 +17787,21 @@ function tooltip() {
         function detachTether() {
           if (tether) {
             tether.destroy();
+            tether = null;
           }
         }
+
+        // Opening twice (mouseenter without mouseleave, like after closing a select) would leave a tooltip behind
+        var isOpen = false;
 
         /**
          * Open the tooltip
          */
         function open() {
+          if (isOpen) {
+            return;
+          }
+          isOpen = true;
           $animate.enter(elem, null, target);
           attachTether();
         }
@@ -17683,6 +17810,10 @@ function tooltip() {
          * Close the tooltip
          */
         function close() {
+          if (!isOpen) {
+            return;
+          }
+          isOpen = false;
           $animate.leave(elem);
           detachTether();
         }
@@ -17724,13 +17855,14 @@ function tooltipDirective() {
             }, options, { tether: scope.tether }));
 
             /**
-             * Toggle the tooltip.
+             * Toggle the tooltip. $animate only adds and removes the element in a digest, so the
+             * mouse events start one.
              */
             elem.bind("mouseenter", function(){
-                tooltip.open();
+                scope.$evalAsync(tooltip.open);
             });
             elem.bind("mouseleave", function(){
-                tooltip.close();
+                scope.$evalAsync(tooltip.close);
             });
           }
         };
@@ -17758,45 +17890,135 @@ core_module.run(runTooltip);
 
 
 
+
+
 // CONCATENATED MODULE: ./app/js/menu/module.js
 
 
 /* harmony default export */ var menu_module = (angular_default.a.module('app.menu', []));
+// CONCATENATED MODULE: ./app/js/menu/chat-drawer.service.js
+
+
+
+
+
+// Pages without a chat of their own open the global chat in a drawer, from the top bar
+var DRAWER_PAGES = ['/Multiplayer', '/OnlineGames', '/Singleplayer', '/Missions', '/Settings'];
+// The home page docks the chat, except on screens where there's no room for it
+var DOCKED_CHAT_MIN_WIDTH = 1401;
+
+/*@ngInject*/
+function chatDrawerService($rootScope, $location, $window) {
+    var drawer = {
+        open: false,
+    };
+
+    drawer.available = function() {
+        var path = $location.path();
+        if( path === '/' ) {
+            return $window.innerWidth < DOCKED_CHAT_MIN_WIDTH;
+        }
+        return DRAWER_PAGES.indexOf(path) !== -1;
+    };
+
+    drawer.toggle = function() {
+        drawer.open = !drawer.open;
+    };
+
+    drawer.close = function() {
+        drawer.open = false;
+    };
+
+    function closeIfUnavailable() {
+        if( !drawer.available() ) {
+            drawer.close();
+        }
+    }
+    $rootScope.$on('$routeChangeSuccess', closeIfUnavailable);
+    angular_default.a.element($window).on('resize', function() {
+        $rootScope.$applyAsync(closeIfUnavailable);
+    });
+
+    return drawer;
+}
+menu_module.factory('chatdrawer', chatDrawerService);
+
+class ChatDrawerController {
+    /*@ngInject*/
+    constructor($scope, chatdrawer) {
+        $scope.drawer = chatdrawer;
+    }
+}
+menu_module.controller('ChatDrawerController', ChatDrawerController);
+
+// CONCATENATED MODULE: ./app/js/core/format.js
+
+
+// "2vs2" is shown as "2v2", free for all stays "FFA"
+function teamSetupLabel(teamsetup) {
+    if( !teamsetup ) {
+        return '';
+    }
+    return teamsetup === 'FFA' ? teamsetup : teamsetup.replace(/vs/g, 'v');
+}
+
 // CONCATENATED MODULE: ./app/js/menu/gamelobby-list.service.js
+
 
 
 
 
 /*@ngInject*/
 function gamelobbylistService($rootScope, $timeout) {
-    var updateInterval = 1000;
+    var defaultUpdateInterval = 1000;
     var gamelobbyListService = {};
     gamelobbyListService.lobbies = [];
     gamelobbyListService.isUpdating = false;
-    
-    gamelobbyListService.startUpdating = function(fncallback) {
+    gamelobbyListService.lastUpdate = null;
+
+    gamelobbyListService.startUpdating = function(fncallback, updateInterval) {
         console.log('Start updating online games list...');
         gamelobbyListService.isUpdating = true;
         gamelobbyListService.fncallback = fncallback;
-        gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, updateInterval);
+        gamelobbyListService.updateInterval = updateInterval || defaultUpdateInterval;
+        gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, 0);
     };
-    
+
     gamelobbyListService.doUpdate = function() {
+        gamelobbyListService.update_lobbies_promise = undefined;
         if( 'gamelobby' in window ) {
             gamelobby.listlobbies(function(lobbies) {
                 if( gamelobbyListService.isUpdating ) {
                     gamelobbyListService.lobbies = lobbies;
+                    gamelobbyListService.lastUpdate = Date.now();
                     gamelobbyListService.fncallback();
-                    gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, updateInterval);
+                    if( !gamelobbyListService.update_lobbies_promise ) {
+                        gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, gamelobbyListService.updateInterval);
+                    }
                 }
             });
         } else {
             // try again later
-            gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, updateInterval);
+            gamelobbyListService.update_lobbies_promise = $timeout(gamelobbyListService.doUpdate, gamelobbyListService.updateInterval);
         }
     };
-    
-    gamelobbyListService.stopUpdating = function() {
+
+    // Updates the list right away, instead of at the next interval
+    gamelobbyListService.refresh = function() {
+        if( !gamelobbyListService.isUpdating ) {
+            return;
+        }
+        if( gamelobbyListService.update_lobbies_promise ) {
+            $timeout.cancel(gamelobbyListService.update_lobbies_promise);
+        }
+        gamelobbyListService.doUpdate();
+    };
+
+    // Pages pass their callback, so a page that is left doesn't stop the updates of the next page
+    gamelobbyListService.stopUpdating = function(fncallback) {
+        if( fncallback && fncallback !== gamelobbyListService.fncallback ) {
+            return;
+        }
         if( gamelobbyListService.isUpdating ) {
             console.log('Stop updating online games list.');
             gamelobbyListService.isUpdating = false;
@@ -17807,36 +18029,134 @@ function gamelobbylistService($rootScope, $timeout) {
             gamelobbyListService.fncallback = undefined;
         }
     };
-    
+
+    // What the lobby lists of the menu show of a lobby
+    gamelobbyListService.describe = function(lobby) {
+        var taken = parseInt(lobby.numtakenslots, 10) || 0;
+        var total = parseInt(lobby.numslots, 10) || 0;
+        var modename = lobby.modename || lobby.mode || '';
+        var isOverrun = lobby.mode === 'overrun';
+        return {
+            steamid: lobby.steamid,
+            name: lobby.name,
+            map: lobby.map,
+            mode: lobby.mode,
+            modename: modename,
+            modeLabel: isOverrun || !lobby.teamsetup ? modename : modename + ' · ' + teamSetupLabel(lobby.teamsetup),
+            isOverrun: isOverrun,
+            taken: taken,
+            total: total,
+            open: Math.max(0, total - taken),
+            isFull: total > 0 && taken >= total,
+            fill: total ? Math.round(100 * taken / total) : 0,
+            overviewsrc: lobby.overviewsrc || '',
+            mapinstalled: lobby.mapinstalled !== false,
+            teams: lobby.teams || [],
+        };
+    };
+
+    // Lobbies that still have room, the fullest first: those start soonest
+    gamelobbyListService.waitingForPlayers = function(lobbies) {
+        return lobbies.filter(function(lobby) { return !lobby.isFull; }).sort(function(a, b) {
+            return (b.fill - a.fill) || (b.taken - a.taken);
+        });
+    };
+
     return gamelobbyListService;
 }
 
 menu_module.factory('gamelobbylist', gamelobbylistService);
+
 // CONCATENATED MODULE: ./app/js/menu/home.controller.js
 
 
 
 
-class HomeController {
+
+var LOBBY_LIST_INTERVAL = 10000;
+var LOBBY_TYPE_LABELS = {
+    'public': 'GL_Public',
+    'friendsonly': 'GL_FriendsOnly',
+    'private': 'GL_Private',
+    'offline': 'GL_OfflineGame',
+};
+
+class home_controller_HomeController {
 	/*@ngInject*/
-    constructor($scope) {
-		$scope.pageID = 'content';
+    constructor($scope, gamelobbylist, gamelobbymanager, missions, recent) {
+		$scope.pageID = 'page';
+
+        // Lobbies
+        $scope.loaded = false;
+        $scope.lobbies = [];
+        $scope.waiting = [];
+
+        function onLobbiesUpdated() {
+            $scope.$applyAsync(function() {
+                $scope.loaded = true;
+                $scope.lobbies = gamelobbylist.lobbies.map(gamelobbylist.describe);
+                $scope.waiting = gamelobbylist.waitingForPlayers($scope.lobbies);
+            });
+        }
+        gamelobbylist.startUpdating(onLobbiesUpdated, LOBBY_LIST_INTERVAL);
+        $scope.$on('$destroy', function() {
+            gamelobbylist.stopUpdating(onLobbiesUpdated);
+        });
+
+        $scope.joinlobby = function(steamid) {
+            gamelobbymanager.joinLobby(steamid);
+        };
+
+        // Missions: the image of the last played mission, or the first one
+        $scope.lastMission = recent.lastMission();
+        $scope.missionImage = '';
+        if( $scope.lastMission ) {
+            $scope.lastMissionDifficulty = missions.difficultyLabel($scope.lastMission.difficulty);
+        }
+
+        missions.update(function() {
+            $scope.$applyAsync(function() {
+                var list = missions.missions || [];
+                var last = $scope.lastMission;
+                var mission = list.filter(function(m) { return last && m.mapname === last.mapname; })[0] || list[0];
+                $scope.missionImage = mission && mission.image ? mission.image : '';
+            });
+        });
+
+        // Host again with the settings of the last hosted game
+        var lastGame = recent.lastGame();
+        $scope.lastGame = lastGame;
+        if( lastGame ) {
+            $scope.lastGameTitle = lastGame.modename + (lastGame.teamsetup && lastGame.mode !== 'overrun' ? ' · ' + teamSetupLabel(lastGame.teamsetup) : '');
+            $scope.lastGameType = LOBBY_TYPE_LABELS[lastGame.lobbytype] || 'GL_Public';
+            $scope.hostAgainUrl = '#!/Gamelobby?preset=last' + (lastGame.lobbytype ? '&lobbytype=' + encodeURIComponent(lastGame.lobbytype) : '');
+        }
+
+        // Your Workshop maps ({title, updated, subscribers, linked}).
+        // Visual only for now: filled by the Workshop integration.
+        $scope.workshopMaps = [];
     }
 
 }
 
-menu_module.controller('HomeController', HomeController);
+menu_module.controller('HomeController', home_controller_HomeController);
 
 // CONCATENATED MODULE: ./app/js/menu/ingame.controller.js
 
 
 
 
+// The menu while playing (Escape). Whether the game is offline or hosted comes from user:ingame, the number of
+// players of a hosted game from menu:host_numplayers (app.controller.js).
 class InGameController {
     /*@ngInject*/
-    constructor($scope, ngDialog) {
-		$scope.pageID = 'content';
-		
+    constructor($scope) {
+        $scope.pageID = 'page';
+        // Lighter background, the game stays visible behind the menu
+        $scope.pageClass = 'page-ingame';
+
+        $scope.confirming = false;
+
         $scope.returntogame = function() {
             gameui.clientcommand('gameui_hide');
         };
@@ -17844,30 +18164,27 @@ class InGameController {
             gameui.servercommand('player_forfeit');
             gameui.clientcommand('gameui_hide'); // go back ingame
         };
-        $scope.disconnect = function() {
-            if ($scope.ishosting && !$scope.isoffline && $scope.host_numplayers > 1) {
-                // confirm leaving
-                ngDialog.open({ 
-                    template: 'confirmDisconnect', 
-                    className: 'ngdialog-theme-wars',
-                    showClose: true 
-                }).closePromise.then(function (data) {
-                    if (data.value) {
-                        gameui.clientcommand('disconnect');
-                    } else {
-                        gameui.clientcommand('gameui_hide'); // go back ingame
-                    }
-                });
-            } else {
-                gameui.servercommand('player_forfeit');
-                gameui.clientcommand('disconnect');
+        // Hosting with other players connected ends the game for them too: confirm first
+        $scope.leave = function() {
+            if( $scope.ishosting && !$scope.isoffline && $scope.host_numplayers > 1 ) {
+                $scope.confirming = true;
+                return;
             }
+            gameui.servercommand('player_forfeit');
+            gameui.clientcommand('disconnect');
+        };
+        $scope.endGame = function() {
+            gameui.clientcommand('disconnect');
+        };
+        $scope.cancelLeave = function() {
+            $scope.confirming = false;
         };
     }
 
 }
 
 menu_module.controller('InGameController', InGameController);
+
 // CONCATENATED MODULE: ./app/js/menu/load-game.controller.js
 
 
@@ -17910,11 +18227,31 @@ menu_module.controller('LoadGameController', LoadGameController);
 
 
 
+// Pages belonging to each main menu section, used to highlight the active section
+var SECTION_PAGES = {
+    online: ['/Multiplayer', '/OnlineGames'],
+    offline: ['/Singleplayer', '/Missions', '/LoadGame'],
+    ingame: ['/InGame'],
+    settings: ['/Settings'],
+    workshop: ['/Workshop', '/WorkshopPublish'],
+};
+
 class MainButtonsController {
     /*@ngInject*/
-    constructor($scope) {
+    constructor($scope, $location, gamelobbymanager, chatdrawer) {
+        $scope.chatdrawer = chatdrawer;
+
         $scope.quit = function() {
             gameui.clientcommand('quit');
+        };
+
+        $scope.isSection = function(section) {
+            var path = $location.path();
+            // The game lobby belongs to the section it was created from
+            if( path === '/Gamelobby' ) {
+                return section === (gamelobbymanager.isoffline ? 'offline' : 'online');
+            }
+            return SECTION_PAGES[section].indexOf(path) !== -1;
         };
     }
 
@@ -17927,83 +18264,108 @@ menu_module.controller('MainButtonsController', MainButtonsController);
 
 
 
-const unknownMissionImg = __webpack_require__(24);
-const nullMissionImg = __webpack_require__(25);
+var DIFFICULTIES = ['easy', 'normal', 'hard'];
 
 class MissionsController {
     /*@ngInject*/
-    constructor($scope, missions) {
-        $scope.pageID = 'content';
-        
-        $scope.mapname = missions.mapname;
-        $scope.description = missions.description;
-        $scope.selectedDifficulty = "normal";
-        
-        $scope.leftmissionpic = unknownMissionImg;
-        $scope.middlemissionpic = unknownMissionImg;
-        $scope.rightmissionpic = unknownMissionImg;
-        
-        $scope.updateInfo = function() {
-            var preventry = missions.missions[missions.missions_index-1];
-            var nextentry = missions.missions[missions.missions_index+1];
-            var entry = missions.missions[missions.missions_index];
-            if( entry !== undefined ) {
-                $scope.mapname = entry.mapname;
-                $scope.description = entry.description;
-                $scope.middlemissionpic = entry.image || unknownMissionImg;
-            } else {
-                $scope.mapname = 'Unknown';
-                $scope.description = '';
-                $scope.middlemissionpic = unknownMissionImg;
-            }
-            
-            if( preventry !== undefined ) {
-                $scope.leftmissionpic = preventry.image || unknownMissionImg;
-            } else {
-                $scope.leftmissionpic = nullMissionImg;
-            }
-            if( nextentry !== undefined ) {
-                $scope.rightmissionpic = nextentry.image || unknownMissionImg;
-            } else {
-                $scope.rightmissionpic = nullMissionImg;
+    constructor($scope, missions, recent) {
+        $scope.pageID = 'page';
+
+        $scope.loaded = false;
+        $scope.missions = [];
+        $scope.visible = [];
+        $scope.selected = null;
+        $scope.launching = false;
+
+        // Workshop missions come with the Workshop integration, until then all missions are official
+        $scope.filter = 'all';
+        $scope.filters = [
+            {id: 'all', label: 'BR_All'},
+            {id: 'official', label: 'MS_Official'},
+            {id: 'workshop', label: 'MS_Workshop'},
+        ];
+
+        var lastMission = recent.lastMission();
+        $scope.difficulties = DIFFICULTIES.map(function(id) {
+            return {id: id, label: missions.difficultyLabel(id)};
+        });
+        $scope.difficulty = lastMission && DIFFICULTIES.indexOf(lastMission.difficulty) !== -1 ? lastMission.difficulty : 'normal';
+
+        function updateVisible() {
+            $scope.visible = $scope.missions.filter(function(mission) {
+                return $scope.filter === 'all' || (mission.workshop ? 'workshop' : 'official') === $scope.filter;
+            });
+        }
+
+        $scope.setFilter = function(filter) {
+            $scope.filter = filter;
+            updateVisible();
+        };
+
+        $scope.select = function(mission) {
+            $scope.selected = mission;
+            $scope.launching = false;
+            missions.missions_index = $scope.missions.indexOf(mission);
+        };
+
+        // Previous and next go through all missions, also those filtered out
+        $scope.go = function(step) {
+            var count = $scope.missions.length;
+            if( count ) {
+                $scope.select($scope.missions[($scope.missions.indexOf($scope.selected) + step + count) % count]);
             }
         };
-        
-        $scope.next_mission = function() {
-            if( missions.missions_index < missions.missions.length-1 ) {
-                missions.missions_index++;
-                $scope.updateInfo();
-            }
+
+        $scope.position = function() {
+            return ($scope.missions.indexOf($scope.selected) + 1) + ' / ' + $scope.missions.length;
         };
-        $scope.previous_mission = function() {
-            if( missions.missions_index > 0 ) {
-                missions.missions_index--;
-                $scope.updateInfo();
-            }
+
+        $scope.setDifficulty = function(difficulty) {
+            $scope.difficulty = difficulty;
         };
-        
-        $scope.launch_mission = function() {
-            var entry = missions.missions[missions.missions_index];
-            if( entry !== undefined ) {
-                gameui.launchmission(entry.mapname, $scope.selectedDifficulty);
-            } else {
-                console.error('Invalid mission selected!');
-            }
+
+        $scope.difficultyLabel = function() {
+            return missions.difficultyLabel($scope.difficulty);
         };
-        
+
+        $scope.launch = function() {
+            if( !$scope.selected || $scope.launching ) {
+                return;
+            }
+            $scope.launching = true;
+            recent.setLastMission($scope.selected.mapname, $scope.difficulty);
+            gameui.launchmission($scope.selected.mapname, $scope.difficulty);
+        };
+
+        // The mission selected before, else the last played one
         missions.update(function() {
-            $scope.updateInfo();
-            $scope.$digest();
+            $scope.$applyAsync(function() {
+                $scope.loaded = true;
+                $scope.missions = (missions.missions || []).map(missions.describe);
+                updateVisible();
+                var selected = $scope.missions[missions.missions_index];
+                if( !selected && lastMission ) {
+                    selected = $scope.missions.filter(function(mission) { return mission.mapname === lastMission.mapname; })[0];
+                }
+                if( selected || $scope.missions.length ) {
+                    $scope.select(selected || $scope.missions[0]);
+                }
+            });
         });
     }
 
 }
 
 menu_module.controller('MissionsController', MissionsController);
+
 // CONCATENATED MODULE: ./app/js/menu/missions.service.js
 
 
 
+
+// Defaults of GetMissions in mainmenu.py when the map resource doesn't have them
+var DEFAULT_NAME = 'Unknown map';
+var DEFAULT_DESCRIPTION = 'No description';
 
 /*@ngInject*/
 function missionsService() {
@@ -18023,6 +18385,22 @@ function missionsService() {
         });
     };
     
+    // What the menu shows of a mission
+    missionsServiceInstance.describe = function(mission) {
+        return {
+            mapname: mission.mapname,
+            title: mission.name && mission.name !== DEFAULT_NAME ? mission.name : mission.mapname,
+            description: mission.description && mission.description !== DEFAULT_DESCRIPTION ? mission.description : '',
+            image: mission.image || '',
+            workshop: !!mission.workshop,
+        };
+    };
+
+    missionsServiceInstance.difficultyLabel = function(difficulty) {
+        difficulty = difficulty || 'normal';
+        return 'Mission_' + difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+    };
+    
     return missionsServiceInstance;
 }
 
@@ -18032,18 +18410,42 @@ menu_module.factory('missions', missionsService);
 
 
 
+var DISCORD_URL = 'https://discord.gg/SdAtwCJhrH';
+var multiplayer_controller_LOBBY_LIST_INTERVAL = 10000;
+
 class MultiplayerController {
     /*@ngInject*/
-    constructor($scope) {
-		$scope.pageID = 'content';
-		
-        // TEMPORARY (old gamelobby system)
-        $scope.creategamelobby = function() {
-            gameui.creategamelobby();
+    constructor($scope, gamelobbylist, gamelobbymanager, chatdrawer) {
+		$scope.pageID = 'page';
+
+        $scope.loaded = false;
+        $scope.lobbies = [];
+        $scope.waiting = [];
+
+        function onLobbiesUpdated() {
+            $scope.$applyAsync(function() {
+                $scope.loaded = true;
+                $scope.lobbies = gamelobbylist.lobbies.map(gamelobbylist.describe);
+                $scope.waiting = gamelobbylist.waitingForPlayers($scope.lobbies);
+            });
+        }
+        gamelobbylist.startUpdating(onLobbiesUpdated, multiplayer_controller_LOBBY_LIST_INTERVAL);
+        $scope.$on('$destroy', function() {
+            gamelobbylist.stopUpdating(onLobbiesUpdated);
+        });
+
+        $scope.joinlobby = function(steamid) {
+            gamelobbymanager.joinLobby(steamid);
         };
-        $scope.findpublicgame = function() {
-            gameui.findpublicgame();
+
+        $scope.openDiscord = function() {
+            gameui.openurl(DISCORD_URL);
         };
+
+        $scope.openChat = function() {
+            chatdrawer.open = true;
+        };
+
         $scope.openserverbrowser = function() {
             gameui.clientcommand('openserverbrowser');
         };
@@ -18052,41 +18454,161 @@ class MultiplayerController {
 }
 
 menu_module.controller('MultiplayerController', MultiplayerController);
+
 // CONCATENATED MODULE: ./app/js/menu/online-games.controller.js
 
 
 
 
+var online_games_controller_LOBBY_LIST_INTERVAL = 15000;
 
-class online_games_controller_OnlineGamesController {
+// Lobbies with room first, the fullest of those first: they start soonest
+var SORTS = {
+    best: function(a, b) {
+        return (a.isFull - b.isFull) || (b.fill - a.fill) || (b.taken - a.taken);
+    },
+    players: function(a, b) {
+        return b.taken - a.taken;
+    },
+    name: function(a, b) {
+        return a.name.localeCompare(b.name) || a.map.localeCompare(b.map);
+    },
+};
+
+class OnlineGamesController {
     /*@ngInject*/
-    constructor($scope, gamelobbylist, gamelobbymanager) {
-		$scope.pageID = 'content';
-		
+    constructor($scope, $interval, gamelobbylist, gamelobbymanager) {
+		$scope.pageID = 'page';
+
+        $scope.loaded = false;
         $scope.lobbies = [];
-        
-        gamelobbylist.startUpdating(function() {
-            if( !angular_default.a.equals($scope.lobbies, gamelobbylist.lobbies) ) {
-                $scope.lobbies = gamelobbylist.lobbies;
-                $scope.$digest();
-            }
-        });
-        
-        $scope.$on('$destroy', function iVeBeenDismissed() {
-            gamelobbylist.stopUpdating();
-        });
-        
-        $scope.joinlobby = function(steamid) {
-            gamelobbymanager.joinLobby(steamid);
+        $scope.visibleLobbies = [];
+        $scope.modes = [];
+        $scope.selected = null;
+        $scope.filter = {
+            search: '',
+            mode: '',
+            hideFull: false,
+            sort: 'best',
         };
-        
+        $scope.sorts = [
+            {id: 'best', label: 'BR_SortRecommended'},
+            {id: 'players', label: 'BR_SortPlayers'},
+            {id: 'name', label: 'BR_SortName'},
+        ];
+
+        // Filtering and sorting
+        $scope.updateVisibleLobbies = function() {
+            var search = $scope.filter.search.trim().toLowerCase();
+            $scope.visibleLobbies = $scope.lobbies.filter(function(lobby) {
+                if( $scope.filter.mode && lobby.mode !== $scope.filter.mode ) {
+                    return false;
+                }
+                if( $scope.filter.hideFull && lobby.isFull ) {
+                    return false;
+                }
+                return !search || lobby.name.toLowerCase().indexOf(search) !== -1 || lobby.map.toLowerCase().indexOf(search) !== -1;
+            }).sort(SORTS[$scope.filter.sort]);
+
+            // Keep the selected lobby, also when the list is updated
+            var selectedId = $scope.selected ? $scope.selected.steamid : null;
+            $scope.selected = $scope.visibleLobbies.filter(function(lobby) { return lobby.steamid === selectedId; })[0] ||
+                $scope.visibleLobbies[0] || null;
+        };
+        $scope.$watch('filter', $scope.updateVisibleLobbies, true);
+
+        $scope.setMode = function(mode) {
+            $scope.filter.mode = mode;
+        };
+
+        $scope.toggleHideFull = function() {
+            $scope.filter.hideFull = !$scope.filter.hideFull;
+        };
+
+        $scope.setSort = function(sort) {
+            $scope.filter.sort = sort;
+        };
+
+        $scope.clearFilters = function() {
+            $scope.filter.search = '';
+            $scope.filter.mode = '';
+            $scope.filter.hideFull = false;
+        };
+
+        // Selection, also with the arrow keys
+        $scope.select = function(lobby) {
+            $scope.selected = lobby;
+        };
+
+        $scope.onListKey = function(event) {
+            var list = $scope.visibleLobbies;
+            if( !list.length || (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') ) {
+                return;
+            }
+            event.preventDefault();
+            var index = list.indexOf($scope.selected) + (event.key === 'ArrowDown' ? 1 : -1);
+            $scope.selected = list[Math.max(0, Math.min(list.length - 1, index))];
+        };
+
+        // Updating the list
+        $scope.secondsSinceUpdate = 0;
+        $scope.refreshing = false;
+
+        function onLobbiesUpdated() {
+            $scope.$applyAsync(function() {
+                $scope.loaded = true;
+                $scope.refreshing = false;
+                $scope.secondsSinceUpdate = 0;
+                $scope.lobbies = gamelobbylist.lobbies.map(gamelobbylist.describe);
+                // One dot per slot, filled when taken
+                $scope.lobbies.forEach(function(lobby) {
+                    lobby.teams.forEach(function(team) {
+                        team.dots = [];
+                        for( var i = 0; i < team.total; i++ ) {
+                            team.dots.push(i < team.taken);
+                        }
+                    });
+                });
+
+                var modes = {};
+                $scope.lobbies.forEach(function(lobby) {
+                    modes[lobby.mode] = lobby.modename;
+                });
+                $scope.modes = Object.keys(modes).sort().map(function(mode) {
+                    return {id: mode, name: modes[mode]};
+                });
+                $scope.updateVisibleLobbies();
+            });
+        }
+        gamelobbylist.startUpdating(onLobbiesUpdated, online_games_controller_LOBBY_LIST_INTERVAL);
+
+        var ticker = $interval(function() {
+            $scope.secondsSinceUpdate++;
+        }, 1000);
+
+        $scope.$on('$destroy', function() {
+            gamelobbylist.stopUpdating(onLobbiesUpdated);
+            $interval.cancel(ticker);
+        });
+
+        $scope.refresh = function() {
+            $scope.refreshing = true;
+            gamelobbylist.refresh();
+        };
+
+        // Joining. Joining a full lobby makes you a spectator.
+        $scope.joinlobby = function(lobby) {
+            gamelobbymanager.joinLobby(lobby.steamid);
+        };
+
         // Get number of games. Results in a "menu:numgames" event.
         gamelobby.refreshnumgames();
     }
 
 }
 
-menu_module.controller('OnlineGamesController', online_games_controller_OnlineGamesController);
+menu_module.controller('OnlineGamesController', OnlineGamesController);
+
 // CONCATENATED MODULE: ./app/js/menu/player-info.controller.js
 
 
@@ -18136,30 +18658,806 @@ menu_module.controller('ProfileController', ProfileController);
 
 
 
-class SettingsController {
-    /*@ngInject*/
-    constructor($scope) {
-		$scope.pageID = 'content';
-		
-		$scope.video = function() { gameui.openvideo(); };
-		$scope.brightness = function() { gameui.openbrightness(); };
-		$scope.audio = function() { gameui.openaudio(); };
-		$scope.keyboardmouse = function() { gameui.openkeyboardmouse(); };
-		$scope.multiplayer = function() { gameui.openmultiplayersettings(); };
-    }
 
+// The settings of the game's option dialogs (video, brightness, sound, keyboard and mouse, key bindings
+// and multiplayer). Python (menu/settings.py) reads and applies them by id. Rows are headers, selects,
+// segmented buttons, switches, sliders, key bindings and actions. Options with a label are translated,
+// options with a text are shown as they are.
+
+var LEVELS = [
+    {value: 0, label: 'ST_Low'},
+    {value: 1, label: 'ST_Medium'},
+    {value: 2, label: 'ST_High'},
+];
+
+var ANTIALIAS_NAMES = {
+    '1:0': 'ST_None', '2:0': '2X MSAA', '4:0': '4X MSAA', '6:0': '6X MSAA', '4:2': '8X CSAA', '4:4': '16X CSAA',
+    '8:0': '8X MSAA', '8:2': '16XQ CSAA',
+};
+
+var CATEGORIES = [
+    {id: 'video', title: 'ST_Video', desc: 'Settings_Video_Desc', icon: 'monitor', rows: [
+        {type: 'header', label: 'ST_Display'},
+        {id: 'aspect', label: 'ST_AspectRatio', type: 'select', options: [
+            {value: 0, label: 'ST_Aspect_Normal'},
+            {value: 1, label: 'ST_Aspect_16_9'},
+            {value: 2, label: 'ST_Aspect_16_10'},
+        ]},
+        {id: 'resolution', label: 'ST_Resolution', hint: 'ST_Resolution_Hint', type: 'select'},
+        {id: 'displaymode', label: 'ST_DisplayMode', type: 'seg', options: [
+            {value: 'fullscreen', label: 'ST_Fullscreen'},
+            {value: 'windowed', label: 'ST_Windowed'},
+            {value: 'noborder', label: 'ST_NoBorder'},
+        ]},
+        {id: 'lockmouse', label: 'ST_LockMouse', hint: 'ST_LockMouse_Hint', type: 'switch',
+            disabled: function(values) { return values.displaymode === 'fullscreen'; }},
+        {id: 'filmgrain', label: 'ST_FilmGrain', type: 'slider', min: 0, max: 3, step: 0.2},
+        {type: 'header', label: 'ST_Advanced'},
+        {id: 'antialias', label: 'ST_Antialias', hint: 'ST_Antialias_Hint', type: 'select'},
+        {id: 'filtering', label: 'ST_Filtering', type: 'select', options: [
+            {value: 0, label: 'ST_Bilinear'},
+            {value: 1, label: 'ST_Trilinear'},
+            {value: 2, label: 'ST_Anisotropic', suffix: ' 2X'},
+            {value: 4, label: 'ST_Anisotropic', suffix: ' 4X'},
+            {value: 8, label: 'ST_Anisotropic', suffix: ' 8X'},
+            {value: 16, label: 'ST_Anisotropic', suffix: ' 16X'},
+        ]},
+        {id: 'vsync', label: 'ST_VSync', type: 'select', options: [
+            {value: 'disabled', label: 'ST_Disabled'},
+            {value: 'double', label: 'ST_DoubleBuffered'},
+            {value: 'triple', label: 'ST_TripleBuffered'},
+        ]},
+        {id: 'multicore', label: 'ST_Multicore', type: 'switch'},
+        {id: 'shader', label: 'ST_ShaderDetail', type: 'select', options: LEVELS.concat([{value: 3, label: 'ST_VeryHigh'}])},
+        {id: 'effect', label: 'ST_EffectDetail', type: 'select', options: LEVELS},
+        {id: 'model', label: 'ST_ModelDetail', type: 'select', options: LEVELS},
+        {id: 'pagedpool', label: 'ST_PagedPool', type: 'select', options: LEVELS},
+        {id: 'lighting', label: 'ST_Lighting', hint: 'ST_Lighting_Hint', type: 'seg', options: [
+            {value: false, label: 'ST_LightingSimple'},
+            {value: true, label: 'ST_LightingDeferred'},
+        ]},
+        {id: 'recommended', label: 'ST_Recommended', hint: 'ST_Recommended_Hint', type: 'action', action: 'ST_UseRecommended'},
+    ]},
+    {id: 'brightness', title: 'Settings_Brightness', desc: 'Settings_Brightness_Desc', icon: 'brightness', rows: [
+        {id: 'gamma', label: 'Settings_Brightness', hint: 'ST_Brightness_Hint', type: 'slider', min: 1.6, max: 2.6, step: 0.1},
+    ]},
+    {id: 'sound', title: 'ST_Sound', desc: 'Settings_Sound_Desc', icon: 'sound', rows: [
+        {id: 'volume', label: 'ST_GameVolume', type: 'slider', min: 0, max: 100, step: 5, unit: '%'},
+        {id: 'music', label: 'ST_MusicVolume', type: 'slider', min: 0, max: 100, step: 5, unit: '%'},
+        {id: 'speakers', label: 'ST_Speakers', type: 'select', options: [
+            {value: 0, label: 'ST_Headphones'},
+            {value: 2, label: 'ST_Speakers2'},
+            {value: 4, label: 'ST_Speakers4'},
+            {value: 5, label: 'ST_Speakers51'},
+        ]},
+        {id: 'soundquality', label: 'ST_SoundQuality', type: 'select', options: LEVELS},
+        {id: 'captions', label: 'ST_Captions', type: 'seg', options: [
+            {value: 'off', label: 'ST_Off'},
+            {value: 'subtitles', label: 'ST_Subtitles'},
+            {value: 'full', label: 'ST_FullCaptions'},
+        ]},
+        {id: 'ordersounds', label: 'ST_OrderSounds', hint: 'ST_OrderSounds_Hint', type: 'switch'},
+        {id: 'language', label: 'ST_Language', hint: 'ST_Language_Hint', type: 'select'},
+        {type: 'header', label: 'ST_VoiceChat', requires: 'voice'},
+        {id: 'voice', label: 'ST_Voice', type: 'switch'},
+        {id: 'voicestyle', label: 'ST_VoiceStyle', type: 'seg', disabled: voiceDisabled, options: [
+            {value: 'pushtotalk', label: 'ST_PushToTalk'},
+            {value: 'openmic', label: 'ST_OpenMic'},
+        ]},
+        {id: 'voicethreshold', label: 'ST_VoiceThreshold', hint: 'ST_VoiceThreshold_Hint', type: 'slider', min: 100, max: 2000, step: 100,
+            disabled: function(values) { return !values.voice || values.voicestyle !== 'openmic'; }},
+        {id: 'voicetransmit', label: 'ST_VoiceTransmit', type: 'slider', min: 0, max: 100, step: 10, unit: '%',
+            disabled: function(values, settings) { return !values.voice || !settings.micvolumefound; }},
+        {id: 'voicereceive', label: 'ST_VoiceReceive', type: 'slider', min: 0, max: 100, step: 5, unit: '%', disabled: voiceDisabled},
+        {id: 'micboost', label: 'ST_MicBoost', type: 'switch', disabled: voiceDisabled},
+        {id: 'testmicrophone', label: 'ST_TestMicrophone', hint: 'ST_TestMicrophone_Hint', type: 'action', action: 'ST_TestMicrophone',
+            disabled: voiceDisabled},
+    ]},
+    {id: 'input', title: 'ST_KeyboardMouse', desc: 'Settings_KeyboardMouse_Desc', icon: 'mouse', rows: [
+        {id: 'sensitivity', label: 'ST_MouseSensitivity', type: 'slider', min: 1, max: 20, step: 0.5},
+        {id: 'reversemouse', label: 'ST_ReverseMouse', type: 'switch'},
+        {id: 'mousefilter', label: 'ST_MouseFilter', type: 'switch'},
+        {id: 'console', label: 'ST_Console', type: 'switch'},
+    ]},
+    // Rows from the key list of the game, see buildKeyRows
+    {id: 'keys', title: 'ST_KeyBindings', desc: 'ST_KeyBindings_Desc', icon: 'keyboard', rows: []},
+    {id: 'multiplayer', title: 'ST_Multiplayer', desc: 'Settings_Multiplayer_Desc', icon: 'users', rows: [
+        {id: 'landiscovery', label: 'ST_LanDiscovery', type: 'switch'},
+        {id: 'customcontent', label: 'ST_CustomContent', hint: 'ST_CustomContent_Hint', type: 'select', options: [
+            {value: 'all', label: 'ST_AllowAll'},
+            {value: 'nosounds', label: 'ST_NoSounds'},
+            {value: 'none', label: 'ST_None'},
+        ]},
+        {id: 'colorblind', label: 'ST_ColorBlind', type: 'seg', options: [
+            {value: 2, label: 'ST_Enabled'},
+            {value: 1, label: 'ST_CrosshairOnly'},
+            {value: 0, label: 'ST_Disabled'},
+        ]},
+        {id: 'instructor', label: 'ST_Instructor', type: 'switch'},
+        {id: 'freelook', label: 'ST_FreeLook', type: 'switch'},
+        {id: 'gore', label: 'ST_Gore', type: 'seg', options: [
+            {value: 'high', label: 'ST_High'},
+            {value: 'low', label: 'ST_Low'},
+        ]},
+    ]},
+];
+
+// Key binding tabs, with the commands of the game's key list (scripts/kb_act.lst). Strategy holds what the
+// RTS uses: the movement keys pan the camera, +zoom and +lookspin rotate it, +speed (Shift) and +duck (Ctrl)
+// are the order and selection modifiers. First person holds the Half-Life 2 keys of the legacy first person
+// mode. Actions without a label use the label of the key list. A shared action is the command of a strategy
+// action, so it has the same key. Commands of the key list without a place here go to the strategy tab.
+var KEY_TABS = [
+    {id: 'rts', title: 'ST_KeysStrategy', sections: [
+        {title: 'ST_KeysCamera', actions: [
+            {command: '+forward', label: 'ST_Key_PanUp'},
+            {command: '+back', label: 'ST_Key_PanDown'},
+            {command: '+moveleft', label: 'ST_Key_PanLeft'},
+            {command: '+moveright', label: 'ST_Key_PanRight'},
+            {command: '+zoom', label: 'ST_Key_RotateLeft'},
+            {command: '+lookspin', label: 'ST_Key_RotateRight'},
+            'cam_reset',
+        ]},
+        {title: 'ST_KeysOrders', actions: [
+            {command: '+speed', label: 'ST_Key_QueueOrders', hint: 'ST_Key_QueueOrders_Hint'},
+            {command: '+duck', label: 'ST_Key_SelectionModifier', hint: 'ST_Key_SelectionModifier_Hint'},
+        ]},
+        {title: 'ST_KeysCommunication', actions: ['+voicerecord', 'say', 'say_team', '+status_players']},
+        {title: 'ST_KeysGame', actions: ['jpeg', 'save quick', 'load quick', 'pause', 'toggleconsole',
+            'incrementvar closecaption 0 1 1', 'quit']},
+    ]},
+    {id: 'fps', title: 'ST_KeysFirstPerson', badge: 'ST_KeysLegacy', sections: [
+        {title: 'ST_KeysMovement', actions: [
+            {command: '+forward', shared: true},
+            {command: '+back', shared: true},
+            {command: '+moveleft', shared: true},
+            {command: '+moveright', shared: true},
+            {command: '+speed', shared: true},
+            {command: '+duck', shared: true},
+            '+jump', '+walk', 'impulse 50',
+        ]},
+        {title: 'ST_KeysCombat', actions: ['+attack', '+attack2', '+reload', '+use', 'phys_swap', 'impulse 100']},
+        {title: 'ST_KeysWeapons', actions: ['slot1', 'slot2', 'slot3', 'slot4', 'slot5', 'slot6', 'invnext', 'invprev', 'lastinv']},
+        {title: 'ST_KeysKeyboardLook', actions: ['+left', '+right', '+lookup', '+lookdown', '+moveup', '+movedown', '+strafe', '+klook']},
+    ]},
+];
+
+function voiceDisabled(values) {
+    return !values.voice;
 }
 
-menu_module.controller('SettingsController', SettingsController);
+// Names of the keys for the bind command, by KeyboardEvent.code and by keyCode
+var KEY_CODES = {
+    Space: 'SPACE', Enter: 'ENTER', Tab: 'TAB', Backspace: 'BACKSPACE', CapsLock: 'CAPSLOCK',
+    ShiftLeft: 'SHIFT', ShiftRight: 'RSHIFT', ControlLeft: 'CTRL', ControlRight: 'RCTRL', AltLeft: 'ALT', AltRight: 'RALT',
+    MetaLeft: 'LWIN', MetaRight: 'RWIN', ContextMenu: 'APP',
+    ArrowUp: 'UPARROW', ArrowDown: 'DOWNARROW', ArrowLeft: 'LEFTARROW', ArrowRight: 'RIGHTARROW',
+    Insert: 'INS', Delete: 'DEL', Home: 'HOME', End: 'END', PageUp: 'PGUP', PageDown: 'PGDN',
+    Pause: 'PAUSE', ScrollLock: 'SCROLLLOCK', NumLock: 'NUMLOCK',
+    Semicolon: 'SEMICOLON', Quote: '\'', Backquote: '`', Minus: '-', Equal: '=', BracketLeft: '[', BracketRight: ']',
+    Backslash: '\\', Comma: ',', Period: '.', Slash: '/',
+    Numpad0: 'KP_INS', Numpad1: 'KP_END', Numpad2: 'KP_DOWNARROW', Numpad3: 'KP_PGDN', Numpad4: 'KP_LEFTARROW',
+    Numpad5: 'KP_5', Numpad6: 'KP_RIGHTARROW', Numpad7: 'KP_HOME', Numpad8: 'KP_UPARROW', Numpad9: 'KP_PGUP',
+    NumpadDecimal: 'KP_DEL', NumpadDivide: 'KP_SLASH', NumpadMultiply: 'KP_MULTIPLY', NumpadSubtract: 'KP_MINUS',
+    NumpadAdd: 'KP_PLUS', NumpadEnter: 'KP_ENTER',
+};
+var KEY_CODES_NUMERIC = {
+    32: 'SPACE', 13: 'ENTER', 9: 'TAB', 8: 'BACKSPACE', 20: 'CAPSLOCK', 16: 'SHIFT', 17: 'CTRL', 18: 'ALT',
+    38: 'UPARROW', 40: 'DOWNARROW', 37: 'LEFTARROW', 39: 'RIGHTARROW', 45: 'INS', 46: 'DEL', 36: 'HOME', 35: 'END',
+    33: 'PGUP', 34: 'PGDN', 19: 'PAUSE', 145: 'SCROLLLOCK', 144: 'NUMLOCK', 186: 'SEMICOLON', 222: '\'', 192: '`',
+    189: '-', 187: '=', 219: '[', 221: ']', 220: '\\', 188: ',', 190: '.', 191: '/', 106: 'KP_MULTIPLY', 107: 'KP_PLUS',
+    109: 'KP_MINUS', 110: 'KP_DEL', 111: 'KP_SLASH',
+};
+var MOUSE_BUTTONS = ['MOUSE1', 'MOUSE3', 'MOUSE2', 'MOUSE4', 'MOUSE5'];
+
+function keyName(event) {
+    if( KEY_CODES[event.code] ) {
+        return KEY_CODES[event.code];
+    }
+    var match = /^(?:Key|Digit)([A-Z0-9])$/.exec(event.code || '') || /^(F[0-9]{1,2})$/.exec(event.code || '');
+    if( match ) {
+        return match[1];
+    }
+    var code = event.keyCode;
+    if( (code >= 65 && code <= 90) || (code >= 48 && code <= 57) ) {
+        return String.fromCharCode(code);
+    }
+    if( code >= 112 && code <= 123 ) {
+        return 'F' + (code - 111);
+    }
+    return KEY_CODES_NUMERIC[code] || '';
+}
+
+class settings_controller_SettingsController {
+    /*@ngInject*/
+    constructor($scope, $filter, $timeout, $interval, $document) {
+        $scope.pageID = 'page';
+
+        var translate = $filter('translate');
+        var savedTimer = null;
+        var micPoll = null;
+
+        $scope.categories = CATEGORIES;
+        $scope.category = CATEGORIES[0];
+        $scope.loaded = false;
+        $scope.settings = null;
+        $scope.values = {};
+        $scope.saved = {};
+        $scope.listening = null;
+        // Key bindings that lost their key to another action: {id: {key, action}}
+        $scope.moved = {};
+        $scope.keyTabs = [];
+        $scope.keyTab = null;
+        // Label of each key binding, on the strategy tab if it's on both
+        var keyLabels = {};
+        $scope.showSaved = false;
+        $scope.restartNeeded = false;
+        $scope.testingMicrophone = false;
+        $scope.micLevel = 0;
+
+        function translateOptions(options) {
+            return options.map(function(option) {
+                return {value: option.value, text: translate(option.label) + (option.suffix || '')};
+            });
+        }
+
+        // The resolutions of the display mode and aspect ratio
+        function updateResolutions() {
+            var settings = $scope.settings;
+            var modes = settings.resolutions[$scope.values.displaymode === 'fullscreen' ? 'fullscreen' : 'windowed'] || [];
+            var aspectModes = modes.filter(function(mode) { return mode[2] === $scope.values.aspect; });
+            $scope.options.resolution = (aspectModes.length ? aspectModes : modes).map(function(mode) {
+                return {value: mode[0] + 'x' + mode[1], text: mode[0] + ' \u00d7 ' + mode[1], width: mode[0]};
+            });
+        }
+
+        // Keeps a resolution of the list, the largest one not wider than the current resolution
+        function pickResolution() {
+            var options = $scope.options.resolution;
+            if( !options.length || options.some(function(option) { return option.value === $scope.values.resolution; }) ) {
+                return;
+            }
+            var width = parseInt($scope.values.resolution, 10) || 0;
+            var fitting = options.filter(function(option) { return option.width <= width; });
+            $scope.values.resolution = (fitting.length ? fitting[fitting.length - 1] : options[0]).value;
+        }
+
+        // The rows of the key binding tabs, from KEY_TABS and the actions of the game's key list
+        function buildKeyRows(settings) {
+            // Labels of the key list, the first one of a command listed twice
+            var listLabels = {};
+            settings.keys.forEach(function(section) {
+                section.actions.forEach(function(action) {
+                    if( !listLabels[action.command] ) {
+                        listLabels[action.command] = action.label;
+                    }
+                });
+            });
+            var placed = {};
+            keyLabels = {};
+
+            function actionRow(entry) {
+                var action = typeof entry === 'string' ? {command: entry} : entry;
+                var id = 'key:' + action.command;
+                var text = action.label ? translate(action.label) : listLabels[action.command];
+                if( !(id in settings.values) ) {
+                    return null;
+                }
+                placed[action.command] = true;
+                if( !keyLabels[id] ) {
+                    keyLabels[id] = text;
+                }
+                return {id: id, text: text, hint: action.hint || '', type: 'bind', command: action.command,
+                    sharedWith: action.shared ? keyLabels[id] : ''};
+            }
+
+            $scope.keyTabs = KEY_TABS.map(function(tab) {
+                var sections = tab.sections.map(function(section) {
+                    return {title: section.title, rows: section.actions.map(actionRow).filter(Boolean)};
+                });
+                return {id: tab.id, title: tab.title, badge: tab.badge, sections: sections};
+            });
+
+            // Actions of the key list without a place on the tabs
+            var other = [];
+            settings.keys.forEach(function(section) {
+                section.actions.forEach(function(action) {
+                    if( !placed[action.command] ) {
+                        other.push(actionRow(action.command));
+                    }
+                });
+            });
+            if( other.length ) {
+                $scope.keyTabs[0].sections.push({title: 'ST_KeysOther', rows: other});
+            }
+
+            var allRows = [];
+            $scope.keyTabs.forEach(function(tab) {
+                tab.rows = [];
+                tab.sections.filter(function(section) { return section.rows.length; }).forEach(function(section, i) {
+                    tab.rows.push({type: 'header', label: section.title, hint: i === 0 ? 'ST_Keys_Hint' : ''});
+                    tab.rows = tab.rows.concat(section.rows);
+                });
+                tab.count = tab.rows.filter(function(row) { return row.type === 'bind'; }).length;
+                tab.rows.push({id: 'defaultkeys', label: 'ST_DefaultKeys', hint: 'ST_DefaultKeys_Hint', type: 'action', action: 'ST_UseDefaults'});
+                allRows = allRows.concat(tab.rows);
+            });
+            $scope.keyTab = $scope.keyTabs[0];
+            // Both tabs, for the unsaved changes of the category
+            CATEGORIES.filter(function(category) { return category.id === 'keys'; })[0].rows = allRows;
+        }
+
+        $scope.selectKeyTab = function(tab) {
+            stopListening();
+            $scope.keyTab = tab;
+            var rows = $document[0].querySelector('.st-rows');
+            if( rows ) {
+                rows.scrollTop = 0;
+            }
+        };
+
+        $scope.isTabDirty = function(tab) {
+            return tab.rows.some($scope.isDirty);
+        };
+
+        // The rows of the category, of the selected tab for the key bindings
+        $scope.categoryRows = function() {
+            return $scope.category.id === 'keys' ? $scope.keyTab.rows : $scope.category.rows;
+        };
+
+        // A hint, or where the key of a binding went, or the strategy action with the same key
+        $scope.hintText = function(row) {
+            var moved = $scope.moved[row.id];
+            if( moved ) {
+                return translate('ST_KeyMoved', {key: moved.key, action: moved.action});
+            }
+            if( row.sharedWith ) {
+                return translate('ST_KeySharedHint', {action: row.sharedWith});
+            }
+            return row.hint ? translate(row.hint) : '';
+        };
+
+        function load() {
+            gamesettings.get(function(settings) {
+                $scope.$applyAsync(function() {
+                    $scope.settings = settings;
+                    var values = angular_default.a.copy(settings.values);
+                    Object.keys(values).forEach(function(id) {
+                        if( id.indexOf('key:') === 0 ) {
+                            values[id] = values[id].toUpperCase();
+                        }
+                    });
+                    $scope.values = values;
+                    $scope.saved = angular_default.a.copy(values);
+
+                    $scope.options = {};
+                    CATEGORIES.forEach(function(category) {
+                        category.rows.forEach(function(row) {
+                            if( row.options ) {
+                                $scope.options[row.id] = translateOptions(row.options);
+                            }
+                        });
+                    });
+                    $scope.options.antialias = settings.antialiasmodes.map(function(mode) {
+                        var name = ANTIALIAS_NAMES[mode] || mode;
+                        return {value: mode, text: name.indexOf('ST_') === 0 ? translate(name) : name};
+                    });
+                    $scope.options.language = settings.languages.map(function(language) {
+                        return {value: language, text: language.charAt(0).toUpperCase() + language.slice(1)};
+                    });
+                    updateResolutions();
+                    buildKeyRows(settings);
+                    $scope.loaded = true;
+                });
+            });
+        }
+        load();
+
+        // Rows
+        $scope.isShown = function(row) {
+            var available = $scope.settings.available;
+            if( row.id === 'recommended' ) {
+                return !!$scope.settings.recommended;
+            }
+            if( row.requires ) {
+                return available[row.requires] !== false;
+            }
+            return !row.id || available[row.id] !== false;
+        };
+
+        $scope.isDisabled = function(row) {
+            return !!row.disabled && row.disabled($scope.values, $scope.settings);
+        };
+
+        function isDirty(id) {
+            return $scope.values[id] !== $scope.saved[id];
+        }
+        $scope.isDirty = function(row) {
+            return !!row.id && row.type !== 'action' && isDirty(row.id);
+        };
+
+        $scope.isCategoryDirty = function(category) {
+            return category.rows.some($scope.isDirty);
+        };
+
+        $scope.dirtyCategories = function() {
+            if( !$scope.loaded ) {
+                return [];
+            }
+            return CATEGORIES.filter($scope.isCategoryDirty);
+        };
+
+        $scope.dirtySummary = function() {
+            return $scope.dirtyCategories().map(function(category) { return translate(category.title); }).join(', ');
+        };
+
+        $scope.selectCategory = function(category) {
+            stopListening();
+            $scope.category = category;
+        };
+
+        function changed() {
+            $scope.showSaved = false;
+        }
+
+        $scope.set = function(row, value) {
+            $scope.values[row.id] = value;
+            $scope.changed(row);
+        };
+
+        $scope.changed = function(row) {
+            if( row.id === 'aspect' || row.id === 'displaymode' ) {
+                updateResolutions();
+                pickResolution();
+            }
+            changed();
+        };
+
+        $scope.toggle = function(row) {
+            $scope.set(row, !$scope.values[row.id]);
+        };
+
+        $scope.slide = function(row, value) {
+            $scope.values[row.id] = Math.round(value * 100) / 100;
+            changed();
+        };
+
+        $scope.formatSlider = function(row) {
+            var value = Number($scope.values[row.id]);
+            return value.toFixed(row.step < 1 ? 1 : 0) + (row.unit || '');
+        };
+
+        // Actions
+        $scope.runAction = function(row) {
+            if( row.id === 'recommended' ) {
+                angular_default.a.extend($scope.values, $scope.settings.recommended);
+                updateResolutions();
+                changed();
+            } else if( row.id === 'defaultkeys' ) {
+                stopListening();
+                var defaultkeys = $scope.settings.defaultkeys;
+                Object.keys($scope.values).forEach(function(id) {
+                    if( id.indexOf('key:') === 0 ) {
+                        $scope.values[id] = (defaultkeys[id.slice(4)] || '').toUpperCase();
+                    }
+                });
+                $scope.moved = {};
+                changed();
+            } else if( row.id === 'testmicrophone' ) {
+                toggleMicrophoneTest();
+            }
+        };
+
+        $scope.actionLabel = function(row) {
+            if( row.id === 'testmicrophone' && $scope.testingMicrophone ) {
+                return 'ST_StopTest';
+            }
+            return row.action;
+        };
+
+        // Microphone test, shows the input level
+        function stopMicrophoneTest() {
+            if( micPoll ) {
+                $interval.cancel(micPoll);
+                micPoll = null;
+            }
+            if( $scope.testingMicrophone ) {
+                gamesettings.stopmicrophonetest();
+            }
+            $scope.testingMicrophone = false;
+            $scope.micLevel = 0;
+        }
+
+        function toggleMicrophoneTest() {
+            if( $scope.testingMicrophone ) {
+                stopMicrophoneTest();
+                return;
+            }
+            gamesettings.startmicrophonetest($scope.values.voicetransmit, function(started) {
+                $scope.$applyAsync(function() {
+                    if( !started ) {
+                        return;
+                    }
+                    $scope.testingMicrophone = true;
+                    micPoll = $interval(function() {
+                        gamesettings.microphonelevel(function(level) {
+                            $scope.$applyAsync(function() {
+                                if( level < 0 ) {
+                                    stopMicrophoneTest();
+                                } else {
+                                    $scope.micLevel = level;
+                                }
+                            });
+                        });
+                    }, 100);
+                });
+            });
+        }
+
+        // Key bindings: click a key, then press a key or mouse button. Escape cancels.
+        function bindKey(key) {
+            var id = $scope.listening;
+            stopListening();
+            if( !key ) {
+                return;
+            }
+            // A key does one action, other actions lose it and say where it went
+            Object.keys($scope.values).forEach(function(other) {
+                if( other !== id && other.indexOf('key:') === 0 && $scope.values[other] === key ) {
+                    $scope.values[other] = '';
+                    $scope.moved[other] = {key: key, action: keyLabels[id]};
+                }
+            });
+            $scope.values[id] = key;
+            delete $scope.moved[id];
+            changed();
+        }
+
+        function onKeyDown(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $scope.$apply(function() {
+                if( event.keyCode === 27 ) {
+                    stopListening();
+                } else {
+                    bindKey(keyName(event));
+                }
+            });
+        }
+
+        function onMouseDown(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            $scope.$apply(function() {
+                bindKey(MOUSE_BUTTONS[event.button] || '');
+            });
+        }
+
+        function onWheel(event) {
+            if( !event.deltaY ) {
+                return;
+            }
+            event.preventDefault();
+            $scope.$apply(function() {
+                bindKey(event.deltaY < 0 ? 'MWHEELUP' : 'MWHEELDOWN');
+            });
+        }
+
+        function onContextMenu(event) {
+            event.preventDefault();
+        }
+
+        var document = $document[0];
+        function stopListening() {
+            if( !$scope.listening ) {
+                return;
+            }
+            $scope.listening = null;
+            document.removeEventListener('keydown', onKeyDown, true);
+            document.removeEventListener('mousedown', onMouseDown, true);
+            document.removeEventListener('wheel', onWheel, true);
+            document.removeEventListener('contextmenu', onContextMenu, true);
+        }
+
+        $scope.listen = function(row) {
+            if( $scope.listening ) {
+                return;
+            }
+            $scope.listening = row.id;
+            // After the click that started listening
+            $timeout(function() {
+                if( $scope.listening !== row.id ) {
+                    return;
+                }
+                document.addEventListener('keydown', onKeyDown, true);
+                document.addEventListener('mousedown', onMouseDown, true);
+                document.addEventListener('wheel', onWheel, {capture: true, passive: false});
+                document.addEventListener('contextmenu', onContextMenu, true);
+            });
+        };
+
+        // Unsaved changes
+        $scope.revert = function() {
+            stopListening();
+            $scope.values = angular_default.a.copy($scope.saved);
+            $scope.moved = {};
+            updateResolutions();
+        };
+
+        $scope.applying = false;
+        $scope.apply = function() {
+            if( $scope.applying ) {
+                return;
+            }
+            stopListening();
+            // As [id, value] pairs, objects reach Python as JS object handles instead of dictionaries
+            var changes = [];
+            Object.keys($scope.values).forEach(function(id) {
+                if( isDirty(id) ) {
+                    changes.push([id, $scope.values[id]]);
+                }
+            });
+            $scope.applying = true;
+            gamesettings.apply(changes, function(result) {
+                $scope.$applyAsync(function() {
+                    $scope.applying = false;
+                    $scope.saved = angular_default.a.copy($scope.values);
+                    $scope.moved = {};
+                    $scope.restartNeeded = !!(result && result.restart);
+                    $scope.showSaved = true;
+                    if( savedTimer ) {
+                        $timeout.cancel(savedTimer);
+                    }
+                    savedTimer = $timeout(function() {
+                        $scope.showSaved = false;
+                    }, $scope.restartNeeded ? 6000 : 2500);
+                });
+            });
+        };
+
+        // Brightness: three symbols, the left one should be barely visible
+        $scope.calibration = function() {
+            var gamma = $scope.values.gamma || 2.2;
+            return [0.06, 0.18, 0.6].map(function(base) {
+                return Math.min(1, base * (0.4 + (gamma - 1.6) / 0.6));
+            });
+        };
+
+        $scope.$on('$destroy', function() {
+            stopListening();
+            stopMicrophoneTest();
+            if( savedTimer ) {
+                $timeout.cancel(savedTimer);
+            }
+        });
+    }
+}
+
+menu_module.controller('SettingsController', settings_controller_SettingsController);
+
+// Width of the slider thumb in pixels, see .st-slider in _pages.scss
+var SLIDER_THUMB_WIDTH = 16;
+
+// Range input that shows a value without writing back a value the browser adjusted to the step.
+// Dragging is done here with mouse events, the browser of the game only moves the thumb on a click.
+// Usage: <input type="range" settings-range="value" settings-change="slide($value)">
+/*@ngInject*/
+function settingsRange($document) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var input = element[0];
+            var document = $document[0];
+
+            function change(value) {
+                scope.$apply(function() {
+                    scope.$eval(attrs.settingsChange, {$value: value});
+                });
+            }
+
+            // The value under the mouse, rounded to the step
+            function setFromMouse(event) {
+                var rect = input.getBoundingClientRect();
+                var min = parseFloat(attrs.min), max = parseFloat(attrs.max), step = parseFloat(attrs.step) || 1;
+                var ratio = (event.clientX - rect.left - SLIDER_THUMB_WIDTH / 2) / (rect.width - SLIDER_THUMB_WIDTH);
+                ratio = Math.max(0, Math.min(1, ratio));
+                var value = parseFloat((min + Math.round(ratio * (max - min) / step) * step).toFixed(4));
+                if( value !== parseFloat(element.val()) ) {
+                    element.val(value);
+                    change(value);
+                }
+            }
+
+            function onMouseMove(event) {
+                event.preventDefault();
+                setFromMouse(event);
+            }
+
+            function stopDragging() {
+                document.removeEventListener('mousemove', onMouseMove, true);
+                document.removeEventListener('mouseup', stopDragging, true);
+            }
+
+            element.on('mousedown', function(event) {
+                if( event.button !== 0 || input.disabled ) {
+                    return;
+                }
+                event.preventDefault();
+                input.focus();
+                setFromMouse(event);
+                document.addEventListener('mousemove', onMouseMove, true);
+                document.addEventListener('mouseup', stopDragging, true);
+            });
+
+            scope.$watch(attrs.settingsRange, function(value) {
+                element.val(value);
+            });
+            // Keyboard
+            element.on('input change', function() {
+                change(parseFloat(element.val()));
+            });
+            scope.$on('$destroy', stopDragging);
+        },
+    };
+}
+menu_module.directive('settingsRange', settingsRange);
+
 // CONCATENATED MODULE: ./app/js/menu/singleplayer.controller.js
 
 
 
 
-class SingleplayerController {
+
+class singleplayer_controller_SingleplayerController {
     /*@ngInject*/
-    constructor($scope) {
-		$scope.pageID = 'content';
+    constructor($scope, $location, missions, recent) {
+		$scope.pageID = 'page';
+
+        $scope.loaded = false;
+        $scope.missions = [];
+        $scope.missionImage = '';
+
+        // Play again: the last played mission, on the same difficulty
+        var lastMission = recent.lastMission();
+        $scope.lastMission = null;
+        if( lastMission ) {
+            $scope.lastMissionDifficulty = missions.difficultyLabel(lastMission.difficulty);
+        }
+
+        missions.update(function() {
+            $scope.$applyAsync(function() {
+                $scope.loaded = true;
+                $scope.missions = (missions.missions || []).map(missions.describe);
+                $scope.lastMission = lastMission ? $scope.missions.filter(function(mission) {
+                    return mission.mapname === lastMission.mapname;
+                })[0] || null : null;
+                var cardMission = $scope.lastMission || $scope.missions.filter(function(mission) { return mission.image; })[0];
+                $scope.missionImage = cardMission ? cardMission.image : '';
+            });
+        });
+
+        // Opens the mission select with this mission selected
+        $scope.selectMission = function(mission) {
+            missions.missions_index = $scope.missions.indexOf(mission);
+            $location.path('/Missions');
+        };
+
+        $scope.launching = false;
+        $scope.playAgain = function() {
+            if( !$scope.lastMission || $scope.launching ) {
+                return;
+            }
+            $scope.launching = true;
+            recent.setLastMission(lastMission.mapname, lastMission.difficulty);
+            gameui.launchmission(lastMission.mapname, lastMission.difficulty);
+        };
+
+        // Skirmish again: the last game, if it was an offline skirmish
+        var lastGame = recent.lastGame();
+        if( lastGame && lastGame.lobbytype === 'offline' ) {
+            $scope.lastSkirmish = lastGame;
+            $scope.lastSkirmishTitle = lastGame.modename + (lastGame.teamsetup && lastGame.mode !== 'overrun' ? ' · ' + teamSetupLabel(lastGame.teamsetup) : '');
+        }
 
         $scope.playtutorial = function() {
             gameui.creategametutorial();
@@ -18168,7 +19466,7 @@ class SingleplayerController {
 
 }
 
-menu_module.controller('SingleplayerController', SingleplayerController);
+menu_module.controller('SingleplayerController', singleplayer_controller_SingleplayerController);
 
 // CONCATENATED MODULE: ./app/js/menu/swarm-keeper-bonus.controller.js
 
@@ -18794,6 +20092,7 @@ menu_module.controller('WorkshopBrowseController', WorkshopBrowseController);
 
 
 
+
 // CONCATENATED MODULE: ./app/js/lobby/module.js
 
 
@@ -19003,6 +20302,7 @@ function ChatlobbyServiceFactory($rootScope, $translate, $sanitize, $timeout, ga
         $timeout(() =>{
             this.history.push({
                 id:this.idcount,
+                time: new Date(),
                 text: text,
                 username: username+':',
                 steamid: usersteamid,
@@ -19136,10 +20436,18 @@ function ChatlobbyServiceFactory($rootScope, $translate, $sanitize, $timeout, ga
 
 lobby_module.factory('ChatlobbyService', ChatlobbyServiceFactory);
 
+// Seconds before searching the chat lobby again, after Steam couldn't list the lobbies or didn't answer
+var CHAT_RETRY_DELAY = 5;
+var CHAT_SEARCH_TIMEOUT = 15;
+
 /*@ngInject*/
-function chat_lobby_service_chatlobby($rootScope, ChatlobbyService, $translate) {
+function chat_lobby_service_chatlobby($rootScope, ChatlobbyService, $translate, $timeout) {
     var GlobalChatService = function(/*broadcastname*/) {
         ChatlobbyService.apply(this, arguments);
+        // In the chat lobby, and searching for it
+        this.joined = false;
+        this.searching = false;
+        this.retryTimer = null;
     };
 
     GlobalChatService.prototype = new ChatlobbyService();
@@ -19154,17 +20462,70 @@ function chat_lobby_service_chatlobby($rootScope, ChatlobbyService, $translate) 
     ;
     GlobalChatService.prototype.ingameStateChanged = function(event, ingame/*, ishosting, isoffline*/) {
         if( ingame ) {
+            this.stopSearching();
+            this.joined = false;
             this.lobbybinding.leavelobby();
         } else {
             this.findAndJoinLobby();
         }
     };
 
+    GlobalChatService.prototype.OnJoinOrCreateLobby = function() {
+        ChatlobbyService.prototype.OnJoinOrCreateLobby.apply(this, arguments);
+        this.joined = true;
+    };
+
+    // Creating or joining failed: search again later
+    GlobalChatService.prototype.OnCreateLobbyFailed = function() {
+        ChatlobbyService.prototype.OnCreateLobbyFailed.apply(this, arguments);
+        this.joined = false;
+        this.retryLater();
+    };
+
+    GlobalChatService.prototype.stopSearching = function() {
+        this.searching = false;
+        if( this.retryTimer ) {
+            $timeout.cancel(this.retryTimer);
+            this.retryTimer = null;
+        }
+    };
+
+    GlobalChatService.prototype.retryLater = function() {
+        var _self = this;
+        this.stopSearching();
+        this.retryTimer = $timeout(function() {
+            _self.retryTimer = null;
+            _self.findAndJoinLobby();
+        }, CHAT_RETRY_DELAY * 1000);
+    };
+
     GlobalChatService.prototype.findAndJoinLobby = function() {
         var lobbybinding = this.lobbybinding;
+        if( this.searching || this.joined ) {
+            return;
+        }
+        this.stopSearching();
+        this.searching = true;
 
         var _self = this;
-        lobbybinding.listlobbies(function(chatLobbies) {
+        // Steam may not answer at all, search again then
+        var searchTimeout = $timeout(function() {
+            if( _self.searching ) {
+                _self.retryLater();
+            }
+        }, CHAT_SEARCH_TIMEOUT * 1000);
+
+        lobbybinding.listlobbies(function(chatLobbies, failed) {
+            $timeout.cancel(searchTimeout);
+            if( !_self.searching ) {
+                return;
+            }
+            _self.searching = false;
+            // Steam couldn't list the lobbies: try again, creating a lobby now would make a second chat lobby
+            if( failed ) {
+                _self.retryLater();
+                return;
+            }
             if( chatLobbies.length === 0 ) {
                 lobbybinding.createlobby('Global Chat Lobby');
             } else {
@@ -19175,6 +20536,19 @@ function chat_lobby_service_chatlobby($rootScope, ChatlobbyService, $translate) 
             });
 
         });
+    };
+
+    // Not in the chat lobby: say so and join it, instead of sending to no lobby
+    GlobalChatService.prototype.sendChatMessage = function(/*text*/) {
+        if( !this.joined ) {
+            var _self = this;
+            $translate('Chat_NotConnected').then(function(notConnected) {
+                _self.OnLobbyChatMsg("", notConnected);
+            });
+            this.findAndJoinLobby();
+            return;
+        }
+        ChatlobbyService.prototype.sendChatMessage.apply(this, arguments);
     };
 
     var globalChatInstance = new GlobalChatService('globalchat');
@@ -19356,8 +20730,8 @@ lobby_module.factory('gamelobbymanager', game_lobby_manager_service_gamelobbyman
 class game_lobby_player_list_controller_GamelobbyPlayerListController {
     /*@ngInject*/
     constructor($scope, gamelobbymanager, $translate) {
-        $scope.unknownPlayerAvatar = __webpack_require__(26);
-        $scope.crownImg = __webpack_require__(27);
+        $scope.unknownPlayerAvatar = __webpack_require__(24);
+        $scope.crownImg = __webpack_require__(25);
 
         $scope.teamSlots = [];
         $scope.availablefactions = [];
@@ -19395,9 +20769,63 @@ class game_lobby_player_list_controller_GamelobbyPlayerListController {
 		};
 		
 		$scope.isPlayerReady = function(){
-			return $scope.isPlayerReadyByID($scope.localslotid); 
+			return $scope.isPlayerReadyByID($scope.localslotid);
 		}
-		
+
+        $scope.hasLocalSlot = function() {
+            return $scope.localslotid !== undefined && $scope.localslotid !== null;
+        };
+
+        $scope.toggleReady = function() {
+            if( !$scope.hasLocalSlot() ) {
+                return;
+            }
+            $scope.updatePlayerData('ready', $scope.isPlayerReady() ? '0' : '1', $scope.localslotid);
+        };
+
+        $scope.numSlots = function() {
+            return $scope.slots ? $scope.slots.length : 0;
+        };
+
+        $scope.numFilledSlots = function(slots) {
+            return (slots || []).filter(function(slot) { return slot.type === 'player'; }).length;
+        };
+
+        $scope.connectionClass = function(slot) {
+            var member = slot.player ? $scope.lobbymembers[slot.player.steamid] : undefined;
+            if( !member || member.connectstate === undefined ) {
+                return '';
+            }
+            return member.connectstate ? 'lb-conn-good' : 'lb-conn-bad';
+        };
+
+        // Same rule as IsEverybodyReady in the Python lobby: CPUs are always ready
+        $scope.isEverybodyReady = function() {
+            return ($scope.slots || []).every(function(slot) {
+                return slot.type !== 'player' || slot.iscpu || $scope.isPlayerReadyByID(slot.slotid);
+            });
+        };
+
+        // Explains why the game can't be launched yet, as translation key. Other problems, like not
+        // enough players for the game mode, are reported in the lobby chat when launching.
+        $scope.launchHint = function() {
+            if( $scope.state !== 'lobbying' || !$scope.lobbytype || $scope.lobbytype.value === 'offline' ) {
+                return '';
+            }
+            var localReady = !$scope.hasLocalSlot() || $scope.isPlayerReady();
+            if( !$scope.islobbyowner ) {
+                return localReady ? 'GL_HintWaitingForHost' : 'GL_HintReadyUpForHost';
+            }
+            if( !localReady ) {
+                return 'GL_HintReadyUp';
+            }
+            return $scope.isEverybodyReady() ? '' : 'GL_HintWaitingForPlayers';
+        };
+
+        $scope.canLaunch = function() {
+            return $scope.state === 'lobbying' && !$scope.launchHint();
+        };
+
         $scope.updateFromSlotSettings = function(settings) {
             if( !angular_default.a.equals($scope.availablefactions, settings.availablefactions ) ) {
                 $scope.availablefactions = settings.availablefactions;
@@ -19432,23 +20860,20 @@ class game_lobby_player_list_controller_GamelobbyPlayerListController {
                             }
                         }
                     }
-                    curSlots.push({
-                        slotid: slot.slotid,
-                        team: slot.team
-                    });
+                    curSlots.push(slot);
                     if( i === slots.length -1 || (i < slots.length -1 && slot.team !== slots[i+1].team) ) {
                         teamSlots.push({
                             'header' : slot.team === 0 ? translations.GL_FreeForAll : translations.GL_Team + ' ' + (slot.team - 1),
+                            'team' : slot.team,
                             'slots' : curSlots,
                         });
                         curSlots = [];
                     }
                 }
-                
+
+                // The slots are tracked by id in the view, so only changed slots are redrawn
                 $scope.slots = slots;
-                if( !angular_default.a.equals($scope.teamSlots, teamSlots) ) {
-                    $scope.teamSlots = teamSlots;
-                }
+                $scope.teamSlots = teamSlots;
             });
             
         };
@@ -19475,14 +20900,33 @@ lobby_module.controller('GamelobbyPlayerListController', game_lobby_player_list_
 
 
 
+
+var STANDARD_TEAM_SETUPS = ['1vs1', '2vs2', '3vs3', '4vs4'];
+
+// Translation keys for the common custom field values, other values are shown capitalized
+var VALUE_LABELS = {
+    'no': 'GL_ModOff',
+    'yes': 'GL_ModOn',
+    'inverted': 'GL_ModInverted',
+};
+
+// Custom fields that can be turned off ("no") and on ("yes") are modifiers, shown in the
+// modifiers panel. Other custom fields, like the Overrun difficulty, are game settings.
+function isModifierField(field) {
+    var values = field.values || [];
+    return values[0] === 'no' && values.indexOf('yes') !== -1;
+}
+
 class game_lobby_settings_controller_GamelobbySettingsController {
     /*@ngInject*/
-    constructor($scope, gamelobbymanager) {
+    constructor($scope, $window, $filter, gamelobbymanager) {
         $scope.availablemodes = [];
         $scope.availablemaps = [];
         $scope.availableteamsetups = [];
         $scope.customfields = {};
-        
+        $scope.settingFields = [];
+        $scope.modifierFields = [];
+
         $scope.mode = undefined;
         $scope.map = undefined;
         $scope.teamsetup = undefined;
@@ -19513,6 +20957,133 @@ class game_lobby_settings_controller_GamelobbySettingsController {
             }
         };
 
+        $scope.teamSetupOptions = [];
+        $scope.modifiersOpen = false;
+        $scope.modifiersStyle = {};
+
+        $scope.teamSetupLabel = teamSetupLabel;
+
+        // The common team setups are always shown, the ones the map doesn't support are disabled
+        $scope.buildTeamSetupOptions = function(supportedmodes) {
+            var ids = supportedmodes.indexOf('FFA') !== -1 ? ['FFA'] : [];
+            STANDARD_TEAM_SETUPS.concat(supportedmodes).forEach(function(id) {
+                if( ids.indexOf(id) === -1 ) {
+                    ids.push(id);
+                }
+            });
+            return ids.map(function(id) {
+                return {id: id, label: $scope.teamSetupLabel(id), supported: supportedmodes.indexOf(id) !== -1};
+            });
+        };
+
+        $scope.selectTeamSetup = function(option) {
+            if( !$scope.islobbyowner || !option.supported || $scope.isPlayerReady() ) {
+                return;
+            }
+            if( !$scope.teamsetup || $scope.teamsetup.id !== option.id ) {
+                $scope.updateSetting('teamsetup', option.id);
+            }
+        };
+
+        // Custom fields: game settings and modifiers
+        $scope.buildCustomFieldLists = function() {
+            var fields = Object.keys($scope.customfields || {}).map(function(id) {
+                var field = $scope.customfields[id];
+                return {id: id, name: field.name || id, values: field.values || []};
+            });
+            $scope.settingFields = fields.filter(function(field) { return !isModifierField(field); });
+            $scope.modifierFields = fields.filter(isModifierField).sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+            if( !$scope.modifierFields.length ) {
+                $scope.closeModifiers();
+            }
+        };
+
+        $scope.valueLabel = function(value) {
+            if( value === undefined || value === null ) {
+                return '';
+            }
+            value = String(value);
+            return VALUE_LABELS[value] || value.charAt(0).toUpperCase() + value.slice(1);
+        };
+
+        $scope.canEditCustomFields = function() {
+            return $scope.islobbyowner && !$scope.isPlayerReady();
+        };
+
+        $scope.isModifierActive = function(field) {
+            var value = $scope.selectedCustomFields[field.id];
+            return !!value && value !== field.values[0];
+        };
+
+        $scope.activeModifiers = function() {
+            return $scope.modifierFields.filter($scope.isModifierActive);
+        };
+
+        // Active modifiers by name, with the value when it's not simply on ("Armor (Inverted)")
+        $scope.modifiersSummary = function() {
+            return $scope.activeModifiers().map(function(field) {
+                var value = $scope.selectedCustomFields[field.id];
+                return value === 'yes' ? field.name : field.name + ' (' + $filter('translate')($scope.valueLabel(value)) + ')';
+            }).join(', ');
+        };
+
+        $scope.setModifier = function(field, value) {
+            if( !$scope.canEditCustomFields() || $scope.selectedCustomFields[field.id] === value ) {
+                return;
+            }
+            $scope.selectedCustomFields[field.id] = value;
+            $scope.updateCustomField(field.id, value);
+        };
+
+        $scope.toggleModifier = function(field) {
+            $scope.setModifier(field, $scope.isModifierActive(field) ? field.values[0] : 'yes');
+        };
+
+        $scope.resetModifiers = function() {
+            $scope.activeModifiers().forEach(function(field) {
+                $scope.setModifier(field, field.values[0]);
+            });
+        };
+
+        // The panel opens to the left of the settings column, level with the modifiers row.
+        // It's fixed positioned, so the scrolling settings column doesn't cut it off.
+        var modifiersRow = null;
+
+        function positionModifiers() {
+            var row = modifiersRow.getBoundingClientRect();
+            var side = angular_default.a.element(modifiersRow).closest('.lb-side')[0].getBoundingClientRect();
+            $scope.modifiersStyle = {
+                right: ($window.innerWidth - side.left + 16) + 'px',
+                bottom: Math.max(16, $window.innerHeight - row.bottom) + 'px',
+            };
+        }
+
+        $scope.toggleModifiers = function(event) {
+            if( $scope.modifiersOpen ) {
+                $scope.closeModifiers();
+                return;
+            }
+            modifiersRow = event.currentTarget;
+            positionModifiers();
+            $scope.modifiersOpen = true;
+        };
+
+        $scope.closeModifiers = function() {
+            $scope.modifiersOpen = false;
+        };
+
+        function onWindowResize() {
+            if( $scope.modifiersOpen ) {
+                $scope.$apply(positionModifiers);
+            }
+        }
+        angular_default.a.element($window).on('resize', onWindowResize);
+        $scope.$on('$destroy', function() {
+            angular_default.a.element($window).off('resize', onWindowResize);
+        });
+
         $scope.updateGameInfoFromSettings = function(settings) {
             // Shown while the map is not available yet, for example while downloading it from the Workshop
             $scope.mapname = settings.map;
@@ -19529,16 +21100,17 @@ class game_lobby_settings_controller_GamelobbySettingsController {
             }
             if( !angular_default.a.equals($scope.customfields, settings.customfields ) ) {
                 $scope.customfields = settings.customfields;
+                $scope.buildCustomFieldLists();
             }
-            
+
             // Fix current selection if needed
             $scope.mode = $scope.fixSelectedDropdown(settings.mode, $scope.availablemodes);
             $scope.map = $scope.fixSelectedDropdown(settings.map, $scope.availablemaps);
-            
+
             for( var key in $scope.customfields ) {
                 $scope.selectedCustomFields[key] = $scope.fixSelectedArrayDropdown($scope.customfields[key].selectedvalue, $scope.customfields[key].values);
             }
-            
+
             if( settings.availablemaps && settings.availablemaps.hasOwnProperty(settings.map) ) {
                 var supportedmodes = [];
                 for( var i = 0; i < settings.availablemaps[settings.map].supportedmodes.length; i++ ) {
@@ -19550,17 +21122,22 @@ class game_lobby_settings_controller_GamelobbySettingsController {
                 }
                 $scope.availableteamsetups = supportedmodes;
                 $scope.teamsetup = $scope.fixSelectedDropdown(settings.teamsetup, $scope.availableteamsetups);
+                var teamSetupOptions = $scope.buildTeamSetupOptions(settings.availablemaps[settings.map].supportedmodes);
+                if( !angular_default.a.equals($scope.teamSetupOptions, teamSetupOptions) ) {
+                    $scope.teamSetupOptions = teamSetupOptions;
+                }
                 $scope.minimapsrc = settings.availablemaps[settings.map].overviewsrc;
                 updateMinimapUrl();
                 //console.log('map positions: ', settings.availablemaps[settings.map]['positioninfo']);
             } else {
                 $scope.availableteamsetups = [];
                 $scope.teamsetup = undefined;
+                $scope.teamSetupOptions = [];
                 $scope.minimapsrc = '';
                 updateMinimapUrl();
             }
         };
-        
+
         $scope.$on('gamelobby:settings', function(event, settings) {
             $scope.updateGameInfoFromSettings(settings);
         });
@@ -19572,6 +21149,7 @@ class game_lobby_settings_controller_GamelobbySettingsController {
 }
 
 lobby_module.controller('GamelobbySettingsController', game_lobby_settings_controller_GamelobbySettingsController);
+
 // CONCATENATED MODULE: ./app/js/lobby/game-lobby.controller.js
 
 
@@ -19579,7 +21157,7 @@ lobby_module.controller('GamelobbySettingsController', game_lobby_settings_contr
 
 class GamelobbyController {
     /*@ngInject*/
-    constructor($scope, gamelobbymanager, ngDialog) {
+    constructor($scope, $routeParams, gamelobbymanager, ngDialog, recent) {
         $scope.pageID = 'gamelobby';
         $scope.lobbyname = '';
         $scope.lobbytype = null;
@@ -19755,7 +21333,7 @@ class GamelobbyController {
         });
 
         if( gamelobbymanager.state === 'none' ) {
-            gamelobbymanager.createLobby();
+            gamelobbymanager.createLobby($routeParams.preset === 'last' ? recent.lastGame() : null);
         }
 
         if( gamelobbymanager.settings !== undefined ) {
@@ -19772,11 +21350,12 @@ lobby_module.controller('GamelobbyController', GamelobbyController);
 
 
 
+
 /**
  * Game Lobby factory.
  * @ngInject
  */
-function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $routeParams, ChatlobbyService, $translate) {
+function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $routeParams, ChatlobbyService, $translate, recent) {
     var GamelobbyService = function(/*broadcastname*/) {
         ChatlobbyService.apply(this, arguments);
         
@@ -19801,6 +21380,7 @@ function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $rout
         this.settings = {};
         this.slots = [];
         this.lobbyingstate_msg = null;
+        this.pendingPreset = null;
     };
     
     GamelobbyService.prototype.setState = function(state) {
@@ -19834,10 +21414,82 @@ function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $rout
         });
     };
     
-    GamelobbyService.prototype.createLobby = function() {
+    // A preset ("Host again" on the home page) holds the settings of an earlier game, applied
+    // once the lobby is created
+    GamelobbyService.prototype.createLobby = function(preset) {
         this.setState('creating');
         this.isoffline = $routeParams.lobbytype === 'offline';
+        this.pendingPreset = preset ? angular_default.a.copy(preset) : null;
         gamelobby.createlobby('New lobby', $routeParams.lobbytype);
+    };
+
+    // Applies one setting per lobby update, since the available maps depend on the mode and the
+    // team setups on the map. Settings that are no longer available are skipped.
+    GamelobbyService.prototype.applyPreset = function(settings) {
+        var preset = this.pendingPreset;
+        if( !preset || !settings.islobbyowner ) {
+            return;
+        }
+        if( preset.mode && settings.mode !== preset.mode && !preset.triedMode ) {
+            preset.triedMode = true;
+            if( settings.availablemodes && settings.availablemodes[preset.mode] ) {
+                this.setSetting('mode', preset.mode);
+                return;
+            }
+        }
+        if( preset.map && settings.map !== preset.map && !preset.triedMap ) {
+            preset.triedMap = true;
+            if( settings.availablemaps && settings.availablemaps[preset.map] ) {
+                this.setSetting('map', preset.map);
+                return;
+            }
+        }
+        if( preset.teamsetup && settings.teamsetup !== preset.teamsetup && !preset.triedTeamsetup ) {
+            preset.triedTeamsetup = true;
+            var map = settings.availablemaps ? settings.availablemaps[settings.map] : null;
+            if( map && map.supportedmodes.indexOf(preset.teamsetup) !== -1 ) {
+                this.setSetting('teamsetup', preset.teamsetup);
+                return;
+            }
+        }
+        this.pendingPreset = null;
+        var customfields = settings.customfields || {};
+        for( var key in preset.customfields || {} ) {
+            var field = customfields[key];
+            var value = preset.customfields[key];
+            if( field && field.selectedvalue !== value && field.values.indexOf(value) !== -1 ) {
+                this.setCustomField(key, value);
+            }
+        }
+    };
+
+    // Remembers the settings of a launched game for "Host again" on the home page
+    GamelobbyService.prototype.rememberGame = function() {
+        var settings = this.settings;
+        if( !settings || !settings.islobbyowner ) {
+            return;
+        }
+        var map = settings.availablemaps ? settings.availablemaps[settings.map] : null;
+        var mode = settings.availablemodes ? settings.availablemodes[settings.mode] : null;
+        var customfields = {};
+        var nummodifiers = 0;
+        for( var key in settings.customfields || {} ) {
+            var field = settings.customfields[key];
+            customfields[key] = field.selectedvalue;
+            if( field.values[0] === 'no' && field.selectedvalue !== 'no' ) {
+                nummodifiers++;
+            }
+        }
+        recent.setLastGame({
+            lobbytype: settings.lobbytype,
+            mode: settings.mode,
+            modename: mode ? mode.name : settings.mode,
+            map: settings.map,
+            overviewsrc: map ? map.overviewsrc : '',
+            teamsetup: settings.teamsetup,
+            customfields: customfields,
+            nummodifiers: nummodifiers,
+        });
     };
     
     GamelobbyService.prototype.joinLobby = function(lobbysteamid) {
@@ -19854,6 +21506,7 @@ function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $rout
     };
     
     GamelobbyService.prototype.launch = function() {
+        this.rememberGame();
         gamelobby.launch();
     };
     
@@ -19899,6 +21552,7 @@ function game_lobby_service_GamelobbyServiceFactory($rootScope, $location, $rout
     GamelobbyService.prototype.OnLobbyDataChanged = function(settings, lobbymembers, slots) {
         this.settings = settings;
         this.slots = slots;
+        this.applyPreset(settings);
         
         $rootScope.$apply(function() {
             $rootScope.$broadcast("gamelobby:settings", settings);
@@ -19930,7 +21584,7 @@ lobby_module.factory('gamelobbymanager', game_lobby_service_gamelobbymanager);
 class GlobalChatDirective {
     /*@ngInject*/
     constructor() {
-        this.template = __webpack_require__(28);
+        this.template = __webpack_require__(26);
         this.restrict = 'A';
     }
 
@@ -19975,7 +21629,7 @@ lobby_module.directive('globalChat',  () => new GlobalChatDirective());
  */
 function requisitionTimeChartDirective() {
     return {
-        template: __webpack_require__(29),
+        template: __webpack_require__(27),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20035,7 +21689,7 @@ charts_module.directive('requisitionTimeChart',  requisitionTimeChartDirective);
  */
 function resourceCollectionChartDirective() {
     return {
-        template: __webpack_require__(30),
+        template: __webpack_require__(28),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20072,7 +21726,7 @@ charts_module.directive('resourceCollectionChart',  resourceCollectionChartDirec
  */
 function resourcesSpentDetailChartDirective() {
     return {
-        template: __webpack_require__(31),
+        template: __webpack_require__(29),
         restrict: 'E',
         scope: {
             matchData: '=',
@@ -20148,7 +21802,7 @@ charts_module.directive('resourcesSpentDetailChart',  resourcesSpentDetailChartD
  */
 function resourcesSpentChartDirective() {
     return {
-        template: __webpack_require__(32),
+        template: __webpack_require__(30),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20225,7 +21879,7 @@ charts_module.directive('resourcesSpentChart',  resourcesSpentChartDirective);
  */
 function scoresChartDirective() {
     return {
-        template: __webpack_require__(33),
+        template: __webpack_require__(31),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20304,7 +21958,7 @@ charts_module.directive('scoresChart',  scoresChartDirective);
  */
 function timeChartDirective() {
     return {
-        template: __webpack_require__(34),
+        template: __webpack_require__(32),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20337,7 +21991,7 @@ charts_module.directive('timeCharts',  timeChartDirective);
  */
 function unitsChartDirective() {
     return {
-        template: __webpack_require__(35),
+        template: __webpack_require__(33),
         restrict: 'E',
         scope: {
             matchData: '='
@@ -20378,7 +22032,7 @@ charts_module.directive('unitsChart',  unitsChartDirective);
  */
 function MatchResultDirective(Restangular, $timeout) {
     return {
-        template: __webpack_require__(36),
+        template: __webpack_require__(34),
         restrict: 'E',
         scope: {
             'matchUuid': '='
@@ -20460,7 +22114,7 @@ matches_module.directive('matchResult',  MatchResultDirective);
  */
 function MatchHistoryDirective(Restangular) {
     return {
-        template: __webpack_require__(37),
+        template: __webpack_require__(35),
         restrict: 'E',
         scope: {
             'steamid': '='
@@ -20569,7 +22223,7 @@ matches_module.directive('matchHistory',  MatchHistoryDirective);
 
 
 
-__webpack_require__(38);
+__webpack_require__(36);
 
 function setup_low_res_support() {
     // Lazy fix for people with ant resolutions
@@ -20619,15 +22273,15 @@ function init_mainmenu(translations, ui_settings) {
     // mount on window for testing
     window.app = angular_default.a.module('app', requires);
 
-    __webpack_require__(107);
+    __webpack_require__(104);
 
     angular_default.a.module('app').constant('AppSettings',
-        angular_default.a.merge(__webpack_require__(108), ui_settings)
+        angular_default.a.merge(__webpack_require__(105), ui_settings)
     );
 
-    angular_default.a.module('app').config(__webpack_require__(109));
+    angular_default.a.module('app').config(__webpack_require__(106));
 
-    angular_default.a.module('app').run(__webpack_require__(122));
+    angular_default.a.module('app').run(__webpack_require__(119));
 
     angular_default.a.bootstrap(document, ['app']);
 
@@ -84806,7 +86460,7 @@ module.exports = __webpack_amd_options__;
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = "\t<div class=\"chat-messages\" id=\"chat-messages\">\r\n\t\t<section ng-repeat=\"line in chatHistory track by line.id\">\r\n\r\n\t\t\t<section class=\"chat-line\" ng-show=\"line.type == 'global'\">\r\n\t\t\t\t<strong ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-bind-html=\"line.text\"></strong>\r\n\t\t\t</section>\r\n\r\n\t\t\t<section class=\"chat-line\" ng-show=\"line.type != 'global' \" ng-controller=\"dropdownController\">\r\n\t\t\t\t<img ng-show=\"line.type == 'admin'\" src=\"" + __webpack_require__(22) + "\" ng-tooltip=\"Vortal Storm Developer\"/>\r\n\t\t\t\t<img ng-show=\"line.icon != ''\" ng-src=\"{{line.icon}}\" ng-tooltip=\"{{line.icontooltip}}\"/>\r\n\t\t\t\t<div class=\"inner\">\r\n\t\t\t\t\t<ul class=\"chatdropdown noselect\" ng-show=\"isopen\" ng-mouseleave=\"closeDropdown()\">\r\n\t\t\t\t\t\t<li ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-click=\"closeDropdown()\" ng-bind-html=\"line.username\"></li>\r\n\t\t\t\t\t\t<!--<li><span ng-click=\"closeDropdown();\">Invite</span></li>-->\r\n\t\t\t\t\t\t<li><a class=\"noselect\" href=\"http://steamcommunity.com/profiles/{{line.steamid}}\" ng-click=\"closeDropdown();\" >{{ 'Chat_OpenProfile' | translate }}</a></li>\r\n\t\t\t\t\t\t<li><a class=\"noselect\" ng-show=\"isUserMute(line.steamid);\" ng-click=\"unmuteUser(line.steamid); closeDropdown();\">{{ 'Chat_UnmutePlayer' | translate }}</a></li>\r\n\t\t\t\t\t\t<li><a class=\"noselect\" ng-hide=\"isUserMute(line.steamid) || isYourself(line.steamid)\" ng-click=\"muteUser(line.steamid); closeDropdown();\">{{ 'Chat_MutePlayer' | translate }}</a></li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<span ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-click=\"openDropdown();\" ng-bind-html=\"line.username\"></span>\r\n\t\t\t\t<section ng-bind-html=\"line.text\"></section>\r\n\t\t\t</section>\r\n\r\n\t\t</section>\r\n\t</div>\r\n";
+module.exports = "\t<div class=\"chat-messages\" id=\"chat-messages\">\r\n\t\t<section ng-repeat=\"line in chatHistory track by line.id\">\r\n\r\n\t\t\t<section class=\"chat-line\" ng-show=\"line.type == 'global'\">\r\n\t\t\t\t<span class=\"chat-time\">{{ line.time | date:'HH:mm' }}</span>\r\n\t\t\t\t<strong ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-bind-html=\"line.text\"></strong>\r\n\t\t\t</section>\r\n\r\n\t\t\t<section class=\"chat-line\" ng-show=\"line.type != 'global' \" ng-controller=\"dropdownController\">\r\n\t\t\t\t<span class=\"chat-time\">{{ line.time | date:'HH:mm' }}</span>\r\n\t\t\t\t<img ng-show=\"line.type == 'admin'\" src=\"" + __webpack_require__(22) + "\" ng-tooltip=\"Vortal Storm Developer\"/>\r\n\t\t\t\t<img ng-show=\"line.icon != ''\" ng-src=\"{{line.icon}}\" ng-tooltip=\"{{line.icontooltip}}\"/>\r\n\t\t\t\t<div class=\"inner\">\r\n\t\t\t\t\t<ul class=\"chatdropdown noselect\" ng-show=\"isopen\" ng-mouseleave=\"closeDropdown()\">\r\n\t\t\t\t\t\t<li ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-click=\"closeDropdown()\" ng-bind-html=\"line.username\"></li>\r\n\t\t\t\t\t\t<!--<li><span ng-click=\"closeDropdown();\">Invite</span></li>-->\r\n\t\t\t\t\t\t<li><a class=\"noselect\" href=\"http://steamcommunity.com/profiles/{{line.steamid}}\" ng-click=\"closeDropdown();\" >{{ 'Chat_OpenProfile' | translate }}</a></li>\r\n\t\t\t\t\t\t<li><a class=\"noselect\" ng-show=\"isUserMute(line.steamid);\" ng-click=\"unmuteUser(line.steamid); closeDropdown();\">{{ 'Chat_UnmutePlayer' | translate }}</a></li>\r\n\t\t\t\t\t\t<li><a class=\"noselect\" ng-hide=\"isUserMute(line.steamid) || isYourself(line.steamid)\" ng-click=\"muteUser(line.steamid); closeDropdown();\">{{ 'Chat_MutePlayer' | translate }}</a></li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<span class=\"chat-username\" ng-style=\"chatCtrl.getChatLineStyle(line.type)\" ng-click=\"openDropdown();\" ng-bind-html=\"line.username\"></span>\r\n\t\t\t\t<section ng-bind-html=\"line.text\"></section>\r\n\t\t\t</section>\r\n\r\n\t\t</section>\r\n\t</div>\r\n";
 
 /***/ }),
 /* 22 */
@@ -86645,99 +88299,87 @@ return Tether;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "52b5fba01046e0eabc01ecd316fde122.png";
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyAAAAH0CAYAAADFQEl4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAACOZJREFUeNrs1zEBAAAIwzDAv+dhgJsrkdCvnaQAAAA+jAQAAIABAQAADAgAAIABAQAADAgAAIABAQAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAADAgAAAABgQAADAgAAAABgQAADAgAAAAAYEAADAgAAAAAYEAADAgAAAAAYEAADAgAAAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAgAEBAAAwIAAAgAEBAAAwIAAAgAEBAAAMCAAAgAEBAAAMCAAAgAEBAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAADAgAAAABgQAADAgAAAABgQAADAgAACAAQEAADAgAACAAQEAADAgAACAAQEAAAyIBAAAgAEBAAAMCAAAgAEBAAAMCAAAgAEBAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAADAgAAAABgQAADAgAAAABgQAADAgAACAAQEAADAgAACAAQEAADAgAACAAQEAAAwIAACAAQEAAAwIAACAAQEAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAIABAQAAMCAAAIABAQAAMCAAAIABAQAADIgEAACAAQEAAAwIAACAAQEAAAwIAACAAQEAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAIABAQAAMCAAAIABAQAAMCAAAIABAQAADAgAAIABAQAADAgAAIABAQAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAADAgAAAABgQAADAgAAAABgQAADAgAAAAAYEAADAgAAAAAYEAADAgAAAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAgAEBAAAwIAAAgAEBAAAwIAAAgAEBAAAMiAQAAIABAQAADAgAAIABAQAADAgAAIABAQAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAADAgAAAABgQAADAgAAAABgQAADAgAAAAAYEAADAgAAAAAYEAADAgAAAAAYEAADAgAAAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAgAEBAAAwIAAAgAEBAAAwIAAAgAEBAAAMCAAAgAEBAAAMCAAAgAEBAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAADAgAAAABgQAADAgAAAABgQAADAgAACAAQEAADAgAACAAQEAADAgAACAAQEAAAyIBAAAgAEBAAAMCAAAgAEBAAAMCAAAgAEBAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAAADAgAAYEAAAAADAgAAYEAAAAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAAMCAAAAABgQAADAgAAAABgQAADAgAAAABgQAADAgAACAAQEAADAgAACAAQEAADAgAACAAQEAAAwIAACAAQEAAAwIAACAAQEAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAIABAQAAMCAAAIABAQAAMCAAAIABAQAADIgEAACAAQEAAAwIAACAAQEAAAwIAACAAQEAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAAAAAMCAABgQAAAAAMCAABgQAAAAAMCAAAYEAAAAAMCAAAYEAAAAAMCAAAYEAAAwIAAAAAYEAAAwIAAAAAYEAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAwIAAAAAGBAAAMCAAAAAGBAAAMCAAAAAGBAAAMCAAAIABAQAAMCAAAIABAQAAMCAAAIABAQAADAgAAIABAQAADAgAAIABAQAADAgAAGBAAAAADAgAAGBAAAAADAgAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAAGBAAAAAAwIAABgQAAAAAwIAABgQAAAAAwIAABgQAADAgAAAABgQAADAgAAAAFwWAAD//wMA6qIG5R+3lOEAAAAASUVORK5CYII="
-
-/***/ }),
-/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gODAK/9sAQwAGBAUGBQQGBgUGBwcGCAoQCgoJCQoUDg8MEBcUGBgXFBYWGh0lHxobIxwWFiAsICMmJykqKRkfLTAtKDAlKCko/9sAQwEHBwcKCAoTCgoTKBoWGigoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgo/8AAEQgAuAC4AwEiAAIRAQMRAf/EAB8AAAEFAQEBAQEBAAAAAAAAAAABAgMEBQYHCAkKC//EALUQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+v/EAB8BAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKC//EALURAAIBAgQEAwQHBQQEAAECdwABAgMRBAUhMQYSQVEHYXETIjKBCBRCkaGxwQkjM1LwFWJy0QoWJDThJfEXGBkaJicoKSo1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoKDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uLj5OXm5+jp6vLz9PX29/j5+v/aAAwDAQACEQMRAD8A8CZt7FnJLE8k9zScelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFABx6UcelFFAFrSgG1O0U/dMyj9RRS6T/yFbL/rsn/oQooAq0lFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUtJRQAtFJS0AFFJRQBb0j/kLWX/XZP8A0IUUaR/yFrL/AK7J/wChCigCrSUUUAFFFFABRRRQAUUUUAFHp7+lKo3MFGST6V7b8MvgrJqcMWp+KS8Fu/KWq/K7j/aPYUAeKwQTXEgSGKSRyM7UUsf0q6dC1fGTpV+B15t3A/lX2vo3hzR9EgWHS9Ot7dB3VBuP1NaxGRyAe2PagD4Emhkgk8uaN4367WXaf1pmcivubWvDGi63bvDqWm206sOrRjI9weteEfEz4KTabDLqXhUyXFsoLSWjHLoB3U96APEKKUgqSGGCOCCMUlABRRS0AJS0UUAJS0UUAWtI/wCQtZf9dk/9CFFGk/8AIVsv+uyf+hCigCrSUtJQAUUUUAFFFFABR/n60UDrQB7F+z14Ii1vU5Nb1KISWVm22JGHDy/4AfrX04ehwMf0rkfhNpSaP8P9HgVcNJCJ3I7l+f5YrrXYIrMxwACSfSgCvqWo2ml2r3OoXEVvAoyXkOB/n/69cgPip4OFx5P9sw5ztDchfzr5u+K/jO68W+JLpxM40yByltED8pUEgsR3J657VxRGMgj60Afe1hfWmoWy3NhcRXED/deNsg1YwCSB0PUDpXxx8L/Hd74N1yJhK76XM4FzCSdpHALD0Izn3r7FikWWJZEIKEBlPqD0oA+aP2h/BEOj6jFr2mxbLW8YrOq9Fk68fX/GvGvyr7R+K2lprHw/1iB1DFIWlU/3SvzZ/Q18XCgApaSigAoopaAEpaSigC3pP/IVsv8Arsn/AKEKKNI/5C1l/wBdk/8AQhRQBVpKWkoAKKKKACiiigAooooA+oPD/wAZfCdloOm2k89yJoLaKJwIWI3KgB7e1O1r41eFZ9HvUs7i6+0PC4j/AHDD5sYHP1r5dooAOh6/Siilx8wU+oOPwoAdFG8sixxKXdyFVR1YntX3boFtJaaJY29wxaWGBFc+pCivnb9nzwEdX1JfEOqRf6Bav/o8bD/Wyjv9F/U19MA9Mc9+O5oAx/GLLH4S1ss2ALKYZ+sbD/CvhgV9b/HrxAmi+Arq2D4ur8iCNQe2csfyGPxr5I6UAFFFLQAUUlFABRRRQBb0j/kLWX/XZP8A0IUUaR/yFrL/AK7J/wChCigCrSUtJQAUUUUAFFFFABRRRQAUUUUAFdR8OfCFz408SQ6dAGS3X57qcD/Vx8/+PHGAPWucs7aa8uora1jMtxMwSNB1dicAfnX2V8LvBcPgrw2tmu19Qnw93KBkNJx8o9QoOAOhyT3oA6XTNPttL063sLCJYbSBPLRF6Kop+oXtvp1ncXt7KIraBDJJITjAHX+oqwefT0xnjrXzX+0F8QRql43hvSJlNlA3+lSKxPmyDjb7gdPegDhPif4yn8Z+IpLlspYxZjtoz/Ao7+7Hr+PtXH/hilyQeOPWk+lABRRRQAUUUUAFFLRQBa0n/kK2X/XZP/QhRRpP/IVsv+uyf+hCigCrSUtJQAUUUUAFFFFABRRRQAUUUUAeqfs36THqHxCF1KoIsLd7hc/3sqin6jcT+FfVR6dAAeK+bP2Wx/xVWr/9eX/tRK+k+o/xoA82+OfjaTwp4cW2sGKarqQaONh1iQD5n+vOAPfPavkxnZmLEtuJycnP4/WvZP2o5S3jLS4STtWwD5HqZGH/ALLXjNABwOnSiiigApaSloASiiigAopaKALWkf8AIVsv+uyf+hCijSP+QtZf9dk/9CFFAFWkpaSgAooooAKKKKACiiigAooooA7/AODvjaz8D6xfXl/BNOk9v5SiPjB3g9/YV6yf2gNC/wCgbe/mtfOukaPqOszSQ6VaS3UiLuYRrkgev61rHwN4m/6Al6B/1zoA1vjB4xtPGviK11DT7eWCKK1W3IkIJJDM2eP96uFq9q+lX+j3CQanaS2szKJFWQYJXJGfzFUaACiiigApaSloAKKKKACiiigC1pH/ACFrL/rsn/oQoo0j/kLWX/XZP/QhRQBUopaKAEopaSgAooooAKKWkoAKB1paTpQB7V+y4ceKNYHpZHH/AH8WvpUn1/nXyT8DvF2leD9d1C61uSaOGa18pDHGXOd4PT6CvZ/+F4eDP+fi9/8AAZqAPMf2oSD4503jppqDP/bWSvHa9E+OHivS/F/iezvtFeV7eKyWBjJHsO4SSHof94V53QAUUUtACUUtJQAUUUUAFFFFAFvSP+QtZf8AXZP/AEIUUaR/yFrL/rsn/oQooAq0lFFABRRRQAUUUtACUUUtACUUtJQAUUUUAFFFFABRS0UAJRRRQAUUUUAFFFFAFvSP+QrZf9dk/wDQhRRpH/IVsv8Arsn/AKEKKAKlFHPofyooAKKWkoAKWiigApKWkoAKKKKAClpKWgBKWkooAKKWkoAKKKKACiiigAooooAt6R/yFbL/AK7J/wChCijSQf7UssdfOT/0IUUATromoMoZYlwf+mq//FUf2HqP/PBf+/qf/FUUUAH9h6j/AM8F/wC/qf8AxVH9h6j/AM8F/wC/qf8AxVFFAB/Yeo/88F/7+p/8VR/Yeo/88F/7+p/8VRRQAf2HqP8AzwX/AL+p/wDFUf2HqP8AzwX/AL+p/wDFUUUAH9h6j/zwX/v6n/xVH9h6j/zwX/v6n/xVFFAB/Yeo/wDPBf8Av6n/AMVR/Yeo/wDPBf8Av6n/AMVRRQAf2HqP/PBf+/qf/FUf2HqP/PBf+/qf/FUUUAH9h6j/AM8F/wC/qf8AxVH9h6j/AM8F/wC/qf8AxVFFAB/Yeo/88E/7+p/8VR/Yeo/88E/7+p/8VRRQAf2HqP8AzwT/AL+p/wDFUf2HqP8AzwT/AL+p/wDFUUUAH9h6j/zwT/v6n/xVKND1H/ngv/f1P/iqKKAJrLSby2vYLiaILHHIGbbIpJ5HGAaKKKAP/9k="
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAACJSURBVHjaYvz//z8DJYCJgULAxMDAwMDIyIjVGYyMjP/xyTEwMDAwUsULlLiABVng////jMj8uEBdnHIwNtyAuEBduEKY5vZiRwZ0C2Byi9ZfRjUAphibZmxyMAMY////z8DIyPj/6ZE8kgJP2mYSw////xmpkw5GuAHwWCBH8////xkpzguAAQALL0fGMORiyAAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, exports) {
 
 module.exports = "<section id=\"chat-menu\" class=\"chat box box-right\" ng-if=\"!ingame\">\r\n\r\n\t<h1>{{ 'Chat_Global' | translate }}<span>{{ numcurplayers }} {{ 'Chat_PlayersOnline' | translate }}</span></h1>\r\n\r\n\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"chatlobby\"></chat-lines>\r\n\r\n\t<div class=\"chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"chatlobby\">\r\n\t\t<form ng-submit=\"sendChat()\" class=\"chat-form\"><input type=\"text\" class=\"chat-input\" ng-model=\"text\" placeholder=\"[{{inputlanguage}}]\" /></form>\r\n\t\t<a href class=\"chat-send btn\" ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t</div>\r\n\r\n</section>";
 
 /***/ }),
-/* 29 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = "<h2>Requisition over time:</h2>\r\n<canvas id=\"line\" class=\"chart chart-line\" chart-data=\"resource_data\"\r\n  chart-labels=\"resource_labels\" chart-legend=\"true\" chart-series=\"resource_series\"\r\n  chart-click=\"onClick\" >\r\n</canvas>\r\n";
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = "<h2>Total Requisition collected</h2>\r\n<canvas id=\"bar\" class=\"chart chart-bar\"\r\n  chart-data=\"data\" chart-labels=\"labels\" chart-series=\"series\">\r\n</canvas>\r\n";
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = "<!--<h2>Resources spent Details - {{matchData.players[owner].name}}</h2>-->\r\n<canvas id=\"line\" class=\"chart chart-line\" chart-data=\"resource_data\"\r\n  chart-labels=\"resource_labels\" chart-legend=\"true\" chart-series=\"resource_series\"\r\n  chart-colours=\"player_colours\" chart-options=\"chart_options\" chart-click=\"onClick\" >\r\n</canvas>\r\n";
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = "<!--<h2>Resources spent</h2>-->\r\n<canvas id=\"line\" class=\"chart chart-line\" chart-data=\"resource_data\"\r\n  chart-labels=\"resource_labels\" chart-legend=\"true\" chart-series=\"resource_series\"\r\n  chart-colours=\"player_colours\" chart-options=\"chart_options\" chart-click=\"onClick\" >\r\n</canvas>\r\n";
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = "<table class=\"table-chart scores-chart\">\r\n    <tr>\r\n        <th>Team</th>\r\n        <th>Player</th>\r\n        <th>Resources</th>\r\n        <th>Army</th>\r\n        <!--<th>Structures</th>-->\r\n        <th>Technology</th>\r\n        <th>Overview</th>\r\n    </tr>\r\n\r\n    <tr ng-repeat=\"(id, scoreInfo) in scores\">\r\n        <td>{{scoreInfo.team}}</td>\r\n        <td>{{scoreInfo.name}}</td>\r\n        <td>{{scoreInfo.resources}}</td>\r\n        <td>{{scoreInfo.army}}</td>\r\n        <td>{{scoreInfo.technology}}</td>\r\n        <!--<td>0</td>-->\r\n        <td>{{scoreInfo.overview}}</td>\r\n    </tr>\r\n\r\n</table>\r\n";
 
 /***/ }),
-/* 34 */
+/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = "<br />\r\n<select name=\"charts\" ng-model=\"data.selectedChart\">\r\n  <option value=\"resources_spent\">Spent Resources</option>\r\n  <option ng-repeat=\"(owner, id) in resource_spent_detail_charts\" value=\"{{id}}\">Spent Resources Details - {{matchData.players[owner].name}}</option>\r\n</select>\r\n\r\n\r\n<div ng-switch on=\"data.selectedChart\">\r\n    <resources-spent-chart match-data=\"matchData\" ng-switch-when=\"resources_spent\"></resources-spent-chart>\r\n</div>\r\n\r\n<div ng-repeat=\"(owner, id) in resource_spent_detail_charts\">\r\n    <resources-spent-detail-chart match-data=\"matchData\" owner=\"owner\" ng-show=\"data.selectedChart === id\"></resources-spent-chart>\r\n</div>\r\n";
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = "<table class=\"table-chart units-chart\">\r\n    <tr>\r\n        <th>Team</th>\r\n        <th>Player</th>\r\n        <th>Units Trained</th>\r\n        <th>Units killed</th>\r\n        <th>Structures built</th>\r\n        <th>Structures Razed</th>\r\n    </tr>\r\n\r\n    <tr ng-repeat=\"(id, player) in matchData.players\">\r\n        <td>{{player.team}}</td>\r\n        <td>{{player.name}}</td>\r\n        <td>{{matchData.units_produced[id] || 0}}</td>\r\n        <td>{{matchData.units_killed[id] || 0}}</td>\r\n        <td>{{matchData.buildings_constructed[id] || 0}}</td>\r\n        <td>{{matchData.buildings_killed[id] || 0}}</td>\r\n    </tr>\r\n\r\n</table>\r\n";
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, exports) {
 
 module.exports = "<br />\r\n\r\n<div ng-if=\"matchData\">\r\n    <h1>{{matchData.map}} | {{durationMinutes}}:{{durationSeconds}}</h1>\r\n\r\n    <a class=\"btn\" href ng-click=\"selectChart('scores');\">{{ 'MA_Scores' | translate }}</a>\r\n    <a class=\"btn\" href ng-click=\"selectChart('units');\">{{ 'MA_Units' | translate }}</a>\r\n    <a class=\"btn\" href ng-click=\"selectChart('time_charts');\">{{ 'MA_Graphs' | translate }}</a>\r\n\r\n    <!--<a class=\"btn\" href ng-click=\"selectChart('resources_collected');\">Resources Collected</a>\r\n    <a class=\"btn\" href ng-click=\"selectChart('requisition_over_time');\">Requisition over time</a>-->\r\n\r\n    <div ng-switch=\"selectedChart\">\r\n        <scores-chart match-data=\"matchData\" ng-switch-when=\"scores\"></scores-chart>\r\n        <units-chart match-data=\"matchData\" ng-switch-when=\"units\"></units-chart>\r\n        <time-charts match-data=\"matchData\" ng-switch-when=\"time_charts\"></units-chart>\r\n        <resource-collection-chart match-data=\"matchData\" ng-switch-when=\"resources_collected\"></resource-collection-chart>\r\n        <requisition-time-chart match-data=\"matchData\" ng-switch-when=\"requisition_over_time\"></requisition-time-chart>\r\n    </div>\r\n</div>\r\n<div ng-if=\"!matchData\">\r\n<p>{{ 'MA_Fetching' | translate }}</p>\r\n</div>\r\n";
 
 /***/ }),
-/* 37 */
+/* 35 */
 /***/ (function(module, exports) {
 
 module.exports = "<div ng-if=\"!showMatchUuid\">\r\n  <h1>{{ 'MA_MatchHistory' | translate }}:</h1>\r\n  <ul >\r\n      <li ng-repeat=\"match in matchHistory.matches\">\r\n        {{ match.start_date }} - {{ match.mode }} - {{ match.map }} - {{ match.type }} - {{ match.end_state }} <a class=\"btn\" href ng-click=\"showMatchResult(match)\">Show</a>\r\n      </li>\r\n  </ul>\r\n  <a href ng-click=\"prevPage();\" ng-show=\"!busy && page > 1\" class=\"btn\">{{ 'Button_Previous' | translate }}</a>\r\n  <a href ng-click=\"nextPage();\" ng-show=\"!busy && page < (matchHistory.total / matchHistory.per_page)\" class=\"btn\">{{ 'Button_Next' | translate }}</a>\r\n</div>\r\n<div ng-if=\"showMatchUuid\">\r\n  <match-result match-uuid=showMatchUuid></match-result>\r\n  <br />\r\n  <a class=\"btn\" href ng-click=\"backToMatchHistory()\">{{ 'Button_Back' | translate }}</a>\r\n</div>\r\n";
 
 /***/ }),
-/* 38 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(39);
+var content = __webpack_require__(37);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(105)(content, {});
+var update = __webpack_require__(102)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -86754,22 +88396,22 @@ if(false) {
 }
 
 /***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var escape = __webpack_require__(40);
-exports = module.exports = __webpack_require__(41)(false);
+var escape = __webpack_require__(38);
+exports = module.exports = __webpack_require__(39)(false);
 // imports
 
 
 // module
-exports.push([module.i, "/*! normalize.css v1.1.3 | MIT License | git.io/normalize */\narticle, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {\n  display: block; }\n\naudio, canvas, video {\n  display: inline-block;\n  *display: inline;\n  *zoom: 1; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\n[hidden] {\n  display: none; }\n\nhtml {\n  font-size: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nhtml, button, input, select, textarea {\n  font-family: sans-serif; }\n\nbody {\n  margin: 0; }\n\na:focus {\n  outline: thin dotted; }\n\na:active, a:hover {\n  outline: 0; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nh2 {\n  font-size: 1.5em;\n  margin: .83em 0; }\n\nh3 {\n  font-size: 1.17em;\n  margin: 1em 0; }\n\nh4 {\n  font-size: 1em;\n  margin: 1.33em 0; }\n\nh5 {\n  font-size: .83em;\n  margin: 1.67em 0; }\n\nh6 {\n  font-size: .67em;\n  margin: 2.33em 0; }\n\nabbr[title] {\n  border-bottom: 1px dotted; }\n\nb, strong {\n  font-weight: bold; }\n\nblockquote {\n  margin: 1em 40px; }\n\ndfn {\n  font-style: italic; }\n\nhr {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  height: 0; }\n\nmark {\n  background: #ff0;\n  color: #000; }\n\np, pre {\n  margin: 1em 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,serif;\n  _font-family: 'courier new',monospace;\n  font-size: 1em; }\n\npre {\n  white-space: pre;\n  white-space: pre-wrap;\n  word-wrap: break-word; }\n\nq {\n  quotes: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\nsup {\n  top: -0.5em; }\n\nsub {\n  bottom: -0.25em; }\n\ndl, menu, ol, ul {\n  margin: 1em 0; }\n\ndd {\n  margin: 0 0 0 40px; }\n\nmenu, ol, ul {\n  padding: 0 0 0 40px; }\n\nnav ul, nav ol {\n  list-style: none;\n  list-style-image: none; }\n\nimg {\n  border: 0;\n  -ms-interpolation-mode: bicubic; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nfigure {\n  margin: 0; }\n\nform {\n  margin: 0; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  border: 0;\n  padding: 0;\n  white-space: normal;\n  *margin-left: -7px; }\n\nbutton, input, select, textarea {\n  font-size: 100%;\n  margin: 0;\n  vertical-align: baseline;\n  *vertical-align: middle; }\n\nbutton, input {\n  line-height: normal; }\n\nbutton, select {\n  text-transform: none; }\n\nbutton, html input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"] {\n  -webkit-appearance: button;\n  cursor: pointer;\n  *overflow: visible; }\n\nbutton[disabled], html input[disabled] {\n  cursor: default; }\n\ninput[type=\"checkbox\"], input[type=\"radio\"] {\n  box-sizing: border-box;\n  padding: 0;\n  *height: 13px;\n  *width: 13px; }\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  -moz-box-sizing: content-box;\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n\ninput[type=\"search\"]::-webkit-search-cancel-button, input[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\nbutton::-moz-focus-inner, input::-moz-focus-inner {\n  border: 0;\n  padding: 0; }\n\ntextarea {\n  overflow: auto;\n  vertical-align: top; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  font-size: 100%;\n  vertical-align: baseline; }\n\nhtml {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\ncaption, th, td {\n  text-align: left;\n  font-weight: normal;\n  vertical-align: middle; }\n\nq, blockquote {\n  quotes: none; }\n  q:before, q:after, blockquote:before, blockquote:after {\n    content: \"\";\n    content: none; }\n\na img {\n  border: none; }\n\nelements-of-type(html5-block) {\n  display: block; }\n\n/* open-sans-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Open Sans Light\"), local(\"OpenSans-Light\"), url(" + escape(__webpack_require__(42)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(43)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Open Sans Regular\"), local(\"OpenSans-Regular\"), url(" + escape(__webpack_require__(44)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(45)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Open Sans Light Italic\"), local(\"OpenSans-LightItalic\"), url(" + escape(__webpack_require__(46)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(47)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Open Sans Italic\"), local(\"OpenSans-Italic\"), url(" + escape(__webpack_require__(48)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(49)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-600 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 600;\n  src: local(\"Open Sans SemiBold\"), local(\"OpenSans-SemiBold\"), url(" + escape(__webpack_require__(50)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(51)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Open Sans Bold\"), local(\"OpenSans-Bold\"), url(" + escape(__webpack_require__(52)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(53)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Open Sans Bold Italic\"), local(\"OpenSans-BoldItalic\"), url(" + escape(__webpack_require__(54)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(55)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-600italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 600;\n  src: local(\"Open Sans SemiBold Italic\"), local(\"OpenSans-SemiBoldItalic\"), url(" + escape(__webpack_require__(56)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(57)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-800 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 800;\n  src: local(\"Open Sans ExtraBold\"), local(\"OpenSans-ExtraBold\"), url(" + escape(__webpack_require__(58)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(59)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-800italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 800;\n  src: local(\"Open Sans ExtraBold Italic\"), local(\"OpenSans-ExtraBoldItalic\"), url(" + escape(__webpack_require__(60)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(61)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Roboto Condensed Light\"), local(\"RobotoCondensed-Light\"), url(" + escape(__webpack_require__(62)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(63)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Roboto Condensed\"), local(\"RobotoCondensed-Regular\"), url(" + escape(__webpack_require__(64)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(65)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Roboto Condensed Light Italic\"), local(\"RobotoCondensed-LightItalic\"), url(" + escape(__webpack_require__(66)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(67)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Roboto Condensed Italic\"), local(\"RobotoCondensed-Italic\"), url(" + escape(__webpack_require__(68)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(69)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Roboto Condensed Bold\"), local(\"RobotoCondensed-Bold\"), url(" + escape(__webpack_require__(70)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(71)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Roboto Condensed Bold Italic\"), local(\"RobotoCondensed-BoldItalic\"), url(" + escape(__webpack_require__(72)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(73)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-100 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 100;\n  src: local(\"Roboto Thin\"), local(\"Roboto-Thin\"), url(" + escape(__webpack_require__(74)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(75)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Roboto Light\"), local(\"Roboto-Light\"), url(" + escape(__webpack_require__(76)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(77)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-100italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 100;\n  src: local(\"Roboto Thin Italic\"), local(\"Roboto-ThinItalic\"), url(" + escape(__webpack_require__(78)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(79)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Roboto Light Italic\"), local(\"Roboto-LightItalic\"), url(" + escape(__webpack_require__(80)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(81)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-500 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 500;\n  src: local(\"Roboto Medium\"), local(\"Roboto-Medium\"), url(" + escape(__webpack_require__(82)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(83)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Roboto\"), local(\"Roboto-Regular\"), url(" + escape(__webpack_require__(84)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(85)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-500italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 500;\n  src: local(\"Roboto Medium Italic\"), local(\"Roboto-MediumItalic\"), url(" + escape(__webpack_require__(86)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(87)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Roboto Italic\"), local(\"Roboto-Italic\"), url(" + escape(__webpack_require__(88)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(89)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Roboto Bold\"), local(\"Roboto-Bold\"), url(" + escape(__webpack_require__(90)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(91)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-900 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 900;\n  src: local(\"Roboto Black\"), local(\"Roboto-Black\"), url(" + escape(__webpack_require__(92)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(93)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-900italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 900;\n  src: local(\"Roboto Black Italic\"), local(\"Roboto-BlackItalic\"), url(" + escape(__webpack_require__(94)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(95)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Roboto Bold Italic\"), local(\"Roboto-BoldItalic\"), url(" + escape(__webpack_require__(96)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(97)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n.chart-legend,\n.bar-legend,\n.line-legend,\n.pie-legend,\n.radar-legend,\n.polararea-legend,\n.doughnut-legend {\n  list-style-type: none;\n  margin-top: 5px;\n  text-align: center;\n  /* NOTE: Browsers automatically add 40px of padding-left to all lists, so we should offset that, otherwise the legend is off-center */\n  -webkit-padding-start: 0;\n  /* Webkit */\n  -moz-padding-start: 0;\n  /* Mozilla */\n  padding-left: 0;\n  /* IE (handles all cases, really, but we should also include the vendor-specific properties just to be safe) */ }\n\n.chart-legend li,\n.bar-legend li,\n.line-legend li,\n.pie-legend li,\n.radar-legend li,\n.polararea-legend li,\n.doughnut-legend li {\n  display: inline-block;\n  white-space: nowrap;\n  position: relative;\n  margin-bottom: 4px;\n  border-radius: 5px;\n  padding: 2px 8px 2px 28px;\n  font-size: smaller;\n  cursor: default; }\n\n.chart-legend li span,\n.bar-legend li span,\n.line-legend li span,\n.pie-legend li span,\n.radar-legend li span,\n.polararea-legend li span,\n.doughnut-legend li span {\n  display: block;\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 20px;\n  height: 20px;\n  border-radius: 5px; }\n\n@-webkit-keyframes ngdialog-fadeout {\n  0% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n@keyframes ngdialog-fadeout {\n  0% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n@-webkit-keyframes ngdialog-fadein {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes ngdialog-fadein {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.ngdialog,\n.ngdialog *,\n.ngdialog *:before,\n.ngdialog *:after {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n\n.ngdialog {\n  position: fixed;\n  overflow: auto;\n  -webkit-overflow-scrolling: touch;\n  z-index: 10000;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0; }\n\n.ngdialog-overlay {\n  position: fixed;\n  background: rgba(0, 0, 0, 0.4);\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadein 0.5s;\n  animation: ngdialog-fadein 0.5s; }\n\n.ngdialog.ngdialog-closing .ngdialog-overlay {\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadeout 0.5s;\n  animation: ngdialog-fadeout 0.5s; }\n\n.ngdialog-content {\n  background: white;\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadein 0.5s;\n  animation: ngdialog-fadein 0.5s; }\n\n.ngdialog.ngdialog-closing .ngdialog-content {\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadeout 0.5s;\n  animation: ngdialog-fadeout 0.5s; }\n\n.ngdialog-close:before {\n  font-family: 'Helvetica', Arial, sans-serif;\n  content: '\\D7';\n  cursor: pointer; }\n\nbody.ngdialog-open {\n  overflow: hidden; }\n\n.ngdialog.ngdialog-theme-wars {\n  padding-bottom: 160px;\n  padding-top: 160px; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-content {\n  background: rgba(39, 39, 39, 0.95);\n  color: #cf880d;\n  font-family: 'Open Sans','Helvetica Neue',sans-serif;\n  font-weight: 600;\n  font-size: 2.1em;\n  line-height: 1.5;\n  margin: 0 auto;\n  max-width: 90%;\n  padding: 1em;\n  position: relative;\n  width: 80rem;\n  border-top: 0.4rem solid rgba(255, 255, 255, 0.2); }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-content h1,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h2,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h3,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h4,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h5,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h6,\n.ngdialog.ngdialog-theme-wars .ngdialog-content p,\n.ngdialog.ngdialog-theme-wars .ngdialog-content ul,\n.ngdialog.ngdialog-theme-wars .ngdialog-content li {\n  color: inherit; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close {\n  cursor: pointer;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close:before {\n  background: transparent;\n  color: #bbb;\n  content: \"\\D7\";\n  font-size: 26px;\n  font-weight: 400;\n  height: 30px;\n  line-height: 26px;\n  position: absolute;\n  right: 3px;\n  text-align: center;\n  top: 3px;\n  width: 30px; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close:hover:before,\n.ngdialog.ngdialog-theme-wars .ngdialog-close:active:before {\n  color: #777; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-message {\n  margin-bottom: .5em; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input {\n  margin-bottom: 1em; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input textarea,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"text\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"password\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"email\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"url\"] {\n  background: #f0f0f0;\n  border: 0;\n  font-family: inherit;\n  font-size: inherit;\n  font-weight: inherit;\n  margin: 0 0 .25em;\n  min-height: 2.5em;\n  padding: .25em .67em;\n  width: 100%; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input textarea:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"text\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"password\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"email\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"url\"]:focus {\n  -webkit-box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2);\n  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2);\n  outline: none; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-buttons:after {\n  clear: both;\n  content: '';\n  display: table; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button {\n  border: 0;\n  cursor: pointer;\n  float: right;\n  font-family: inherit;\n  font-size: .8em;\n  letter-spacing: .1em;\n  line-height: 1em;\n  margin: 0 0 0 .5em;\n  padding: .75em 2em;\n  text-transform: uppercase; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button:focus {\n  -webkit-animation: ngdialog-pulse 1.1s infinite;\n  animation: ngdialog-pulse 1.1s infinite;\n  outline: none; }\n\n@media (max-width: 568px) {\n  .ngdialog.ngdialog-theme-wars .ngdialog-button:focus {\n    -webkit-animation: none;\n    animation: none; } }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button.ngdialog-button-primary {\n  background: #3288e6;\n  color: #fff; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button.ngdialog-button-secondary {\n  background: #e0e0e0;\n  color: #777; }\n\n*, *::before, *::after {\n  box-sizing: border-box; }\n\nbody, html {\n  height: 100%;\n  min-width: 1024px;\n  font-size: 10px;\n  line-height: 1;\n  overflow: hidden; }\n\na {\n  text-decoration: none; }\n\nbody {\n  background: black;\n  background-color: transparent;\n  /*background: url(../img/bg1.jpg);\r\n\tbackground-attachment: fixed;\r\n\tbackground-size: cover;*/\n  font-family: 'Open Sans'; }\n\n.linkDisabled {\n  cursor: not-allowed;\n  pointer-events: none;\n  background: #272727; }\n\n/* Scroll BAR*/\n::-webkit-scrollbar {\n  -webkit-border-image: url(" + escape(__webpack_require__(2)) + ") 0 2 0 2;\n  width: 15px;\n  height: 80px;\n  background-image: url(" + escape(__webpack_require__(2)) + ");\n  background-repeat: repeat; }\n\n::-webkit-scrollbar-button:vertical:decrement {\n  background-image: url(" + escape(__webpack_require__(98)) + ");\n  background-repeat: no-repeat;\n  background-position: 0px 0px, 0 0;\n  height: 15px; }\n\n::-webkit-scrollbar-button:vertical:decrement:active {\n  background-image: url(" + escape(__webpack_require__(99)) + ");\n  background-repeat: no-repeat;\n  background-position: 0 0, 0 0;\n  height: 15px; }\n\n::-webkit-scrollbar-button:vertical:increment {\n  background-image: url(" + escape(__webpack_require__(100)) + ");\n  background-repeat: no-repeat;\n  height: 15px;\n  border-top-width: 0;\n  background-position: 0 0, 0 0; }\n\n::-webkit-scrollbar-button:vertical:increment:active {\n  background-image: url(" + escape(__webpack_require__(101)) + ");\n  background-repeat: no-repeat;\n  height: 15px;\n  border-top-width: 0;\n  background-position: 0 0, 0 0; }\n\n::-webkit-scrollbar-track {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);\n  background-color: #1a1a1a; }\n\n::-webkit-scrollbar-thumb:vertical {\n  -webkit-border-image: url(" + escape(__webpack_require__(102)) + ") 15 0 15 0;\n  border-color: transparent;\n  border-width: 15px 0;\n  min-height: 68px; }\n\n::-webkit-scrollbar-thumb:vertical:active {\n  -webkit-border-image: url(" + escape(__webpack_require__(103)) + ") 15 0 15 0;\n  border-color: transparent;\n  border-width: 15px 0;\n  min-height: 68px; }\n\n.select-style {\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  overflow: hidden;\n  background: rgba(39, 39, 39, 0.8);\n  outline: none;\n  color: #cf880d;\n  padding: 0.2rem;\n  margin: 0.2rem;\n  cursor: pointer; }\n  .select-style:disabled {\n    color: rgba(255, 255, 255, 0.4); }\n  .select-style::after {\n    content: \">\";\n    transform: rotate(90deg);\n    color: #ffffff;\n    pointer-events: none;\n    position: absolute;\n    right: 0.8rem;\n    top: 0.4em; }\n\n.select-style select {\n  padding: 5px 8px;\n  width: 130%;\n  border: none;\n  box-shadow: none;\n  background: transparent;\n  -webkit-appearance: none; }\n\n#bg-overlay {\n  min-width: 1024px;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.2);\n  position: fixed; }\n\n.chat-line {\n  color: #ffffff;\n  font-size: 1.4rem; }\n  @media (max-width: 1180px) {\n    .chat-line {\n      font-size: 1.2rem; } }\n  .chat-line span:hover {\n    text-decoration: underline; }\n  .chat-line section {\n    padding: 0;\n    margin: 0;\n    display: inline;\n    word-wrap: break-word; }\n  .chat-line .chatdropdown {\n    top: 0.3rem;\n    position: absolute;\n    padding: 0;\n    display: inline;\n    text-decoration: none;\n    list-style: none; }\n    @media (max-width: 1180px) {\n      .chat-line .chatdropdown {\n        top: 0.3rem; } }\n    .chat-line .chatdropdown li {\n      float: none; }\n      .chat-line .chatdropdown li a {\n        text-decoration: none;\n        display: block;\n        color: #cfc2ae;\n        font-weight: bold;\n        background-color: rgba(0, 0, 0, 0.6);\n        padding: 1px 1px 1px 1px; }\n      .chat-line .chatdropdown li a:link {\n        color: #cfc2ae; }\n      .chat-line .chatdropdown li a:hover {\n        color: #cf880d; }\n      .chat-line .chatdropdown li a:visited {\n        color: #cfc2ae; }\n      .chat-line .chatdropdown li a:active {\n        color: #cfc2ae; }\n    .chat-line .chatdropdown li:first-child {\n      white-space: nowrap;\n      width: 100%;\n      display: inline;\n      background-color: rgba(0, 0, 0, 0.6); }\n  .chat-line .upwards li:nth-child(n+2) {\n    bottom: 270%; }\n\n#top-bar {\n  min-width: 1024px;\n  width: 100%;\n  background: rgba(39, 39, 39, 0.9);\n  position: relative;\n  overflow: hidden; }\n\n.left-float {\n  float: left; }\n\n.right-float {\n  float: right; }\n\n/* ng-Tooltip */\n.tooltip {\n  position: absolute;\n  color: #cf880d;\n  background: #111;\n  border-radius: 3px;\n  padding: 10px 16px;\n  display: inline-block;\n  opacity: 0.9;\n  font-size: 1.1rem;\n  line-height: 1.4rem;\n  font-family: 'Roboto';\n  z-index: 100;\n  max-width: 40rem; }\n\n.tooltip.ng-enter {\n  opacity: 0;\n  transition: opacity 1s; }\n\n.tooltip.ng-enter-active {\n  opacity: 0.9; }\n\n.tooltip-icon {\n  cursor: pointer; }\n\na#menu-logo {\n  margin: 1rem 0 0 2rem;\n  float: left;\n  opacity: 0.85;\n  transition: all .2s; }\n  a#menu-logo img {\n    float: left; }\n  a#menu-logo:hover {\n    opacity: 1; }\n  @media (max-width: 1180px) {\n    a#menu-logo {\n      width: 64px;\n      overflow: hidden; } }\n\n.inner {\n  width: 1200px;\n  margin: 0 auto;\n  max-width: 100%; }\n\n#main-menu {\n  margin: 0;\n  float: left; }\n  #main-menu li {\n    display: inline-block; }\n\n#swarm_keeper_bonus {\n  float: right;\n  margin-left: 1rem; }\n\n#dev-text {\n  color: red;\n  float: right;\n  font-size: 20px;\n  position: fixed;\n  right: 65px;\n  top: 0; }\n\n#player-info {\n  float: right;\n  color: #cfc2ae;\n  text-align: left;\n  font-size: 1.1rem;\n  height: 7.2rem;\n  line-height: 1.4rem;\n  font-family: 'Roboto';\n  text-transform: uppercase;\n  position: relative;\n  padding-right: 6.2rem;\n  padding-top: 1.6rem;\n  padding-left: 1rem; }\n  #player-info span {\n    color: #cf880d; }\n    #player-info span.player-name {\n      color: #ffffff;\n      font-size: 2.2rem;\n      line-height: 2.6rem;\n      text-transform: none;\n      display: block;\n      max-width: 20rem;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n      @media (max-width: 1300px) {\n        #player-info span.player-name {\n          max-width: 15rem; } }\n  #player-info img {\n    position: absolute;\n    top: 1rem;\n    right: 0;\n    width: 5.2rem;\n    height: 5.2rem; }\n\nul {\n  margin: 0;\n  padding: 0; }\n  ul.menu {\n    margin: 0;\n    padding: 0;\n    list-style-type: none; }\n    ul.menu li {\n      margin: 0;\n      padding: 0; }\n  ul.submenu li {\n    margin-bottom: 1rem; }\n    ul.submenu li:last-of-type {\n      margin-bottom: 0; }\n  ul.submenu a {\n    display: block;\n    background: rgba(39, 39, 39, 0.8);\n    color: #cf880d;\n    border-left: 0.4rem solid #cf880d;\n    font-size: 2.8rem;\n    font-family: 'Roboto Condensed';\n    text-transform: uppercase;\n    line-height: 1.2;\n    padding: 1.6rem 2.4rem;\n    opacity: 0.8;\n    transition: all .2s; }\n    @media (max-width: 1180px) {\n      ul.submenu a {\n        font-size: 2.0rem; } }\n    @media (max-width: 1024px) {\n      ul.submenu a {\n        font-size: 1.2rem; } }\n    ul.submenu a p {\n      color: #cfc2ae;\n      font-size: 1.8rem;\n      line-height: 1.5;\n      margin: 0;\n      font-family: 'Open Sans';\n      text-transform: none;\n      transition: all .3s; }\n      @media (max-width: 1180px) {\n        ul.submenu a p {\n          font-size: 1.2rem; } }\n      @media (max-width: 1024px) {\n        ul.submenu a p {\n          font-size: 1.0rem; } }\n    ul.submenu a:hover {\n      background: #272727;\n      border-left: 1rem solid #cf880d;\n      opacity: 1; }\n      ul.submenu a:hover p {\n        color: #ffffff; }\n\na.menu-btn {\n  position: relative;\n  display: block;\n  font-family: 'Roboto Condensed';\n  font-size: 2.8rem;\n  line-height: 2.8rem;\n  padding: 2.2rem 0;\n  margin: 0 2rem;\n  text-transform: uppercase;\n  background: transparent;\n  color: #cfc2ae;\n  transition: all .4s; }\n  @media (max-width: 1600px) {\n    a.menu-btn {\n      max-width: 15rem;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      white-space: nowrap; } }\n  a.menu-btn:hover {\n    color: #cf880d; }\n    a.menu-btn:hover::after {\n      width: 100%;\n      left: 0; }\n  a.menu-btn::after {\n    content: \"\";\n    position: absolute;\n    display: block;\n    top: 0;\n    left: 50%;\n    height: 100%;\n    width: 0;\n    border-bottom: 0.4rem solid #cf880d;\n    transition: all .4s; }\n\n#content, #gamelobby {\n  margin: 2rem auto 0;\n  width: 100%;\n  max-width: 1200px;\n  position: relative;\n  height: calc(100% - 11.2rem);\n  overflow: hidden; }\n\n#content-onlinegames main, #content-loadgame main {\n  height: 100%; }\n\n#content-onlinegames .gamesinprogress, #content-loadgame .gamesinprogress {\n  float: right;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 1.8rem; }\n\n#content-onlinegames .box-footer, #content-loadgame .box-footer {\n  padding: 0 2rem;\n  height: 50px;\n  background-color: #272727;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  #content-onlinegames .box-footer .left-float, #content-loadgame .box-footer .left-float {\n    margin-right: auto; }\n  #content-onlinegames .box-footer .right-float, #content-loadgame .box-footer .right-float {\n    margin-left: auto; }\n\n#content-onlinegames {\n  overflow-y: hidden; }\n\n.content {\n  display: inline-block;\n  width: calc(1200px - 48rem);\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  overflow-y: auto;\n  overflow-x: hidden; }\n  @media (max-width: 1180px) {\n    .content {\n      width: calc(1200px - 51rem);\n      overflow-y: auto; } }\n  @media (max-width: 1024px) {\n    .content {\n      width: calc(1200px - 65rem); } }\n\n.content-full {\n  display: inline-block;\n  width: calc(1200px);\n  position: absolute;\n  top: 0;\n  left: 0; }\n\n.content-all.ng-enter {\n  -webkit-transition: opacity 0.18s ease-in 0.2s;\n  opacity: 0; }\n\n.content-all.ng-enter-active {\n  opacity: 1; }\n\n.content-all.ng-leave {\n  -webkit-transition: opacity 0.18s ease-out;\n  opacity: 1; }\n\n.content-all.ng-leave-active {\n  opacity: 0; }\n\n#chat-menu h1 {\n  color: #cf880d; }\n  #chat-menu h1 span {\n    float: right;\n    font-size: 1.4rem;\n    padding-top: 0.5rem; }\n    @media (max-width: 1180px) {\n      #chat-menu h1 span {\n        font-size: 1.0rem; } }\n\n#content-news {\n  display: block;\n  overflow-y: auto;\n  height: 100%; }\n  #content-news h1 {\n    color: #cf880d; }\n  #content-news section.post {\n    font-size: 1.4rem;\n    line-height: 2rem;\n    color: rgba(255, 255, 255, 0.8);\n    margin-bottom: 4rem; }\n    @media (max-width: 1180px) {\n      #content-news section.post {\n        font-size: 1.0rem; } }\n    #content-news section.post a {\n      color: #cf880d;\n      transition: all .2s; }\n      #content-news section.post a:hover {\n        color: #ffffff; }\n    #content-news section.post img {\n      max-width: 100%; }\n\n#content-news ul {\n  list-style-type: disc;\n  margin-left: 2em; }\n\nmain, .box {\n  display: block;\n  position: relative;\n  background: rgba(39, 39, 39, 0.8);\n  font-size: 2rem;\n  padding: 2rem;\n  color: #ffffff; }\n  @media (max-width: 1180px) {\n    main, .box {\n      font-size: 1.0rem; } }\n  main h1, .box h1 {\n    font-size: 2.4rem;\n    font-family: 'Roboto Condensed';\n    font-weight: 400;\n    line-height: 2.4rem;\n    padding: 1rem 2rem;\n    margin: -2rem -2rem 2rem;\n    background: rgba(39, 39, 39, 0.8);\n    border-bottom: 0.4rem solid rgba(255, 255, 255, 0.2);\n    color: rgba(255, 255, 255, 0.8);\n    text-transform: uppercase; }\n    #content-onlinegames main h1, #content-onlinegames .box h1 {\n      color: #cf880d; }\n    @media (max-width: 1180px) {\n      main h1, .box h1 {\n        font-size: 1.4rem; } }\n  main .box-header, .box .box-header {\n    margin: -2rem -2rem 2rem;\n    font-size: 2rem;\n    line-height: 3.6rem;\n    padding: 0 2rem;\n    color: #cf880d;\n    text-transform: uppercase;\n    background: rgba(39, 39, 39, 0.8);\n    border-bottom: 0.4rem solid rgba(255, 255, 255, 0.2);\n    font-family: 'Roboto Condensed'; }\n    @media (max-width: 1180px) {\n      main .box-header, .box .box-header {\n        font-size: 1.1rem; } }\n  main .box-footer, .box .box-footer {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    padding: 0 2rem 2rem; }\n  main.box-right, .box.box-right {\n    float: right;\n    width: 46rem; }\n\n.player-meta {\n  display: none; }\n\n#chat-global {\n  display: none; }\n\na.btn {\n  background: #cfc2ae;\n  color: #000000;\n  display: inline-block;\n  padding: 0 1rem;\n  height: 3.4rem;\n  margin-right: 1rem;\n  font-family: 'Roboto Condensed';\n  font-size: 2.2rem;\n  font-weight: 400;\n  letter-spacing: 0.08rem;\n  line-height: 3.4rem;\n  text-transform: uppercase;\n  opacity: 0.8;\n  transition: all .2s; }\n  @media (max-width: 1180px) {\n    a.btn {\n      font-size: 1.4rem;\n      height: 2.0rem;\n      line-height: 2.2rem;\n      padding: 0 0.5rem;\n      margin-right: 0.5rem; } }\n  a.btn:last-of-type {\n    margin-right: 0; }\n  a.btn:hover {\n    opacity: 1;\n    background: #856e46;\n    color: #ffffff; }\n  a.btn.btn-small {\n    font-size: 1.6rem;\n    letter-spacing: 0.05rem;\n    line-height: 2.6rem;\n    height: 2.6rem; }\n    @media (max-width: 1180px) {\n      a.btn.btn-small {\n        font-size: 0.7rem; } }\n    @media (max-width: 1180px) {\n      a.btn.btn-small {\n        font-size: 1.2rem;\n        letter-spacing: 0.05rem;\n        line-height: 2.2rem;\n        height: 2.2rem; } }\n  a.btn.btn-highlight {\n    background: #cf880d;\n    color: #000000;\n    opacity: 1; }\n    a.btn.btn-highlight:hover {\n      background: #cfc2ae; }\n    a.btn.btn-highlight.linkDisabled {\n      background: #9e9e9e; }\n\na.disabled {\n  background: #cfc2ae !important;\n  opacity: 0.15 !important;\n  color: #000000 !important;\n  cursor: default;\n  text-decoration: none; }\n  a.disabled:hover {\n    background: #cfc2ae !important;\n    color: #000000; }\n\n.dev-warning {\n  color: white;\n  background-color: red;\n  margin: 0;\n  padding: 5px; }\n\n#onlinelobbylist {\n  display: block;\n  overflow-y: scroll;\n  height: calc(100% - 100px); }\n  #onlinelobbylist ul.lobbylist li.lobby-header {\n    display: block;\n    font-size: 0;\n    padding: 0.1rem;\n    overflow: hidden;\n    margin-bottom: 0.6rem; }\n    #onlinelobbylist ul.lobbylist li.lobby-header div, #onlinelobbylist ul.lobbylist li.lobby-header a {\n      padding: 0 1rem;\n      line-height: 3.2rem;\n      font-size: 1.6rem;\n      display: inline-block;\n      vertical-align: top;\n      color: #cdcdcd;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby-header div, #onlinelobbylist ul.lobbylist li.lobby-header a {\n          font-size: 1.0rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby-header .map-preview {\n      width: 3.2rem;\n      margin-right: 0.7rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby-header .map-preview {\n          width: 2.2rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby-header .lobby-name {\n      width: 20rem;\n      margin-right: 2rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby-header .lobby-name {\n          width: 15rem;\n          margin-right: 0.7rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby-header .lobby-map {\n      width: 18rem;\n      margin-right: 1.5rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby-header .lobby-map {\n          width: 12rem;\n          margin-right: 0.7rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby-header .lobby-mode {\n      width: 12rem;\n      margin-right: 0.2rem; }\n  #onlinelobbylist ul.lobbylist li.lobby {\n    display: block;\n    font-size: 0;\n    padding: 0.9rem;\n    background: rgba(39, 39, 39, 0.8);\n    overflow: hidden;\n    margin-bottom: 0.6rem; }\n    #onlinelobbylist ul.lobbylist li.lobby:last-of-type {\n      margin-bottom: 0; }\n    #onlinelobbylist ul.lobbylist li.lobby div, #onlinelobbylist ul.lobbylist li.lobby a {\n      padding: 0 1rem;\n      line-height: 3.2rem;\n      font-size: 1.5rem;\n      display: inline-block;\n      vertical-align: top;\n      color: #cdcdcd;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby div, #onlinelobbylist ul.lobbylist li.lobby a {\n          font-size: 1.0rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby .map-preview {\n      width: 3.2rem;\n      height: 3.2rem;\n      display: inline-block;\n      margin-right: 0.7rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby .map-preview {\n          width: 2.2rem;\n          height: 2.2rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby .lobby-name {\n      width: 20rem;\n      margin-right: 2rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby .lobby-name {\n          width: 15rem;\n          margin-right: 0.7rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby .lobby-map {\n      width: 18rem;\n      margin-right: 1.5rem; }\n      @media (max-width: 1180px) {\n        #onlinelobbylist ul.lobbylist li.lobby .lobby-map {\n          width: 12rem;\n          margin-right: 0.7rem; } }\n    #onlinelobbylist ul.lobbylist li.lobby .lobby-mode {\n      width: 12rem;\n      margin-right: 0.2rem; }\n    #onlinelobbylist ul.lobbylist li.lobby .lobby-join-btn {\n      color: #000000;\n      float: right;\n      width: 3.2rem;\n      height: 3.2rem;\n      background: no-repeat center/cover url(" + escape(__webpack_require__(104)) + ");\n      border-radius: 2px;\n      box-shadow: 1px 1px 1px 4px rgba(0, 0, 0, 0.1); }\n\n.gamelobby-lobbyname-input {\n  background-color: transparent;\n  border: 1px dashed #cf880d;\n  color: #cf880d;\n  padding: 2px 4px;\n  width: 45rem; }\n  @media (max-width: 1180px) {\n    .gamelobby-lobbyname-input {\n      width: 25rem; } }\n  .gamelobby-lobbyname-input:focus {\n    border: 0px; }\n\n#gamelobby-status {\n  display: block;\n  background: rgba(0, 0, 0, 0.2);\n  color: #cfc2ae;\n  font-size: 1.4rem;\n  line-height: 2rem;\n  font-family: 'Roboto';\n  text-transform: uppercase;\n  padding: 0.5rem 1rem;\n  margin-bottom: 1rem; }\n  @media (max-width: 1180px) {\n    #gamelobby-status {\n      font-size: 1.0rem;\n      padding: 0.2rem 0.5rem;\n      margin-bottom: 0.6rem; } }\n  #gamelobby-status span {\n    color: #ffffff; }\n    #gamelobby-status span.success {\n      color: #cf880d; }\n\n#playerlist {\n  display: block;\n  float: left;\n  height: 100%; }\n  #playerlist .box-header {\n    margin-bottom: 1rem; }\n  #playerlist h2.team-header {\n    text-transform: uppercase;\n    padding: 6px 0;\n    margin: 0 0 4px; }\n  #playerlist ul.playerlist {\n    overflow: auto;\n    height: calc(100% - 10rem); }\n    #playerlist ul.playerlist li.player {\n      display: block;\n      font-size: 0;\n      padding: 0.9rem;\n      background: rgba(39, 39, 39, 0.8);\n      overflow: hidden;\n      margin-bottom: 0.4rem; }\n      #playerlist ul.playerlist li.player.ready {\n        background: rgba(207, 136, 13, 0.8); }\n      @media (max-width: 1024px) {\n        #playerlist ul.playerlist li.player {\n          max-width: 1024px; } }\n      #playerlist ul.playerlist li.player .connection {\n        display: inline-block;\n        width: 3px;\n        height: 3.2rem;\n        margin-right: 2px; }\n      #playerlist ul.playerlist li.player .goodconn {\n        background-color: rgba(0, 255, 0, 0.5); }\n      #playerlist ul.playerlist li.player .badconn {\n        background-color: rgba(255, 0, 0, 0.5); }\n      #playerlist ul.playerlist li.player a, #playerlist ul.playerlist li.player select {\n        padding: 0 1rem;\n        line-height: 3.2rem;\n        height: 3.2rem;\n        font-size: 1.8rem;\n        display: inline-block;\n        vertical-align: top;\n        color: #cdcdcd;\n        margin-top: 0; }\n        #playerlist ul.playerlist li.player a:disabled, #playerlist ul.playerlist li.player select:disabled {\n          color: rgba(255, 255, 255, 0.4); }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player a, #playerlist ul.playerlist li.player select {\n            font-size: 1.0rem;\n            line-height: 2.2rem;\n            height: 2.2rem; } }\n      #playerlist ul.playerlist li.player img.steam-avatar {\n        display: inline-block;\n        margin-right: 1rem;\n        width: 3.2rem;\n        height: 3.2rem; }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player img.steam-avatar {\n            width: 2.2rem;\n            height: 2.2rem;\n            margin-right: 0.5rem; } }\n      #playerlist ul.playerlist li.player img.steam-avatar-host {\n        box-shadow: 0px 0px 5px white; }\n      #playerlist ul.playerlist li.player .player-name {\n        width: 22rem;\n        margin-right: 3rem; }\n      #playerlist ul.playerlist li.player .player-color {\n        width: 3.2rem;\n        height: 3.2rem;\n        background: rgba(255, 255, 255, 0.1);\n        margin-right: 3rem; }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player .player-color {\n            width: 2.2rem;\n            height: 2.2rem;\n            margin-right: 2rem; } }\n      #playerlist ul.playerlist li.player .player-color-select {\n        width: 3.2rem;\n        height: 3.2rem;\n        overflow: hidden;\n        background: rgba(255, 255, 255, 0.1);\n        outline: none;\n        color: #ffffff;\n        margin-right: 3rem; }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player .player-color-select {\n            width: 2.2rem;\n            height: 2.2rem;\n            margin-right: 0.5rem; } }\n      #playerlist ul.playerlist li.player .player-color-select select {\n        width: 130%;\n        border: none;\n        box-shadow: none;\n        background: transparent;\n        -webkit-appearance: none;\n        outline: none; }\n      #playerlist ul.playerlist li.player .player-faction {\n        width: 12rem;\n        margin-right: 1rem; }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player .player-faction {\n            width: 9rem;\n            margin-right: 1rem; } }\n      #playerlist ul.playerlist li.player .player-ready {\n        font-size: 2.4rem;\n        width: 3.2rem;\n        padding: 0;\n        border: 1px solid rgba(207, 194, 174, 0.5);\n        color: rgba(255, 255, 255, 0.1);\n        background: rgba(39, 39, 39, 0.2);\n        text-align: center;\n        float: right;\n        transition: all .2s; }\n        @media (max-width: 1180px) {\n          #playerlist ul.playerlist li.player .player-ready {\n            width: 2.2rem;\n            font-size: 1.4rem; } }\n        #playerlist ul.playerlist li.player .player-ready.checked {\n          color: #cf880d;\n          border-color: #cfc2ae;\n          background: rgba(39, 39, 39, 0.9); }\n    #playerlist ul.playerlist li.self .player-name, #playerlist ul.playerlist li.self .player-faction, #playerlist ul.playerlist li.self .player-team {\n      position: relative;\n      padding-right: 2.4rem;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n      transition: all .2s; }\n    #playerlist ul.playerlist li.self .player-ready:hover {\n      color: #cf880d;\n      border-color: #cfc2ae;\n      background: rgba(255, 255, 255, 0.1); }\n    #playerlist ul.playerlist li.self .player-color {\n      position: relative; }\n    #playerlist ul.playerlist li.self .player-name::before, #playerlist ul.playerlist li.self .player-faction::before, #playerlist ul.playerlist li.self .player-color::before, #playerlist ul.playerlist li.self .player-team::before {\n      position: absolute;\n      right: 1rem;\n      top: 1.2rem;\n      content: \" \";\n      width: 0;\n      height: 0;\n      border-left: 6px solid transparent;\n      border-right: 6px solid transparent;\n      border-top: 8px solid #cf880d;\n      transition: all .2s; }\n    #playerlist ul.playerlist li.self .player-name:hover, #playerlist ul.playerlist li.self .player-faction:hover, #playerlist ul.playerlist li.self .player-color:hover, #playerlist ul.playerlist li.self .player-team:hover {\n      background: rgba(255, 255, 255, 0.1);\n      color: #cf880d; }\n      #playerlist ul.playerlist li.self .player-name:hover::before, #playerlist ul.playerlist li.self .player-faction:hover::before, #playerlist ul.playerlist li.self .player-color:hover::before, #playerlist ul.playerlist li.self .player-team:hover::before {\n        border-top: 8px solid #ffffff; }\n    #playerlist ul.playerlist li.closed a {\n      color: rgba(255, 255, 255, 0.4); }\n    #playerlist ul.playerlist li.closed .player-ready {\n      color: rgba(255, 255, 255, 0.1);\n      border-color: rgba(255, 255, 255, 0.1); }\n\n#spectator-list {\n  padding-bottom: 2rem;\n  font-size: 1.4rem;\n  color: rgba(255, 255, 255, 0.4); }\n  @media (max-width: 1180px) {\n    #spectator-list {\n      font-size: 0.8rem;\n      padding-bottom: 1rem; } }\n  #spectator-list span {\n    color: rgba(255, 255, 255, 0.8); }\n\n#spectator-list a {\n  color: rgba(255, 255, 255, 0.4); }\n\n#gameinfo {\n  height: 35rem;\n  margin-bottom: 2rem;\n  overflow-y: scroll; }\n  #gameinfo .gameinfo-dropdown {\n    display: inline-block;\n    height: 2.2rem;\n    margin: 0; }\n  #gameinfo .info-container {\n    display: flex; }\n    #gameinfo .info-container .map-small {\n      width: 20rem;\n      height: 20rem;\n      margin: 0 2rem 0 0; }\n    #gameinfo .info-container ul {\n      width: calc(100% - 17rem);\n      flex: 1; }\n      #gameinfo .info-container ul li {\n        font-size: 1.6rem;\n        line-height: 2.2rem;\n        color: #cdcdcd;\n        font-weight: 400;\n        font-family: 'Open Sans'; }\n        #gameinfo .info-container ul li span.tooltip-icon {\n          text-transform: none;\n          color: #cf880d;\n          margin-left: 0.6rem; }\n        #gameinfo .info-container ul li span.gameinfo-heading {\n          font-size: 1.1rem;\n          line-height: 1.6rem;\n          display: block;\n          text-transform: uppercase;\n          font-family: Roboto;\n          color: rgba(255, 255, 255, 0.8); }\n        #gameinfo .info-container ul li span.gameinfo-text {\n          color: #cdcdcd;\n          font-size: 1.5rem;\n          line-height: 1.6rem;\n          margin: 0 0 0.4rem;\n          display: block;\n          padding: 0.2rem 0; }\n        #gameinfo .info-container ul li .gameinfo-input {\n          width: 90%;\n          background: rgba(39, 39, 39, 0.8);\n          border: 1px solid rgba(255, 255, 255, 0.4);\n          color: #cf880d;\n          padding: 2px 4px; }\n          #gameinfo .info-container ul li .gameinfo-input:focus {\n            border: 0px; }\n        #gameinfo .info-container ul li select.select-style {\n          display: inline-block;\n          width: 90%;\n          margin: 0 0 0.4rem;\n          font-size: 1.5rem;\n          line-height: 1.6rem;\n          padding: 0.2rem; }\n\n.chat, #chat, #chat-menu {\n  background: rgba(39, 39, 39, 0.8);\n  position: relative; }\n  .chat .box-header span.active, #chat .box-header span.active, #chat-menu .box-header span.active {\n    cursor: pointer; }\n  .chat .box-header span.disabled, #chat .box-header span.disabled, #chat-menu .box-header span.disabled {\n    color: rgba(255, 255, 255, 0.4); }\n  .chat .box-header span.inactive, #chat .box-header span.inactive, #chat-menu .box-header span.inactive {\n    color: rgba(255, 255, 255, 0.4);\n    font-weight: 300;\n    cursor: pointer; }\n    .chat .box-header span.inactive:hover, #chat .box-header span.inactive:hover, #chat-menu .box-header span.inactive:hover {\n      color: #deb062; }\n  .chat .chat-messages, #chat .chat-messages, #chat-menu .chat-messages {\n    height: calc(100% - 10rem);\n    overflow-y: auto;\n    overflow-x: hidden; }\n    @media (max-width: 1180px) {\n      .chat .chat-messages, #chat .chat-messages, #chat-menu .chat-messages {\n        height: calc(100% - 6rem); } }\n    .chat .chat-messages p, #chat .chat-messages p, #chat-menu .chat-messages p {\n      font-size: 1.4rem;\n      color: #cdcdcd; }\n      @media (max-width: 1180px) {\n        .chat .chat-messages p, #chat .chat-messages p, #chat-menu .chat-messages p {\n          font-size: 1.0rem; } }\n      .chat .chat-messages p span, #chat .chat-messages p span, #chat-menu .chat-messages p span {\n        color: #cf880d; }\n  .chat .chat-form, #chat .chat-form, #chat-menu .chat-form {\n    display: inline; }\n  .chat .chat-controls, #chat .chat-controls, #chat-menu .chat-controls {\n    position: absolute;\n    bottom: 2rem;\n    left: 2rem;\n    right: 2rem;\n    display: flex; }\n    @media (max-width: 1180px) {\n      .chat .chat-controls, #chat .chat-controls, #chat-menu .chat-controls {\n        left: 0.7rem;\n        bottom: 0.1rem;\n        right: 0.7rem; } }\n    .chat .chat-controls .chat-form, #chat .chat-controls .chat-form, #chat-menu .chat-controls .chat-form {\n      flex: 1; }\n    .chat .chat-controls input, #chat .chat-controls input, #chat-menu .chat-controls input {\n      display: inline-block;\n      width: 100%;\n      height: 3.4rem;\n      vertical-align: top;\n      line-height: 2rem;\n      background: #272727;\n      color: #ffffff;\n      font-size: 1.4rem;\n      border: 1px solid rgba(255, 255, 255, 0.4);\n      transition: all .2s;\n      padding: 0.6rem 1rem; }\n      @media (max-width: 1180px) {\n        .chat .chat-controls input, #chat .chat-controls input, #chat-menu .chat-controls input {\n          font-size: 1.0rem;\n          line-height: 1rem;\n          padding: 0.2rem 0.7rem;\n          height: 1.8rem;\n          vertical-align: bottom; } }\n      .chat .chat-controls input:focus, .chat .chat-controls input:hover, #chat .chat-controls input:focus, #chat .chat-controls input:hover, #chat-menu .chat-controls input:focus, #chat-menu .chat-controls input:hover {\n        border-color: #cfc2ae;\n        outline: 0; }\n    .chat .chat-controls .chat-send, #chat .chat-controls .chat-send, #chat-menu .chat-controls .chat-send {\n      float: right; }\n      @media (max-width: 1180px) {\n        .chat .chat-controls .chat-send, #chat .chat-controls .chat-send, #chat-menu .chat-controls .chat-send {\n          font-size: 1.0rem; } }\n  #gamelobby .chat, #gamelobby #chat, #gamelobby #chat-menu {\n    height: calc(100% - 37rem); }\n  #content .chat, #content #chat, #content #chat-menu {\n    height: 100%; }\n\n/*MISSION*/\n.textStyle {\n  font-size: 30px;\n  color: #FFFFF2;\n  /*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/\n  text-shadow: 0 1px 3px #000000,\r 0 0 3px #000000;\n  -moz-user-select: none;\n  -webkit-user-select: none;\n  cursor: default;\n  overflow: hidden;\n  pointer-events: none; }\n\n.textStyleNav2 {\n  font-size: 15px;\n  color: #FFFFFF;\n  /*text-shadow:0 1px 1px rgba(0, 0, 0, 0.5);*/\n  text-shadow: 0 1px 2px #000000,\r 0 0 1px #000000;\n  cursor: default;\n  pointer-events: none; }\n\n#content_missions {\n  width: 100%;\n  display: none; }\n\n#mission_wrap {\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  left: 0; }\n\n#mission_wrap_name {\n  text-align: center;\n  width: 100%;\n  margin: 0 auto;\n  margin-top: 350px; }\n\n#mission_wrap_description {\n  width: 50%;\n  margin: 0 auto;\n  margin-top: 10px;\n  background-color: rgba(208, 130, 20, 0.2);\n  border-radius: 5px; }\n  @media (max-width: 1180px) {\n    #mission_wrap_description {\n      font-size: 1.0rem; } }\n\n.mis_pic_left {\n  position: absolute;\n  left: 40px;\n  opacity: 0.45;\n  top: 25px;\n  width: 400px; }\n\n.mis_pic_mid {\n  position: absolute;\n  left: 0;\n  right: 0;\n  margin: auto;\n  width: 500px;\n  box-shadow: 0 0 30px #df9745; }\n\n.mis_pic_right {\n  position: absolute;\n  right: 40px;\n  opacity: 0.45;\n  top: 25px;\n  width: 400px; }\n\n.mis_right_arrow {\n  position: absolute;\n  right: 40px;\n  top: 50px; }\n\n.mis_left_arrow {\n  position: absolute;\n  left: 40px;\n  top: 50px; }\n\n#savedgameslist {\n  display: block;\n  height: calc(100% - 10.4rem);\n  overflow-y: auto; }\n  #savedgameslist ul.savedgames li.savedgame {\n    display: block;\n    cursor: hand;\n    font-size: 0;\n    padding: 0.9rem;\n    background: rgba(39, 39, 39, 0.8);\n    overflow: hidden;\n    margin-bottom: 0.6rem; }\n    #savedgameslist ul.savedgames li.savedgame:last-of-type {\n      margin-bottom: 0; }\n    #savedgameslist ul.savedgames li.savedgame div, #savedgameslist ul.savedgames li.savedgame a {\n      padding: 0 1rem;\n      line-height: 3.2rem;\n      font-size: 1.8rem;\n      display: inline-block;\n      vertical-align: top;\n      color: #cdcdcd;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n      @media (max-width: 1180px) {\n        #savedgameslist ul.savedgames li.savedgame div, #savedgameslist ul.savedgames li.savedgame a {\n          font-size: 1.0rem; } }\n    #savedgameslist ul.savedgames li.savedgame .savedgame-name {\n      width: 100%;\n      margin-right: 2rem; }\n  #savedgameslist ul.savedgames li.selectedSavedGame {\n    background: #cf880d; }\n\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  cursor: default; }\n\n.inner {\n  position: relative;\n  height: auto;\n  padding: 0;\n  display: inline; }\n\n.table-chart {\n  width: 100%;\n  padding: 20px;\n  background-color: rgba(39, 39, 39, 0.6); }\n  .table-chart th, .table-chart td {\n    line-height: 1.5;\n    text-align: center; }\n\n#content-workshop .workshop-message, #content-workshop .workshop-hint {\n  font-size: 1.5rem;\n  color: #cdcdcd;\n  margin: 0 0 1rem; }\n\n#content-workshop .workshop-form label, #content-workshop .workshop-form .workshop-field {\n  display: block;\n  margin: 0 0 1.2rem; }\n  #content-workshop .workshop-form label span, #content-workshop .workshop-form .workshop-field span {\n    display: block;\n    font-size: 1.5rem;\n    color: #deb062;\n    margin: 0 0 0.4rem; }\n  #content-workshop .workshop-form label small, #content-workshop .workshop-form .workshop-field small {\n    display: block;\n    font-size: 1.2rem;\n    color: rgba(255, 255, 255, 0.4);\n    margin: 0.3rem 0 0; }\n\n#content-workshop .workshop-form input, #content-workshop .workshop-form textarea, #content-workshop .workshop-form select {\n  display: block;\n  width: 100%;\n  box-sizing: border-box;\n  background: #272727;\n  color: #ffffff;\n  font-size: 1.5rem;\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  padding: 0.5rem 0.8rem; }\n  #content-workshop .workshop-form input:focus, #content-workshop .workshop-form textarea:focus, #content-workshop .workshop-form select:focus {\n    border-color: #cf880d;\n    outline: none; }\n  #content-workshop .workshop-form input:disabled, #content-workshop .workshop-form textarea:disabled, #content-workshop .workshop-form select:disabled {\n    color: rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-form .workshop-preview-row {\n  display: flex;\n  align-items: center; }\n  #content-workshop .workshop-form .workshop-preview-row input {\n    flex: 1; }\n  #content-workshop .workshop-form .workshop-preview-row .btn {\n    margin: 0 0 0 0.6rem;\n    white-space: nowrap; }\n\n#content-workshop .workshop-form .workshop-preview-image {\n  margin: 0.8rem 0 0; }\n  #content-workshop .workshop-form .workshop-preview-image img {\n    display: block;\n    max-width: 32rem;\n    max-height: 18rem;\n    border: 1px solid rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-form textarea {\n  resize: vertical; }\n\n#content-workshop .workshop-form a {\n  color: #cf880d; }\n  #content-workshop .workshop-form a:hover {\n    color: #deb062; }\n\n#content-workshop .workshop-actions {\n  margin: 2rem 0 0; }\n\n#content-workshop .workshop-progress {\n  margin: 2rem 0 0;\n  font-size: 1.5rem; }\n  #content-workshop .workshop-progress .workshop-progress-bar {\n    height: 0.8rem;\n    background: rgba(255, 255, 255, 0.1);\n    border-radius: 8px;\n    overflow: hidden; }\n    #content-workshop .workshop-progress .workshop-progress-bar div {\n      height: 100%;\n      background: #cf880d;\n      transition: width .2s; }\n\n#content-workshop .workshop-result {\n  margin: 2rem 0 0;\n  font-size: 1.5rem; }\n  #content-workshop .workshop-result .workshop-success {\n    color: #61b329; }\n  #content-workshop .workshop-result .workshop-error {\n    color: #cf880d; }\n\n#gameinfo .map-status .gameinfo-text {\n  color: #deb062; }\n\n#content-workshop-browse {\n  height: 100%;\n  overflow-y: auto;\n  overflow-x: hidden; }\n  #content-workshop-browse h1 .wb-publish {\n    float: right;\n    margin-top: -0.2rem; }\n  #content-workshop-browse .wb-toolbar {\n    display: flex;\n    align-items: flex-end;\n    margin: 0 0 1.5rem; }\n    #content-workshop-browse .wb-toolbar .wb-search {\n      flex: 1;\n      display: flex;\n      align-items: center;\n      margin-right: 2rem; }\n      #content-workshop-browse .wb-toolbar .wb-search input {\n        flex: 1;\n        margin-right: 1rem; }\n    #content-workshop-browse .wb-toolbar label {\n      margin-left: 1.5rem; }\n      #content-workshop-browse .wb-toolbar label span {\n        display: block;\n        font-size: 1.2rem;\n        color: #deb062;\n        margin: 0 0 0.3rem; }\n    #content-workshop-browse .wb-toolbar input, #content-workshop-browse .wb-toolbar select {\n      box-sizing: border-box;\n      background: #272727;\n      color: #ffffff;\n      font-size: 1.5rem;\n      border: 1px solid rgba(255, 255, 255, 0.4);\n      padding: 0.4rem 0.8rem;\n      height: 3rem; }\n      #content-workshop-browse .wb-toolbar input:focus, #content-workshop-browse .wb-toolbar select:focus {\n        border-color: #cf880d;\n        outline: none; }\n      #content-workshop-browse .wb-toolbar input:disabled, #content-workshop-browse .wb-toolbar select:disabled {\n        color: rgba(255, 255, 255, 0.4); }\n  #content-workshop-browse .wb-status {\n    font-size: 1.5rem;\n    color: #cdcdcd;\n    margin: 0 0 1rem; }\n    #content-workshop-browse .wb-status .wb-error {\n      color: #cf880d; }\n  #content-workshop-browse .wb-grid {\n    display: flex;\n    flex-wrap: wrap;\n    margin: 0 -0.75rem;\n    padding: 0;\n    list-style: none; }\n  #content-workshop-browse .wb-card {\n    width: calc(25% - 1.5rem);\n    margin: 0 0.75rem 1.5rem;\n    background: #272727;\n    border-radius: 8px;\n    overflow: hidden;\n    cursor: pointer;\n    transition: background .2s; }\n    #content-workshop-browse .wb-card:hover {\n      background: rgba(255, 255, 255, 0.1); }\n    #content-workshop-browse .wb-card .wb-card-body {\n      padding: 0.8rem 1rem 1rem; }\n    #content-workshop-browse .wb-card h3 {\n      font-size: 1.6rem;\n      color: #ffffff;\n      margin: 0 0 0.2rem;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    #content-workshop-browse .wb-card .wb-stats {\n      font-size: 1.2rem;\n      color: rgba(255, 255, 255, 0.4);\n      margin: 0 0 0.8rem;\n      min-height: 1.5rem; }\n      #content-workshop-browse .wb-card .wb-stats span + span {\n        margin-left: 1rem; }\n  #content-workshop-browse .wb-thumb {\n    position: relative;\n    width: 100%;\n    padding-top: 56.25%;\n    background: #181818; }\n    #content-workshop-browse .wb-thumb img, #content-workshop-browse .wb-thumb > span:not(.wb-badge) {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%; }\n    #content-workshop-browse .wb-thumb img {\n      object-fit: cover; }\n    #content-workshop-browse .wb-thumb > span:not(.wb-badge) {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      font-size: 1.3rem;\n      color: rgba(255, 255, 255, 0.4); }\n    #content-workshop-browse .wb-thumb .wb-badge {\n      position: absolute;\n      top: 0.6rem;\n      right: 0.6rem;\n      padding: 0.2rem 0.6rem;\n      border-radius: 8px;\n      font-size: 1.2rem;\n      background: rgba(0, 0, 0, 0.8);\n      color: #ffffff; }\n    #content-workshop-browse .wb-thumb .wb-badge-installed {\n      color: #61b329; }\n    #content-workshop-browse .wb-thumb .wb-badge-downloading, #content-workshop-browse .wb-thumb .wb-badge-subscribed {\n      color: #deb062; }\n    #content-workshop-browse .wb-thumb .wb-badge-rejected {\n      color: #cf880d; }\n  #content-workshop-browse .wb-author {\n    font-size: 1.3rem;\n    color: #deb062;\n    margin: 0 0 0.4rem;\n    min-height: 1.6rem; }\n  #content-workshop-browse .wb-pagination {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0.5rem 0 1rem;\n    font-size: 1.5rem; }\n    #content-workshop-browse .wb-pagination span {\n      margin: 0 1.5rem; }\n    #content-workshop-browse .wb-pagination a.btn {\n      margin: 0 0.4rem; }\n  #content-workshop-browse .wb-details-overlay {\n    position: fixed;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: rgba(0, 0, 0, 0.6); }\n  #content-workshop-browse .wb-details {\n    position: relative;\n    width: 90rem;\n    max-width: 90%;\n    max-height: 85%;\n    overflow-y: auto;\n    background: rgba(39, 39, 39, 0.95);\n    border-radius: 25px;\n    padding: 2.5rem; }\n    #content-workshop-browse .wb-details .wb-details-close {\n      position: absolute;\n      top: 1rem;\n      right: 1.5rem;\n      font-size: 3rem;\n      color: rgba(255, 255, 255, 0.4); }\n      #content-workshop-browse .wb-details .wb-details-close:hover {\n        color: #ffffff; }\n    #content-workshop-browse .wb-details .wb-details-header {\n      display: flex;\n      margin: 0 0 2rem; }\n      #content-workshop-browse .wb-details .wb-details-header .wb-thumb {\n        flex: 0 0 40rem;\n        width: 40rem;\n        padding-top: 22.5rem;\n        border-radius: 8px;\n        overflow: hidden; }\n    #content-workshop-browse .wb-details .wb-details-info {\n      flex: 1;\n      margin-left: 2rem; }\n      #content-workshop-browse .wb-details .wb-details-info h2 {\n        font-size: 2.4rem;\n        color: #ffffff;\n        margin: 0 3rem 0.4rem 0; }\n      #content-workshop-browse .wb-details .wb-details-info table {\n        font-size: 1.4rem;\n        margin: 0.5rem 0 1rem; }\n        #content-workshop-browse .wb-details .wb-details-info table td:first-child {\n          color: rgba(255, 255, 255, 0.4);\n          padding-right: 1.5rem; }\n    #content-workshop-browse .wb-details .wb-badge-inline {\n      font-size: 1.4rem;\n      color: #deb062;\n      margin: 0 0 1rem; }\n    #content-workshop-browse .wb-details .wb-description {\n      font-size: 1.4rem;\n      line-height: 1.5;\n      color: #cdcdcd;\n      white-space: pre-wrap;\n      word-wrap: break-word;\n      margin: 0; }\n\n#gameinfo .map-small {\n  object-fit: cover; }\n\n#gameinfo .map-workshop .workshop-badge {\n  display: inline-block;\n  margin: 0 0.6rem 0.3rem 0;\n  padding: 0.1rem 0.6rem;\n  border-radius: 8px;\n  background: #cf880d;\n  color: #000000;\n  font-size: 1.1rem;\n  text-transform: uppercase; }\n\n#gameinfo .map-workshop .map-workshop-actions {\n  margin: 0.4rem 0 0.6rem; }\n  #gameinfo .map-workshop .map-workshop-actions a.btn {\n    margin-right: 0.6rem; }\n\n#gameinfo .map-workshop .map-workshop-subscribed {\n  margin-right: 0.8rem;\n  color: #61b329;\n  font-size: 1.3rem; }\n\n#gameinfo .map-waiting .gameinfo-text {\n  color: #deb062; }\n\n.player-mapstatus {\n  margin: 0 0.6rem;\n  color: #deb062;\n  font-size: 1.2rem;\n  white-space: nowrap; }\n\n.player-mapstatus-missing, .player-mapstatus-failed, .player-mapstatus-mismatch {\n  color: #cf880d; }\n\n#content-workshop h2 {\n  font-size: 1.8rem;\n  color: rgba(255, 255, 255, 0.8);\n  margin: 1.5rem 0 0.8rem; }\n\n#content-workshop h3 {\n  font-size: 1.5rem;\n  color: #deb062;\n  margin: 1.5rem 0 0.5rem; }\n\n#content-workshop .workshop-items {\n  margin: 0 0 2rem; }\n  #content-workshop .workshop-items ul {\n    margin: 0;\n    padding: 0;\n    list-style: none; }\n  #content-workshop .workshop-items li {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding: 0.6rem 1rem;\n    margin: 0 0 0.4rem;\n    background: #272727;\n    border-radius: 8px; }\n    #content-workshop .workshop-items li.workshop-item-selected {\n      box-shadow: inset 0.3rem 0 0 #cf880d; }\n  #content-workshop .workshop-items .workshop-item-title {\n    display: block;\n    font-size: 1.5rem;\n    color: #ffffff; }\n  #content-workshop .workshop-items small {\n    font-size: 1.2rem;\n    color: rgba(255, 255, 255, 0.4); }\n    #content-workshop .workshop-items small a {\n      color: #cf880d; }\n\n#content-workshop .workshop-review {\n  margin: 2rem 0 0;\n  padding: 1rem 1.5rem;\n  background: #272727;\n  border-radius: 8px;\n  font-size: 1.4rem; }\n  #content-workshop .workshop-review h2 {\n    margin-top: 0.5rem; }\n  #content-workshop .workshop-review .workshop-review-summary {\n    color: #deb062; }\n    #content-workshop .workshop-review .workshop-review-summary.workshop-review-nochanges {\n      color: rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-review-table {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 1.3rem; }\n  #content-workshop .workshop-review-table th {\n    text-align: left;\n    font-weight: normal;\n    color: rgba(255, 255, 255, 0.4);\n    padding: 0.3rem 0.6rem; }\n  #content-workshop .workshop-review-table td {\n    padding: 0.3rem 0.6rem;\n    border-top: 1px solid rgba(255, 255, 255, 0.1);\n    vertical-align: top; }\n  #content-workshop .workshop-review-table .review-field {\n    color: rgba(255, 255, 255, 0.4);\n    white-space: nowrap; }\n  #content-workshop .workshop-review-table .review-text {\n    white-space: pre-wrap;\n    word-wrap: break-word; }\n  #content-workshop .workshop-review-table .review-path {\n    word-break: break-all; }\n  #content-workshop .workshop-review-table .review-size, #content-workshop .workshop-review-table .review-status {\n    white-space: nowrap; }\n  #content-workshop .workshop-review-table .review-same {\n    color: rgba(255, 255, 255, 0.4); }\n  #content-workshop .workshop-review-table .review-changed .review-status {\n    color: #cf880d; }\n", ""]);
+exports.push([module.i, "/*! normalize.css v1.1.3 | MIT License | git.io/normalize */\narticle, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {\n  display: block; }\n\naudio, canvas, video {\n  display: inline-block;\n  *display: inline;\n  *zoom: 1; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\n[hidden] {\n  display: none; }\n\nhtml {\n  font-size: 100%;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nhtml, button, input, select, textarea {\n  font-family: sans-serif; }\n\nbody {\n  margin: 0; }\n\na:focus {\n  outline: thin dotted; }\n\na:active, a:hover {\n  outline: 0; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nh2 {\n  font-size: 1.5em;\n  margin: .83em 0; }\n\nh3 {\n  font-size: 1.17em;\n  margin: 1em 0; }\n\nh4 {\n  font-size: 1em;\n  margin: 1.33em 0; }\n\nh5 {\n  font-size: .83em;\n  margin: 1.67em 0; }\n\nh6 {\n  font-size: .67em;\n  margin: 2.33em 0; }\n\nabbr[title] {\n  border-bottom: 1px dotted; }\n\nb, strong {\n  font-weight: bold; }\n\nblockquote {\n  margin: 1em 40px; }\n\ndfn {\n  font-style: italic; }\n\nhr {\n  -moz-box-sizing: content-box;\n  box-sizing: content-box;\n  height: 0; }\n\nmark {\n  background: #ff0;\n  color: #000; }\n\np, pre {\n  margin: 1em 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,serif;\n  _font-family: 'courier new',monospace;\n  font-size: 1em; }\n\npre {\n  white-space: pre;\n  white-space: pre-wrap;\n  word-wrap: break-word; }\n\nq {\n  quotes: none; }\n\nq:before, q:after {\n  content: '';\n  content: none; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\nsup {\n  top: -0.5em; }\n\nsub {\n  bottom: -0.25em; }\n\ndl, menu, ol, ul {\n  margin: 1em 0; }\n\ndd {\n  margin: 0 0 0 40px; }\n\nmenu, ol, ul {\n  padding: 0 0 0 40px; }\n\nnav ul, nav ol {\n  list-style: none;\n  list-style-image: none; }\n\nimg {\n  border: 0;\n  -ms-interpolation-mode: bicubic; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nfigure {\n  margin: 0; }\n\nform {\n  margin: 0; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  border: 0;\n  padding: 0;\n  white-space: normal;\n  *margin-left: -7px; }\n\nbutton, input, select, textarea {\n  font-size: 100%;\n  margin: 0;\n  vertical-align: baseline;\n  *vertical-align: middle; }\n\nbutton, input {\n  line-height: normal; }\n\nbutton, select {\n  text-transform: none; }\n\nbutton, html input[type=\"button\"], input[type=\"reset\"], input[type=\"submit\"] {\n  -webkit-appearance: button;\n  cursor: pointer;\n  *overflow: visible; }\n\nbutton[disabled], html input[disabled] {\n  cursor: default; }\n\ninput[type=\"checkbox\"], input[type=\"radio\"] {\n  box-sizing: border-box;\n  padding: 0;\n  *height: 13px;\n  *width: 13px; }\n\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  -moz-box-sizing: content-box;\n  -webkit-box-sizing: content-box;\n  box-sizing: content-box; }\n\ninput[type=\"search\"]::-webkit-search-cancel-button, input[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\nbutton::-moz-focus-inner, input::-moz-focus-inner {\n  border: 0;\n  padding: 0; }\n\ntextarea {\n  overflow: auto;\n  vertical-align: top; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\nhtml, body, div, span, applet, object, iframe,\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\na, abbr, acronym, address, big, cite, code,\ndel, dfn, em, img, ins, kbd, q, s, samp,\nsmall, strike, strong, sub, sup, tt, var,\nb, u, i, center,\ndl, dt, dd, ol, ul, li,\nfieldset, form, label, legend,\ntable, caption, tbody, tfoot, thead, tr, th, td,\narticle, aside, canvas, details, embed,\nfigure, figcaption, footer, header, hgroup,\nmenu, nav, output, ruby, section, summary,\ntime, mark, audio, video {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  font-size: 100%;\n  vertical-align: baseline; }\n\nhtml {\n  line-height: 1; }\n\nol, ul {\n  list-style: none; }\n\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\ncaption, th, td {\n  text-align: left;\n  font-weight: normal;\n  vertical-align: middle; }\n\nq, blockquote {\n  quotes: none; }\n  q:before, q:after, blockquote:before, blockquote:after {\n    content: \"\";\n    content: none; }\n\na img {\n  border: none; }\n\nelements-of-type(html5-block) {\n  display: block; }\n\n/* open-sans-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Open Sans Light\"), local(\"OpenSans-Light\"), url(" + escape(__webpack_require__(40)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(41)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Open Sans Regular\"), local(\"OpenSans-Regular\"), url(" + escape(__webpack_require__(42)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(43)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Open Sans Light Italic\"), local(\"OpenSans-LightItalic\"), url(" + escape(__webpack_require__(44)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(45)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Open Sans Italic\"), local(\"OpenSans-Italic\"), url(" + escape(__webpack_require__(46)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(47)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-600 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 600;\n  src: local(\"Open Sans SemiBold\"), local(\"OpenSans-SemiBold\"), url(" + escape(__webpack_require__(48)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(49)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Open Sans Bold\"), local(\"OpenSans-Bold\"), url(" + escape(__webpack_require__(50)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(51)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Open Sans Bold Italic\"), local(\"OpenSans-BoldItalic\"), url(" + escape(__webpack_require__(52)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(53)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-600italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 600;\n  src: local(\"Open Sans SemiBold Italic\"), local(\"OpenSans-SemiBoldItalic\"), url(" + escape(__webpack_require__(54)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(55)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-800 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: normal;\n  font-weight: 800;\n  src: local(\"Open Sans ExtraBold\"), local(\"OpenSans-ExtraBold\"), url(" + escape(__webpack_require__(56)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(57)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* open-sans-800italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Open Sans';\n  font-style: italic;\n  font-weight: 800;\n  src: local(\"Open Sans ExtraBold Italic\"), local(\"OpenSans-ExtraBoldItalic\"), url(" + escape(__webpack_require__(58)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(59)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Roboto Condensed Light\"), local(\"RobotoCondensed-Light\"), url(" + escape(__webpack_require__(60)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(61)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Roboto Condensed\"), local(\"RobotoCondensed-Regular\"), url(" + escape(__webpack_require__(62)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(63)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Roboto Condensed Light Italic\"), local(\"RobotoCondensed-LightItalic\"), url(" + escape(__webpack_require__(64)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(65)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Roboto Condensed Italic\"), local(\"RobotoCondensed-Italic\"), url(" + escape(__webpack_require__(66)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(67)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Roboto Condensed Bold\"), local(\"RobotoCondensed-Bold\"), url(" + escape(__webpack_require__(68)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(69)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-condensed-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto Condensed';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Roboto Condensed Bold Italic\"), local(\"RobotoCondensed-BoldItalic\"), url(" + escape(__webpack_require__(70)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(71)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-100 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 100;\n  src: local(\"Roboto Thin\"), local(\"Roboto-Thin\"), url(" + escape(__webpack_require__(72)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(73)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-300 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 300;\n  src: local(\"Roboto Light\"), local(\"Roboto-Light\"), url(" + escape(__webpack_require__(74)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(75)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-100italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 100;\n  src: local(\"Roboto Thin Italic\"), local(\"Roboto-ThinItalic\"), url(" + escape(__webpack_require__(76)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(77)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-300italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 300;\n  src: local(\"Roboto Light Italic\"), local(\"Roboto-LightItalic\"), url(" + escape(__webpack_require__(78)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(79)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-500 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 500;\n  src: local(\"Roboto Medium\"), local(\"Roboto-Medium\"), url(" + escape(__webpack_require__(80)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(81)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-regular - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 400;\n  src: local(\"Roboto\"), local(\"Roboto-Regular\"), url(" + escape(__webpack_require__(82)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(83)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-500italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 500;\n  src: local(\"Roboto Medium Italic\"), local(\"Roboto-MediumItalic\"), url(" + escape(__webpack_require__(84)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(85)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 400;\n  src: local(\"Roboto Italic\"), local(\"Roboto-Italic\"), url(" + escape(__webpack_require__(86)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(87)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-700 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 700;\n  src: local(\"Roboto Bold\"), local(\"Roboto-Bold\"), url(" + escape(__webpack_require__(88)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(89)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-900 - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: normal;\n  font-weight: 900;\n  src: local(\"Roboto Black\"), local(\"Roboto-Black\"), url(" + escape(__webpack_require__(90)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(91)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-900italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 900;\n  src: local(\"Roboto Black Italic\"), local(\"Roboto-BlackItalic\"), url(" + escape(__webpack_require__(92)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(93)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n/* roboto-700italic - vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic */\n@font-face {\n  font-family: 'Roboto';\n  font-style: italic;\n  font-weight: 700;\n  src: local(\"Roboto Bold Italic\"), local(\"Roboto-BoldItalic\"), url(" + escape(__webpack_require__(94)) + ") format(\"woff2\"), url(" + escape(__webpack_require__(95)) + ") format(\"woff\");\n  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */ }\n\n.chart-legend,\n.bar-legend,\n.line-legend,\n.pie-legend,\n.radar-legend,\n.polararea-legend,\n.doughnut-legend {\n  list-style-type: none;\n  margin-top: 5px;\n  text-align: center;\n  /* NOTE: Browsers automatically add 40px of padding-left to all lists, so we should offset that, otherwise the legend is off-center */\n  -webkit-padding-start: 0;\n  /* Webkit */\n  -moz-padding-start: 0;\n  /* Mozilla */\n  padding-left: 0;\n  /* IE (handles all cases, really, but we should also include the vendor-specific properties just to be safe) */ }\n\n.chart-legend li,\n.bar-legend li,\n.line-legend li,\n.pie-legend li,\n.radar-legend li,\n.polararea-legend li,\n.doughnut-legend li {\n  display: inline-block;\n  white-space: nowrap;\n  position: relative;\n  margin-bottom: 4px;\n  border-radius: 5px;\n  padding: 2px 8px 2px 28px;\n  font-size: smaller;\n  cursor: default; }\n\n.chart-legend li span,\n.bar-legend li span,\n.line-legend li span,\n.pie-legend li span,\n.radar-legend li span,\n.polararea-legend li span,\n.doughnut-legend li span {\n  display: block;\n  position: absolute;\n  left: 0;\n  top: 0;\n  width: 20px;\n  height: 20px;\n  border-radius: 5px; }\n\n@-webkit-keyframes ngdialog-fadeout {\n  0% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n@keyframes ngdialog-fadeout {\n  0% {\n    opacity: 1; }\n  100% {\n    opacity: 0; } }\n\n@-webkit-keyframes ngdialog-fadein {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n@keyframes ngdialog-fadein {\n  0% {\n    opacity: 0; }\n  100% {\n    opacity: 1; } }\n\n.ngdialog,\n.ngdialog *,\n.ngdialog *:before,\n.ngdialog *:after {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n\n.ngdialog {\n  position: fixed;\n  overflow: auto;\n  -webkit-overflow-scrolling: touch;\n  z-index: 10000;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0; }\n\n.ngdialog-overlay {\n  position: fixed;\n  background: rgba(0, 0, 0, 0.4);\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadein 0.5s;\n  animation: ngdialog-fadein 0.5s; }\n\n.ngdialog.ngdialog-closing .ngdialog-overlay {\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadeout 0.5s;\n  animation: ngdialog-fadeout 0.5s; }\n\n.ngdialog-content {\n  background: white;\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadein 0.5s;\n  animation: ngdialog-fadein 0.5s; }\n\n.ngdialog.ngdialog-closing .ngdialog-content {\n  -webkit-backface-visibility: hidden;\n  -webkit-animation: ngdialog-fadeout 0.5s;\n  animation: ngdialog-fadeout 0.5s; }\n\n.ngdialog-close:before {\n  font-family: 'Helvetica', Arial, sans-serif;\n  content: '\\D7';\n  cursor: pointer; }\n\nbody.ngdialog-open {\n  overflow: hidden; }\n\n.ngdialog.ngdialog-theme-wars {\n  padding-bottom: 160px;\n  padding-top: 160px; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-content {\n  background: rgba(39, 39, 39, 0.95);\n  color: #cf880d;\n  font-family: 'Open Sans','Helvetica Neue',sans-serif;\n  font-weight: 600;\n  font-size: 2.1em;\n  line-height: 1.5;\n  margin: 0 auto;\n  max-width: 90%;\n  padding: 1em;\n  position: relative;\n  width: 80rem;\n  border-top: 0.4rem solid rgba(255, 255, 255, 0.2); }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-content h1,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h2,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h3,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h4,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h5,\n.ngdialog.ngdialog-theme-wars .ngdialog-content h6,\n.ngdialog.ngdialog-theme-wars .ngdialog-content p,\n.ngdialog.ngdialog-theme-wars .ngdialog-content ul,\n.ngdialog.ngdialog-theme-wars .ngdialog-content li {\n  color: inherit; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close {\n  cursor: pointer;\n  position: absolute;\n  right: 0;\n  top: 0; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close:before {\n  background: transparent;\n  color: #bbb;\n  content: \"\\D7\";\n  font-size: 26px;\n  font-weight: 400;\n  height: 30px;\n  line-height: 26px;\n  position: absolute;\n  right: 3px;\n  text-align: center;\n  top: 3px;\n  width: 30px; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-close:hover:before,\n.ngdialog.ngdialog-theme-wars .ngdialog-close:active:before {\n  color: #777; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-message {\n  margin-bottom: .5em; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input {\n  margin-bottom: 1em; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input textarea,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"text\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"password\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"email\"],\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"url\"] {\n  background: #f0f0f0;\n  border: 0;\n  font-family: inherit;\n  font-size: inherit;\n  font-weight: inherit;\n  margin: 0 0 .25em;\n  min-height: 2.5em;\n  padding: .25em .67em;\n  width: 100%; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-input textarea:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"text\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"password\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"email\"]:focus,\n.ngdialog.ngdialog-theme-wars .ngdialog-input input[type=\"url\"]:focus {\n  -webkit-box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2);\n  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2);\n  outline: none; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-buttons:after {\n  clear: both;\n  content: '';\n  display: table; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button {\n  border: 0;\n  cursor: pointer;\n  float: right;\n  font-family: inherit;\n  font-size: .8em;\n  letter-spacing: .1em;\n  line-height: 1em;\n  margin: 0 0 0 .5em;\n  padding: .75em 2em;\n  text-transform: uppercase; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button:focus {\n  -webkit-animation: ngdialog-pulse 1.1s infinite;\n  animation: ngdialog-pulse 1.1s infinite;\n  outline: none; }\n\n@media (max-width: 568px) {\n  .ngdialog.ngdialog-theme-wars .ngdialog-button:focus {\n    -webkit-animation: none;\n    animation: none; } }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button.ngdialog-button-primary {\n  background: #3288e6;\n  color: #fff; }\n\n.ngdialog.ngdialog-theme-wars .ngdialog-button.ngdialog-button-secondary {\n  background: #e0e0e0;\n  color: #777; }\n\n#top-bar {\n  position: relative;\n  z-index: 20;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  min-width: 1024px;\n  width: 100%;\n  height: 8rem;\n  padding: 0 4rem;\n  background: linear-gradient(to bottom, rgba(12, 11, 10, 0.95), rgba(12, 11, 10, 0.8));\n  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }\n  @media (max-width: 1180px) {\n    #top-bar {\n      padding: 0 2rem; } }\n\na#menu-logo {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  margin-right: 5rem;\n  opacity: 0.9;\n  transition: opacity .2s; }\n  a#menu-logo:hover {\n    opacity: 1; }\n  a#menu-logo img {\n    display: block; }\n  @media (max-width: 1180px) {\n    a#menu-logo {\n      width: 64px;\n      overflow: hidden;\n      margin-right: 2rem; } }\n\n#main-menu {\n  display: flex;\n  flex-direction: row;\n  align-self: stretch;\n  margin: 0; }\n  #main-menu li {\n    display: flex; }\n\na.menu-btn {\n  position: relative;\n  display: flex;\n  align-items: center;\n  margin: 0 2.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.7rem;\n  letter-spacing: 0.3rem;\n  text-transform: uppercase;\n  white-space: nowrap;\n  color: #8f897f;\n  cursor: pointer;\n  transition: color .2s; }\n  @media (max-width: 1180px) {\n    a.menu-btn {\n      margin: 0 1.2rem;\n      font-size: 1.4rem;\n      letter-spacing: 0.2rem; } }\n  a.menu-btn::after {\n    content: \"\";\n    position: absolute;\n    left: 50%;\n    bottom: 0;\n    width: 0;\n    height: 0.3rem;\n    background: #cf880d;\n    transition: all .25s; }\n  a.menu-btn:hover {\n    color: #ffffff; }\n    a.menu-btn:hover::after {\n      left: 0;\n      width: 100%; }\n  a.menu-btn.active {\n    color: #ffffff; }\n    a.menu-btn.active::after {\n      left: 0;\n      width: 100%; }\n\n#top-bar-right {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin-left: auto; }\n\n#swarm_keeper_bonus {\n  display: block;\n  margin-right: 2rem;\n  cursor: pointer; }\n\n#player-info {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  font-family: 'Roboto'; }\n  #player-info .player-text {\n    display: flex;\n    flex-direction: column;\n    align-items: flex-end;\n    margin-right: 1.4rem; }\n  #player-info .player-name {\n    max-width: 20rem;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    color: #ffffff;\n    font-size: 1.7rem;\n    line-height: 2.2rem; }\n    @media (max-width: 1300px) {\n      #player-info .player-name {\n        max-width: 15rem; } }\n  #player-info .player-status {\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.1rem;\n    letter-spacing: 0.2rem;\n    text-transform: uppercase;\n    color: #5cc28b; }\n    #player-info .player-status::before {\n      content: \"\";\n      display: inline-block;\n      width: 0.6rem;\n      height: 0.6rem;\n      margin: 0 0.6rem 0.15rem 0;\n      border-radius: 50%;\n      background: currentColor; }\n    #player-info .player-status.offline {\n      color: #8f897f; }\n  #player-info .player-avatar {\n    display: block;\n    width: 4.4rem;\n    height: 4.4rem;\n    border-radius: 0.3rem;\n    border: 1px solid rgba(255, 255, 255, 0.2); }\n  #player-info:hover .player-name {\n    color: #deb062; }\n\n.top-bar-divider {\n  width: 1px;\n  height: 3.2rem;\n  margin: 0 2.4rem;\n  background: rgba(255, 255, 255, 0.2); }\n\n#menu-quit {\n  display: flex;\n  color: #8f897f;\n  transition: color .2s; }\n  #menu-quit .icon {\n    width: 2.2rem;\n    height: 2.2rem; }\n  #menu-quit:hover {\n    color: #cf880d; }\n\n#dev-text {\n  position: fixed;\n  top: 0;\n  right: 65px;\n  color: red;\n  font-size: 20px; }\n\n#menu-chat.active {\n  border-color: #cf880d;\n  color: #ffffff; }\n\n.menu-chat-online {\n  margin-left: 1rem;\n  color: #5cc28b; }\n\n#chat-drawer {\n  position: fixed;\n  top: 8rem;\n  right: 0;\n  bottom: 0;\n  z-index: 25;\n  display: flex;\n  flex-direction: column;\n  width: 42rem;\n  background: #1c1a17;\n  border-left: 1px solid rgba(255, 255, 255, 0.1);\n  box-shadow: -2.4rem 0 6rem rgba(0, 0, 0, 0.6);\n  animation: chat-drawer-in .18s ease-out; }\n\n@keyframes chat-drawer-in {\n  from {\n    transform: translateX(4rem);\n    opacity: 0; }\n  to {\n    transform: none;\n    opacity: 1; } }\n\n.chat-drawer-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex-shrink: 0;\n  height: 5.6rem;\n  padding: 0 1.2rem 0 2.4rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }\n  .chat-drawer-header h2 {\n    margin: 0;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.5rem;\n    letter-spacing: 0.3rem;\n    text-transform: uppercase;\n    color: #e9e3d8; }\n  .chat-drawer-header .lb-icon-btn {\n    margin-left: auto; }\n\n.chat-drawer-online {\n  margin-left: 1rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.15rem;\n  text-transform: uppercase;\n  color: #5cc28b; }\n\n@media (max-width: 1400px) {\n  a#menu-logo {\n    margin-right: 3rem; }\n  a.menu-btn {\n    margin: 0 1.4rem;\n    letter-spacing: 0.2rem; }\n  .top-bar-divider {\n    margin: 0 1.6rem; }\n  .menu-chat-online {\n    display: none; } }\n\n@keyframes lb-pulse {\n  0% {\n    opacity: 1; }\n  50% {\n    opacity: 0.3; }\n  100% {\n    opacity: 1; } }\n\n#gamelobby, #page {\n  position: relative;\n  width: 100%;\n  max-width: 180rem;\n  height: calc(100% - 8rem);\n  margin: 0 auto;\n  padding: 3.6rem 4rem 3rem;\n  overflow: hidden;\n  color: #e9e3d8;\n  font-family: 'Roboto'; }\n  @media (max-width: 1400px) {\n    #gamelobby, #page {\n      padding: 3rem 2.4rem 2.4rem; } }\n  @media (max-height: 820px) {\n    #gamelobby, #page {\n      padding-top: 2.4rem;\n      padding-bottom: 2rem; } }\n  #gamelobby::before, #page::before {\n    content: \"\";\n    position: fixed;\n    top: 8rem;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    z-index: -1;\n    pointer-events: none;\n    background: radial-gradient(ellipse at 35% 40%, rgba(12, 11, 10, 0.8), rgba(12, 11, 10, 0.94)); }\n\n.lb-page {\n  display: flex;\n  flex-direction: row;\n  height: 100%; }\n\n.lb-main {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.lb-side {\n  display: flex;\n  flex-direction: column;\n  flex-shrink: 0;\n  width: 46rem;\n  margin-left: 4rem;\n  overflow-x: hidden;\n  overflow-y: auto; }\n  @media (max-width: 1400px) {\n    .lb-side {\n      width: 36rem;\n      margin-left: 3rem; } }\n\n.lb-muted {\n  color: #8f897f; }\n\n.lb-label {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.25rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #8f897f;\n  margin-right: 1.4rem; }\n\n.lb-header {\n  flex-shrink: 0;\n  padding-bottom: 2.4rem;\n  margin-bottom: 2.4rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  @media (max-height: 820px) {\n    .lb-header {\n      padding-bottom: 1.6rem;\n      margin-bottom: 1.6rem; } }\n\n.lb-header-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center; }\n\n.lb-heading {\n  flex: 1;\n  min-width: 20rem;\n  margin-right: 3rem; }\n\n.lb-breadcrumb {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin: 0 0 1rem;\n  white-space: nowrap;\n  overflow: hidden;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.lb-breadcrumb-section {\n  color: #cf880d; }\n\n.lb-breadcrumb-separator {\n  margin: 0 1.2rem;\n  color: rgba(255, 255, 255, 0.2); }\n\n.lb-status {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  color: #c9c2b6; }\n  .lb-status span {\n    overflow: hidden;\n    text-overflow: ellipsis; }\n\n.lb-status-dot {\n  flex-shrink: 0;\n  width: 0.6rem;\n  height: 0.6rem;\n  margin-right: 1rem;\n  border-radius: 50%;\n  background: #8f897f; }\n  .lb-status-creating .lb-status-dot, .lb-status-joining .lb-status-dot, .lb-status-searchingserver .lb-status-dot, .lb-status-startinglocalserver .lb-status-dot {\n    background: #cf880d;\n    animation: lb-pulse 1.2s infinite; }\n  .lb-status-gamestarted .lb-status-dot {\n    background: #5cc28b; }\n\n.lb-breadcrumb-count {\n  flex-shrink: 0;\n  margin-left: 1rem; }\n\n.lb-title {\n  margin: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-family: 'Roboto';\n  font-weight: 500;\n  font-size: 4rem;\n  line-height: 4.8rem;\n  color: #ffffff; }\n\n.lb-title-input {\n  display: block;\n  width: 100%;\n  padding: 0;\n  background: transparent;\n  border: none;\n  border-bottom: 1px dashed transparent;\n  outline: none;\n  transition: border-color .2s; }\n  .lb-title-input:hover {\n    border-bottom-color: rgba(255, 255, 255, 0.2); }\n  .lb-title-input:focus {\n    border-bottom-color: #cf880d; }\n\n.lb-header-controls {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex-shrink: 0; }\n  @media (max-width: 1180px) {\n    .lb-header-controls {\n      margin-top: 0.8rem; } }\n  .lb-header-controls .lb-btn {\n    margin-left: 2.4rem; }\n\n.lb-control {\n  display: flex;\n  align-items: center;\n  height: 4.4rem;\n  padding: 0 2.4rem;\n  border-right: 1px solid rgba(255, 255, 255, 0.08);\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n  @media (max-width: 1400px) {\n    .lb-control {\n      padding: 0 1.6rem; } }\n  .lb-control > .icon, .lb-control > wars-icon .icon {\n    flex-shrink: 0;\n    width: 1.8rem;\n    height: 1.8rem;\n    margin-right: 1rem;\n    color: #8f897f; }\n\n.lb-password {\n  width: 16rem;\n  background: transparent;\n  border: none;\n  outline: none;\n  font-family: 'Roboto';\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n  @media (max-width: 1180px) {\n    .lb-password {\n      width: 11rem; } }\n  .lb-password::placeholder {\n    color: #8f897f; }\n\n.lb-select-wrap {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%; }\n  .lb-select-wrap .icon {\n    position: absolute;\n    right: 0;\n    width: 1.4rem;\n    height: 1.4rem;\n    color: #8f897f;\n    pointer-events: none; }\n\n.lb-select {\n  -webkit-appearance: none;\n  max-width: 100%;\n  padding: 0.4rem 2.4rem 0.4rem 0;\n  background: transparent;\n  border: none;\n  outline: none;\n  font-family: 'Roboto';\n  font-size: 1.6rem;\n  color: #e9e3d8;\n  text-overflow: ellipsis;\n  cursor: pointer; }\n  .lb-select:hover:not(:disabled) {\n    color: #ffffff; }\n  .lb-select:disabled {\n    color: #8f897f;\n    cursor: default; }\n  .lb-select option {\n    background: #1c1a17;\n    color: #e9e3d8; }\n\n.lb-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: 4.4rem;\n  padding: 0 2rem;\n  background: rgba(12, 11, 10, 0.4);\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  border-radius: 0.2rem;\n  outline: none;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.5rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #e9e3d8;\n  white-space: nowrap;\n  cursor: pointer;\n  transition: all .2s; }\n  .lb-btn .icon {\n    flex-shrink: 0;\n    width: 1.6rem;\n    height: 1.6rem;\n    margin-right: 1rem; }\n  .lb-btn:hover:not(:disabled) {\n    background: rgba(255, 255, 255, 0.1);\n    border-color: rgba(255, 255, 255, 0.4);\n    color: #ffffff; }\n  .lb-btn:disabled {\n    opacity: 0.45;\n    cursor: default; }\n\n.lb-btn-small {\n  height: 3.6rem;\n  padding: 0 1.6rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase; }\n\n.lb-btn-outline {\n  border-color: #cf880d;\n  color: #cf880d; }\n  .lb-btn-outline:hover:not(:disabled) {\n    background: rgba(207, 136, 13, 0.15);\n    border-color: #deb062;\n    color: #deb062; }\n\n.lb-btn-ready.active {\n  background: rgba(207, 136, 13, 0.12);\n  border-color: #cf880d;\n  color: #cf880d; }\n\n.lb-btn-launch {\n  background: #cf880d;\n  border-color: #cf880d;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 2.2rem;\n  letter-spacing: 0.6rem;\n  text-transform: uppercase;\n  color: #1a1206; }\n  .lb-btn-launch .icon {\n    width: 2rem;\n    height: 2rem;\n    margin: 0 0 0 1.4rem; }\n  .lb-btn-launch:hover:not(:disabled) {\n    background: #deb062;\n    border-color: #deb062;\n    color: #1a1206; }\n  .lb-btn-launch:disabled {\n    opacity: 1;\n    background: rgba(207, 136, 13, 0.18);\n    border-color: rgba(207, 136, 13, 0.25);\n    color: rgba(222, 176, 98, 0.45); }\n\n.lb-icon-btn {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 2.8rem;\n  height: 2.8rem;\n  padding: 0;\n  background: transparent;\n  border: 1px solid transparent;\n  outline: none;\n  color: #8f897f;\n  cursor: pointer; }\n  .lb-icon-btn .icon {\n    width: 1.4rem;\n    height: 1.4rem; }\n  .lb-icon-btn:hover:not(:disabled) {\n    border-color: rgba(224, 100, 92, 0.4);\n    color: #e0645c; }\n  .lb-icon-btn:disabled {\n    opacity: 0.4;\n    cursor: default; }\n\n.lb-body {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-height: 0; }\n\n.lb-teams {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  flex-shrink: 0;\n  margin: 0 -2rem; }\n\n.lb-team {\n  flex: 1 1 40%;\n  min-width: 0;\n  margin: 0 2rem 2rem; }\n  .lb-team.lb-team-0 .lb-team-marker {\n    background: #cf880d; }\n  .lb-team.lb-team-1 .lb-team-marker {\n    background: #4f9fd6; }\n  .lb-team.lb-team-2 .lb-team-marker {\n    background: #5cc28b; }\n  .lb-team.lb-team-3 .lb-team-marker {\n    background: #b07fe0; }\n\n.lb-team-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin: 0;\n  padding: 0 0 1.2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08);\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.5rem;\n  letter-spacing: 0.3rem;\n  text-transform: uppercase;\n  color: #ffffff; }\n\n.lb-team-marker {\n  width: 0.8rem;\n  height: 0.8rem;\n  margin-right: 1.2rem;\n  background: #8f897f; }\n\n.lb-team-count {\n  margin-left: auto;\n  font-size: 1.3rem;\n  color: #8f897f; }\n\n.lb-slots {\n  margin: 0;\n  padding: 0;\n  list-style: none; }\n  .lb-teams-single .lb-slots {\n    display: flex;\n    flex-wrap: wrap;\n    margin: 0 -2rem; }\n    .lb-teams-single .lb-slots .lb-slot {\n      width: calc(50% - 4rem);\n      margin: 0 2rem; }\n\n.lb-slot {\n  position: relative;\n  overflow: hidden;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  height: 6rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08);\n  font-size: 1.6rem; }\n  .lb-slot.lb-slot-self {\n    background: linear-gradient(to right, rgba(207, 136, 13, 0.08), transparent 60%); }\n  .lb-slot:hover .lb-slot-actions-hover {\n    opacity: 1; }\n\n.lb-avatar {\n  display: block;\n  flex-shrink: 0;\n  width: 3.6rem;\n  height: 3.6rem;\n  border-radius: 0.2rem; }\n\n.lb-avatar-empty {\n  margin-right: 1.4rem;\n  background: rgba(255, 255, 255, 0.02);\n  border: 1px solid rgba(255, 255, 255, 0.1); }\n\n.lb-avatar-cpu {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #1c1a17;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.1rem;\n  letter-spacing: 0.1rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.lb-avatar-wrap {\n  position: relative;\n  flex-shrink: 0;\n  margin-right: 1.4rem; }\n  .lb-avatar-wrap.lb-conn-bad::after {\n    content: \"\";\n    position: absolute;\n    right: -0.3rem;\n    bottom: -0.3rem;\n    width: 1rem;\n    height: 1rem;\n    border-radius: 50%;\n    background: #e0645c;\n    border: 2px solid #0c0b0a; }\n\n.lb-color {\n  flex-shrink: 0;\n  width: 1.6rem;\n  height: 1.6rem;\n  margin-right: 1.4rem;\n  border-radius: 50%;\n  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.2); }\n\n.lb-color-select {\n  -webkit-appearance: none;\n  padding: 0;\n  border: none;\n  outline: none;\n  font-size: 0;\n  color: transparent;\n  cursor: pointer; }\n  .lb-color-select:hover:not(:disabled) {\n    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.8); }\n  .lb-color-select:disabled {\n    cursor: default; }\n  .lb-color-select option {\n    font-size: 1.4rem; }\n\n.lb-slot-name {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex: 1 1 auto;\n  min-width: 10rem;\n  color: #ffffff; }\n  .lb-slot-name.lb-muted {\n    color: #8f897f; }\n  .lb-slot-name .lb-select {\n    color: #ffffff; }\n\n.lb-slot-playername {\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.lb-tag {\n  flex-shrink: 0;\n  margin-left: 1rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.05rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.lb-tag-host {\n  color: #cf880d; }\n\n@media (max-width: 1400px) {\n  .lb-tag-you {\n    display: none; } }\n\n.lb-slot-faction {\n  flex: 0 1 13rem;\n  min-width: 6rem;\n  margin-left: 1.4rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  color: #8f897f; }\n  .lb-slot-faction .lb-select {\n    color: #c9c2b6; }\n  @media (max-width: 1400px) {\n    .lb-slot-faction {\n      flex-basis: 9.5rem; } }\n\n.lb-slot-ready {\n  display: flex;\n  justify-content: flex-end;\n  flex-shrink: 0;\n  min-width: 8rem;\n  margin-left: 1.4rem;\n  white-space: nowrap;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.25rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase; }\n  .lb-slot-ready.lb-clickable {\n    cursor: pointer; }\n    .lb-slot-ready.lb-clickable:hover .lb-notready {\n      color: #ffffff; }\n\n.lb-ready {\n  display: flex;\n  align-items: center;\n  color: #cf880d; }\n  .lb-ready .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    margin-right: 0.6rem; }\n\n.lb-notready {\n  color: #8f897f; }\n\n.lb-slot-actions {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin-left: auto; }\n  .lb-slot-actions .lb-btn + .lb-btn {\n    margin-left: 1rem; }\n\n.lb-slot-actions-hover {\n  margin-left: 1rem;\n  opacity: 0;\n  transition: opacity .15s; }\n\n.lb-spectators {\n  flex-shrink: 0;\n  margin: 0 0 2rem;\n  font-size: 1.5rem;\n  color: #c9c2b6; }\n  .lb-spectators a {\n    color: #c9c2b6; }\n    .lb-spectators a:hover {\n      color: #e0645c;\n      text-decoration: line-through; }\n\n.lb-chat {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-height: 16rem;\n  background: rgba(12, 11, 10, 0.7);\n  border: 1px solid rgba(255, 255, 255, 0.08); }\n\n.lb-tabs {\n  display: flex;\n  flex-direction: row;\n  flex-shrink: 0;\n  padding: 0 2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .lb-tabs a {\n    position: relative;\n    padding: 1.6rem 0;\n    margin-right: 3rem;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.4rem;\n    letter-spacing: 0.25rem;\n    text-transform: uppercase;\n    color: #8f897f; }\n    .lb-tabs a:hover {\n      color: #ffffff; }\n    .lb-tabs a.active {\n      color: #ffffff; }\n      .lb-tabs a.active::after {\n        content: \"\";\n        position: absolute;\n        left: 0;\n        right: 0;\n        bottom: -1px;\n        height: 0.2rem;\n        background: #cf880d; }\n\n.lb-chat-pane {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-height: 0; }\n  .lb-chat-pane chat-lines {\n    display: block;\n    flex: 1;\n    min-height: 0; }\n  .lb-chat-pane .chat-messages {\n    height: 100%;\n    padding: 1.4rem 2rem;\n    overflow-x: hidden;\n    overflow-y: auto; }\n  .lb-chat-pane .chat-line {\n    position: relative;\n    font-size: 1.5rem;\n    line-height: 2.6rem;\n    color: #e9e3d8; }\n    .lb-chat-pane .chat-line strong {\n      font-weight: 400; }\n  .lb-chat-pane .chat-time {\n    display: inline-block;\n    width: 5.6rem;\n    font-family: Consolas, 'Courier New', monospace;\n    font-size: 1.3rem;\n    color: #8f897f; }\n  .lb-chat-pane .chat-username {\n    margin-right: 0.6rem;\n    cursor: pointer; }\n\n.lb-chat-controls {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex-shrink: 0;\n  height: 5.6rem;\n  padding: 0 2rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.08); }\n\n.lb-chat-form {\n  flex: 1; }\n  .lb-chat-form input {\n    width: 100%;\n    background: transparent;\n    border: none;\n    outline: none;\n    font-family: 'Roboto';\n    font-size: 1.5rem;\n    color: #e9e3d8; }\n    .lb-chat-form input::placeholder {\n      color: #8f897f; }\n\n.lb-chat-language {\n  margin: 0 2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.lb-chat-send {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.4rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #cf880d; }\n  .lb-chat-send:hover {\n    color: #deb062; }\n\n.lb-scores {\n  flex: 1;\n  min-height: 0;\n  overflow-y: auto; }\n  .lb-scores .lb-btn {\n    margin-top: 2rem; }\n\n.lb-map-card {\n  position: relative;\n  flex-shrink: 0;\n  margin: 0.6rem 0.6rem 2.4rem; }\n\n.lb-corner {\n  position: absolute;\n  z-index: 2;\n  width: 2.4rem;\n  height: 2.4rem;\n  border: 0 solid #cf880d; }\n  .lb-corner.lb-corner-tl {\n    top: -0.6rem;\n    left: -0.6rem;\n    border-top-width: 0.2rem;\n    border-left-width: 0.2rem; }\n  .lb-corner.lb-corner-tr {\n    top: -0.6rem;\n    right: -0.6rem;\n    border-top-width: 0.2rem;\n    border-right-width: 0.2rem; }\n  .lb-corner.lb-corner-bl {\n    bottom: -0.6rem;\n    left: -0.6rem;\n    border-bottom-width: 0.2rem;\n    border-left-width: 0.2rem; }\n  .lb-corner.lb-corner-br {\n    bottom: -0.6rem;\n    right: -0.6rem;\n    border-bottom-width: 0.2rem;\n    border-right-width: 0.2rem; }\n\n.lb-map-image {\n  position: relative;\n  height: 46rem;\n  max-height: 42vh;\n  overflow: hidden;\n  background: #1c1a17;\n  border: 1px solid rgba(255, 255, 255, 0.08); }\n  .lb-map-image img {\n    display: block;\n    width: 100%;\n    height: 100%;\n    object-fit: cover; }\n\n.lb-map-noimage {\n  position: absolute;\n  top: 25%;\n  width: 100%;\n  text-align: center;\n  font-size: 1.4rem;\n  color: #8f897f; }\n\n.lb-map-badge, .lb-map-link {\n  position: absolute;\n  top: 1.4rem;\n  display: flex;\n  align-items: center;\n  height: 2.8rem;\n  padding: 0 1.2rem;\n  background: rgba(12, 11, 10, 0.85);\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase; }\n  .lb-map-badge .icon, .lb-map-link .icon {\n    width: 1.3rem;\n    height: 1.3rem; }\n\n.lb-map-badge {\n  left: 1.4rem;\n  color: #cf880d; }\n  .lb-map-badge .icon {\n    margin-right: 0.8rem; }\n\n.lb-map-link {\n  right: 1.4rem;\n  color: #ffffff; }\n  .lb-map-link .icon {\n    margin-left: 0.8rem; }\n  @media (max-width: 1400px) {\n    .lb-map-link .lb-map-link-text {\n      display: none; }\n    .lb-map-link .icon {\n      margin-left: 0; } }\n\n.lb-map-info {\n  position: absolute;\n  left: 1px;\n  right: 1px;\n  bottom: 1px;\n  display: flex;\n  flex-direction: row;\n  align-items: flex-end;\n  padding: 6rem 2rem 1.8rem;\n  background: linear-gradient(to bottom, transparent, rgba(12, 11, 10, 0.92) 65%); }\n\n.lb-map-text {\n  flex: 1;\n  min-width: 0; }\n\n.lb-map-mode {\n  margin: 0 0 0.6rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #cf880d; }\n\n.lb-map-name {\n  margin: 0 0 0.6rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-family: 'Roboto';\n  font-weight: 500;\n  font-size: 2.6rem;\n  color: #ffffff; }\n\n.lb-map-meta {\n  margin: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-size: 1.4rem;\n  color: #c9c2b6; }\n\n.lb-btn.lb-map-subscribe {\n  flex-shrink: 0;\n  margin-left: 1.2rem; }\n\n.lb-map-state {\n  color: #deb062; }\n\n.lb-map-state-failed, .lb-map-state-mismatch {\n  color: #e0645c; }\n\n.lb-map-subscribed {\n  flex-shrink: 0;\n  margin-left: 1.2rem;\n  display: flex;\n  align-items: center;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #5cc28b; }\n  .lb-map-subscribed .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    margin-right: 0.6rem; }\n\n.lb-settings {\n  flex-shrink: 0;\n  margin: 0;\n  padding: 0;\n  list-style: none; }\n  .lb-settings li {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: space-between;\n    min-height: 4.6rem;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .lb-settings li.lb-setting-note {\n    display: block;\n    min-height: 0;\n    padding: 1rem 0;\n    font-size: 1.4rem;\n    line-height: 1.45;\n    color: #deb062; }\n  .lb-settings li.lb-map-status-failed, .lb-settings li.lb-map-status-mismatch {\n    color: #e0645c; }\n  .lb-settings .lb-label {\n    display: flex;\n    align-items: center;\n    flex-shrink: 0;\n    margin-right: 2rem; }\n  .lb-settings .lb-select-wrap {\n    max-width: 65%; }\n  .lb-settings .lb-select {\n    text-align-last: right; }\n\n.lb-setting-value {\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  text-align: right;\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n\n.lb-count {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 2rem;\n  height: 2rem;\n  margin-left: 1rem;\n  padding: 0 0.6rem;\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.1);\n  font-size: 1.1rem;\n  letter-spacing: 0;\n  color: #c9c2b6; }\n  .lb-count.active {\n    background: rgba(207, 136, 13, 0.18);\n    color: #cf880d; }\n\n.lb-modifiers-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  align-self: stretch;\n  width: 100%;\n  padding: 0;\n  background: transparent;\n  border: none;\n  outline: none;\n  color: #e9e3d8;\n  text-align: left;\n  cursor: pointer; }\n  .lb-modifiers-row .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    margin-left: 0.8rem;\n    color: #8f897f; }\n  .lb-modifiers-row:hover:not(:disabled) {\n    color: #ffffff; }\n    .lb-modifiers-row:hover:not(:disabled) .icon {\n      color: #ffffff; }\n  .lb-modifiers-row.open .icon {\n    color: #cf880d; }\n  .lb-modifiers-row:disabled {\n    cursor: default; }\n\n.lb-modifiers-summary {\n  flex: 1;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  text-align: right;\n  font-family: 'Roboto';\n  font-size: 1.6rem; }\n\n.lb-segmented {\n  display: flex;\n  flex-direction: row; }\n  .lb-segmented button {\n    min-width: 4.4rem;\n    height: 3rem;\n    padding: 0 1rem;\n    margin-left: 0.4rem;\n    background: transparent;\n    border: 1px solid transparent;\n    outline: none;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.4rem;\n    color: #c9c2b6;\n    cursor: pointer; }\n    .lb-segmented button:hover:not(:disabled) {\n      border-color: rgba(255, 255, 255, 0.2);\n      color: #ffffff; }\n    .lb-segmented button:disabled {\n      color: rgba(255, 255, 255, 0.22);\n      cursor: default; }\n    .lb-segmented button.active {\n      background: rgba(207, 136, 13, 0.18);\n      border-color: rgba(207, 136, 13, 0.35);\n      color: #cf880d; }\n\n.lb-flyout {\n  position: fixed;\n  z-index: 30;\n  width: 41rem;\n  background: #1c1a17;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  border-radius: 0.4rem;\n  box-shadow: 0 2.4rem 6rem rgba(0, 0, 0, 0.7);\n  animation: lb-flyout-in .16s ease-out; }\n\n@keyframes lb-flyout-in {\n  from {\n    opacity: 0;\n    transform: translateX(0.8rem); }\n  to {\n    opacity: 1;\n    transform: none; } }\n\n.lb-flyout-arrow {\n  position: absolute;\n  right: -0.7rem;\n  bottom: 1.5rem;\n  width: 1.2rem;\n  height: 1.2rem;\n  background: #1c1a17;\n  border-top: 1px solid rgba(255, 255, 255, 0.2);\n  border-right: 1px solid rgba(255, 255, 255, 0.2);\n  transform: rotate(45deg); }\n\n.lb-flyout-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  height: 5.2rem;\n  padding: 0 1.2rem 0 2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .lb-flyout-header h2 {\n    margin: 0 1rem 0 0;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.5rem;\n    letter-spacing: 0.3rem;\n    text-transform: uppercase;\n    color: #e9e3d8; }\n\n.lb-flyout-marker {\n  width: 0.8rem;\n  height: 0.8rem;\n  margin-right: 1rem;\n  background: #cf880d; }\n\n.lb-flyout-subtitle {\n  font-family: 'Roboto Condensed';\n  font-size: 1.4rem;\n  letter-spacing: 0.08rem;\n  color: #8f897f; }\n\n.lb-flyout-close {\n  margin-left: auto; }\n\n.lb-flyout-list {\n  margin: 0;\n  padding: 0.4rem 2rem;\n  list-style: none; }\n  .lb-flyout-list li {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: space-between;\n    min-height: 4.8rem;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n    .lb-flyout-list li:last-child {\n      border-bottom: none; }\n  .lb-flyout-list .lb-segmented button {\n    min-width: 0; }\n\n.lb-flyout-name {\n  margin-right: 1.6rem;\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n\n.lb-flyout-footer {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  height: 6rem;\n  padding: 0 2rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.08);\n  font-size: 1.4rem; }\n  .lb-flyout-footer .lb-btn {\n    margin-left: auto; }\n\n.lb-text-btn {\n  padding: 0;\n  background: transparent;\n  border: none;\n  outline: none;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.4rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #c9c2b6;\n  cursor: pointer; }\n  .lb-text-btn:hover:not(:disabled) {\n    color: #ffffff; }\n  .lb-text-btn:disabled {\n    color: rgba(255, 255, 255, 0.22);\n    cursor: default; }\n\n.lb-switch {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  height: 3.4rem;\n  padding: 0;\n  background: transparent;\n  border: none;\n  outline: none;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f;\n  cursor: pointer; }\n  .lb-switch:disabled {\n    cursor: default; }\n    .lb-switch:disabled .lb-switch-track {\n      opacity: 0.6; }\n  .lb-switch.on {\n    color: #cf880d; }\n\n.lb-switch-track {\n  position: relative;\n  width: 3.6rem;\n  height: 2rem;\n  margin-left: 1rem;\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  border-radius: 1rem;\n  transition: all .15s; }\n  .lb-switch.on .lb-switch-track {\n    background: rgba(207, 136, 13, 0.25);\n    border-color: #cf880d; }\n\n.lb-switch-knob {\n  position: absolute;\n  top: 0.3rem;\n  left: 0.3rem;\n  width: 1.2rem;\n  height: 1.2rem;\n  border-radius: 50%;\n  background: #8f897f;\n  transition: left .15s; }\n  .lb-switch.on .lb-switch-knob {\n    left: 1.9rem;\n    background: #cf880d; }\n\n.lb-actions {\n  flex-shrink: 0;\n  margin-top: auto;\n  padding-top: 2.4rem; }\n\n.lb-actions-row {\n  display: flex;\n  flex-direction: row;\n  margin: 0 -0.6rem 1.2rem; }\n  .lb-actions-row .lb-btn {\n    flex: 1;\n    min-width: 0;\n    margin: 0 0.6rem; }\n  .lb-actions-row.lb-actions-main .lb-btn {\n    height: 6.4rem; }\n  .lb-actions-row .lb-btn-launch {\n    flex: 2; }\n\n.lb-hint {\n  margin: 0;\n  font-size: 1.4rem;\n  line-height: 2rem;\n  color: #8f897f; }\n\n@media (max-width: 1400px) {\n  .lb-teams {\n    margin: 0 -1.2rem; }\n  .lb-team {\n    margin-left: 1.2rem;\n    margin-right: 1.2rem; }\n  .lb-slot {\n    font-size: 1.5rem; }\n  .lb-avatar-wrap, .lb-avatar-empty, .lb-color {\n    margin-right: 1rem; }\n  .lb-slot-faction, .lb-slot-ready {\n    margin-left: 1rem; }\n  .lb-slot-ready {\n    min-width: 0;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.1rem;\n    letter-spacing: 0.15rem;\n    text-transform: uppercase; }\n  .lb-tag {\n    margin-left: 0.8rem; } }\n\n@media (max-width: 1180px) {\n  .lb-teams {\n    flex: 0 1 auto;\n    min-height: 0;\n    overflow-x: hidden;\n    overflow-y: auto; }\n  .lb-team {\n    flex-basis: 100%; }\n  .lb-spectators {\n    flex-shrink: 0; }\n  .lb-chat {\n    flex: 1 0 14rem; } }\n\n@media (max-height: 820px) {\n  .lb-title {\n    font-size: 3.2rem;\n    line-height: 4rem; }\n  .lb-team {\n    margin-bottom: 1.4rem; }\n  .lb-slot {\n    height: 5rem; }\n  .lb-chat {\n    min-height: 12rem; }\n  .lb-map-card {\n    margin-bottom: 1.6rem; }\n  .lb-map-image {\n    max-height: 26vh; }\n  .lb-settings li {\n    min-height: 3.8rem; }\n  .lb-actions {\n    padding-top: 1.6rem; }\n  .lb-actions-row.lb-actions-main .lb-btn {\n    height: 5.2rem; }\n  .lb-btn-launch {\n    font-size: 1.9rem; } }\n\n.pg-page {\n  display: flex;\n  flex-direction: column;\n  height: 100%; }\n  @media (max-width: 1180px) {\n    .pg-page {\n      overflow-x: hidden;\n      overflow-y: auto; } }\n\n.pg-heading {\n  flex-shrink: 0; }\n\n.pg-eyebrow {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #cf880d; }\n\n.pg-title {\n  margin: 0.6rem 0 0;\n  font-family: 'Roboto';\n  font-weight: 500;\n  font-size: 4.4rem;\n  line-height: 5.2rem;\n  color: #ffffff; }\n\n.pg-status {\n  display: flex;\n  align-items: center;\n  margin: 0.8rem 0 0;\n  font-size: 1.6rem;\n  color: #c9c2b6; }\n\n.pg-pulse {\n  flex-shrink: 0;\n  width: 0.7rem;\n  height: 0.7rem;\n  margin-right: 1rem;\n  border-radius: 50%;\n  background: #5cc28b;\n  animation: lb-pulse 1.8s ease-in-out infinite; }\n\n.pg-cards {\n  display: flex;\n  flex-direction: row;\n  flex-shrink: 0;\n  margin: 3.6rem -1.2rem 0; }\n\n.pg-card {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0;\n  height: 26rem;\n  margin: 0 1.2rem;\n  padding: 3.2rem;\n  background: rgba(12, 11, 10, 0.72);\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-radius: 0.4rem;\n  outline: none;\n  font-family: 'Roboto';\n  text-align: left;\n  color: #e9e3d8;\n  cursor: pointer;\n  transition: border-color .15s, background-color .15s, transform .15s; }\n  .pg-card:hover {\n    border-color: rgba(255, 255, 255, 0.28);\n    transform: translateY(-2px); }\n\n.pg-card-icon .icon {\n  width: 3.4rem;\n  height: 3.4rem;\n  color: #c9c2b6; }\n\n.pg-card-title {\n  margin-top: 2.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 2.8rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #ffffff; }\n\n.pg-card-text {\n  margin-top: 0.8rem;\n  font-size: 1.7rem;\n  line-height: 1.45;\n  color: #8f897f; }\n\n.pg-card-footer {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  margin-top: auto;\n  font-size: 1.5rem;\n  color: #8f897f; }\n  .pg-card-footer .icon {\n    width: 1.8rem;\n    height: 1.8rem; }\n\n.pg-card-hot {\n  background-color: rgba(207, 136, 13, 0.07);\n  border-color: rgba(207, 136, 13, 0.55); }\n  .pg-card-hot:hover {\n    background-color: rgba(207, 136, 13, 0.12);\n    border-color: #deb062; }\n  .pg-card-hot .pg-card-title, .pg-card-hot .pg-card-icon .icon, .pg-card-hot .pg-card-footer .icon {\n    color: #cf880d; }\n  .pg-card-hot .pg-card-text {\n    color: #c9c2b6; }\n\n.pg-card-corner {\n  position: absolute;\n  left: -1px;\n  top: -1px;\n  width: 1.8rem;\n  height: 1.8rem;\n  border-left: 2px solid #cf880d;\n  border-top: 2px solid #cf880d; }\n\n.pg-card-row {\n  flex: none;\n  flex-direction: row;\n  align-items: center;\n  height: auto;\n  margin: 1.6rem 0 0;\n  padding: 2.2rem 2.4rem; }\n  .pg-card-row .pg-card-icon .icon {\n    width: 3rem;\n    height: 3rem; }\n  .pg-card-row > wars-icon:last-child .icon {\n    width: 1.3rem;\n    height: 1.3rem;\n    color: #8f897f; }\n\n.pg-card-row-text {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0;\n  margin: 0 1.6rem 0 1.8rem; }\n\n.pg-card-row-title {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.8rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #ffffff; }\n\n.pg-card-row-desc {\n  margin-top: 0.4rem;\n  font-size: 1.5rem;\n  line-height: 1.4;\n  color: #8f897f; }\n\n.pg-lower {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  min-height: 0;\n  margin-top: 4rem; }\n\n.pg-section {\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  min-height: 0; }\n\n.pg-grow {\n  flex: 1; }\n\n.pg-side {\n  flex-shrink: 0;\n  width: 44rem;\n  margin-left: 5.6rem;\n  overflow-x: hidden;\n  overflow-y: auto; }\n\n.pg-section-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex-shrink: 0;\n  height: 3.2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .pg-section-header h2 {\n    margin: 0;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.5rem;\n    letter-spacing: 0.3rem;\n    text-transform: uppercase;\n    color: #e9e3d8; }\n\n.pg-link {\n  display: flex;\n  align-items: center;\n  margin-left: auto;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #cf880d;\n  cursor: pointer; }\n  .pg-link .icon {\n    width: 1.2rem;\n    height: 1.2rem;\n    margin-left: 0.4rem; }\n  .pg-link:hover {\n    color: #deb062; }\n\n.pg-dev-link {\n  margin: 1.6rem 0 0;\n  color: #8f897f; }\n\n.pg-rows {\n  min-height: 0;\n  margin: 0;\n  padding: 0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  list-style: none; }\n\n.pg-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  height: 5.8rem;\n  padding: 0 0.4rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06);\n  font-size: 1.5rem;\n  color: #c9c2b6;\n  transition: background-color .15s; }\n  .pg-row:hover {\n    background: rgba(255, 255, 255, 0.03); }\n  .pg-row > * + * {\n    margin-left: 1.8rem; }\n\n.pg-thumb {\n  display: block;\n  flex-shrink: 0;\n  width: 3.6rem;\n  height: 3.6rem;\n  overflow: hidden;\n  border: 1px solid rgba(255, 255, 255, 0.08);\n  border-radius: 0.3rem;\n  background-color: #1c1a17;\n  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 6px, transparent 6px, transparent 12px); }\n  .pg-thumb img {\n    display: block;\n    width: 100%;\n    height: 100%;\n    object-fit: cover; }\n\n.pg-row-name {\n  flex: 1.4 1 0;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-weight: 500;\n  font-size: 1.7rem;\n  color: #e9e3d8; }\n\n.pg-row-mode {\n  flex: 0 0 19rem;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.pg-row-map {\n  flex: 1 1 0;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.pg-fill {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  width: 12rem; }\n\n.pg-fill-bar {\n  width: 5.4rem;\n  height: 0.4rem;\n  overflow: hidden;\n  border-radius: 0.2rem;\n  background: rgba(255, 255, 255, 0.1); }\n  .pg-fill-bar span {\n    display: block;\n    height: 100%;\n    background: #cf880d; }\n\n.pg-fill-count {\n  margin-left: 1rem;\n  font-family: Consolas, 'Courier New', monospace;\n  font-size: 1.3rem;\n  color: #c9c2b6; }\n\n.pg-empty {\n  margin: 0;\n  padding: 2.4rem 0.4rem;\n  font-size: 1.5rem;\n  line-height: 1.5;\n  color: #8f897f; }\n\n@media (max-width: 1400px) {\n  .pg-side {\n    width: 36rem;\n    margin-left: 3rem; }\n  .pg-row-mode {\n    flex-basis: 15rem; } }\n\n@media (max-width: 1180px) {\n  .pg-lower {\n    flex-direction: column;\n    flex: none; }\n  .pg-rows {\n    overflow: visible; }\n  .pg-side {\n    width: auto;\n    margin: 3rem 0 0; } }\n\n@media (max-height: 820px) {\n  .pg-title {\n    font-size: 3.4rem;\n    line-height: 4.2rem; }\n  .pg-cards {\n    margin-top: 2.4rem; }\n  .pg-cards .pg-card {\n    height: 19rem;\n    padding: 2.4rem; }\n  .pg-card-icon .icon {\n    width: 2.6rem;\n    height: 2.6rem; }\n  .pg-card-title {\n    margin-top: 1.2rem;\n    font-size: 2.4rem; }\n  .pg-card-text {\n    font-size: 1.5rem; }\n  .pg-card-row {\n    padding: 1.6rem 2rem; }\n  .pg-lower {\n    margin-top: 2.4rem; }\n  .pg-row {\n    height: 5rem; } }\n\n.pg-home {\n  flex-direction: row; }\n\n.hm-main {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.hm-heading {\n  display: flex;\n  flex-direction: row;\n  align-items: flex-end;\n  flex-shrink: 0; }\n  .hm-heading .pg-heading {\n    flex: 1;\n    min-width: 0; }\n\n.hm-stats {\n  display: flex;\n  flex-direction: row;\n  padding-bottom: 0.6rem; }\n\n.hm-stat {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-end;\n  margin-left: 3.6rem; }\n\n.hm-stat-value {\n  display: flex;\n  align-items: center;\n  font-weight: 500;\n  font-size: 2.8rem;\n  color: #e9e3d8; }\n  .hm-stat-value .pg-pulse {\n    margin-right: 0.8rem; }\n\n.hm-stat-label {\n  margin-top: 0.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.pg-home .pg-cards {\n  margin-top: 2.8rem; }\n\n.pg-home .pg-cards .pg-card {\n  height: 22rem;\n  padding: 2.8rem; }\n\n.pg-home .pg-card-title {\n  margin-top: 1.8rem;\n  font-size: 2.6rem; }\n\n.pg-home .pg-card-text {\n  font-size: 1.6rem; }\n\n.pg-home .pg-lower {\n  margin-top: 3.6rem; }\n\n.pg-home .pg-side {\n  margin-left: 4.8rem; }\n\n.hm-mission-card {\n  overflow: hidden;\n  background-color: #1c1a17; }\n  .hm-mission-card > * {\n    position: relative; }\n  .hm-mission-card .pg-card-title {\n    margin-top: auto; }\n  .hm-mission-card .pg-card-footer {\n    margin-top: 0.6rem;\n    color: #c9c2b6; }\n\n.hm-mission-image, .hm-mission-shade, .hm-mission-card > .pg-card-corner {\n  position: absolute; }\n\n.hm-mission-image {\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-position: center;\n  background-size: cover;\n  transition: transform .6s ease-out; }\n  .hm-mission-card:hover .hm-mission-image {\n    transform: scale(1.05); }\n\n.hm-mission-shade {\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: linear-gradient(180deg, rgba(12, 11, 10, 0.15) 0%, rgba(12, 11, 10, 0.92) 78%); }\n\n.hm-row-text {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n  .hm-row-text .pg-row-name {\n    flex: none; }\n\n.hm-row-meta {\n  margin-top: 0.2rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-size: 1.3rem;\n  color: #8f897f; }\n  .hm-row-meta .icon {\n    display: inline-block;\n    width: 1.3rem;\n    height: 1.3rem;\n    vertical-align: -0.2rem; }\n\n.hm-side-section + .hm-side-section {\n  margin-top: 2.8rem; }\n\n.hm-host-again {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  margin-top: 1.4rem; }\n\n.hm-thumb-large {\n  width: 6.4rem;\n  height: 6.4rem; }\n\n.hm-host-again-text {\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  margin-left: 1.4rem; }\n\n.hm-host-again-title {\n  font-weight: 500;\n  font-size: 1.7rem;\n  color: #e9e3d8; }\n\n.hm-host-again-btn {\n  width: 100%;\n  height: 4rem;\n  margin-top: 1.4rem; }\n\n.hm-workshop-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  height: 5rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06); }\n\n.hm-workshop-title {\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n\n.hm-warning {\n  color: #cf880d; }\n\n.hm-chat {\n  flex: 0 0 46rem;\n  min-height: 0;\n  margin-left: 5.6rem;\n  border-radius: 0.4rem; }\n  @media (max-width: 1400px) {\n    .hm-chat {\n      display: none; } }\n\n@media (max-height: 820px) {\n  .pg-home .pg-cards .pg-card {\n    height: 19rem;\n    padding: 2.4rem; }\n  .pg-home .pg-card-title {\n    margin-top: 1.2rem;\n    font-size: 2.4rem; }\n  .pg-home .pg-lower {\n    margin-top: 2.4rem; } }\n\n.pg-browser {\n  flex-direction: row; }\n\n.br-main {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.br-heading {\n  display: flex;\n  flex-direction: row;\n  align-items: flex-end;\n  justify-content: space-between;\n  flex-shrink: 0; }\n\n.br-back {\n  display: inline-flex;\n  align-items: center;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #cf880d; }\n  .br-back .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    margin-right: 0.6rem; }\n  .br-back:hover {\n    color: #deb062; }\n\n.br-updated {\n  margin-left: 0.6rem;\n  color: #8f897f; }\n\n.br-refresh {\n  margin-left: 0.6rem; }\n  .br-refresh:hover:not(:disabled) {\n    border-color: rgba(255, 255, 255, 0.2);\n    color: #ffffff; }\n\n.lb-btn-launch.br-create {\n  height: 4.8rem;\n  padding: 0 2.4rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.6rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase; }\n  .lb-btn-launch.br-create .icon {\n    width: 1.6rem;\n    height: 1.6rem;\n    margin: 0 1rem 0 0; }\n\n.br-dev-warning {\n  margin-top: 1.6rem;\n  font-size: 1.4rem; }\n\n.br-filters {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  flex-shrink: 0;\n  margin-top: 2.8rem;\n  padding-bottom: 1.6rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .br-filters > * {\n    margin-right: 2.4rem; }\n  .br-filters .lb-segmented button:first-child {\n    margin-left: 0; }\n  .br-filters .lb-switch-track {\n    margin-left: 0; }\n\n.br-search {\n  display: flex;\n  align-items: center;\n  width: 32rem;\n  height: 4rem;\n  padding: 0 1.2rem;\n  background: rgba(12, 11, 10, 0.4);\n  border: 1px solid rgba(255, 255, 255, 0.2);\n  border-radius: 0.2rem; }\n  .br-search .icon {\n    width: 1.6rem;\n    height: 1.6rem;\n    margin-right: 1rem;\n    color: #8f897f; }\n  .br-search input {\n    flex: 1;\n    min-width: 0;\n    background: transparent;\n    border: none;\n    outline: none;\n    font-family: 'Roboto';\n    font-size: 1.5rem;\n    color: #e9e3d8; }\n    .br-search input::placeholder {\n      color: #8f897f; }\n  .br-search:focus-within {\n    border-color: #cf880d; }\n\n.br-switch-label {\n  margin-left: 1rem; }\n\n.br-sort {\n  display: flex;\n  align-items: center;\n  margin-left: auto; }\n  .br-sort.br-sort {\n    margin-right: 0; }\n\n.br-table-header, .br-row {\n  display: flex;\n  flex-direction: row;\n  align-items: center; }\n  .br-table-header > *, .br-row > * {\n    padding-right: 1.6rem; }\n\n.br-table-header {\n  flex-shrink: 0;\n  height: 4rem;\n  padding: 0 1.2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08);\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.br-th {\n  padding-top: 0;\n  padding-bottom: 0;\n  padding-left: 0;\n  background: transparent;\n  border: none;\n  outline: none;\n  font: inherit;\n  letter-spacing: inherit;\n  text-transform: inherit;\n  text-align: left;\n  color: inherit;\n  cursor: pointer; }\n  .br-th:hover {\n    color: #ffffff; }\n  .br-th.active {\n    color: #cf880d; }\n\n.br-rows {\n  flex: 1;\n  min-height: 0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  outline: none; }\n\n.br-row {\n  width: 100%;\n  height: 5.6rem;\n  padding: 0 1.2rem 0 1rem;\n  background: transparent;\n  border: none;\n  border-left: 2px solid transparent;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06);\n  outline: none;\n  font-family: 'Roboto';\n  font-size: 1.5rem;\n  text-align: left;\n  color: #c9c2b6;\n  cursor: pointer;\n  transition: background-color .15s; }\n  .br-row:hover {\n    background: rgba(255, 255, 255, 0.03); }\n  .br-row.selected {\n    background: rgba(207, 136, 13, 0.08);\n    border-left-color: #cf880d; }\n  .br-row.full > *:not(.br-col-status) {\n    opacity: 0.62; }\n\n.br-col-thumb {\n  flex: 0 0 3.6rem;\n  margin-right: 1.6rem; }\n  .br-col-thumb.pg-thumb {\n    padding-right: 0; }\n\n.br-col-name {\n  flex: 1.4 1 0;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n  .br-row .br-col-name {\n    font-weight: 500;\n    font-size: 1.6rem;\n    color: #e9e3d8; }\n\n.br-col-mode {\n  flex: 0 0 18rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.br-col-map {\n  flex: 1 1 0;\n  min-width: 0;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.br-col-players {\n  flex: 0 0 13rem; }\n\n.br-col-status {\n  flex: 0 0 7rem;\n  text-align: right; }\n  .br-table-header > .br-col-status, .br-row > .br-col-status {\n    padding-right: 0; }\n  .br-row .br-col-status {\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.2rem;\n    letter-spacing: 0.2rem;\n    text-transform: uppercase; }\n\n.br-status-open {\n  color: #5cc28b; }\n\n.br-status-full {\n  color: #8f897f; }\n\n.br-empty {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 6rem 2rem;\n  text-align: center; }\n\n.br-empty-title {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.8rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #e9e3d8; }\n\n.br-empty-text {\n  margin-top: 0.8rem;\n  font-size: 1.5rem;\n  color: #8f897f; }\n\n.br-empty-actions {\n  display: flex;\n  margin-top: 2rem; }\n  .br-empty-actions .lb-btn + .lb-btn {\n    margin-left: 1.2rem; }\n\n.br-tip {\n  flex-shrink: 0;\n  margin: 1.2rem 0 0;\n  font-size: 1.3rem;\n  color: #8f897f; }\n\n.br-details {\n  display: flex;\n  flex-direction: column;\n  flex: 0 0 46rem;\n  min-height: 0;\n  margin-left: 4rem;\n  overflow-x: hidden;\n  overflow-y: auto; }\n\n.br-map {\n  position: relative;\n  flex-shrink: 0;\n  margin: 0.6rem 0.6rem 2rem; }\n  .br-map .lb-map-mode, .br-map .lb-map-name {\n    display: block; }\n\n.br-details-name {\n  margin: 0 0 1.2rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-family: 'Roboto';\n  font-weight: 500;\n  font-size: 2.6rem;\n  color: #ffffff; }\n\n.br-details-list {\n  flex-shrink: 0; }\n\n.br-dots {\n  display: flex;\n  flex-direction: row; }\n\n.br-dot {\n  width: 1.2rem;\n  height: 1.2rem;\n  margin-left: 0.6rem;\n  border: 1px solid rgba(255, 255, 255, 0.25);\n  border-radius: 50%; }\n  .br-dot.taken {\n    background: #cf880d;\n    border-color: #cf880d; }\n\n.br-details-actions {\n  flex-shrink: 0;\n  margin-top: auto;\n  padding-top: 2.4rem; }\n  .br-details-actions > .lb-btn-launch {\n    width: 100%;\n    height: 6.4rem; }\n  .br-details-actions .lb-actions-row {\n    margin-bottom: 0; }\n  .br-details-actions .lb-hint {\n    margin-top: 1.2rem; }\n\n@media (max-width: 1400px) {\n  .br-details {\n    flex-basis: 38rem;\n    margin-left: 3rem; }\n  .br-col-mode {\n    flex-basis: 14rem; }\n  .br-search {\n    width: 24rem; } }\n\n@media (max-width: 1180px) {\n  .pg-browser {\n    overflow: hidden; }\n  .br-details {\n    flex-basis: 32rem; }\n  .br-col-mode {\n    display: none; }\n  .br-details-actions .lb-actions-row .lb-btn {\n    padding: 0 1.2rem;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.5rem;\n    letter-spacing: 0.2rem;\n    text-transform: uppercase; } }\n\n@media (max-height: 820px) {\n  .br-filters {\n    margin-top: 2rem; }\n  .br-row {\n    height: 5rem; }\n  .br-details-actions > .lb-btn-launch {\n    height: 5.2rem; } }\n\n.pg-missions {\n  flex-direction: row; }\n\n.ms-list {\n  display: flex;\n  flex-direction: column;\n  flex: 0 0 44rem;\n  min-height: 0;\n  margin-right: 4.8rem; }\n\n.ms-list-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  flex-shrink: 0;\n  padding-bottom: 1.4rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n\n.ms-list-title {\n  display: flex;\n  align-items: center;\n  margin: 0;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.6rem;\n  letter-spacing: 0.3rem;\n  text-transform: uppercase;\n  color: #e9e3d8; }\n\n.ms-items {\n  flex: 1;\n  min-height: 0;\n  padding-top: 0.8rem;\n  overflow-x: hidden;\n  overflow-y: auto; }\n\n.ms-item {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  width: 100%;\n  padding: 1rem 1rem 1rem 1.2rem;\n  background: transparent;\n  border: none;\n  border-left: 2px solid transparent;\n  outline: none;\n  font-family: 'Roboto';\n  text-align: left;\n  cursor: pointer;\n  transition: background-color .15s; }\n  .ms-item:hover {\n    background: rgba(255, 255, 255, 0.03); }\n  .ms-item.selected {\n    background: rgba(207, 136, 13, 0.08);\n    border-left-color: #cf880d; }\n    .ms-item.selected .ms-item-title {\n      color: #ffffff; }\n\n.ms-hatch {\n  background-color: #1c1a17;\n  background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 6px, transparent 6px, transparent 12px); }\n\n.ms-item-image {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex: 0 0 12.8rem;\n  height: 7.2rem;\n  overflow: hidden;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-radius: 0.3rem; }\n  .ms-item-image img {\n    display: block;\n    width: 100%;\n    height: 100%;\n    object-fit: cover; }\n  .ms-item-image .icon {\n    width: 2.4rem;\n    height: 2.4rem;\n    color: #8f897f; }\n\n.ms-item-text {\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  margin-left: 1.6rem; }\n\n.ms-item-title {\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-weight: 500;\n  font-size: 1.8rem;\n  color: #c9c2b6; }\n\n.ms-item-meta {\n  margin-top: 0.4rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  font-size: 1.3rem;\n  color: #8f897f; }\n\n.ms-source {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.15rem;\n  letter-spacing: 0.15rem;\n  text-transform: uppercase;\n  color: #c9c2b6; }\n  .ms-source.workshop {\n    color: #cf880d; }\n\n.ms-workshop-link {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  margin-top: 1.6rem;\n  padding-top: 1.6rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.08);\n  font-size: 1.5rem;\n  color: #8f897f; }\n  .ms-workshop-link .icon {\n    width: 1.4rem;\n    height: 1.4rem; }\n  .ms-workshop-link > wars-icon:first-child {\n    margin-right: 1rem; }\n  .ms-workshop-link > wars-icon:last-child {\n    margin-left: auto; }\n\n.ms-main {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.ms-top {\n  display: flex;\n  flex-direction: row;\n  flex: 1;\n  min-height: 0; }\n\n.ms-info {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 30rem;\n  min-height: 0;\n  margin-right: 4rem; }\n\n.ms-info-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  flex-shrink: 0; }\n\n.ms-nav {\n  display: flex; }\n  .ms-nav .lb-btn {\n    width: 3.6rem;\n    padding: 0;\n    margin-left: 0.8rem; }\n    .ms-nav .lb-btn .icon {\n      margin: 0; }\n\n.ms-tags {\n  display: flex;\n  flex-wrap: wrap;\n  flex-shrink: 0;\n  margin-top: 1.4rem; }\n\n.ms-tag {\n  margin-right: 0.8rem;\n  padding: 0.4rem 1rem;\n  border: 1px solid rgba(255, 255, 255, 0.22);\n  border-radius: 0.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #c9c2b6; }\n  .ms-tag.workshop {\n    border-color: rgba(207, 136, 13, 0.6);\n    color: #cf880d; }\n\n.ms-tag-plain {\n  border-color: transparent;\n  font-family: 'Roboto';\n  font-weight: 400;\n  font-size: 1.4rem;\n  letter-spacing: 0.05rem;\n  text-transform: none;\n  color: #8f897f; }\n\n.ms-briefing-label {\n  display: block;\n  flex-shrink: 0;\n  margin-top: 3rem; }\n\n.ms-briefing {\n  min-height: 0;\n  margin: 1rem 0 0;\n  overflow-y: auto;\n  font-size: 1.7rem;\n  line-height: 1.6;\n  color: #c9c2b6; }\n\n.ms-preview {\n  position: relative;\n  flex: 0 0 auto;\n  align-self: flex-start;\n  width: 64rem;\n  max-width: 50%;\n  margin: 0.6rem;\n  background: #1c1a17;\n  border: 1px solid rgba(255, 255, 255, 0.08); }\n  .ms-preview::before {\n    content: \"\";\n    display: block;\n    padding-top: 56.25%; }\n  .ms-preview img {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    object-fit: cover; }\n\n.ms-preview-none {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.4rem;\n  color: #8f897f; }\n  .ms-preview-none .icon {\n    width: 3.2rem;\n    height: 3.2rem;\n    margin-bottom: 1rem; }\n\n.ms-launch {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  flex-shrink: 0;\n  margin-top: 2.4rem;\n  padding-top: 2.4rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.08); }\n  .ms-launch .lb-label {\n    margin-right: 1.6rem; }\n  .ms-launch .lb-segmented button:first-child {\n    margin-left: 0; }\n\n.ms-launch-hint {\n  flex: 1;\n  min-width: 0;\n  margin: 0 2.4rem;\n  overflow: hidden;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  text-align: right;\n  font-size: 1.5rem;\n  color: #8f897f; }\n\n.lb-btn-launch.ms-launch-btn {\n  height: 6rem;\n  padding: 0 3.6rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 2rem;\n  letter-spacing: 0.5rem;\n  text-transform: uppercase; }\n\n@media (max-width: 1400px) {\n  .ms-list {\n    flex-basis: 34rem;\n    margin-right: 3rem; }\n  .ms-item-image {\n    flex-basis: 9.6rem;\n    height: 5.4rem; }\n  .ms-info {\n    margin-right: 2.4rem; } }\n\n@media (max-width: 1180px) {\n  .ms-list {\n    flex-basis: 30rem;\n    margin-right: 2.4rem; }\n  .ms-item-image {\n    flex-basis: 8rem;\n    height: 4.5rem; }\n  .ms-info {\n    min-width: 0; }\n  .ms-launch-hint {\n    visibility: hidden; }\n  .lb-btn-launch.ms-launch-btn {\n    padding: 0 2.4rem;\n    letter-spacing: 0.3rem; } }\n\n@media (max-height: 820px) {\n  .ms-briefing-label {\n    margin-top: 2rem; }\n  .ms-briefing {\n    font-size: 1.6rem; }\n  .lb-btn-launch.ms-launch-btn {\n    height: 5.2rem; } }\n\n.of-thumb {\n  flex: 0 0 6.4rem;\n  height: 3.6rem; }\n  .of-thumb .icon {\n    width: 1.6rem;\n    height: 1.6rem; }\n  .hm-host-again .of-thumb {\n    flex-basis: 9.6rem;\n    height: 5.4rem; }\n\n@media (max-width: 1180px) {\n  .pg-page .pg-cards .pg-card {\n    height: auto;\n    min-height: 19rem; } }\n\n.st-page {\n  flex-direction: row;\n  align-items: stretch; }\n\n.st-nav {\n  flex: 0 0 42rem;\n  display: flex;\n  flex-direction: column;\n  margin-right: 6.4rem; }\n\n.st-nav-title {\n  display: flex;\n  align-items: center;\n  height: 3.2rem;\n  margin: 0 0 1.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.5rem;\n  letter-spacing: 0.27rem;\n  text-transform: uppercase;\n  color: #e9e3d8; }\n\n.st-categories {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n  border-top: 1px solid rgba(255, 255, 255, 0.08); }\n\n.st-category {\n  display: flex;\n  align-items: center;\n  width: 100%;\n  height: 8rem;\n  padding: 0 1.6rem 0 1.8rem;\n  background: transparent;\n  border: none;\n  border-left: 2px solid transparent;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06);\n  outline: none;\n  text-align: left;\n  color: inherit;\n  font-family: 'Roboto';\n  cursor: pointer;\n  transition: background-color .15s; }\n  .st-category wars-icon {\n    display: flex;\n    flex-shrink: 0;\n    margin-right: 1.4rem; }\n  .st-category .icon {\n    width: 2rem;\n    height: 2rem;\n    color: #8f897f; }\n  .st-category:hover {\n    background-color: rgba(255, 255, 255, 0.035); }\n  .st-category.active {\n    background-color: rgba(207, 136, 13, 0.08);\n    border-left-color: #cf880d; }\n    .st-category.active .icon, .st-category.active .st-category-title {\n      color: #cf880d; }\n\n.st-category-text {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.st-category-title {\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.7rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #c9c2b6; }\n\n.st-category-desc {\n  margin-top: 0.4rem;\n  overflow: hidden;\n  font-size: 1.4rem;\n  color: #8f897f;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.st-dot {\n  flex-shrink: 0;\n  width: 0.8rem;\n  height: 0.8rem;\n  margin-left: 1.2rem;\n  border-radius: 50%;\n  background: #cf880d; }\n\n.st-main {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  flex: 0 1 90rem;\n  min-width: 0; }\n\n.st-heading {\n  padding-bottom: 2rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n  .st-heading .pg-title {\n    font-size: 3.8rem;\n    line-height: 4.6rem; }\n\n.st-calibration {\n  display: flex;\n  align-items: center;\n  flex-shrink: 0;\n  margin-top: 2.4rem;\n  padding: 2.4rem;\n  background: #000000;\n  border: 1px solid rgba(255, 255, 255, 0.08);\n  border-radius: 0.4rem; }\n  .st-calibration p {\n    max-width: 36rem;\n    margin: 0;\n    font-size: 1.5rem;\n    line-height: 1.5;\n    color: #c9c2b6; }\n\n.st-calibration-symbols {\n  display: flex;\n  margin-right: 4rem; }\n\n.st-calibration-logo {\n  flex-shrink: 0;\n  width: 60px;\n  height: 52px;\n  margin-right: 2.8rem;\n  overflow: hidden; }\n  .st-calibration-logo img {\n    display: block;\n    height: 52px; }\n\n.st-tabs {\n  display: flex;\n  flex-direction: row;\n  flex-shrink: 0;\n  margin-top: 1.6rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.08); }\n\n.st-tab {\n  display: flex;\n  align-items: center;\n  height: 4.8rem;\n  margin: 0 3.6rem -1px 0;\n  padding: 0;\n  background: transparent;\n  border: none;\n  border-bottom: 2px solid transparent;\n  outline: none;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.5rem;\n  letter-spacing: 0.2rem;\n  text-transform: uppercase;\n  color: #8f897f;\n  cursor: pointer;\n  transition: color .15s, border-color .15s; }\n  .st-tab:hover {\n    color: #ffffff; }\n  .st-tab.active {\n    border-bottom-color: #cf880d;\n    color: #e9e3d8; }\n  .st-tab .st-dot {\n    margin-left: 1rem; }\n\n.st-tab-count {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 2.4rem;\n  height: 2rem;\n  margin-left: 1rem;\n  padding: 0 0.7rem;\n  background: rgba(255, 255, 255, 0.08);\n  border-radius: 1rem;\n  font-family: monospace;\n  font-weight: normal;\n  font-size: 1.2rem;\n  letter-spacing: 0;\n  color: #c9c2b6; }\n\n.st-tab-badge {\n  display: flex;\n  align-items: center;\n  height: 2rem;\n  margin-left: 1rem;\n  padding: 0 0.6rem;\n  border: 1px solid rgba(255, 255, 255, 0.18);\n  border-radius: 0.3rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.1rem;\n  letter-spacing: 0.16rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.st-note {\n  display: flex;\n  align-items: flex-start;\n  flex-shrink: 0;\n  margin-top: 1.6rem;\n  padding: 1.4rem 1.6rem;\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid rgba(255, 255, 255, 0.08);\n  border-left: 2px solid #8f897f;\n  border-radius: 0.4rem; }\n  .st-note .icon {\n    flex-shrink: 0;\n    width: 1.6rem;\n    height: 1.6rem;\n    margin: 0.3rem 1.2rem 0 0;\n    color: #c9c2b6; }\n  .st-note p {\n    margin: 0;\n    font-size: 1.5rem;\n    line-height: 1.5;\n    color: #c9c2b6; }\n\n.st-note-title {\n  color: #e9e3d8; }\n\n.st-shared {\n  margin-left: 0.8rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.1rem;\n  letter-spacing: 0.18rem;\n  text-transform: uppercase;\n  color: #4f9fd6; }\n\n.st-hint.st-hint-moved {\n  color: #cf880d; }\n\n.st-rows {\n  flex: 1;\n  min-height: 0;\n  margin-top: 0.8rem;\n  padding: 0 1.2rem 9.6rem 0;\n  overflow-y: auto; }\n\n.st-header {\n  display: flex;\n  align-items: baseline;\n  padding: 2.8rem 0 1rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }\n  .st-header h3 {\n    margin: 0 1.4rem 0 0;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.4rem;\n    letter-spacing: 0.25rem;\n    text-transform: uppercase;\n    color: #cf880d; }\n\n.st-hint {\n  font-size: 1.4rem;\n  color: #8f897f; }\n\n.st-row {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  min-height: 6.6rem;\n  padding: 1rem 0;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06); }\n  .st-row.disabled .st-label {\n    opacity: 0.45; }\n\n.st-label {\n  display: flex;\n  flex-direction: column;\n  min-width: 0;\n  margin-right: 3.2rem; }\n  .st-label .st-hint {\n    margin-top: 0.3rem; }\n\n.st-label-text {\n  display: flex;\n  align-items: center;\n  font-size: 1.7rem;\n  color: #e9e3d8; }\n\n.st-changed {\n  margin-left: 0.8rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.1rem;\n  letter-spacing: 0.18rem;\n  text-transform: uppercase;\n  color: #cf880d; }\n\n.st-control {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  flex: 0 0 34rem; }\n\n.lb-select-wrap.st-select {\n  display: flex;\n  width: 100%; }\n  .lb-select-wrap.st-select .lb-select {\n    width: 100%;\n    height: 4rem;\n    padding: 0 3.4rem 0 1.2rem;\n    background: rgba(255, 255, 255, 0.03);\n    border: 1px solid rgba(255, 255, 255, 0.14);\n    border-radius: 0.3rem; }\n    .lb-select-wrap.st-select .lb-select:focus {\n      border-color: #cf880d; }\n  .lb-select-wrap.st-select .icon {\n    right: 1.2rem; }\n\n.lb-segmented.st-seg {\n  padding: 0.3rem;\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-radius: 0.4rem; }\n  .lb-segmented.st-seg button {\n    height: 3.2rem;\n    padding: 0 1.2rem;\n    font-family: 'Roboto Condensed';\n    font-weight: bold;\n    font-size: 1.4rem;\n    letter-spacing: 0.1rem;\n    text-transform: uppercase;\n    border-radius: 0.3rem;\n    white-space: nowrap; }\n    .lb-segmented.st-seg button:first-child {\n      margin-left: 0; }\n\n.st-slider {\n  display: flex;\n  align-items: center;\n  width: 100%; }\n  .st-slider input {\n    flex: 1;\n    min-width: 0;\n    margin: 0;\n    cursor: pointer; }\n    .st-slider input:disabled {\n      opacity: 0.45;\n      cursor: default; }\n\n.st-slider input[type=range] {\n  -webkit-appearance: none;\n  height: 2rem;\n  background: transparent;\n  outline: none; }\n  .st-slider input[type=range]::-webkit-slider-runnable-track {\n    height: 0.4rem;\n    background: rgba(255, 255, 255, 0.16);\n    border-radius: 0.2rem; }\n  .st-slider input[type=range]::-webkit-slider-thumb {\n    -webkit-appearance: none;\n    width: 1.6rem;\n    height: 1.6rem;\n    margin-top: -0.6rem;\n    border-radius: 50%;\n    background: #cf880d; }\n  .st-slider input[type=range]:hover:not(:disabled)::-webkit-slider-thumb, .st-slider input[type=range]:focus::-webkit-slider-thumb {\n    background: #deb062; }\n\n.st-slider-value {\n  width: 5.6rem;\n  margin-left: 1.4rem;\n  text-align: right;\n  font-family: monospace;\n  font-size: 1.5rem;\n  color: #c9c2b6; }\n\n.st-key {\n  min-width: 12rem;\n  height: 3.8rem;\n  padding: 0 1.4rem;\n  background: rgba(255, 255, 255, 0.04);\n  border: 1px solid rgba(255, 255, 255, 0.16);\n  border-radius: 0.3rem;\n  outline: none;\n  font-family: monospace;\n  font-size: 1.5rem;\n  color: #e9e3d8;\n  text-transform: uppercase;\n  cursor: pointer;\n  transition: border-color .15s, color .15s; }\n  .st-key:hover {\n    border-color: rgba(255, 255, 255, 0.4); }\n  .st-key.listening {\n    background: rgba(207, 136, 13, 0.12);\n    border-color: #cf880d;\n    font-family: 'Roboto';\n    text-transform: none;\n    color: #cf880d; }\n\n.st-action {\n  display: flex;\n  align-items: center; }\n\n.st-mic-level {\n  position: relative;\n  width: 12rem;\n  height: 0.6rem;\n  margin-right: 1.6rem;\n  overflow: hidden;\n  background: rgba(255, 255, 255, 0.12);\n  border-radius: 0.3rem; }\n  .st-mic-level span {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n    background: #5cc28b;\n    transition: width .1s; }\n\n.st-bar, .st-saved {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  background: #15171a;\n  border-radius: 0.4rem;\n  animation: st-up .18s ease-out; }\n\n.st-bar {\n  right: 1.2rem;\n  height: 6.8rem;\n  padding: 0 1.2rem 0 2.2rem;\n  border: 1px solid rgba(207, 136, 13, 0.45);\n  box-shadow: 0 1.8rem 4rem rgba(0, 0, 0, 0.6); }\n  .st-bar .st-dot {\n    margin: 0 1.2rem 0 0; }\n  .st-bar .lb-btn {\n    margin-left: 1.2rem; }\n\n.st-bar-title {\n  flex-shrink: 0;\n  margin-right: 1.2rem;\n  font-size: 1.6rem;\n  color: #e9e3d8; }\n\n.st-bar-summary {\n  flex: 1;\n  min-width: 0;\n  overflow: hidden;\n  font-size: 1.5rem;\n  color: #8f897f;\n  white-space: nowrap;\n  text-overflow: ellipsis; }\n\n.lb-btn.st-apply {\n  background: #cf880d;\n  border-color: #cf880d;\n  color: #1a1206; }\n  .lb-btn.st-apply:hover:not(:disabled) {\n    background: #deb062;\n    border-color: #deb062;\n    color: #1a1206; }\n\n.st-saved {\n  height: 4.8rem;\n  padding: 0 1.8rem;\n  border: 1px solid rgba(92, 194, 139, 0.4);\n  font-size: 1.5rem;\n  color: #5cc28b; }\n  .st-saved .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    margin-right: 1rem; }\n\n@keyframes st-up {\n  from {\n    opacity: 0;\n    transform: translateY(1.2rem); }\n  to {\n    opacity: 1;\n    transform: none; } }\n\n@media (max-width: 1400px) {\n  .st-nav {\n    flex-basis: 32rem;\n    margin-right: 4rem; }\n  .st-calibration-symbols {\n    margin-right: 2.4rem; }\n  .st-calibration-logo {\n    margin-right: 1.6rem; }\n  .st-category {\n    height: 7rem; }\n  .st-control {\n    flex-basis: 30rem; } }\n\n@media (max-height: 820px) {\n  .st-category {\n    height: 6.4rem; }\n  .st-category-desc {\n    display: none; }\n  .st-heading {\n    padding-bottom: 1.4rem; }\n    .st-heading .pg-title {\n      font-size: 3rem;\n      line-height: 3.8rem; }\n  .st-row {\n    min-height: 5.6rem;\n    padding: 0.6rem 0; } }\n\n#page.page-ingame::before {\n  background: radial-gradient(ellipse at 50% 45%, rgba(12, 11, 10, 0.55), rgba(12, 11, 10, 0.82)); }\n\n.ig-page {\n  align-items: center;\n  overflow-y: auto; }\n\n.ig-card {\n  position: relative;\n  flex-shrink: 0;\n  width: 60rem;\n  margin: 6rem 0 2rem;\n  padding: 3.6rem 4rem 3.2rem;\n  background: rgba(18, 20, 22, 0.94);\n  border: 1px solid rgba(255, 255, 255, 0.1);\n  border-radius: 0.4rem;\n  box-shadow: 0 3rem 8rem rgba(0, 0, 0, 0.65);\n  animation: st-up .18s ease-out; }\n\n.ig-heading {\n  display: flex;\n  align-items: center; }\n\n.ig-chip {\n  display: flex;\n  align-items: center;\n  height: 2.2rem;\n  margin-left: 1rem;\n  padding: 0 0.8rem;\n  border: 1px solid rgba(255, 255, 255, 0.14);\n  border-radius: 0.3rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.2rem;\n  letter-spacing: 0.16rem;\n  text-transform: uppercase;\n  color: #c9c2b6; }\n\n.ig-chip-extra {\n  margin-left: 0.5rem; }\n\n.ig-chip-dot {\n  width: 0.6rem;\n  height: 0.6rem;\n  margin-right: 0.6rem;\n  border-radius: 50%;\n  background: #5cc28b; }\n\n.ig-title {\n  margin: 1rem 0 0;\n  font-family: 'Roboto';\n  font-weight: 500;\n  font-size: 3.8rem;\n  line-height: 4.6rem;\n  color: #ffffff; }\n\n.ig-status {\n  margin: 0.6rem 0 0;\n  font-size: 1.6rem;\n  line-height: 1.45;\n  color: #c9c2b6; }\n\n.lb-btn-launch.ig-return {\n  justify-content: flex-start;\n  width: 100%;\n  height: 6.4rem;\n  margin-top: 2.8rem;\n  padding: 0 2.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 2rem;\n  letter-spacing: 0.4rem;\n  text-transform: uppercase; }\n  .lb-btn-launch.ig-return .icon {\n    width: 2rem;\n    height: 2rem;\n    margin: 0 1.4rem 0 0; }\n\n.ig-key {\n  display: flex;\n  align-items: center;\n  height: 2.6rem;\n  margin-left: auto;\n  padding: 0 0.8rem;\n  border: 1px solid rgba(26, 18, 6, 0.35);\n  border-radius: 0.3rem;\n  font-family: monospace;\n  font-weight: normal;\n  font-size: 1.3rem;\n  letter-spacing: 0; }\n\n.ig-rows {\n  margin-top: 2rem;\n  border-top: 1px solid rgba(255, 255, 255, 0.08); }\n\n.ig-row {\n  display: flex;\n  align-items: center;\n  height: 6.4rem;\n  padding: 0 0.8rem 0 0.4rem;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.06);\n  color: #e9e3d8;\n  transition: background-color .15s; }\n  .ig-row:hover {\n    background-color: rgba(255, 255, 255, 0.04); }\n  .ig-row > .icon, .ig-row > wars-icon .icon {\n    width: 1.4rem;\n    height: 1.4rem;\n    color: #8f897f; }\n\n.ig-row-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-shrink: 0;\n  width: 3.6rem;\n  height: 3.6rem;\n  margin-right: 1.6rem;\n  background: rgba(255, 255, 255, 0.05);\n  border-radius: 0.3rem; }\n  .ig-row-icon .icon {\n    width: 1.8rem;\n    height: 1.8rem;\n    color: #c9c2b6; }\n\n.ig-row-text {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  min-width: 0; }\n\n.ig-row-title {\n  display: flex;\n  align-items: center;\n  font-size: 1.7rem;\n  color: #e9e3d8; }\n\n.ig-dev {\n  margin-left: 0.8rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.1rem;\n  letter-spacing: 0.16rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.ig-row-desc {\n  margin-top: 0.3rem;\n  font-size: 1.4rem;\n  color: #8f897f; }\n\n.ig-section-title {\n  margin: 2.6rem 0 1.2rem;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.3rem;\n  letter-spacing: 0.25rem;\n  text-transform: uppercase;\n  color: #8f897f; }\n\n.ig-leave {\n  display: flex;\n  flex-direction: row; }\n\n.ig-leave-btn {\n  display: flex;\n  flex-direction: column;\n  align-items: flex-start;\n  justify-content: center;\n  flex: 1;\n  min-width: 0;\n  min-height: 7.6rem;\n  padding: 1.2rem 1.6rem;\n  background: transparent;\n  border: 1px solid rgba(255, 255, 255, 0.16);\n  border-radius: 0.3rem;\n  outline: none;\n  text-align: left;\n  color: #e9e3d8;\n  cursor: pointer;\n  transition: background-color .15s, border-color .15s, color .15s; }\n  .ig-leave-btn + .ig-leave-btn {\n    margin-left: 1.2rem; }\n  .ig-leave-btn:hover {\n    border-color: rgba(255, 255, 255, 0.4);\n    color: #ffffff; }\n  .ig-leave-btn.ig-danger {\n    border-color: rgba(224, 100, 92, 0.45);\n    color: #e0645c; }\n    .ig-leave-btn.ig-danger .ig-leave-desc {\n      color: #b98580; }\n    .ig-leave-btn.ig-danger:hover {\n      background: rgba(224, 100, 92, 0.1);\n      border-color: #e0645c; }\n\n.ig-leave-title {\n  display: flex;\n  align-items: center;\n  font-family: 'Roboto Condensed';\n  font-weight: bold;\n  font-size: 1.5rem;\n  letter-spacing: 0.12rem;\n  text-transform: uppercase;\n  white-space: nowrap; }\n  .ig-leave-title .icon {\n    width: 1.5rem;\n    height: 1.5rem;\n    margin-right: 0.8rem; }\n\n.ig-leave-desc {\n  margin-top: 0.5rem;\n  font-family: 'Roboto';\n  font-size: 1.3rem;\n  line-height: 1.35;\n  color: #8f897f; }\n\n.ig-confirm {\n  padding: 1.8rem 1.8rem 1.6rem;\n  background: rgba(224, 100, 92, 0.08);\n  border: 1px solid rgba(224, 100, 92, 0.45);\n  border-radius: 0.3rem;\n  animation: st-up .18s ease-out; }\n\n.ig-confirm-question {\n  margin: 0;\n  font-size: 1.6rem;\n  line-height: 1.45;\n  color: #ffffff; }\n\n.ig-confirm-text {\n  margin: 0.4rem 0 0;\n  font-size: 1.4rem;\n  line-height: 1.45;\n  color: #c9c2b6; }\n\n.ig-confirm-buttons {\n  display: flex;\n  justify-content: flex-end;\n  margin-top: 1.6rem; }\n  .ig-confirm-buttons .lb-btn + .lb-btn {\n    margin-left: 1rem; }\n\n.lb-btn.ig-danger-solid {\n  background: #c9473f;\n  border-color: #c9473f;\n  color: #ffffff; }\n  .lb-btn.ig-danger-solid:hover:not(:disabled) {\n    background: #dd5a51;\n    border-color: #dd5a51;\n    color: #ffffff; }\n\n@media (max-height: 820px) {\n  .ig-card {\n    margin-top: 2rem;\n    padding: 2.8rem 3.2rem 2.6rem; }\n  .ig-title {\n    font-size: 3.2rem;\n    line-height: 4rem; }\n  .lb-btn-launch.ig-return {\n    height: 5.6rem;\n    margin-top: 2rem; }\n  .ig-row {\n    height: 5.6rem; }\n  .ig-section-title {\n    margin-top: 2rem; } }\n\n*, *::before, *::after {\n  box-sizing: border-box; }\n\nbody, html {\n  height: 100%;\n  min-width: 1024px;\n  font-size: 10px;\n  line-height: 1;\n  overflow: hidden; }\n\na {\n  text-decoration: none; }\n\nbody {\n  background: black;\n  background-color: transparent;\n  /*background: url(../img/bg1.jpg);\r\n\tbackground-attachment: fixed;\r\n\tbackground-size: cover;*/\n  font-family: 'Open Sans'; }\n\n.flex {\n  display: flex; }\n\n.flex-row {\n  flex-direction: row;\n  display: flex; }\n\nwars-icon {\n  display: inline-flex;\n  flex-shrink: 0; }\n  wars-icon .icon {\n    display: block; }\n\n.linkDisabled {\n  cursor: not-allowed;\n  pointer-events: none;\n  background: #272727; }\n\n/* Scroll BAR*/\n::-webkit-scrollbar {\n  -webkit-border-image: url(" + escape(__webpack_require__(2)) + ") 0 2 0 2;\n  width: 15px;\n  height: 80px;\n  background-image: url(" + escape(__webpack_require__(2)) + ");\n  background-repeat: repeat; }\n\n::-webkit-scrollbar-button:vertical:decrement {\n  background-image: url(" + escape(__webpack_require__(96)) + ");\n  background-repeat: no-repeat;\n  background-position: 0px 0px, 0 0;\n  height: 15px; }\n\n::-webkit-scrollbar-button:vertical:decrement:active {\n  background-image: url(" + escape(__webpack_require__(97)) + ");\n  background-repeat: no-repeat;\n  background-position: 0 0, 0 0;\n  height: 15px; }\n\n::-webkit-scrollbar-button:vertical:increment {\n  background-image: url(" + escape(__webpack_require__(98)) + ");\n  background-repeat: no-repeat;\n  height: 15px;\n  border-top-width: 0;\n  background-position: 0 0, 0 0; }\n\n::-webkit-scrollbar-button:vertical:increment:active {\n  background-image: url(" + escape(__webpack_require__(99)) + ");\n  background-repeat: no-repeat;\n  height: 15px;\n  border-top-width: 0;\n  background-position: 0 0, 0 0; }\n\n::-webkit-scrollbar-track {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.8);\n  background-color: #1a1a1a; }\n\n::-webkit-scrollbar-thumb:vertical {\n  -webkit-border-image: url(" + escape(__webpack_require__(100)) + ") 15 0 15 0;\n  border-color: transparent;\n  border-width: 15px 0;\n  min-height: 68px; }\n\n::-webkit-scrollbar-thumb:vertical:active {\n  -webkit-border-image: url(" + escape(__webpack_require__(101)) + ") 15 0 15 0;\n  border-color: transparent;\n  border-width: 15px 0;\n  min-height: 68px; }\n\n.select-style {\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  overflow: hidden;\n  background: rgba(39, 39, 39, 0.8);\n  outline: none;\n  color: #cf880d;\n  margin: 0.2rem;\n  cursor: pointer;\n  padding: 0.6rem 0.2rem; }\n  .select-style:disabled {\n    color: rgba(255, 255, 255, 0.4); }\n  .select-style::after {\n    content: \">\";\n    transform: rotate(90deg);\n    color: #ffffff;\n    pointer-events: none;\n    position: absolute;\n    right: 0.8rem;\n    top: 0.4em; }\n\n.select-style select {\n  padding: 5px 8px;\n  width: 130%;\n  border: none;\n  box-shadow: none;\n  background: transparent;\n  -webkit-appearance: none; }\n\n#bg-overlay {\n  min-width: 1024px;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.2);\n  position: fixed; }\n\n.chat-line {\n  color: #ffffff;\n  font-size: 1.4rem; }\n  @media (max-width: 1180px) {\n    .chat-line {\n      font-size: 1.2rem; } }\n  .chat-line span:hover {\n    text-decoration: underline; }\n  .chat-line .chat-time:hover {\n    text-decoration: none; }\n  .chat-line section {\n    padding: 0;\n    margin: 0;\n    display: inline;\n    word-wrap: break-word; }\n  .chat-line .chatdropdown {\n    top: 0.3rem;\n    position: absolute;\n    padding: 0;\n    display: inline;\n    text-decoration: none;\n    list-style: none; }\n    @media (max-width: 1180px) {\n      .chat-line .chatdropdown {\n        top: 0.3rem; } }\n    .chat-line .chatdropdown li {\n      float: none; }\n      .chat-line .chatdropdown li a {\n        text-decoration: none;\n        display: block;\n        color: #cfc2ae;\n        font-weight: bold;\n        background-color: rgba(0, 0, 0, 0.6);\n        padding: 1px 1px 1px 1px; }\n      .chat-line .chatdropdown li a:link {\n        color: #cfc2ae; }\n      .chat-line .chatdropdown li a:hover {\n        color: #cf880d; }\n      .chat-line .chatdropdown li a:visited {\n        color: #cfc2ae; }\n      .chat-line .chatdropdown li a:active {\n        color: #cfc2ae; }\n    .chat-line .chatdropdown li:first-child {\n      white-space: nowrap;\n      width: 100%;\n      display: inline;\n      background-color: rgba(0, 0, 0, 0.6); }\n  .chat-line .upwards li:nth-child(n+2) {\n    bottom: 270%; }\n\n.left-float {\n  float: left; }\n\n.right-float {\n  float: right; }\n\n/* ng-Tooltip */\n.tooltip {\n  position: absolute;\n  color: #cf880d;\n  background: #111;\n  border-radius: 3px;\n  padding: 10px 16px;\n  display: inline-block;\n  opacity: 0.9;\n  font-size: 1.1rem;\n  line-height: 1.4rem;\n  font-family: 'Roboto';\n  z-index: 100;\n  max-width: 40rem;\n  pointer-events: none; }\n\n.tooltip.ng-enter {\n  opacity: 0;\n  transition: opacity .3s; }\n\n.tooltip.ng-enter-active {\n  opacity: 0.9; }\n\n.tooltip-icon {\n  cursor: pointer; }\n\nul {\n  margin: 0;\n  padding: 0; }\n  ul.menu {\n    margin: 0;\n    padding: 0;\n    list-style-type: none; }\n    ul.menu li {\n      margin: 0;\n      padding: 0; }\n  ul.submenu li {\n    margin-bottom: 1rem;\n    border-bottom: 1px solid rgba(255, 255, 255, 0.1);\n    padding-bottom: 1rem;\n    margin-bottom: 1rem; }\n    ul.submenu li:last-of-type {\n      margin-bottom: 0;\n      border-bottom: 0;\n      padding-bottom: 0; }\n  ul.submenu a {\n    display: block;\n    color: #cf880d;\n    border-left: 0.4rem solid #cf880d;\n    font-size: 2.8rem;\n    font-family: 'Roboto Condensed';\n    text-transform: uppercase;\n    line-height: 1.2;\n    padding: 1.6rem 2.4rem;\n    opacity: 0.8;\n    transition: all .2s; }\n    @media (max-width: 1180px) {\n      ul.submenu a {\n        font-size: 2.0rem; } }\n    @media (max-width: 1024px) {\n      ul.submenu a {\n        font-size: 1.2rem; } }\n    ul.submenu a p {\n      color: #cfc2ae;\n      font-size: 1.8rem;\n      line-height: 1.5;\n      margin: 0;\n      font-family: 'Open Sans';\n      text-transform: none;\n      transition: all .3s; }\n      @media (max-width: 1180px) {\n        ul.submenu a p {\n          font-size: 1.2rem; } }\n      @media (max-width: 1024px) {\n        ul.submenu a p {\n          font-size: 1.0rem; } }\n    ul.submenu a:hover {\n      background: #272727;\n      border-left: 1rem solid #cf880d;\n      opacity: 1; }\n      ul.submenu a:hover p {\n        color: #ffffff; }\n\n#content {\n  margin: 2rem auto 0;\n  width: 100%;\n  max-width: 1200px;\n  position: relative;\n  height: calc(100% - 12rem);\n  overflow: hidden; }\n\n#content-loadgame main {\n  height: 100%; }\n\n#content-loadgame .gamesinprogress {\n  float: right;\n  color: rgba(255, 255, 255, 0.8);\n  font-size: 1.8rem; }\n\n#content-loadgame .box-footer {\n  padding: 0 2rem;\n  height: 50px;\n  background-color: #272727;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  #content-loadgame .box-footer .left-float {\n    margin-right: auto; }\n  #content-loadgame .box-footer .right-float {\n    margin-left: auto; }\n\n.content {\n  display: inline-block;\n  width: calc(1200px - 48rem);\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  overflow-y: auto;\n  overflow-x: hidden; }\n  @media (max-width: 1180px) {\n    .content {\n      width: calc(1200px - 51rem);\n      overflow-y: auto; } }\n  @media (max-width: 1024px) {\n    .content {\n      width: calc(1200px - 65rem); } }\n\n.content-full {\n  display: inline-block;\n  width: calc(1200px);\n  position: absolute;\n  top: 0;\n  left: 0; }\n\n.content-all.ng-enter {\n  -webkit-transition: opacity 0.18s ease-in 0.2s;\n  opacity: 0; }\n\n.content-all.ng-enter-active {\n  opacity: 1; }\n\n.content-all.ng-leave {\n  -webkit-transition: opacity 0.18s ease-out;\n  opacity: 1; }\n\n.content-all.ng-leave-active {\n  opacity: 0; }\n\n#chat-menu h1 {\n  color: #cf880d; }\n  #chat-menu h1 span {\n    float: right;\n    font-size: 1.4rem;\n    padding-top: 0.5rem; }\n    @media (max-width: 1180px) {\n      #chat-menu h1 span {\n        font-size: 1.0rem; } }\n\n#content-news {\n  display: block;\n  overflow-y: auto;\n  height: 100%; }\n  #content-news h1 {\n    color: #cf880d; }\n  #content-news section.post {\n    font-size: 1.4rem;\n    line-height: 2rem;\n    color: rgba(255, 255, 255, 0.8);\n    margin-bottom: 4rem; }\n    @media (max-width: 1180px) {\n      #content-news section.post {\n        font-size: 1.0rem; } }\n    #content-news section.post a {\n      color: #cf880d;\n      transition: all .2s; }\n      #content-news section.post a:hover {\n        color: #ffffff; }\n    #content-news section.post img {\n      max-width: 100%; }\n\n#content-news ul {\n  list-style-type: disc;\n  margin-left: 2em; }\n\nmain, .box {\n  display: block;\n  position: relative;\n  background: rgba(39, 39, 39, 0.95);\n  font-size: 2rem;\n  padding: 2rem;\n  color: #ffffff; }\n  main.nobg, .box.nobg {\n    background: transparent; }\n  main.rounded, .box.rounded {\n    border-radius: 25px;\n    overflow: hidden; }\n  @media (max-width: 1180px) {\n    main, .box {\n      font-size: 1.0rem; } }\n  main h1, .box h1 {\n    font-size: 2.4rem;\n    font-family: 'Roboto Condensed';\n    font-weight: 400;\n    line-height: 2.4rem;\n    padding: 1rem 2rem;\n    margin: -2rem -2rem 2rem;\n    background: rgba(39, 39, 39, 0.95);\n    border-bottom: 0.4rem solid rgba(255, 255, 255, 0.2);\n    color: rgba(255, 255, 255, 0.8);\n    text-transform: uppercase; }\n    @media (max-width: 1180px) {\n      main h1, .box h1 {\n        font-size: 1.4rem; } }\n  main .box-header, .box .box-header {\n    margin: -2rem -2rem 2rem;\n    font-size: 2rem;\n    line-height: 3.6rem;\n    padding: 0 2rem;\n    color: #cf880d;\n    text-transform: uppercase;\n    background: rgba(39, 39, 39, 0.8);\n    border-bottom: 0.4rem solid rgba(255, 255, 255, 0.2);\n    font-family: 'Roboto Condensed'; }\n    @media (max-width: 1180px) {\n      main .box-header, .box .box-header {\n        font-size: 1.1rem; } }\n  main .box-footer, .box .box-footer {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    padding: 0 2rem 2rem; }\n  main.box-right, .box.box-right {\n    float: right;\n    width: 46rem; }\n\n.player-meta {\n  display: none; }\n\n#chat-global {\n  display: none; }\n\n.actions {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: center;\n  align-items: center;\n  height: 50px; }\n  .actions .action {\n    margin-right: 25px; }\n    .actions .action.btn {\n      height: 100%; }\n  .actions .left {\n    flex-direction: row; }\n  .actions .right {\n    flex-direction: row; }\n\na.btn {\n  background: #cfc2ae;\n  color: #000000;\n  display: inline-block;\n  padding: 0 2rem;\n  height: 3.4rem;\n  margin-right: 1rem;\n  font-family: 'Roboto Condensed';\n  font-size: 2.2rem;\n  font-weight: 400;\n  letter-spacing: 0.08rem;\n  line-height: 3.4rem;\n  text-transform: uppercase;\n  opacity: 0.8;\n  transition: all .2s;\n  border-radius: 8px;\n  font-weight: bold;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n  @media (max-width: 1180px) {\n    a.btn {\n      font-size: 1.4rem;\n      height: 2.0rem;\n      line-height: 2.2rem;\n      padding: 0 0.5rem;\n      margin-right: 0.5rem; } }\n  a.btn:last-of-type {\n    margin-right: 0; }\n  a.btn:hover {\n    opacity: 1;\n    background: #856e46;\n    color: #ffffff;\n    transform: scale(1.05); }\n  a.btn.btn-small {\n    font-size: 1.6rem;\n    letter-spacing: 0.05rem;\n    line-height: 2.6rem;\n    height: 2.6rem; }\n    @media (max-width: 1180px) {\n      a.btn.btn-small {\n        font-size: 0.7rem; } }\n    @media (max-width: 1180px) {\n      a.btn.btn-small {\n        font-size: 1.2rem;\n        letter-spacing: 0.05rem;\n        line-height: 2.2rem;\n        height: 2.2rem; } }\n  a.btn.btn-highlight {\n    background: #cf880d;\n    color: #000000;\n    opacity: 1; }\n    a.btn.btn-highlight:hover {\n      background: #cfc2ae; }\n    a.btn.btn-highlight.linkDisabled {\n      background: #9e9e9e; }\n\na.disabled {\n  background: #cfc2ae !important;\n  opacity: 0.15 !important;\n  color: #000000 !important;\n  cursor: default;\n  text-decoration: none; }\n  a.disabled:hover {\n    background: #cfc2ae !important;\n    color: #000000; }\n\n.dev-warning {\n  color: white;\n  background-color: red;\n  margin: 0;\n  padding: 5px; }\n\n.chat, #chat, #chat-menu {\n  background: rgba(39, 39, 39, 0.8);\n  position: relative;\n  border-radius: 25px;\n  padding: 20px;\n  overflow: hidden; }\n  .chat .box-header span.active, #chat .box-header span.active, #chat-menu .box-header span.active {\n    cursor: pointer; }\n  .chat .box-header span.disabled, #chat .box-header span.disabled, #chat-menu .box-header span.disabled {\n    color: rgba(255, 255, 255, 0.4); }\n  .chat .box-header span.inactive, #chat .box-header span.inactive, #chat-menu .box-header span.inactive {\n    color: rgba(255, 255, 255, 0.4);\n    font-weight: 300;\n    cursor: pointer; }\n    .chat .box-header span.inactive:hover, #chat .box-header span.inactive:hover, #chat-menu .box-header span.inactive:hover {\n      color: #deb062; }\n  .chat .chat-messages, #chat .chat-messages, #chat-menu .chat-messages {\n    height: calc(100% - 10rem);\n    overflow-y: auto;\n    overflow-x: hidden; }\n    @media (max-width: 1180px) {\n      .chat .chat-messages, #chat .chat-messages, #chat-menu .chat-messages {\n        height: calc(100% - 6rem); } }\n    .chat .chat-messages p, #chat .chat-messages p, #chat-menu .chat-messages p {\n      font-size: 1.4rem;\n      color: #cdcdcd; }\n      @media (max-width: 1180px) {\n        .chat .chat-messages p, #chat .chat-messages p, #chat-menu .chat-messages p {\n          font-size: 1.0rem; } }\n      .chat .chat-messages p span, #chat .chat-messages p span, #chat-menu .chat-messages p span {\n        color: #cf880d; }\n  .chat .chat-form, #chat .chat-form, #chat-menu .chat-form {\n    display: inline; }\n  .chat .chat-controls, #chat .chat-controls, #chat-menu .chat-controls {\n    position: absolute;\n    bottom: 2rem;\n    left: 2rem;\n    right: 2rem;\n    display: flex; }\n    @media (max-width: 1180px) {\n      .chat .chat-controls, #chat .chat-controls, #chat-menu .chat-controls {\n        left: 0.7rem;\n        bottom: 0.1rem;\n        right: 0.7rem; } }\n    .chat .chat-controls .chat-form, #chat .chat-controls .chat-form, #chat-menu .chat-controls .chat-form {\n      flex: 1; }\n    .chat .chat-controls input, #chat .chat-controls input, #chat-menu .chat-controls input {\n      display: inline-block;\n      width: 100%;\n      height: 3.4rem;\n      vertical-align: top;\n      line-height: 2rem;\n      background: #272727;\n      color: #ffffff;\n      font-size: 1.4rem;\n      border: 1px solid rgba(255, 255, 255, 0.4);\n      transition: all .2s;\n      padding: 0.6rem 1rem;\n      border-bottom-left-radius: 8px; }\n      @media (max-width: 1180px) {\n        .chat .chat-controls input, #chat .chat-controls input, #chat-menu .chat-controls input {\n          font-size: 1.0rem;\n          line-height: 1rem;\n          padding: 0.2rem 0.7rem;\n          height: 1.8rem;\n          vertical-align: bottom; } }\n      .chat .chat-controls input:focus, .chat .chat-controls input:hover, #chat .chat-controls input:focus, #chat .chat-controls input:hover, #chat-menu .chat-controls input:focus, #chat-menu .chat-controls input:hover {\n        border-color: #cfc2ae;\n        outline: 0; }\n    .chat .chat-controls .chat-send, #chat .chat-controls .chat-send, #chat-menu .chat-controls .chat-send {\n      border-top-right-radius: 0;\n      border-top-left-radius: 0;\n      border-bottom-left-radius: 0;\n      float: right; }\n      @media (max-width: 1180px) {\n        .chat .chat-controls .chat-send, #chat .chat-controls .chat-send, #chat-menu .chat-controls .chat-send {\n          font-size: 1.0rem; } }\n  #content .chat, #content #chat, #content #chat-menu {\n    height: 100%; }\n\n#savedgameslist {\n  display: block;\n  height: calc(100% - 10.4rem);\n  overflow-y: auto; }\n  #savedgameslist ul.savedgames li.savedgame {\n    display: block;\n    cursor: hand;\n    font-size: 0;\n    padding: 0.9rem;\n    background: rgba(39, 39, 39, 0.8);\n    overflow: hidden;\n    margin-bottom: 0.6rem; }\n    #savedgameslist ul.savedgames li.savedgame:last-of-type {\n      margin-bottom: 0; }\n    #savedgameslist ul.savedgames li.savedgame div, #savedgameslist ul.savedgames li.savedgame a {\n      padding: 0 1rem;\n      line-height: 3.2rem;\n      font-size: 1.8rem;\n      display: inline-block;\n      vertical-align: top;\n      color: #cdcdcd;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n      overflow: hidden; }\n      @media (max-width: 1180px) {\n        #savedgameslist ul.savedgames li.savedgame div, #savedgameslist ul.savedgames li.savedgame a {\n          font-size: 1.0rem; } }\n    #savedgameslist ul.savedgames li.savedgame .savedgame-name {\n      width: 100%;\n      margin-right: 2rem; }\n  #savedgameslist ul.savedgames li.selectedSavedGame {\n    background: #cf880d; }\n\n.noselect {\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  cursor: default; }\n\n.inner {\n  position: relative;\n  height: auto;\n  padding: 0;\n  display: inline; }\n\n.table-chart {\n  width: 100%;\n  padding: 20px;\n  background-color: rgba(39, 39, 39, 0.6); }\n  .table-chart th, .table-chart td {\n    line-height: 1.5;\n    text-align: center; }\n\n#content-workshop .workshop-message, #content-workshop .workshop-hint {\n  font-size: 1.5rem;\n  color: #cdcdcd;\n  margin: 0 0 1rem; }\n\n#content-workshop .workshop-form label, #content-workshop .workshop-form .workshop-field {\n  display: block;\n  margin: 0 0 1.2rem; }\n  #content-workshop .workshop-form label span, #content-workshop .workshop-form .workshop-field span {\n    display: block;\n    font-size: 1.5rem;\n    color: #deb062;\n    margin: 0 0 0.4rem; }\n  #content-workshop .workshop-form label small, #content-workshop .workshop-form .workshop-field small {\n    display: block;\n    font-size: 1.2rem;\n    color: rgba(255, 255, 255, 0.4);\n    margin: 0.3rem 0 0; }\n\n#content-workshop .workshop-form input, #content-workshop .workshop-form textarea, #content-workshop .workshop-form select {\n  display: block;\n  width: 100%;\n  box-sizing: border-box;\n  background: #272727;\n  color: #ffffff;\n  font-size: 1.5rem;\n  border: 1px solid rgba(255, 255, 255, 0.4);\n  padding: 0.5rem 0.8rem; }\n  #content-workshop .workshop-form input:focus, #content-workshop .workshop-form textarea:focus, #content-workshop .workshop-form select:focus {\n    border-color: #cf880d;\n    outline: none; }\n  #content-workshop .workshop-form input:disabled, #content-workshop .workshop-form textarea:disabled, #content-workshop .workshop-form select:disabled {\n    color: rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-form .workshop-preview-row {\n  display: flex;\n  align-items: center; }\n  #content-workshop .workshop-form .workshop-preview-row input {\n    flex: 1; }\n  #content-workshop .workshop-form .workshop-preview-row .btn {\n    margin: 0 0 0 0.6rem;\n    white-space: nowrap; }\n\n#content-workshop .workshop-form .workshop-preview-image {\n  margin: 0.8rem 0 0; }\n  #content-workshop .workshop-form .workshop-preview-image img {\n    display: block;\n    max-width: 32rem;\n    max-height: 18rem;\n    border: 1px solid rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-form textarea {\n  resize: vertical; }\n\n#content-workshop .workshop-form a {\n  color: #cf880d; }\n  #content-workshop .workshop-form a:hover {\n    color: #deb062; }\n\n#content-workshop .workshop-actions {\n  margin: 2rem 0 0; }\n\n#content-workshop .workshop-progress {\n  margin: 2rem 0 0;\n  font-size: 1.5rem; }\n  #content-workshop .workshop-progress .workshop-progress-bar {\n    height: 0.8rem;\n    background: rgba(255, 255, 255, 0.1);\n    border-radius: 8px;\n    overflow: hidden; }\n    #content-workshop .workshop-progress .workshop-progress-bar div {\n      height: 100%;\n      background: #cf880d;\n      transition: width .2s; }\n\n#content-workshop .workshop-result {\n  margin: 2rem 0 0;\n  font-size: 1.5rem; }\n  #content-workshop .workshop-result .workshop-success {\n    color: #61b329; }\n  #content-workshop .workshop-result .workshop-error {\n    color: #cf880d; }\n\n#gameinfo .map-status .gameinfo-text {\n  color: #deb062; }\n\n#content-workshop-browse {\n  height: 100%;\n  overflow-y: auto;\n  overflow-x: hidden; }\n  #content-workshop-browse h1 .wb-publish {\n    float: right;\n    margin-top: -0.2rem; }\n  #content-workshop-browse .wb-toolbar {\n    display: flex;\n    align-items: flex-end;\n    margin: 0 0 1.5rem; }\n    #content-workshop-browse .wb-toolbar .wb-search {\n      flex: 1;\n      display: flex;\n      align-items: center;\n      margin-right: 2rem; }\n      #content-workshop-browse .wb-toolbar .wb-search input {\n        flex: 1;\n        margin-right: 1rem; }\n    #content-workshop-browse .wb-toolbar label {\n      margin-left: 1.5rem; }\n      #content-workshop-browse .wb-toolbar label span {\n        display: block;\n        font-size: 1.2rem;\n        color: #deb062;\n        margin: 0 0 0.3rem; }\n    #content-workshop-browse .wb-toolbar input, #content-workshop-browse .wb-toolbar select {\n      box-sizing: border-box;\n      background: #272727;\n      color: #ffffff;\n      font-size: 1.5rem;\n      border: 1px solid rgba(255, 255, 255, 0.4);\n      padding: 0.4rem 0.8rem;\n      height: 3rem; }\n      #content-workshop-browse .wb-toolbar input:focus, #content-workshop-browse .wb-toolbar select:focus {\n        border-color: #cf880d;\n        outline: none; }\n      #content-workshop-browse .wb-toolbar input:disabled, #content-workshop-browse .wb-toolbar select:disabled {\n        color: rgba(255, 255, 255, 0.4); }\n  #content-workshop-browse .wb-status {\n    font-size: 1.5rem;\n    color: #cdcdcd;\n    margin: 0 0 1rem; }\n    #content-workshop-browse .wb-status .wb-error {\n      color: #cf880d; }\n  #content-workshop-browse .wb-grid {\n    display: flex;\n    flex-wrap: wrap;\n    margin: 0 -0.75rem;\n    padding: 0;\n    list-style: none; }\n  #content-workshop-browse .wb-card {\n    width: calc(25% - 1.5rem);\n    margin: 0 0.75rem 1.5rem;\n    background: #272727;\n    border-radius: 8px;\n    overflow: hidden;\n    cursor: pointer;\n    transition: background .2s; }\n    #content-workshop-browse .wb-card:hover {\n      background: rgba(255, 255, 255, 0.1); }\n    #content-workshop-browse .wb-card .wb-card-body {\n      padding: 0.8rem 1rem 1rem; }\n    #content-workshop-browse .wb-card h3 {\n      font-size: 1.6rem;\n      color: #ffffff;\n      margin: 0 0 0.2rem;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    #content-workshop-browse .wb-card .wb-stats {\n      font-size: 1.2rem;\n      color: rgba(255, 255, 255, 0.4);\n      margin: 0 0 0.8rem;\n      min-height: 1.5rem; }\n      #content-workshop-browse .wb-card .wb-stats span + span {\n        margin-left: 1rem; }\n  #content-workshop-browse .wb-thumb {\n    position: relative;\n    width: 100%;\n    padding-top: 56.25%;\n    background: #181818; }\n    #content-workshop-browse .wb-thumb img, #content-workshop-browse .wb-thumb > span:not(.wb-badge) {\n      position: absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%; }\n    #content-workshop-browse .wb-thumb img {\n      object-fit: cover; }\n    #content-workshop-browse .wb-thumb > span:not(.wb-badge) {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      font-size: 1.3rem;\n      color: rgba(255, 255, 255, 0.4); }\n    #content-workshop-browse .wb-thumb .wb-badge {\n      position: absolute;\n      top: 0.6rem;\n      right: 0.6rem;\n      padding: 0.2rem 0.6rem;\n      border-radius: 8px;\n      font-size: 1.2rem;\n      background: rgba(0, 0, 0, 0.8);\n      color: #ffffff; }\n    #content-workshop-browse .wb-thumb .wb-badge-installed {\n      color: #61b329; }\n    #content-workshop-browse .wb-thumb .wb-badge-downloading, #content-workshop-browse .wb-thumb .wb-badge-subscribed {\n      color: #deb062; }\n    #content-workshop-browse .wb-thumb .wb-badge-rejected {\n      color: #cf880d; }\n  #content-workshop-browse .wb-author {\n    font-size: 1.3rem;\n    color: #deb062;\n    margin: 0 0 0.4rem;\n    min-height: 1.6rem; }\n  #content-workshop-browse .wb-pagination {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    margin: 0.5rem 0 1rem;\n    font-size: 1.5rem; }\n    #content-workshop-browse .wb-pagination span {\n      margin: 0 1.5rem; }\n    #content-workshop-browse .wb-pagination a.btn {\n      margin: 0 0.4rem; }\n  #content-workshop-browse .wb-details-overlay {\n    position: fixed;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    z-index: 100;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: rgba(0, 0, 0, 0.6); }\n  #content-workshop-browse .wb-details {\n    position: relative;\n    width: 90rem;\n    max-width: 90%;\n    max-height: 85%;\n    overflow-y: auto;\n    background: rgba(39, 39, 39, 0.95);\n    border-radius: 25px;\n    padding: 2.5rem; }\n    #content-workshop-browse .wb-details .wb-details-close {\n      position: absolute;\n      top: 1rem;\n      right: 1.5rem;\n      font-size: 3rem;\n      color: rgba(255, 255, 255, 0.4); }\n      #content-workshop-browse .wb-details .wb-details-close:hover {\n        color: #ffffff; }\n    #content-workshop-browse .wb-details .wb-details-header {\n      display: flex;\n      margin: 0 0 2rem; }\n      #content-workshop-browse .wb-details .wb-details-header .wb-thumb {\n        flex: 0 0 40rem;\n        width: 40rem;\n        padding-top: 22.5rem;\n        border-radius: 8px;\n        overflow: hidden; }\n    #content-workshop-browse .wb-details .wb-details-info {\n      flex: 1;\n      margin-left: 2rem; }\n      #content-workshop-browse .wb-details .wb-details-info h2 {\n        font-size: 2.4rem;\n        color: #ffffff;\n        margin: 0 3rem 0.4rem 0; }\n      #content-workshop-browse .wb-details .wb-details-info table {\n        font-size: 1.4rem;\n        margin: 0.5rem 0 1rem; }\n        #content-workshop-browse .wb-details .wb-details-info table td:first-child {\n          color: rgba(255, 255, 255, 0.4);\n          padding-right: 1.5rem; }\n    #content-workshop-browse .wb-details .wb-badge-inline {\n      font-size: 1.4rem;\n      color: #deb062;\n      margin: 0 0 1rem; }\n    #content-workshop-browse .wb-details .wb-description {\n      font-size: 1.4rem;\n      line-height: 1.5;\n      color: #cdcdcd;\n      white-space: pre-wrap;\n      word-wrap: break-word;\n      margin: 0; }\n\n#gameinfo .map-small {\n  object-fit: cover; }\n\n#gameinfo .map-workshop .workshop-badge {\n  display: inline-block;\n  margin: 0 0.6rem 0.3rem 0;\n  padding: 0.1rem 0.6rem;\n  border-radius: 8px;\n  background: #cf880d;\n  color: #000000;\n  font-size: 1.1rem;\n  text-transform: uppercase; }\n\n#gameinfo .map-workshop .map-workshop-actions {\n  margin: 0.4rem 0 0.6rem; }\n  #gameinfo .map-workshop .map-workshop-actions a.btn {\n    margin-right: 0.6rem; }\n\n#gameinfo .map-workshop .map-workshop-subscribed {\n  margin-right: 0.8rem;\n  color: #61b329;\n  font-size: 1.3rem; }\n\n#gameinfo .map-waiting .gameinfo-text {\n  color: #deb062; }\n\n.player-mapstatus {\n  margin: 0 0.6rem;\n  color: #deb062;\n  font-size: 1.2rem;\n  white-space: nowrap; }\n\n.player-mapstatus-missing, .player-mapstatus-failed, .player-mapstatus-mismatch {\n  color: #cf880d; }\n\n#content-workshop h2 {\n  font-size: 1.8rem;\n  color: rgba(255, 255, 255, 0.8);\n  margin: 1.5rem 0 0.8rem; }\n\n#content-workshop h3 {\n  font-size: 1.5rem;\n  color: #deb062;\n  margin: 1.5rem 0 0.5rem; }\n\n#content-workshop .workshop-items {\n  margin: 0 0 2rem; }\n  #content-workshop .workshop-items ul {\n    margin: 0;\n    padding: 0;\n    list-style: none; }\n  #content-workshop .workshop-items li {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding: 0.6rem 1rem;\n    margin: 0 0 0.4rem;\n    background: #272727;\n    border-radius: 8px; }\n    #content-workshop .workshop-items li.workshop-item-selected {\n      box-shadow: inset 0.3rem 0 0 #cf880d; }\n  #content-workshop .workshop-items .workshop-item-title {\n    display: block;\n    font-size: 1.5rem;\n    color: #ffffff; }\n  #content-workshop .workshop-items small {\n    font-size: 1.2rem;\n    color: rgba(255, 255, 255, 0.4); }\n    #content-workshop .workshop-items small a {\n      color: #cf880d; }\n\n#content-workshop .workshop-review {\n  margin: 2rem 0 0;\n  padding: 1rem 1.5rem;\n  background: #272727;\n  border-radius: 8px;\n  font-size: 1.4rem; }\n  #content-workshop .workshop-review h2 {\n    margin-top: 0.5rem; }\n  #content-workshop .workshop-review .workshop-review-summary {\n    color: #deb062; }\n    #content-workshop .workshop-review .workshop-review-summary.workshop-review-nochanges {\n      color: rgba(255, 255, 255, 0.4); }\n\n#content-workshop .workshop-review-table {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 1.3rem; }\n  #content-workshop .workshop-review-table th {\n    text-align: left;\n    font-weight: normal;\n    color: rgba(255, 255, 255, 0.4);\n    padding: 0.3rem 0.6rem; }\n  #content-workshop .workshop-review-table td {\n    padding: 0.3rem 0.6rem;\n    border-top: 1px solid rgba(255, 255, 255, 0.1);\n    vertical-align: top; }\n  #content-workshop .workshop-review-table .review-field {\n    color: rgba(255, 255, 255, 0.4);\n    white-space: nowrap; }\n  #content-workshop .workshop-review-table .review-text {\n    white-space: pre-wrap;\n    word-wrap: break-word; }\n  #content-workshop .workshop-review-table .review-path {\n    word-break: break-all; }\n  #content-workshop .workshop-review-table .review-size, #content-workshop .workshop-review-table .review-status {\n    white-space: nowrap; }\n  #content-workshop .workshop-review-table .review-same {\n    color: rgba(255, 255, 255, 0.4); }\n  #content-workshop .workshop-review-table .review-changed .review-status {\n    color: #cf880d; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 40 */
+/* 38 */
 /***/ (function(module, exports) {
 
 module.exports = function escape(url) {
@@ -86791,7 +88433,7 @@ module.exports = function escape(url) {
 
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, exports) {
 
 /*
@@ -86873,385 +88515,379 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff2";
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff";
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2";
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff";
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff2";
 
 /***/ }),
-/* 47 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff";
 
 /***/ }),
-/* 48 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff2";
 
 /***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff";
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600.woff2";
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600.woff";
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2";
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff";
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff2";
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff";
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600italic.woff2";
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-600italic.woff";
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-800.woff2";
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-800.woff";
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-800italic.woff2";
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/open-sans-v17-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-800italic.woff";
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff2";
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff";
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2";
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff";
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff2";
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff";
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff2";
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff";
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2";
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff";
 
 /***/ }),
-/* 72 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff2";
 
 /***/ }),
-/* 73 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff";
 
 /***/ }),
-/* 74 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-100.woff2";
 
 /***/ }),
-/* 75 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-100.woff";
 
 /***/ }),
-/* 76 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff2";
 
 /***/ }),
-/* 77 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300.woff";
 
 /***/ }),
-/* 78 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-100italic.woff2";
 
 /***/ }),
-/* 79 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-100italic.woff";
 
 /***/ }),
-/* 80 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff2";
 
 /***/ }),
-/* 81 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-300italic.woff";
 
 /***/ }),
-/* 82 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-500.woff2";
 
 /***/ }),
-/* 83 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-500.woff";
 
 /***/ }),
-/* 84 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2";
 
 /***/ }),
-/* 85 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff";
 
 /***/ }),
-/* 86 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-500italic.woff2";
 
 /***/ }),
-/* 87 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-500italic.woff";
 
 /***/ }),
-/* 88 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff2";
 
 /***/ }),
-/* 89 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-italic.woff";
 
 /***/ }),
-/* 90 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2";
 
 /***/ }),
-/* 91 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff";
 
 /***/ }),
-/* 92 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-900.woff2";
 
 /***/ }),
-/* 93 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-900.woff";
 
 /***/ }),
-/* 94 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-900italic.woff2";
 
 /***/ }),
-/* 95 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-900italic.woff";
 
 /***/ }),
-/* 96 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff2";
 
 /***/ }),
-/* 97 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700italic.woff";
 
 /***/ }),
-/* 98 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "51fc61a3c26507d3d2ba8f4a7629c1af.jpg";
 
 /***/ }),
-/* 99 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "98e67ec4a39a3bd20a4b668927d9235f.jpg";
 
 /***/ }),
-/* 100 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "632ee092217203c5d86a7690148ef9bc.jpg";
 
 /***/ }),
-/* 101 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "80a782ed445393ebac967ef5b228f941.jpg";
 
 /***/ }),
-/* 102 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "aa9d22779d58dddb38ed7225dfe7de9b.jpg";
 
 /***/ }),
-/* 103 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__.p + "6f05f7f70d2322abe381a419b8af739f.jpg";
 
 /***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "92308998fb4029a01d255feb67c95da7.jpg";
-
-/***/ }),
-/* 105 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -87288,7 +88924,7 @@ var stylesInDom = {},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
-	fixUrls = __webpack_require__(106);
+	fixUrls = __webpack_require__(103);
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -87547,7 +89183,7 @@ function updateLink(linkElement, options, obj) {
 
 
 /***/ }),
-/* 106 */
+/* 103 */
 /***/ (function(module, exports) {
 
 
@@ -87642,7 +89278,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 107 */
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -87696,6 +89332,10 @@ function AppController($scope, $location, gameservice, gamelobbymanager, chatlob
     
     $scope.$on('user:steamid', function(event, steamid) {
         gameservice.usersteamid = steamid;
+    });
+    
+    $scope.$on('user:name', function(event, playername) {
+        $scope.playername = playername;
     });
     
     $scope.$on('user:inputlanguage', function(event, localename) {
@@ -87769,20 +89409,23 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app')
 
 
 /***/ }),
-/* 108 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var AppSettings = {
+    // Shows the Workshop parts of the menu (header button, mission filters and sources, Workshop maps).
+    // On in the Workshop branch, off in the main menu update until the Workshop integration is merged.
+    WORKSHOP_ENABLED: true,
 };
 
 module.exports = AppSettings;
 
 
 /***/ }),
-/* 109 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87796,13 +89439,13 @@ function OnConfig($locationProvider, $compileProvider, $translateProvider, $rout
 
     $routeProvider
     .when('/', {
-        template: __webpack_require__(110),
+        template: __webpack_require__(107),
         controller: 'HomeController',
         resolve: {
         }
     })
     .when('/Multiplayer', {
-        template: __webpack_require__(111),
+        template: __webpack_require__(108),
         controller: 'MultiplayerController',
         resolve: {
             testGameLobbyActive: ['$q', '$location', 'gamelobbymanager', function($q, $location, gamelobbymanager) {
@@ -87816,43 +89459,43 @@ function OnConfig($locationProvider, $compileProvider, $translateProvider, $rout
         }
     })
     .when('/Singleplayer', {
-        template: __webpack_require__(112),
+        template: __webpack_require__(109),
         controller: 'SingleplayerController',
         resolve: {
         }
     })
     .when('/LoadGame', {
-        template: __webpack_require__(113),
+        template: __webpack_require__(110),
         controller: 'LoadGameController',
         resolve: {
         }
     })
     .when('/Settings', {
-        template: __webpack_require__(114),
+        template: __webpack_require__(111),
         controller: 'SettingsController',
         resolve: {
         }
     })
     .when('/Missions', {
-        template: __webpack_require__(115),
+        template: __webpack_require__(112),
         controller: 'MissionsController',
         resolve: {
         }
     })
     .when('/Workshop', {
-        template: __webpack_require__(116),
+        template: __webpack_require__(113),
         controller: 'WorkshopBrowseController',
         resolve: {
         }
     })
     .when('/WorkshopPublish', {
-        template: __webpack_require__(117),
+        template: __webpack_require__(114),
         controller: 'WorkshopController',
         resolve: {
         }
     })
     .when('/OnlineGames', {
-        template: __webpack_require__(118),
+        template: __webpack_require__(115),
         controller: 'OnlineGamesController',
         resolve: {
             testGameLobbyActive: ['$q', '$location', 'gamelobbymanager', function($q, $location, gamelobbymanager) {
@@ -87866,19 +89509,19 @@ function OnConfig($locationProvider, $compileProvider, $translateProvider, $rout
         }
     })
     .when('/Gamelobby', {
-        template: __webpack_require__(119),
+        template: __webpack_require__(116),
         controller: 'GamelobbyController',
         resolve: {
         }
     })
     .when('/InGame', {
-        template: __webpack_require__(120),
+        template: __webpack_require__(117),
         controller: 'InGameController',
         resolve: {
         }
     })
     .when('/Profile', {
-        template: __webpack_require__(121),
+        template: __webpack_require__(118),
         controller: 'ProfileController',
         resolve: {
         }
@@ -87912,79 +89555,79 @@ module.exports = OnConfig;
 
 
 /***/ }),
+/* 107 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pg-page pg-home\">\r\n\t<div class=\"hm-main\">\r\n\t\t<header class=\"hm-heading\">\r\n\t\t\t<div class=\"pg-heading\">\r\n\t\t\t\t<span class=\"pg-eyebrow\">{{ 'HM_WelcomeBack' | translate }}</span>\r\n\t\t\t\t<h1 class=\"pg-title\">{{ playername }}</h1>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"hm-stats\">\r\n\t\t\t\t<div class=\"hm-stat\">\r\n\t\t\t\t\t<span class=\"hm-stat-value\"><span class=\"pg-pulse\"></span>{{ numcurplayers }}</span>\r\n\t\t\t\t\t<span class=\"hm-stat-label\">{{ 'OL_PlayersOnline' | translate }}</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"hm-stat\">\r\n\t\t\t\t\t<span class=\"hm-stat-value\">{{ lobbies.length }}</span>\r\n\t\t\t\t\t<span class=\"hm-stat-label\">{{ 'OL_OpenLobbies' | translate }}</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"hm-stat\">\r\n\t\t\t\t\t<span class=\"hm-stat-value\">{{ waiting.length }}</span>\r\n\t\t\t\t\t<span class=\"hm-stat-label\">{{ 'HM_NeedPlayers' | translate }}</span>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</header>\r\n\r\n\t\t<div class=\"pg-cards\">\r\n\t\t\t<a href=\"#!/OnlineGames\" class=\"pg-card pg-card-hot\">\r\n\t\t\t\t<span class=\"pg-card-corner\"></span>\r\n\t\t\t\t<wars-icon name=\"search\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t\t<span class=\"pg-card-title\">{{ 'HM_FindGame' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-text\">{{ 'HM_FindGame_Desc' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t\t<span>{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ waiting.length }} {{ 'HM_NeedPlayers' | translate }}</span>\r\n\t\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</a>\r\n\t\t\t<a href=\"#!/Gamelobby\" class=\"pg-card\">\r\n\t\t\t\t<wars-icon name=\"plus\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t\t<span class=\"pg-card-title\">{{ 'OL_CreateGame' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-text\">{{ 'HM_CreateGame_Desc' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t\t<span>{{ 'OL_CreateGame_Types' | translate }}</span>\r\n\t\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</a>\r\n\t\t\t<a href=\"#!/Missions\" class=\"pg-card hm-mission-card\">\r\n\t\t\t\t<span class=\"hm-mission-image\" ng-if=\"missionImage\" ng-style=\"{'background-image': 'url(' + missionImage + ')'}\"></span>\r\n\t\t\t\t<span class=\"hm-mission-shade\"></span>\r\n\t\t\t\t<span class=\"pg-eyebrow\">{{ 'HM_SinglePlayer' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-title\">{{ 'HM_PlayMission' | translate }}</span>\r\n\t\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t\t<span ng-if=\"lastMission\">{{ 'HM_LastPlayed' | translate }} {{ lastMission.mapname }} &middot; {{ lastMissionDifficulty | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"!lastMission\">{{ 'HM_PlayMission_Desc' | translate }}</span>\r\n\t\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</a>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"pg-lower\">\r\n\t\t\t<section class=\"pg-section pg-grow\">\r\n\t\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t\t<h2>{{ 'OL_WaitingForPlayersTitle' | translate }}</h2>\r\n\t\t\t\t\t<a href=\"#!/OnlineGames\" class=\"pg-link\">{{ 'HM_AllLobbies' | translate }}<wars-icon name=\"chevron-right\"></wars-icon></a>\r\n\t\t\t\t</div>\r\n\t\t\t\t<ul class=\"pg-rows\">\r\n\t\t\t\t\t<li class=\"pg-row\" ng-repeat=\"lobby in waiting | limitTo: 5 track by lobby.steamid\">\r\n\t\t\t\t\t\t<span class=\"pg-thumb\"><img ng-if=\"lobby.overviewsrc\" ng-src=\"{{ lobby.overviewsrc }}.vtf\" /></span>\r\n\t\t\t\t\t\t<span class=\"hm-row-text\">\r\n\t\t\t\t\t\t\t<span class=\"pg-row-name\">{{ lobby.name }}</span>\r\n\t\t\t\t\t\t\t<span class=\"hm-row-meta\">{{ lobby.modeLabel }} &middot; {{ lobby.map }}</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span class=\"pg-fill\">\r\n\t\t\t\t\t\t\t<span class=\"pg-fill-bar\"><span ng-style=\"{width: lobby.fill + '%'}\"></span></span>\r\n\t\t\t\t\t\t\t<span class=\"pg-fill-count\">{{ lobby.taken }} / {{ lobby.total }}</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline\" ng-click=\"joinlobby(lobby.steamid)\">{{ 'GL_Join' | translate }}</button>\r\n\t\t\t\t\t</li>\r\n\t\t\t\t</ul>\r\n\t\t\t\t<p class=\"pg-empty\" ng-if=\"!loaded\">{{ 'OL_Loading' | translate }}</p>\r\n\t\t\t\t<p class=\"pg-empty\" ng-if=\"loaded && !waiting.length\">{{ 'OL_NoWaiting' | translate }}</p>\r\n\t\t\t</section>\r\n\r\n\t\t\t<div class=\"pg-section pg-side hm-side\" ng-if=\"lastGame || (workshopEnabled && workshopMaps.length)\">\r\n\t\t\t\t<section class=\"hm-side-section\" ng-if=\"lastGame\">\r\n\t\t\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t\t\t<h2>{{ 'HM_HostAgain' | translate }}</h2>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"hm-host-again\">\r\n\t\t\t\t\t\t<span class=\"pg-thumb hm-thumb-large\"><img ng-if=\"lastGame.overviewsrc\" ng-src=\"{{ lastGame.overviewsrc }}.vtf\" /></span>\r\n\t\t\t\t\t\t<span class=\"hm-host-again-text\">\r\n\t\t\t\t\t\t\t<span class=\"hm-host-again-title\">{{ lastGameTitle }}</span>\r\n\t\t\t\t\t\t\t<span class=\"hm-row-meta\">\r\n\t\t\t\t\t\t\t\t{{ lastGame.map }} &middot; {{ lastGameType | translate }} &middot;\r\n\t\t\t\t\t\t\t\t<span ng-if=\"!lastGame.nummodifiers\">{{ 'HM_NoModifiers' | translate }}</span>\r\n\t\t\t\t\t\t\t\t<span ng-if=\"lastGame.nummodifiers\">{{ lastGame.nummodifiers }} {{ 'HM_Modifiers' | translate }}</span>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<a ng-href=\"{{ hostAgainUrl }}\" class=\"lb-btn hm-host-again-btn\"><wars-icon name=\"refresh\"></wars-icon>{{ 'HM_CreateWithLastSettings' | translate }}</a>\r\n\t\t\t\t</section>\r\n\r\n\t\t\t\t<!-- Visual only for now: workshopMaps is filled by the Workshop integration -->\r\n\t\t\t\t<section class=\"hm-side-section\" ng-if=\"workshopEnabled && workshopMaps.length\">\r\n\t\t\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t\t\t<h2>{{ 'HM_YourWorkshopMaps' | translate }}</h2>\r\n\t\t\t\t\t\t<span class=\"pg-link\">{{ 'HM_Manage' | translate }}<wars-icon name=\"chevron-right\"></wars-icon></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"hm-workshop-row\" ng-repeat=\"item in workshopMaps\">\r\n\t\t\t\t\t\t<span class=\"hm-row-text\">\r\n\t\t\t\t\t\t\t<span class=\"hm-workshop-title\">{{ item.title }}</span>\r\n\t\t\t\t\t\t\t<span class=\"hm-row-meta\" ng-class=\"{'hm-warning': !item.linked}\">{{ item.linked ? item.updated : ('HM_NotLinked' | translate) }}</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span class=\"hm-row-meta\"><wars-icon name=\"users\"></wars-icon> {{ item.subscribers }}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</section>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<!-- Docked global chat, a drawer from the top bar on smaller screens -->\r\n\t<aside class=\"hm-chat lb-chat\">\r\n\t\t<div class=\"chat-drawer-header\">\r\n\t\t\t<h2>{{ 'Chat_Global' | translate }}</h2>\r\n\t\t\t<span class=\"chat-drawer-online\">{{ numcurplayers }} {{ 'Menu_StatusOnline' | translate }}</span>\r\n\t\t</div>\r\n\t\t<div class=\"lb-chat-pane\">\r\n\t\t\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"chatlobby\"></chat-lines>\r\n\t\t\t<div class=\"lb-chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"chatlobby\">\r\n\t\t\t\t<form ng-submit=\"sendChat()\" class=\"lb-chat-form\"><input type=\"text\" ng-model=\"text\" placeholder=\"{{ 'GL_ChatPlaceholderGlobal' | translate }}\" /></form>\r\n\t\t\t\t<span class=\"lb-chat-language\" ng-if=\"inputlanguage\">{{ inputlanguage }}</span>\r\n\t\t\t\t<a href class=\"lb-chat-send\" ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</aside>\r\n</div>\r\n";
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pg-page pg-online\">\r\n\t<header class=\"pg-heading\">\r\n\t\t<span class=\"pg-eyebrow\">{{ 'MenuOnline' | translate }}</span>\r\n\t\t<h1 class=\"pg-title\">{{ 'OL_Title' | translate }}</h1>\r\n\t\t<p class=\"pg-status\">\r\n\t\t\t<span class=\"pg-pulse\"></span>\r\n\t\t\t{{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }} &middot; {{ lobbies.length }} {{ 'OL_OpenLobbies' | translate }} &middot; {{ waiting.length }} {{ 'OL_WaitingForPlayers' | translate }}\r\n\t\t</p>\r\n\t</header>\r\n\r\n\t<div class=\"pg-cards\">\r\n\t\t<a href=\"#!/OnlineGames\" class=\"pg-card pg-card-hot\">\r\n\t\t\t<span class=\"pg-card-corner\"></span>\r\n\t\t\t<wars-icon name=\"search\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t<span class=\"pg-card-title\">{{ 'OL_FindGames' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-text\">{{ 'OL_FindGames_Desc' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t<span>{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ waiting.length }} {{ 'OL_WaitingForPlayers' | translate }}</span>\r\n\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</span>\r\n\t\t</a>\r\n\t\t<a href=\"#!/Gamelobby\" class=\"pg-card\">\r\n\t\t\t<wars-icon name=\"plus\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t<span class=\"pg-card-title\">{{ 'OL_CreateGame' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-text\">{{ 'OL_CreateGame_Desc' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t<span>{{ 'OL_CreateGame_Types' | translate }}</span>\r\n\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</span>\r\n\t\t</a>\r\n\t</div>\r\n\r\n\t<div class=\"pg-lower\">\r\n\t\t<section class=\"pg-section pg-grow\">\r\n\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t<h2>{{ 'OL_WaitingForPlayersTitle' | translate }}</h2>\r\n\t\t\t\t<a href=\"#!/OnlineGames\" class=\"pg-link\">{{ 'OL_ViewAll' | translate }} {{ lobbies.length }}<wars-icon name=\"chevron-right\"></wars-icon></a>\r\n\t\t\t</div>\r\n\t\t\t<ul class=\"pg-rows\">\r\n\t\t\t\t<li class=\"pg-row\" ng-repeat=\"lobby in waiting | limitTo: 5 track by lobby.steamid\">\r\n\t\t\t\t\t<span class=\"pg-thumb\"><img ng-if=\"lobby.overviewsrc\" ng-src=\"{{ lobby.overviewsrc }}.vtf\" /></span>\r\n\t\t\t\t\t<span class=\"pg-row-name\">{{ lobby.name }}</span>\r\n\t\t\t\t\t<span class=\"pg-row-mode\">{{ lobby.modeLabel }}</span>\r\n\t\t\t\t\t<span class=\"pg-row-map\">{{ lobby.map }}</span>\r\n\t\t\t\t\t<span class=\"pg-fill\">\r\n\t\t\t\t\t\t<span class=\"pg-fill-bar\"><span ng-style=\"{width: lobby.fill + '%'}\"></span></span>\r\n\t\t\t\t\t\t<span class=\"pg-fill-count\">{{ lobby.taken }} / {{ lobby.total }}</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline\" ng-click=\"joinlobby(lobby.steamid)\">{{ 'GL_Join' | translate }}</button>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"!loaded\">{{ 'OL_Loading' | translate }}</p>\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"loaded && !waiting.length\">{{ 'OL_NoWaiting' | translate }}</p>\r\n\t\t</section>\r\n\r\n\t\t<aside class=\"pg-section pg-side\">\r\n\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t<h2>{{ 'OL_Community' | translate }}</h2>\r\n\t\t\t</div>\r\n\t\t\t<button type=\"button\" class=\"pg-card pg-card-row\" ng-click=\"openDiscord()\">\r\n\t\t\t\t<wars-icon name=\"discord\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t\t<span class=\"pg-card-row-text\">\r\n\t\t\t\t\t<span class=\"pg-card-row-title\">{{ 'OL_Discord' | translate }}</span>\r\n\t\t\t\t\t<span class=\"pg-card-row-desc\">{{ 'OL_Discord_Desc' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<wars-icon name=\"external\"></wars-icon>\r\n\t\t\t</button>\r\n\t\t\t<button type=\"button\" class=\"pg-card pg-card-row\" ng-click=\"openChat()\">\r\n\t\t\t\t<wars-icon name=\"users\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t\t<span class=\"pg-card-row-text\">\r\n\t\t\t\t\t<span class=\"pg-card-row-title\">{{ 'Chat_Global' | translate }}</span>\r\n\t\t\t\t\t<span class=\"pg-card-row-desc\">{{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }}. {{ 'OL_Chat_Desc' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<wars-icon name=\"chevron-right\"></wars-icon>\r\n\t\t\t</button>\r\n\t\t\t<a href class=\"pg-link pg-dev-link\" ng-if=\"beta === 'dev'\" ng-click=\"openserverbrowser()\">{{ 'MP_DedicatedServer' | translate }} (OLD)</a>\r\n\t\t</aside>\r\n\t</div>\r\n</div>\r\n";
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pg-page pg-offline\">\r\n\t<header class=\"pg-heading\">\r\n\t\t<span class=\"pg-eyebrow\">{{ 'MenuOffline' | translate }}</span>\r\n\t\t<h1 class=\"pg-title\">{{ 'OF_Title' | translate }}</h1>\r\n\t\t<p class=\"pg-status\">{{ 'OF_Status' | translate }}</p>\r\n\t</header>\r\n\r\n\t<div class=\"pg-cards\">\r\n\t\t<a href=\"#!/Missions\" class=\"pg-card pg-card-hot hm-mission-card\">\r\n\t\t\t<span class=\"hm-mission-image\" ng-if=\"missionImage\" ng-style=\"{'background-image': 'url(' + missionImage + ')'}\"></span>\r\n\t\t\t<span class=\"hm-mission-shade\"></span>\r\n\t\t\t<span class=\"pg-card-corner\"></span>\r\n\t\t\t<span class=\"pg-eyebrow\">{{ 'HM_SinglePlayer' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-title\">{{ 'SP_Missions' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-text\">{{ 'SP_Missions_Desc' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t<span>{{ missions.length }} {{ 'OF_MissionsCount' | translate }}</span>\r\n\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</span>\r\n\t\t</a>\r\n\t\t<a href=\"#!/Gamelobby?lobbytype=offline\" class=\"pg-card\">\r\n\t\t\t<wars-icon name=\"users\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t<span class=\"pg-card-title\">{{ 'SP_AISkirmish' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-text\">{{ 'SP_AISkirmish_Desc' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t<span>{{ 'OF_Skirmish_Footer' | translate }}</span>\r\n\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</span>\r\n\t\t</a>\r\n\t\t<a href class=\"pg-card\" ng-click=\"playtutorial()\">\r\n\t\t\t<wars-icon name=\"tutorial\" class=\"pg-card-icon\"></wars-icon>\r\n\t\t\t<span class=\"pg-card-title\">{{ 'SP_Tutorial' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-text\">{{ 'SP_Tutorial_Desc' | translate }}</span>\r\n\t\t\t<span class=\"pg-card-footer\">\r\n\t\t\t\t<span>{{ 'OF_Tutorial_Footer' | translate }}</span>\r\n\t\t\t\t<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</span>\r\n\t\t</a>\r\n\t</div>\r\n\r\n\t<div class=\"pg-lower\">\r\n\t\t<section class=\"pg-section pg-grow\">\r\n\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t<h2>{{ 'MS_Missions' | translate }}</h2>\r\n\t\t\t\t<a href=\"#!/Missions\" class=\"pg-link\">{{ 'OL_ViewAll' | translate }} {{ missions.length }}<wars-icon name=\"chevron-right\"></wars-icon></a>\r\n\t\t\t</div>\r\n\t\t\t<ul class=\"pg-rows\">\r\n\t\t\t\t<li class=\"pg-row\" ng-repeat=\"mission in missions track by mission.mapname\">\r\n\t\t\t\t\t<span class=\"of-thumb ms-item-image\" ng-class=\"{'ms-hatch': !mission.image}\">\r\n\t\t\t\t\t\t<img ng-if=\"mission.image\" ng-src=\"{{ mission.image }}\" />\r\n\t\t\t\t\t\t<wars-icon ng-if=\"!mission.image\" name=\"image\"></wars-icon>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<span class=\"hm-row-text\">\r\n\t\t\t\t\t\t<span class=\"pg-row-name\">{{ mission.title }}</span>\r\n\t\t\t\t\t\t<span class=\"hm-row-meta\"><span ng-if=\"workshopEnabled\">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }} &middot; </span>{{ mission.mapname }}</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline\" ng-click=\"selectMission(mission)\">{{ 'OF_Select' | translate }}</button>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"!loaded\">{{ 'OF_Loading' | translate }}</p>\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"loaded && !missions.length\">{{ 'OF_NoMissions' | translate }}</p>\r\n\t\t</section>\r\n\r\n\t\t<div class=\"pg-section pg-side\" ng-if=\"lastMission || lastSkirmish || beta === 'dev'\">\r\n\t\t\t<section class=\"hm-side-section\" ng-if=\"lastMission\">\r\n\t\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t\t<h2>{{ 'OF_PlayAgain' | translate }}</h2>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"hm-host-again\">\r\n\t\t\t\t\t<span class=\"of-thumb ms-item-image\" ng-class=\"{'ms-hatch': !lastMission.image}\">\r\n\t\t\t\t\t\t<img ng-if=\"lastMission.image\" ng-src=\"{{ lastMission.image }}\" />\r\n\t\t\t\t\t\t<wars-icon ng-if=\"!lastMission.image\" name=\"image\"></wars-icon>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<span class=\"hm-host-again-text\">\r\n\t\t\t\t\t\t<span class=\"hm-host-again-title\">{{ lastMission.title }}</span>\r\n\t\t\t\t\t\t<span class=\"hm-row-meta\">{{ lastMission.mapname }} &middot; {{ lastMissionDifficulty | translate }}</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn hm-host-again-btn\" ng-disabled=\"launching\" ng-click=\"playAgain()\">\r\n\t\t\t\t\t<wars-icon name=\"refresh\"></wars-icon>{{ (launching ? 'MS_Loading' : 'OF_LaunchAgain') | translate }}\r\n\t\t\t\t</button>\r\n\t\t\t</section>\r\n\r\n\t\t\t<section class=\"hm-side-section\" ng-if=\"lastSkirmish\">\r\n\t\t\t\t<div class=\"pg-section-header\">\r\n\t\t\t\t\t<h2>{{ 'OF_SkirmishAgain' | translate }}</h2>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"hm-host-again\">\r\n\t\t\t\t\t<span class=\"pg-thumb hm-thumb-large\"><img ng-if=\"lastSkirmish.overviewsrc\" ng-src=\"{{ lastSkirmish.overviewsrc }}.vtf\" /></span>\r\n\t\t\t\t\t<span class=\"hm-host-again-text\">\r\n\t\t\t\t\t\t<span class=\"hm-host-again-title\">{{ lastSkirmishTitle }}</span>\r\n\t\t\t\t\t\t<span class=\"hm-row-meta\">\r\n\t\t\t\t\t\t\t{{ lastSkirmish.map }} &middot;\r\n\t\t\t\t\t\t\t<span ng-if=\"!lastSkirmish.nummodifiers\">{{ 'HM_NoModifiers' | translate }}</span>\r\n\t\t\t\t\t\t\t<span ng-if=\"lastSkirmish.nummodifiers\">{{ lastSkirmish.nummodifiers }} {{ 'HM_Modifiers' | translate }}</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<a href=\"#!/Gamelobby?preset=last&amp;lobbytype=offline\" class=\"lb-btn hm-host-again-btn\"><wars-icon name=\"refresh\"></wars-icon>{{ 'HM_CreateWithLastSettings' | translate }}</a>\r\n\t\t\t</section>\r\n\r\n\t\t\t<a href=\"#!/LoadGame\" class=\"pg-link pg-dev-link\" ng-if=\"beta === 'dev'\">{{ 'LG_LoadMenu' | translate }}<wars-icon name=\"chevron-right\"></wars-icon></a>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
+
+/***/ }),
 /* 110 */
-/***/ (function(module, exports) {
-
-module.exports = "<section class=\"content\" id=\"content-news\" ng-bind-html=\"news\">\r\n    <main>\r\n        \r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>";
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports) {
-
-module.exports = "<section class=\"content content-menu\" id=\"content-multiplayer\">\r\n    <main>\r\n        <h1>{{ 'MP_HeadLine' | translate }}</h1>\r\n        <ul class=\"menu submenu\" id=\"submenu-multiplayer\">\r\n            <li>\r\n                <a href=\"#!/OnlineGames\">\r\n                    {{ 'MP_FindOnlineGame' | translate }}\r\n                    <p>{{ 'MP_FindOnlineGame_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a id=\"multiplayer-create-game\" href=\"#!/Gamelobby\">\r\n                    {{ 'MP_CreateGame' | translate }}\r\n                    <p>{{ 'MP_CreateGame_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li  ng-if=\"beta === 'dev'\">\r\n                <a href ng-click=\"openserverbrowser();\">\r\n                    {{ 'MP_DedicatedServer' | translate }} (OLD)\r\n                    <p></p>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>\r\n";
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports) {
-
-module.exports = "<section class=\"content content-menu\" id=\"content-singleplayer\">\r\n    <main>\r\n        <h1>{{ 'SP_HeadLine' | translate }}</h1>\r\n        <ul class=\"menu submenu\" id=\"submenu-singleplayer\">\r\n            <li>\r\n                <a href=\"#!/Missions\">\r\n                    {{ 'SP_Missions' | translate }}\r\n                    <p>{{ 'SP_Missions_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a href=\"#!/Gamelobby?lobbytype=offline\">\r\n                    {{ 'SP_AISkirmish' | translate }}\r\n                    <p>{{ 'SP_AISkirmish_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a href ng-click=\"playtutorial()\">\r\n                    {{ 'SP_Tutorial' | translate }}\r\n                    <p>{{ 'SP_Tutorial_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li ng-if=\"beta === 'dev'\">\r\n                <a href=\"#!/LoadGame\">\r\n                    {{ 'LG_LoadMenu' | translate }}\r\n                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>\r\n";
-
-/***/ }),
-/* 113 */
 /***/ (function(module, exports) {
 
 module.exports = "<section class=\"content content-menu\" id=\"content-loadgame\">\r\n    <main>\r\n\t\t<h1>{{ 'LG_Title' | translate }}</h1>\r\n\r\n\t\t<section id=\"savedgameslist\">\r\n\t\t\t<ul class=\"savedgames\">\r\n\t\t\t\t<li class=\"savedgame\" ng-if=\"mode === 'save'\" ng-class=\"selectedSavedGame == 'NEW' && 'selectedSavedGame'\" ng-click=\"selectSavedGame('NEW');\">\r\n\t\t\t\t\t<div class=\"savedgame-name\" ng-tooltip=\"Create new save file\">NEW</div>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li class=\"savedgame\" ng-class=\"selectedSavedGame == savefile && 'selectedSavedGame'\" ng-repeat=\"savefile in savedgames\" ng-click=\"selectSavedGame(savefile);\">\r\n\t\t\t\t\t<div class=\"savedgame-name\" ng-tooltip=\"{{ savefile }}\">{{ savefile }}</div>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</section>\r\n\r\n\t\t<div class=\"box-footer\">\r\n\t\t\t<div class=\"left-float\">\r\n\t\t\t\t<a class=\"btn\" href=\"#!/Singleplayer\" ng-if=\"!ingame\">{{ 'OG_BackToMenu' | translate }}</a>\r\n\t\t\t\t<a class=\"btn\" href=\"#!/InGame\" ng-if=\"ingame\">{{ 'OG_BackToMenu' | translate }}</a>\r\n\t\t\t\t<a class=\"btn\" href ng-click=\"loadgame()\" a-disabled=\"!selectedSavedGame\" ng-show=\"mode !== 'save'\">{{ 'LG_Load' | translate }}</a>\r\n\t\t\t\t<a class=\"btn\" href ng-click=\"savegame()\" ng-show=\"mode === 'save'\">{{ 'LG_Save' | translate }}</a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n    </main>\r\n</section>\r\n";
 
 /***/ }),
-/* 114 */
+/* 111 */
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"content content-menu\" id=\"content-settings\">\r\n    <main>\r\n        <h1>{{ 'Settings_Headline' | translate }}</h1>\r\n        <ul class=\"menu submenu\" id=\"submenu-settings\">\r\n            <li>\r\n                <a href ng-click=\"video()\">\r\n                    {{ 'Settings_Video' | translate }}\r\n                    <p>{{ 'Settings_Video_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a href ng-click=\"brightness()\">\r\n                    {{ 'Settings_Brightness' | translate }}\r\n                    <p>{{ 'Settings_Brightness_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a href ng-click=\"audio()\">\r\n                    {{ 'Settings_Sound' | translate }}\r\n                    <p>{{ 'Settings_Sound_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n             <li>\r\n                <a href ng-click=\"keyboardmouse()\">\r\n                    {{ 'Settings_KeyboardMouse' | translate }}\r\n                    <p>{{ 'Settings_KeyboardMouse_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n             <li>\r\n                <a href ng-click=\"multiplayer()\">\r\n                    {{ 'Settings_Multiplayer' | translate }}\r\n                    <p>{{ 'Settings_Multiplayer_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>";
+module.exports = "<div class=\"pg-page st-page\">\r\n\t<nav class=\"st-nav\">\r\n\t\t<h1 class=\"st-nav-title\">{{ 'Settings_Headline' | translate }}</h1>\r\n\t\t<ul class=\"st-categories\">\r\n\t\t\t<li ng-repeat=\"cat in categories track by cat.id\">\r\n\t\t\t\t<button type=\"button\" class=\"st-category\" ng-class=\"{active: cat === category}\" ng-click=\"selectCategory(cat)\">\r\n\t\t\t\t\t<wars-icon name=\"{{ cat.icon }}\"></wars-icon>\r\n\t\t\t\t\t<span class=\"st-category-text\">\r\n\t\t\t\t\t\t<span class=\"st-category-title\">{{ cat.title | translate }}</span>\r\n\t\t\t\t\t\t<span class=\"st-category-desc\">{{ cat.desc | translate }}</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t\t<span class=\"st-dot\" ng-if=\"isCategoryDirty(cat)\"></span>\r\n\t\t\t\t</button>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\t</nav>\r\n\r\n\t<div class=\"st-main\">\r\n\t\t<header class=\"pg-heading st-heading\">\r\n\t\t\t<span class=\"pg-eyebrow\">{{ 'MenuSettings' | translate }}</span>\r\n\t\t\t<h2 class=\"pg-title\">{{ category.title | translate }}</h2>\r\n\t\t\t<p class=\"pg-status\">{{ category.desc | translate }}</p>\r\n\t\t</header>\r\n\r\n\t\t<div class=\"st-calibration\" ng-if=\"loaded && category.id === 'brightness'\">\r\n\t\t\t<span class=\"st-calibration-symbols\">\r\n\t\t\t\t<span class=\"st-calibration-logo\" ng-repeat=\"opacity in calibration() track by $index\" ng-style=\"{opacity: opacity}\">\r\n\t\t\t\t\t<img ng-src=\"images/lw-logo.png\" alt=\"\" />\r\n\t\t\t\t</span>\r\n\t\t\t</span>\r\n\t\t\t<p>{{ 'ST_Brightness_Calibrate' | translate }}</p>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"st-tabs\" role=\"tablist\" ng-if=\"loaded && category.id === 'keys'\">\r\n\t\t\t<button type=\"button\" class=\"st-tab\" role=\"tab\" ng-repeat=\"tab in keyTabs track by tab.id\" aria-selected=\"{{ tab === keyTab }}\"\r\n\t\t\t\tng-class=\"{active: tab === keyTab}\" ng-click=\"selectKeyTab(tab)\">\r\n\t\t\t\t{{ tab.title | translate }}\r\n\t\t\t\t<span class=\"st-tab-count\">{{ tab.count }}</span>\r\n\t\t\t\t<span class=\"st-tab-badge\" ng-if=\"tab.badge\">{{ tab.badge | translate }}</span>\r\n\t\t\t\t<span class=\"st-dot\" ng-if=\"isTabDirty(tab)\"></span>\r\n\t\t\t</button>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"st-note\" ng-if=\"loaded && category.id === 'keys' && keyTab.id === 'fps'\">\r\n\t\t\t<wars-icon name=\"info\"></wars-icon>\r\n\t\t\t<p><span class=\"st-note-title\">{{ 'ST_KeysLegacyNoteTitle' | translate }}</span> {{ 'ST_KeysLegacyNote' | translate }}</p>\r\n\t\t</div>\r\n\r\n\t\t<p class=\"pg-empty\" ng-if=\"!loaded\">{{ 'ST_Loading' | translate }}</p>\r\n\r\n\t\t<div class=\"st-rows\" ng-if=\"loaded\">\r\n\t\t\t<div ng-repeat=\"row in categoryRows()\" ng-if=\"isShown(row)\" ng-switch=\"row.type\">\r\n\t\t\t\t<div class=\"st-header\" ng-switch-when=\"header\">\r\n\t\t\t\t\t<h3>{{ row.text || (row.label | translate) }}</h3>\r\n\t\t\t\t\t<span class=\"st-hint\" ng-if=\"row.hint\">{{ row.hint | translate }}</span>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"st-row\" ng-switch-default ng-class=\"{disabled: isDisabled(row)}\">\r\n\t\t\t\t\t<span class=\"st-label\">\r\n\t\t\t\t\t\t<span class=\"st-label-text\">\r\n\t\t\t\t\t\t\t{{ row.text || (row.label | translate) }}\r\n\t\t\t\t\t\t\t<span class=\"st-shared\" ng-if=\"row.sharedWith\">{{ 'ST_KeyShared' | translate }}</span>\r\n\t\t\t\t\t\t\t<span class=\"st-changed\" ng-if=\"isDirty(row)\">{{ 'ST_Changed' | translate }}</span>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span class=\"st-hint\" ng-class=\"{'st-hint-moved': moved[row.id]}\" ng-if=\"hintText(row)\">{{ hintText(row) }}</span>\r\n\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t<span class=\"st-control\" ng-switch=\"row.type\">\r\n\t\t\t\t\t\t<span class=\"lb-select-wrap st-select\" ng-switch-when=\"select\">\r\n\t\t\t\t\t\t\t<select class=\"lb-select\" ng-model=\"values[row.id]\" ng-options=\"option.value as option.text for option in options[row.id]\"\r\n\t\t\t\t\t\t\t\tng-change=\"changed(row)\" ng-disabled=\"isDisabled(row)\"></select>\r\n\t\t\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t<span class=\"lb-segmented st-seg\" ng-switch-when=\"seg\">\r\n\t\t\t\t\t\t\t<button type=\"button\" ng-repeat=\"option in options[row.id]\" ng-class=\"{active: values[row.id] === option.value}\"\r\n\t\t\t\t\t\t\t\tng-click=\"set(row, option.value)\" ng-disabled=\"isDisabled(row)\">{{ option.text }}</button>\r\n\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t<button type=\"button\" class=\"lb-switch\" role=\"switch\" aria-checked=\"{{ !!values[row.id] }}\" ng-switch-when=\"switch\"\r\n\t\t\t\t\t\t\tng-class=\"{on: values[row.id]}\" ng-click=\"toggle(row)\" ng-disabled=\"isDisabled(row)\">\r\n\t\t\t\t\t\t\t{{ (values[row.id] ? 'ST_On' : 'ST_Off') | translate }}\r\n\t\t\t\t\t\t\t<span class=\"lb-switch-track\"><span class=\"lb-switch-knob\"></span></span>\r\n\t\t\t\t\t\t</button>\r\n\r\n\t\t\t\t\t\t<span class=\"st-slider\" ng-switch-when=\"slider\">\r\n\t\t\t\t\t\t\t<input type=\"range\" min=\"{{ row.min }}\" max=\"{{ row.max }}\" step=\"{{ row.step }}\" settings-range=\"values[row.id]\"\r\n\t\t\t\t\t\t\t\tsettings-change=\"slide(row, $value)\" ng-disabled=\"isDisabled(row)\" />\r\n\t\t\t\t\t\t\t<span class=\"st-slider-value\">{{ formatSlider(row) }}</span>\r\n\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t<button type=\"button\" class=\"st-key\" ng-switch-when=\"bind\" ng-class=\"{listening: listening === row.id}\" ng-click=\"listen(row)\">\r\n\t\t\t\t\t\t\t{{ listening === row.id ? ('ST_PressKey' | translate) : (values[row.id] || '&mdash;') }}\r\n\t\t\t\t\t\t</button>\r\n\r\n\t\t\t\t\t\t<span class=\"st-action\" ng-switch-when=\"action\">\r\n\t\t\t\t\t\t\t<span class=\"st-mic-level\" ng-if=\"row.id === 'testmicrophone' && testingMicrophone\">\r\n\t\t\t\t\t\t\t\t<span ng-style=\"{width: (micLevel * 100) + '%'}\"></span>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small\" ng-click=\"runAction(row)\" ng-disabled=\"isDisabled(row)\">{{ actionLabel(row) | translate }}</button>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"st-bar\" ng-if=\"dirtyCategories().length\">\r\n\t\t\t<span class=\"st-dot\"></span>\r\n\t\t\t<span class=\"st-bar-title\">{{ 'ST_Unsaved' | translate }}</span>\r\n\t\t\t<span class=\"st-bar-summary\">{{ dirtySummary() }}</span>\r\n\t\t\t<button type=\"button\" class=\"lb-btn\" ng-click=\"revert()\">{{ 'ST_Revert' | translate }}</button>\r\n\t\t\t<button type=\"button\" class=\"lb-btn st-apply\" ng-click=\"apply()\" ng-disabled=\"applying\">{{ 'ST_Apply' | translate }}</button>\r\n\t\t</div>\r\n\t\t<div class=\"st-saved\" ng-if=\"showSaved && !dirtyCategories().length\">\r\n\t\t\t<wars-icon name=\"check\"></wars-icon>\r\n\t\t\t{{ (restartNeeded ? 'ST_SavedRestart' : 'ST_Saved') | translate }}\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n";
 
 /***/ }),
-/* 115 */
+/* 112 */
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"content-full content-menu\" id=\"content-missions\">\r\n    <main>\r\n\t\t<div id=\"mission_wrap_pictures\">\r\n\t\t\t<img  id=\"mission_pic_left\" class=\"mis_pic_left\" ng-src=\"{{ leftmissionpic }}\"  title=\"Left Pic\" alt=\"Left\">\r\n\t\t\t<img  id=\"mission_pic_right\" class=\"mis_pic_right\" ng-src=\"{{ rightmissionpic }}\"  title=\"Right Pic\" alt=\"Right\" >\r\n\t\t\t<img  id=\"mission_pic_middle\" class=\"mis_pic_mid\" ng-src=\"{{ middlemissionpic }}\"  title=\"Middle Pic\" alt=\"Middle\" >\r\n\t\t\t<img  id=\"mission_right_arrow\" class=\"mis_right_arrow\" title=\"right_arrow\" alt=\"right_arrow\"\r\n\t\t\tng-init=\"right_arrow = '../../mainmenu/arrow_big_right.png'\"\r\n\t\t\tng-mouseenter=\"right_arrow = '../../mainmenu/arrow_big_right_over.png'\" \r\n\t\t\tng-mouseleave=\"right_arrow = '../../mainmenu/arrow_big_right.png'\" \r\n\t\t\tng-src=\"{{right_arrow}}\"\r\n\t\t\tng-click=\"next_mission()\"\r\n\t\t\t>\r\n\t\t\t<img  id=\"mission_left_arrow\" class=\"mis_left_arrow\" title=\"left_arrow\" alt=\"left_arrow\" \r\n\t\t\tng-init=\"left_arrow = '../../mainmenu/arrow_big_left.png'\"\r\n\t\t\tng-mouseenter=\"left_arrow = '../../mainmenu/arrow_big_left_over.png'\" \r\n\t\t\tng-mouseleave=\"left_arrow = '../../mainmenu/arrow_big_left.png'\" \r\n\t\t\tng-src=\"{{left_arrow}}\"\r\n\t\t\tng-click=\"previous_mission()\"\r\n\t\t\t>\r\n\t\t</div>\r\n\t\t<div id=\"mission_wrap_name\" class=\"textStyle\">\r\n\t\t\t{{ mapname }}\r\n\t\t</div>\r\n\t\t<div id=\"mission_wrap_description\"  class=\"textStyleNav2\" ng-bind-html-unsafe=\"description\">\r\n\t\t\t<b>{{ 'Mission_Desc' | translate }} <span ng-bind-html=\"description\"></span></b>\r\n\t\t</div>\r\n\t\t\r\n\t\t<select class=\"select-style\" ng-model=\"selectedDifficulty\">\r\n\t\t\t<option value=\"easy\">{{ 'Mission_Easy' | translate }}</option>\r\n\t\t\t<option value=\"normal\">{{ 'Mission_Normal' | translate }}</option>\r\n\t\t\t<option value=\"hard\">{{ 'Mission_Hard' | translate }}</option>\r\n\t\t</select>\r\n\t\t<a href class=\"btn btn-highlight\" ng-click=\"launch_mission()\">{{ 'Mission_Launch' | translate }}</a>\r\n    </main>\r\n</section>";
+module.exports = "<div class=\"pg-page pg-missions\">\r\n\t<aside class=\"ms-list\">\r\n\t\t<div class=\"ms-list-header\">\r\n\t\t\t<h1 class=\"ms-list-title\">{{ 'MS_Missions' | translate }} <span class=\"lb-count\">{{ visible.length }}</span></h1>\r\n\t\t\t<span class=\"lb-segmented\" ng-if=\"workshopEnabled\">\r\n\t\t\t\t<button type=\"button\" ng-repeat=\"f in filters track by f.id\" ng-class=\"{active: filter === f.id}\" ng-click=\"setFilter(f.id)\">{{ f.label | translate }}</button>\r\n\t\t\t</span>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"ms-items\">\r\n\t\t\t<button type=\"button\" class=\"ms-item\" ng-repeat=\"mission in visible track by mission.mapname\" ng-class=\"{selected: mission === selected}\"\r\n\t\t\t\taria-current=\"{{ mission === selected }}\" ng-click=\"select(mission)\">\r\n\t\t\t\t<span class=\"ms-item-image\" ng-class=\"{'ms-hatch': !mission.image}\">\r\n\t\t\t\t\t<img ng-if=\"mission.image\" ng-src=\"{{ mission.image }}\" />\r\n\t\t\t\t\t<wars-icon ng-if=\"!mission.image\" name=\"image\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t\t<span class=\"ms-item-text\">\r\n\t\t\t\t\t<span class=\"ms-item-title\">{{ mission.title }}</span>\r\n\t\t\t\t\t<span class=\"ms-item-meta\">\r\n\t\t\t\t\t\t<span ng-if=\"workshopEnabled\"><span class=\"ms-source\" ng-class=\"{workshop: mission.workshop}\">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span> &middot; </span>{{ mission.mapname }}\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</span>\r\n\t\t\t</button>\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"loaded && !visible.length\">{{ 'MS_NoMatches' | translate }}</p>\r\n\t\t</div>\r\n\r\n\t\t<!-- Visual only for now, Workshop missions come with the Workshop integration -->\r\n\t\t<span class=\"ms-workshop-link\" ng-if=\"workshopEnabled\"><wars-icon name=\"wrench\"></wars-icon>{{ 'MS_FindMore' | translate }}<wars-icon name=\"chevron-right\"></wars-icon></span>\r\n\t</aside>\r\n\r\n\t<section class=\"ms-main\" ng-if=\"selected\">\r\n\t\t<div class=\"ms-top\">\r\n\t\t\t<div class=\"ms-info\">\r\n\t\t\t\t<div class=\"ms-info-header\">\r\n\t\t\t\t\t<span class=\"pg-eyebrow\">{{ 'MS_Mission' | translate }} {{ position() }}</span>\r\n\t\t\t\t\t<span class=\"ms-nav\">\r\n\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small\" ng-click=\"go(-1)\" aria-label=\"{{ 'Button_Previous' | translate }}\"><wars-icon name=\"chevron-left\"></wars-icon></button>\r\n\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small\" ng-click=\"go(1)\" aria-label=\"{{ 'Button_Next' | translate }}\"><wars-icon name=\"chevron-right\"></wars-icon></button>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<h2 class=\"pg-title\">{{ selected.title }}</h2>\r\n\t\t\t\t<div class=\"ms-tags\">\r\n\t\t\t\t\t<span class=\"ms-tag\" ng-if=\"workshopEnabled\" ng-class=\"{workshop: selected.workshop}\">{{ (selected.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span>\r\n\t\t\t\t\t<span class=\"ms-tag\">{{ 'MS_SinglePlayer' | translate }}</span>\r\n\t\t\t\t\t<span class=\"ms-tag ms-tag-plain\">{{ selected.mapname }}</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<span class=\"lb-label ms-briefing-label\">{{ 'MS_Briefing' | translate }}</span>\r\n\t\t\t\t<div class=\"ms-briefing\" ng-if=\"selected.description\" ng-bind-html=\"selected.description\"></div>\r\n\t\t\t\t<p class=\"ms-briefing lb-muted\" ng-if=\"!selected.description\">{{ 'MS_NoBriefing' | translate }}</p>\r\n\t\t\t</div>\r\n\r\n\t\t\t<figure class=\"ms-preview\">\r\n\t\t\t\t<i class=\"lb-corner lb-corner-tl\"></i>\r\n\t\t\t\t<i class=\"lb-corner lb-corner-tr\"></i>\r\n\t\t\t\t<i class=\"lb-corner lb-corner-bl\"></i>\r\n\t\t\t\t<i class=\"lb-corner lb-corner-br\"></i>\r\n\t\t\t\t<img ng-if=\"selected.image\" ng-src=\"{{ selected.image }}\" alt=\"{{ selected.title }}\" />\r\n\t\t\t\t<div class=\"ms-preview-none ms-hatch\" ng-if=\"!selected.image\">\r\n\t\t\t\t\t<wars-icon name=\"image\"></wars-icon>\r\n\t\t\t\t\t<span>{{ 'MS_NoPreview' | translate }}</span>\r\n\t\t\t\t</div>\r\n\t\t\t</figure>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"ms-launch\">\r\n\t\t\t<span class=\"lb-label\">{{ 'MS_Difficulty' | translate }}</span>\r\n\t\t\t<span class=\"lb-segmented\">\r\n\t\t\t\t<button type=\"button\" ng-repeat=\"d in difficulties track by d.id\" ng-class=\"{active: difficulty === d.id}\" ng-click=\"setDifficulty(d.id)\">{{ d.label | translate }}</button>\r\n\t\t\t</span>\r\n\t\t\t<span class=\"ms-launch-hint\">{{ selected.mapname }} &middot; {{ difficultyLabel() | translate }}</span>\r\n\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch ms-launch-btn\" ng-disabled=\"launching\" ng-click=\"launch()\">\r\n\t\t\t\t{{ (launching ? 'MS_Loading' : 'Mission_Launch') | translate }}<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</button>\r\n\t\t</div>\r\n\t</section>\r\n</div>\r\n";
 
 /***/ }),
-/* 116 */
+/* 113 */
 /***/ (function(module, exports) {
 
 module.exports = "<section class=\"content-full\" id=\"content-workshop-browse\">\r\n\t<main class=\"rounded\">\r\n\t\t<h1>\r\n\t\t\t{{ 'WB_Headline' | translate }}\r\n\t\t\t<a href=\"#!/WorkshopPublish\" class=\"btn btn-small wb-publish\">{{ 'WB_Publish' | translate }}</a>\r\n\t\t</h1>\r\n\r\n\t\t<div class=\"wb-toolbar\">\r\n\t\t\t<form class=\"wb-search\" ng-submit=\"search()\">\r\n\t\t\t\t<input type=\"text\" ng-model=\"filter.searchinput\" ng-disabled=\"filter.list !== 'all'\"\r\n\t\t\t\t\t   placeholder=\"{{ (filter.list === 'all' ? 'WB_SearchPlaceholder' : 'WB_SearchUnavailable') | translate }}\" />\r\n\t\t\t\t<a href class=\"btn btn-small\" ng-click=\"search()\" ng-class=\"{linkDisabled: filter.list !== 'all'}\">{{ 'WB_Search' | translate }}</a>\r\n\t\t\t\t<a href class=\"btn btn-small\" ng-if=\"filter.search\" ng-click=\"clearSearch()\">{{ 'WB_ClearSearch' | translate }}</a>\r\n\t\t\t</form>\r\n\t\t\t<label>\r\n\t\t\t\t<span>{{ 'WB_Show' | translate }}</span>\r\n\t\t\t\t<select ng-model=\"filter.list\" ng-change=\"changeList()\"\r\n\t\t\t\t\t\tng-options=\"list.value as (list.label | translate) for list in lists\"></select>\r\n\t\t\t</label>\r\n\t\t\t<label>\r\n\t\t\t\t<span>{{ 'WB_SortBy' | translate }}</span>\r\n\t\t\t\t<select ng-model=\"filter.sort\" ng-change=\"changeSort()\"\r\n\t\t\t\t\t\tng-options=\"sort.value as (sort.label | translate) for sort in sortOptions()\"></select>\r\n\t\t\t</label>\r\n\t\t</div>\r\n\r\n\t\t<p class=\"wb-status\">\r\n\t\t\t<span ng-if=\"loading\">{{ 'WB_Loading' | translate }}</span>\r\n\t\t\t<span ng-if=\"!loading && error\" class=\"wb-error\">{{ 'WB_Error' | translate }} {{ error }}</span>\r\n\t\t\t<span ng-if=\"!loading && !error && !items.length\">{{ 'WB_NoResults' | translate }}</span>\r\n\t\t\t<span ng-if=\"!loading && !error && items.length\">{{ total }} {{ 'WB_Maps' | translate }}</span>\r\n\t\t</p>\r\n\r\n\t\t<ul class=\"wb-grid\" ng-show=\"!loading\">\r\n\t\t\t<li class=\"wb-card\" ng-repeat=\"item in items track by item.id\" ng-click=\"showDetails(item)\">\r\n\t\t\t\t<div class=\"wb-thumb\">\r\n\t\t\t\t\t<img ng-if=\"item.previewurl\" ng-src=\"{{ item.previewurl }}\" />\r\n\t\t\t\t\t<span ng-if=\"!item.previewurl\">{{ 'WB_NoPreview' | translate }}</span>\r\n\t\t\t\t\t<span class=\"wb-badge\" ng-if=\"stateLabel(item)\" ng-class=\"'wb-badge-' + item.state\">\r\n\t\t\t\t\t\t{{ stateLabel(item) | translate }} <span ng-if=\"item.state === 'downloading'\">{{ item.progress }}%</span>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"wb-card-body\">\r\n\t\t\t\t\t<h3 title=\"{{ item.title }}\">{{ item.title }}</h3>\r\n\t\t\t\t\t<p class=\"wb-author\">{{ item.author }}</p>\r\n\t\t\t\t\t<p class=\"wb-stats\">\r\n\t\t\t\t\t\t<span ng-if=\"rating(item) !== null\">{{ rating(item) }}% {{ 'WB_Positive' | translate }}</span>\r\n\t\t\t\t\t\t<span>{{ item.subscriptions }} {{ 'WB_Subscribers' | translate }}</span>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t\t<a href class=\"btn btn-small\" ng-class=\"{'btn-highlight': !isSubscribed(item)}\" ng-click=\"toggleSubscription(item, $event)\">\r\n\t\t\t\t\t\t{{ (isSubscribed(item) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</div>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\r\n\t\t<div class=\"wb-pagination\" ng-if=\"!loading && numpages > 1\">\r\n\t\t\t<a href class=\"btn btn-small\" ng-class=\"{linkDisabled: filter.page <= 1}\" ng-click=\"goToPage(1)\">&laquo;</a>\r\n\t\t\t<a href class=\"btn btn-small\" ng-class=\"{linkDisabled: filter.page <= 1}\" ng-click=\"goToPage(filter.page - 1)\">&lsaquo; {{ 'Button_Previous' | translate }}</a>\r\n\t\t\t<span>{{ 'WB_Page' | translate }} {{ filter.page }} / {{ numpages }}</span>\r\n\t\t\t<a href class=\"btn btn-small\" ng-class=\"{linkDisabled: filter.page >= numpages}\" ng-click=\"goToPage(filter.page + 1)\">{{ 'Button_Next' | translate }} &rsaquo;</a>\r\n\t\t\t<a href class=\"btn btn-small\" ng-class=\"{linkDisabled: filter.page >= numpages}\" ng-click=\"goToPage(numpages)\">&raquo;</a>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"wb-details-overlay\" ng-if=\"selected\" ng-click=\"closeDetails()\">\r\n\t\t\t<div class=\"wb-details\" ng-click=\"$event.stopPropagation()\">\r\n\t\t\t\t<a href class=\"wb-details-close\" ng-click=\"closeDetails()\">&times;</a>\r\n\t\t\t\t<div class=\"wb-details-header\">\r\n\t\t\t\t\t<div class=\"wb-thumb\">\r\n\t\t\t\t\t\t<img ng-if=\"selected.previewurl\" ng-src=\"{{ selected.previewurl }}\" />\r\n\t\t\t\t\t\t<span ng-if=\"!selected.previewurl\">{{ 'WB_NoPreview' | translate }}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"wb-details-info\">\r\n\t\t\t\t\t\t<h2>{{ selected.title }}</h2>\r\n\t\t\t\t\t\t<p class=\"wb-author\">{{ selected.author }}</p>\r\n\t\t\t\t\t\t<table>\r\n\t\t\t\t\t\t\t<tr ng-if=\"rating(selected) !== null\"><td>{{ 'WB_Rating' | translate }}</td><td>{{ rating(selected) }}% {{ 'WB_Positive' | translate }} ({{ selected.votesup + selected.votesdown }})</td></tr>\r\n\t\t\t\t\t\t\t<tr><td>{{ 'WB_SubscribersLabel' | translate }}</td><td>{{ selected.subscriptions }}</td></tr>\r\n\t\t\t\t\t\t\t<tr><td>{{ 'WB_Size' | translate }}</td><td>{{ formatSize(selected.filesize) }}</td></tr>\r\n\t\t\t\t\t\t\t<tr><td>{{ 'WB_Created' | translate }}</td><td>{{ formatDate(selected.timecreated) }}</td></tr>\r\n\t\t\t\t\t\t\t<tr><td>{{ 'WB_Updated' | translate }}</td><td>{{ formatDate(selected.timeupdated) }}</td></tr>\r\n\t\t\t\t\t\t\t<tr ng-if=\"selected.tags.length\"><td>{{ 'WB_Tags' | translate }}</td><td>{{ selected.tags.join(', ') }}</td></tr>\r\n\t\t\t\t\t\t</table>\r\n\t\t\t\t\t\t<p class=\"wb-badge-inline\" ng-if=\"stateLabel(selected)\">\r\n\t\t\t\t\t\t\t{{ stateLabel(selected) | translate }} <span ng-if=\"selected.state === 'downloading'\">{{ selected.progress }}%</span>\r\n\t\t\t\t\t\t\t<span ng-if=\"selected.error\">: {{ selected.error }}</span>\r\n\t\t\t\t\t\t</p>\r\n\t\t\t\t\t\t<div class=\"wb-details-actions\">\r\n\t\t\t\t\t\t\t<a href class=\"btn btn-small\" ng-class=\"{'btn-highlight': !isSubscribed(selected)}\" ng-click=\"toggleSubscription(selected)\">\r\n\t\t\t\t\t\t\t\t{{ (isSubscribed(selected) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<a href class=\"btn btn-small\" ng-click=\"openItemPage(selected)\">{{ 'WB_ViewOnWorkshop' | translate }}</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<p class=\"wb-description\">{{ selected.description || ('WB_NoDescription' | translate) }}</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</main>\r\n</section>\r\n";
 
 /***/ }),
-/* 117 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = "<section class=\"content content-menu\" id=\"content-workshop\">\r\n\t<main class=\"rounded\">\r\n\t\t<h1>{{ 'WS_Headline' | translate }}</h1>\r\n\r\n\t\t<p class=\"workshop-hint\"><a href=\"#!/Workshop\">{{ 'WS_BrowseMaps' | translate }}</a></p>\r\n\r\n\t\t<p class=\"workshop-message\" ng-if=\"loaded && !available\">\r\n\t\t\t{{ 'WS_Unavailable' | translate }} {{ error }}\r\n\t\t</p>\r\n\t\t<!-- The player's Workshop maps, with a button to review and upload an update -->\r\n\t\t<div class=\"workshop-items\" ng-if=\"available && (workshopItems.length || myItemsLoading || myItemsError)\">\r\n\t\t\t<h2>{{ 'WS_MyItems' | translate }}</h2>\r\n\t\t\t<ul>\r\n\t\t\t\t<li ng-repeat=\"entry in workshopItems track by entry.id\" ng-class=\"{'workshop-item-selected': entry.map && selected.map === entry.map}\">\r\n\t\t\t\t\t<div class=\"workshop-item-info\">\r\n\t\t\t\t\t\t<span class=\"workshop-item-title\">{{ entry.title }}</span>\r\n\t\t\t\t\t\t<small>\r\n\t\t\t\t\t\t\t<span ng-if=\"entry.map\">{{ entry.map.name }} &middot; </span>\r\n\t\t\t\t\t\t\t<a href ng-click=\"openItem(entry.id)\">{{ entry.id }}</a>\r\n\t\t\t\t\t\t\t<span ng-if=\"entry.lastupload\"> &middot; {{ 'WS_LastUpload' | translate }} {{ formatDate(entry.lastupload) }}</span>\r\n\t\t\t\t\t\t\t<span ng-if=\"!entry.map\"> &middot; {{ 'WS_NotLinked' | translate }}</span>\r\n\t\t\t\t\t\t</small>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<a href class=\"btn btn-small btn-highlight\" ng-class=\"{linkDisabled: publishing || reviewing || linking}\" ng-click=\"updateWorkshopItem(entry)\">{{ 'WS_Update' | translate }}</a>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t\t<p class=\"workshop-hint\" ng-if=\"myItemsLoading\">{{ 'WS_LoadingMyItems' | translate }}</p>\r\n\t\t\t<p class=\"workshop-hint workshop-error\" ng-if=\"myItemsError\">{{ myItemsError }}</p>\r\n\t\t\t<p class=\"workshop-hint\" ng-if=\"linking\">{{ 'WS_Linking' | translate }} <span ng-if=\"reviewProgress > 0\">{{ reviewProgress }}%</span></p>\r\n\t\t\t<p class=\"workshop-hint workshop-error\" ng-if=\"linkError\">{{ 'WS_LinkFailed' | translate }} {{ linkError }}</p>\r\n\t\t</div>\r\n\r\n\t\t<form class=\"workshop-form\" ng-if=\"available\" ng-submit=\"selected.map.publishedfileid ? startReview() : publish()\">\r\n\t\t\t<label>\r\n\t\t\t\t<span>{{ 'WS_Map' | translate }}</span>\r\n\t\t\t\t<select ng-model=\"selected.map\" ng-change=\"selectMap()\" ng-disabled=\"publishing\"\r\n\t\t\t\t\t\tng-options=\"map as map.name for map in maps track by map.name\">\r\n\t\t\t\t\t<option value=\"\">{{ 'WS_SelectMap' | translate }}</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\r\n\t\t\t<div ng-if=\"selected.map\">\r\n\t\t\t\t<p class=\"workshop-hint\">\r\n\t\t\t\t\t<span ng-if=\"!selected.map.publishedfileid\">{{ 'WS_NotPublished' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"selected.map.publishedfileid\">\r\n\t\t\t\t\t\t{{ 'WS_PublishedAs' | translate }}\r\n\t\t\t\t\t\t<a href ng-click=\"openItem(selected.map.publishedfileid)\">{{ selected.map.publishedfileid }}</a>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</p>\r\n\r\n\t\t\t\t<label>\r\n\t\t\t\t\t<span>{{ 'WS_Title' | translate }}</span>\r\n\t\t\t\t\t<input type=\"text\" ng-model=\"form.title\" maxlength=\"128\" ng-disabled=\"publishing\" />\r\n\t\t\t\t</label>\r\n\t\t\t\t<label>\r\n\t\t\t\t\t<span>{{ 'WS_Description' | translate }}</span>\r\n\t\t\t\t\t<textarea ng-model=\"form.description\" maxlength=\"8000\" rows=\"5\" ng-disabled=\"publishing\"></textarea>\r\n\t\t\t\t</label>\r\n\t\t\t\t<label>\r\n\t\t\t\t\t<span>{{ 'WS_Visibility' | translate }}</span>\r\n\t\t\t\t\t<select ng-model=\"form.visibility\" ng-disabled=\"publishing\"\r\n\t\t\t\t\t\t\tng-options=\"v.value as (v.label | translate) for v in visibilities\"></select>\r\n\t\t\t\t</label>\r\n\t\t\t\t<div class=\"workshop-field\">\r\n\t\t\t\t\t<span>{{ 'WS_Preview' | translate }}</span>\r\n\t\t\t\t\t<div class=\"workshop-preview-row\">\r\n\t\t\t\t\t\t<input type=\"text\" ng-model=\"form.preview\" ng-disabled=\"publishing\" />\r\n\t\t\t\t\t\t<a href class=\"btn btn-small\" ng-class=\"{linkDisabled: publishing || choosingPreview}\" ng-click=\"choosePreview()\">{{ 'WS_PreviewBrowse' | translate }}</a>\r\n\t\t\t\t\t\t<a href class=\"btn btn-small\" ng-if=\"form.preview\" ng-class=\"{linkDisabled: publishing}\" ng-click=\"clearPreview()\">{{ 'WS_PreviewClear' | translate }}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<small>{{ 'WS_Preview_Desc' | translate }}</small>\r\n\t\t\t\t\t<small class=\"workshop-error\" ng-if=\"previewError\">{{ previewError }}</small>\r\n\t\t\t\t\t<div class=\"workshop-preview-image\" ng-if=\"previewImage\"><img ng-src=\"{{ previewImage }}\" /></div>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"workshop-actions\" ng-if=\"!review\">\r\n\t\t\t\t\t<a href ng-if=\"!selected.map.publishedfileid\" class=\"btn btn-highlight\" ng-class=\"{linkDisabled: !canPublish()}\" ng-click=\"publish()\">\r\n\t\t\t\t\t\t{{ 'WS_Publish' | translate }}\r\n\t\t\t\t\t</a>\r\n\t\t\t\t\t<a href ng-if=\"selected.map.publishedfileid\" class=\"btn btn-highlight\" ng-class=\"{linkDisabled: !canPublish() || reviewing}\" ng-click=\"startReview()\">\r\n\t\t\t\t\t\t{{ 'WS_ReviewUpdate' | translate }}\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\r\n\t\t\t<!-- What an update changes on the Workshop -->\r\n\t\t\t<div class=\"workshop-review\" ng-if=\"reviewing || review || reviewError\">\r\n\t\t\t\t<p ng-if=\"reviewing\">{{ 'WS_Reviewing' | translate }} <span ng-if=\"reviewProgress > 0\">{{ reviewProgress }}%</span></p>\r\n\t\t\t\t<p ng-if=\"reviewError\" class=\"workshop-error\">{{ 'WS_ReviewFailed' | translate }} {{ reviewError }}</p>\r\n\r\n\t\t\t\t<div ng-if=\"review\">\r\n\t\t\t\t\t<h2>{{ 'WS_ReviewHeadline' | translate }}</h2>\r\n\t\t\t\t\t<p class=\"workshop-review-summary\" ng-class=\"{'workshop-review-nochanges': !review.haschanges}\">\r\n\t\t\t\t\t\t<span ng-if=\"review.haschanges\">\r\n\t\t\t\t\t\t\t{{ review.numchangedfiles }} {{ 'WS_ReviewFilesChange' | translate }},\r\n\t\t\t\t\t\t\t{{ review.numsamefiles }} {{ 'WS_ReviewFilesSame' | translate }}\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span ng-if=\"!review.haschanges\">{{ 'WS_ReviewNoChanges' | translate }}</span>\r\n\t\t\t\t\t</p>\r\n\r\n\t\t\t\t\t<h3>{{ 'WS_ReviewDetails' | translate }}</h3>\r\n\t\t\t\t\t<table class=\"workshop-review-table\">\r\n\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t<th></th>\r\n\t\t\t\t\t\t\t<th>{{ 'WS_ReviewCurrent' | translate }}</th>\r\n\t\t\t\t\t\t\t<th>{{ 'WS_ReviewAfterUpdate' | translate }}</th>\r\n\t\t\t\t\t\t\t<th></th>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t<tr ng-repeat=\"field in review.fields\" ng-class=\"field.changed ? 'review-changed' : 'review-same'\">\r\n\t\t\t\t\t\t\t<td class=\"review-field\">{{ fieldLabels[field.key] | translate }}</td>\r\n\t\t\t\t\t\t\t<td ng-if=\"field.key === 'visibility'\">{{ visibilityLabel(field.current) | translate }}</td>\r\n\t\t\t\t\t\t\t<td ng-if=\"field.key === 'visibility'\">{{ visibilityLabel(field.new) | translate }}</td>\r\n\t\t\t\t\t\t\t<td ng-if=\"field.key !== 'visibility'\" class=\"review-text\">{{ field.current | limitTo: 200 }}{{ field.current.length > 200 ? '...' : '' }}</td>\r\n\t\t\t\t\t\t\t<td ng-if=\"field.key !== 'visibility'\" class=\"review-text\">{{ field.new | limitTo: 200 }}{{ field.new.length > 200 ? '...' : '' }}</td>\r\n\t\t\t\t\t\t\t<td class=\"review-status\">{{ (field.changed ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t<tr ng-class=\"review.preview.status === 'changed' ? 'review-changed' : 'review-same'\">\r\n\t\t\t\t\t\t\t<td class=\"review-field\">{{ 'WS_Preview' | translate }}</td>\r\n\t\t\t\t\t\t\t<td>{{ 'WS_ReviewCurrentImage' | translate }}</td>\r\n\t\t\t\t\t\t\t<td>{{ review.preview.status === 'keep' ? ('WS_ReviewKeepImage' | translate) : review.preview.file }}</td>\r\n\t\t\t\t\t\t\t<td class=\"review-status\">{{ (review.preview.status === 'changed' ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</table>\r\n\t\t\t\t\t<p class=\"workshop-hint\" ng-if=\"review.detailssource === 'lastupload'\">{{ 'WS_ReviewDetailsFromLastUpload' | translate }}</p>\r\n\r\n\t\t\t\t\t<h3>{{ 'WS_ReviewFiles' | translate }}</h3>\r\n\t\t\t\t\t<p class=\"workshop-hint\">\r\n\t\t\t\t\t\t<span ng-if=\"review.filessource === 'workshop'\">{{ 'WS_ReviewFilesWorkshop' | translate }}</span>\r\n\t\t\t\t\t\t<span ng-if=\"review.filessource === 'lastupload'\">{{ 'WS_ReviewFilesLastUpload' | translate }} {{ formatDate(review.lastupload) }}</span>\r\n\t\t\t\t\t\t<span ng-if=\"review.filessource === 'none'\">{{ 'WS_ReviewFilesUnknown' | translate }}</span>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t\t<table class=\"workshop-review-table\">\r\n\t\t\t\t\t\t<tr ng-repeat=\"file in review.files\" ng-class=\"file.status === 'same' ? 'review-same' : 'review-changed'\">\r\n\t\t\t\t\t\t\t<td class=\"review-path\">{{ file.path }}</td>\r\n\t\t\t\t\t\t\t<td class=\"review-size\">{{ formatSize(file.size) }}</td>\r\n\t\t\t\t\t\t\t<td class=\"review-status\">{{ (review.filessource === 'none' ? 'WS_ReviewFile_upload' : 'WS_ReviewFile_' + file.status) | translate }}</td>\r\n\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t</table>\r\n\r\n\t\t\t\t\t<label>\r\n\t\t\t\t\t\t<span>{{ 'WS_ChangeNote' | translate }}</span>\r\n\t\t\t\t\t\t<input type=\"text\" ng-model=\"update.changenote\" />\r\n\t\t\t\t\t</label>\r\n\r\n\t\t\t\t\t<div class=\"workshop-actions\">\r\n\t\t\t\t\t\t<a href class=\"btn btn-highlight\" ng-class=\"{linkDisabled: !canPublish()}\" ng-click=\"confirmUpdate()\">{{ 'WS_UploadUpdate' | translate }}</a>\r\n\t\t\t\t\t\t<a href class=\"btn\" ng-click=\"cancelReview()\">{{ 'Dialog_Cancel' | translate }}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\r\n\t\t\t<div class=\"workshop-progress\" ng-if=\"publishing\">\r\n\t\t\t\t<p>{{ statusLabel() | translate }} <span ng-if=\"progress > 0\">{{ progress }}%</span></p>\r\n\t\t\t\t<div class=\"workshop-progress-bar\"><div ng-style=\"{width: progress + '%'}\"></div></div>\r\n\t\t\t</div>\r\n\r\n\t\t\t<div class=\"workshop-result\" ng-if=\"result\">\r\n\t\t\t\t<p ng-if=\"result.success\" class=\"workshop-success\">{{ 'WS_Success' | translate }}</p>\r\n\t\t\t\t<p ng-if=\"!result.success\" class=\"workshop-error\">{{ 'WS_Failed' | translate }} {{ result.message }}</p>\r\n\t\t\t\t<p ng-if=\"result.needslegalagreement\">\r\n\t\t\t\t\t{{ 'WS_LegalAgreement' | translate }}\r\n\t\t\t\t\t<a href ng-click=\"openLegalAgreement()\">{{ 'WS_OpenLegalAgreement' | translate }}</a>\r\n\t\t\t\t</p>\r\n\t\t\t\t<p ng-if=\"result.success && result.publishedfileid\">\r\n\t\t\t\t\t<a href ng-click=\"openItem(result.publishedfileid)\">{{ 'WS_ViewItem' | translate }}</a>\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t</form>\r\n\t</main>\r\n</section>\r\n\r\n<span global-chat/>\r\n";
 
 /***/ }),
+/* 115 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pg-page pg-browser\">\r\n\t<section class=\"br-main\">\r\n\t\t<header class=\"br-heading\">\r\n\t\t\t<div class=\"pg-heading\">\r\n\t\t\t\t<a href=\"#!/Multiplayer\" class=\"br-back\"><wars-icon name=\"arrow-left\"></wars-icon>{{ 'MenuOnline' | translate }}</a>\r\n\t\t\t\t<h1 class=\"pg-title\">{{ 'BR_Title' | translate }}</h1>\r\n\t\t\t\t<p class=\"pg-status\">\r\n\t\t\t\t\t{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }} &middot;\r\n\t\t\t\t\t<span class=\"br-updated\" ng-if=\"refreshing || !loaded\">{{ 'BR_Refreshing' | translate }}</span>\r\n\t\t\t\t\t<span class=\"br-updated\" ng-if=\"!refreshing && loaded && secondsSinceUpdate < 2\">{{ 'BR_UpdatedNow' | translate }}</span>\r\n\t\t\t\t\t<span class=\"br-updated\" ng-if=\"!refreshing && loaded && secondsSinceUpdate >= 2\">{{ 'BR_Updated' | translate }} {{ secondsSinceUpdate }}s {{ 'BR_Ago' | translate }}</span>\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-icon-btn br-refresh\" ng-click=\"refresh()\" aria-label=\"{{ 'OG_RefreshList' | translate }}\"><wars-icon name=\"refresh\"></wars-icon></button>\r\n\t\t\t\t</p>\r\n\t\t\t</div>\r\n\t\t\t<a href=\"#!/Gamelobby\" class=\"lb-btn lb-btn-launch br-create\"><wars-icon name=\"plus\"></wars-icon>{{ 'BR_CreateLobby' | translate }}</a>\r\n\t\t</header>\r\n\r\n\t\t<p class=\"dev-warning br-dev-warning\" ng-if=\"beta === 'dev'\"><b>You are currently running the developers build and may not find games here. Opt-out of the beta to switch to the public build.</b></p>\r\n\r\n\t\t<div class=\"br-filters\">\r\n\t\t\t<label class=\"br-search\">\r\n\t\t\t\t<wars-icon name=\"search\"></wars-icon>\r\n\t\t\t\t<input type=\"text\" ng-model=\"filter.search\" placeholder=\"{{ 'BR_Search' | translate }}\" />\r\n\t\t\t</label>\r\n\t\t\t<span class=\"lb-segmented\">\r\n\t\t\t\t<button type=\"button\" ng-class=\"{active: !filter.mode}\" ng-click=\"setMode('')\">{{ 'BR_All' | translate }}</button>\r\n\t\t\t\t<button type=\"button\" ng-repeat=\"mode in modes track by mode.id\" ng-class=\"{active: filter.mode === mode.id}\" ng-click=\"setMode(mode.id)\">{{ mode.name }}</button>\r\n\t\t\t</span>\r\n\t\t\t<button type=\"button\" class=\"lb-switch\" role=\"switch\" aria-checked=\"{{ filter.hideFull }}\" ng-class=\"{on: filter.hideFull}\" ng-click=\"toggleHideFull()\">\r\n\t\t\t\t<span class=\"lb-switch-track\"><span class=\"lb-switch-knob\"></span></span>\r\n\t\t\t\t<span class=\"br-switch-label\">{{ 'BR_HideFull' | translate }}</span>\r\n\t\t\t</button>\r\n\t\t\t<label class=\"br-sort\">\r\n\t\t\t\t<span class=\"lb-label\">{{ 'BR_Sort' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-select-wrap\">\r\n\t\t\t\t\t<select class=\"lb-select\" ng-model=\"filter.sort\" ng-options=\"sort.id as (sort.label | translate) for sort in sorts\"></select>\r\n\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</label>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"br-table-header\">\r\n\t\t\t<span class=\"br-col-thumb\"></span>\r\n\t\t\t<button type=\"button\" class=\"br-col-name br-th\" ng-class=\"{active: filter.sort === 'name'}\" ng-click=\"setSort('name')\">{{ 'BR_Lobby' | translate }}</button>\r\n\t\t\t<span class=\"br-col-mode\">{{ 'GL_GameMode' | translate }}</span>\r\n\t\t\t<span class=\"br-col-map\">{{ 'GL_Map' | translate }}</span>\r\n\t\t\t<button type=\"button\" class=\"br-col-players br-th\" ng-class=\"{active: filter.sort === 'players'}\" ng-click=\"setSort('players')\">{{ 'OG_Players' | translate }}</button>\r\n\t\t\t<span class=\"br-col-status\">{{ 'BR_Status' | translate }}</span>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"br-rows\" role=\"listbox\" tabindex=\"0\" ng-keydown=\"onListKey($event)\" aria-label=\"{{ 'OL_Lobbies' | translate }}\">\r\n\t\t\t<button type=\"button\" class=\"br-row\" role=\"option\" tabindex=\"-1\" ng-repeat=\"lobby in visibleLobbies track by lobby.steamid\"\r\n\t\t\t\tng-class=\"{selected: lobby === selected, full: lobby.isFull}\" aria-selected=\"{{ lobby === selected }}\"\r\n\t\t\t\tng-click=\"select(lobby)\" ng-dblclick=\"joinlobby(lobby)\">\r\n\t\t\t\t<span class=\"br-col-thumb pg-thumb\"><img ng-if=\"lobby.overviewsrc\" ng-src=\"{{ lobby.overviewsrc }}.vtf\" /></span>\r\n\t\t\t\t<span class=\"br-col-name\">{{ lobby.name }}</span>\r\n\t\t\t\t<span class=\"br-col-mode\">{{ lobby.modeLabel }}</span>\r\n\t\t\t\t<span class=\"br-col-map\">{{ lobby.map }}</span>\r\n\t\t\t\t<span class=\"br-col-players pg-fill\">\r\n\t\t\t\t\t<span class=\"pg-fill-bar\"><span ng-style=\"{width: lobby.fill + '%'}\"></span></span>\r\n\t\t\t\t\t<span class=\"pg-fill-count\">{{ lobby.taken }} / {{ lobby.total }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<span class=\"br-col-status\" ng-class=\"lobby.isFull ? 'br-status-full' : 'br-status-open'\">{{ (lobby.isFull ? 'BR_Full' : 'BR_Open') | translate }}</span>\r\n\t\t\t</button>\r\n\r\n\t\t\t<p class=\"pg-empty\" ng-if=\"!loaded\">{{ 'OL_Loading' | translate }}</p>\r\n\t\t\t<div class=\"br-empty\" ng-if=\"loaded && !visibleLobbies.length\">\r\n\t\t\t\t<span class=\"br-empty-title\">{{ (lobbies.length ? 'BR_NoMatches' : 'BR_NoLobbies') | translate }}</span>\r\n\t\t\t\t<span class=\"br-empty-text\">{{ (lobbies.length ? 'BR_NoMatches_Desc' : 'BR_NoLobbies_Desc') | translate }}</span>\r\n\t\t\t\t<span class=\"br-empty-actions\">\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-btn\" ng-if=\"lobbies.length\" ng-click=\"clearFilters()\">{{ 'BR_ClearFilters' | translate }}</button>\r\n\t\t\t\t\t<a href=\"#!/Gamelobby\" class=\"lb-btn lb-btn-launch\">{{ 'BR_CreateLobby' | translate }}</a>\r\n\t\t\t\t</span>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<p class=\"br-tip\" ng-if=\"visibleLobbies.length > 1\">{{ 'BR_Tip' | translate }}</p>\r\n\t</section>\r\n\r\n\t<aside class=\"br-details\" ng-if=\"selected\">\r\n\t\t<figure class=\"br-map\">\r\n\t\t\t<i class=\"lb-corner lb-corner-tl\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-tr\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-bl\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-br\"></i>\r\n\t\t\t<div class=\"lb-map-image\">\r\n\t\t\t\t<img ng-if=\"selected.overviewsrc\" ng-src=\"{{ selected.overviewsrc }}.vtf\" />\r\n\t\t\t\t<span class=\"lb-map-noimage\" ng-if=\"!selected.overviewsrc\">{{ 'GL_NoOverview' | translate }}</span>\r\n\t\t\t</div>\r\n\t\t\t<figcaption class=\"lb-map-info\">\r\n\t\t\t\t<span class=\"lb-map-text\">\r\n\t\t\t\t\t<span class=\"lb-map-mode\">{{ selected.modeLabel }}</span>\r\n\t\t\t\t\t<span class=\"lb-map-name\">{{ selected.map }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t</figcaption>\r\n\t\t</figure>\r\n\r\n\t\t<h2 class=\"br-details-name\">{{ selected.name }}</h2>\r\n\r\n\t\t<ul class=\"lb-settings br-details-list\">\r\n\t\t\t<li ng-repeat=\"team in selected.teams track by team.team\">\r\n\t\t\t\t<span class=\"lb-label\">{{ team.team === 0 ? ('BR_PlayersLabel' | translate) : ('GL_Team' | translate) + ' ' + (team.team - 1) }}</span>\r\n\t\t\t\t<span class=\"br-dots\" aria-label=\"{{ team.taken }} / {{ team.total }}\">\r\n\t\t\t\t\t<span class=\"br-dot\" ng-repeat=\"taken in team.dots track by $index\" ng-class=\"{taken: taken}\"></span>\r\n\t\t\t\t</span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t<span class=\"lb-label\">{{ 'GL_Map' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-setting-value\" ng-class=\"{'hm-warning': !selected.mapinstalled}\">{{ (selected.mapinstalled ? 'BR_MapInstalled' : 'BR_MapMissing') | translate }}</span>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\r\n\t\t<div class=\"br-details-actions\">\r\n\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch\" ng-if=\"!selected.isFull\" ng-click=\"joinlobby(selected)\">\r\n\t\t\t\t{{ 'BR_JoinLobby' | translate }}<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t</button>\r\n\t\t\t<div class=\"lb-actions-row lb-actions-main\" ng-if=\"selected.isFull\">\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch\" disabled>{{ 'BR_LobbyFull' | translate }}</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn\" ng-click=\"joinlobby(selected)\"><wars-icon name=\"eye\"></wars-icon>{{ 'GL_Spectate' | translate }}</button>\r\n\t\t\t</div>\r\n\t\t\t<p class=\"lb-hint\">\r\n\t\t\t\t<span ng-if=\"selected.isFull\">{{ 'BR_HintFull' | translate }}</span>\r\n\t\t\t\t<span ng-if=\"!selected.isFull && !selected.mapinstalled\">{{ 'BR_HintMapMissing' | translate }}</span>\r\n\t\t\t\t<span ng-if=\"!selected.isFull && selected.mapinstalled\">{{ selected.open }} {{ (selected.open === 1 ? 'BR_SlotOpen' : 'BR_SlotsOpen') | translate }}</span>\r\n\t\t\t</p>\r\n\t\t</div>\r\n\t</aside>\r\n</div>\r\n";
+
+/***/ }),
+/* 116 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"lb-page\" ng-controller=\"GamelobbyPlayerListController\">\r\n\r\n\t<section class=\"lb-main\">\r\n\t\t<header class=\"lb-header\">\r\n\t\t\t<p class=\"lb-breadcrumb noselect\">\r\n\t\t\t\t<span class=\"lb-breadcrumb-section\">{{ (lobbytype.value === 'offline' ? 'GL_OfflineGame' : 'GL_CustomGame') | translate }}</span>\r\n\t\t\t\t<span class=\"lb-breadcrumb-separator\">/</span>\r\n\t\t\t\t<span class=\"lb-status\" ng-class=\"'lb-status-' + state\">\r\n\t\t\t\t\t<span class=\"lb-status-dot\"></span>\r\n\t\t\t\t\t<span ng-if=\"state === 'lobbying' && lobbyingstate_msg !== null\">{{ lobbyingstate_msg | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'lobbying' && lobbyingstate_msg === null\">{{ 'GL_StatusWaiting' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'creating'\">{{ 'GL_StatusCreating' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'joining'\">{{ 'GL_StatusJoining' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'searchingserver'\">{{ 'GL_StatusFindingServer' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'startinglocalserver' && lobbytype.value === 'offline'\">{{ 'GL_StatusStartingLocal' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'startinglocalserver' && lobbytype.value !== 'offline'\">{{ 'GL_StatusHostStartingLocal' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'gamestarted'\">{{ 'GL_StatusInProgress' | translate }}</span>\r\n\t\t\t\t\t<span ng-if=\"state === 'gameended'\">{{ 'GL_StatusGameEnded' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<span class=\"lb-breadcrumb-count\" ng-if=\"numSlots()\">&middot; {{ numFilledSlots(slots) }}/{{ numSlots() }} {{ 'GL_Players' | translate }}</span>\r\n\t\t\t</p>\r\n\r\n\t\t\t<div class=\"lb-header-row\">\r\n\t\t\t\t<div class=\"lb-heading\">\r\n\t\t\t\t\t<div ng-if=\"islobbyowner\">\r\n\t\t\t\t\t\t<input class=\"lb-title lb-title-input\" type=\"text\" maxlength=\"50\" ng-model=\"lobbyname\" ng-change=\"updateLobbyName(lobbyname)\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<h1 class=\"lb-title\" ng-if=\"!islobbyowner\">{{ lobbyname }}</h1>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"lb-header-controls\">\r\n\t\t\t\t\t<div class=\"lb-control\" ng-if=\"lobbytype && lobbytype.value !== 'offline'\">\r\n\t\t\t\t\t\t<wars-icon name=\"globe\"></wars-icon>\r\n\t\t\t\t\t\t<span class=\"lb-select-wrap\" ng-if=\"islobbyowner\">\r\n\t\t\t\t\t\t\t<select class=\"lb-select\" ng-model=\"lobbytype\" ng-options=\"lt.name | translate for lt in lobbytypes track by lt.value\" ng-change=\"updateLobbyType(lobbytype.value)\"></select>\r\n\t\t\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t<span ng-if=\"!islobbyowner\">{{ lobbytype.name | translate }}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"lb-control\" ng-if=\"islobbyowner && lobbytype && lobbytype.value !== 'offline'\" ng-tooltip=\"{{ 'GL_MMPassword' | translate }}\">\r\n\t\t\t\t\t\t<wars-icon name=\"lock\"></wars-icon>\r\n\t\t\t\t\t\t<input class=\"lb-password\" type=\"password\" maxlength=\"100\" ng-model=\"mm_password\" ng-change=\"setMMPassword(mm_password)\" placeholder=\"{{ 'GL_NoServerPassword' | translate }}\" />\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-click=\"leavelobby()\">\r\n\t\t\t\t\t\t<wars-icon name=\"leave\"></wars-icon>{{ 'GL_Leave' | translate }}\r\n\t\t\t\t\t</button>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</header>\r\n\r\n\t\t<div class=\"lb-body\" ng-show=\"!isShowScores\">\r\n\t\t\t<div class=\"lb-teams\" ng-class=\"{'lb-teams-single': teamSlots.length === 1}\">\r\n\t\t\t\t<div class=\"lb-team\" ng-repeat=\"teamEntry in teamSlots track by teamEntry.team\" ng-class=\"teamEntry.team === 0 ? 'lb-team-ffa' : 'lb-team-' + ($index % 4)\">\r\n\t\t\t\t\t<h2 class=\"lb-team-header noselect\">\r\n\t\t\t\t\t\t<span class=\"lb-team-marker\"></span>\r\n\t\t\t\t\t\t<span class=\"lb-team-name\">{{ teamEntry.header }}</span>\r\n\t\t\t\t\t\t<span class=\"lb-team-count\">{{ numFilledSlots(teamEntry.slots) }} / {{ teamEntry.slots.length }}</span>\r\n\t\t\t\t\t</h2>\r\n\t\t\t\t\t<ul class=\"lb-slots\">\r\n\t\t\t\t\t\t<li class=\"lb-slot\" ng-repeat=\"slot in teamEntry.slots track by slot.slotid\"\r\n\t\t\t\t\t\t\tng-class=\"{'lb-slot-open': slot.type !== 'player', 'lb-slot-self': slot.player.islocaluser}\">\r\n\r\n\t\t\t\t\t\t\t<!-- Open slot -->\r\n\t\t\t\t\t\t\t<span class=\"lb-avatar lb-avatar-empty\" ng-if=\"slot.type !== 'player'\"></span>\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-name lb-muted\" ng-if=\"slot.type === 'open'\">{{ 'GL_OpenSlot' | translate }}</span>\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-actions\" ng-if=\"slot.type === 'open' && state === 'lobbying'\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline\" ng-disabled=\"isPlayerReady()\" ng-click=\"requestSlot(slot.slotid)\">{{ 'GL_Join' | translate }}</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-ghost\" ng-if=\"islobbyowner\" ng-disabled=\"isPlayerReady()\" ng-click=\"addCPU(slot.slotid)\">{{ 'GL_AddCPU' | translate }}</button>\r\n\t\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t\t<!-- Player or CPU -->\r\n\t\t\t\t\t\t\t<span class=\"lb-avatar-wrap\" ng-if=\"slot.type === 'player'\" ng-class=\"connectionClass(slot)\">\r\n\t\t\t\t\t\t\t\t<span class=\"lb-avatar lb-avatar-cpu\" ng-if=\"slot.iscpu\">CPU</span>\r\n\t\t\t\t\t\t\t\t<img class=\"lb-avatar\" ng-if=\"!slot.iscpu\" ng-src=\"{{ slot.player.steamid ? 'avatar://medium/' + slot.player.steamid : unknownPlayerAvatar }}\" />\r\n\t\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t\t<span class=\"lb-color\" ng-if=\"slot.type === 'player' && !slot.editable\" style=\"background: {{ availablecolors[slot.player.color].color }}\"></span>\r\n\t\t\t\t\t\t\t<select class=\"lb-color lb-color-select\" ng-if=\"slot.type === 'player' && slot.editable\" ng-disabled=\"isPlayerReady()\" ng-model=\"selectedColor[slot.slotid]\" ng-change=\"updatePlayerData('color', selectedColor[slot.slotid], slot.slotid)\" style=\"background: {{ availablecolors[slot.player.color].color }}\">\r\n\t\t\t\t\t\t\t\t<option ng-repeat=\"(id, color) in availablecolors\" ng-disabled=\"!color.available\" value=\"{{ color.name }}\" style=\"background: {{ color.color }}\"></option>\r\n\t\t\t\t\t\t\t</select>\r\n\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-name\" ng-if=\"slot.type === 'player'\">\r\n\t\t\t\t\t\t\t\t<span class=\"lb-select-wrap\" ng-if=\"state === 'lobbying' && slot.iscpu && islobbyowner\">\r\n\t\t\t\t\t\t\t\t\t<select class=\"lb-select\" ng-disabled=\"isPlayerReady()\" ng-options=\"'CPU - ' + (difficulty.displayname | translate) for difficulty in availabledifficulties\" ng-model=\"selectedDifficulty[slot.slotid]\" ng-change=\"updatePlayerData('difficulty', selectedDifficulty[slot.slotid].id, slot.slotid)\"></select>\r\n\t\t\t\t\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t\t<span class=\"lb-slot-playername\" ng-if=\"!(state === 'lobbying' && slot.iscpu && islobbyowner)\">{{ slot.player.name + (slot.iscpu ? ' - ' + (difficultyLabels[slot.difficulty] | translate) : '') }}</span>\r\n\t\t\t\t\t\t\t\t<span class=\"lb-tag lb-tag-host\" ng-if=\"slot.player.isLobbyLeader\">{{ 'GL_Host' | translate }}</span>\r\n\t\t\t\t\t\t\t\t<span class=\"lb-tag lb-tag-you\" ng-if=\"slot.player.islocaluser\">{{ 'GL_You' | translate }}</span>\r\n\t\t\t\t\t\t\t\t<!-- Steam Workshop map not available yet for this player -->\r\n\t\t\t\t\t\t\t\t<span class=\"lb-tag lb-map-state\" ng-if=\"workshopEnabled && slot.player.mapstate && slot.player.mapstate !== 'ok'\" ng-class=\"'lb-map-state-' + slot.player.mapstate\">{{ ('GL_PlayerMap_' + slot.player.mapstate) | translate }}<span ng-if=\"slot.player.mapstate === 'downloading'\"> {{ slot.player.mapprogress }}%</span></span>\r\n\t\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-faction\" ng-if=\"slot.type === 'player'\">\r\n\t\t\t\t\t\t\t\t<span ng-if=\"!slot.editable\">{{ slot.player.factionname }}</span>\r\n\t\t\t\t\t\t\t\t<span class=\"lb-select-wrap\" ng-if=\"slot.editable\">\r\n\t\t\t\t\t\t\t\t\t<select class=\"lb-select\" ng-disabled=\"isPlayerReady()\" ng-model=\"selectedFaction[slot.slotid]\" ng-options=\"faction.displayname for (id, faction) in availablefactions\" ng-change=\"updatePlayerData('faction', selectedFaction[slot.slotid].name, slot.slotid)\"></select>\r\n\t\t\t\t\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-ready\" ng-if=\"slot.type === 'player' && lobbytype.value !== 'offline'\"\r\n\t\t\t\t\t\t\t\tng-class=\"{'lb-clickable': slot.player.islocaluser && state === 'lobbying'}\"\r\n\t\t\t\t\t\t\t\tng-click=\"slot.player.islocaluser && state === 'lobbying' && toggleReady()\">\r\n\t\t\t\t\t\t\t\t<span class=\"lb-ready\" ng-if=\"isPlayerReadyByID(slot.slotid)\"><wars-icon name=\"check\"></wars-icon>{{ 'GL_Ready' | translate }}</span>\r\n\t\t\t\t\t\t\t\t<span class=\"lb-notready\" ng-if=\"!isPlayerReadyByID(slot.slotid)\">&middot; {{ 'GL_NotReady' | translate }}</span>\r\n\t\t\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t\t\t<span class=\"lb-slot-actions lb-slot-actions-hover\" ng-if=\"slot.type === 'player' && state === 'lobbying' && islobbyowner && !slot.player.islocaluser\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"lb-icon-btn\" ng-if=\"slot.iscpu\" ng-disabled=\"isPlayerReady()\" ng-click=\"removeCPU(slot.slotid)\" ng-tooltip=\"{{ 'GL_RemoveCPU' | translate }}\"><wars-icon name=\"close\"></wars-icon></button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"lb-icon-btn\" ng-if=\"!slot.iscpu\" ng-click=\"kickPlayer(slot.slotid)\" ng-tooltip=\"{{ 'GL_Kick' | translate }}\"><wars-icon name=\"close\"></wars-icon></button>\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</li>\r\n\t\t\t\t\t</ul>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\r\n\t\t\t<p class=\"lb-spectators\">\r\n\t\t\t\t<span class=\"lb-label\">{{ 'GL_Spectators' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-muted\" ng-if=\"!spectators.length\">{{ 'GL_None' | translate }}</span>\r\n\t\t\t\t<span ng-repeat=\"spectator in spectators\">\r\n\t\t\t\t\t<span ng-if=\"!islobbyowner || spectator.islocaluser\">{{ spectator.name }}</span>\r\n\t\t\t\t\t<a href ng-if=\"islobbyowner && !spectator.islocaluser\" ng-click=\"kickPlayerBySteamID(spectator.steamid)\" ng-tooltip=\"{{ 'GL_Kick' | translate }}\">{{ spectator.name }}</a>\r\n\t\t\t\t\t<span class=\"lb-map-state\" ng-if=\"workshopEnabled && spectator.mapstate && spectator.mapstate !== 'ok'\" ng-class=\"'lb-map-state-' + spectator.mapstate\">({{ ('GL_PlayerMap_' + spectator.mapstate) | translate }}<span ng-if=\"spectator.mapstate === 'downloading'\"> {{ spectator.mapprogress }}%</span>)</span>{{ $last ? '' : ', ' }}\r\n\t\t\t\t</span>\r\n\t\t\t</p>\r\n\r\n\t\t\t<section class=\"lb-chat\" ng-controller=\"GameLobbyChatController\">\r\n\t\t\t\t<nav class=\"lb-tabs noselect\">\r\n\t\t\t\t\t<a href ng-class=\"{active: lobbychat}\" ng-click=\"lobbychat = true\">{{ 'GL_LobbyTab' | translate }}</a>\r\n\t\t\t\t\t<a href ng-class=\"{active: !lobbychat}\" ng-click=\"lobbychat = false\">{{ 'GL_GlobalTab' | translate }}</a>\r\n\t\t\t\t</nav>\r\n\r\n\t\t\t\t<div class=\"lb-chat-pane\" ng-show=\"lobbychat\">\r\n\t\t\t\t\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"gamelobbymanager\"></chat-lines>\r\n\t\t\t\t\t<div class=\"lb-chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"gamelobbymanager\">\r\n\t\t\t\t\t\t<form ng-submit=\"sendChat()\" class=\"lb-chat-form\"><input type=\"text\" ng-model=\"text\" placeholder=\"{{ 'GL_ChatPlaceholder' | translate }}\" /></form>\r\n\t\t\t\t\t\t<span class=\"lb-chat-language\" ng-if=\"inputlanguage\">{{ inputlanguage }}</span>\r\n\t\t\t\t\t\t<a href class=\"lb-chat-send\" ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"lb-chat-pane\" ng-show=\"!lobbychat\">\r\n\t\t\t\t\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"chatlobby\"></chat-lines>\r\n\t\t\t\t\t<div class=\"lb-chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"chatlobby\">\r\n\t\t\t\t\t\t<form ng-submit=\"sendChat()\" class=\"lb-chat-form\"><input type=\"text\" ng-model=\"text\" placeholder=\"{{ 'GL_ChatPlaceholderGlobal' | translate }}\" /></form>\r\n\t\t\t\t\t\t<span class=\"lb-chat-language\" ng-if=\"inputlanguage\">{{ inputlanguage }}</span>\r\n\t\t\t\t\t\t<a href class=\"lb-chat-send\" ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</section>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"lb-scores\" ng-if=\"isShowScores\">\r\n\t\t\t<match-result match-uuid=match_uuid></match-result>\r\n\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-click=\"backToPlayerList()\">{{ 'Button_Back' | translate }}</button>\r\n\t\t</div>\r\n\t</section>\r\n\r\n\t<aside class=\"lb-side\" ng-controller=\"GamelobbySettingsController\">\r\n\t\t<div class=\"lb-map-card\">\r\n\t\t\t<i class=\"lb-corner lb-corner-tl\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-tr\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-bl\"></i>\r\n\t\t\t<i class=\"lb-corner lb-corner-br\"></i>\r\n\r\n\t\t\t<div class=\"lb-map-image\">\r\n\t\t\t\t<!-- The overview of the map, or the Workshop preview image when the map has no overview (yet) -->\r\n\t\t\t\t<img ng-if=\"minimapurl\" ng-src=\"{{ minimapurl }}\" />\r\n\t\t\t\t<span class=\"lb-map-noimage\" ng-if=\"!minimapurl\">{{ 'GL_NoOverview' | translate }}</span>\r\n\t\t\t</div>\r\n\r\n\t\t\t<span class=\"lb-map-badge noselect\" ng-if=\"workshopEnabled && mapworkshop\"><wars-icon name=\"wrench\"></wars-icon>{{ 'GL_WorkshopMap' | translate }}</span>\r\n\t\t\t<a href class=\"lb-map-link noselect\" ng-if=\"workshopEnabled && mapworkshop\" ng-click=\"openWorkshopPage()\"><span class=\"lb-map-link-text\">{{ 'GL_ViewOnWorkshop' | translate }}</span><wars-icon name=\"external\"></wars-icon></a>\r\n\r\n\t\t\t<div class=\"lb-map-info\">\r\n\t\t\t\t<div class=\"lb-map-text\">\r\n\t\t\t\t\t<p class=\"lb-map-mode\">{{ mode.name }}<span ng-if=\"teamsetup\"> &middot; {{ teamSetupLabel(teamsetup.id) }}</span></p>\r\n\t\t\t\t\t<h2 class=\"lb-map-name\">{{ map.mapname || mapname }}</h2>\r\n\t\t\t\t\t<p class=\"lb-map-meta\">\r\n\t\t\t\t\t\t<span ng-if=\"workshopEnabled && mapworkshop\">{{ 'GL_WorkshopMapBy' | translate }} {{ mapworkshop.author }}<span ng-if=\"map.numplayers\"> &middot; </span></span>\r\n\t\t\t\t\t\t<span ng-if=\"map.numplayers\">{{ map.numplayers }} {{ 'GL_Players' | translate }}</span>\r\n\t\t\t\t\t</p>\r\n\t\t\t\t</div>\r\n\t\t\t\t<span class=\"lb-map-subscribed\" ng-if=\"workshopEnabled && mapworkshop.subscribed\"><wars-icon name=\"check\"></wars-icon>{{ 'GL_Subscribed' | translate }}</span>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline lb-map-subscribe\" ng-if=\"workshopEnabled && mapworkshop && !mapworkshop.subscribed\" ng-click=\"subscribeWorkshopMap()\">{{ 'GL_SubscribeNow' | translate }}</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n\t\t<ul class=\"lb-settings\">\r\n\t\t\t<li>\r\n\t\t\t\t<span class=\"lb-label\">{{ 'GL_GameMode' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-setting-value\" ng-if=\"!islobbyowner\" ng-tooltip=\"{{ mode.description }}\">{{ mode.name }}</span>\r\n\t\t\t\t<span class=\"lb-select-wrap\" ng-show=\"islobbyowner\" ng-tooltip=\"{{ mode.description }}\">\r\n\t\t\t\t\t<select class=\"lb-select\" ng-disabled=\"isPlayerReady()\" ng-model=\"mode\" ng-options=\"mode.name for (id , mode) in availablemodes\" ng-change=\"updateSetting('mode', mode.id)\"></select>\r\n\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t<span class=\"lb-label\">{{ 'GL_Map' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-setting-value\" ng-if=\"!islobbyowner\">{{ map.displayname || mapname }}</span>\r\n\t\t\t\t<span class=\"lb-select-wrap\" ng-show=\"islobbyowner\">\r\n\t\t\t\t\t<select class=\"lb-select\" ng-disabled=\"isPlayerReady()\" ng-model=\"map\" ng-options=\"map.displayname for (id , map) in availablemaps\" ng-change=\"updateSetting('map', map.id)\"></select>\r\n\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</li>\r\n\t\t\t<!-- The map is not available yet, for example while it downloads from the Workshop -->\r\n\t\t\t<li class=\"lb-setting-note\" ng-if=\"workshopEnabled && !islobbyowner && mapstatus && mapstatus.state !== 'ok'\" ng-class=\"'lb-map-status-' + mapstatus.state\">\r\n\t\t\t\t{{ ('GL_MapStatus_' + mapstatus.state) | translate }}<span ng-if=\"mapstatus.state === 'downloading' && mapstatus.progress > 0\"> {{ mapstatus.progress }}%</span><span ng-if=\"mapstatus.error\"> {{ mapstatus.error }}</span>\r\n\t\t\t</li>\r\n\t\t\t<li class=\"lb-setting-note\" ng-if=\"workshopEnabled && mapworkshop && mapwaiting.length\">\r\n\t\t\t\t{{ 'GL_WaitingForMap' | translate }}\r\n\t\t\t\t<span ng-repeat=\"player in mapwaiting\">{{ player.name }} ({{ ('GL_PlayerMap_' + player.state) | translate }}<span ng-if=\"player.state === 'downloading'\"> {{ player.progress }}%</span>){{ $last ? '' : ', ' }}</span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t<span class=\"lb-label\">{{ 'GL_Teams' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-segmented\">\r\n\t\t\t\t\t<button type=\"button\" ng-repeat=\"option in teamSetupOptions track by option.id\"\r\n\t\t\t\t\t\tng-class=\"{active: teamsetup.id === option.id}\"\r\n\t\t\t\t\t\tng-disabled=\"!option.supported || !islobbyowner || isPlayerReady()\"\r\n\t\t\t\t\t\tng-click=\"selectTeamSetup(option)\">{{ option.label }}</button>\r\n\t\t\t\t</span>\r\n\t\t\t</li>\r\n\t\t\t<!-- Game mode settings, like the Overrun difficulty -->\r\n\t\t\t<li ng-repeat=\"field in settingFields track by field.id\">\r\n\t\t\t\t<span class=\"lb-label\">{{ field.name }}</span>\r\n\t\t\t\t<span class=\"lb-setting-value\" ng-if=\"!islobbyowner\">{{ valueLabel(selectedCustomFields[field.id]) | translate }}</span>\r\n\t\t\t\t<span class=\"lb-select-wrap\" ng-show=\"islobbyowner\">\r\n\t\t\t\t\t<select class=\"lb-select\" ng-disabled=\"isPlayerReady()\" ng-model=\"selectedCustomFields[field.id]\" ng-options=\"value as (valueLabel(value) | translate) for value in field.values\" ng-change=\"updateCustomField(field.id, selectedCustomFields[field.id])\"></select>\r\n\t\t\t\t\t<wars-icon name=\"chevron-down\"></wars-icon>\r\n\t\t\t\t</span>\r\n\t\t\t</li>\r\n\t\t\t<li>\r\n\t\t\t\t<button type=\"button\" class=\"lb-modifiers-row\" ng-class=\"{open: modifiersOpen}\" ng-disabled=\"!modifierFields.length\" ng-click=\"toggleModifiers($event)\" aria-haspopup=\"dialog\" aria-expanded=\"{{ modifiersOpen }}\">\r\n\t\t\t\t\t<span class=\"lb-label\">{{ 'GL_Modifiers' | translate }} <span class=\"lb-count\" ng-class=\"{active: activeModifiers().length}\">{{ activeModifiers().length }}</span></span>\r\n\t\t\t\t\t<span class=\"lb-modifiers-summary\" ng-class=\"{'lb-muted': !activeModifiers().length}\">{{ modifiersSummary() || ('GL_None' | translate) }}</span>\r\n\t\t\t\t\t<wars-icon name=\"chevron-left\" ng-if=\"modifierFields.length\"></wars-icon>\r\n\t\t\t\t</button>\r\n\t\t\t</li>\r\n\t\t</ul>\r\n\r\n\t\t<!-- Modifiers panel, opens to the left of the settings column -->\r\n\t\t<div class=\"lb-flyout\" ng-if=\"modifiersOpen\" ng-style=\"modifiersStyle\" role=\"dialog\" aria-label=\"{{ 'GL_Modifiers' | translate }}\">\r\n\t\t\t<span class=\"lb-flyout-arrow\"></span>\r\n\t\t\t<div class=\"lb-flyout-header\">\r\n\t\t\t\t<span class=\"lb-flyout-marker\"></span>\r\n\t\t\t\t<h2>{{ 'GL_Modifiers' | translate }}</h2>\r\n\t\t\t\t<span class=\"lb-flyout-subtitle\" ng-if=\"islobbyowner\">{{ activeModifiers().length }} {{ 'GL_ModifiersActive' | translate }}</span>\r\n\t\t\t\t<span class=\"lb-flyout-subtitle\" ng-if=\"!islobbyowner\">{{ 'GL_ModifiersSetByHost' | translate }}</span>\r\n\t\t\t\t<button type=\"button\" class=\"lb-icon-btn lb-flyout-close\" ng-click=\"closeModifiers()\" aria-label=\"{{ 'Dialog_Cancel' | translate }}\"><wars-icon name=\"close\"></wars-icon></button>\r\n\t\t\t</div>\r\n\t\t\t<ul class=\"lb-flyout-list\">\r\n\t\t\t\t<li ng-repeat=\"field in modifierFields track by field.id\">\r\n\t\t\t\t\t<span class=\"lb-flyout-name\">{{ field.name }}</span>\r\n\t\t\t\t\t<!-- On or off -->\r\n\t\t\t\t\t<button type=\"button\" class=\"lb-switch\" ng-if=\"field.values.length === 2\" role=\"switch\" aria-checked=\"{{ isModifierActive(field) }}\"\r\n\t\t\t\t\t\tng-class=\"{on: isModifierActive(field)}\" ng-disabled=\"!canEditCustomFields()\" ng-click=\"toggleModifier(field)\">\r\n\t\t\t\t\t\t<span class=\"lb-switch-text\">{{ (isModifierActive(field) ? 'GL_ModOn' : 'GL_ModOff') | translate }}</span>\r\n\t\t\t\t\t\t<span class=\"lb-switch-track\"><span class=\"lb-switch-knob\"></span></span>\r\n\t\t\t\t\t</button>\r\n\t\t\t\t\t<!-- More choices, like inverted -->\r\n\t\t\t\t\t<span class=\"lb-segmented\" ng-if=\"field.values.length > 2\">\r\n\t\t\t\t\t\t<button type=\"button\" ng-repeat=\"value in field.values\" ng-class=\"{active: selectedCustomFields[field.id] === value}\"\r\n\t\t\t\t\t\t\tng-disabled=\"!canEditCustomFields()\" ng-click=\"setModifier(field, value)\">{{ valueLabel(value) | translate }}</button>\r\n\t\t\t\t\t</span>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t\t<div class=\"lb-flyout-footer\">\r\n\t\t\t\t<button type=\"button\" class=\"lb-text-btn\" ng-if=\"islobbyowner\" ng-disabled=\"!canEditCustomFields() || !activeModifiers().length\" ng-click=\"resetModifiers()\">{{ 'GL_ResetAll' | translate }}</button>\r\n\t\t\t\t<span class=\"lb-muted\" ng-if=\"!islobbyowner\">{{ 'GL_ModifiersHostOnly' | translate }}</span>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small lb-btn-outline\" ng-click=\"closeModifiers()\">{{ 'GL_Done' | translate }}</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n\t\t<div class=\"lb-actions\">\r\n\t\t\t<div class=\"lb-actions-row\" ng-if=\"state === 'lobbying' && !match_uuid\">\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-if=\"islobbyowner && lobbytype.value !== 'offline'\" ng-click=\"invite()\">\r\n\t\t\t\t\t<wars-icon name=\"invite\"></wars-icon>{{ 'GL_Invite' | translate }}\r\n\t\t\t\t</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-click=\"spectate()\">\r\n\t\t\t\t\t<wars-icon name=\"eye\"></wars-icon>{{ 'GL_Spectate' | translate }}\r\n\t\t\t\t</button>\r\n\t\t\t</div>\r\n\r\n\t\t\t<div class=\"lb-actions-row lb-actions-main\">\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost lb-btn-ready\" ng-if=\"state === 'lobbying' && lobbytype.value !== 'offline' && hasLocalSlot()\"\r\n\t\t\t\t\tng-class=\"{active: isPlayerReady()}\" ng-click=\"toggleReady()\">\r\n\t\t\t\t\t<wars-icon name=\"check\"></wars-icon>{{ (isPlayerReady() ? 'GL_Ready' : 'GL_ReadyUp') | translate }}\r\n\t\t\t\t</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch\" ng-if=\"islobbyowner && (state === 'lobbying' || state === 'creating' || state === 'joining' || state === 'startinglocalserver')\"\r\n\t\t\t\t\tng-disabled=\"!canLaunch()\" ng-click=\"launch()\">\r\n\t\t\t\t\t{{ 'GL_Launch' | translate }}<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t\t</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-if=\"islobbyowner && state === 'searchingserver'\" ng-click=\"cancel_launch()\">{{ 'Dialog_Cancel' | translate }}</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch\" ng-if=\"state === 'gamestarted' && lobbytype.value !== 'offline'\" ng-click=\"joingame()\">\r\n\t\t\t\t\t{{ 'GL_JoinGame' | translate }}<wars-icon name=\"arrow-right\"></wars-icon>\r\n\t\t\t\t</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-ghost\" ng-if=\"state !== 'gamestarted' && match_uuid && !isShowScores\" ng-click=\"showScores()\">{{ 'GL_Scores' | translate }}</button>\r\n\t\t\t</div>\r\n\r\n\t\t\t<p class=\"lb-hint\" ng-if=\"launchHint()\">{{ launchHint() | translate }}</p>\r\n\t\t</div>\r\n\t</aside>\r\n\r\n</div>\r\n";
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"pg-page ig-page\">\r\n\t<section class=\"ig-card\" aria-labelledby=\"ig-title\">\r\n\t\t<span class=\"pg-card-corner\"></span>\r\n\r\n\t\t<div class=\"ig-heading\">\r\n\t\t\t<span class=\"pg-eyebrow\">{{ 'MenuInGame' | translate }}</span>\r\n\t\t\t<span class=\"ig-chip\" ng-if=\"isoffline\">{{ 'IG_Offline' | translate }}</span>\r\n\t\t\t<span class=\"ig-chip\" ng-if=\"!isoffline\"><span class=\"ig-chip-dot\"></span>{{ 'IG_Online' | translate }}</span>\r\n\t\t\t<span class=\"ig-chip\" ng-if=\"ishosting && !isoffline\">{{ 'IG_Hosting' | translate }}<span class=\"ig-chip-extra\" ng-if=\"host_numplayers > 1\">&middot; {{ host_numplayers }} {{ 'IG_Players' | translate }}</span></span>\r\n\t\t</div>\r\n\t\t<h1 class=\"ig-title\" id=\"ig-title\">{{ 'IG_Title' | translate }}</h1>\r\n\t\t<p class=\"ig-status\">{{ (isoffline ? 'IG_Status_Offline' : (ishosting ? 'IG_Status_Host' : 'IG_Status_Online')) | translate }}</p>\r\n\r\n\t\t<button type=\"button\" class=\"lb-btn lb-btn-launch ig-return\" ng-click=\"returntogame()\">\r\n\t\t\t<wars-icon name=\"play\"></wars-icon>\r\n\t\t\t{{ 'IG_ReturnToGame' | translate }}\r\n\t\t\t<span class=\"ig-key\">ESC</span>\r\n\t\t</button>\r\n\r\n\t\t<div class=\"ig-rows\">\r\n\t\t\t<a href=\"#!/LoadGame?mode=save\" class=\"ig-row\" ng-if=\"isoffline && beta === 'dev'\">\r\n\t\t\t\t<span class=\"ig-row-icon\"><wars-icon name=\"save\"></wars-icon></span>\r\n\t\t\t\t<span class=\"ig-row-text\">\r\n\t\t\t\t\t<span class=\"ig-row-title\">{{ 'LG_SaveMenu' | translate }}<span class=\"ig-dev\">{{ 'IG_DevBuild' | translate }}</span></span>\r\n\t\t\t\t\t<span class=\"ig-row-desc\">{{ 'LG_SaveMenu_Desc' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<wars-icon name=\"chevron-right\"></wars-icon>\r\n\t\t\t</a>\r\n\t\t\t<a href=\"#!/LoadGame\" class=\"ig-row\" ng-if=\"isoffline && beta === 'dev'\">\r\n\t\t\t\t<span class=\"ig-row-icon\"><wars-icon name=\"folder\"></wars-icon></span>\r\n\t\t\t\t<span class=\"ig-row-text\">\r\n\t\t\t\t\t<span class=\"ig-row-title\">{{ 'LG_LoadMenu' | translate }}<span class=\"ig-dev\">{{ 'IG_DevBuild' | translate }}</span></span>\r\n\t\t\t\t\t<span class=\"ig-row-desc\">{{ 'LG_LoadMenu_Desc' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<wars-icon name=\"chevron-right\"></wars-icon>\r\n\t\t\t</a>\r\n\t\t\t<a href=\"#!/Settings\" class=\"ig-row\">\r\n\t\t\t\t<span class=\"ig-row-icon\"><wars-icon name=\"settings\"></wars-icon></span>\r\n\t\t\t\t<span class=\"ig-row-text\">\r\n\t\t\t\t\t<span class=\"ig-row-title\">{{ 'MenuSettings' | translate }}</span>\r\n\t\t\t\t\t<span class=\"ig-row-desc\">{{ 'IG_Settings_Desc' | translate }}</span>\r\n\t\t\t\t</span>\r\n\t\t\t\t<wars-icon name=\"chevron-right\"></wars-icon>\r\n\t\t\t</a>\r\n\t\t</div>\r\n\r\n\t\t<h2 class=\"ig-section-title\">{{ 'IG_LeaveGame' | translate }}</h2>\r\n\r\n\t\t<div class=\"ig-leave\" ng-if=\"!confirming\">\r\n\t\t\t<button type=\"button\" class=\"ig-leave-btn\" ng-click=\"forfeit()\">\r\n\t\t\t\t<span class=\"ig-leave-title\"><wars-icon name=\"flag\"></wars-icon>{{ 'IG_Forfeit' | translate }}</span>\r\n\t\t\t\t<span class=\"ig-leave-desc\">{{ 'IG_Forfeit_Desc' | translate }}</span>\r\n\t\t\t</button>\r\n\t\t\t<button type=\"button\" class=\"ig-leave-btn ig-danger\" ng-click=\"leave()\">\r\n\t\t\t\t<span class=\"ig-leave-title\"><wars-icon name=\"leave\"></wars-icon>{{ (isoffline ? 'IG_EndGame' : 'IG_Disconnect') | translate }}</span>\r\n\t\t\t\t<span class=\"ig-leave-desc\">{{ (isoffline ? 'IG_DisconnectOffline_Desc' : (ishosting ? 'IG_DisconnectHost_Desc' : 'IG_Disconnect_Desc')) | translate }}</span>\r\n\t\t\t</button>\r\n\t\t</div>\r\n\r\n\t\t<!-- Hosting with players connected: confirm in the card -->\r\n\t\t<div class=\"ig-confirm\" role=\"alertdialog\" ng-if=\"confirming\">\r\n\t\t\t<p class=\"ig-confirm-question\">{{ 'IG_ConfirmEnd' | translate:{count: host_numplayers - 1} }}</p>\r\n\t\t\t<p class=\"ig-confirm-text\">{{ 'IG_DisconnectHostConfirm' | translate }}</p>\r\n\t\t\t<div class=\"ig-confirm-buttons\">\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small\" ng-click=\"cancelLeave()\">{{ 'Dialog_Cancel' | translate }}</button>\r\n\t\t\t\t<button type=\"button\" class=\"lb-btn lb-btn-small ig-danger-solid\" ng-click=\"endGame()\">{{ 'IG_EndForEveryone' | translate }}</button>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</section>\r\n</div>\r\n";
+
+/***/ }),
 /* 118 */
-/***/ (function(module, exports) {
-
-module.exports = "<section class=\"content content-menu\" id=\"content-onlinegames\">\r\n    <main>\r\n\t\t<h1>\r\n\t\t\t<span ng-show=\"!lobbies.length\">{{ 'OG_NoLobbies' | translate }}</span>\r\n\t\t\t<span ng-show=\"lobbies.length === 1\">{{ lobbies.length }} {{ 'OG_OneLobbyFound' | translate }}</span>\r\n\t\t\t<span ng-show=\"lobbies.length > 1\">{{ lobbies.length }} {{ 'OG_LobbiesFound' | translate }}</span>\r\n\r\n\t\t\t<span class=\"gamesinprogress\" ng-show=\"generalinfo.numgames === 1\">{{ generalinfo.numgames }} {{ 'OG_OneGameInProgress' | translate }}</span>\r\n\t\t\t<span class=\"gamesinprogress\" ng-show=\"generalinfo.numgames > 1\">{{ generalinfo.numgames }} {{ 'OG_MultipleGamesInProgress' | translate }}</span>\r\n\t\t</h1>\r\n\t\t<div ng-if=\"beta === 'dev'\" class=\"dev-warning\"><b>You are currently running the developers build and may not find games here. Opt-out of the beta to switch to the public build.</b></div>\r\n\t\t<section id=\"onlinelobbylist\">\r\n\t\t\t<ul class=\"lobbylist\">\r\n\t\t\t\t<li class=\"lobby-header\">\r\n\t\t\t\t\t<div class=\"map-preview\" />\r\n\t\t\t\t\t<div class=\"lobby-name\">{{ 'WFP_LobbyName' | translate }}</div>\r\n\t\t\t\t\t<div class=\"lobby-map\">{{ 'GL_Map' | translate }}</div>\r\n\t\t\t\t\t<div class=\"lobby-mode\">{{ 'GL_GameMode' | translate }}</div>\r\n\t\t\t\t\t<div class=\"lobby-players\">{{ 'OG_Players' | translate }}</div>\r\n\t\t\t\t</li>\r\n\t\t\t\t<li class=\"lobby\" ng-repeat=\"lobby in lobbies\">\r\n\t\t\t\t\t<img class=\"map-preview\" ng-src=\"{{ lobby.overviewsrc }}.vtf\" />\r\n\t\t\t\t\t<div class=\"lobby-name\" ng-tooltip=\"{{ lobby.name }}\">{{ lobby.name }}</div>\r\n\t\t\t\t\t<div class=\"lobby-map\"  ng-tooltip=\"{{ lobby.map }}\">{{ lobby.map }}</div>\r\n\t\t\t\t\t<div class=\"lobby-mode\">{{ lobby.mode }}</div>\r\n\t\t\t\t\t<div class=\"lobby-players\">{{ lobby.numtakenslots }} / {{ lobby.numslots }}</span></div>\r\n\t\t\t\t\t<a href class=\"lobby-join-btn btn btn-highlight\" ng-click=\"joinlobby(lobby.steamid)\" ng-tooltip=\"{{ 'OG_Join' | translate }}\"></a>\r\n\t\t\t\t</li>\r\n\t\t\t</ul>\r\n\t\t</section>\r\n\r\n\t\t<div class=\"box-footer\">\r\n\t\t\t<div class=\"left-float\">\r\n\t\t\t\t<a class=\"btn\" href=\"#!/Multiplayer\">{{ 'OG_BackToMenu' | translate }}</a>\r\n\t\t\t\t<a class=\"btn\" href=\"#!/Gamelobby\">{{ 'OG_CreateLobby' | translate }}</a>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"right-float\">\r\n\t\t\t\t<a class=\"btn btn-highlight\" href=\"#!/OnlineGames\">{{ 'OG_RefreshList' | translate }}</a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>\r\n";
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports) {
-
-module.exports = "<section id=\"playerlist\" class=\"content box noselect\" ng-controller=\"GamelobbyPlayerListController\" ng-show=\"!isShowScores\">\r\n\r\n\t<h2 class=\"box-header\">\r\n\t\t<span class=\"right-float\" ng-if=\"lobbytype.value !== 'offline'\">\r\n\t\t\t<select ng-if=\"islobbyowner\" class=\"select-style\" ng-model=\"lobbytype\" ng-options=\"lt.name | translate for lt in lobbytypes track by lt.value\" ng-change=\"updateLobbyType(lobbytype.value)\"></select>\r\n\t\t\t<span ng-if=\"!islobbyowner\">{{lobbytype.name | translate}}</span>\r\n\t\t</span>\r\n\t\t<span>\r\n\t\t\t<input type=\"text\" maxlength=\"50\" ng-if=\"islobbyowner\" class=\"gamelobby-lobbyname-input\" ng-model=\"lobbyname\" ng-change=\"updateLobbyName(lobbyname)\"></input>\r\n\t\t\t<span ng-if=\"!islobbyowner\">{{lobbyname}}</span>\r\n\t\t</span>\r\n\t</h2>\r\n\r\n\t<ul id=\"test\" class=\"playerlist\">\r\n\r\n\t\t<div id=\"gamelobby-status\">\r\n\t\t\t{{ 'GL_Status' | translate }}:\r\n\t\t\t<span ng-if=\"state === 'lobbying' && lobbyingstate_msg !== null\" class=\"creating-lobby\">{{ lobbyingstate_msg | translate }}</span>\r\n\t\t\t<span ng-if=\"state === 'creating'\" class=\"creating-lobby\">{{ 'GL_StatusCreating' | translate }}</span>\r\n\t\t\t<span ng-if=\"state === 'joining'\" class=\"joining-lobby\">{{ 'GL_StatusJoining' | translate }}</span>\r\n\t\t\t<!-- <span ng-if=\"not-yet-defined\" class=\"finding-lobby\">Finding Steam Lobby...</span>\r\n\t\t\t<span ng-if=\"not-yet-defined\" class=\"finding-lobby success\">Steam Lobby found. Waiting for players to be ready.</span> -->\r\n\t\t\t<span ng-if=\"state === 'searchingserver'\" class=\"finding-server\">{{ 'GL_StatusFindingServer' | translate }}</span>\r\n\t\t\t<!-- <span ng-if=\"not-yet-defined\" class=\"finding-server success\">Lambda Wars server found.  Launching!</span>-->\r\n\t\t\t<span ng-if=\"state === 'startinglocalserver' && lobbytype.value === 'offline'\" class=\"finding-server success\">{{ 'GL_StatusStartingLocal' | translate }}</span>\r\n\t\t\t<span ng-if=\"state === 'startinglocalserver' && lobbytype.value !== 'offline'\" class=\"finding-server success\">{{ 'GL_StatusHostStartingLocal' | translate }}</span>\r\n\t\t\t<span ng-if=\"state === 'gamestarted'\" class=\"finding-server success\">{{ 'GL_StatusInProgress' | translate }}</span>\r\n\t\t\t<span ng-if=\"state === 'gameended'\" class=\"success\">{{ 'GL_StatusGameEnded' | translate }}</span>\r\n\t\t</div>\r\n\r\n\t\t<div ng-repeat=\"teamEntry in teamSlots\">\r\n\t\t\t<h2 class=\"team-header\">{{ teamEntry.header }}</h2>\r\n\t\t\t<li ng-repeat=\"slot in teamEntry.slots\"  ng-class='(\"player\" + playerClass(slots[slot.slotid]))' class=\"{{(slots[slot.slotid].type === 'player' && isPlayerReadyByID(slot.slotid))?'ready':''}}\">\r\n\t\t\t\t<span ng-switch on=\"lobbymembers[slots[slot.slotid].player.steamid].connectstate\">\r\n\t\t\t\t\t<div ng-switch-when=\"true\" class=\"connection goodconn\"></div>\r\n\t\t\t\t\t<div ng-switch-when=\"false\" class=\"connection badconn\"></div>\r\n\t\t\t\t\t<div ng-switch-default class=\"connection\"></div>\r\n\t\t\t\t</span>\r\n\t\t\t\t<!-- localslotid -->\r\n\t\t\t\t<img class=\"steam-avatar\" ng-class=\"{'steam-avatar-host': slots[slot.slotid].player.islocaluser}\" ng-src=\"{{ slots[slot.slotid].player.steamid && 'avatar://medium/' + slots[slot.slotid].player.steamid || unknownPlayerAvatar }}\" />\r\n\r\n\t\t\t\t<span ng-if='state === \"lobbying\" && slots[slot.slotid].type === \"open\"'>\r\n\t\t\t\t\t<a href class=\"btn btn-highlight\" ng-class=\"{linkDisabled: isPlayerReady()}\" ng-click=\"requestSlot(slot.slotid)\">{{ 'GL_TakeSlot' | translate }}</a>\r\n\r\n\t\t\t\t\t<a ng-if='islobbyowner' href class=\"btn btn-highlight\" ng-class=\"{linkDisabled: isPlayerReady()}\" ng-click=\"addCPU(slot.slotid)\">{{ 'GL_AddCPU' | translate }}</a>\r\n\t\t\t\t</span>\r\n\r\n\t\t\t\t<span ng-if='slots[slot.slotid].type === \"player\"'>\r\n\t\t\t\t\t<a ng-if='state !== \"lobbying\" || !(slots[slot.slotid].iscpu && islobbyowner)' href class=\"player-name\">\r\n\t\t\t\t\t\t<img ng-if=\"slots[slot.slotid].player.isLobbyLeader\" src=\"{{ crownImg }}\"></img>\r\n\t\t\t\t\t\t{{ slots[slot.slotid].player.name + (slots[slot.slotid].iscpu ? ' - ' + (difficultyLabels[slots[slot.slotid].difficulty] | translate) : '') }}\r\n\t\t\t\t\t</a>\r\n\r\n\t\t\t\t\t<!-- Steam Workshop map not available yet for this player -->\r\n\t\t\t\t\t<span ng-if=\"slots[slot.slotid].player.mapstate && slots[slot.slotid].player.mapstate !== 'ok'\" class=\"player-mapstatus\" ng-class=\"'player-mapstatus-' + slots[slot.slotid].player.mapstate\">\r\n\t\t\t\t\t\t{{ ('GL_PlayerMap_' + slots[slot.slotid].player.mapstate) | translate }}<span ng-if=\"slots[slot.slotid].player.mapstate === 'downloading'\"> {{ slots[slot.slotid].player.mapprogress }}%</span>\r\n\t\t\t\t\t</span>\r\n\r\n\t\t\t\t\t<select ng-if='state === \"lobbying\" && slots[slot.slotid].iscpu && islobbyowner' class=\"player-name select-style\" ng-disabled=\"isPlayerReady()\" ng-options=\"'CPU - ' + (difficulty.displayname | translate) for difficulty in availabledifficulties\" ng-model=\"selectedDifficulty[slot.slotid]\" ng-change=\"updatePlayerData('difficulty', selectedDifficulty[slot.slotid].id, slot.slotid)\">\r\n\t\t\t\t\t</select>\r\n\r\n\t\t\t\t\t<!-- Color selection -->\r\n\t\t\t\t\t<a ng-if='!slots[slot.slotid].editable' href class=\"player-color\" style=\"background: {{ availablecolors[slots[slot.slotid].player.color].color }}\"></a>\r\n\t\t\t\t\t<select ng-if='slots[slot.slotid].editable' ng-disabled=\"isPlayerReady()\" class=\"player-color-select\" ng-model=\"selectedColor[slot.slotid]\" ng-change=\"updatePlayerData('color', selectedColor[slot.slotid], slot.slotid)\" style=\"background: {{ availablecolors[slots[slot.slotid].player.color].color }}\">\r\n\t\t\t\t\t\t<option ng-repeat=\"(id , color) in availablecolors\" ng-disabled=\"!color.available\" value=\"{{color.name}}\" style=\"background: {{ color.color }}\"></option>\r\n\t\t\t\t\t</select>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<!-- Faction selection -->\r\n\t\t\t\t\t<a ng-if='!slots[slot.slotid].editable' href class=\"player-faction\">{{ slots[slot.slotid].player.factionname }}</a>\r\n\t\t\t\t\t<select ng-if='slots[slot.slotid].editable' class=\"player-faction select-style\" ng-disabled=\"isPlayerReady()\" ng-model=\"selectedFaction[slot.slotid]\" ng-options=\"faction.displayname for (id , faction) in availablefactions\" ng-change=\"updatePlayerData('faction', selectedFaction[slot.slotid].name, slot.slotid)\"></select>\r\n\r\n\t\t\t\t\t<a ng-if='state === \"lobbying\" && islobbyowner && slots[slot.slotid].iscpu' href class=\"btn btn-highlight\"  ng-class=\"{linkDisabled: isPlayerReady()}\" ng-click=\"removeCPU(slot.slotid)\"> &#10060; <!--{{ 'GL_RemoveCPU' | translate }}--></a>\r\n\t\t\t\t\t<a ng-if='state === \"lobbying\" && islobbyowner && !slots[slot.slotid].iscpu && !slots[slot.slotid].player.islocaluser' href class=\"btn btn-highlight\"  ng-click=\"kickPlayer(slot.slotid)\">{{ 'GL_Kick' | translate }}</a>\r\n\t\t\t\t\t\r\n\t\t\t\t\t<a ng-if='state === \"lobbying\" && slots[slot.slotid].player.islocaluser && lobbytype.value !== \"offline\"' href ng-class=\"slots[slot.slotid].player.ready ? ['player-ready', 'checked'] : ['player-ready']\" ng-click=\"updatePlayerData('ready', slots[slot.slotid].player.ready ? '0' : '1', slot.slotid)\">\r\n\t\t\t\t\t\t&#x2713;\r\n\t\t\t\t\t</a>\r\n\t\t\t\t\t<a ng-if='state !== \"lobbying\" || !slots[slot.slotid].player.islocaluser && lobbytype.value !== \"offline\"' href ng-class=\"slots[slot.slotid].player.ready ? ['player-ready', 'checked'] : ['player-ready']\">\r\n\t\t\t\t\t\t&#x2713;\r\n\t\t\t\t\t</a>\r\n\t\t\t\t</span>\r\n\r\n\t\t\t</li>\r\n\t\t</div>\r\n\r\n\t</ul>\r\n\r\n\t<div class=\"box-footer noselect\">\r\n\t\t<div id=\"spectator-list\">\r\n\t\t\t<span>{{ 'GL_SpectatorsLabel' | translate }}</span>\r\n\t\t\t<span ng-repeat=\"spectator in spectators\">\r\n\t\t\t\t<a ng-if=\"!islobbyowner || spectator.islocaluser\">{{spectator.name}}</a>\r\n\t\t\t\t<a ng-if=\"islobbyowner && !spectator.islocaluser\" href ng-click=\"kickPlayerBySteamID(spectator.steamid)\" ng-tooltip=\"{{ 'GL_Kick' | translate }}\">{{spectator.name}}</a>\r\n\t\t\t\t<span ng-if=\"spectator.mapstate && spectator.mapstate !== 'ok'\" class=\"player-mapstatus\" ng-class=\"'player-mapstatus-' + spectator.mapstate\">({{ ('GL_PlayerMap_' + spectator.mapstate) | translate }}<span ng-if=\"spectator.mapstate === 'downloading'\"> {{ spectator.mapprogress }}%</span>)</span>\r\n\t\t\t\t{{$last ? '' : ', '}}\r\n\t\t\t\t</span>\r\n\t\t</div>\r\n\t\t<div class=\"left-float\">\r\n\t\t\t<a href id=\"leave-game\" class=\"btn\" ng-click=\"leavelobby()\">{{ 'GL_LeaveLobby' | translate }}</a>\r\n\t\t\t<span ng-show=\"state === 'lobbying' && !match_uuid\">\r\n\t\t\t\t<a ng-if=\"state === 'lobbying'\" href id=\"spectate\" class=\"btn\" ng-click=\"spectate()\">{{ 'GL_Spectate' | translate }}</a>\r\n\t\t\t\t<a ng-if=\"state === 'lobbying' && islobbyowner\" href id=\"invite\" class=\"btn\" ng-click=\"invite()\">{{ 'GL_Invite' | translate }}</a>\r\n\t\t\t</span>\r\n\t\t\t<a href id=\"show-scores\" class=\"btn\" ng-click=\"showScores()\" ng-show=\"state !== 'gamestarted' && match_uuid\">{{ 'GL_Scores' | translate }}</a>\r\n\t\t</div>\r\n\t\t<div class=\"right-float\" ng-show=\"state === 'lobbying' \">\r\n\t\t\t<a ng-if=\"state === 'searchingserver' && islobbyowner\" href id=\"cancel_launch\" class=\"btn\" ng-click=\"cancel_launch()\">{{ 'Dialog_Cancel' | translate }}</a>\r\n\t\t\t<a ng-if=\"state === 'lobbying' && localslotid != undefined && isPlayerReady()\" href id=\"unready\" class=\"btn btn-highlight\" ng-click=\"updatePlayerData('ready', '0', localslotid)\" a-disabled=\"localslotid == undefined || !slots[localslotid].player.ready\">{{ 'GL_Unready' | translate }}</a>\r\n\t\t\t<a ng-if=\"(state !== 'gamestarted' && state !== 'gameended') && islobbyowner\" href id=\"launch\" class=\"btn btn-highlight\" ng-click=\"(isPlayerReady())? launch(): (lobbytype.value !== 'offline' && localslotid)? updatePlayerData('ready', '1', localslotid): launch()\" a-disabled=\"state !== 'lobbying'\">{{ 'GL_Launch' | translate }}</a>\r\n\t\t\t<a ng-if=\"!islobbyowner && state === 'lobbying' && localslotid != undefined\" href id=\"ready\" class=\"btn btn-highlight\" ng-click=\"updatePlayerData('ready', '1', localslotid)\" a-disabled=\"localslotid == undefined || slots[localslotid].player.ready\">{{ 'GL_Ready' | translate }}</a>\r\n\t\t</div>\r\n\t\t<div class=\"right-float\">\r\n\t\t\t<a ng-if=\"state === 'gamestarted' && lobbytype.value !== 'offline'\" href id=\"joingame\" class=\"btn btn-highlight\" ng-click=\"joingame()\">{{ 'GL_JoinGame' | translate }}</a>\r\n\t\t</div>\r\n\t</div>\r\n\r\n</section>\r\n\r\n<section id=\"playerlist\" class=\"content box noselect\" ng-show=\"isShowScores\">\r\n<main>\r\n    <match-result match-uuid=match_uuid></match-result>\r\n\t<br />\r\n\t<a class=\"btn\" href ng-click=\"backToPlayerList()\">Back</a>\r\n</main>\r\n</section>\r\n\r\n<div ng-controller=\"GamelobbyPlayerListController\">\r\n<section id=\"gameinfo\" class=\"box box-right noselect\" ng-controller=\"GamelobbySettingsController\">\r\n\r\n\t<h2 class=\"box-header\">{{ 'GL_GameSettings' | translate }}</h2>\r\n\r\n\t<div class=\"info-container\">\r\n\t<img class=\"map-small\" ng-if=\"minimapurl\" ng-src=\"{{ minimapurl }}\" />\r\n\r\n\t<ul>\r\n\t\t<li ng-if=\"!islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_GameMode' | translate }}:</span> <span class=\"gameinfo-text\">{{ mode.name }}</span><!--<span ng-tooltip=\"{{ mode.description }}\">?</span>--></li>\r\n\t\t<li ng-show=\"islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_GameMode' | translate }}:</span> <select ng-disabled=\"isPlayerReady()\" class=\"select-style\" ng-model=\"mode\" ng-options=\"mode.name for (id , mode) in availablemodes\" ng-change=\"updateSetting('mode', mode.id)\"></select><span class=\"tooltip-icon\" ng-tooltip=\"{{ mode.description }}\">?</span></li>\r\n\t\t<li ng-if=\"!islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_Map' | translate }}:</span> <span class=\"gameinfo-text\">{{ map.mapname || mapname }}</span></li>\r\n\t\t<li ng-if=\"!islobbyowner && mapstatus && mapstatus.state !== 'ok'\" class=\"map-status\"><span class=\"gameinfo-text\">{{ ('GL_MapStatus_' + mapstatus.state) | translate }} <span ng-if=\"mapstatus.state === 'downloading' && mapstatus.progress > 0\">{{ mapstatus.progress }}%</span> {{ mapstatus.error }}</span></li>\r\n\t\t<li ng-show=\"islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_Map' | translate }}:</span> <select ng-disabled=\"isPlayerReady()\" class=\"select-style\" ng-model=\"map\" ng-options=\"map.displayname for (id , map) in availablemaps\" ng-change=\"updateSetting('map', map.id)\"></select></li>\r\n\t\t<li ng-if=\"mapworkshop\" class=\"map-workshop\">\r\n\t\t\t<span class=\"workshop-badge\">{{ 'GL_WorkshopMap' | translate }}</span>\r\n\t\t\t<span class=\"gameinfo-text\" ng-if=\"mapworkshop.title\">{{ mapworkshop.title }}<span ng-if=\"mapworkshop.author\"> {{ 'GL_WorkshopBy' | translate }} {{ mapworkshop.author }}</span></span>\r\n\t\t\t<div class=\"map-workshop-actions\">\r\n\t\t\t\t<a href ng-if=\"!mapworkshop.subscribed\" class=\"btn btn-small btn-highlight\" ng-click=\"subscribeWorkshopMap()\">{{ 'GL_SubscribeNow' | translate }}</a>\r\n\t\t\t\t<span ng-if=\"mapworkshop.subscribed\" class=\"map-workshop-subscribed\">&#x2713; {{ 'GL_Subscribed' | translate }}</span>\r\n\t\t\t\t<a href class=\"btn btn-small\" ng-click=\"openWorkshopPage()\">{{ 'GL_ViewOnWorkshop' | translate }}</a>\r\n\t\t\t</div>\r\n\t\t</li>\r\n\t\t<li ng-if=\"mapworkshop && mapwaiting.length\" class=\"map-waiting\">\r\n\t\t\t<span class=\"gameinfo-heading\">{{ 'GL_WaitingForMap' | translate }}</span>\r\n\t\t\t<span class=\"gameinfo-text\" ng-repeat=\"player in mapwaiting\">{{ player.name }} ({{ ('GL_PlayerMap_' + player.state) | translate }}<span ng-if=\"player.state === 'downloading'\"> {{ player.progress }}%</span>){{ $last ? '' : ', ' }}</span>\r\n\t\t</li>\r\n\t\t<li ng-if=\"!islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_Teams' | translate }}:</span> <span class=\"gameinfo-text\">{{ teamsetup.name }}</span></li>\r\n\t\t<li ng-show=\"islobbyowner\"><span class=\"gameinfo-heading\">{{ 'GL_Teams' | translate }}:</span> <select ng-disabled=\"isPlayerReady()\" class=\"select-style\" ng-model=\"teamsetup\" ng-options=\"teamsetup.name for (id , teamsetup) in availableteamsetups\" ng-change=\"updateSetting('teamsetup', teamsetup.id)\"></select></li>\r\n\r\n\t\t<li ng-if=\"!islobbyowner\" ng-repeat=\"(cfid, cf) in customfields\"><span class=\"gameinfo-heading\">{{ cf.name }}:</span> <span class=\"gameinfo-text\">{{ selectedCustomFields[cfid] }}</span></li>\r\n\t\t<li ng-show=\"islobbyowner\" ng-repeat=\"(cfid, cf) in customfields\">\r\n\t\t<span class=\"gameinfo-heading\">{{ cf.name }}:</span> <select ng-disabled=\"isPlayerReady()\" class=\"select-style\" ng-model=\"selectedCustomFields[cfid]\" ng-options=\"cvchoice for cvchoice in cf.values\" ng-change=\"updateCustomField(cfid, selectedCustomFields[cfid])\"></select>\r\n\t\t</li>\r\n\r\n\t\t<li ng-show=\"islobbyowner && lobbytype.value !== 'offline'\"><span class=\"gameinfo-heading\">{{ 'GL_MMPassword' | translate }}:</span>\r\n\t\t\t<input class=\"gameinfo-input\" type=\"password\" maxlength=\"100\" ng-model=\"mm_password\" ng-change=\"setMMPassword(mm_password)\"></input>\r\n\t\t</li>\r\n\t</ul>\r\n\r\n\t</div>\r\n</section>\r\n</div>\r\n\r\n<section id=\"chat\" class=\"chat box box-right\" ng-controller=\"GameLobbyChatController\">\r\n\r\n\t<h2 class=\"box-header noselect\"><span class=\"{{ lobbychat ? 'active' : 'inactive' }}\" ng-click=\"lobbychat = true\">{{ 'GL_LobbyChat' | translate }}</span> <span class=\"disabled\">/</span> <span class=\"{{ lobbychat ? 'inactive' : 'active' }}\" ng-click=\"lobbychat = false\">{{ 'Chat_Global' | translate }}</span></h2>\r\n\r\n\t<span ng-show=\"lobbychat\">\r\n\t\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"gamelobbymanager\"></chat-lines>\r\n\r\n\t\t<div class=\"chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"gamelobbymanager\">\r\n\t\t\t<form ng-submit=\"sendChat()\" class=\"chat-form\"><input type=\"text\" class=\"chat-input\" ng-model=\"text\" placeholder=\"[{{inputlanguage}}]\" /></form>\r\n\t\t\t<a href class=\"chat-send btn\"  ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t\t</div>\r\n\t</span>\r\n\t<span ng-show=\"!lobbychat\">\r\n\t\t<chat-lines ng-controller=\"LobbyChatHistoryController as chatCtrl\" chat-service=\"chatlobby\"></chat-lines>\r\n\r\n\t\t<div class=\"chat-controls\" ng-controller=\"LobbySendChatController\" chat-service=\"chatlobby\">\r\n\t\t\t<form ng-submit=\"sendChat()\" class=\"chat-form\"><input type=\"text\" class=\"chat-input\" ng-model=\"text\" placeholder=\"[{{inputlanguage}}]\" /></form>\r\n\t\t\t<a href class=\"chat-send btn\"  ng-click=\"sendChat()\">{{ 'Chat_Send' | translate }}</a>\r\n\t\t</div>\r\n\t</span>\r\n</section>\r\n";
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports) {
-
-module.exports = "<section class=\"content content-menu\" id=\"content-ingame\">\r\n    <main>\r\n        <h1>{{ 'IG_HeadLine' | translate }}</h1>\r\n        <ul class=\"menu submenu\" id=\"submenu-ingame\">\r\n            <li>\r\n                <a href ng-click=\"returntogame()\">\r\n                    {{ 'IG_ReturnToGame' | translate }}\r\n                    <p>{{ 'IG_ReturnToGame_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li ng-if=\"isoffline && beta === 'dev'\">\r\n                <a href=\"#!/LoadGame\">\r\n                    {{ 'LG_LoadMenu' | translate }}\r\n                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li ng-if=\"isoffline && beta === 'dev'\">\r\n                <a href=\"#!/LoadGame?mode=save\">\r\n                    {{ 'LG_SaveMenu' | translate }}\r\n                    <p>{{ 'LG_SaveMenu_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <a href ng-click=\"forfeit()\">\r\n                    {{ 'IG_Forfeit' | translate }}\r\n                    <p>{{ 'IG_Forfeit_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n            <li>\r\n                <!-- Different description for when the player is hosting to indicate the server disconnects everybody. -->\r\n                <a ng-if=\"!ishosting\" href ng-click=\"disconnect()\">\r\n                    {{ 'IG_Disconnect' | translate }}\r\n                    <p>{{ 'IG_Disconnect_Desc' | translate }}</p>\r\n                </a>\r\n                <a ng-if=\"ishosting && !isoffline\" href ng-click=\"disconnect()\">\r\n                    {{ 'IG_Disconnect' | translate }}\r\n                    <p>{{ 'IG_DisconnectHost_Desc' | translate }}</p>\r\n                </a>\r\n                <a ng-if=\"ishosting && isoffline\" href ng-click=\"disconnect()\">\r\n                    {{ 'IG_Disconnect' | translate }}\r\n                    <p>{{ 'IG_DisconnectOffline_Desc' | translate }}</p>\r\n                </a>\r\n            </li>\r\n        </ul>\r\n    </main>\r\n</section>\r\n\r\n<span global-chat/>\r\n";
-
-/***/ }),
-/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = "<section class=\"content-full\" id=\"content-profile\">\r\n    <main>\r\n        <match-history steamid=\"matchHistorySteamId\"/>\r\n    </main>\r\n</section>\r\n";
 
 /***/ }),
-/* 122 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87993,38 +89636,33 @@ module.exports = "<section class=\"content-full\" id=\"content-profile\">\r\n   
 /**
  * @ngInject
  */
-function OnRun($templateCache) {
-    $templateCache.put('confirmDisconnect', __webpack_require__(123));
+function OnRun($templateCache, $rootScope, AppSettings) {
+    // For hiding the Workshop parts of the pages, see constants.js
+    $rootScope.workshopEnabled = !!AppSettings.WORKSHOP_ENABLED;
 
     $templateCache.put('genericMsg', __webpack_require__(3));
-    $templateCache.put('kickMsg', __webpack_require__(124));
-    $templateCache.put('confirmKickMsg', __webpack_require__(125));
-    $templateCache.put('versionMismatch', __webpack_require__(126));
+    $templateCache.put('kickMsg', __webpack_require__(120));
+    $templateCache.put('confirmKickMsg', __webpack_require__(121));
+    $templateCache.put('versionMismatch', __webpack_require__(122));
     $templateCache.put('genericMsg', __webpack_require__(3));
 }
 
 module.exports = OnRun;
 
 /***/ }),
-/* 123 */
-/***/ (function(module, exports) {
-
-module.exports = "<div>{{ 'IG_DisconnectHostConfirm' | translate}}</div>\r\n<div class=\"ngdialog-buttons\">\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog(0)\">{{ 'Dialog_Cancel' | translate }}</a>\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog(1)\">{{ 'Dialog_Confirm' | translate }}</a>\r\n</div>";
-
-/***/ }),
-/* 124 */
+/* 120 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>{{ 'GL_Kicked' | translate}}</div>\r\n<div class=\"ngdialog-buttons\">\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog()\">{{ 'Dialog_Confirm' | translate }}</a>\r\n</div>";
 
 /***/ }),
-/* 125 */
+/* 121 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>{{ 'GL_ConfirmKickTitle' | translate}}</div>\r\n<div class=\"ngdialog-buttons\">\r\n\t<div>{{ 'GL_ConfirmKick' | translate }}</div>\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog(0)\">{{ 'Dialog_Cancel' | translate }}</a>\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog(1)\">{{ 'Dialog_Confirm' | translate }}</a>\r\n</div>";
 
 /***/ }),
-/* 126 */
+/* 122 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>{{ 'GL_VersionMismatch' | translate}}</div>\r\n<div class=\"ngdialog-buttons\">\r\n\t<a href class=\"btn ngdialog-button\" ng-click=\"closeThisDialog()\">{{ 'Dialog_Confirm' | translate }}</a>\r\n</div>";

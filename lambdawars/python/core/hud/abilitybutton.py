@@ -1,4 +1,9 @@
-""" Copy of BitMapButton, but uses CHudTexture instead for drawing the base images """
+"""Ability button widget for the HUD. Copy of BitMapButton, but uses CHudTexture instead for drawing the base images
+
+Custom button implementation that uses CHudTexture instead of standard
+bitmap images for drawing. Supports multiple button states, overlay images,
+autocast indicators, and right-click functionality for ability interactions.
+"""
 from srcbase import Color, KeyValues
 from vmath import Vector
 from vgui import vgui_input, surface
@@ -8,6 +13,12 @@ from input import ButtonCode_t, MOUSE_RIGHT
 whitecolor = Color(255,255,255,255)
 
 class AbilityButton(Button):
+    """Button widget for displaying abilities in the HUD.
+    
+    Supports multiple visual states (enabled, disabled, pressed, hover),
+    overlay images, autocast indicators, and icon display. Handles both
+    left and right mouse button clicks for different ability actions.
+    """
     def __init__(self, parent=None, name=None, text=None):
         Button.__init__(self, parent, name, text)
         
@@ -21,11 +32,23 @@ class AbilityButton(Button):
         self.RecalculateCurrentImage()
         
     def ApplySchemeSettings(self, scheme):
+        """Pull colors/borders from the HUD scheme so buttons match the skin.
+
+        Args:
+            scheme: Handle to the Source VGUI scheme that contains font and
+                border definitions for the current HUD theme.
+        """
         super().ApplySchemeSettings(scheme)
-        
         self.SetBorder(None)
         
     def SetImage(self, type, image, color=None):
+        """Set the image for a specific button state.
+        
+        Args:
+            type (int): Button state constant (BUTTON_ENABLED, etc.).
+            image: CHudTexture image to use.
+            color: Optional color tint (unused).
+        """
         changed = False
         if image != self.images[type]:
             self.images[type] = image
@@ -35,6 +58,12 @@ class AbilityButton(Button):
             self.RecalculateCurrentImage()
             
     def SetAllImages(self, image, color=None):
+        """Set the same image for all button states.
+        
+        Args:
+            image: CHudTexture image to use for all states.
+            color: Optional color tint (unused).
+        """
         changed = False
         for i in range(0, self.BUTTON_STATE_COUNT):
             if image != self.images[i]:
@@ -45,28 +74,48 @@ class AbilityButton(Button):
             self.RecalculateCurrentImage()
         
     def SetOverlayImage(self, type, image, color=None):
-        """ Draws an image on top of the main image. Should be transparant, mainly to be used with mouse over. """    
+        """Configure a translucent overlay for hover/pressed states.
+        Old comment: Draws an image on top of the main image. Should be transparant, mainly to be used with mouse over.
+
+        Args:
+            type (int): Button state constant to associate the overlay with.
+            image: CHudTexture to draw above the base button image.
+            color: Optional tint (unused; overlays typically provide their own alpha).
+        """
         self.overlayimages[type] = image   
         self.RecalculateCurrentImage()
         
     def SetAutocastOverlayImage(self, image):
+        """Set the autocast indicator overlay image.
+        
+        Args:
+            image: CHudTexture image to overlay when autocast is enabled.
+        """
         self.autocastoverlayimage = image
         self.RecalculateCurrentImage()
         
     def SetEnabled(self, enabled):
+        """Override SetEnabled so we can refresh textures when states change."""
         super().SetEnabled(enabled)
         self.RecalculateCurrentImage()
             
     def SetArmed(self, state):
+        """Ensure the hover/pressed art updates when the button arms/disarms."""
         super().SetArmed(state)
         self.RecalculateCurrentImage()
 
     def RecalculateDepressedState(self):
+        """Hook the depressed-state change so our textures stay in sync."""
         super().RecalculateDepressedState()
         self.RecalculateCurrentImage()
         
     def RecalculateCurrentImage(self):
-        """ Determines the image to use based on the state """
+        """Determine which image to display based on current button state.
+        
+        Selects the appropriate image and overlay based on whether the button
+        is enabled, disabled, pressed, or has mouse hover. Also sets team
+        color tint for disabled state.
+        """
         self.buttonteamcolor = None
         self.currentimage = self.images[self.BUTTON_ENABLED]
         self.currentoverlayimage = self.overlayimages[self.BUTTON_ENABLED]
@@ -83,7 +132,12 @@ class AbilityButton(Button):
             self.currentoverlayimage = self.overlayimages[self.BUTTON_DISABLED]
         self.FlushSBuffer()
         
-    def Paint(self):    
+    def Paint(self):
+        """Paint the button with current state images and overlays.
+        
+        Draws the base image, applies team color tint if disabled, draws
+        the icon image, and overlays hover/autocast indicators.
+        """
         x, y = self.GetPos()
         w, h = self.GetSize()
         
@@ -105,6 +159,7 @@ class AbilityButton(Button):
         super().Paint()
 
     def PaintBackground(self):
+        """Background is fully handled in Paint; no-op to avoid default fills."""
         pass 
         
     _iconimage = None
@@ -122,28 +177,49 @@ class AbilityButton(Button):
     
     # Right click command support
     def SetCommandRightClick(self, command):
+        """Set the command to execute on right mouse click.
+        
+        Args:
+            command: Command string or KeyValues object to execute.
+        """
         if type(command) == str:
             command = KeyValues("Command", "command", command)
         
         self._actionmessageright = command
         
     def FireActionSignalRightClick(self):
-        """ Message targets that the button has been pressed """
+        """Fire the action signal for right mouse click.
+        
+        Sends the right-click command to registered message targets.
+        """
         # message-based action signal
         if self._actionmessageright:
             self.PostActionSignal(KeyValues(self._actionmessageright))
 
     def DoClickRight(self):
-        """ Purpose: Activate a button click. """
+        """Handle right mouse button click activation.
+        
+        Sets button as selected, fires the right-click action signal,
+        plays release sound, then deselects the button.
+        """
         self.SetSelected(True)
         self.FireActionSignalRightClick()
         self.PlayButtonReleasedSound()
         self.SetSelected(False)
         
     def ByPassNotEnabled(self, code):
+        """Check if right-click should bypass enabled state.
+        
+        Args:
+            code: Mouse button code.
+            
+        Returns:
+            bool: True if right-click should work even when disabled.
+        """
         return self.alwaysallowrightclick and code == ButtonCode_t.MOUSE_RIGHT
         
     def OnMousePressed(self, code):
+        """Handle custom left/right click behavior including right-click commands."""
         if not self.IsEnabled() and not self.ByPassNotEnabled(code):
             return
         
@@ -174,6 +250,7 @@ class AbilityButton(Button):
             vgui_input().SetMouseCapture(self.GetVPanel())
             
     def OnMouseReleased(self, code):
+        """Release captured mouse state and fire left/right click actions."""
         # ensure mouse capture gets released
         if self.IsUseCaptureMouseEnabled():
             vgui_input().SetMouseCapture(0)

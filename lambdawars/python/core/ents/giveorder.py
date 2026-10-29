@@ -6,6 +6,11 @@ from fields import StringField, FloatField, TargetSrcField, TargetDestField, Boo
 @entity('wars_give_order',
         iconsprite='editor/wars_give_order.vmt')
 class GiveOrder(CPointEntity):
+    """Helper entity that issues move/ability orders to groups of units.
+
+    Collects units by target name or direct input, optionally clears their
+    existing orders, and tracks completion/interruption via outputs.
+    """
     def __init__(self):
         super().__init__()
         
@@ -28,6 +33,7 @@ class GiveOrder(CPointEntity):
         self.SetNextThink(gpGlobals.curtime + 0.1, 'MonitorIntercept')
         
     def OnUnitOrderFinished(self, unit):
+        """Callback for when a unit finishes its order, updating outputs/state."""
         try:
             self.units.remove(unit)
         except ValueError:
@@ -46,6 +52,7 @@ class GiveOrder(CPointEntity):
                 self.onorderinterrupted.Set('', self, self)
                 
     def DelayedPerformOrderThink(self):
+        """Resolve the order target and enqueue orders for all queued units."""
         target = None
         if self.targetordername:
             target = entlist.FindEntityByName(None, self.targetordername)
@@ -109,6 +116,7 @@ class GiveOrder(CPointEntity):
         self.SetThink(self.DelayedPerformOrderThink, gpGlobals.curtime)
         
     def CancelOrder(self, units):
+        """Cancel the active GiveOrder for the provided units and clear callbacks."""
         for unit in list(units):
             o = None
             for idx, o in enumerate(unit.orders):

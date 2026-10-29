@@ -37,6 +37,8 @@ if isclient:
 
 
 class NotificationInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass that loads icon assets when notification infos are created."""
+
     def __new__(mcs, name, bases, dct):
         newcls = gamemgr.BaseInfoMetaclass.__new__(mcs, name, bases, dct)
         
@@ -75,6 +77,14 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
     playedfactionnotification = False
     
     def __init__(self, position=None, ent=None, abi=None, message=None):
+        """Create an instance storing optional position/entity context.
+
+        Args:
+            position (Vector): World position for jump-to-camera actions.
+            ent: Entity to flash on the minimap or snap the camera to.
+            abi: Ability info used to populate icon/sound fields.
+            message (str): Optional localized override for the HUD text.
+        """
         super().__init__()
         
         self.position = position
@@ -86,6 +96,7 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
         
     @classmethod
     def FindLastOfType(cls, notinfo):
+        """Return the most recent notification of the given type, if any."""
         for notification in notificationhistory:
             if type(notification) == notinfo and notification.playedfactionnotification:
                 return notification
@@ -93,12 +104,14 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
         
     @classmethod
     def FindLastFactionSoundOfType(cls, notinfo):
+        """Return the most recent notification of this type that played a sound."""
         for notification in notificationhistory:
             if type(notification) == notinfo and notification.playedfactionsound:
                 return notification
         return None
     
     def DoNotification(self):
+        """Perform HUD insert, sound playback, minimap flash, and history insert."""
         self.timestamp = gpGlobals.curtime
         
         notinfo = self.FindLastFactionSoundOfType(type(self))
@@ -142,6 +155,7 @@ class NotificationInfo(gamemgr.BaseInfo, metaclass=NotificationInfoMetaClass):
 
 
 def DoNotificationInternal(notification_name, **kwargs):
+    """Instantiate the requested notification and trigger it immediately."""
     notification_info = dbnotifications.get(notification_name, None)
     if not notification_info:
         PrintWarning('DoNotification: no notification %s!\n' % notification_name)
@@ -154,26 +168,31 @@ def DoNotificationInternal(notification_name, **kwargs):
 # Methods for usage
 @usermessage(messagename='notification')
 def DoNotification(notification_name, **kwargs):
+    """Usermessage handler that triggers a notification without extra data."""
     DoNotificationInternal(notification_name)
 
 
 @usermessage(messagename='notificationpos')
 def DoNotificationPos(notification_name, position, **kwargs):
+    """Usermessage handler for notifications tied to a world position."""
     DoNotificationInternal(notification_name, position=position)
 
 
 @usermessage(messagename='notificationent')
 def DoNotificationEnt(notification_name, ent, **kwargs):
+    """Usermessage handler for notifications that reference an entity."""
     DoNotificationInternal(notification_name, ent=ent)
 
 
 @usermessage(messagename='notificationentabi')
 def DoNotificationEntAbi(notification_name, ent, ability_name, **kwargs):
+    """Usermessage handler for entity + ability notifications."""
     DoNotificationInternal(notification_name, ent=ent, abi=GetAbilityInfo(ability_name))
 
 
 @usermessage(messagename='notificationabi')
 def DoNotificationAbi(notification_name, ability_name, message, **kwargs):
+    """Usermessage handler for ability-only notifications with custom text."""
     DoNotificationInternal(notification_name, abi=GetAbilityInfo(ability_name), message=message)
 
 
@@ -185,6 +204,7 @@ if isclient:
     # Command for jumping to the most recent event
     @concommand('wars_jumptolastnotification')
     def CCJumpToLastNotification(args):
+        """Console command that cycles through recent notifications and jumps the camera."""
         global lastjumptime, historyindex, lastjumpnotification
         if not notificationhistory:
             return
@@ -220,6 +240,7 @@ if isclient:
     # Reset variables on level init
     @receiver(prelevelinit)
     def LevelInit(sender, **kwargs):
+        """Reset notification history when a new level starts."""
         global lastjumptime, historyindex, lastjumpnotification
         historyindex = 0
         lastjumptime = 0
@@ -229,6 +250,7 @@ if isclient:
 
 # Helper to get target players for notifcation
 def GetNotificationPlayersForOwner(owner):
+    """Return live players belonging to the specified owner id."""
     players = []
     for i in range(1, gpGlobals.maxClients+1):
         player = UTIL_PlayerByIndex(i)
@@ -243,6 +265,7 @@ def GetNotificationPlayersForOwner(owner):
 
 
 def GetNotifcationFilterForOwner(owner):
+    """Build a reliable recipient filter for the owner's active players."""
     players = GetNotificationPlayersForOwner(owner)
     filter = CRecipientFilter()
     filter.MakeReliable()
@@ -251,6 +274,7 @@ def GetNotifcationFilterForOwner(owner):
 
 
 def GetNotifcationFilterForOwnerAndAllies(owner):
+    """Build a reliable recipient filter for the owner and allied players."""
     players = UTIL_ListForOwnerNumberWithDisp(owner, d=Disposition_t.D_LI)
     filter = CRecipientFilter()
     filter.MakeReliable()

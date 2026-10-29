@@ -280,6 +280,7 @@ class SettingsInfo(object):
             entry['id'] = mapname
             entry['mapname'] = mapname
             entry['displayname'] = '%s (%d)' % (mapname, numplayers)
+            entry['numplayers'] = numplayers
             self.allmaps[mapname] = entry
 
         if mapinfocache_changed:

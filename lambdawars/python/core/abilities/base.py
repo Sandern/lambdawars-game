@@ -1,6 +1,12 @@
-""" Defines the base class for abilities.
+"""Base class and infrastructure for abilities.
 
-    Provides common methods for completing, cancelling, taking resources, selecting units, etc.
+Defines the base class for all abilities in Lambda Wars. Provides common
+functionality including initialization, resource management, completion,
+cancellation, unit selection, and synchronization between server and client.
+
+Abilities can be executed by players or units, can have costs, requirements,
+and can be instant or require targeting. The system handles ability lifecycle
+from creation through completion or cancellation.
 """
 
 from srcbase import IN_SPEED
@@ -39,7 +45,11 @@ class StopInit(Exception):
 
 # Base ability class
 class AbilityBase(AbilityInfo):
-    """ Base class for abilities."""
+    """Base class for abilities.
+    
+    Provides common functionality for all abilities including initialization,
+    resource management, completion, and cancellation.
+    """
     def InitAbility(self, 
                     id,
                     player,
@@ -48,18 +58,18 @@ class AbilityBase(AbilityInfo):
                     forcedserveronly=False,
                     autocasted=False,
                     **kwargs):
-        """ Creates a new ability instance.
+        """Create a new ability instance.
         
-            Args:
-                id (int): id of this ability (automatically assigned by DoAbility).
-                player (entity): Reference to player entity.
+        Args:
+            id (int): ID of this ability (automatically assigned by DoAbility).
+            player (entity): Reference to player entity.
 
-            Kwargs:
-                ischeat (bool): Indicates if executed as cheat. Can be used to skip requirements or make
-                         the ability behave differently.
-                unittype (str): Unit type executing this ability.
-                forcedserveronly (bool): Never try to initialize on the client. Used for the strategic AI.
-                autocasted (bool): Whether this ability was autocasted
+        Kwargs:
+            ischeat (bool): Indicates if executed as cheat. Can be used to skip requirements or make
+                     the ability behave differently.
+            unittype (str): Unit type executing this ability.
+            forcedserveronly (bool): Never try to initialize on the client. Used for the strategic AI.
+            autocasted (bool): Whether this ability was autocasted.
         """
         assert player != None, 'Abilities require a valid player'
         self.info = self
@@ -119,34 +129,43 @@ class AbilityBase(AbilityInfo):
             self.clientinitialized = True
                 
     def ClientUpdateAbilitiesMenu(self):
-        """ Updates the abilities menu for the client executing this ability.
-            By default we clear any sub menu. Override this method to change
-            this behavior. """
+        """Update the abilities menu for the client executing this ability.
+        
+        By default we clear any sub menu. Override this method to change
+        this behavior.
+        """
         # Clear any sub menu
         self.player.hudabilitiesmap = []
         SendAbilityMenuChanged()
                 
     def Init(self):
-        """ Initializes the ability. Override this method and not __init__!"""
+        """Initialize the ability. Override this method and not __init__!
+        
+        This is called after InitAbility sets up the basic ability state.
+        """
         pass
         
     @classmethod           
     def Precache(info):
-        """ Precaches the ability. Called once per map (only if the ability is going to be used)."""
+        """Precache the ability. Called once per map (only if the ability is going to be used).
+        
+        Args:
+            info: Ability info class.
+        """
         if info.activatesoundscript:
             if info.activatesoundscript[0] != '#':
                 CBaseEntity.PrecacheSound(info.activatesoundscript)
                 
     @classmethod
     def DoAbilityAlt(info, player):
-        """ Implements ability alt functionality, which is triggered
-            by right clicking the ability.
+        """Implement ability alt functionality, which is triggered by right clicking the ability.
         
-            By default this controls the autocast behaviour.
-            Most abilities should keep this behaviour.
+        By default this controls the autocast behaviour.
+        Most abilities should keep this behaviour.
 
-            Args:
-                player (entity): Player executing the ability
+        Args:
+            info: Ability info class.
+            player (entity): Player executing the ability.
         """
         selection = player.GetSelection()
         
@@ -383,7 +402,48 @@ class AbilityBase(AbilityInfo):
             for unit in units:
                 for uid in abi_uids:
                     unit.abilitynexttime[uid] = gpGlobals.curtime + self.rechargetime + t
-                
+                    
+                if not hasattr(unit, '_recharge_all'):
+                    unit._recharge_all = set()
+
+                unit._recharge_all.add(self.uid)
+    
+    @serveronly_assert
+    def AddRechargeToAll(cls, ability_names, time=0, owner_number=None):
+        if owner_number is None and hasattr(cls, 'ownernumber'):
+            owner_number = cls.ownernumber
+
+        if isinstance(ability_names, str):
+            ability_names = [ability_names]
+
+        from core.units.info import unitlist
+
+        uid_set = set()
+        for name in ability_names:
+            abi = GetAbilityInfo(name)
+            if not abi:
+                continue
+            uid_set.add(abi.uid)
+
+        for units in unitlist.values():
+            for unit in units:
+                if not unit:
+                    continue
+
+                if owner_number is not None and unit.GetOwnerNumber() != owner_number:
+                    continue
+
+                for uid in uid_set:
+                    if hasattr(unit, '_recharge_all') and uid in unit._recharge_all:
+                        continue
+
+                    current = unit.abilitynexttime.get(uid, gpGlobals.curtime)
+                    base = max(current, gpGlobals.curtime)
+                    unit.abilitynexttime[uid] = base + time
+
+                if hasattr(unit, '_recharge_all'):
+                    unit._recharge_all.clear()
+    
     @serveronly_assert
     def Refund(self):
         """ Refunds taken resources to the player.

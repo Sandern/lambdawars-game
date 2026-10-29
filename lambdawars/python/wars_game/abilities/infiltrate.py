@@ -1,5 +1,6 @@
 from core.abilities import AbilityInstant
 
+
 class AbilityInfiltrate(AbilityInstant):
     # Info
     name = "infiltrate"
@@ -11,23 +12,24 @@ class AbilityInfiltrate(AbilityInstant):
     hidden = True
     cloakallowed = True
     activatesoundscript = 'ability_infiltrate'
-    
+    allowcontinueability = False
+
     # Ability Code
-    @classmethod    
+    @classmethod
     def GetRequirements(cls, player, unit):
         requirements = super().GetRequirements(player, unit)
-        
+
         # Decloaking never requires energy
         if unit.cloaked:
             requirements.discard('energy')
-         
+
         return requirements
-        
+
     if isserver:
         def DoAbility(self):
             # Just do the ability on creation ( == when you click the ability slot )
             self.SelectGroupUnits()
-            
+
             # Cloak all if one is not cloaked
             # Only uncloak if all units in the selection are cloaked
             cloak = False
@@ -35,7 +37,7 @@ class AbilityInfiltrate(AbilityInstant):
                 if not unit.cloaked and unit.energy >= self.energy:
                     cloak = True
                     break
-            
+
             if cloak:
                 units = self.TakeEnergy(self.units)
                 self.SetRecharge(units)
@@ -53,25 +55,28 @@ class AbilityInfiltrate(AbilityInstant):
             # for unit in self.units:
             #     if unit.cloaked and unit.energy <= 3:
             #         self.SetRecharge(units)
-                    
+
             self.Completed()
     else:
         def DoAbility(self):
             # Just do the ability on creation ( == when you click the ability slot )
             self.SelectGroupUnits()
-        
-    #serveronly = True # Do not instantiate on the client
+
+    # serveronly = True # Do not instantiate on the client
+
 
 class AbilityInfiltrateChar(AbilityInfiltrate):
     name = 'infiltrate_char'
     energy = 5
     cloakallowed = True
 
+
 class AbilityInfiltrateRebScout(AbilityInfiltrate):
-	name = 'infiltrate_reb_scout'
-	energy = 10
-	techrequirements = ['build_reb_munitiondepot']
-	cloakallowed = True
+    name = 'infiltrate_reb_scout'
+    energy = 10
+    techrequirements = ['build_reb_munitiondepot']
+    cloakallowed = True
+
 
 class AbilityInfiltrateRebScout(AbilityInfiltrate):
     name = 'infiltrate_comb_sniper'

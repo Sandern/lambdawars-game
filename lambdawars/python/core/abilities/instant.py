@@ -1,3 +1,8 @@
+"""Instant abilities that execute immediately upon activation.
+
+Provides a base class for abilities that execute immediately when activated,
+without requiring targeting or additional input from the player.
+"""
 from .base import AbilityBase
 
 class AbilityInstant(AbilityBase):  

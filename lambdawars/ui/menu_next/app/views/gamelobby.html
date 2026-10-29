@@ -1,191 +1,304 @@
-<section id="playerlist" class="content box noselect" ng-controller="GamelobbyPlayerListController" ng-show="!isShowScores">
+<div class="lb-page" ng-controller="GamelobbyPlayerListController">
 
-	<h2 class="box-header">
-		<span class="right-float" ng-if="lobbytype.value !== 'offline'">
-			<select ng-if="islobbyowner" class="select-style" ng-model="lobbytype" ng-options="lt.name | translate for lt in lobbytypes track by lt.value" ng-change="updateLobbyType(lobbytype.value)"></select>
-			<span ng-if="!islobbyowner">{{lobbytype.name | translate}}</span>
-		</span>
-		<span>
-			<input type="text" maxlength="50" ng-if="islobbyowner" class="gamelobby-lobbyname-input" ng-model="lobbyname" ng-change="updateLobbyName(lobbyname)"></input>
-			<span ng-if="!islobbyowner">{{lobbyname}}</span>
-		</span>
-	</h2>
-
-	<ul id="test" class="playerlist">
-
-		<div id="gamelobby-status">
-			{{ 'GL_Status' | translate }}:
-			<span ng-if="state === 'lobbying' && lobbyingstate_msg !== null" class="creating-lobby">{{ lobbyingstate_msg | translate }}</span>
-			<span ng-if="state === 'creating'" class="creating-lobby">{{ 'GL_StatusCreating' | translate }}</span>
-			<span ng-if="state === 'joining'" class="joining-lobby">{{ 'GL_StatusJoining' | translate }}</span>
-			<!-- <span ng-if="not-yet-defined" class="finding-lobby">Finding Steam Lobby...</span>
-			<span ng-if="not-yet-defined" class="finding-lobby success">Steam Lobby found. Waiting for players to be ready.</span> -->
-			<span ng-if="state === 'searchingserver'" class="finding-server">{{ 'GL_StatusFindingServer' | translate }}</span>
-			<!-- <span ng-if="not-yet-defined" class="finding-server success">Lambda Wars server found.  Launching!</span>-->
-			<span ng-if="state === 'startinglocalserver' && lobbytype.value === 'offline'" class="finding-server success">{{ 'GL_StatusStartingLocal' | translate }}</span>
-			<span ng-if="state === 'startinglocalserver' && lobbytype.value !== 'offline'" class="finding-server success">{{ 'GL_StatusHostStartingLocal' | translate }}</span>
-			<span ng-if="state === 'gamestarted'" class="finding-server success">{{ 'GL_StatusInProgress' | translate }}</span>
-			<span ng-if="state === 'gameended'" class="success">{{ 'GL_StatusGameEnded' | translate }}</span>
-		</div>
-
-		<div ng-repeat="teamEntry in teamSlots">
-			<h2 class="team-header">{{ teamEntry.header }}</h2>
-			<li ng-repeat="slot in teamEntry.slots"  ng-class='("player" + playerClass(slots[slot.slotid]))' class="{{(slots[slot.slotid].type === 'player' && isPlayerReadyByID(slot.slotid))?'ready':''}}">
-				<span ng-switch on="lobbymembers[slots[slot.slotid].player.steamid].connectstate">
-					<div ng-switch-when="true" class="connection goodconn"></div>
-					<div ng-switch-when="false" class="connection badconn"></div>
-					<div ng-switch-default class="connection"></div>
+	<section class="lb-main">
+		<header class="lb-header">
+			<p class="lb-breadcrumb noselect">
+				<span class="lb-breadcrumb-section">{{ (lobbytype.value === 'offline' ? 'GL_OfflineGame' : 'GL_CustomGame') | translate }}</span>
+				<span class="lb-breadcrumb-separator">/</span>
+				<span class="lb-status" ng-class="'lb-status-' + state">
+					<span class="lb-status-dot"></span>
+					<span ng-if="state === 'lobbying' && lobbyingstate_msg !== null">{{ lobbyingstate_msg | translate }}</span>
+					<span ng-if="state === 'lobbying' && lobbyingstate_msg === null">{{ 'GL_StatusWaiting' | translate }}</span>
+					<span ng-if="state === 'creating'">{{ 'GL_StatusCreating' | translate }}</span>
+					<span ng-if="state === 'joining'">{{ 'GL_StatusJoining' | translate }}</span>
+					<span ng-if="state === 'searchingserver'">{{ 'GL_StatusFindingServer' | translate }}</span>
+					<span ng-if="state === 'startinglocalserver' && lobbytype.value === 'offline'">{{ 'GL_StatusStartingLocal' | translate }}</span>
+					<span ng-if="state === 'startinglocalserver' && lobbytype.value !== 'offline'">{{ 'GL_StatusHostStartingLocal' | translate }}</span>
+					<span ng-if="state === 'gamestarted'">{{ 'GL_StatusInProgress' | translate }}</span>
+					<span ng-if="state === 'gameended'">{{ 'GL_StatusGameEnded' | translate }}</span>
 				</span>
-				<!-- localslotid -->
-				<img class="steam-avatar" ng-class="{'steam-avatar-host': slots[slot.slotid].player.islocaluser}" ng-src="{{ slots[slot.slotid].player.steamid && 'avatar://medium/' + slots[slot.slotid].player.steamid || unknownPlayerAvatar }}" />
+				<span class="lb-breadcrumb-count" ng-if="numSlots()">&middot; {{ numFilledSlots(slots) }}/{{ numSlots() }} {{ 'GL_Players' | translate }}</span>
+			</p>
 
-				<span ng-if='state === "lobbying" && slots[slot.slotid].type === "open"'>
-					<a href class="btn btn-highlight" ng-class="{linkDisabled: isPlayerReady()}" ng-click="requestSlot(slot.slotid)">{{ 'GL_TakeSlot' | translate }}</a>
+			<div class="lb-header-row">
+				<div class="lb-heading">
+					<div ng-if="islobbyowner">
+						<input class="lb-title lb-title-input" type="text" maxlength="50" ng-model="lobbyname" ng-change="updateLobbyName(lobbyname)" />
+					</div>
+					<h1 class="lb-title" ng-if="!islobbyowner">{{ lobbyname }}</h1>
+				</div>
 
-					<a ng-if='islobbyowner' href class="btn btn-highlight" ng-class="{linkDisabled: isPlayerReady()}" ng-click="addCPU(slot.slotid)">{{ 'GL_AddCPU' | translate }}</a>
-				</span>
-
-				<span ng-if='slots[slot.slotid].type === "player"'>
-					<a ng-if='state !== "lobbying" || !(slots[slot.slotid].iscpu && islobbyowner)' href class="player-name">
-						<img ng-if="slots[slot.slotid].player.isLobbyLeader" src="{{ crownImg }}"></img>
-						{{ slots[slot.slotid].player.name + (slots[slot.slotid].iscpu ? ' - ' + (difficultyLabels[slots[slot.slotid].difficulty] | translate) : '') }}
-					</a>
-
-					<!-- Steam Workshop map not available yet for this player -->
-					<span ng-if="slots[slot.slotid].player.mapstate && slots[slot.slotid].player.mapstate !== 'ok'" class="player-mapstatus" ng-class="'player-mapstatus-' + slots[slot.slotid].player.mapstate">
-						{{ ('GL_PlayerMap_' + slots[slot.slotid].player.mapstate) | translate }}<span ng-if="slots[slot.slotid].player.mapstate === 'downloading'"> {{ slots[slot.slotid].player.mapprogress }}%</span>
-					</span>
-
-					<select ng-if='state === "lobbying" && slots[slot.slotid].iscpu && islobbyowner' class="player-name select-style" ng-disabled="isPlayerReady()" ng-options="'CPU - ' + (difficulty.displayname | translate) for difficulty in availabledifficulties" ng-model="selectedDifficulty[slot.slotid]" ng-change="updatePlayerData('difficulty', selectedDifficulty[slot.slotid].id, slot.slotid)">
-					</select>
-
-					<!-- Color selection -->
-					<a ng-if='!slots[slot.slotid].editable' href class="player-color" style="background: {{ availablecolors[slots[slot.slotid].player.color].color }}"></a>
-					<select ng-if='slots[slot.slotid].editable' ng-disabled="isPlayerReady()" class="player-color-select" ng-model="selectedColor[slot.slotid]" ng-change="updatePlayerData('color', selectedColor[slot.slotid], slot.slotid)" style="background: {{ availablecolors[slots[slot.slotid].player.color].color }}">
-						<option ng-repeat="(id , color) in availablecolors" ng-disabled="!color.available" value="{{color.name}}" style="background: {{ color.color }}"></option>
-					</select>
-					
-					<!-- Faction selection -->
-					<a ng-if='!slots[slot.slotid].editable' href class="player-faction">{{ slots[slot.slotid].player.factionname }}</a>
-					<select ng-if='slots[slot.slotid].editable' class="player-faction select-style" ng-disabled="isPlayerReady()" ng-model="selectedFaction[slot.slotid]" ng-options="faction.displayname for (id , faction) in availablefactions" ng-change="updatePlayerData('faction', selectedFaction[slot.slotid].name, slot.slotid)"></select>
-
-					<a ng-if='state === "lobbying" && islobbyowner && slots[slot.slotid].iscpu' href class="btn btn-highlight"  ng-class="{linkDisabled: isPlayerReady()}" ng-click="removeCPU(slot.slotid)"> &#10060; <!--{{ 'GL_RemoveCPU' | translate }}--></a>
-					<a ng-if='state === "lobbying" && islobbyowner && !slots[slot.slotid].iscpu && !slots[slot.slotid].player.islocaluser' href class="btn btn-highlight"  ng-click="kickPlayer(slot.slotid)">{{ 'GL_Kick' | translate }}</a>
-					
-					<a ng-if='state === "lobbying" && slots[slot.slotid].player.islocaluser && lobbytype.value !== "offline"' href ng-class="slots[slot.slotid].player.ready ? ['player-ready', 'checked'] : ['player-ready']" ng-click="updatePlayerData('ready', slots[slot.slotid].player.ready ? '0' : '1', slot.slotid)">
-						&#x2713;
-					</a>
-					<a ng-if='state !== "lobbying" || !slots[slot.slotid].player.islocaluser && lobbytype.value !== "offline"' href ng-class="slots[slot.slotid].player.ready ? ['player-ready', 'checked'] : ['player-ready']">
-						&#x2713;
-					</a>
-				</span>
-
-			</li>
-		</div>
-
-	</ul>
-
-	<div class="box-footer noselect">
-		<div id="spectator-list">
-			<span>{{ 'GL_SpectatorsLabel' | translate }}</span>
-			<span ng-repeat="spectator in spectators">
-				<a ng-if="!islobbyowner || spectator.islocaluser">{{spectator.name}}</a>
-				<a ng-if="islobbyowner && !spectator.islocaluser" href ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{spectator.name}}</a>
-				<span ng-if="spectator.mapstate && spectator.mapstate !== 'ok'" class="player-mapstatus" ng-class="'player-mapstatus-' + spectator.mapstate">({{ ('GL_PlayerMap_' + spectator.mapstate) | translate }}<span ng-if="spectator.mapstate === 'downloading'"> {{ spectator.mapprogress }}%</span>)</span>
-				{{$last ? '' : ', '}}
-				</span>
-		</div>
-		<div class="left-float">
-			<a href id="leave-game" class="btn" ng-click="leavelobby()">{{ 'GL_LeaveLobby' | translate }}</a>
-			<span ng-show="state === 'lobbying' && !match_uuid">
-				<a ng-if="state === 'lobbying'" href id="spectate" class="btn" ng-click="spectate()">{{ 'GL_Spectate' | translate }}</a>
-				<a ng-if="state === 'lobbying' && islobbyowner" href id="invite" class="btn" ng-click="invite()">{{ 'GL_Invite' | translate }}</a>
-			</span>
-			<a href id="show-scores" class="btn" ng-click="showScores()" ng-show="state !== 'gamestarted' && match_uuid">{{ 'GL_Scores' | translate }}</a>
-		</div>
-		<div class="right-float" ng-show="state === 'lobbying' ">
-			<a ng-if="state === 'searchingserver' && islobbyowner" href id="cancel_launch" class="btn" ng-click="cancel_launch()">{{ 'Dialog_Cancel' | translate }}</a>
-			<a ng-if="state === 'lobbying' && localslotid != undefined && isPlayerReady()" href id="unready" class="btn btn-highlight" ng-click="updatePlayerData('ready', '0', localslotid)" a-disabled="localslotid == undefined || !slots[localslotid].player.ready">{{ 'GL_Unready' | translate }}</a>
-			<a ng-if="(state !== 'gamestarted' && state !== 'gameended') && islobbyowner" href id="launch" class="btn btn-highlight" ng-click="(isPlayerReady())? launch(): (lobbytype.value !== 'offline' && localslotid)? updatePlayerData('ready', '1', localslotid): launch()" a-disabled="state !== 'lobbying'">{{ 'GL_Launch' | translate }}</a>
-			<a ng-if="!islobbyowner && state === 'lobbying' && localslotid != undefined" href id="ready" class="btn btn-highlight" ng-click="updatePlayerData('ready', '1', localslotid)" a-disabled="localslotid == undefined || slots[localslotid].player.ready">{{ 'GL_Ready' | translate }}</a>
-		</div>
-		<div class="right-float">
-			<a ng-if="state === 'gamestarted' && lobbytype.value !== 'offline'" href id="joingame" class="btn btn-highlight" ng-click="joingame()">{{ 'GL_JoinGame' | translate }}</a>
-		</div>
-	</div>
-
-</section>
-
-<section id="playerlist" class="content box noselect" ng-show="isShowScores">
-<main>
-    <match-result match-uuid=match_uuid></match-result>
-	<br />
-	<a class="btn" href ng-click="backToPlayerList()">Back</a>
-</main>
-</section>
-
-<div ng-controller="GamelobbyPlayerListController">
-<section id="gameinfo" class="box box-right noselect" ng-controller="GamelobbySettingsController">
-
-	<h2 class="box-header">{{ 'GL_GameSettings' | translate }}</h2>
-
-	<div class="info-container">
-	<img class="map-small" ng-if="minimapurl" ng-src="{{ minimapurl }}" />
-
-	<ul>
-		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_GameMode' | translate }}:</span> <span class="gameinfo-text">{{ mode.name }}</span><!--<span ng-tooltip="{{ mode.description }}">?</span>--></li>
-		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_GameMode' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="mode" ng-options="mode.name for (id , mode) in availablemodes" ng-change="updateSetting('mode', mode.id)"></select><span class="tooltip-icon" ng-tooltip="{{ mode.description }}">?</span></li>
-		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <span class="gameinfo-text">{{ map.mapname || mapname }}</span></li>
-		<li ng-if="!islobbyowner && mapstatus && mapstatus.state !== 'ok'" class="map-status"><span class="gameinfo-text">{{ ('GL_MapStatus_' + mapstatus.state) | translate }} <span ng-if="mapstatus.state === 'downloading' && mapstatus.progress > 0">{{ mapstatus.progress }}%</span> {{ mapstatus.error }}</span></li>
-		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Map' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="map" ng-options="map.displayname for (id , map) in availablemaps" ng-change="updateSetting('map', map.id)"></select></li>
-		<li ng-if="mapworkshop" class="map-workshop">
-			<span class="workshop-badge">{{ 'GL_WorkshopMap' | translate }}</span>
-			<span class="gameinfo-text" ng-if="mapworkshop.title">{{ mapworkshop.title }}<span ng-if="mapworkshop.author"> {{ 'GL_WorkshopBy' | translate }} {{ mapworkshop.author }}</span></span>
-			<div class="map-workshop-actions">
-				<a href ng-if="!mapworkshop.subscribed" class="btn btn-small btn-highlight" ng-click="subscribeWorkshopMap()">{{ 'GL_SubscribeNow' | translate }}</a>
-				<span ng-if="mapworkshop.subscribed" class="map-workshop-subscribed">&#x2713; {{ 'GL_Subscribed' | translate }}</span>
-				<a href class="btn btn-small" ng-click="openWorkshopPage()">{{ 'GL_ViewOnWorkshop' | translate }}</a>
+				<div class="lb-header-controls">
+					<div class="lb-control" ng-if="lobbytype && lobbytype.value !== 'offline'">
+						<wars-icon name="globe"></wars-icon>
+						<span class="lb-select-wrap" ng-if="islobbyowner">
+							<select class="lb-select" ng-model="lobbytype" ng-options="lt.name | translate for lt in lobbytypes track by lt.value" ng-change="updateLobbyType(lobbytype.value)"></select>
+							<wars-icon name="chevron-down"></wars-icon>
+						</span>
+						<span ng-if="!islobbyowner">{{ lobbytype.name | translate }}</span>
+					</div>
+					<div class="lb-control" ng-if="islobbyowner && lobbytype && lobbytype.value !== 'offline'" ng-tooltip="{{ 'GL_MMPassword' | translate }}">
+						<wars-icon name="lock"></wars-icon>
+						<input class="lb-password" type="password" maxlength="100" ng-model="mm_password" ng-change="setMMPassword(mm_password)" placeholder="{{ 'GL_NoServerPassword' | translate }}" />
+					</div>
+					<button type="button" class="lb-btn lb-btn-ghost" ng-click="leavelobby()">
+						<wars-icon name="leave"></wars-icon>{{ 'GL_Leave' | translate }}
+					</button>
+				</div>
 			</div>
-		</li>
-		<li ng-if="mapworkshop && mapwaiting.length" class="map-waiting">
-			<span class="gameinfo-heading">{{ 'GL_WaitingForMap' | translate }}</span>
-			<span class="gameinfo-text" ng-repeat="player in mapwaiting">{{ player.name }} ({{ ('GL_PlayerMap_' + player.state) | translate }}<span ng-if="player.state === 'downloading'"> {{ player.progress }}%</span>){{ $last ? '' : ', ' }}</span>
-		</li>
-		<li ng-if="!islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <span class="gameinfo-text">{{ teamsetup.name }}</span></li>
-		<li ng-show="islobbyowner"><span class="gameinfo-heading">{{ 'GL_Teams' | translate }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="teamsetup" ng-options="teamsetup.name for (id , teamsetup) in availableteamsetups" ng-change="updateSetting('teamsetup', teamsetup.id)"></select></li>
+		</header>
 
-		<li ng-if="!islobbyowner" ng-repeat="(cfid, cf) in customfields"><span class="gameinfo-heading">{{ cf.name }}:</span> <span class="gameinfo-text">{{ selectedCustomFields[cfid] }}</span></li>
-		<li ng-show="islobbyowner" ng-repeat="(cfid, cf) in customfields">
-		<span class="gameinfo-heading">{{ cf.name }}:</span> <select ng-disabled="isPlayerReady()" class="select-style" ng-model="selectedCustomFields[cfid]" ng-options="cvchoice for cvchoice in cf.values" ng-change="updateCustomField(cfid, selectedCustomFields[cfid])"></select>
-		</li>
+		<div class="lb-body" ng-show="!isShowScores">
+			<div class="lb-teams" ng-class="{'lb-teams-single': teamSlots.length === 1}">
+				<div class="lb-team" ng-repeat="teamEntry in teamSlots track by teamEntry.team" ng-class="teamEntry.team === 0 ? 'lb-team-ffa' : 'lb-team-' + ($index % 4)">
+					<h2 class="lb-team-header noselect">
+						<span class="lb-team-marker"></span>
+						<span class="lb-team-name">{{ teamEntry.header }}</span>
+						<span class="lb-team-count">{{ numFilledSlots(teamEntry.slots) }} / {{ teamEntry.slots.length }}</span>
+					</h2>
+					<ul class="lb-slots">
+						<li class="lb-slot" ng-repeat="slot in teamEntry.slots track by slot.slotid"
+							ng-class="{'lb-slot-open': slot.type !== 'player', 'lb-slot-self': slot.player.islocaluser}">
 
-		<li ng-show="islobbyowner && lobbytype.value !== 'offline'"><span class="gameinfo-heading">{{ 'GL_MMPassword' | translate }}:</span>
-			<input class="gameinfo-input" type="password" maxlength="100" ng-model="mm_password" ng-change="setMMPassword(mm_password)"></input>
-		</li>
-	</ul>
+							<!-- Open slot -->
+							<span class="lb-avatar lb-avatar-empty" ng-if="slot.type !== 'player'"></span>
+							<span class="lb-slot-name lb-muted" ng-if="slot.type === 'open'">{{ 'GL_OpenSlot' | translate }}</span>
+							<span class="lb-slot-actions" ng-if="slot.type === 'open' && state === 'lobbying'">
+								<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-disabled="isPlayerReady()" ng-click="requestSlot(slot.slotid)">{{ 'GL_Join' | translate }}</button>
+								<button type="button" class="lb-btn lb-btn-small lb-btn-ghost" ng-if="islobbyowner" ng-disabled="isPlayerReady()" ng-click="addCPU(slot.slotid)">{{ 'GL_AddCPU' | translate }}</button>
+							</span>
 
-	</div>
-</section>
+							<!-- Player or CPU -->
+							<span class="lb-avatar-wrap" ng-if="slot.type === 'player'" ng-class="connectionClass(slot)">
+								<span class="lb-avatar lb-avatar-cpu" ng-if="slot.iscpu">CPU</span>
+								<img class="lb-avatar" ng-if="!slot.iscpu" ng-src="{{ slot.player.steamid ? 'avatar://medium/' + slot.player.steamid : unknownPlayerAvatar }}" />
+							</span>
+
+							<span class="lb-color" ng-if="slot.type === 'player' && !slot.editable" style="background: {{ availablecolors[slot.player.color].color }}"></span>
+							<select class="lb-color lb-color-select" ng-if="slot.type === 'player' && slot.editable" ng-disabled="isPlayerReady()" ng-model="selectedColor[slot.slotid]" ng-change="updatePlayerData('color', selectedColor[slot.slotid], slot.slotid)" style="background: {{ availablecolors[slot.player.color].color }}">
+								<option ng-repeat="(id, color) in availablecolors" ng-disabled="!color.available" value="{{ color.name }}" style="background: {{ color.color }}"></option>
+							</select>
+
+							<span class="lb-slot-name" ng-if="slot.type === 'player'">
+								<span class="lb-select-wrap" ng-if="state === 'lobbying' && slot.iscpu && islobbyowner">
+									<select class="lb-select" ng-disabled="isPlayerReady()" ng-options="'CPU - ' + (difficulty.displayname | translate) for difficulty in availabledifficulties" ng-model="selectedDifficulty[slot.slotid]" ng-change="updatePlayerData('difficulty', selectedDifficulty[slot.slotid].id, slot.slotid)"></select>
+									<wars-icon name="chevron-down"></wars-icon>
+								</span>
+								<span class="lb-slot-playername" ng-if="!(state === 'lobbying' && slot.iscpu && islobbyowner)">{{ slot.player.name + (slot.iscpu ? ' - ' + (difficultyLabels[slot.difficulty] | translate) : '') }}</span>
+								<span class="lb-tag lb-tag-host" ng-if="slot.player.isLobbyLeader">{{ 'GL_Host' | translate }}</span>
+								<span class="lb-tag lb-tag-you" ng-if="slot.player.islocaluser">{{ 'GL_You' | translate }}</span>
+								<!-- Steam Workshop map not available yet for this player -->
+								<span class="lb-tag lb-map-state" ng-if="workshopEnabled && slot.player.mapstate && slot.player.mapstate !== 'ok'" ng-class="'lb-map-state-' + slot.player.mapstate">{{ ('GL_PlayerMap_' + slot.player.mapstate) | translate }}<span ng-if="slot.player.mapstate === 'downloading'"> {{ slot.player.mapprogress }}%</span></span>
+							</span>
+
+							<span class="lb-slot-faction" ng-if="slot.type === 'player'">
+								<span ng-if="!slot.editable">{{ slot.player.factionname }}</span>
+								<span class="lb-select-wrap" ng-if="slot.editable">
+									<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="selectedFaction[slot.slotid]" ng-options="faction.displayname for (id, faction) in availablefactions" ng-change="updatePlayerData('faction', selectedFaction[slot.slotid].name, slot.slotid)"></select>
+									<wars-icon name="chevron-down"></wars-icon>
+								</span>
+							</span>
+
+							<span class="lb-slot-ready" ng-if="slot.type === 'player' && lobbytype.value !== 'offline'"
+								ng-class="{'lb-clickable': slot.player.islocaluser && state === 'lobbying'}"
+								ng-click="slot.player.islocaluser && state === 'lobbying' && toggleReady()">
+								<span class="lb-ready" ng-if="isPlayerReadyByID(slot.slotid)"><wars-icon name="check"></wars-icon>{{ 'GL_Ready' | translate }}</span>
+								<span class="lb-notready" ng-if="!isPlayerReadyByID(slot.slotid)">&middot; {{ 'GL_NotReady' | translate }}</span>
+							</span>
+
+							<span class="lb-slot-actions lb-slot-actions-hover" ng-if="slot.type === 'player' && state === 'lobbying' && islobbyowner && !slot.player.islocaluser">
+								<button type="button" class="lb-icon-btn" ng-if="slot.iscpu" ng-disabled="isPlayerReady()" ng-click="removeCPU(slot.slotid)" ng-tooltip="{{ 'GL_RemoveCPU' | translate }}"><wars-icon name="close"></wars-icon></button>
+								<button type="button" class="lb-icon-btn" ng-if="!slot.iscpu" ng-click="kickPlayer(slot.slotid)" ng-tooltip="{{ 'GL_Kick' | translate }}"><wars-icon name="close"></wars-icon></button>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<p class="lb-spectators">
+				<span class="lb-label">{{ 'GL_Spectators' | translate }}</span>
+				<span class="lb-muted" ng-if="!spectators.length">{{ 'GL_None' | translate }}</span>
+				<span ng-repeat="spectator in spectators">
+					<span ng-if="!islobbyowner || spectator.islocaluser">{{ spectator.name }}</span>
+					<a href ng-if="islobbyowner && !spectator.islocaluser" ng-click="kickPlayerBySteamID(spectator.steamid)" ng-tooltip="{{ 'GL_Kick' | translate }}">{{ spectator.name }}</a>
+					<span class="lb-map-state" ng-if="workshopEnabled && spectator.mapstate && spectator.mapstate !== 'ok'" ng-class="'lb-map-state-' + spectator.mapstate">({{ ('GL_PlayerMap_' + spectator.mapstate) | translate }}<span ng-if="spectator.mapstate === 'downloading'"> {{ spectator.mapprogress }}%</span>)</span>{{ $last ? '' : ', ' }}
+				</span>
+			</p>
+
+			<section class="lb-chat" ng-controller="GameLobbyChatController">
+				<nav class="lb-tabs noselect">
+					<a href ng-class="{active: lobbychat}" ng-click="lobbychat = true">{{ 'GL_LobbyTab' | translate }}</a>
+					<a href ng-class="{active: !lobbychat}" ng-click="lobbychat = false">{{ 'GL_GlobalTab' | translate }}</a>
+				</nav>
+
+				<div class="lb-chat-pane" ng-show="lobbychat">
+					<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="gamelobbymanager"></chat-lines>
+					<div class="lb-chat-controls" ng-controller="LobbySendChatController" chat-service="gamelobbymanager">
+						<form ng-submit="sendChat()" class="lb-chat-form"><input type="text" ng-model="text" placeholder="{{ 'GL_ChatPlaceholder' | translate }}" /></form>
+						<span class="lb-chat-language" ng-if="inputlanguage">{{ inputlanguage }}</span>
+						<a href class="lb-chat-send" ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
+					</div>
+				</div>
+				<div class="lb-chat-pane" ng-show="!lobbychat">
+					<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="chatlobby"></chat-lines>
+					<div class="lb-chat-controls" ng-controller="LobbySendChatController" chat-service="chatlobby">
+						<form ng-submit="sendChat()" class="lb-chat-form"><input type="text" ng-model="text" placeholder="{{ 'GL_ChatPlaceholderGlobal' | translate }}" /></form>
+						<span class="lb-chat-language" ng-if="inputlanguage">{{ inputlanguage }}</span>
+						<a href class="lb-chat-send" ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div class="lb-scores" ng-if="isShowScores">
+			<match-result match-uuid=match_uuid></match-result>
+			<button type="button" class="lb-btn lb-btn-ghost" ng-click="backToPlayerList()">{{ 'Button_Back' | translate }}</button>
+		</div>
+	</section>
+
+	<aside class="lb-side" ng-controller="GamelobbySettingsController">
+		<div class="lb-map-card">
+			<i class="lb-corner lb-corner-tl"></i>
+			<i class="lb-corner lb-corner-tr"></i>
+			<i class="lb-corner lb-corner-bl"></i>
+			<i class="lb-corner lb-corner-br"></i>
+
+			<div class="lb-map-image">
+				<!-- The overview of the map, or the Workshop preview image when the map has no overview (yet) -->
+				<img ng-if="minimapurl" ng-src="{{ minimapurl }}" />
+				<span class="lb-map-noimage" ng-if="!minimapurl">{{ 'GL_NoOverview' | translate }}</span>
+			</div>
+
+			<span class="lb-map-badge noselect" ng-if="workshopEnabled && mapworkshop"><wars-icon name="wrench"></wars-icon>{{ 'GL_WorkshopMap' | translate }}</span>
+			<a href class="lb-map-link noselect" ng-if="workshopEnabled && mapworkshop" ng-click="openWorkshopPage()"><span class="lb-map-link-text">{{ 'GL_ViewOnWorkshop' | translate }}</span><wars-icon name="external"></wars-icon></a>
+
+			<div class="lb-map-info">
+				<div class="lb-map-text">
+					<p class="lb-map-mode">{{ mode.name }}<span ng-if="teamsetup"> &middot; {{ teamSetupLabel(teamsetup.id) }}</span></p>
+					<h2 class="lb-map-name">{{ map.mapname || mapname }}</h2>
+					<p class="lb-map-meta">
+						<span ng-if="workshopEnabled && mapworkshop">{{ 'GL_WorkshopMapBy' | translate }} {{ mapworkshop.author }}<span ng-if="map.numplayers"> &middot; </span></span>
+						<span ng-if="map.numplayers">{{ map.numplayers }} {{ 'GL_Players' | translate }}</span>
+					</p>
+				</div>
+				<span class="lb-map-subscribed" ng-if="workshopEnabled && mapworkshop.subscribed"><wars-icon name="check"></wars-icon>{{ 'GL_Subscribed' | translate }}</span>
+				<button type="button" class="lb-btn lb-btn-small lb-btn-outline lb-map-subscribe" ng-if="workshopEnabled && mapworkshop && !mapworkshop.subscribed" ng-click="subscribeWorkshopMap()">{{ 'GL_SubscribeNow' | translate }}</button>
+			</div>
+		</div>
+
+		<ul class="lb-settings">
+			<li>
+				<span class="lb-label">{{ 'GL_GameMode' | translate }}</span>
+				<span class="lb-setting-value" ng-if="!islobbyowner" ng-tooltip="{{ mode.description }}">{{ mode.name }}</span>
+				<span class="lb-select-wrap" ng-show="islobbyowner" ng-tooltip="{{ mode.description }}">
+					<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="mode" ng-options="mode.name for (id , mode) in availablemodes" ng-change="updateSetting('mode', mode.id)"></select>
+					<wars-icon name="chevron-down"></wars-icon>
+				</span>
+			</li>
+			<li>
+				<span class="lb-label">{{ 'GL_Map' | translate }}</span>
+				<span class="lb-setting-value" ng-if="!islobbyowner">{{ map.displayname || mapname }}</span>
+				<span class="lb-select-wrap" ng-show="islobbyowner">
+					<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="map" ng-options="map.displayname for (id , map) in availablemaps" ng-change="updateSetting('map', map.id)"></select>
+					<wars-icon name="chevron-down"></wars-icon>
+				</span>
+			</li>
+			<!-- The map is not available yet, for example while it downloads from the Workshop -->
+			<li class="lb-setting-note" ng-if="workshopEnabled && !islobbyowner && mapstatus && mapstatus.state !== 'ok'" ng-class="'lb-map-status-' + mapstatus.state">
+				{{ ('GL_MapStatus_' + mapstatus.state) | translate }}<span ng-if="mapstatus.state === 'downloading' && mapstatus.progress > 0"> {{ mapstatus.progress }}%</span><span ng-if="mapstatus.error"> {{ mapstatus.error }}</span>
+			</li>
+			<li class="lb-setting-note" ng-if="workshopEnabled && mapworkshop && mapwaiting.length">
+				{{ 'GL_WaitingForMap' | translate }}
+				<span ng-repeat="player in mapwaiting">{{ player.name }} ({{ ('GL_PlayerMap_' + player.state) | translate }}<span ng-if="player.state === 'downloading'"> {{ player.progress }}%</span>){{ $last ? '' : ', ' }}</span>
+			</li>
+			<li>
+				<span class="lb-label">{{ 'GL_Teams' | translate }}</span>
+				<span class="lb-segmented">
+					<button type="button" ng-repeat="option in teamSetupOptions track by option.id"
+						ng-class="{active: teamsetup.id === option.id}"
+						ng-disabled="!option.supported || !islobbyowner || isPlayerReady()"
+						ng-click="selectTeamSetup(option)">{{ option.label }}</button>
+				</span>
+			</li>
+			<!-- Game mode settings, like the Overrun difficulty -->
+			<li ng-repeat="field in settingFields track by field.id">
+				<span class="lb-label">{{ field.name }}</span>
+				<span class="lb-setting-value" ng-if="!islobbyowner">{{ valueLabel(selectedCustomFields[field.id]) | translate }}</span>
+				<span class="lb-select-wrap" ng-show="islobbyowner">
+					<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="selectedCustomFields[field.id]" ng-options="value as (valueLabel(value) | translate) for value in field.values" ng-change="updateCustomField(field.id, selectedCustomFields[field.id])"></select>
+					<wars-icon name="chevron-down"></wars-icon>
+				</span>
+			</li>
+			<li>
+				<button type="button" class="lb-modifiers-row" ng-class="{open: modifiersOpen}" ng-disabled="!modifierFields.length" ng-click="toggleModifiers($event)" aria-haspopup="dialog" aria-expanded="{{ modifiersOpen }}">
+					<span class="lb-label">{{ 'GL_Modifiers' | translate }} <span class="lb-count" ng-class="{active: activeModifiers().length}">{{ activeModifiers().length }}</span></span>
+					<span class="lb-modifiers-summary" ng-class="{'lb-muted': !activeModifiers().length}">{{ modifiersSummary() || ('GL_None' | translate) }}</span>
+					<wars-icon name="chevron-left" ng-if="modifierFields.length"></wars-icon>
+				</button>
+			</li>
+		</ul>
+
+		<!-- Modifiers panel, opens to the left of the settings column -->
+		<div class="lb-flyout" ng-if="modifiersOpen" ng-style="modifiersStyle" role="dialog" aria-label="{{ 'GL_Modifiers' | translate }}">
+			<span class="lb-flyout-arrow"></span>
+			<div class="lb-flyout-header">
+				<span class="lb-flyout-marker"></span>
+				<h2>{{ 'GL_Modifiers' | translate }}</h2>
+				<span class="lb-flyout-subtitle" ng-if="islobbyowner">{{ activeModifiers().length }} {{ 'GL_ModifiersActive' | translate }}</span>
+				<span class="lb-flyout-subtitle" ng-if="!islobbyowner">{{ 'GL_ModifiersSetByHost' | translate }}</span>
+				<button type="button" class="lb-icon-btn lb-flyout-close" ng-click="closeModifiers()" aria-label="{{ 'Dialog_Cancel' | translate }}"><wars-icon name="close"></wars-icon></button>
+			</div>
+			<ul class="lb-flyout-list">
+				<li ng-repeat="field in modifierFields track by field.id">
+					<span class="lb-flyout-name">{{ field.name }}</span>
+					<!-- On or off -->
+					<button type="button" class="lb-switch" ng-if="field.values.length === 2" role="switch" aria-checked="{{ isModifierActive(field) }}"
+						ng-class="{on: isModifierActive(field)}" ng-disabled="!canEditCustomFields()" ng-click="toggleModifier(field)">
+						<span class="lb-switch-text">{{ (isModifierActive(field) ? 'GL_ModOn' : 'GL_ModOff') | translate }}</span>
+						<span class="lb-switch-track"><span class="lb-switch-knob"></span></span>
+					</button>
+					<!-- More choices, like inverted -->
+					<span class="lb-segmented" ng-if="field.values.length > 2">
+						<button type="button" ng-repeat="value in field.values" ng-class="{active: selectedCustomFields[field.id] === value}"
+							ng-disabled="!canEditCustomFields()" ng-click="setModifier(field, value)">{{ valueLabel(value) | translate }}</button>
+					</span>
+				</li>
+			</ul>
+			<div class="lb-flyout-footer">
+				<button type="button" class="lb-text-btn" ng-if="islobbyowner" ng-disabled="!canEditCustomFields() || !activeModifiers().length" ng-click="resetModifiers()">{{ 'GL_ResetAll' | translate }}</button>
+				<span class="lb-muted" ng-if="!islobbyowner">{{ 'GL_ModifiersHostOnly' | translate }}</span>
+				<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="closeModifiers()">{{ 'GL_Done' | translate }}</button>
+			</div>
+		</div>
+
+		<div class="lb-actions">
+			<div class="lb-actions-row" ng-if="state === 'lobbying' && !match_uuid">
+				<button type="button" class="lb-btn lb-btn-ghost" ng-if="islobbyowner && lobbytype.value !== 'offline'" ng-click="invite()">
+					<wars-icon name="invite"></wars-icon>{{ 'GL_Invite' | translate }}
+				</button>
+				<button type="button" class="lb-btn lb-btn-ghost" ng-click="spectate()">
+					<wars-icon name="eye"></wars-icon>{{ 'GL_Spectate' | translate }}
+				</button>
+			</div>
+
+			<div class="lb-actions-row lb-actions-main">
+				<button type="button" class="lb-btn lb-btn-ghost lb-btn-ready" ng-if="state === 'lobbying' && lobbytype.value !== 'offline' && hasLocalSlot()"
+					ng-class="{active: isPlayerReady()}" ng-click="toggleReady()">
+					<wars-icon name="check"></wars-icon>{{ (isPlayerReady() ? 'GL_Ready' : 'GL_ReadyUp') | translate }}
+				</button>
+				<button type="button" class="lb-btn lb-btn-launch" ng-if="islobbyowner && (state === 'lobbying' || state === 'creating' || state === 'joining' || state === 'startinglocalserver')"
+					ng-disabled="!canLaunch()" ng-click="launch()">
+					{{ 'GL_Launch' | translate }}<wars-icon name="arrow-right"></wars-icon>
+				</button>
+				<button type="button" class="lb-btn lb-btn-ghost" ng-if="islobbyowner && state === 'searchingserver'" ng-click="cancel_launch()">{{ 'Dialog_Cancel' | translate }}</button>
+				<button type="button" class="lb-btn lb-btn-launch" ng-if="state === 'gamestarted' && lobbytype.value !== 'offline'" ng-click="joingame()">
+					{{ 'GL_JoinGame' | translate }}<wars-icon name="arrow-right"></wars-icon>
+				</button>
+				<button type="button" class="lb-btn lb-btn-ghost" ng-if="state !== 'gamestarted' && match_uuid && !isShowScores" ng-click="showScores()">{{ 'GL_Scores' | translate }}</button>
+			</div>
+
+			<p class="lb-hint" ng-if="launchHint()">{{ launchHint() | translate }}</p>
+		</div>
+	</aside>
+
 </div>
-
-<section id="chat" class="chat box box-right" ng-controller="GameLobbyChatController">
-
-	<h2 class="box-header noselect"><span class="{{ lobbychat ? 'active' : 'inactive' }}" ng-click="lobbychat = true">{{ 'GL_LobbyChat' | translate }}</span> <span class="disabled">/</span> <span class="{{ lobbychat ? 'inactive' : 'active' }}" ng-click="lobbychat = false">{{ 'Chat_Global' | translate }}</span></h2>
-
-	<span ng-show="lobbychat">
-		<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="gamelobbymanager"></chat-lines>
-
-		<div class="chat-controls" ng-controller="LobbySendChatController" chat-service="gamelobbymanager">
-			<form ng-submit="sendChat()" class="chat-form"><input type="text" class="chat-input" ng-model="text" placeholder="[{{inputlanguage}}]" /></form>
-			<a href class="chat-send btn"  ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
-		</div>
-	</span>
-	<span ng-show="!lobbychat">
-		<chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="chatlobby"></chat-lines>
-
-		<div class="chat-controls" ng-controller="LobbySendChatController" chat-service="chatlobby">
-			<form ng-submit="sendChat()" class="chat-form"><input type="text" class="chat-input" ng-model="text" placeholder="[{{inputlanguage}}]" /></form>
-			<a href class="chat-send btn"  ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
-		</div>
-	</span>
-</section>

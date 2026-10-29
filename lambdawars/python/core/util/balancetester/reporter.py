@@ -1,3 +1,4 @@
+"""Generates HTML reports summarizing balance test runs."""
 import filesystem
 import os
 from datetime import datetime
@@ -76,6 +77,14 @@ htmltemplate = '''<!doctype html>
 outputfolder = 'reports/balance'
 
 def WriteReport(balancetests):
+    """Generate an HTML report for a sequence of balance test results.
+
+    Args:
+        balancetests (Iterable[BalanceTest]): Collection of tests that have
+            been executed; each test must expose ``testname``, ``filename``,
+            ``groups``, ``expectedwinner``, ``costeffectiveness``, ``info``
+            and ``errors`` attributes.
+    """
     if not filesystem.FileExists(outputfolder):
         filesystem.CreateDirHierarchy(outputfolder)
         

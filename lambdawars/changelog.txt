@@ -8,6 +8,74 @@
 |?? are the numbers for main version changes (new models, units, maps, big map changes, any gameplay changes, new game modes)	|
 |* is the letter for marking the minor changes (like bug fixes, small balance changes, chromium + python updates and such)     	|
 =================================================================================================================================
+Lambda Wars Patch XX February 2026 (1.4)
+Fixes:
+- Fixed crash when using hotkeys too quickly.
+- Fixed Rebel Medic Tech requirements.
+- Fixed Combine Heavy throw grenade.
+- Fixed cloak upgrade for Overrun Combine Mine.
+- Fixed cloak ability drains energy quickly when hotkey is held.
+- Fixed building limit bypass with shift key.
+- Fixed: destroyed combine powered buildings reset their death animation into idle, once power state changes.
+- Fixed: reinforcement didn't take population while teleport is in process.
+- Fixed: mortar synth couldn't be repaired.
+- Fixed: combine armory could continue doing upgrades without power.
+- Fixed bug where Combine Elites would cast their energy ball at another already fired ball ignoring players selected target.
+- Fixed particle position for Heavy Combine.
+- Fixed metrocops spawn wrong manhack type in overrun.
+- Shield Generators can now be attacked by allied units.
+- Added missing "Cancel" hotkey to Rebel teleporter.
+- Split projectiles now delete over time.
+- Increased melee range for metrocops so they reach targets.
+
+Gameplay:
+- DestroyHQ game mode: HQs are limited to 1. Player loose if HQ is destroyed.
+- DestroyHQ game mode: HQs health is increased from 2000 to 4000 hp.
+
+Balance:
+- Classic headcrab: attack speed rate increased from 1.8 to 1.25 sec.
+- Fast headcrab: attack speed rate decreased from 1.2 to 1.5 sec.
+- Poison headcrab: attack speed rate increased from 1.2 to 1.1 sec.
+- Poison headcrab: damage reduced from 150 to 75 sec.
+
+Attributes:
+* New Attribute: "ar2", that replaces "pulse" for AR2 units.
+
+Weapons:
+* Shotgun:
+    - Attack speed rate increased from 0.65 to 0.60.
+    - Removed 'bullet' attribute.
+    - Research time increased from 45 to 55 sec.
+    - Base damage increased from 25 to 35.
+
+Rebels:
+* Scout:
+    - Move speed decreased from 282 to 280.
+* Rebel with SMG:
+    - Health reduced from 150 to 140.
+* Rebel with AR2:
+	- Health reduced from 150 to 125.
+* Rebel with SG:
+	- Move speed increased from 260 to 264.
+* Health Upgrade:
+    - Health bonus increased from 30 to 40.
+
+Combine:
+* Headcrab canister launcher:
+    - Added minimum canister cast range which is 896 hammer units.
+    - Added a shared 1 second cooldown between all canister launch abilities for the same owner.
+    - Building cost decreased from 50/75 to 50/40.
+    - Empty canister cost increased from 5/5 to 10/10.
+    - Classic headcrab canister cost increased from 10/5 to 15/15.
+    - Fast headcrab canister cost decreased from 15/5 to 20/20.
+    - Poison headcrab canister cost decreased from 10/10 to 25/20.
+* Combine with SMG:
+    - Health reduced from 200 to 190.
+* Combine with AR2:
+	- Health reduced from 200 to 175.
+* Health Upgrade:
+    - Health bonus decreased from 40 to 30.
+
 Lambda Wars Patch XX February 2021 (1.2)
 Fixes:
 - Metrocop riot: they won't accidentally stun your own units, increased attack range to hit running enemy units.
