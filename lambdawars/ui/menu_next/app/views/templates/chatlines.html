@@ -3,7 +3,7 @@
 
 			<section class="chat-line" ng-show="line.type == 'global'">
 				<span class="chat-time">{{ line.time | date:'HH:mm' }}</span>
-				<strong ng-style="chatCtrl.getChatLineStyle(line.type)" ng-bind-html="line.text"></strong>
+				<strong class="selectable" ng-style="chatCtrl.getChatLineStyle(line.type)" ng-bind-html="line.text"></strong>
 			</section>
 
 			<section class="chat-line" ng-show="line.type != 'global' " ng-controller="dropdownController">
@@ -21,7 +21,7 @@
 				</div>
 
 				<span class="chat-username" ng-style="chatCtrl.getChatLineStyle(line.type)" ng-click="openDropdown();" ng-bind-html="line.username"></span>
-				<section ng-bind-html="line.text"></section>
+				<section class="selectable" ng-bind-html="line.text"></section>
 			</section>
 
 		</section>

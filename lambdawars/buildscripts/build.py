@@ -238,6 +238,8 @@ fullpathignore = [
 
     'lambdawars/models/.hammer.mdlcache',
     'lambdawars/materials/vgui/webview',
+    # Generated minimaps waiting for approval on the Workshop publish page
+    'lambdawars/materials/overviews/minimapgen',
     
     'lambdawars/ui/development-bundle',
     'lambdawars/ui/RGraph',

@@ -13683,6 +13683,17 @@ $("body").focusout(function() {
 	window['interface'].setCefFocus(false);
 });
 
+// Stand-in for :focus-visible (not in Chromium 63): only show focus rings while
+// the keyboard is being used, so clicked buttons don't keep an outline
+document.addEventListener('keydown', function(e) {
+	if (e.key === 'Tab') {
+		document.documentElement.classList.add('keyboard-focus');
+	}
+}, true);
+document.addEventListener('mousedown', function() {
+	document.documentElement.classList.remove('keyboard-focus');
+}, true);
+
 __webpack_require__(16);
 
 // Helpers for setting up the viewport element

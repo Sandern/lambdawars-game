@@ -44,6 +44,21 @@ function setup_low_res_support() {
     onBodyResize();
 }
 
+function setup_keyboard_focus() {
+    // Stand-in for :focus-visible (not in Chromium 63): only show focus rings while
+    // the keyboard is being used, so clicked buttons and tabs don't keep an outline
+    var root = document.documentElement;
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            root.classList.add('keyboard-focus');
+        }
+    }, true);
+    document.addEventListener('mousedown', function() {
+        root.classList.remove('keyboard-focus');
+    }, true);
+}
+setup_keyboard_focus();
+
 // create and bootstrap application
 function init_mainmenu(translations, ui_settings) {
 

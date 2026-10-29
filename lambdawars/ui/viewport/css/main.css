@@ -93,6 +93,50 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+/*
+ * The viewport is a game HUD, not a web page: no text selection, I-beam cursor,
+ * image/link dragging or focus rings unless an element opts back in.
+ */
+
+html {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+input,
+textarea,
+.selectable {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+input:not([type]),
+input[type=text],
+input[type=password],
+textarea {
+    cursor: text;
+}
+
+img,
+a {
+    -webkit-user-drag: none;
+}
+
+/* Must outrank normalize's "a:focus { outline: thin dotted }", which
+   stylesheets/viewport.css repeats after this file */
+html :focus,
+html a:focus {
+    outline: none;
+}
+
+/* Chromium 63 has no :focus-visible, so viewport.js sets this class while the
+   keyboard is in use and Tab focus still shows where you are. */
+html.keyboard-focus :focus {
+    outline: 1px solid #cf880d;
+    outline-offset: 2px;
+}
+
 
 
 
