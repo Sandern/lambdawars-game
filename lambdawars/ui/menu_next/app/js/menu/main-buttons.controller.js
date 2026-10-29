@@ -12,7 +12,9 @@ var SECTION_PAGES = {
 
 class MainButtonsController {
     /*@ngInject*/
-    constructor($scope, $location, gamelobbymanager) {
+    constructor($scope, $location, gamelobbymanager, chatdrawer) {
+        $scope.chatdrawer = chatdrawer;
+
         $scope.quit = function() {
             gameui.clientcommand('quit');
         };

@@ -5,21 +5,14 @@ $lb-border: rgba($white, 0.08);
 $lb-panel: rgba($ui-black, 0.7);
 $lb-danger: #e0645c;
 
-@mixin lb-caps($size: 1.3rem, $spacing: 0.25rem) {
-	font-family: 'Roboto Condensed';
-	font-weight: bold;
-	font-size: $size;
-	letter-spacing: $spacing;
-	text-transform: uppercase;
-}
-
 @keyframes lb-pulse {
 	0% { opacity: 1; }
 	50% { opacity: 0.3; }
 	100% { opacity: 1; }
 }
 
-#gamelobby {
+// The game lobby and the full width pages (see _pages.scss)
+#gamelobby, #page {
 	position: relative;
 	width: 100%;
 	max-width: 180rem;

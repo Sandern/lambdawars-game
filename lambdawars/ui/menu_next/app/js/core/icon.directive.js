@@ -17,7 +17,16 @@ var ICONS = {
     'chevron-left': '<path d="M15 6l-6 6 6 6"/>',
     'close': '<path d="M6 6l12 12M18 6L6 18"/>',
     'power': '<path d="M12 3v9"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/>',
-    'wrench': '<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
+    'chat': '<path d="M4 5h16v11H9l-5 4z"/>',
+    'discord': '<path d="M4 5h16v11H9l-5 4z"/><path d="M9 10h.01M15 10h.01"/>',
+    'users': '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.3c1.9.8 3 2.9 3 5.7"/>',
+    'search': '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+    'plus': '<path d="M12 5v14M5 12h14"/>',
+    'refresh': '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
+    'arrow-left': '<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>',
+    'chevron-right': '<path d="M9 6l6 6-6 6"/>',
+    'image': '<rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/>',
+    'wrench':'<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
 };
 
 /*@ngInject*/

@@ -60,3 +60,12 @@ $ui-on-orange: #1a1206;
 $ui-green: #5cc28b;
 $ui-blue: #4f9fd6;
 $ui-purple: #b07fe0;
+
+// Uppercase labels, buttons and headings of the header, lobby and pages
+@mixin lb-caps($size: 1.3rem, $spacing: 0.25rem) {
+	font-family: 'Roboto Condensed';
+	font-weight: bold;
+	font-size: $size;
+	letter-spacing: $spacing;
+	text-transform: uppercase;
+}

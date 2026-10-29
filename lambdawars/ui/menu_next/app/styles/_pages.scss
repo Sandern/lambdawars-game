@@ -1,0 +1,439 @@
+// Full width menu pages (online, home, lobby browser, missions). The page container (#page)
+// is shared with the game lobby, see _gamelobby.scss.
+
+.pg-page {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	// The smallest screens scroll instead of squeezing the page
+	@media (max-width: 1180px) {
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+}
+
+// Heading: eyebrow, title and a status line
+
+.pg-heading {
+	flex-shrink: 0;
+}
+
+.pg-eyebrow {
+	@include lb-caps(1.3rem);
+	color: $orange;
+}
+
+.pg-title {
+	margin: 0.6rem 0 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 4.4rem;
+	line-height: 5.2rem;
+	color: $white;
+}
+
+.pg-status {
+	display: flex;
+	align-items: center;
+	margin: 0.8rem 0 0;
+	font-size: 1.6rem;
+	color: $ui-text-soft;
+}
+
+.pg-pulse {
+	flex-shrink: 0;
+	width: 0.7rem;
+	height: 0.7rem;
+	margin-right: 1rem;
+	border-radius: 50%;
+	background: $ui-green;
+	animation: lb-pulse 1.8s ease-in-out infinite;
+}
+
+// Big action cards
+
+.pg-cards {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	margin: 3.6rem -1.2rem 0;
+}
+
+.pg-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+	height: 26rem;
+	margin: 0 1.2rem;
+	padding: 3.2rem;
+	background: rgba($ui-black, 0.72);
+	border: 1px solid $white10;
+	border-radius: 0.4rem;
+	outline: none;
+	font-family: 'Roboto';
+	text-align: left;
+	color: $ui-text;
+	cursor: pointer;
+	transition: border-color .15s, background-color .15s, transform .15s;
+
+	&:hover {
+		border-color: rgba($white, 0.28);
+		transform: translateY(-2px);
+	}
+}
+
+.pg-card-icon .icon {
+	width: 3.4rem;
+	height: 3.4rem;
+	color: $ui-text-soft;
+}
+
+.pg-card-title {
+	margin-top: 2.2rem;
+	@include lb-caps(2.8rem, 0.2rem);
+	color: $white;
+}
+
+.pg-card-text {
+	margin-top: 0.8rem;
+	font-size: 1.7rem;
+	line-height: 1.45;
+	color: $ui-text-muted;
+}
+
+.pg-card-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+
+	.icon {
+		width: 1.8rem;
+		height: 1.8rem;
+	}
+}
+
+// The main action of a page
+.pg-card-hot {
+	background: rgba($orange, 0.07);
+	border-color: rgba($orange, 0.55);
+
+	&:hover {
+		background: rgba($orange, 0.12);
+		border-color: $lightorange;
+	}
+
+	.pg-card-title, .pg-card-icon .icon, .pg-card-footer .icon {
+		color: $orange;
+	}
+
+	.pg-card-text {
+		color: $ui-text-soft;
+	}
+}
+
+.pg-card-corner {
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-left: 2px solid $orange;
+	border-top: 2px solid $orange;
+}
+
+// Smaller card with the icon on the left
+.pg-card-row {
+	flex: none;
+	flex-direction: row;
+	align-items: center;
+	height: auto;
+	margin: 1.6rem 0 0;
+	padding: 2.2rem 2.4rem;
+
+	.pg-card-icon .icon {
+		width: 3rem;
+		height: 3rem;
+	}
+
+	> wars-icon:last-child .icon {
+		width: 1.3rem;
+		height: 1.3rem;
+		color: $ui-text-muted;
+	}
+}
+
+.pg-card-row-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+	margin: 0 1.6rem 0 1.8rem;
+}
+
+.pg-card-row-title {
+	@include lb-caps(1.8rem, 0.2rem);
+	color: $white;
+}
+
+.pg-card-row-desc {
+	margin-top: 0.4rem;
+	font-size: 1.5rem;
+	line-height: 1.4;
+	color: $ui-text-muted;
+}
+
+// Lower part: a list with a side column
+
+.pg-lower {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	min-height: 0;
+	margin-top: 4rem;
+}
+
+.pg-section {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+}
+
+.pg-grow {
+	flex: 1;
+}
+
+.pg-side {
+	flex-shrink: 0;
+	width: 44rem;
+	margin-left: 5.6rem;
+}
+
+.pg-section-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 3.2rem;
+	border-bottom: 1px solid $lb-border;
+
+	h2 {
+		margin: 0;
+		@include lb-caps(1.5rem, 0.3rem);
+		color: $ui-text;
+	}
+}
+
+.pg-link {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	@include lb-caps(1.3rem);
+	color: $orange;
+	cursor: pointer;
+
+	.icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-left: 0.4rem;
+	}
+
+	&:hover {
+		color: $lightorange;
+	}
+}
+
+.pg-dev-link {
+	margin: 1.6rem 0 0;
+	color: $ui-text-muted;
+}
+
+// Lobby rows
+
+.pg-rows {
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.pg-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 5.8rem;
+	padding: 0 0.4rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+	transition: background-color .15s;
+
+	&:hover {
+		background: rgba($white, 0.03);
+	}
+
+	> * + * {
+		margin-left: 1.8rem;
+	}
+}
+
+// Map overview thumbnail, hatched when the map isn't installed
+.pg-thumb {
+	display: block;
+	flex-shrink: 0;
+	width: 3.6rem;
+	height: 3.6rem;
+	overflow: hidden;
+	border: 1px solid rgba($white, 0.08);
+	border-radius: 0.3rem;
+	background-color: $ui-panel-solid;
+	background-image: repeating-linear-gradient(135deg, rgba($white, 0.04) 0, rgba($white, 0.04) 6px, transparent 6px, transparent 12px);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.pg-row-name {
+	flex: 1.4 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: 500;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.pg-row-mode {
+	flex: 0 0 19rem;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.pg-row-map {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+// How full a lobby is
+.pg-fill {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	width: 12rem;
+}
+
+.pg-fill-bar {
+	width: 5.4rem;
+	height: 0.4rem;
+	overflow: hidden;
+	border-radius: 0.2rem;
+	background: $white10;
+
+	span {
+		display: block;
+		height: 100%;
+		background: $orange;
+	}
+}
+
+.pg-fill-count {
+	margin-left: 1rem;
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 1.3rem;
+	color: $ui-text-soft;
+}
+
+.pg-empty {
+	margin: 0;
+	padding: 2.4rem 0.4rem;
+	font-size: 1.5rem;
+	line-height: 1.5;
+	color: $ui-text-muted;
+}
+
+@media (max-width: 1400px) {
+	.pg-side {
+		width: 36rem;
+		margin-left: 3rem;
+	}
+
+	.pg-row-mode {
+		flex-basis: 15rem;
+	}
+}
+
+@media (max-width: 1180px) {
+	.pg-lower {
+		flex-direction: column;
+		flex: none;
+	}
+
+	.pg-rows {
+		overflow: visible;
+	}
+
+	.pg-side {
+		width: auto;
+		margin: 3rem 0 0;
+	}
+}
+
+@media (max-height: 820px) {
+	.pg-title {
+		font-size: 3.4rem;
+		line-height: 4.2rem;
+	}
+
+	.pg-cards {
+		margin-top: 2.4rem;
+	}
+
+	.pg-cards .pg-card {
+		height: 19rem;
+		padding: 2.4rem;
+	}
+
+	.pg-card-icon .icon {
+		width: 2.6rem;
+		height: 2.6rem;
+	}
+
+	.pg-card-title {
+		margin-top: 1.2rem;
+		font-size: 2.4rem;
+	}
+
+	.pg-card-text {
+		font-size: 1.5rem;
+	}
+
+	.pg-card-row {
+		padding: 1.6rem 2rem;
+	}
+
+	.pg-lower {
+		margin-top: 2.4rem;
+	}
+
+	.pg-row {
+		height: 5rem;
+	}
+}

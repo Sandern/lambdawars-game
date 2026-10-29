@@ -37,6 +37,13 @@
         </ul>
 
         <div id="top-bar-right">
+            <button type="button" id="menu-chat" class="lb-btn lb-btn-small" ng-if="chatdrawer.available() && steam_available"
+                ng-class="{active: chatdrawer.open}" ng-click="chatdrawer.toggle()" aria-expanded="{{ chatdrawer.open }}">
+                <wars-icon name="chat"></wars-icon>{{ 'Menu_Chat' | translate }}
+                <span class="menu-chat-online">{{ numcurplayers }} {{ 'Menu_StatusOnline' | translate }}</span>
+            </button>
+            <span class="top-bar-divider" ng-if="chatdrawer.available() && steam_available"></span>
+
             <div ng-controller="SwarmKeeperBonusController" ng-if="steam_available">
                 <img id="swarm_keeper_bonus" ng-show="showSwarmBonus" alt="swarm_keeper_bonus"
                     ng-init="bg = '../../mainmenu/swarm_keeper_bonus_but.png'"
@@ -64,6 +71,25 @@
     </header>
 
     <div class="content-all" id="{{ pageID }}" ng-view></div>
-<script type="text/javascript" src="bundle.2504a6cd1cc808fef401.js"></script></body>
+
+    <!-- Global chat drawer, for pages without a chat of their own -->
+    <div ng-controller="ChatDrawerController">
+    <aside id="chat-drawer" ng-if="drawer.open && drawer.available()" aria-label="{{ 'Chat_Global' | translate }}">
+        <div class="chat-drawer-header">
+            <h2>{{ 'Chat_Global' | translate }}</h2>
+            <span class="chat-drawer-online">{{ numcurplayers }} {{ 'Menu_StatusOnline' | translate }}</span>
+            <button type="button" class="lb-icon-btn" ng-click="drawer.close()" aria-label="{{ 'Dialog_Cancel' | translate }}"><wars-icon name="close"></wars-icon></button>
+        </div>
+        <div class="lb-chat-pane">
+            <chat-lines ng-controller="LobbyChatHistoryController as chatCtrl" chat-service="chatlobby"></chat-lines>
+            <div class="lb-chat-controls" ng-controller="LobbySendChatController" chat-service="chatlobby">
+                <form ng-submit="sendChat()" class="lb-chat-form"><input type="text" ng-model="text" placeholder="{{ 'GL_ChatPlaceholderGlobal' | translate }}" /></form>
+                <span class="lb-chat-language" ng-if="inputlanguage">{{ inputlanguage }}</span>
+                <a href class="lb-chat-send" ng-click="sendChat()">{{ 'Chat_Send' | translate }}</a>
+            </div>
+        </div>
+    </aside>
+    </div>
+<script type="text/javascript" src="bundle.275c18dad93c9a766845.js"></script></body>
 
 </html>

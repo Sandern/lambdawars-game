@@ -1,27 +1,79 @@
-<section class="content content-menu" id="content-multiplayer">
-    <main class="rounded">
-        <h1>{{ 'MP_HeadLine' | translate }}</h1>
-        <ul class="menu submenu" id="submenu-multiplayer">
-            <li>
-                <a href="#!/OnlineGames">
-                    {{ 'MP_FindOnlineGame' | translate }}
-                    <p>{{ 'MP_FindOnlineGame_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a id="multiplayer-create-game" href="#!/Gamelobby">
-                    {{ 'MP_CreateGame' | translate }}
-                    <p>{{ 'MP_CreateGame_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li  ng-if="beta === 'dev'">
-                <a href ng-click="openserverbrowser();">
-                    {{ 'MP_DedicatedServer' | translate }} (OLD)
-                    <p></p>
-                </a>
-            </li>
-        </ul>
-    </main>
-</section>
+<div class="pg-page pg-online">
+	<header class="pg-heading">
+		<span class="pg-eyebrow">{{ 'MenuOnline' | translate }}</span>
+		<h1 class="pg-title">{{ 'OL_Title' | translate }}</h1>
+		<p class="pg-status">
+			<span class="pg-pulse"></span>
+			{{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }} &middot; {{ lobbies.length }} {{ 'OL_OpenLobbies' | translate }} &middot; {{ waiting.length }} {{ 'OL_WaitingForPlayers' | translate }}
+		</p>
+	</header>
 
-<span global-chat/>
+	<div class="pg-cards">
+		<a href="#!/OnlineGames" class="pg-card pg-card-hot">
+			<span class="pg-card-corner"></span>
+			<wars-icon name="search" class="pg-card-icon"></wars-icon>
+			<span class="pg-card-title">{{ 'OL_FindGames' | translate }}</span>
+			<span class="pg-card-text">{{ 'OL_FindGames_Desc' | translate }}</span>
+			<span class="pg-card-footer">
+				<span>{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ waiting.length }} {{ 'OL_WaitingForPlayers' | translate }}</span>
+				<wars-icon name="arrow-right"></wars-icon>
+			</span>
+		</a>
+		<a href="#!/Gamelobby" class="pg-card">
+			<wars-icon name="plus" class="pg-card-icon"></wars-icon>
+			<span class="pg-card-title">{{ 'OL_CreateGame' | translate }}</span>
+			<span class="pg-card-text">{{ 'OL_CreateGame_Desc' | translate }}</span>
+			<span class="pg-card-footer">
+				<span>{{ 'OL_CreateGame_Types' | translate }}</span>
+				<wars-icon name="arrow-right"></wars-icon>
+			</span>
+		</a>
+	</div>
+
+	<div class="pg-lower">
+		<section class="pg-section pg-grow">
+			<div class="pg-section-header">
+				<h2>{{ 'OL_WaitingForPlayersTitle' | translate }}</h2>
+				<a href="#!/OnlineGames" class="pg-link">{{ 'OL_ViewAll' | translate }} {{ lobbies.length }}<wars-icon name="chevron-right"></wars-icon></a>
+			</div>
+			<ul class="pg-rows">
+				<li class="pg-row" ng-repeat="lobby in waiting | limitTo: 5 track by lobby.steamid">
+					<span class="pg-thumb"><img ng-if="lobby.overviewsrc" ng-src="{{ lobby.overviewsrc }}.vtf" /></span>
+					<span class="pg-row-name">{{ lobby.name }}</span>
+					<span class="pg-row-mode">{{ lobby.modeLabel }}</span>
+					<span class="pg-row-map">{{ lobby.map }}</span>
+					<span class="pg-fill">
+						<span class="pg-fill-bar"><span ng-style="{width: lobby.fill + '%'}"></span></span>
+						<span class="pg-fill-count">{{ lobby.taken }} / {{ lobby.total }}</span>
+					</span>
+					<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="joinlobby(lobby.steamid)">{{ 'GL_Join' | translate }}</button>
+				</li>
+			</ul>
+			<p class="pg-empty" ng-if="!loaded">{{ 'OL_Loading' | translate }}</p>
+			<p class="pg-empty" ng-if="loaded && !waiting.length">{{ 'OL_NoWaiting' | translate }}</p>
+		</section>
+
+		<aside class="pg-section pg-side">
+			<div class="pg-section-header">
+				<h2>{{ 'OL_Community' | translate }}</h2>
+			</div>
+			<button type="button" class="pg-card pg-card-row" ng-click="openDiscord()">
+				<wars-icon name="discord" class="pg-card-icon"></wars-icon>
+				<span class="pg-card-row-text">
+					<span class="pg-card-row-title">{{ 'OL_Discord' | translate }}</span>
+					<span class="pg-card-row-desc">{{ 'OL_Discord_Desc' | translate }}</span>
+				</span>
+				<wars-icon name="external"></wars-icon>
+			</button>
+			<button type="button" class="pg-card pg-card-row" ng-click="openChat()">
+				<wars-icon name="users" class="pg-card-icon"></wars-icon>
+				<span class="pg-card-row-text">
+					<span class="pg-card-row-title">{{ 'Chat_Global' | translate }}</span>
+					<span class="pg-card-row-desc">{{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }}. {{ 'OL_Chat_Desc' | translate }}</span>
+				</span>
+				<wars-icon name="chevron-right"></wars-icon>
+			</button>
+			<a href class="pg-link pg-dev-link" ng-if="beta === 'dev'" ng-click="openserverbrowser()">{{ 'MP_DedicatedServer' | translate }} (OLD)</a>
+		</aside>
+	</div>
+</div>

@@ -2,6 +2,7 @@
 
 import lobbyModule from './module';
 import angular from 'angular';
+import { teamSetupLabel } from '../core/format';
 
 var STANDARD_TEAM_SETUPS = ['1vs1', '2vs2', '3vs3', '4vs4'];
 
@@ -41,9 +42,7 @@ class GamelobbySettingsController {
         // Visual only for now: filled by the Workshop integration.
         $scope.mapworkshop = null;
 
-        $scope.teamSetupLabel = function(teamsetup) {
-            return teamsetup === 'FFA' ? teamsetup : teamsetup.replace(/vs/g, 'v');
-        };
+        $scope.teamSetupLabel = teamSetupLabel;
 
         // The common team setups are always shown, the ones the map doesn't support are disabled
         $scope.buildTeamSetupOptions = function(supportedmodes) {

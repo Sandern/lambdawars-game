@@ -210,3 +210,62 @@ a.menu-btn {
 	color: red;
 	font-size: 20px;
 }
+
+// Opens the global chat drawer on pages without a chat
+#menu-chat {
+	&.active {
+		border-color: $orange;
+		color: $white;
+	}
+}
+
+.menu-chat-online {
+	margin-left: 1rem;
+	color: $ui-green;
+}
+
+#chat-drawer {
+	position: fixed;
+	top: $topbar-height;
+	right: 0;
+	bottom: 0;
+	z-index: 25;
+	display: flex;
+	flex-direction: column;
+	width: 42rem;
+	background: $ui-panel-solid;
+	border-left: 1px solid $white10;
+	box-shadow: -2.4rem 0 6rem rgba($black, 0.6);
+	animation: chat-drawer-in .18s ease-out;
+}
+
+@keyframes chat-drawer-in {
+	from { transform: translateX(4rem); opacity: 0; }
+	to { transform: none; opacity: 1; }
+}
+
+.chat-drawer-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 5.6rem;
+	padding: 0 1.2rem 0 2.4rem;
+	border-bottom: 1px solid $white10;
+
+	h2 {
+		margin: 0;
+		@include lb-caps(1.5rem, 0.3rem);
+		color: $ui-text;
+	}
+
+	.lb-icon-btn {
+		margin-left: auto;
+	}
+}
+
+.chat-drawer-online {
+	margin-left: 1rem;
+	@include lb-caps(1.3rem, 0.15rem);
+	color: $ui-green;
+}
