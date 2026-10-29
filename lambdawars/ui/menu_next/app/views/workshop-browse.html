@@ -1,100 +1,161 @@
-<section class="content-full" id="content-workshop-browse">
-	<main class="rounded">
-		<h1>
-			{{ 'WB_Headline' | translate }}
-			<a href="#!/WorkshopPublish" class="btn btn-small wb-publish">{{ 'WB_Publish' | translate }}</a>
-		</h1>
+<div class="pg-page wb-page">
+	<header class="wb-heading">
+		<div>
+			<span class="pg-eyebrow">{{ 'WB_Eyebrow' | translate }}</span>
+			<h1 class="pg-title">{{ 'WB_Headline' | translate }}</h1>
+		</div>
+		<a href="#!/WorkshopPublish" class="lb-btn lb-btn-outline wb-publish"><wars-icon name="upload"></wars-icon>{{ 'WB_Publish' | translate }}</a>
+	</header>
 
-		<div class="wb-toolbar">
-			<form class="wb-search" ng-submit="search()">
-				<input type="text" ng-model="filter.searchinput" ng-disabled="filter.list !== 'all'"
-					   placeholder="{{ (filter.list === 'all' ? 'WB_SearchPlaceholder' : 'WB_SearchUnavailable') | translate }}" />
-				<a href class="btn btn-small" ng-click="search()" ng-class="{linkDisabled: filter.list !== 'all'}">{{ 'WB_Search' | translate }}</a>
-				<a href class="btn btn-small" ng-if="filter.search" ng-click="clearSearch()">{{ 'WB_ClearSearch' | translate }}</a>
-			</form>
-			<label>
-				<span>{{ 'WB_Show' | translate }}</span>
-				<select ng-model="filter.list" ng-change="changeList()"
-						ng-options="list.value as (list.label | translate) for list in lists"></select>
-			</label>
-			<label>
-				<span>{{ 'WB_SortBy' | translate }}</span>
-				<select ng-model="filter.sort" ng-change="changeSort()"
-						ng-options="sort.value as (sort.label | translate) for sort in sortOptions()"></select>
-			</label>
+	<!-- A map being published, when the publish page was left during the upload -->
+	<div class="wb-upload" ng-if="upload" ng-class="{'wb-upload-failed': uploadResult && !uploadResult.success}">
+		<span class="wb-upload-text" ng-if="!uploadResult">
+			<wars-icon name="spinner" class="ws-spin"></wars-icon>{{ 'WS_UploadingTitle' | translate:{title: upload.title} }}<span class="ws-mono">{{ upload.progress }}%</span>
+		</span>
+		<span class="wb-upload-text ws-ok" ng-if="uploadResult.success"><wars-icon name="check"></wars-icon>{{ 'WS_DoneTitle' | translate:{title: upload.title} }}</span>
+		<span class="wb-upload-text ws-error" ng-if="uploadResult && !uploadResult.success"><wars-icon name="close"></wars-icon>{{ 'WS_FailedTitle' | translate:{title: upload.title} }}: {{ uploadResult.message }}</span>
+		<span class="ws-progress" ng-if="!uploadResult"><div ng-style="{width: upload.progress + '%'}"></div></span>
+		<a href="#!/WorkshopPublish?progress=1" class="lb-btn lb-btn-small" ng-if="!uploadResult">{{ 'WS_ShowProgress' | translate }}</a>
+		<button type="button" class="lb-btn lb-btn-small" ng-if="uploadResult.success && uploadResult.publishedfileid" ng-click="openItemPage({id: uploadResult.publishedfileid})">{{ 'WS_ViewItem' | translate }}<wars-icon name="external" class="ws-icon-after"></wars-icon></button>
+		<button type="button" class="lb-icon-btn wb-upload-dismiss" ng-if="uploadResult" ng-click="dismissUpload()" aria-label="{{ 'WS_Close' | translate }}"><wars-icon name="close"></wars-icon></button>
+	</div>
+
+	<!-- The whole Workshop, the subscribed maps and the player's own maps -->
+	<div class="st-tabs wb-tabs" role="tablist">
+		<button type="button" class="st-tab" role="tab" ng-repeat="list in lists track by list.value" aria-selected="{{ filter.list === list.value }}"
+			ng-class="{active: filter.list === list.value}" ng-click="selectList(list.value)">{{ list.label | translate }}</button>
+	</div>
+
+	<div class="wb-toolbar">
+		<!-- Steam only supports searching when listing the whole Workshop -->
+		<form class="br-search wb-search" ng-class="{disabled: filter.list !== 'all'}" ng-submit="search()">
+			<wars-icon name="search"></wars-icon>
+			<input type="text" ng-model="filter.searchinput" ng-disabled="filter.list !== 'all'"
+				placeholder="{{ (filter.list === 'all' ? 'WB_SearchPlaceholder' : 'WB_SearchUnavailable') | translate }}" />
+			<button type="button" class="lb-icon-btn wb-search-clear" ng-if="filter.search && filter.list === 'all'" ng-click="clearSearch()" aria-label="{{ 'WB_ClearSearch' | translate }}">
+				<wars-icon name="close"></wars-icon>
+			</button>
+		</form>
+		<span class="wb-search-active" ng-if="filter.search && filter.list === 'all'">{{ 'WB_SearchResultsFor' | translate }} <span class="wb-search-text">{{ filter.search }}</span></span>
+
+		<label class="br-sort">
+			<span class="lb-label">{{ 'WB_SortBy' | translate }}</span>
+			<span class="lb-select-wrap">
+				<select class="lb-select" ng-model="filter.sort" ng-change="changeSort()"
+					ng-options="sort.value as (sort.label | translate) for sort in sortOptions()"></select>
+				<wars-icon name="chevron-down"></wars-icon>
+			</span>
+		</label>
+	</div>
+
+	<p class="wb-status" ng-class="{'ws-error': !loading && error}">
+		<span ng-if="loading"><wars-icon name="spinner" class="ws-spin"></wars-icon>{{ 'WB_Loading' | translate }}</span>
+		<span ng-if="!loading && error">{{ 'WB_Error' | translate }} {{ error }}</span>
+		<span ng-if="!loading && !error && items.length">{{ total }} {{ (total === 1 ? 'WB_Map' : 'WB_Maps') | translate }}</span>
+	</p>
+
+	<div class="wb-results">
+		<div class="br-empty" ng-if="!loading && error">
+			<span class="br-empty-title">{{ 'WB_ErrorTitle' | translate }}</span>
+			<div class="br-empty-actions"><button type="button" class="lb-btn" ng-click="load(filter.page)"><wars-icon name="refresh"></wars-icon>{{ 'WB_Retry' | translate }}</button></div>
 		</div>
 
-		<p class="wb-status">
-			<span ng-if="loading">{{ 'WB_Loading' | translate }}</span>
-			<span ng-if="!loading && error" class="wb-error">{{ 'WB_Error' | translate }} {{ error }}</span>
-			<span ng-if="!loading && !error && !items.length">{{ 'WB_NoResults' | translate }}</span>
-			<span ng-if="!loading && !error && items.length">{{ total }} {{ 'WB_Maps' | translate }}</span>
-		</p>
+		<div class="br-empty" ng-if="!loading && !error && !items.length">
+			<span class="br-empty-title">{{ emptyTitle() | translate }}</span>
+			<span class="br-empty-text">{{ (filter.list === 'mine' ? 'WB_EmptyMineHint' : 'WB_EmptyHint') | translate }}</span>
+			<div class="br-empty-actions">
+				<button type="button" class="lb-btn" ng-if="filter.search && filter.list === 'all'" ng-click="clearSearch()">{{ 'WB_ClearSearch' | translate }}</button>
+				<button type="button" class="lb-btn" ng-if="filter.list !== 'all'" ng-click="selectList('all')">{{ 'WB_BrowseAll' | translate }}</button>
+				<a href="#!/WorkshopPublish" class="lb-btn lb-btn-outline" ng-if="filter.list === 'mine'">{{ 'WB_Publish' | translate }}</a>
+			</div>
+		</div>
 
-		<ul class="wb-grid" ng-show="!loading">
+		<ul class="wb-grid" ng-if="!loading && !error && items.length">
 			<li class="wb-card" ng-repeat="item in items track by item.id" ng-click="showDetails(item)">
-				<div class="wb-thumb">
-					<img ng-if="item.previewurl" ng-src="{{ item.previewurl }}" />
-					<span ng-if="!item.previewurl">{{ 'WB_NoPreview' | translate }}</span>
-					<span class="wb-badge" ng-if="stateLabel(item)" ng-class="'wb-badge-' + item.state">
-						{{ stateLabel(item) | translate }} <span ng-if="item.state === 'downloading'">{{ item.progress }}%</span>
+				<div class="wb-thumb" ng-class="{'ms-hatch': !item.previewurl}">
+					<img ng-if="item.previewurl" ng-src="{{ item.previewurl }}" alt="" />
+					<wars-icon ng-if="!item.previewurl" name="image"></wars-icon>
+					<span class="wb-badge" ng-if="stateLabel(item)" ng-class="'wb-state-' + item.state">
+						<wars-icon name="{{ stateIcon(item) }}"></wars-icon>{{ stateLabel(item) | translate }}<span ng-if="item.state === 'downloading'">&nbsp;{{ item.progress }}%</span>
 					</span>
+					<span class="wb-progress" ng-if="item.state === 'downloading'"><span ng-style="{width: item.progress + '%'}"></span></span>
 				</div>
 				<div class="wb-card-body">
-					<h3 title="{{ item.title }}">{{ item.title }}</h3>
-					<p class="wb-author">{{ item.author }}</p>
-					<p class="wb-stats">
-						<span ng-if="rating(item) !== null">{{ rating(item) }}% {{ 'WB_Positive' | translate }}</span>
-						<span>{{ item.subscriptions }} {{ 'WB_Subscribers' | translate }}</span>
+					<h3 class="wb-card-title" title="{{ item.title }}">
+						<span class="wb-card-title-text">{{ item.title }}</span>
+						<span class="wb-mine" ng-if="item.mine">{{ 'WB_Yours' | translate }}</span>
+					</h3>
+					<p class="wb-card-meta">
+						<span class="wb-author" ng-if="item.author">{{ 'WB_By' | translate }} {{ item.author }}</span>
+						<span class="wb-author" ng-if="!item.author">&nbsp;</span>
 					</p>
-					<a href class="btn btn-small" ng-class="{'btn-highlight': !isSubscribed(item)}" ng-click="toggleSubscription(item, $event)">
-						{{ (isSubscribed(item) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}
-					</a>
+					<p class="wb-card-meta">
+						<span>{{ item.subscriptions }} {{ (item.subscriptions === 1 ? 'WB_Subscriber' : 'WB_Subscribers') | translate }}</span>
+						<span ng-if="rating(item) !== null"> &middot; <span ng-class="ratingClass(item)">{{ rating(item) }}%</span></span>
+					</p>
+					<div class="wb-card-actions">
+						<button type="button" class="lb-btn lb-btn-small" ng-class="{'lb-btn-outline': !isSubscribed(item)}" aria-pressed="{{ isSubscribed(item) }}" ng-click="toggleSubscription(item, $event)">
+							{{ (isSubscribed(item) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}
+						</button>
+						<a href="#!/WorkshopPublish?item={{ item.id }}" class="lb-btn lb-btn-small wb-edit" ng-if="item.mine" ng-click="$event.stopPropagation()" aria-label="{{ 'WB_Edit' | translate }}" title="{{ 'WB_Edit' | translate }}">
+							<wars-icon name="edit"></wars-icon>
+						</a>
+					</div>
 				</div>
 			</li>
 		</ul>
+	</div>
 
-		<div class="wb-pagination" ng-if="!loading && numpages > 1">
-			<a href class="btn btn-small" ng-class="{linkDisabled: filter.page <= 1}" ng-click="goToPage(1)">&laquo;</a>
-			<a href class="btn btn-small" ng-class="{linkDisabled: filter.page <= 1}" ng-click="goToPage(filter.page - 1)">&lsaquo; {{ 'Button_Previous' | translate }}</a>
-			<span>{{ 'WB_Page' | translate }} {{ filter.page }} / {{ numpages }}</span>
-			<a href class="btn btn-small" ng-class="{linkDisabled: filter.page >= numpages}" ng-click="goToPage(filter.page + 1)">{{ 'Button_Next' | translate }} &rsaquo;</a>
-			<a href class="btn btn-small" ng-class="{linkDisabled: filter.page >= numpages}" ng-click="goToPage(numpages)">&raquo;</a>
+	<footer class="wb-footer">
+		<span class="wb-footer-text"><wars-icon name="upload"></wars-icon>{{ 'WB_FooterText' | translate }} <a href="#!/WorkshopPublish">{{ 'WB_FooterLink' | translate }}</a></span>
+		<div class="wb-pagination" ng-if="!loading && !error && numpages > 1">
+			<button type="button" class="lb-btn lb-btn-small" ng-disabled="filter.page <= 1" ng-click="goToPage(1)" aria-label="{{ 'WB_FirstPage' | translate }}">&laquo;</button>
+			<button type="button" class="lb-btn lb-btn-small" ng-disabled="filter.page <= 1" ng-click="goToPage(filter.page - 1)"><wars-icon name="chevron-left"></wars-icon>{{ 'Button_Previous' | translate }}</button>
+			<span class="wb-page">{{ 'WB_Page' | translate }} <span class="ws-mono">{{ filter.page }} / {{ numpages }}</span></span>
+			<button type="button" class="lb-btn lb-btn-small" ng-disabled="filter.page >= numpages" ng-click="goToPage(filter.page + 1)">{{ 'Button_Next' | translate }}<wars-icon name="chevron-right" class="ws-icon-after"></wars-icon></button>
+			<button type="button" class="lb-btn lb-btn-small" ng-disabled="filter.page >= numpages" ng-click="goToPage(numpages)" aria-label="{{ 'WB_LastPage' | translate }}">&raquo;</button>
 		</div>
+	</footer>
 
-		<div class="wb-details-overlay" ng-if="selected" ng-click="closeDetails()">
-			<div class="wb-details" ng-click="$event.stopPropagation()">
-				<a href class="wb-details-close" ng-click="closeDetails()">&times;</a>
-				<div class="wb-details-header">
-					<div class="wb-thumb">
-						<img ng-if="selected.previewurl" ng-src="{{ selected.previewurl }}" />
-						<span ng-if="!selected.previewurl">{{ 'WB_NoPreview' | translate }}</span>
-					</div>
-					<div class="wb-details-info">
-						<h2>{{ selected.title }}</h2>
-						<p class="wb-author">{{ selected.author }}</p>
-						<table>
-							<tr ng-if="rating(selected) !== null"><td>{{ 'WB_Rating' | translate }}</td><td>{{ rating(selected) }}% {{ 'WB_Positive' | translate }} ({{ selected.votesup + selected.votesdown }})</td></tr>
-							<tr><td>{{ 'WB_SubscribersLabel' | translate }}</td><td>{{ selected.subscriptions }}</td></tr>
-							<tr><td>{{ 'WB_Size' | translate }}</td><td>{{ formatSize(selected.filesize) }}</td></tr>
-							<tr><td>{{ 'WB_Created' | translate }}</td><td>{{ formatDate(selected.timecreated) }}</td></tr>
-							<tr><td>{{ 'WB_Updated' | translate }}</td><td>{{ formatDate(selected.timeupdated) }}</td></tr>
-							<tr ng-if="selected.tags.length"><td>{{ 'WB_Tags' | translate }}</td><td>{{ selected.tags.join(', ') }}</td></tr>
-						</table>
-						<p class="wb-badge-inline" ng-if="stateLabel(selected)">
-							{{ stateLabel(selected) | translate }} <span ng-if="selected.state === 'downloading'">{{ selected.progress }}%</span>
-							<span ng-if="selected.error">: {{ selected.error }}</span>
-						</p>
-						<div class="wb-details-actions">
-							<a href class="btn btn-small" ng-class="{'btn-highlight': !isSubscribed(selected)}" ng-click="toggleSubscription(selected)">
-								{{ (isSubscribed(selected) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}
-							</a>
-							<a href class="btn btn-small" ng-click="openItemPage(selected)">{{ 'WB_ViewOnWorkshop' | translate }}</a>
-						</div>
+	<!-- Details of a map -->
+	<div class="ws-dialog-backdrop" ng-if="selected" ng-click="closeDetails()">
+		<div class="ws-dialog wb-details" role="dialog" aria-modal="true" aria-labelledby="wb-details-title" ng-click="$event.stopPropagation()">
+			<button type="button" class="lb-icon-btn wb-details-close" ng-click="closeDetails()" aria-label="{{ 'WS_Close' | translate }}"><wars-icon name="close"></wars-icon></button>
+			<div class="wb-details-top">
+				<div class="wb-thumb wb-details-thumb" ng-class="{'ms-hatch': !selected.previewurl}">
+					<img ng-if="selected.previewurl" ng-src="{{ selected.previewurl }}" alt="" />
+					<wars-icon ng-if="!selected.previewurl" name="image"></wars-icon>
+				</div>
+				<div class="wb-details-info">
+					<span class="pg-eyebrow">{{ 'WB_WorkshopMap' | translate }}<span ng-if="selected.mine"> &middot; {{ 'WB_Yours' | translate }}</span></span>
+					<h2 class="ws-dialog-title" id="wb-details-title">{{ selected.title }}</h2>
+					<p class="wb-card-meta" ng-if="selected.author">{{ 'WB_By' | translate }} {{ selected.author }}</p>
+					<p class="wb-details-state" ng-if="stateLabel(selected)" ng-class="'wb-state-' + selected.state">
+						<wars-icon name="{{ stateIcon(selected) }}"></wars-icon>
+						<span>{{ stateText(selected) | translate }}<span ng-if="selected.state === 'downloading'"> {{ selected.progress }}%</span><span ng-if="selected.error">: {{ selected.error }}</span></span>
+					</p>
+					<div class="wb-details-actions">
+						<button type="button" class="lb-btn lb-btn-small" ng-class="{'lb-btn-outline': !isSubscribed(selected)}" aria-pressed="{{ isSubscribed(selected) }}" ng-click="toggleSubscription(selected)">
+							{{ (isSubscribed(selected) ? 'WB_Unsubscribe' : 'WB_Subscribe') | translate }}
+						</button>
+						<a href="#!/WorkshopPublish?item={{ selected.id }}" class="lb-btn lb-btn-small" ng-if="selected.mine"><wars-icon name="edit"></wars-icon>{{ 'WB_Edit' | translate }}</a>
+						<button type="button" class="lb-btn lb-btn-small" ng-click="openItemPage(selected)">{{ 'WB_ViewOnWorkshop' | translate }}<wars-icon name="external" class="ws-icon-after"></wars-icon></button>
 					</div>
 				</div>
-				<p class="wb-description">{{ selected.description || ('WB_NoDescription' | translate) }}</p>
 			</div>
+			<dl class="ws-facts wb-facts">
+				<div><dt>{{ 'WB_Rating' | translate }}</dt><dd>
+					<span ng-if="rating(selected) !== null"><span ng-class="ratingClass(selected)">{{ rating(selected) }}%</span> {{ 'WB_Positive' | translate }} ({{ selected.votesup + selected.votesdown }} {{ (selected.votesup + selected.votesdown === 1 ? 'WB_Vote' : 'WB_Votes') | translate }})</span>
+					<span ng-if="rating(selected) === null" class="lb-muted">{{ 'WB_NoVotes' | translate }}</span>
+				</dd></div>
+				<div><dt>{{ 'WB_SubscribersLabel' | translate }}</dt><dd>{{ selected.subscriptions }}</dd></div>
+				<div><dt>{{ 'WB_Size' | translate }}</dt><dd>{{ formatSize(selected.filesize) }}</dd></div>
+				<div><dt>{{ 'WB_Created' | translate }}</dt><dd>{{ formatDate(selected.timecreated) }}</dd></div>
+				<div><dt>{{ 'WB_Updated' | translate }}</dt><dd>{{ formatDate(selected.timeupdated) }}</dd></div>
+				<div ng-if="selected.tags.length"><dt>{{ 'WB_Tags' | translate }}</dt><dd>{{ selected.tags.join(', ') }}</dd></div>
+			</dl>
+			<h3 class="ws-dialog-section">{{ 'WS_Description' | translate }}</h3>
+			<p class="wb-description" ng-class="{'lb-muted': !selected.description}">{{ selected.description || ('WB_NoDescription' | translate) }}</p>
 		</div>
-	</main>
-</section>
+	</div>
+</div>

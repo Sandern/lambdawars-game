@@ -2464,3 +2464,1678 @@
 		margin-top: 2rem;
 	}
 }
+
+// Workshop: publishing and updating maps (wp-), the map browser (wb-) and their shared parts (ws-)
+
+@keyframes ws-spin {
+	to { transform: rotate(360deg); }
+}
+
+.ws-spin .icon {
+	animation: ws-spin 1s linear infinite;
+}
+
+.ws-mono {
+	font-family: monospace;
+	letter-spacing: 0;
+}
+
+.ws-ok {
+	color: $ui-green;
+}
+
+.ws-warn {
+	color: $lightorange;
+}
+
+.ws-error {
+	color: $lb-danger;
+}
+
+.ws-icon-after .icon, .lb-btn .ws-icon-after .icon {
+	margin: 0 0 0 0.8rem;
+}
+
+// Notes and errors in a box
+.ws-alert {
+	display: flex;
+	align-items: flex-start;
+	flex-shrink: 0;
+	padding: 1.4rem 1.6rem;
+	border-radius: 0.4rem;
+	font-size: 1.5rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+
+	> wars-icon .icon {
+		flex-shrink: 0;
+		width: 1.8rem;
+		height: 1.8rem;
+		margin: 0.1rem 1.2rem 0 0;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	a {
+		color: $orange;
+
+		&:hover {
+			color: $lightorange;
+		}
+	}
+}
+
+.ws-alert-warn {
+	background: rgba($orange, 0.08);
+	border: 1px solid rgba($orange, 0.4);
+
+	> wars-icon .icon {
+		color: $lightorange;
+	}
+}
+
+.ws-alert-error {
+	margin-top: 2.4rem;
+	background: rgba($lb-danger, 0.08);
+	border: 1px solid rgba($lb-danger, 0.45);
+
+	> wars-icon .icon {
+		color: $lb-danger;
+	}
+}
+
+.ws-alert-title {
+	color: $white;
+}
+
+// Progress of a review, link, upload or download
+.ws-progress-label {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2.2rem;
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+}
+
+.ws-progress {
+	height: 0.4rem;
+	margin-top: 1rem;
+	overflow: hidden;
+	border-radius: 0.2rem;
+	background: rgba($white, 0.08);
+
+	> div {
+		height: 100%;
+		background: $orange;
+		transition: width .3s;
+	}
+}
+
+// Label and value rows
+.ws-facts {
+	margin: 1.8rem 0 0;
+	border-top: 1px solid $lb-border;
+
+	> div {
+		display: flex;
+		align-items: baseline;
+		min-height: 4rem;
+		padding: 0.8rem 0;
+		border-bottom: 1px solid rgba($white, 0.06);
+		font-size: 1.5rem;
+	}
+
+	dt {
+		flex: 0 0 13rem;
+		@include lb-caps(1.25rem, 0.16rem);
+		color: $ui-text-muted;
+	}
+
+	dd {
+		min-width: 0;
+		margin: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		color: $ui-text-soft;
+	}
+}
+
+// Dialog over the page: the review and upload, and the details of a map
+.ws-dialog-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4rem 2.4rem;
+	background: rgba(4, 5, 6, 0.66);
+}
+
+.ws-dialog {
+	position: relative;
+	width: 64rem;
+	max-width: 100%;
+	max-height: 100%;
+	padding: 2.8rem 2.8rem 2.4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background: $ui-panel-solid;
+	border: 1px solid rgba($white, 0.12);
+	border-radius: 0.4rem;
+	box-shadow: 0 3rem 8rem rgba($black, 0.7);
+	color: $ui-text;
+}
+
+.ws-dialog-wide {
+	width: 88rem;
+}
+
+.ws-dialog-title {
+	margin: 0.6rem 0 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 2.6rem;
+	line-height: 1.25;
+	color: $white;
+	word-break: break-word;
+}
+
+.ws-dialog-message {
+	display: flex;
+	align-items: flex-start;
+	margin: 1.4rem 0 0;
+	font-size: 1.6rem;
+	line-height: 1.45;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin: 0.3rem 1rem 0 0;
+	}
+}
+
+.ws-dialog .ws-alert {
+	margin-top: 1.4rem;
+}
+
+.ws-dialog-section {
+	margin: 2.2rem 0 0.8rem;
+	@include lb-caps(1.3rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.ws-dialog-hint {
+	margin: 0.8rem 0;
+	font-size: 1.35rem;
+	line-height: 1.45;
+	color: $ui-text-muted;
+
+	&.ws-warn {
+		color: $lightorange;
+	}
+}
+
+.ws-dialog-note {
+	margin: 1.6rem 0 0;
+	font-size: 1.4rem;
+	line-height: 1.5;
+	color: $ui-text-muted;
+}
+
+.ws-dialog-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 2.2rem;
+
+	.lb-btn + .lb-btn {
+		margin-left: 1rem;
+	}
+}
+
+.lb-btn-launch.ws-dialog-launch {
+	padding: 0 2.4rem;
+	@include lb-caps(1.5rem, 0.24rem);
+}
+
+// Review tables
+.ws-table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+
+	th {
+		padding: 0.8rem 1.2rem 0.8rem 0;
+		border-top: 1px solid $lb-border;
+		border-bottom: 1px solid rgba($white, 0.06);
+		@include lb-caps(1.2rem, 0.16rem);
+		color: $ui-text-muted;
+		text-align: left;
+	}
+
+	td {
+		padding: 0.9rem 1.2rem 0.9rem 0;
+		border-bottom: 1px solid rgba($white, 0.06);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	td:last-child, th:last-child {
+		padding-right: 0;
+	}
+
+	tbody tr:first-child td {
+		border-top: 1px solid $lb-border;
+	}
+
+	thead + tbody tr:first-child td {
+		border-top: none;
+	}
+}
+
+.ws-table-details {
+	th:first-child, td:first-child {
+		width: 13rem;
+	}
+
+	th:last-child, td:last-child {
+		width: 10rem;
+	}
+
+	tr.changed {
+		.ws-table-new {
+			color: $ui-text;
+		}
+
+		.ws-table-status {
+			color: $lightorange;
+		}
+	}
+}
+
+.ws-table-label {
+	@include lb-caps(1.3rem, 0.16rem);
+	color: $ui-text-soft;
+}
+
+.ws-table-status {
+	@include lb-caps(1.2rem, 0.16rem);
+	text-align: right;
+}
+
+// The list of files scrolls when the map has many
+.ws-files {
+	max-height: 24rem;
+	overflow-y: auto;
+}
+
+.ws-table-files {
+	td {
+		padding-top: 0.8rem;
+		padding-bottom: 0.8rem;
+	}
+
+	.ws-table-path {
+		font-size: 1.3rem;
+	}
+
+	.ws-table-size {
+		width: 9rem;
+		font-size: 1.3rem;
+		text-align: right;
+	}
+
+	td.ws-table-status {
+		width: 15rem;
+	}
+
+	.ws-file-added .ws-table-status { color: $ui-green; }
+	.ws-file-changed .ws-table-status { color: $lightorange; }
+	.ws-file-removed .ws-table-status { color: $lb-danger; }
+	.ws-file-upload .ws-table-status { color: $ui-text-soft; }
+
+	tr:not(.ws-file-same) .ws-table-path {
+		color: $ui-text;
+	}
+}
+
+.ws-changenote {
+	margin-top: 2.2rem;
+}
+
+// Publishing: the player's Workshop maps on the left, the form on the right
+
+.wp-page {
+	flex-direction: row;
+}
+
+.wp-list {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 44rem;
+	min-height: 0;
+	margin-right: 6.4rem;
+}
+
+.wp-list-title {
+	margin: 1.8rem 0 1.2rem;
+	@include lb-caps(1.5rem, 0.27rem);
+	color: $ui-text;
+}
+
+.wp-items {
+	flex: 1;
+	min-height: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	border-top: 1px solid $lb-border;
+}
+
+.wp-item {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	min-height: 7.6rem;
+	padding: 1.4rem 1.6rem 1.4rem 1.8rem;
+	background: transparent;
+	border: none;
+	border-left: 2px solid transparent;
+	border-bottom: 1px solid rgba($white, 0.06);
+	outline: none;
+	font-family: 'Roboto';
+	text-align: left;
+	color: $ui-text-soft;
+	cursor: pointer;
+	transition: background-color .15s;
+
+	&:hover:not(:disabled) {
+		background: rgba($white, 0.03);
+	}
+
+	&:disabled {
+		cursor: default;
+	}
+
+	&.selected {
+		background: rgba($orange, 0.08);
+		border-left-color: $orange;
+
+		.wp-item-title {
+			color: $white;
+		}
+	}
+}
+
+.wp-item-new {
+	min-height: 6.4rem;
+	@include lb-caps(1.5rem, 0.2rem);
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-right: 1.2rem;
+	}
+
+	&.selected {
+		color: $white;
+	}
+}
+
+.wp-item-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.wp-item-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: 500;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.wp-item-meta {
+	margin-top: 0.4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.3rem;
+	color: $ui-text-muted;
+}
+
+.wp-item-warning {
+	display: flex;
+	align-items: center;
+	margin-top: 0.4rem;
+	font-size: 1.3rem;
+	color: $lightorange;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-right: 0.6rem;
+	}
+}
+
+.wp-items-status {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 1.6rem 1.8rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+	font-size: 1.4rem;
+	line-height: 1.45;
+	color: $ui-text-muted;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 1rem;
+	}
+
+	&.ws-error {
+		color: $lb-danger;
+	}
+}
+
+.wp-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.wp-heading {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-shrink: 0;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid $lb-border;
+
+	> div {
+		min-width: 0;
+	}
+
+	.pg-title {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+}
+
+.wp-item-link {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	height: 4rem;
+	margin-left: 2rem;
+	font-size: 1.5rem;
+	color: $orange;
+
+	.ws-mono {
+		margin-left: 0.6rem;
+		font-size: 1.4rem;
+	}
+
+	.icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-left: 0.8rem;
+	}
+
+	&:hover {
+		color: $lightorange;
+	}
+}
+
+.wp-body {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	min-height: 0;
+	margin-bottom: 2rem;
+	padding-top: 2.4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.wp-fields {
+	display: flex;
+	flex-direction: column;
+	flex: 0 1 70rem;
+	min-width: 0;
+	margin-right: 5.6rem;
+
+	> * + * {
+		margin-top: 2.2rem;
+	}
+}
+
+.wp-fieldset {
+	min-width: 0;
+	margin: 2.2rem 0 0;
+	padding: 0;
+	border: none;
+
+	> * + * {
+		margin-top: 2.2rem;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+	}
+}
+
+.wp-field {
+	display: flex;
+	flex-direction: column;
+}
+
+.wp-label {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 0.8rem;
+	@include lb-caps(1.3rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.wp-label-note {
+	margin-left: 0.4rem;
+	margin-right: auto;
+	font-family: 'Roboto';
+	font-weight: normal;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.wp-count {
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.2rem;
+	letter-spacing: 0;
+}
+
+.wp-input, .wp-select select {
+	width: 100%;
+	height: 4.2rem;
+	padding: 0 1.2rem;
+	background: rgba($ui-black, 0.4);
+	border: 1px solid $white20;
+	border-radius: 0.2rem;
+	outline: none;
+	font-family: 'Roboto';
+	font-size: 1.6rem;
+	color: $ui-text;
+
+	&::placeholder {
+		color: $ui-text-muted;
+	}
+
+	&:focus {
+		border-color: $orange;
+	}
+
+	&:disabled {
+		color: $ui-text-muted;
+	}
+}
+
+.wp-textarea {
+	height: 13.2rem;
+	padding: 1rem 1.2rem;
+	resize: none;
+	line-height: 1.45;
+}
+
+.wp-select {
+	position: relative;
+	display: flex;
+
+	select {
+		-webkit-appearance: none;
+		padding-right: 3.4rem;
+		cursor: pointer;
+
+		&:disabled {
+			cursor: default;
+		}
+
+		option {
+			background: $ui-panel-solid;
+			color: $ui-text;
+		}
+	}
+
+	.icon {
+		position: absolute;
+		top: 1.3rem;
+		right: 1.2rem;
+		width: 1.6rem;
+		height: 1.6rem;
+		color: $ui-text-muted;
+		pointer-events: none;
+	}
+}
+
+.wp-static {
+	display: flex;
+	align-items: center;
+	height: 4.2rem;
+	padding: 0 1.2rem;
+	background: rgba($white, 0.03);
+	border: 1px solid $lb-border;
+	border-radius: 0.2rem;
+	font-size: 1.5rem;
+	color: $ui-text;
+}
+
+.wp-hint {
+	margin-top: 0.8rem;
+	font-size: 1.4rem;
+	line-height: 1.45;
+	color: $ui-text-muted;
+}
+
+.wp-visibility {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	.wp-hint {
+		margin: 0 0 0 1.6rem;
+	}
+}
+
+.lb-segmented.wp-segmented {
+	padding: 0.3rem;
+	border: 1px solid rgba($white, 0.1);
+	border-radius: 0.4rem;
+
+	button {
+		height: 3.4rem;
+		padding: 0 1.4rem;
+		@include lb-caps(1.35rem, 0.12rem);
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.wp-link-row {
+	display: flex;
+	align-items: center;
+	margin-top: 1.2rem;
+}
+
+.wp-link-progress {
+	display: flex;
+	align-items: center;
+	margin-left: 1.4rem;
+	font-size: 1.4rem;
+	color: $lightorange;
+
+	.ws-mono {
+		margin-left: 0.6rem;
+	}
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.8rem;
+	}
+}
+
+.ws-alert .ws-error {
+	margin-top: 1rem;
+}
+
+// Preview image, 16:9
+.wp-preview-column {
+	display: flex;
+	flex-direction: column;
+	flex: 0 1 48rem;
+	min-width: 28rem;
+
+	&.disabled {
+		opacity: 0.5;
+	}
+
+	.ws-error {
+		margin: 1rem 0 0;
+		font-size: 1.4rem;
+		line-height: 1.45;
+	}
+}
+
+.wp-preview {
+	position: relative;
+	width: 100%;
+	padding-top: 56.25%;
+	overflow: hidden;
+	border-radius: 0.4rem;
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.wp-preview-tag {
+	position: absolute;
+	top: 1.2rem;
+	left: 1.2rem;
+	max-width: calc(100% - 2.4rem);
+	padding: 0.4rem 0.9rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	background: rgba(9, 10, 11, 0.82);
+	border: 1px solid $white20;
+	border-radius: 0.3rem;
+	@include lb-caps(1.15rem, 0.12rem);
+	color: $ui-text-soft;
+}
+
+button.wp-preview-none {
+	display: block;
+	text-align: center;
+	border: 1px dashed rgba($white, 0.22);
+	outline: none;
+	font-family: 'Roboto';
+	font-size: 1.4rem;
+	color: $ui-text-soft;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		border-color: $orange;
+	}
+
+	&:disabled {
+		cursor: default;
+	}
+
+	// The content is centered over the 16:9 box
+	> * {
+		position: absolute;
+		left: 0;
+		right: 0;
+	}
+
+	> wars-icon {
+		top: calc(50% - 4.6rem);
+	}
+
+	.icon {
+		display: block;
+		width: 3.4rem;
+		height: 3.4rem;
+		margin: 0 auto;
+	}
+
+	.wp-preview-none-title {
+		top: calc(50% - 0.4rem);
+		font-size: 1.6rem;
+		color: $ui-text;
+	}
+
+	> span:last-child {
+		top: calc(50% + 2.4rem);
+	}
+}
+
+// Minimap of the selected map, below the preview image
+.wp-minimap {
+	display: flex;
+	flex-direction: column;
+	margin-top: 1.8rem;
+}
+
+.wp-minimap-row {
+	display: flex;
+	align-items: flex-start;
+}
+
+.wp-minimap-image {
+	position: relative;
+	flex-shrink: 0;
+	// The image and the numbers of the start positions can't be selected or dragged
+	-webkit-user-select: none;
+	user-select: none;
+	width: 17.6rem;
+	height: 17.6rem;
+	margin: 0.4rem 2rem 0.4rem 0.4rem;
+	border: 1px solid $lb-border;
+	border-radius: 0.3rem;
+
+	> div {
+		height: 100%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0.3rem;
+		-webkit-user-drag: none;
+		pointer-events: none;
+	}
+
+	.lb-corner {
+		width: 1.2rem;
+		height: 1.2rem;
+	}
+}
+
+.wp-minimap-spawn {
+	position: absolute;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.8rem;
+	height: 1.8rem;
+	margin: -0.9rem 0 0 -0.9rem;
+	background: rgba(9, 10, 11, 0.85);
+	border: 1.5px solid $orange;
+	border-radius: 50%;
+	font-family: monospace;
+	font-size: 1rem;
+	color: $ui-text;
+}
+
+.wp-minimap-none {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	padding: 0 1.8rem;
+	border: 1px dashed rgba($white, 0.16);
+	border-radius: 0.3rem;
+	text-align: center;
+	font-size: 1.3rem;
+	line-height: 1.4;
+	color: $ui-text-muted;
+
+	.icon {
+		display: block;
+		width: 2.6rem;
+		height: 2.6rem;
+		margin-bottom: 1rem;
+	}
+}
+
+.wp-minimap-info {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	padding-top: 0.4rem;
+}
+
+.wp-minimap-status {
+	display: flex;
+	align-items: flex-start;
+	margin: 0;
+	font-size: 1.4rem;
+	line-height: 1.45;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		margin: 0.3rem 0.8rem 0 0;
+	}
+
+	&.lb-muted {
+		color: $ui-text-muted;
+	}
+}
+
+.wp-minimap-facts {
+	margin: 1rem 0 0;
+
+	> div + div {
+		margin-top: 1rem;
+	}
+
+	dt {
+		@include lb-caps(1.2rem, 0.14rem);
+		color: $ui-text-muted;
+	}
+
+	dd {
+		margin: 0.2rem 0 0;
+		font-size: 1.3rem;
+		color: $ui-text-soft;
+		word-break: break-all;
+	}
+
+	// Not the margin and size of the preview image error
+	dd.ws-error {
+		margin: 0.2rem 0 0;
+		font-size: 1.3rem;
+		color: $lb-danger;
+	}
+}
+
+.wp-preview-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 1rem;
+
+	.lb-text-btn {
+		margin-left: 1.4rem;
+	}
+
+	.wp-hint {
+		margin: 0 0 0 1.4rem;
+	}
+}
+
+.wp-footer {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	// At the bottom, also when the form isn't shown
+	margin-top: auto;
+	padding-top: 2rem;
+	border-top: 1px solid $lb-border;
+
+	.lb-btn {
+		flex-shrink: 0;
+		height: 5.2rem;
+		margin-left: 1.4rem;
+	}
+}
+
+.wp-summary {
+	display: flex;
+	align-items: flex-start;
+	flex: 1;
+	min-width: 0;
+	font-size: 1.5rem;
+	line-height: 1.45;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin: 0.2rem 1.2rem 0 0;
+	}
+
+	&.ws-info {
+		color: $ui-text-soft;
+	}
+
+	&.ws-warn {
+		color: $lightorange;
+	}
+}
+
+.lb-btn-launch.wp-review-btn {
+	padding: 0 2.8rem;
+	@include lb-caps(1.7rem, 0.27rem);
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-left: 1rem;
+	}
+}
+
+// Browser: tabs, search and sort, and a grid of map cards
+
+.wb-heading {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-shrink: 0;
+}
+
+.lb-btn.wb-publish {
+	height: 4.8rem;
+	padding: 0 2.2rem;
+}
+
+.st-tabs.wb-tabs {
+	margin-top: 2.4rem;
+}
+
+.wb-toolbar {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 2rem;
+}
+
+.br-search.wb-search {
+	width: 44rem;
+
+	&.disabled {
+		opacity: 0.5;
+	}
+
+	.wb-search-clear {
+		margin-left: 0.6rem;
+
+		.icon {
+			margin: 0;
+		}
+	}
+}
+
+.wb-search-active {
+	margin-left: 1.6rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.wb-search-text {
+	color: $ui-text;
+}
+
+.wb-toolbar .br-sort {
+	flex-shrink: 0;
+	padding-left: 2rem;
+}
+
+.wb-status {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	min-height: 2rem;
+	margin: 1.6rem 0 0;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+
+	> span {
+		display: flex;
+		align-items: center;
+	}
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 1rem;
+	}
+}
+
+.wb-results {
+	flex: 1;
+	min-height: 0;
+	margin-top: 1.4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.wb-grid {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -1rem;
+	padding: 0;
+	list-style: none;
+}
+
+.wb-card {
+	display: flex;
+	flex-direction: column;
+	width: calc(25% - 2rem);
+	margin: 0 1rem 2rem;
+	overflow: hidden;
+	background: rgba($ui-black, 0.55);
+	border: 1px solid $lb-border;
+	border-radius: 0.4rem;
+	cursor: pointer;
+	transition: border-color .15s, background-color .15s;
+
+	&:hover {
+		background: rgba($ui-black, 0.75);
+		border-color: $white20;
+	}
+}
+
+// 16:9 map image, hatched when the map has none
+.wb-thumb {
+	position: relative;
+	flex-shrink: 0;
+	padding-top: 56.25%;
+	overflow: hidden;
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	// Positioned, so the icon element adds no line box
+	> wars-icon {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	> wars-icon .icon {
+		position: absolute;
+		top: calc(50% - 1.2rem);
+		left: calc(50% - 1.2rem);
+		width: 2.4rem;
+		height: 2.4rem;
+		color: $ui-text-muted;
+	}
+}
+
+.wb-badge {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	display: flex;
+	align-items: center;
+	height: 2.4rem;
+	padding: 0 0.9rem;
+	background: rgba(9, 10, 11, 0.85);
+	border: 1px solid rgba($white, 0.14);
+	border-radius: 0.3rem;
+	@include lb-caps(1.15rem, 0.12rem);
+	color: $ui-text-soft;
+
+	.icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-right: 0.6rem;
+	}
+}
+
+.wb-state-installed {
+	color: $ui-green;
+	border-color: rgba($ui-green, 0.45);
+}
+
+.wb-state-downloading {
+	color: $lightorange;
+	border-color: rgba($orange, 0.6);
+}
+
+.wb-state-rejected {
+	color: $lb-danger;
+	border-color: rgba($lb-danger, 0.6);
+}
+
+.wb-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 0.3rem;
+	background: rgba($black, 0.5);
+
+	> span {
+		display: block;
+		height: 100%;
+		background: $orange;
+		transition: width .3s;
+	}
+}
+
+.wb-card-body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding: 1.4rem 1.6rem 1.6rem;
+}
+
+.wb-card-title {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 1.8rem;
+	color: $ui-text;
+}
+
+.wb-card-title-text {
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.wb-mine {
+	flex-shrink: 0;
+	margin-left: 0.8rem;
+	padding: 0.2rem 0.6rem;
+	border: 1px solid rgba($orange, 0.5);
+	border-radius: 0.3rem;
+	@include lb-caps(1.05rem, 0.12rem);
+	color: $orange;
+}
+
+.wb-card-meta {
+	margin: 0.4rem 0 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.wb-card-actions {
+	display: flex;
+	margin-top: auto;
+	padding-top: 1.4rem;
+
+	.lb-btn:first-child {
+		flex: 1;
+	}
+
+	.wb-edit {
+		margin-left: 0.8rem;
+		padding: 0 1.2rem;
+
+		.icon {
+			margin: 0;
+		}
+	}
+}
+
+.wb-footer {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	min-height: 5.6rem;
+	padding-top: 1.6rem;
+	border-top: 1px solid $lb-border;
+}
+
+.wb-footer-text {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-right: 1rem;
+	}
+
+	a {
+		margin-left: 0.5rem;
+		color: $orange;
+
+		&:hover {
+			color: $lightorange;
+		}
+	}
+}
+
+.wb-pagination {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+
+	.lb-btn + .lb-btn, .wb-page + .lb-btn {
+		margin-left: 0.6rem;
+	}
+
+	.lb-btn .icon {
+		width: 1.4rem;
+		height: 1.4rem;
+	}
+}
+
+.wb-page {
+	margin: 0 1.4rem;
+	font-size: 1.4rem;
+	color: $ui-text-soft;
+}
+
+// Details of a map
+.ws-dialog.wb-details {
+	width: 92rem;
+}
+
+.wb-details-close {
+	position: absolute;
+	top: 1.4rem;
+	right: 1.4rem;
+
+	&:hover:not(:disabled) {
+		border-color: $white20;
+		color: $white;
+	}
+}
+
+.wb-details-top {
+	display: flex;
+	align-items: flex-start;
+}
+
+.wb-thumb.wb-details-thumb {
+	flex: 0 0 40rem;
+	padding-top: 22.5rem;
+	border-radius: 0.4rem;
+}
+
+.wb-details-info {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	margin-left: 2.8rem;
+	padding-right: 3rem;
+}
+
+.wb-details-state {
+	display: flex;
+	align-items: flex-start;
+	margin: 1.2rem 0 0;
+	font-size: 1.4rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+	border: none;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		margin: 0.2rem 0.8rem 0 0;
+	}
+}
+
+.wb-details-actions {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 1.8rem;
+
+	.lb-btn {
+		margin: 0 0.8rem 0.8rem 0;
+	}
+}
+
+.ws-facts.wb-facts {
+	margin-top: 2.4rem;
+}
+
+.wb-description {
+	max-height: 20rem;
+	margin: 0;
+	overflow-y: auto;
+	font-size: 1.5rem;
+	line-height: 1.55;
+	white-space: pre-line;
+	color: $ui-text-soft;
+}
+
+// The upload after closing its dialog: in the list, the footer of the publish page and above the browser
+
+.wp-item-upload {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.3rem;
+	letter-spacing: 0;
+	color: $lightorange;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.6rem;
+	}
+}
+
+.wp-item-uploading {
+	display: flex;
+	align-items: center;
+	margin-top: 0.4rem;
+	font-size: 1.3rem;
+	color: $lightorange;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-right: 0.6rem;
+	}
+
+	.ws-mono {
+		margin-left: 0.4rem;
+	}
+}
+
+.wp-upload {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+	padding: 0.8rem 1.2rem;
+	background: rgba($orange, 0.06);
+	border: 1px solid rgba($orange, 0.35);
+	border-radius: 0.3rem;
+	outline: none;
+	font-family: 'Roboto';
+	text-align: left;
+	cursor: pointer;
+	transition: background-color .15s, border-color .15s;
+
+	&:hover {
+		background: rgba($orange, 0.12);
+		border-color: $orange;
+
+		.wp-upload-show {
+			color: $lightorange;
+		}
+	}
+
+	.ws-progress {
+		flex: 1 1 100%;
+		order: 3;
+		margin-top: 0.8rem;
+	}
+}
+
+.wp-upload-text {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 1rem;
+		color: $lightorange;
+	}
+
+	.ws-mono {
+		flex-shrink: 0;
+		margin-left: 1rem;
+		font-size: 1.4rem;
+		color: $ui-text;
+	}
+}
+
+.wp-upload-label {
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.wp-upload-title {
+	color: $white;
+}
+
+.wp-upload-show {
+	flex-shrink: 0;
+	margin-left: 1.6rem;
+	@include lb-caps(1.3rem, 0.2rem);
+	color: $orange;
+}
+
+.wb-upload {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 2rem;
+	padding: 1rem 1.4rem;
+	background: rgba($orange, 0.06);
+	border: 1px solid rgba($orange, 0.35);
+	border-radius: 0.4rem;
+
+	.ws-progress {
+		flex: 0 0 24rem;
+		margin: 0 2rem;
+	}
+
+	.lb-btn {
+		flex-shrink: 0;
+	}
+
+	.lb-btn + .lb-btn, .lb-btn + .wb-upload-dismiss {
+		margin-left: 0.8rem;
+	}
+}
+
+.wb-upload-failed {
+	background: rgba($lb-danger, 0.06);
+	border-color: rgba($lb-danger, 0.45);
+}
+
+.wb-upload-text {
+	display: flex;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+	font-size: 1.5rem;
+	color: $ui-text;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 1rem;
+	}
+
+	.ws-mono {
+		margin-left: 1rem;
+		font-size: 1.4rem;
+	}
+}
+
+.wb-upload-dismiss {
+	margin-left: auto;
+
+	&:hover:not(:disabled) {
+		border-color: $white20;
+		color: $white;
+	}
+}
+
+@media (max-width: 1400px) {
+	.wp-list {
+		flex-basis: 34rem;
+		margin-right: 3.6rem;
+	}
+
+	.wp-fields {
+		margin-right: 3.6rem;
+	}
+
+	.wb-card {
+		width: calc(33.333% - 2rem);
+	}
+}
+
+// Smallest screens: the preview goes below the fields, the page scrolls
+@media (max-width: 1180px) {
+	.wp-list {
+		flex-basis: 28rem;
+		margin-right: 2.8rem;
+	}
+
+	// The form scrolls, the footer stays in view
+	.wp-body {
+		flex-direction: column;
+	}
+
+	.wp-visibility .wp-hint {
+		flex-basis: 100%;
+		margin: 0.8rem 0 0;
+	}
+
+	.wp-fields {
+		flex: none;
+		margin-right: 0;
+	}
+
+	.wp-preview-column {
+		flex: none;
+		width: 40rem;
+		max-width: 100%;
+		margin-top: 2.4rem;
+	}
+
+	.wb-search-active {
+		display: none;
+	}
+
+	.ws-dialog.wb-details .wb-thumb.wb-details-thumb {
+		flex-basis: 30rem;
+		padding-top: 16.9rem;
+	}
+}
+
+@media (max-height: 820px) {
+	.ws-files {
+		max-height: 15rem;
+	}
+
+	.wp-textarea {
+		height: 9.6rem;
+	}
+
+	.wp-items .wp-item {
+		min-height: 6.4rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+}

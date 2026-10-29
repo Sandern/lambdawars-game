@@ -21,6 +21,7 @@ import base64
 from cef import WebViewComponent, jsbind
 from srcbuiltins import RegisterTickMethod, UnregisterTickMethod, IsTickMethodRegistered
 import kvdict
+import readmap
 
 try:
     import _workshop
@@ -137,6 +138,47 @@ def NormalizeText(text):
     return (text or '').replace('\r\n', '\n').strip()
 
 
+def GetMapMinimap(mapname):
+    """ The minimap of a local map, as the lobby shows it: the overview material named in the res file of
+        the map, uploaded with the map files. Also the start positions, normalized to the overview (0 to 1)
+        like the lobby settings do.
+
+        State: ok, none (no res file or no overview material in it) or missing (the material isn't found)
+    """
+    respath = os.path.join('maps', mapname + '.res')
+    info = {'state': 'none', 'res': 'maps/%s.res' % mapname, 'image': '', 'src': '', 'positions': []}
+    if not os.path.isfile(respath):
+        return info
+    kvres = kvdict.LoadFileIntoDictionaries(respath) or {}
+    material = kvres.get('material', '')
+    if not material:
+        return info
+    info['image'] = 'materials/%s.vtf' % material
+    if not os.path.isfile(os.path.join('materials', material + '.vtf')):
+        info['state'] = 'missing'
+        return info
+    info['state'] = 'ok'
+    info['src'] = 'vtf://%s.vtf' % material
+
+    try:
+        size = float(kvres.get('scale', 1.0)) * 1024.0
+        pos_x = float(kvres.get('pos_x', -512.0))
+        pos_y = float(kvres.get('pos_y', -512.0))
+        blocks, blocksbyclass = readmap.ParseMapEntitiesToBlocks(os.path.join('maps', mapname + '.bsp'))
+        positions = {}
+        for startent in blocksbyclass['info_start_wars']:
+            if not startent['ownernumber'] or not startent['origin']:
+                continue
+            position = int(startent['ownernumber'][0])
+            if position not in positions:
+                origin = list(map(float, startent['origin'][0].split()))
+                positions[position] = [(origin[0] - pos_x) / size, (pos_y - origin[1]) / size]
+        info['positions'] = [positions[position] for position in sorted(positions)]
+    except (OSError, ValueError, IndexError, ZeroDivisionError) as e:
+        PrintWarning('Workshop: could not read the start positions of %s: %s\n' % (mapname, e))
+    return info
+
+
 class WebWorkshop(WebViewComponent):
     defaultobjectname = 'workshop'
 
@@ -168,12 +210,33 @@ class WebWorkshop(WebViewComponent):
     @jsbind(hascallback=True)
     def getinfo(self, methodargs):
         """ Returns whether the Workshop is available, the error if not, the local maps
-            and whether a map is being published. """
+            and the map being published (see GetPublishState). """
         if not _workshop:
-            return [False, 'Workshop module not available', [], False]
+            return [False, 'Workshop module not available', [], None]
         available = _workshop.IsAvailable()
         error = '' if available else _workshop.GetError()
-        return [available, error, self.ListLocalMaps(), self.publishjob is not None]
+        return [available, error, self.ListLocalMaps(), self.GetPublishState()]
+
+    @jsbind(hascallback=True)
+    def getpublishstate(self, methodargs):
+        """ Returns the map being published (see GetPublishState), without listing the local maps. """
+        return [self.GetPublishState()]
+
+    def GetPublishState(self):
+        """ The map being published and its last progress, so a page opened during the upload can show it.
+            None if no map is being published. """
+        job = self.publishjob
+        if not job:
+            return None
+        status, processed, total = job.get('progress', (None, 0, 0))
+        return {
+            'mapname': job['mapname'],
+            'title': job['title'],
+            'publishedfileid': str(job['publishedfileid']) if job['publishedfileid'] else '',
+            'status': status,
+            'processed': processed,
+            'total': total,
+        }
 
     @jsbind()
     def publish(self, methodargs):
@@ -273,6 +336,18 @@ class WebWorkshop(WebViewComponent):
             return ['', str(e)]
         mimetype = PREVIEW_TYPES[os.path.splitext(previewpath)[1].lower()]
         return ['data:%s;base64,%s' % (mimetype, data), '']
+
+    @jsbind(hascallback=True)
+    def getminimap(self, methodargs):
+        """ Returns the minimap of a local map (see GetMapMinimap).
+
+            Args: map name
+        """
+        mapname = methodargs[0]
+        # Only map names, not paths
+        if os.path.basename(mapname) != mapname or not os.path.isfile(os.path.join('maps', mapname + '.bsp')):
+            return [None]
+        return [GetMapMinimap(mapname)]
 
     @jsbind()
     def openlegalagreement(self, methodargs):
@@ -803,6 +878,7 @@ class WebWorkshop(WebViewComponent):
                 self.StartUpload()
             elif job['state'] == 'uploading':
                 status, processed, total = _workshop.GetItemUpdateProgress(job['updatehandle'])
+                job['progress'] = (status, processed, total)
                 self.NotifyProgress(status, processed, total)
 
                 result = _workshop.GetSubmitItemUpdateResult(job['call'])

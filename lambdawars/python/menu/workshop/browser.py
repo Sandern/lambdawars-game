@@ -164,6 +164,8 @@ class WebWorkshopBrowser(WebViewComponent):
             'previewurl': data['previewurl'],
             'owner': str(data['owner']),
             'author': self.GetPersonaName(data['owner']),
+            # Published by the local player, who can update it
+            'mine': data['owner'] == steamapicontext.SteamUser().GetSteamID().ConvertToUint64(),
             'timecreated': data['timecreated'],
             'timeupdated': data['timeupdated'],
             'votesup': data['votesup'],

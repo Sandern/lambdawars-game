@@ -39,6 +39,15 @@ var ICONS = {
     'flag': '<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
     'info': '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><path d="M12 7.5v.01"/>',
     'wrench': '<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
+    'warning': '<path d="M12 3L2 21h20z"/><path d="M12 10v5M12 18v.01"/>',
+    'error': '<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.01"/>',
+    'upload': '<path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/>',
+    'download': '<path d="M12 4v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/>',
+    'clock': '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2.5"/>',
+    'block': '<circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/>',
+    'spinner': '<path d="M21 12a9 9 0 1 1-9-9"/>',
+    'edit': '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/>',
+    'map': '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
 };
 
 /*@ngInject*/

@@ -1,172 +1,328 @@
-<section class="content content-menu" id="content-workshop">
-	<main class="rounded">
-		<h1>{{ 'WS_Headline' | translate }}</h1>
+<div class="pg-page wp-page">
+	<!-- Publishing a new map, or one of the player's Workshop items -->
+	<aside class="wp-list">
+		<a href="#!/Workshop" class="br-back"><wars-icon name="chevron-left"></wars-icon>{{ 'WS_BackToWorkshop' | translate }}</a>
+		<h1 class="wp-list-title">{{ 'WS_MyItems' | translate }}</h1>
 
-		<p class="workshop-hint"><a href="#!/Workshop">{{ 'WS_BrowseMaps' | translate }}</a></p>
+		<div class="wp-items">
+			<button type="button" class="wp-item wp-item-new" ng-class="{selected: mode === 'new'}" aria-current="{{ mode === 'new' }}"
+				ng-disabled="publishing" ng-click="selectNew()">
+				<wars-icon name="plus"></wars-icon>{{ 'WS_PublishNew' | translate }}
+				<span class="wp-item-upload" ng-if="isUploading(null)"><wars-icon name="upload"></wars-icon>{{ progress }}%</span>
+			</button>
+			<button type="button" class="wp-item" ng-repeat="entry in workshopItems track by entry.id" ng-class="{selected: isSelected(entry)}"
+				aria-current="{{ isSelected(entry) }}" ng-disabled="publishing" ng-click="selectEntry(entry)">
+				<span class="wp-item-text">
+					<span class="wp-item-title">{{ entry.title }}</span>
+					<span class="wp-item-meta">
+						{{ entry.id }}<span ng-if="entry.map"> &middot; {{ entry.map.name }}</span><span ng-if="entry.lastupload"> &middot; {{ 'WS_LastUpload' | translate }} {{ formatDay(entry.lastupload) }}</span><span ng-if="!entry.lastupload && entry.timeupdated"> &middot; {{ 'WS_Updated' | translate }} {{ formatDay(entry.timeupdated) }}</span>
+					</span>
+					<span class="wp-item-warning" ng-if="!entry.map"><wars-icon name="warning"></wars-icon>{{ 'WS_NotLinked' | translate }}</span>
+					<span class="wp-item-uploading" ng-if="isUploading(entry)"><wars-icon name="upload"></wars-icon>{{ 'WS_Uploading' | translate }} <span class="ws-mono">{{ progress }}%</span></span>
+				</span>
+			</button>
+			<p class="wp-items-status" ng-if="myItemsLoading"><wars-icon name="spinner" class="ws-spin"></wars-icon>{{ 'WS_LoadingMyItems' | translate }}</p>
+			<p class="wp-items-status ws-error" ng-if="myItemsError">{{ 'WS_MyItemsFailed' | translate }} {{ myItemsError }}</p>
+		</div>
+	</aside>
 
-		<p class="workshop-message" ng-if="loaded && !available">
-			{{ 'WS_Unavailable' | translate }} {{ error }}
-		</p>
-		<!-- The player's Workshop maps, with a button to review and upload an update -->
-		<div class="workshop-items" ng-if="available && (workshopItems.length || myItemsLoading || myItemsError)">
-			<h2>{{ 'WS_MyItems' | translate }}</h2>
-			<ul>
-				<li ng-repeat="entry in workshopItems track by entry.id" ng-class="{'workshop-item-selected': entry.map && selected.map === entry.map}">
-					<div class="workshop-item-info">
-						<span class="workshop-item-title">{{ entry.title }}</span>
-						<small>
-							<span ng-if="entry.map">{{ entry.map.name }} &middot; </span>
-							<a href ng-click="openItem(entry.id)">{{ entry.id }}</a>
-							<span ng-if="entry.lastupload"> &middot; {{ 'WS_LastUpload' | translate }} {{ formatDate(entry.lastupload) }}</span>
-							<span ng-if="!entry.map"> &middot; {{ 'WS_NotLinked' | translate }}</span>
-						</small>
-					</div>
-					<a href class="btn btn-small btn-highlight" ng-class="{linkDisabled: publishing || reviewing || linking}" ng-click="updateWorkshopItem(entry)">{{ 'WS_Update' | translate }}</a>
-				</li>
-			</ul>
-			<p class="workshop-hint" ng-if="myItemsLoading">{{ 'WS_LoadingMyItems' | translate }}</p>
-			<p class="workshop-hint workshop-error" ng-if="myItemsError">{{ myItemsError }}</p>
-			<p class="workshop-hint" ng-if="linking">{{ 'WS_Linking' | translate }} <span ng-if="reviewProgress > 0">{{ reviewProgress }}%</span></p>
-			<p class="workshop-hint workshop-error" ng-if="linkError">{{ 'WS_LinkFailed' | translate }} {{ linkError }}</p>
+	<section class="wp-main">
+		<header class="wp-heading">
+			<div>
+				<span class="pg-eyebrow">{{ (mode === 'new' ? 'WS_EyebrowNew' : 'WS_EyebrowUpdate') | translate }}</span>
+				<h2 class="pg-title">{{ mode === 'new' ? ('WS_HeadingNew' | translate) : entry.title }}</h2>
+			</div>
+			<a href class="wp-item-link" ng-if="mode === 'item'" ng-click="openItem(entry.id)">
+				{{ 'WS_WorkshopItem' | translate }} <span class="ws-mono">{{ entry.id }}</span><wars-icon name="external"></wars-icon>
+			</a>
+		</header>
+
+		<p class="pg-empty" ng-if="!loaded">{{ 'WS_Loading' | translate }}</p>
+
+		<!-- Steam not running, offline or the component missing -->
+		<div class="ws-alert ws-alert-error" role="alert" ng-if="loaded && !available">
+			<wars-icon name="error"></wars-icon>
+			<p><span class="ws-alert-title">{{ 'WS_UnavailableTitle' | translate }}</span> {{ error || ('WS_UnavailableText' | translate) }}</p>
 		</div>
 
-		<form class="workshop-form" ng-if="available" ng-submit="selected.map.publishedfileid ? startReview() : publish()">
-			<label>
-				<span>{{ 'WS_Map' | translate }}</span>
-				<select ng-model="selected.map" ng-change="selectMap()" ng-disabled="publishing"
-						ng-options="map as map.name for map in maps track by map.name">
-					<option value="">{{ 'WS_SelectMap' | translate }}</option>
-				</select>
-			</label>
-
-			<div ng-if="selected.map">
-				<p class="workshop-hint">
-					<span ng-if="!selected.map.publishedfileid">{{ 'WS_NotPublished' | translate }}</span>
-					<span ng-if="selected.map.publishedfileid">
-						{{ 'WS_PublishedAs' | translate }}
-						<a href ng-click="openItem(selected.map.publishedfileid)">{{ selected.map.publishedfileid }}</a>
-					</span>
-				</p>
-
-				<label>
-					<span>{{ 'WS_Title' | translate }}</span>
-					<input type="text" ng-model="form.title" maxlength="128" ng-disabled="publishing" />
-				</label>
-				<label>
-					<span>{{ 'WS_Description' | translate }}</span>
-					<textarea ng-model="form.description" maxlength="8000" rows="5" ng-disabled="publishing"></textarea>
-				</label>
-				<label>
-					<span>{{ 'WS_Visibility' | translate }}</span>
-					<select ng-model="form.visibility" ng-disabled="publishing"
-							ng-options="v.value as (v.label | translate) for v in visibilities"></select>
-				</label>
-				<div class="workshop-field">
-					<span>{{ 'WS_Preview' | translate }}</span>
-					<div class="workshop-preview-row">
-						<input type="text" ng-model="form.preview" ng-disabled="publishing" />
-						<a href class="btn btn-small" ng-class="{linkDisabled: publishing || choosingPreview}" ng-click="choosePreview()">{{ 'WS_PreviewBrowse' | translate }}</a>
-						<a href class="btn btn-small" ng-if="form.preview" ng-class="{linkDisabled: publishing}" ng-click="clearPreview()">{{ 'WS_PreviewClear' | translate }}</a>
+		<div class="wp-body" ng-if="loaded && available">
+			<div class="wp-fields">
+				<!-- Published from another PC: the item is downloaded once to find its map on this PC -->
+				<div class="ws-alert ws-alert-warn" role="note" ng-if="mode === 'item' && !entry.map">
+					<wars-icon name="warning"></wars-icon>
+					<div>
+						<p>{{ 'WS_LinkNote' | translate }}</p>
+						<div class="wp-link-row">
+							<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-disabled="linking" ng-click="linkEntry()">
+								{{ (linking ? 'WS_LinkingButton' : 'WS_LinkButton') | translate }}
+							</button>
+							<span class="wp-link-progress" ng-if="linking">
+								<wars-icon name="spinner" class="ws-spin"></wars-icon>{{ 'WS_Linking' | translate }}<span class="ws-mono" ng-if="reviewProgress > 0"> {{ reviewProgress }}%</span>
+							</span>
+						</div>
+						<p class="ws-error" ng-if="linkError">{{ 'WS_LinkFailed' | translate }} {{ linkError }}</p>
 					</div>
-					<small>{{ 'WS_Preview_Desc' | translate }}</small>
-					<small class="workshop-error" ng-if="previewError">{{ previewError }}</small>
-					<div class="workshop-preview-image" ng-if="previewImage"><img ng-src="{{ previewImage }}" /></div>
 				</div>
 
-				<div class="workshop-actions" ng-if="!review">
-					<a href ng-if="!selected.map.publishedfileid" class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="publish()">
-						{{ 'WS_Publish' | translate }}
-					</a>
-					<a href ng-if="selected.map.publishedfileid" class="btn btn-highlight" ng-class="{linkDisabled: !canPublish() || reviewing}" ng-click="startReview()">
-						{{ 'WS_ReviewUpdate' | translate }}
-					</a>
-				</div>
-			</div>
+				<label class="wp-field">
+					<span class="wp-label">{{ 'WS_MapFile' | translate }}</span>
+					<span class="wp-select" ng-if="mode === 'new'">
+						<select ng-model="selected.map" ng-change="selectMap()" ng-disabled="publishing || !newMaps.length"
+							ng-options="map as map.name for map in newMaps track by map.name">
+							<option value="">{{ (newMaps.length ? 'WS_SelectMap' : 'WS_NoNewMaps') | translate }}</option>
+						</select>
+						<wars-icon name="chevron-down"></wars-icon>
+					</span>
+					<span class="wp-static" ng-if="mode === 'item'" ng-class="selected.map ? 'ws-mono' : 'lb-muted'">{{ selected.map ? selected.map.name : ('WS_NotLinkedShort' | translate) }}</span>
+					<span class="wp-hint" ng-if="mode === 'new'">{{ 'WS_MapFileHint' | translate }}</span>
+					<span class="wp-hint" ng-if="mode === 'item' && selected.map">{{ 'WS_MapFileLinked' | translate }}</span>
+				</label>
 
-			<!-- What an update changes on the Workshop -->
-			<div class="workshop-review" ng-if="reviewing || review || reviewError">
-				<p ng-if="reviewing">{{ 'WS_Reviewing' | translate }} <span ng-if="reviewProgress > 0">{{ reviewProgress }}%</span></p>
-				<p ng-if="reviewError" class="workshop-error">{{ 'WS_ReviewFailed' | translate }} {{ reviewError }}</p>
-
-				<div ng-if="review">
-					<h2>{{ 'WS_ReviewHeadline' | translate }}</h2>
-					<p class="workshop-review-summary" ng-class="{'workshop-review-nochanges': !review.haschanges}">
-						<span ng-if="review.haschanges">
-							{{ review.numchangedfiles }} {{ 'WS_ReviewFilesChange' | translate }},
-							{{ review.numsamefiles }} {{ 'WS_ReviewFilesSame' | translate }}
-						</span>
-						<span ng-if="!review.haschanges">{{ 'WS_ReviewNoChanges' | translate }}</span>
-					</p>
-
-					<h3>{{ 'WS_ReviewDetails' | translate }}</h3>
-					<table class="workshop-review-table">
-						<tr>
-							<th></th>
-							<th>{{ 'WS_ReviewCurrent' | translate }}</th>
-							<th>{{ 'WS_ReviewAfterUpdate' | translate }}</th>
-							<th></th>
-						</tr>
-						<tr ng-repeat="field in review.fields" ng-class="field.changed ? 'review-changed' : 'review-same'">
-							<td class="review-field">{{ fieldLabels[field.key] | translate }}</td>
-							<td ng-if="field.key === 'visibility'">{{ visibilityLabel(field.current) | translate }}</td>
-							<td ng-if="field.key === 'visibility'">{{ visibilityLabel(field.new) | translate }}</td>
-							<td ng-if="field.key !== 'visibility'" class="review-text">{{ field.current | limitTo: 200 }}{{ field.current.length > 200 ? '...' : '' }}</td>
-							<td ng-if="field.key !== 'visibility'" class="review-text">{{ field.new | limitTo: 200 }}{{ field.new.length > 200 ? '...' : '' }}</td>
-							<td class="review-status">{{ (field.changed ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
-						</tr>
-						<tr ng-class="review.preview.status === 'changed' ? 'review-changed' : 'review-same'">
-							<td class="review-field">{{ 'WS_Preview' | translate }}</td>
-							<td>{{ 'WS_ReviewCurrentImage' | translate }}</td>
-							<td>{{ review.preview.status === 'keep' ? ('WS_ReviewKeepImage' | translate) : review.preview.file }}</td>
-							<td class="review-status">{{ (review.preview.status === 'changed' ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
-						</tr>
-					</table>
-					<p class="workshop-hint" ng-if="review.detailssource === 'lastupload'">{{ 'WS_ReviewDetailsFromLastUpload' | translate }}</p>
-
-					<h3>{{ 'WS_ReviewFiles' | translate }}</h3>
-					<p class="workshop-hint">
-						<span ng-if="review.filessource === 'workshop'">{{ 'WS_ReviewFilesWorkshop' | translate }}</span>
-						<span ng-if="review.filessource === 'lastupload'">{{ 'WS_ReviewFilesLastUpload' | translate }} {{ formatDate(review.lastupload) }}</span>
-						<span ng-if="review.filessource === 'none'">{{ 'WS_ReviewFilesUnknown' | translate }}</span>
-					</p>
-					<table class="workshop-review-table">
-						<tr ng-repeat="file in review.files" ng-class="file.status === 'same' ? 'review-same' : 'review-changed'">
-							<td class="review-path">{{ file.path }}</td>
-							<td class="review-size">{{ formatSize(file.size) }}</td>
-							<td class="review-status">{{ (review.filessource === 'none' ? 'WS_ReviewFile_upload' : 'WS_ReviewFile_' + file.status) | translate }}</td>
-						</tr>
-					</table>
-
-					<label>
-						<span>{{ 'WS_ChangeNote' | translate }}</span>
-						<input type="text" ng-model="update.changenote" />
+				<fieldset class="wp-fieldset" ng-disabled="!selected.map || publishing">
+					<label class="wp-field">
+						<span class="wp-label">{{ 'WS_Title' | translate }} <span class="wp-count">{{ (form.title || '').length }} / 128</span></span>
+						<input type="text" class="wp-input" ng-model="form.title" maxlength="128" placeholder="{{ 'WS_TitlePlaceholder' | translate }}" />
 					</label>
 
-					<div class="workshop-actions">
-						<a href class="btn btn-highlight" ng-class="{linkDisabled: !canPublish()}" ng-click="confirmUpdate()">{{ 'WS_UploadUpdate' | translate }}</a>
-						<a href class="btn" ng-click="cancelReview()">{{ 'Dialog_Cancel' | translate }}</a>
+					<label class="wp-field">
+						<span class="wp-label">{{ 'WS_Description' | translate }} <span class="wp-count">{{ (form.description || '').length }} / 8000</span></span>
+						<textarea class="wp-input wp-textarea" ng-model="form.description" maxlength="8000" placeholder="{{ 'WS_DescriptionPlaceholder' | translate }}"></textarea>
+					</label>
+
+					<div class="wp-field">
+						<span class="wp-label">{{ 'WS_Visibility' | translate }}</span>
+						<span class="wp-visibility">
+							<span class="lb-segmented wp-segmented">
+								<button type="button" ng-repeat="v in visibilities" ng-class="{active: form.visibility === v.value}" aria-pressed="{{ form.visibility === v.value }}"
+									ng-click="form.visibility = v.value">{{ v.label | translate }}</button>
+							</span>
+							<span class="wp-hint" ng-if="selected.map">{{ visibilityLabel(form.visibility) + '_Hint' | translate }}</span>
+						</span>
+					</div>
+				</fieldset>
+			</div>
+
+			<!-- The preview image is chosen with a native file dialog and loaded by Python -->
+			<div class="wp-preview-column" ng-class="{disabled: !selected.map}">
+				<span class="wp-label">{{ 'WS_Preview' | translate }}</span>
+				<div class="wp-preview" ng-if="previewImage">
+					<img ng-src="{{ previewImage }}" alt="{{ 'WS_Preview' | translate }}" />
+					<span class="wp-preview-tag">{{ fileName(form.preview) }}</span>
+				</div>
+				<button type="button" class="wp-preview wp-preview-none ms-hatch" ng-if="!previewImage" ng-disabled="!selected.map || publishing || choosingPreview" ng-click="choosePreview()">
+					<wars-icon name="upload"></wars-icon>
+					<span class="wp-preview-none-title">{{ 'WS_PreviewChoose' | translate }}</span>
+					<span>{{ 'WS_PreviewFormat' | translate }}</span>
+				</button>
+				<div class="wp-preview-actions">
+					<button type="button" class="lb-btn lb-btn-small" ng-disabled="!selected.map || publishing || choosingPreview" ng-click="choosePreview()">
+						{{ (form.preview ? 'WS_PreviewReplace' : 'WS_PreviewChooseButton') | translate }}
+					</button>
+					<button type="button" class="lb-text-btn" ng-if="form.preview" ng-disabled="publishing" ng-click="clearPreview()">{{ 'WS_PreviewClear' | translate }}</button>
+					<span class="wp-hint">{{ (form.preview ? '' : (mode === 'item' ? 'WS_PreviewKeep' : 'WS_PreviewOptional')) | translate }}</span>
+				</div>
+				<p class="ws-error" role="alert" ng-if="previewError">{{ previewError }}</p>
+
+				<!-- The minimap: the overview material of the map's res file, uploaded with the map and shown in the lobby -->
+				<div class="wp-minimap">
+					<span class="wp-label">{{ 'WS_Minimap' | translate }}</span>
+					<div class="wp-minimap-row">
+						<figure class="wp-minimap-image" ng-class="{'ms-hatch': minimapState() !== 'ok'}">
+							<div ng-if="minimapState() === 'ok'">
+								<img ng-src="{{ minimap.src }}" alt="{{ 'WS_Minimap' | translate }}" />
+								<!-- Start positions, as on the lobby minimap -->
+								<span class="wp-minimap-spawn" ng-repeat="position in minimap.positions track by $index"
+									ng-style="{left: (100 * position[0]) + '%', top: (100 * position[1]) + '%'}">{{ $index + 1 }}</span>
+								<i class="lb-corner lb-corner-tl"></i>
+								<i class="lb-corner lb-corner-tr"></i>
+								<i class="lb-corner lb-corner-bl"></i>
+								<i class="lb-corner lb-corner-br"></i>
+							</div>
+							<span class="wp-minimap-none" ng-if="minimapState() !== 'ok'">
+								<wars-icon name="{{ minimapState() === 'loading' ? 'spinner' : 'map' }}" ng-class="{'ws-spin': minimapState() === 'loading'}"></wars-icon>
+								{{ 'WS_MinimapPlaceholder_' + minimapState() | translate }}
+							</span>
+						</figure>
+						<div class="wp-minimap-info" ng-if="minimapState() !== 'loading'">
+							<p class="wp-minimap-status" ng-class="{ok: 'ws-ok', none: 'ws-warn', missing: 'ws-error', nomap: 'lb-muted'}[minimapState()]">
+								<wars-icon name="{{ {ok: 'check', none: 'warning', missing: 'close', nomap: 'info'}[minimapState()] }}"></wars-icon>
+								<span>{{ ('WS_Minimap_' + minimapState() + (minimapState() === 'nomap' && mode === 'item' ? 'Item' : '')) | translate:{res: minimap.res} }}</span>
+							</p>
+							<dl class="wp-minimap-facts" ng-if="minimap.state === 'ok' || minimap.state === 'missing'">
+								<div><dt>{{ 'WS_MinimapFrom' | translate }}</dt><dd class="ws-mono">{{ minimap.res }}</dd></div>
+								<div><dt>{{ 'WS_MinimapImage' | translate }}</dt><dd class="ws-mono" ng-class="{'ws-error': minimap.state === 'missing'}">{{ minimap.image }}<span ng-if="minimap.state === 'missing'"> &middot; {{ 'WS_MinimapNotFound' | translate }}</span></dd></div>
+								<div ng-if="minimap.state === 'ok' && minimap.positions.length"><dt>{{ 'WS_MinimapPositions' | translate }}</dt><dd>{{ minimap.positions.length }}</dd></div>
+							</dl>
+						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="workshop-progress" ng-if="publishing">
-				<p>{{ statusLabel() | translate }} <span ng-if="progress > 0">{{ progress }}%</span></p>
-				<div class="workshop-progress-bar"><div ng-style="{width: progress + '%'}"></div></div>
+		<footer class="wp-footer">
+			<!-- The upload continues when the dialog is closed, this shows it again -->
+			<button type="button" class="wp-upload" ng-if="publishing" ng-click="showUpload()">
+				<span class="wp-upload-text">
+					<wars-icon name="spinner" class="ws-spin"></wars-icon>
+					<span class="wp-upload-label"><span class="wp-upload-title">{{ upload.title }}</span> &middot; {{ statusLabel() | translate }}</span>
+					<span class="ws-mono">{{ progress }}%</span>
+				</span>
+				<span class="ws-progress"><div ng-style="{width: progress + '%'}"></div></span>
+				<span class="wp-upload-show">{{ 'WS_ShowProgress' | translate }}</span>
+			</button>
+			<span class="wp-summary" ng-if="!publishing" ng-class="'ws-' + summary().kind">
+				<wars-icon name="{{ {ok: 'check', warn: 'warning', error: 'error', info: 'info'}[summary().kind] }}"></wars-icon>
+				{{ summary().text | translate:summary().values }}
+			</span>
+			<a href="#!/Workshop" class="lb-btn">{{ 'Dialog_Cancel' | translate }}</a>
+			<button type="button" class="lb-btn lb-btn-launch wp-review-btn" ng-if="!publishing" ng-disabled="!canPublish()" ng-click="openDialog()">
+				{{ (mode === 'new' ? 'WS_ReviewPublish' : 'WS_ReviewUpdate') | translate }}<wars-icon name="arrow-right"></wars-icon>
+			</button>
+		</footer>
+	</section>
+
+	<!-- Confirming a new map, reviewing an update, the upload and its result -->
+	<div class="ws-dialog-backdrop" ng-if="dialogOpen && dialogPhase()" ng-switch="dialogPhase()">
+		<div class="ws-dialog" role="dialog" aria-modal="true" aria-labelledby="ws-dialog-title" ng-class="{'ws-dialog-wide': dialogPhase() === 'review'}">
+			<span class="pg-eyebrow" ng-class="{'ws-error': dialogPhase() === 'failed'}">{{ ('WS_Kicker_' + dialogPhase()) | translate }}</span>
+			<h2 class="ws-dialog-title" id="ws-dialog-title">
+				<span ng-switch-when="confirmnew">{{ 'WS_ConfirmNewTitle' | translate:{title: form.title} }}</span>
+				<span ng-switch-when="reviewing">{{ 'WS_ReviewingTitle' | translate }}</span>
+				<span ng-switch-when="reviewerror">{{ 'WS_ReviewFailedTitle' | translate }}</span>
+				<span ng-switch-when="review">{{ 'WS_ReviewTitle' | translate:{title: entry.title} }}</span>
+				<span ng-switch-when="uploading">{{ 'WS_UploadingTitle' | translate:{title: upload.title} }}</span>
+				<span ng-switch-when="done">{{ (result.needslegalagreement ? 'WS_DoneHiddenTitle' : 'WS_DoneTitle') | translate:{title: upload.title} }}</span>
+				<span ng-switch-when="failed">{{ 'WS_FailedTitle' | translate:{title: upload.title} }}</span>
+			</h2>
+
+			<!-- New map: what will be published -->
+			<div ng-switch-when="confirmnew">
+				<dl class="ws-facts">
+					<div><dt>{{ 'WS_MapFile' | translate }}</dt><dd class="ws-mono">{{ selected.map.name }}</dd></div>
+					<div><dt>{{ 'WS_Title' | translate }}</dt><dd>{{ form.title }}</dd></div>
+					<div><dt>{{ 'WS_Visibility' | translate }}</dt><dd>{{ visibilityLabel(form.visibility) | translate }}</dd></div>
+					<div><dt>{{ 'WS_Preview' | translate }}</dt><dd>{{ form.preview ? fileName(form.preview) : ('WS_NoPreview' | translate) }}</dd></div>
+					<div><dt>{{ 'WS_Minimap' | translate }}</dt><dd>{{ minimapState() === 'ok' ? ((minimap.positions.length ? 'WS_MinimapIncludedPositions' : 'WS_MinimapIncluded') | translate:{count: minimap.positions.length}) : ('WS_MinimapNone' | translate) }}</dd></div>
+				</dl>
+				<p class="ws-dialog-note">{{ 'WS_CheckedNote' | translate }} {{ 'WS_TermsNote' | translate }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'Button_Back' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-click="confirmPublish()">{{ 'WS_Publish' | translate }}</button>
+				</div>
 			</div>
 
-			<div class="workshop-result" ng-if="result">
-				<p ng-if="result.success" class="workshop-success">{{ 'WS_Success' | translate }}</p>
-				<p ng-if="!result.success" class="workshop-error">{{ 'WS_Failed' | translate }} {{ result.message }}</p>
-				<p ng-if="result.needslegalagreement">
-					{{ 'WS_LegalAgreement' | translate }}
-					<a href ng-click="openLegalAgreement()">{{ 'WS_OpenLegalAgreement' | translate }}</a>
-				</p>
-				<p ng-if="result.success && result.publishedfileid">
-					<a href ng-click="openItem(result.publishedfileid)">{{ 'WS_ViewItem' | translate }}</a>
-				</p>
+			<!-- Downloading the current Workshop version to compare with -->
+			<div ng-switch-when="reviewing">
+				<div class="ws-progress-label"><span>{{ 'WS_Reviewing' | translate }}</span><span class="ws-mono">{{ reviewProgress || 0 }}%</span></div>
+				<div class="ws-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ reviewProgress || 0 }}"><div ng-style="{width: (reviewProgress || 0) + '%'}"></div></div>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'Dialog_Cancel' | translate }}</button>
+				</div>
 			</div>
-		</form>
-	</main>
-</section>
 
-<span global-chat/>
+			<div ng-switch-when="reviewerror">
+				<p class="ws-dialog-message ws-error" role="alert"><wars-icon name="close"></wars-icon>{{ 'WS_ReviewFailed' | translate }} {{ reviewError }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'WS_Close' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-click="startReview()">{{ 'WS_TryAgain' | translate }}</button>
+				</div>
+			</div>
+
+			<!-- Update: what changes, compared with the current version -->
+			<div ng-switch-when="review">
+				<p class="ws-dialog-message" ng-class="review.haschanges ? 'ws-ok' : 'lb-muted'">
+					<wars-icon name="{{ review.haschanges ? 'check' : 'info' }}"></wars-icon>
+					<span ng-if="!review.haschanges">{{ 'WS_ReviewNoChanges' | translate }}</span>
+					<span ng-if="review.haschanges && review.filessource !== 'none'">{{ review.numchangedfiles }} {{ 'WS_ReviewFilesChange' | translate }}, {{ review.numsamefiles }} {{ 'WS_ReviewFilesSame' | translate }}.</span>
+					<span ng-if="review.haschanges && review.filessource === 'none'">{{ review.files.length }} {{ 'WS_ReviewFilesUpload' | translate }}</span>
+				</p>
+
+				<h3 class="ws-dialog-section">{{ 'WS_ReviewDetails' | translate }}</h3>
+				<table class="ws-table ws-table-details">
+					<thead>
+						<tr><th></th><th>{{ 'WS_ReviewCurrent' | translate }}</th><th>{{ 'WS_ReviewAfterUpdate' | translate }}</th><th></th></tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="field in review.fields" ng-class="{changed: field.changed}">
+							<td class="ws-table-label">{{ fieldLabels[field.key] | translate }}</td>
+							<td ng-if="field.key === 'visibility'">{{ visibilityLabel(field.current) | translate }}</td>
+							<td ng-if="field.key === 'visibility'" class="ws-table-new">{{ visibilityLabel(field.new) | translate }}</td>
+							<td ng-if="field.key !== 'visibility'" title="{{ field.current }}">{{ field.current || '-' }}</td>
+							<td ng-if="field.key !== 'visibility'" class="ws-table-new" title="{{ field.new }}">{{ field.new || '-' }}</td>
+							<td class="ws-table-status">{{ (field.changed ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
+						</tr>
+						<tr ng-class="{changed: review.preview.status === 'changed'}">
+							<td class="ws-table-label">{{ 'WS_Preview' | translate }}</td>
+							<td>{{ 'WS_ReviewCurrentImage' | translate }}</td>
+							<td class="ws-table-new">{{ review.preview.status === 'keep' ? ('WS_ReviewKeepImage' | translate) : fileName(review.preview.file) }}</td>
+							<td class="ws-table-status">{{ (review.preview.status === 'changed' ? 'WS_ReviewChanges' : 'WS_ReviewSame') | translate }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="ws-dialog-hint" ng-if="review.detailssource === 'lastupload'">{{ 'WS_ReviewDetailsFromLastUpload' | translate }}</p>
+
+				<h3 class="ws-dialog-section">{{ 'WS_ReviewFiles' | translate }}</h3>
+				<p class="ws-dialog-hint" ng-class="{'ws-warn': review.filessource !== 'workshop'}">
+					<span ng-if="review.filessource === 'workshop'">{{ 'WS_ReviewFilesWorkshop' | translate }}</span>
+					<span ng-if="review.filessource === 'lastupload'">{{ 'WS_ReviewFilesLastUpload' | translate }} {{ formatDate(review.lastupload) }}.</span>
+					<span ng-if="review.filessource === 'none'">{{ 'WS_ReviewFilesUnknown' | translate }}</span>
+				</p>
+				<div class="ws-files">
+					<table class="ws-table ws-table-files">
+						<tbody>
+							<tr ng-repeat="file in review.files" ng-class="'ws-file-' + (review.filessource === 'none' ? 'upload' : file.status)">
+								<td class="ws-mono ws-table-path">{{ file.path }}</td>
+								<td class="ws-mono ws-table-size">{{ formatSize(file.size) }}</td>
+								<td class="ws-table-status">{{ (review.filessource === 'none' ? 'WS_ReviewFile_upload' : 'WS_ReviewFile_' + file.status) | translate }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<label class="wp-field ws-changenote">
+					<span class="wp-label">{{ 'WS_ChangeNote' | translate }} <span class="wp-label-note">&middot; {{ 'WS_ChangeNoteHint' | translate }}</span></span>
+					<input type="text" class="wp-input" ng-model="update.changenote" placeholder="{{ 'WS_ChangeNotePlaceholder' | translate }}" />
+				</label>
+				<p class="ws-dialog-note">{{ 'WS_TermsNote' | translate }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'Button_Back' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canPublish()" ng-click="confirmUpdate()">{{ 'WS_UploadUpdate' | translate }}</button>
+				</div>
+			</div>
+
+			<div ng-switch-when="uploading">
+				<div class="ws-progress-label"><span>{{ statusLabel() | translate }}</span><span class="ws-mono">{{ progress }}%</span></div>
+				<div class="ws-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progress }}"><div ng-style="{width: progress + '%'}"></div></div>
+				<p class="ws-dialog-hint">{{ 'WS_UploadBackground' | translate }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'WS_Close' | translate }}</button>
+				</div>
+			</div>
+
+			<div ng-switch-when="done">
+				<p class="ws-dialog-message ws-ok"><wars-icon name="check"></wars-icon>{{ (result.isnew ? 'WS_Success' : 'WS_SuccessUpdate') | translate }}</p>
+				<!-- Steam needs the Workshop agreement before the item can be visible -->
+				<div class="ws-alert ws-alert-warn" role="note" ng-if="result.needslegalagreement">
+					<wars-icon name="warning"></wars-icon>
+					<p>{{ 'WS_LegalAgreement' | translate }} <a href ng-click="openLegalAgreement()">{{ 'WS_OpenLegalAgreement' | translate }}</a></p>
+				</div>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-if="result.publishedfileid" ng-click="openItem(result.publishedfileid)">{{ 'WS_ViewItem' | translate }}<wars-icon name="external" class="ws-icon-after"></wars-icon></button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-click="closeDialog()">{{ 'WS_Done' | translate }}</button>
+				</div>
+			</div>
+
+			<div ng-switch-when="failed">
+				<p class="ws-dialog-message ws-error" role="alert"><wars-icon name="close"></wars-icon>{{ 'WS_Failed' | translate }} {{ result.message }}</p>
+				<div class="ws-alert ws-alert-warn" role="note" ng-if="result.needslegalagreement">
+					<wars-icon name="warning"></wars-icon>
+					<p>{{ 'WS_LegalAgreement' | translate }} <a href ng-click="openLegalAgreement()">{{ 'WS_OpenLegalAgreement' | translate }}</a></p>
+				</div>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeDialog()">{{ 'WS_Close' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canPublish()" ng-click="retry()">{{ 'WS_TryAgain' | translate }}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -7,7 +7,7 @@ const STATE_UPDATE_INTERVAL = 1000;
 class WorkshopBrowseController {
     /*@ngInject*/
     constructor($scope, $timeout, $interval) {
-        $scope.pageID = 'content';
+        $scope.pageID = 'page';
 
         $scope.loading = false;
         $scope.error = '';
@@ -22,10 +22,11 @@ class WorkshopBrowseController {
             search: '',
             searchinput: '',
         };
+        // Shown as tabs
         $scope.lists = [
-            {value: 'all', label: 'WB_List_All'},
-            {value: 'subscribed', label: 'WB_List_Subscribed'},
-            {value: 'mine', label: 'WB_List_Mine'},
+            {value: 'all', label: 'WB_Tab_Browse'},
+            {value: 'subscribed', label: 'WB_Tab_Subscribed'},
+            {value: 'mine', label: 'WB_Tab_Mine'},
         ];
         // Relevance needs search text, which Steam only supports when listing all maps.
         // Sorting by title is only supported for lists of the player.
@@ -107,6 +108,21 @@ class WorkshopBrowseController {
             $scope.load(1);
         };
 
+        $scope.selectList = function(list) {
+            if( list === $scope.filter.list ) {
+                return;
+            }
+            $scope.filter.list = list;
+            $scope.changeList();
+        };
+
+        $scope.emptyTitle = function() {
+            if( $scope.filter.search && $scope.filter.list === 'all' ) {
+                return 'WB_EmptySearch';
+            }
+            return {all: 'WB_NoResults', subscribed: 'WB_EmptySubscribed', mine: 'WB_EmptyMine'}[$scope.filter.list];
+        };
+
         $scope.changeSort = function() {
             $scope.load(1);
         };
@@ -146,6 +162,20 @@ class WorkshopBrowseController {
             }
         };
 
+        $scope.stateIcon = function(item) {
+            return {downloading: 'download', installed: 'check', subscribed: 'clock', rejected: 'block'}[item.state] || '';
+        };
+
+        // Longer text of the state, in the details
+        $scope.stateText = function(item) {
+            return {
+                downloading: 'WB_StateText_Downloading',
+                installed: 'WB_StateText_Installed',
+                subscribed: 'WB_StateText_Subscribed',
+                rejected: 'WB_StateText_Rejected',
+            }[item.state] || '';
+        };
+
         // Details
         $scope.showDetails = function(item) {
             $scope.selected = item;
@@ -167,6 +197,11 @@ class WorkshopBrowseController {
             return votes > 0 ? Math.round(100 * item.votesup / votes) : null;
         };
 
+        $scope.ratingClass = function(item) {
+            var rating = $scope.rating(item);
+            return rating >= 70 ? 'ws-ok' : (rating >= 40 ? '' : 'ws-error');
+        };
+
         $scope.formatSize = function(bytes) {
             if( !bytes ) {
                 return '-';
@@ -178,7 +213,45 @@ class WorkshopBrowseController {
         };
 
         $scope.formatDate = function(timestamp) {
-            return timestamp ? new Date(timestamp * 1000).toLocaleDateString() : '-';
+            return timestamp ? new Date(timestamp * 1000).toLocaleDateString([], {day: 'numeric', month: 'short', year: 'numeric'}) : '-';
+        };
+
+        // A map that is still being published from the publish page, shown above the maps
+        // {mapname, title, publishedfileid, progress}, and its result once finished {success, message}
+        $scope.upload = null;
+        $scope.uploadResult = null;
+        if( 'workshop' in window ) {
+            // Called from Python, outside of the angular digest cycle
+            workshop.sethandler({
+                OnPublishProgress: function(status, processed, total) {
+                    $timeout(function() {
+                        if( $scope.upload ) {
+                            $scope.upload.progress = total > 0 ? Math.round(100 * processed / total) : 0;
+                        }
+                    });
+                },
+                OnReviewProgress: function() {},
+                OnPublishFinished: function(success, publishedfileid, message) {
+                    $timeout(function() {
+                        if( $scope.upload ) {
+                            $scope.uploadResult = {success: success, message: message, publishedfileid: publishedfileid};
+                        }
+                    });
+                },
+            });
+            workshop.getpublishstate(function(upload) {
+                $timeout(function() {
+                    if( upload ) {
+                        upload.progress = upload.total > 0 ? Math.round(100 * upload.processed / upload.total) : 0;
+                    }
+                    $scope.upload = upload;
+                });
+            });
+        }
+
+        $scope.dismissUpload = function() {
+            $scope.upload = null;
+            $scope.uploadResult = null;
         };
 
         // Keeps subscription states and author names up to date
