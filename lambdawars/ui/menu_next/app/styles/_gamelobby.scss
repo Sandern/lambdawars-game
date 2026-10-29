@@ -1375,6 +1375,7 @@ $lb-danger: #e0645c;
 
 	.lb-btn {
 		flex: 1;
+		min-width: 0;
 		margin: 0 0.6rem;
 	}
 
@@ -1427,9 +1428,11 @@ $lb-danger: #e0645c;
 	}
 }
 
-// Smallest screens: teams below each other, the left column scrolls
+// Smallest screens: teams below each other, the teams scroll and the chat below them stays in view
 @media (max-width: 1180px) {
-	.lb-body {
+	.lb-teams {
+		flex: 0 1 auto;
+		min-height: 0;
 		overflow-x: hidden;
 		overflow-y: auto;
 	}
@@ -1438,8 +1441,12 @@ $lb-danger: #e0645c;
 		flex-basis: 100%;
 	}
 
+	.lb-spectators {
+		flex-shrink: 0;
+	}
+
 	.lb-chat {
-		flex: 1 0 20rem;
+		flex: 1 0 14rem;
 	}
 }
 

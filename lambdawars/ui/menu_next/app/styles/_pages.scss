@@ -1105,6 +1105,12 @@
 	.br-col-mode {
 		display: none;
 	}
+
+	// Lobby full and spectate next to each other
+	.br-details-actions .lb-actions-row .lb-btn {
+		padding: 0 1.2rem;
+		@include lb-caps(1.5rem, 0.2rem);
+	}
 }
 
 @media (max-height: 820px) {
@@ -1468,6 +1474,32 @@
 	}
 }
 
+// Smallest screens (1024 wide): narrower list, the preview and launch button fit next to the briefing
+@media (max-width: 1180px) {
+	.ms-list {
+		flex-basis: 30rem;
+		margin-right: 2.4rem;
+	}
+
+	.ms-item-image {
+		flex-basis: 8rem;
+		height: 4.5rem;
+	}
+
+	.ms-info {
+		min-width: 0;
+	}
+
+	.ms-launch-hint {
+		visibility: hidden;
+	}
+
+	.lb-btn-launch.ms-launch-btn {
+		padding: 0 2.4rem;
+		letter-spacing: 0.3rem;
+	}
+}
+
 @media (max-height: 820px) {
 	.ms-briefing-label {
 		margin-top: 2rem;
@@ -1499,6 +1531,14 @@
 	}
 }
 
+
+// Smallest screens: cards grow with their text instead of a fixed height, the page scrolls
+@media (max-width: 1180px) {
+	.pg-page .pg-cards .pg-card {
+		height: auto;
+		min-height: 19rem;
+	}
+}
 
 // Settings: categories on the left, the settings of the category on the right
 
@@ -1955,6 +1995,16 @@
 	.st-nav {
 		flex-basis: 32rem;
 		margin-right: 4rem;
+	}
+
+	.st-calibration-symbols {
+		margin-right: 2.4rem;
+
+		svg {
+			width: 5.2rem;
+			height: 5.2rem;
+			margin-right: 1.6rem;
+		}
 	}
 
 	.st-category {
