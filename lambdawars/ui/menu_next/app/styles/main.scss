@@ -280,11 +280,13 @@ wars-icon {
 	font-family: 'Roboto';
 	z-index: 100;
 	max-width: 40rem;
+	// Moving onto the tooltip leaves its target and closes it, it never covers what's below
+	pointer-events: none;
 }
 
 .tooltip.ng-enter {
 	opacity: 0;
-	transition: opacity 1s;
+	transition: opacity .3s;
 }
 
 .tooltip.ng-enter-active {
