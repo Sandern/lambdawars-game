@@ -208,24 +208,56 @@
 						ng-click="selectTeamSetup(option)">{{ option.label }}</button>
 				</span>
 			</li>
-			<li>
-				<span class="lb-label">{{ 'GL_Modifiers' | translate }} <span class="lb-count">{{ numCustomFields() }}</span></span>
-				<a href class="lb-setting-value lb-modifiers-toggle" ng-if="numCustomFields()" ng-click="toggleModifiers()">
-					<span class="lb-modifiers-summary">{{ customFieldsSummary() }}</span>
-					<wars-icon name="chevron-down" ng-if="modifiersOpen"></wars-icon>
-					<wars-icon name="chevron-left" ng-if="!modifiersOpen"></wars-icon>
-				</a>
-				<span class="lb-setting-value lb-muted" ng-if="!numCustomFields()">{{ 'GL_None' | translate }}</span>
-			</li>
-			<li class="lb-modifier" ng-show="modifiersOpen" ng-repeat="(cfid, cf) in customfields">
-				<span class="lb-label lb-sublabel">{{ cf.name }}</span>
-				<span class="lb-setting-value" ng-if="!islobbyowner">{{ selectedCustomFields[cfid] }}</span>
+			<!-- Game mode settings, like the Overrun difficulty -->
+			<li ng-repeat="field in settingFields track by field.id">
+				<span class="lb-label">{{ field.name }}</span>
+				<span class="lb-setting-value" ng-if="!islobbyowner">{{ valueLabel(selectedCustomFields[field.id]) | translate }}</span>
 				<span class="lb-select-wrap" ng-show="islobbyowner">
-					<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="selectedCustomFields[cfid]" ng-options="cvchoice for cvchoice in cf.values" ng-change="updateCustomField(cfid, selectedCustomFields[cfid])"></select>
+					<select class="lb-select" ng-disabled="isPlayerReady()" ng-model="selectedCustomFields[field.id]" ng-options="value as (valueLabel(value) | translate) for value in field.values" ng-change="updateCustomField(field.id, selectedCustomFields[field.id])"></select>
 					<wars-icon name="chevron-down"></wars-icon>
 				</span>
 			</li>
+			<li>
+				<button type="button" class="lb-modifiers-row" ng-class="{open: modifiersOpen}" ng-disabled="!modifierFields.length" ng-click="toggleModifiers($event)" aria-haspopup="dialog" aria-expanded="{{ modifiersOpen }}">
+					<span class="lb-label">{{ 'GL_Modifiers' | translate }} <span class="lb-count" ng-class="{active: activeModifiers().length}">{{ activeModifiers().length }}</span></span>
+					<span class="lb-modifiers-summary" ng-class="{'lb-muted': !activeModifiers().length}">{{ modifiersSummary() || ('GL_None' | translate) }}</span>
+					<wars-icon name="chevron-left" ng-if="modifierFields.length"></wars-icon>
+				</button>
+			</li>
 		</ul>
+
+		<!-- Modifiers panel, opens to the left of the settings column -->
+		<div class="lb-flyout" ng-if="modifiersOpen" ng-style="modifiersStyle" role="dialog" aria-label="{{ 'GL_Modifiers' | translate }}">
+			<span class="lb-flyout-arrow"></span>
+			<div class="lb-flyout-header">
+				<span class="lb-flyout-marker"></span>
+				<h2>{{ 'GL_Modifiers' | translate }}</h2>
+				<span class="lb-flyout-subtitle" ng-if="islobbyowner">{{ activeModifiers().length }} {{ 'GL_ModifiersActive' | translate }}</span>
+				<span class="lb-flyout-subtitle" ng-if="!islobbyowner">{{ 'GL_ModifiersSetByHost' | translate }}</span>
+				<button type="button" class="lb-icon-btn lb-flyout-close" ng-click="closeModifiers()" aria-label="{{ 'Dialog_Cancel' | translate }}"><wars-icon name="close"></wars-icon></button>
+			</div>
+			<ul class="lb-flyout-list">
+				<li ng-repeat="field in modifierFields track by field.id">
+					<span class="lb-flyout-name">{{ field.name }}</span>
+					<!-- On or off -->
+					<button type="button" class="lb-switch" ng-if="field.values.length === 2" role="switch" aria-checked="{{ isModifierActive(field) }}"
+						ng-class="{on: isModifierActive(field)}" ng-disabled="!canEditCustomFields()" ng-click="toggleModifier(field)">
+						<span class="lb-switch-text">{{ (isModifierActive(field) ? 'GL_ModOn' : 'GL_ModOff') | translate }}</span>
+						<span class="lb-switch-track"><span class="lb-switch-knob"></span></span>
+					</button>
+					<!-- More choices, like inverted -->
+					<span class="lb-segmented" ng-if="field.values.length > 2">
+						<button type="button" ng-repeat="value in field.values" ng-class="{active: selectedCustomFields[field.id] === value}"
+							ng-disabled="!canEditCustomFields()" ng-click="setModifier(field, value)">{{ valueLabel(value) | translate }}</button>
+					</span>
+				</li>
+			</ul>
+			<div class="lb-flyout-footer">
+				<button type="button" class="lb-text-btn" ng-if="islobbyowner" ng-disabled="!canEditCustomFields() || !activeModifiers().length" ng-click="resetModifiers()">{{ 'GL_ResetAll' | translate }}</button>
+				<span class="lb-muted" ng-if="!islobbyowner">{{ 'GL_ModifiersHostOnly' | translate }}</span>
+				<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="closeModifiers()">{{ 'GL_Done' | translate }}</button>
+			</div>
+		</div>
 
 		<div class="lb-actions">
 			<div class="lb-actions-row" ng-if="state === 'lobbying' && !match_uuid">

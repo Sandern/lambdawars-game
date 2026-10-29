@@ -1090,41 +1090,61 @@ $lb-danger: #e0645c;
 	font-size: 1.1rem;
 	letter-spacing: 0;
 	color: $ui-text-soft;
+
+	&.active {
+		background: rgba($orange, 0.18);
+		color: $orange;
+	}
 }
 
-.lb-modifiers-toggle {
+// Modifiers row: number of active modifiers and their names, opens the modifiers panel
+.lb-modifiers-row {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
+	align-self: stretch;
+	width: 100%;
+	padding: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	color: $ui-text;
+	text-align: left;
+	cursor: pointer;
 
 	.icon {
-		flex-shrink: 0;
 		width: 1.4rem;
 		height: 1.4rem;
 		margin-left: 0.8rem;
 		color: $ui-text-muted;
 	}
 
-	&:hover {
+	&:hover:not(:disabled) {
 		color: $white;
+
+		.icon {
+			color: $white;
+		}
+	}
+
+	&.open .icon {
+		color: $orange;
+	}
+
+	&:disabled {
+		cursor: default;
 	}
 }
 
 .lb-modifiers-summary {
+	flex: 1;
+	min-width: 0;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
-}
-
-.lb-settings li.lb-modifier {
-	padding-left: 1.6rem;
-}
-
-.lb-sublabel {
+	text-align: right;
 	font-family: 'Roboto';
-	font-weight: 400;
-	font-size: 1.4rem;
-	letter-spacing: 0.05rem;
-	text-transform: none;
+	font-size: 1.6rem;
 }
 
 .lb-segmented {
@@ -1160,6 +1180,190 @@ $lb-danger: #e0645c;
 			border-color: rgba($orange, 0.35);
 			color: $orange;
 		}
+	}
+}
+
+// Modifiers panel, fixed positioned next to the settings column with an arrow pointing at the modifiers row
+
+.lb-flyout {
+	position: fixed;
+	z-index: 30;
+	width: 41rem;
+	background: $ui-panel-solid;
+	border: 1px solid $white20;
+	border-radius: 0.4rem;
+	box-shadow: 0 2.4rem 6rem rgba($black, 0.7);
+	animation: lb-flyout-in .16s ease-out;
+}
+
+@keyframes lb-flyout-in {
+	from { opacity: 0; transform: translateX(0.8rem); }
+	to { opacity: 1; transform: none; }
+}
+
+.lb-flyout-arrow {
+	position: absolute;
+	right: -0.7rem;
+	bottom: 1.5rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	background: $ui-panel-solid;
+	border-top: 1px solid $white20;
+	border-right: 1px solid $white20;
+	transform: rotate(45deg);
+}
+
+.lb-flyout-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 5.2rem;
+	padding: 0 1.2rem 0 2rem;
+	border-bottom: 1px solid $lb-border;
+
+	h2 {
+		margin: 0 1rem 0 0;
+		@include lb-caps(1.5rem, 0.3rem);
+		color: $ui-text;
+	}
+}
+
+.lb-flyout-marker {
+	width: 0.8rem;
+	height: 0.8rem;
+	margin-right: 1rem;
+	background: $orange;
+}
+
+.lb-flyout-subtitle {
+	font-family: 'Roboto Condensed';
+	font-size: 1.4rem;
+	letter-spacing: 0.08rem;
+	color: $ui-text-muted;
+}
+
+.lb-flyout-close {
+	margin-left: auto;
+}
+
+.lb-flyout-list {
+	margin: 0;
+	padding: 0.4rem 2rem;
+	list-style: none;
+
+	li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 4.8rem;
+		border-bottom: 1px solid $lb-border;
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	.lb-segmented button {
+		min-width: 0;
+	}
+}
+
+.lb-flyout-name {
+	margin-right: 1.6rem;
+	font-size: 1.6rem;
+	color: $ui-text;
+}
+
+.lb-flyout-footer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	height: 6rem;
+	padding: 0 2rem;
+	border-top: 1px solid $lb-border;
+	font-size: 1.4rem;
+
+	.lb-btn {
+		margin-left: auto;
+	}
+}
+
+.lb-text-btn {
+	padding: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	@include lb-caps(1.4rem, 0.2rem);
+	color: $ui-text-soft;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		color: $white;
+	}
+
+	&:disabled {
+		color: rgba($white, 0.22);
+		cursor: default;
+	}
+}
+
+// On/off switch
+.lb-switch {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 3.4rem;
+	padding: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	@include lb-caps(1.3rem, 0.2rem);
+	color: $ui-text-muted;
+	cursor: pointer;
+
+	&:disabled {
+		cursor: default;
+
+		.lb-switch-track {
+			opacity: 0.6;
+		}
+	}
+
+	&.on {
+		color: $orange;
+	}
+}
+
+.lb-switch-track {
+	position: relative;
+	width: 3.6rem;
+	height: 2rem;
+	margin-left: 1rem;
+	border: 1px solid $white20;
+	border-radius: 1rem;
+	transition: all .15s;
+
+	.lb-switch.on & {
+		background: rgba($orange, 0.25);
+		border-color: $orange;
+	}
+}
+
+.lb-switch-knob {
+	position: absolute;
+	top: 0.3rem;
+	left: 0.3rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	border-radius: 50%;
+	background: $ui-text-muted;
+	transition: left .15s;
+
+	.lb-switch.on & {
+		left: 1.9rem;
+		background: $orange;
 	}
 }
 

@@ -5,14 +5,30 @@ import angular from 'angular';
 
 var STANDARD_TEAM_SETUPS = ['1vs1', '2vs2', '3vs3', '4vs4'];
 
+// Translation keys for the common custom field values, other values are shown capitalized
+var VALUE_LABELS = {
+    'no': 'GL_ModOff',
+    'yes': 'GL_ModOn',
+    'inverted': 'GL_ModInverted',
+};
+
+// Custom fields that can be turned off ("no") and on ("yes") are modifiers, shown in the
+// modifiers panel. Other custom fields, like the Overrun difficulty, are game settings.
+function isModifierField(field) {
+    var values = field.values || [];
+    return values[0] === 'no' && values.indexOf('yes') !== -1;
+}
+
 class GamelobbySettingsController {
     /*@ngInject*/
-    constructor($scope, gamelobbymanager) {
+    constructor($scope, $window, $filter, gamelobbymanager) {
         $scope.availablemodes = [];
         $scope.availablemaps = [];
         $scope.availableteamsetups = [];
         $scope.customfields = {};
-        
+        $scope.settingFields = [];
+        $scope.modifierFields = [];
+
         $scope.mode = undefined;
         $scope.map = undefined;
         $scope.teamsetup = undefined;
@@ -20,6 +36,7 @@ class GamelobbySettingsController {
         $scope.minimapsrc = '';
         $scope.teamSetupOptions = [];
         $scope.modifiersOpen = false;
+        $scope.modifiersStyle = {};
         // Workshop info of the selected map ({author, subscribed}), shown on the map card.
         // Visual only for now: filled by the Workshop integration.
         $scope.mapworkshop = null;
@@ -50,19 +67,104 @@ class GamelobbySettingsController {
             }
         };
 
-        $scope.numCustomFields = function() {
-            return Object.keys($scope.customfields || {}).length;
+        // Custom fields: game settings and modifiers
+        $scope.buildCustomFieldLists = function() {
+            var fields = Object.keys($scope.customfields || {}).map(function(id) {
+                var field = $scope.customfields[id];
+                return {id: id, name: field.name || id, values: field.values || []};
+            });
+            $scope.settingFields = fields.filter(function(field) { return !isModifierField(field); });
+            $scope.modifierFields = fields.filter(isModifierField).sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+            if( !$scope.modifierFields.length ) {
+                $scope.closeModifiers();
+            }
         };
 
-        $scope.customFieldsSummary = function() {
-            return Object.keys($scope.customfields || {}).map(function(key) {
-                return $scope.selectedCustomFields[key];
-            }).filter(function(value) { return value; }).join(', ');
+        $scope.valueLabel = function(value) {
+            if( value === undefined || value === null ) {
+                return '';
+            }
+            value = String(value);
+            return VALUE_LABELS[value] || value.charAt(0).toUpperCase() + value.slice(1);
         };
 
-        $scope.toggleModifiers = function() {
-            $scope.modifiersOpen = !$scope.modifiersOpen;
+        $scope.canEditCustomFields = function() {
+            return $scope.islobbyowner && !$scope.isPlayerReady();
         };
+
+        $scope.isModifierActive = function(field) {
+            var value = $scope.selectedCustomFields[field.id];
+            return !!value && value !== field.values[0];
+        };
+
+        $scope.activeModifiers = function() {
+            return $scope.modifierFields.filter($scope.isModifierActive);
+        };
+
+        // Active modifiers by name, with the value when it's not simply on ("Armor (Inverted)")
+        $scope.modifiersSummary = function() {
+            return $scope.activeModifiers().map(function(field) {
+                var value = $scope.selectedCustomFields[field.id];
+                return value === 'yes' ? field.name : field.name + ' (' + $filter('translate')($scope.valueLabel(value)) + ')';
+            }).join(', ');
+        };
+
+        $scope.setModifier = function(field, value) {
+            if( !$scope.canEditCustomFields() || $scope.selectedCustomFields[field.id] === value ) {
+                return;
+            }
+            $scope.selectedCustomFields[field.id] = value;
+            $scope.updateCustomField(field.id, value);
+        };
+
+        $scope.toggleModifier = function(field) {
+            $scope.setModifier(field, $scope.isModifierActive(field) ? field.values[0] : 'yes');
+        };
+
+        $scope.resetModifiers = function() {
+            $scope.activeModifiers().forEach(function(field) {
+                $scope.setModifier(field, field.values[0]);
+            });
+        };
+
+        // The panel opens to the left of the settings column, level with the modifiers row.
+        // It's fixed positioned, so the scrolling settings column doesn't cut it off.
+        var modifiersRow = null;
+
+        function positionModifiers() {
+            var row = modifiersRow.getBoundingClientRect();
+            var side = angular.element(modifiersRow).closest('.lb-side')[0].getBoundingClientRect();
+            $scope.modifiersStyle = {
+                right: ($window.innerWidth - side.left + 16) + 'px',
+                bottom: Math.max(16, $window.innerHeight - row.bottom) + 'px',
+            };
+        }
+
+        $scope.toggleModifiers = function(event) {
+            if( $scope.modifiersOpen ) {
+                $scope.closeModifiers();
+                return;
+            }
+            modifiersRow = event.currentTarget;
+            positionModifiers();
+            $scope.modifiersOpen = true;
+        };
+
+        $scope.closeModifiers = function() {
+            $scope.modifiersOpen = false;
+        };
+
+        function onWindowResize() {
+            if( $scope.modifiersOpen ) {
+                $scope.$apply(positionModifiers);
+            }
+        }
+        angular.element($window).on('resize', onWindowResize);
+        $scope.$on('$destroy', function() {
+            angular.element($window).off('resize', onWindowResize);
+        });
 
         $scope.updateGameInfoFromSettings = function(settings) {
             // Update available settings if needed
@@ -74,16 +176,17 @@ class GamelobbySettingsController {
             }
             if( !angular.equals($scope.customfields, settings.customfields ) ) {
                 $scope.customfields = settings.customfields;
+                $scope.buildCustomFieldLists();
             }
-            
+
             // Fix current selection if needed
             $scope.mode = $scope.fixSelectedDropdown(settings.mode, $scope.availablemodes);
             $scope.map = $scope.fixSelectedDropdown(settings.map, $scope.availablemaps);
-            
+
             for( var key in $scope.customfields ) {
                 $scope.selectedCustomFields[key] = $scope.fixSelectedArrayDropdown($scope.customfields[key].selectedvalue, $scope.customfields[key].values);
             }
-            
+
             if( settings.availablemaps && settings.availablemaps.hasOwnProperty(settings.map) ) {
                 var supportedmodes = [];
                 for( var i = 0; i < settings.availablemaps[settings.map].supportedmodes.length; i++ ) {
@@ -108,7 +211,7 @@ class GamelobbySettingsController {
                 $scope.minimapsrc = '';
             }
         };
-        
+
         $scope.$on('gamelobby:settings', function(event, settings) {
             $scope.updateGameInfoFromSettings(settings);
         });
