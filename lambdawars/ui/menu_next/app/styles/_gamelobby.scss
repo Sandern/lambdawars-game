@@ -1,0 +1,1291 @@
+// Game lobby page: teams and chat on the left, map and game settings on the right
+
+$lb-side-width: 46rem;
+$lb-border: rgba($white, 0.08);
+$lb-panel: rgba($ui-black, 0.7);
+$lb-danger: #e0645c;
+
+@mixin lb-caps($size: 1.3rem, $spacing: 0.25rem) {
+	font-family: 'Roboto Condensed';
+	font-weight: bold;
+	font-size: $size;
+	letter-spacing: $spacing;
+	text-transform: uppercase;
+}
+
+@keyframes lb-pulse {
+	0% { opacity: 1; }
+	50% { opacity: 0.3; }
+	100% { opacity: 1; }
+}
+
+#gamelobby {
+	position: relative;
+	width: 100%;
+	max-width: 180rem;
+	height: calc(100% - #{$topbar-height});
+	margin: 0 auto;
+	padding: 3.6rem 4rem 3rem;
+	overflow: hidden;
+	color: $ui-text;
+	font-family: 'Roboto';
+
+	@media (max-width: 1400px) {
+		padding: 3rem 2.4rem 2.4rem;
+	}
+
+	@media (max-height: 820px) {
+		padding-top: 2.4rem;
+		padding-bottom: 2rem;
+	}
+
+	// Darkens the game background behind the lobby
+	&::before {
+		content: "";
+		position: fixed;
+		top: $topbar-height;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -1;
+		pointer-events: none;
+		background: radial-gradient(ellipse at 35% 40%, rgba($ui-black, 0.8), rgba($ui-black, 0.94));
+	}
+}
+
+.lb-page {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.lb-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.lb-side {
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	width: $lb-side-width;
+	margin-left: 4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	@media (max-width: 1400px) {
+		width: 36rem;
+		margin-left: 3rem;
+	}
+}
+
+.lb-muted {
+	color: $ui-text-muted;
+}
+
+.lb-label {
+	@include lb-caps(1.25rem);
+	color: $ui-text-muted;
+	margin-right: 1.4rem;
+}
+
+// Header: breadcrumb with the lobby status, lobby name and lobby controls
+
+.lb-header {
+	flex-shrink: 0;
+	padding-bottom: 2.4rem;
+	margin-bottom: 2.4rem;
+	border-bottom: 1px solid $lb-border;
+
+	@media (max-height: 820px) {
+		padding-bottom: 1.6rem;
+		margin-bottom: 1.6rem;
+	}
+}
+
+.lb-header-row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.lb-heading {
+	flex: 1;
+	min-width: 20rem;
+	margin-right: 3rem;
+}
+
+.lb-breadcrumb {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 0 0 1rem;
+	white-space: nowrap;
+	overflow: hidden;
+	@include lb-caps(1.3rem);
+	color: $ui-text-muted;
+}
+
+.lb-breadcrumb-section {
+	color: $orange;
+}
+
+.lb-breadcrumb-separator {
+	margin: 0 1.2rem;
+	color: $white20;
+}
+
+.lb-status {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	color: $ui-text-soft;
+
+	span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+.lb-status-dot {
+	flex-shrink: 0;
+	width: 0.6rem;
+	height: 0.6rem;
+	margin-right: 1rem;
+	border-radius: 50%;
+	background: $ui-text-muted;
+
+	.lb-status-creating &, .lb-status-joining &, .lb-status-searchingserver &, .lb-status-startinglocalserver & {
+		background: $orange;
+		animation: lb-pulse 1.2s infinite;
+	}
+
+	.lb-status-gamestarted & {
+		background: $ui-green;
+	}
+}
+
+.lb-breadcrumb-count {
+	flex-shrink: 0;
+	margin-left: 1rem;
+}
+
+.lb-title {
+	margin: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 4rem;
+	line-height: 4.8rem;
+	color: $white;
+}
+
+.lb-title-input {
+	display: block;
+	width: 100%;
+	padding: 0;
+	background: transparent;
+	border: none;
+	border-bottom: 1px dashed transparent;
+	outline: none;
+	transition: border-color .2s;
+
+	&:hover {
+		border-bottom-color: $white20;
+	}
+
+	&:focus {
+		border-bottom-color: $orange;
+	}
+}
+
+// Moves below the lobby name on the smallest screens
+.lb-header-controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+
+	@media (max-width: 1180px) {
+		margin-top: 0.8rem;
+	}
+
+	.lb-btn {
+		margin-left: 2.4rem;
+	}
+}
+
+.lb-control {
+	display: flex;
+	align-items: center;
+	height: 4.4rem;
+	padding: 0 2.4rem;
+	border-right: 1px solid $lb-border;
+	font-size: 1.6rem;
+	color: $ui-text;
+
+	@media (max-width: 1400px) {
+		padding: 0 1.6rem;
+	}
+
+	> .icon, > wars-icon .icon {
+		flex-shrink: 0;
+		width: 1.8rem;
+		height: 1.8rem;
+		margin-right: 1rem;
+		color: $ui-text-muted;
+	}
+}
+
+.lb-password {
+	width: 16rem;
+
+	@media (max-width: 1180px) {
+		width: 11rem;
+	}
+
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: 'Roboto';
+	font-size: 1.6rem;
+	color: $ui-text;
+
+	&::placeholder {
+		color: $ui-text-muted;
+	}
+}
+
+// Dropdowns styled as text with a chevron
+
+.lb-select-wrap {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	min-width: 0;
+	max-width: 100%;
+
+	.icon {
+		position: absolute;
+		right: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		color: $ui-text-muted;
+		pointer-events: none;
+	}
+}
+
+.lb-select {
+	-webkit-appearance: none;
+	max-width: 100%;
+	padding: 0.4rem 2.4rem 0.4rem 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font-family: 'Roboto';
+	font-size: 1.6rem;
+	color: $ui-text;
+	text-overflow: ellipsis;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		color: $white;
+	}
+
+	&:disabled {
+		color: $ui-text-muted;
+		cursor: default;
+	}
+
+	option {
+		background: $ui-panel-solid;
+		color: $ui-text;
+	}
+}
+
+// Buttons
+
+.lb-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 4.4rem;
+	padding: 0 2rem;
+	background: rgba($ui-black, 0.4);
+	border: 1px solid $white20;
+	border-radius: 0.2rem;
+	outline: none;
+	@include lb-caps(1.5rem);
+	color: $ui-text;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: all .2s;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-right: 1rem;
+	}
+
+	&:hover:not(:disabled) {
+		background: $white10;
+		border-color: $white40;
+		color: $white;
+	}
+
+	&:disabled {
+		opacity: 0.45;
+		cursor: default;
+	}
+}
+
+.lb-btn-small {
+	height: 3.6rem;
+	padding: 0 1.6rem;
+	@include lb-caps(1.3rem, 0.2rem);
+}
+
+.lb-btn-outline {
+	border-color: $orange;
+	color: $orange;
+
+	&:hover:not(:disabled) {
+		background: rgba($orange, 0.15);
+		border-color: $lightorange;
+		color: $lightorange;
+	}
+}
+
+.lb-btn-ready {
+	&.active {
+		background: rgba($orange, 0.12);
+		border-color: $orange;
+		color: $orange;
+	}
+}
+
+.lb-btn-launch {
+	background: $orange;
+	border-color: $orange;
+	@include lb-caps(2.2rem, 0.6rem);
+	color: $ui-on-orange;
+
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		margin: 0 0 0 1.4rem;
+	}
+
+	&:hover:not(:disabled) {
+		background: $lightorange;
+		border-color: $lightorange;
+		color: $ui-on-orange;
+	}
+
+	&:disabled {
+		opacity: 1;
+		background: rgba($orange, 0.18);
+		border-color: rgba($orange, 0.25);
+		color: rgba($lightorange, 0.45);
+	}
+}
+
+.lb-icon-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.8rem;
+	height: 2.8rem;
+	padding: 0;
+	background: transparent;
+	border: 1px solid transparent;
+	outline: none;
+	color: $ui-text-muted;
+	cursor: pointer;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+	}
+
+	&:hover:not(:disabled) {
+		border-color: rgba($lb-danger, 0.4);
+		color: $lb-danger;
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+}
+
+// Teams and player slots
+
+.lb-body {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+}
+
+.lb-teams {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	flex-shrink: 0;
+	margin: 0 -2rem;
+}
+
+.lb-team {
+	flex: 1 1 40%;
+	min-width: 0;
+	margin: 0 2rem 2rem;
+
+	$team-colors: (0: $orange, 1: $ui-blue, 2: $ui-green, 3: $ui-purple);
+	@each $index, $color in $team-colors {
+		&.lb-team-#{$index} .lb-team-marker {
+			background: $color;
+		}
+	}
+}
+
+.lb-team-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 0;
+	padding: 0 0 1.2rem;
+	border-bottom: 1px solid $lb-border;
+	@include lb-caps(1.5rem, 0.3rem);
+	color: $white;
+}
+
+.lb-team-marker {
+	width: 0.8rem;
+	height: 0.8rem;
+	margin-right: 1.2rem;
+	background: $ui-text-muted;
+}
+
+.lb-team-count {
+	margin-left: auto;
+	font-size: 1.3rem;
+	color: $ui-text-muted;
+}
+
+.lb-slots {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	// Free for all: one team, shown in two columns
+	.lb-teams-single & {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -2rem;
+
+		.lb-slot {
+			width: calc(50% - 4rem);
+			margin: 0 2rem;
+		}
+	}
+}
+
+.lb-slot {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 6rem;
+	border-bottom: 1px solid $lb-border;
+	font-size: 1.6rem;
+
+	&.lb-slot-self {
+		background: linear-gradient(to right, rgba($orange, 0.08), transparent 60%);
+	}
+
+	&:hover .lb-slot-actions-hover {
+		opacity: 1;
+	}
+}
+
+.lb-avatar {
+	display: block;
+	flex-shrink: 0;
+	width: 3.6rem;
+	height: 3.6rem;
+	border-radius: 0.2rem;
+}
+
+.lb-avatar-empty {
+	margin-right: 1.4rem;
+	background: rgba($white, 0.02);
+	border: 1px solid $white10;
+}
+
+.lb-avatar-cpu {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $ui-panel-solid;
+	border: 1px solid $white10;
+	@include lb-caps(1.1rem, 0.1rem);
+	color: $ui-text-muted;
+}
+
+.lb-avatar-wrap {
+	position: relative;
+	flex-shrink: 0;
+	margin-right: 1.4rem;
+
+	// Only a bad connection is shown
+	&.lb-conn-bad::after {
+		content: "";
+		position: absolute;
+		right: -0.3rem;
+		bottom: -0.3rem;
+		width: 1rem;
+		height: 1rem;
+		border-radius: 50%;
+		background: $lb-danger;
+		border: 2px solid $ui-black;
+	}
+}
+
+.lb-color {
+	flex-shrink: 0;
+	width: 1.6rem;
+	height: 1.6rem;
+	margin-right: 1.4rem;
+	border-radius: 50%;
+	box-shadow: 0 0 0 2px rgba($black, 0.6), 0 0 0 3px $white20;
+}
+
+.lb-color-select {
+	-webkit-appearance: none;
+	padding: 0;
+	border: none;
+	outline: none;
+	font-size: 0;
+	color: transparent;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		box-shadow: 0 0 0 2px rgba($black, 0.6), 0 0 0 3px $white80;
+	}
+
+	&:disabled {
+		cursor: default;
+	}
+
+	option {
+		font-size: 1.4rem;
+	}
+}
+
+// The name takes the free space, the faction column gives way first on small screens
+.lb-slot-name {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex: 1 1 auto;
+	min-width: 10rem;
+	color: $white;
+
+	&.lb-muted {
+		color: $ui-text-muted;
+	}
+
+	.lb-select {
+		color: $white;
+	}
+}
+
+.lb-slot-playername {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.lb-tag {
+	flex-shrink: 0;
+	margin-left: 1rem;
+	@include lb-caps(1.05rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.lb-tag-host {
+	color: $orange;
+}
+
+// The own slot is already highlighted, so the "You" tag is left out when space is short
+.lb-tag-you {
+	@media (max-width: 1400px) {
+		display: none;
+	}
+}
+
+.lb-slot-faction {
+	flex: 0 1 13rem;
+	min-width: 6rem;
+	margin-left: 1.4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: $ui-text-muted;
+
+	.lb-select {
+		color: $ui-text-soft;
+	}
+
+	@media (max-width: 1400px) {
+		flex-basis: 9.5rem;
+	}
+}
+
+.lb-slot-ready {
+	display: flex;
+	justify-content: flex-end;
+	flex-shrink: 0;
+	min-width: 8rem;
+	margin-left: 1.4rem;
+	white-space: nowrap;
+	@include lb-caps(1.25rem, 0.2rem);
+
+	&.lb-clickable {
+		cursor: pointer;
+
+		&:hover .lb-notready {
+			color: $white;
+		}
+	}
+}
+
+.lb-ready {
+	display: flex;
+	align-items: center;
+	color: $orange;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.6rem;
+	}
+}
+
+.lb-notready {
+	color: $ui-text-muted;
+}
+
+.lb-slot-actions {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: auto;
+
+	.lb-btn + .lb-btn {
+		margin-left: 1rem;
+	}
+}
+
+// Kick and remove buttons, shown when hovering the slot
+.lb-slot-actions-hover {
+	margin-left: 1rem;
+	opacity: 0;
+	transition: opacity .15s;
+}
+
+.lb-spectators {
+	flex-shrink: 0;
+	margin: 0 0 2rem;
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+
+	a {
+		color: $ui-text-soft;
+
+		&:hover {
+			color: $lb-danger;
+			text-decoration: line-through;
+		}
+	}
+}
+
+// Chat with lobby and global tabs
+
+.lb-chat {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 16rem;
+	background: $lb-panel;
+	border: 1px solid $lb-border;
+}
+
+.lb-tabs {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	padding: 0 2rem;
+	border-bottom: 1px solid $lb-border;
+
+	a {
+		position: relative;
+		padding: 1.6rem 0;
+		margin-right: 3rem;
+		@include lb-caps(1.4rem);
+		color: $ui-text-muted;
+
+		&:hover {
+			color: $white;
+		}
+
+		&.active {
+			color: $white;
+
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: -1px;
+				height: 0.2rem;
+				background: $orange;
+			}
+		}
+	}
+}
+
+.lb-chat-pane {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-height: 0;
+
+	chat-lines {
+		display: block;
+		flex: 1;
+		min-height: 0;
+	}
+
+	.chat-messages {
+		height: 100%;
+		padding: 1.4rem 2rem;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.chat-line {
+		position: relative;
+		font-size: 1.5rem;
+		line-height: 2.6rem;
+		color: $ui-text;
+
+		strong {
+			font-weight: 400;
+		}
+	}
+
+	.chat-time {
+		display: inline-block;
+		width: 5.6rem;
+		font-family: Consolas, 'Courier New', monospace;
+		font-size: 1.3rem;
+		color: $ui-text-muted;
+	}
+
+	.chat-username {
+		margin-right: 0.6rem;
+		cursor: pointer;
+	}
+}
+
+.lb-chat-controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 5.6rem;
+	padding: 0 2rem;
+	border-top: 1px solid $lb-border;
+}
+
+.lb-chat-form {
+	flex: 1;
+
+	input {
+		width: 100%;
+		background: transparent;
+		border: none;
+		outline: none;
+		font-family: 'Roboto';
+		font-size: 1.5rem;
+		color: $ui-text;
+
+		&::placeholder {
+			color: $ui-text-muted;
+		}
+	}
+}
+
+.lb-chat-language {
+	margin: 0 2rem;
+	@include lb-caps(1.2rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.lb-chat-send {
+	@include lb-caps(1.4rem);
+	color: $orange;
+
+	&:hover {
+		color: $lightorange;
+	}
+}
+
+.lb-scores {
+	flex: 1;
+	min-height: 0;
+	overflow-y: auto;
+
+	.lb-btn {
+		margin-top: 2rem;
+	}
+}
+
+// Map card with corner brackets
+
+.lb-map-card {
+	position: relative;
+	flex-shrink: 0;
+	margin: 0.6rem 0.6rem 2.4rem;
+}
+
+.lb-corner {
+	position: absolute;
+	z-index: 2;
+	width: 2.4rem;
+	height: 2.4rem;
+	border: 0 solid $orange;
+
+	&.lb-corner-tl {
+		top: -0.6rem;
+		left: -0.6rem;
+		border-top-width: 0.2rem;
+		border-left-width: 0.2rem;
+	}
+
+	&.lb-corner-tr {
+		top: -0.6rem;
+		right: -0.6rem;
+		border-top-width: 0.2rem;
+		border-right-width: 0.2rem;
+	}
+
+	&.lb-corner-bl {
+		bottom: -0.6rem;
+		left: -0.6rem;
+		border-bottom-width: 0.2rem;
+		border-left-width: 0.2rem;
+	}
+
+	&.lb-corner-br {
+		bottom: -0.6rem;
+		right: -0.6rem;
+		border-bottom-width: 0.2rem;
+		border-right-width: 0.2rem;
+	}
+}
+
+.lb-map-image {
+	position: relative;
+	height: 46rem;
+	max-height: 42vh;
+	overflow: hidden;
+	background: $ui-panel-solid;
+	border: 1px solid $lb-border;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// Above the map info at the bottom of the card
+.lb-map-noimage {
+	position: absolute;
+	top: 25%;
+	width: 100%;
+	text-align: center;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.lb-map-badge, .lb-map-link {
+	position: absolute;
+	top: 1.4rem;
+	display: flex;
+	align-items: center;
+	height: 2.8rem;
+	padding: 0 1.2rem;
+	background: rgba($ui-black, 0.85);
+	border: 1px solid $white10;
+	@include lb-caps(1.2rem, 0.2rem);
+
+	.icon {
+		width: 1.3rem;
+		height: 1.3rem;
+	}
+}
+
+.lb-map-badge {
+	left: 1.4rem;
+	color: $orange;
+
+	.icon {
+		margin-right: 0.8rem;
+	}
+}
+
+.lb-map-link {
+	right: 1.4rem;
+	color: $white;
+
+	.icon {
+		margin-left: 0.8rem;
+	}
+
+	// Only the icon when the card is narrow
+	@media (max-width: 1400px) {
+		.lb-map-link-text {
+			display: none;
+		}
+
+		.icon {
+			margin-left: 0;
+		}
+	}
+}
+
+.lb-map-info {
+	position: absolute;
+	left: 1px;
+	right: 1px;
+	bottom: 1px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	padding: 6rem 2rem 1.8rem;
+	background: linear-gradient(to bottom, transparent, rgba($ui-black, 0.92) 65%);
+}
+
+.lb-map-text {
+	flex: 1;
+	min-width: 0;
+}
+
+.lb-map-mode {
+	margin: 0 0 0.6rem;
+	@include lb-caps(1.3rem);
+	color: $orange;
+}
+
+.lb-map-name {
+	margin: 0 0 0.6rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 2.6rem;
+	color: $white;
+}
+
+.lb-map-meta {
+	margin: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.4rem;
+	color: $ui-text-soft;
+}
+
+.lb-map-subscribed {
+	flex-shrink: 0;
+	margin-left: 1.2rem;
+	display: flex;
+	align-items: center;
+	@include lb-caps(1.2rem, 0.2rem);
+	color: $ui-green;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.6rem;
+	}
+}
+
+// Game settings
+
+.lb-settings {
+	flex-shrink: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 4.6rem;
+		border-bottom: 1px solid $lb-border;
+	}
+
+	.lb-label {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+		margin-right: 2rem;
+	}
+
+	.lb-select-wrap {
+		max-width: 65%;
+	}
+
+	.lb-select {
+		text-align-last: right;
+	}
+}
+
+.lb-setting-value {
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: right;
+	font-size: 1.6rem;
+	color: $ui-text;
+}
+
+.lb-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2rem;
+	height: 2rem;
+	margin-left: 1rem;
+	padding: 0 0.6rem;
+	border-radius: 1rem;
+	background: $white10;
+	font-size: 1.1rem;
+	letter-spacing: 0;
+	color: $ui-text-soft;
+}
+
+.lb-modifiers-toggle {
+	display: flex;
+	align-items: center;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-left: 0.8rem;
+		color: $ui-text-muted;
+	}
+
+	&:hover {
+		color: $white;
+	}
+}
+
+.lb-modifiers-summary {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.lb-settings li.lb-modifier {
+	padding-left: 1.6rem;
+}
+
+.lb-sublabel {
+	font-family: 'Roboto';
+	font-weight: 400;
+	font-size: 1.4rem;
+	letter-spacing: 0.05rem;
+	text-transform: none;
+}
+
+.lb-segmented {
+	display: flex;
+	flex-direction: row;
+
+	button {
+		min-width: 4.4rem;
+		height: 3rem;
+		padding: 0 1rem;
+		margin-left: 0.4rem;
+		background: transparent;
+		border: 1px solid transparent;
+		outline: none;
+		font-family: 'Roboto Condensed';
+		font-weight: bold;
+		font-size: 1.4rem;
+		color: $ui-text-soft;
+		cursor: pointer;
+
+		&:hover:not(:disabled) {
+			border-color: $white20;
+			color: $white;
+		}
+
+		&:disabled {
+			color: rgba($white, 0.22);
+			cursor: default;
+		}
+
+		&.active {
+			background: rgba($orange, 0.18);
+			border-color: rgba($orange, 0.35);
+			color: $orange;
+		}
+	}
+}
+
+// Invite, spectate, ready and launch
+
+.lb-actions {
+	flex-shrink: 0;
+	margin-top: auto;
+	padding-top: 2.4rem;
+}
+
+.lb-actions-row {
+	display: flex;
+	flex-direction: row;
+	margin: 0 -0.6rem 1.2rem;
+
+	.lb-btn {
+		flex: 1;
+		margin: 0 0.6rem;
+	}
+
+	&.lb-actions-main .lb-btn {
+		height: 6.4rem;
+	}
+
+	.lb-btn-launch {
+		flex: 2;
+	}
+}
+
+.lb-hint {
+	margin: 0;
+	font-size: 1.4rem;
+	line-height: 2rem;
+	color: $ui-text-muted;
+}
+
+// Narrow screens: tighter team columns and slot rows
+@media (max-width: 1400px) {
+	.lb-teams {
+		margin: 0 -1.2rem;
+	}
+
+	.lb-team {
+		margin-left: 1.2rem;
+		margin-right: 1.2rem;
+	}
+
+	.lb-slot {
+		font-size: 1.5rem;
+	}
+
+	.lb-avatar-wrap, .lb-avatar-empty, .lb-color {
+		margin-right: 1rem;
+	}
+
+	.lb-slot-faction, .lb-slot-ready {
+		margin-left: 1rem;
+	}
+
+	.lb-slot-ready {
+		min-width: 0;
+		@include lb-caps(1.1rem, 0.15rem);
+	}
+
+	.lb-tag {
+		margin-left: 0.8rem;
+	}
+}
+
+// Smallest screens: teams below each other, the left column scrolls
+@media (max-width: 1180px) {
+	.lb-body {
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.lb-team {
+		flex-basis: 100%;
+	}
+
+	.lb-chat {
+		flex: 1 0 20rem;
+	}
+}
+
+// Short screens (720p, 768p): smaller title, rows, map card and buttons
+@media (max-height: 820px) {
+	.lb-title {
+		font-size: 3.2rem;
+		line-height: 4rem;
+	}
+
+	.lb-team {
+		margin-bottom: 1.4rem;
+	}
+
+	.lb-slot {
+		height: 5rem;
+	}
+
+	.lb-chat {
+		min-height: 12rem;
+	}
+
+	.lb-map-card {
+		margin-bottom: 1.6rem;
+	}
+
+	.lb-map-image {
+		max-height: 26vh;
+	}
+
+	.lb-settings li {
+		min-height: 3.8rem;
+	}
+
+	.lb-actions {
+		padding-top: 1.6rem;
+	}
+
+	.lb-actions-row.lb-actions-main .lb-btn {
+		height: 5.2rem;
+	}
+
+	.lb-btn-launch {
+		font-size: 1.9rem;
+	}
+}

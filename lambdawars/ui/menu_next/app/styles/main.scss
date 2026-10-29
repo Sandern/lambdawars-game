@@ -17,6 +17,9 @@
 @import "_ngDialog";
 @import "_ngDialog-theme-wars";
 
+@import "topbar";
+@import "gamelobby";
+
 *, *::before, *::after {
 	box-sizing: border-box;
 }
@@ -49,6 +52,15 @@ body {
 .flex-row{
 	flex-direction: row;
 	display: flex;
+}
+
+wars-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+
+	.icon {
+		display: block;
+	}
 }
 
 .linkDisabled {
@@ -183,6 +195,10 @@ body {
 		text-decoration: underline;
 	}
 
+	.chat-time:hover {
+		text-decoration: none;
+	}
+
 	section{
 		padding: 0;
 		margin: 0;
@@ -241,17 +257,6 @@ body {
 	}
 }
 
-#top-bar {
-	min-width: 1024px;
-	width: 100%;
-	background: $darkgray90;
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
 .left-float {
 	float: left;
 }
@@ -287,87 +292,6 @@ body {
 
 .tooltip-icon {
 	cursor: pointer;
-}
-
-//The lambda wars logo at the top left
-a#menu-logo {
-	opacity: 0.85;
-	transition: all .2s;
-	margin-left: 1rem;
-
-	&:hover {
-		opacity: 1;
-	}
-
-	@media (max-width: 1180px) {
-		width: 64px;
-		overflow: hidden;
-	}
-}
-
-.inner {
-	width: 1200px;
-	margin: 0 auto;
-	max-width: 100%;
-}
-
-#main-menu {
-	margin: 0;
-	float: left;
-
-	li {
-		display: inline-block;
-	}
-}
-
-#swarm_keeper_bonus{
-	float: right;
-	margin-left: 1rem;;
-}
-
-#dev-text {
-	color: red;
-	float: right;
-	font-size: 20px;
-	position: fixed;
-	right: 65px;
-	top: 0;
-}
-
-#player-info {
-	font-size: 1.1rem;
-	line-height: 1.4rem;
-	font-family: 'Roboto';
-	margin-left: auto;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin-right: 1rem;
-
-	span {
-		color: $orange;
-
-		&.player-name {
-			color: $white;
-			font-size: 2.2rem;
-			line-height: 2.6rem;
-			text-transform: none;
-			display: block;
-			max-width: 20rem;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-
-			@media (max-width: 1300px) {
-				max-width: 15rem;
-			}
-		}
-	}
-
-	img {
-		margin-left: 1rem;
-		max-height: 50px;
-	}
 }
 
 ul {
@@ -453,57 +377,13 @@ ul {
 	}
 }
 
-a.menu-btn {
-	position: relative;
-	display: block;
-	font-family: 'Roboto Condensed';
-	font-size: 2.8rem;
-	line-height: 2.8rem;
-	padding: 2.2rem 0;
-	margin: 0 2rem;
-
-	@media (max-width: 1600px) {
-		max-width: 15rem;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	text-transform: uppercase;
-	background: transparent;
-	color: $lightbrown;
-
-	transition: all .4s;
-
-	&:hover {
-		color: $orange;
-
-		&::after {
-			width: 100%;
-			left: 0;
-		}
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		display: block;
-		top: 0;
-		left: 50%;
-		height: 100%;
-		width: 0;
-		border-bottom: 0.4rem solid $orange;
-		transition: all .4s;
-	}
-}
-
 // the main content like news, options, singleplayer
-#content, #gamelobby {
+#content {
 	margin: 2rem auto 0;
 	width: 100%;
 	max-width: 1200px;
 	position: relative;
-	height: calc(100% - 11.2rem); // topbar 7.2rem - 8rem vertical margin
+	height: calc(100% - #{$topbar-height + 4rem}); // top bar and vertical margins
 	overflow: hidden;
 }
 
@@ -538,9 +418,6 @@ a.menu-btn {
 
 #content-onlinegames{
 	overflow-y: hidden;
-}
-
-#gamelobby {
 }
 
 .content {
@@ -985,491 +862,6 @@ a.disabled {
 
 }
 
-// gamelobby
-.gamelobby-lobbyname-input {
-	background-color: transparent;
-	border: 1px dashed $orange;
-	color: $orange;
-	padding: 2px 4px;
-	width: 45rem;
-	@media (max-width: 1180px) {
-		width: 25rem;
-	}
-	&:focus {
-		border: 0px;
-	}
-}
-
-#gamelobby-status {
-	display: block;
-	background: $darkgray80;
-	color: $lightbrown;
-	font-size: 1.4rem;
-	line-height: 2rem;
-	font-family: 'Roboto';
-	text-transform: uppercase;
-	padding: 0.5rem 1rem;
-	margin-bottom: 1rem;
-
-	padding-left: 2rem;
-	border-bottom-left-radius: $border-radius-large;
-	border-bottom-right-radius: $border-radius-large;
-
-	@media (max-width: 1180px) {
-		font-size: 1.0rem;
-		padding: 0.2rem 0.5rem;
-		margin-bottom: 0.6rem;
-	}
-
-	span {
-		color: $white;
-
-		&.success {
-			color: $orange;
-		}
-	}
-}
-
-
-
-#playerlist {
-	display: block;
-	float: left;
-	height: 100%;
-	border-radius: $border-radius-large;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-
-	.teamGroup{
-		background: $darkgray80;
-		border-radius: $border-radius-large;
-		margin-top: 25px;
-		overflow: hidden;
-		padding: 0;
-	}
-
-	.box-header {
-		margin: 0;
-	}
-
-	.box-footer{
-		padding-top: 2rem;
-		background-color: $darkgray80;
-		border-radius: $border-radius-large;
-	}
-
-	h2.team-header {
-		text-transform: uppercase;
-		padding: 1rem 2rem;
-		margin: 0;
-		// background-color: $orange;
-		// color: white;
-		font-weight: bold;
-
-		border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-		color: $orange;
-		background: rgba(39, 39, 39, 0.8);
-	}
-
-	ul.playerlist {
-		overflow: auto;
-		height: calc(100% - 10rem);
-
-		// li.header {
-		// 	display: block;
-		// 	font-size: 0;
-		// 	padding: 0rem 0.9rem;
-		// 	background: transparent;
-		// 	overflow: hidden;
-		// 	margin-bottom: 0.8rem;
-
-		// 	div {
-		// 		font-size: 1.3rem;
-		// 		padding: 0 1 rem;
-		// 		color: $white40;
-		// 		font-family: 'Roboto Condensed';
-		// 		text-transform: uppercase;
-		// 		display: inline-block;
-		// 	}
-
-		// 	.player-name {
-		// 		width: 24rem;
-		// 		margin-left: 5.2rem;
-		// 	}
-
-		// 	.player-color {
-		// 		width: 7.2rem;
-		// 	}
-
-		// 	.player-faction {
-		// 		width: 16rem;
-		// 	}
-
-		// 	.player-team {
-		// 		width: 6rem;
-		// 	}
-
-		// 	.player-ready {
-		// 		float: right;
-		// 	}
-		// }
-
-		li.player {
-			display: block;
-			font-size: 0;
-			overflow: hidden;
-			margin-bottom: 0.8rem;
-			overflow: hidden;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-			padding: 1rem;
-
-			&:last-of-type {
-				margin-bottom: 0;
-				border-bottom: none;
-			}
-
-			&.ready {
-				background: $orange80;
-			}
-	
-			@media (max-width: 1024px) {
-				max-width: 1024px;
-			}
-
-			.connection {
-				display: inline-block;
-				width: 3px;
-				height: 3.2rem;
-				margin-right: 2px;
-			}
-
-			.goodconn {
-				background-color: rgba(0, 255, 0, 0.5);
-			}
-			.badconn {
-				background-color: rgba(255, 0, 0, 0.5);
-			}
-
-			a, select {
-				padding: 0 1rem;
-				line-height: 3.2rem;
-				height: 3.2rem;
-				font-size: 1.8rem;
-				display: inline-block;
-				vertical-align: top;
-				color: white;
-				margin-top: 0;
-				
-				&:disabled{
-					color: $white40;
-				}
-
-				@media (max-width: 1180px) {
-					font-size: 1.0rem;
-					line-height: 2.2rem;
-					height: 2.2rem;
-				}
-			}
-			
-
-			img.steam-avatar {
-				display: flex;
-				margin-right: 1rem;
-				width: 5rem;
-				height: 5rem;
-				position: relative;
-				border-radius: $border-radius-small;
-
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-					height: 2.2rem;
-					margin-right: 0.5rem;
-				}
-			}
-			
-			img.steam-avatar-host {
-				//outline:1;
-				//outline-width:1px;
-				//outline-style: dashed;
-				//outline-color: $orange;
-				box-shadow: 0px 0px 5px white;
-			}
-
-			.player-name {
-				width: 22rem;
-				margin-right: 3rem;
-			}
-
-			.player-color {
-				width: 3.2rem;
-				height: 3.2rem;
-				background: $white10;
-				margin-right: 3rem;
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-					height: 2.2rem;
-					margin-right: 2rem;
-				}
-			}
-
-			.player-color-select {
-				width: 3.2rem;
-				height: 3.2rem;
-				overflow: hidden;
-				background: $white10;
-				outline: none;
-				color: $white;
-				margin-right: 3rem;
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-					height: 2.2rem;
-					margin-right: 0.5rem;
-				}
-			}
-
-			.player-color-select select {
-				//padding: 5px 8px;
-				width: 130%;
-				border: none;
-				box-shadow: none;
-				background: transparent;
-				-webkit-appearance: none;
-				outline: none;
-			}
-
-			.player-color-select select:focus {
-			}
-			// faction selection in the lobby
-			.player-faction {
-				width: 12rem;
-				margin-right: 1rem;
-				@media (max-width: 1180px) {
-					width: 9rem;
-					margin-right: 1rem;
-				}
-			}
-
-			//.player-team {
-			//	width: 5rem;
-			//	font-weight: bold;
-			//}
-
-			.player-ready {
-				font-size: 2.4rem;
-				width: 3.2rem;
-				padding: 0;
-				border: 1px solid $lightbrown50;
-				color: $white10;
-				background: $darkgray20;
-				text-align: center;
-				float: right;
-				transition: all .2s;
-
-				@media (max-width: 1180px) {
-					width: 2.2rem;
-					font-size: 1.4rem;
-				}
-
-				&.checked {
-					color: $orange;
-					border-color: $lightbrown;
-					background: $darkgray90;
-				}
-			}
-		}
-
-		li.self {
-			// transition: all .2s;
-
-			// &:hover {
-			// 	background: $white10;
-			// }
-
-			.player-name, .player-faction, .player-team {
-				position: relative;
-				padding-right: 2.4rem;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				transition: all .2s;
-			}
-
-			.player-ready:hover {
-				color: $orange;
-				border-color: $lightbrown;
-				background: $white10;
-			}
-
-			.player-color {
-				position: relative;
-			}
-
-			.player-name, .player-faction, .player-color, .player-team {
-
-				&::before {
-					position: absolute;
-					right: 1rem;
-					top: 1.2rem;
-					content: " ";
-					width: 0;
-					height: 0;
-					border-left: 6px solid transparent;
-					border-right: 6px solid transparent;
-					border-top: 8px solid $orange;
-					transition: all .2s;
-				}
-
-				&:hover {
-					background: $white10;
-					color: $orange;
-
-					&::before {
-						border-top: 8px solid $white;
-					}
-				}
-			}
-
-			// .player-color {
-
-			// 	&::before {
-			// 		border-top: 8px solid $black;
-			// 	}
-
-			// 	&:hover::before {
-			// 		border-top: 8px solid $orange;
-			// 	}
-
-			// }
-		}
-
-		li.open {
-
-		}
-
-		li.closed {
-
-			a {
-				color: $white40;
-			}
-
-			.player-ready {
-				color: $white10;
-				border-color: $white10;
-			}
-		}
-	}
-}
-
-#spectator-list {
-	padding-bottom: 2rem;
-	font-size: 1.4rem;
-	color: $white40;
-
-	@media (max-width: 1180px) {
-		font-size: 0.8rem;
-		padding-bottom: 1rem;
-	}
-
-	span {
-		color: $white80;
-	}
-}
-
-#spectator-list a {
-	color: $white40;
-}
-
-#gameinfo {
-	height: 35rem;
-	margin-bottom: 2rem;
-	overflow-y: scroll;
-	padding: $padding-base;
-	border-radius: $border-radius-large;
-	background: $darkgray80;
-
-	.gameinfo-dropdown
-	{
-		display: inline-block;
-		height: 2.2rem;
-		margin: 0;
-
-	}
-
-	.info-container
-	{
-		display: flex;
-
-		.map-small {
-			width: 20rem;
-			height: 20rem;
-			margin: 0 2rem 0 0;
-		}
-
-		ul {
-			width: calc(100% - 17rem);
-			flex: 1;
-
-			li {
-				font-size: 1.6rem;
-				line-height: 2.2rem;
-				color: $offwhite;
-				font-weight: 400;
-				font-family: 'Open Sans';
-
-				span.tooltip-icon {
-					text-transform: none;
-					color: $orange;
-					margin-left: 0.6rem;
-				}
-
-				span.gameinfo-heading {
-					font-size: 1.1rem;
-					line-height: 1.6rem;
-					display: block;
-					text-transform: uppercase;
-					font-family: Roboto;
-					color: $white80;
-				}
-
-				span.gameinfo-text {
-					color: $offwhite;
-					font-size: 1.5rem;
-					line-height: 1.6rem;
-					margin: 0 0 0.4rem;
-					display: block;
-					padding: 0.2rem 0;
-				}
-
-				.gameinfo-input {
-					width: 90%;
-					background: $darkgray80;
-					border: 1px solid rgba(255, 255, 255, 0.4);
-					color: $orange;
-					padding: 2px 4px;
-					&:focus {
-						border: 0px;
-					}
-				}
-
-
-				select.select-style {
-					display: inline-block;
-					width: 90%;
-					margin: 0 0 0.4rem;
-					font-size: 1.5rem;
-					line-height: 1.6rem;
-					padding: 0.2rem;
-				}
-			}
-		}
-	}
-}
-
 .chat, #chat, #chat-menu {
 	background: $darkgray80;
 	position: relative;
@@ -1575,10 +967,6 @@ a.disabled {
 				font-size: 1.0rem;
 			}
 		}
-	}
-
-	#gamelobby & {
-		height: calc(100% - 37rem);
 	}
 
 	#content & {

@@ -182,6 +182,7 @@ function ChatlobbyServiceFactory($rootScope, $translate, $sanitize, $timeout, ga
         $timeout(() =>{
             this.history.push({
                 id:this.idcount,
+                time: new Date(),
                 text: text,
                 username: username+':',
                 steamid: usersteamid,
