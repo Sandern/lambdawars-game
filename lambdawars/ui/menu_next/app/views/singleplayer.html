@@ -52,7 +52,7 @@
 					</span>
 					<span class="hm-row-text">
 						<span class="pg-row-name">{{ mission.title }}</span>
-						<span class="hm-row-meta">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }} &middot; {{ mission.mapname }}</span>
+						<span class="hm-row-meta"><span ng-if="workshopEnabled">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }} &middot; </span>{{ mission.mapname }}</span>
 					</span>
 					<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="selectMission(mission)">{{ 'OF_Select' | translate }}</button>
 				</li>

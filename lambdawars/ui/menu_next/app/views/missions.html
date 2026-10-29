@@ -2,7 +2,7 @@
 	<aside class="ms-list">
 		<div class="ms-list-header">
 			<h1 class="ms-list-title">{{ 'MS_Missions' | translate }} <span class="lb-count">{{ visible.length }}</span></h1>
-			<span class="lb-segmented">
+			<span class="lb-segmented" ng-if="workshopEnabled">
 				<button type="button" ng-repeat="f in filters track by f.id" ng-class="{active: filter === f.id}" ng-click="setFilter(f.id)">{{ f.label | translate }}</button>
 			</span>
 		</div>
@@ -17,8 +17,7 @@
 				<span class="ms-item-text">
 					<span class="ms-item-title">{{ mission.title }}</span>
 					<span class="ms-item-meta">
-						<span class="ms-source" ng-class="{workshop: mission.workshop}">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span>
-						&middot; {{ mission.mapname }}
+						<span ng-if="workshopEnabled"><span class="ms-source" ng-class="{workshop: mission.workshop}">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span> &middot; </span>{{ mission.mapname }}
 					</span>
 				</span>
 			</button>
@@ -26,7 +25,7 @@
 		</div>
 
 		<!-- Visual only for now, Workshop missions come with the Workshop integration -->
-		<span class="ms-workshop-link"><wars-icon name="wrench"></wars-icon>{{ 'MS_FindMore' | translate }}<wars-icon name="chevron-right"></wars-icon></span>
+		<span class="ms-workshop-link" ng-if="workshopEnabled"><wars-icon name="wrench"></wars-icon>{{ 'MS_FindMore' | translate }}<wars-icon name="chevron-right"></wars-icon></span>
 	</aside>
 
 	<section class="ms-main" ng-if="selected">
@@ -41,7 +40,7 @@
 				</div>
 				<h2 class="pg-title">{{ selected.title }}</h2>
 				<div class="ms-tags">
-					<span class="ms-tag" ng-class="{workshop: selected.workshop}">{{ (selected.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span>
+					<span class="ms-tag" ng-if="workshopEnabled" ng-class="{workshop: selected.workshop}">{{ (selected.workshop ? 'MS_Workshop' : 'MS_Official') | translate }}</span>
 					<span class="ms-tag">{{ 'MS_SinglePlayer' | translate }}</span>
 					<span class="ms-tag ms-tag-plain">{{ selected.mapname }}</span>
 				</div>

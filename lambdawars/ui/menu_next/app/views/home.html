@@ -78,7 +78,7 @@
 				<p class="pg-empty" ng-if="loaded && !waiting.length">{{ 'OL_NoWaiting' | translate }}</p>
 			</section>
 
-			<div class="pg-section pg-side hm-side" ng-if="lastGame || workshopMaps.length">
+			<div class="pg-section pg-side hm-side" ng-if="lastGame || (workshopEnabled && workshopMaps.length)">
 				<section class="hm-side-section" ng-if="lastGame">
 					<div class="pg-section-header">
 						<h2>{{ 'HM_HostAgain' | translate }}</h2>
@@ -98,7 +98,7 @@
 				</section>
 
 				<!-- Visual only for now: workshopMaps is filled by the Workshop integration -->
-				<section class="hm-side-section" ng-if="workshopMaps.length">
+				<section class="hm-side-section" ng-if="workshopEnabled && workshopMaps.length">
 					<div class="pg-section-header">
 						<h2>{{ 'HM_YourWorkshopMaps' | translate }}</h2>
 						<span class="pg-link">{{ 'HM_Manage' | translate }}<wars-icon name="chevron-right"></wars-icon></span>

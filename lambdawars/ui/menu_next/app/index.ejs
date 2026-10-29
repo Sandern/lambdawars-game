@@ -28,7 +28,7 @@
                 <a href="#!/Singleplayer" class="menu-btn" id="menu-singleplayer" ng-class="{active: isSection('offline')}" translate="MenuOffline"></a>
             </li>
             <!-- Visual only for now, the Workshop pages are added with the Workshop integration -->
-            <li ng-if="!ingame && steam_available">
+            <li ng-if="workshopEnabled && !ingame && steam_available">
                 <a class="menu-btn" id="menu-workshop" translate="MenuWorkshop"></a>
             </li>
             <li>

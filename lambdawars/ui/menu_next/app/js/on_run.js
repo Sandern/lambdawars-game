@@ -3,7 +3,10 @@
 /**
  * @ngInject
  */
-function OnRun($templateCache) {
+function OnRun($templateCache, $rootScope, AppSettings) {
+    // For hiding the Workshop parts of the pages, see constants.js
+    $rootScope.workshopEnabled = !!AppSettings.WORKSHOP_ENABLED;
+
     $templateCache.put('genericMsg', require('../views/dialogs/genericmsg.html'));
     $templateCache.put('kickMsg', require('../views/dialogs/kickdialog.html'));
     $templateCache.put('confirmKickMsg', require('../views/dialogs/confirmkick.html'));

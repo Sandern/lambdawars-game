@@ -166,19 +166,19 @@
 			</div>
 
 			<!-- Visual only for now: mapworkshop is filled by the Workshop integration -->
-			<span class="lb-map-badge noselect" ng-if="mapworkshop"><wars-icon name="wrench"></wars-icon>{{ 'GL_WorkshopMap' | translate }}</span>
-			<span class="lb-map-link noselect" ng-if="mapworkshop"><span class="lb-map-link-text">{{ 'GL_ViewOnWorkshop' | translate }}</span><wars-icon name="external"></wars-icon></span>
+			<span class="lb-map-badge noselect" ng-if="workshopEnabled && mapworkshop"><wars-icon name="wrench"></wars-icon>{{ 'GL_WorkshopMap' | translate }}</span>
+			<span class="lb-map-link noselect" ng-if="workshopEnabled && mapworkshop"><span class="lb-map-link-text">{{ 'GL_ViewOnWorkshop' | translate }}</span><wars-icon name="external"></wars-icon></span>
 
 			<div class="lb-map-info">
 				<div class="lb-map-text">
 					<p class="lb-map-mode">{{ mode.name }}<span ng-if="teamsetup"> &middot; {{ teamSetupLabel(teamsetup.id) }}</span></p>
 					<h2 class="lb-map-name">{{ map.mapname }}</h2>
 					<p class="lb-map-meta">
-						<span ng-if="mapworkshop">{{ 'GL_WorkshopMapBy' | translate }} {{ mapworkshop.author }}<span ng-if="map.numplayers"> &middot; </span></span>
+						<span ng-if="workshopEnabled && mapworkshop">{{ 'GL_WorkshopMapBy' | translate }} {{ mapworkshop.author }}<span ng-if="map.numplayers"> &middot; </span></span>
 						<span ng-if="map.numplayers">{{ map.numplayers }} {{ 'GL_Players' | translate }}</span>
 					</p>
 				</div>
-				<span class="lb-map-subscribed" ng-if="mapworkshop.subscribed"><wars-icon name="check"></wars-icon>{{ 'GL_Subscribed' | translate }}</span>
+				<span class="lb-map-subscribed" ng-if="workshopEnabled && mapworkshop.subscribed"><wars-icon name="check"></wars-icon>{{ 'GL_Subscribed' | translate }}</span>
 			</div>
 		</div>
 
