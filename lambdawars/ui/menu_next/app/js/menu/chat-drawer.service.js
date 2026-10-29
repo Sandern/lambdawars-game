@@ -4,7 +4,7 @@ import menuModule from './module';
 import angular from 'angular';
 
 // Pages without a chat of their own open the global chat in a drawer, from the top bar
-var DRAWER_PAGES = ['/Multiplayer', '/OnlineGames', '/Singleplayer', '/Missions'];
+var DRAWER_PAGES = ['/Multiplayer', '/OnlineGames', '/Singleplayer', '/Missions', '/Settings'];
 // The home page docks the chat, except on screens where there's no room for it
 var DOCKED_CHAT_MIN_WIDTH = 1401;
 
