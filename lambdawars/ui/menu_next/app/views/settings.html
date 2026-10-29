@@ -31,10 +31,25 @@
 			<p>{{ 'ST_Brightness_Calibrate' | translate }}</p>
 		</div>
 
+		<div class="st-tabs" role="tablist" ng-if="loaded && category.id === 'keys'">
+			<button type="button" class="st-tab" role="tab" ng-repeat="tab in keyTabs track by tab.id" aria-selected="{{ tab === keyTab }}"
+				ng-class="{active: tab === keyTab}" ng-click="selectKeyTab(tab)">
+				{{ tab.title | translate }}
+				<span class="st-tab-count">{{ tab.count }}</span>
+				<span class="st-tab-badge" ng-if="tab.badge">{{ tab.badge | translate }}</span>
+				<span class="st-dot" ng-if="isTabDirty(tab)"></span>
+			</button>
+		</div>
+
+		<div class="st-note" ng-if="loaded && category.id === 'keys' && keyTab.id === 'fps'">
+			<wars-icon name="info"></wars-icon>
+			<p><span class="st-note-title">{{ 'ST_KeysLegacyNoteTitle' | translate }}</span> {{ 'ST_KeysLegacyNote' | translate }}</p>
+		</div>
+
 		<p class="pg-empty" ng-if="!loaded">{{ 'ST_Loading' | translate }}</p>
 
 		<div class="st-rows" ng-if="loaded">
-			<div ng-repeat="row in category.rows" ng-if="isShown(row)" ng-switch="row.type">
+			<div ng-repeat="row in categoryRows()" ng-if="isShown(row)" ng-switch="row.type">
 				<div class="st-header" ng-switch-when="header">
 					<h3>{{ row.text || (row.label | translate) }}</h3>
 					<span class="st-hint" ng-if="row.hint">{{ row.hint | translate }}</span>
@@ -44,9 +59,10 @@
 					<span class="st-label">
 						<span class="st-label-text">
 							{{ row.text || (row.label | translate) }}
+							<span class="st-shared" ng-if="row.sharedWith">{{ 'ST_KeyShared' | translate }}</span>
 							<span class="st-changed" ng-if="isDirty(row)">{{ 'ST_Changed' | translate }}</span>
 						</span>
-						<span class="st-hint" ng-if="row.hint">{{ row.hint | translate }}</span>
+						<span class="st-hint" ng-class="{'st-hint-moved': moved[row.id]}" ng-if="hintText(row)">{{ hintText(row) }}</span>
 					</span>
 
 					<span class="st-control" ng-switch="row.type">

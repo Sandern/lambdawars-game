@@ -102,12 +102,6 @@ var CATEGORIES = [
         {id: 'reversemouse', label: 'ST_ReverseMouse', type: 'switch'},
         {id: 'mousefilter', label: 'ST_MouseFilter', type: 'switch'},
         {id: 'console', label: 'ST_Console', type: 'switch'},
-        {type: 'header', label: 'ST_Gamepad'},
-        {id: 'gamepad', label: 'ST_Gamepad', type: 'switch'},
-        {id: 'joyyaw', label: 'ST_JoyYaw', type: 'slider', min: 0.5, max: 7, step: 0.5, disabled: gamepadDisabled},
-        {id: 'joypitch', label: 'ST_JoyPitch', type: 'slider', min: 0.5, max: 7, step: 0.5, disabled: gamepadDisabled},
-        {id: 'joyinvert', label: 'ST_JoyInvert', type: 'switch', disabled: gamepadDisabled},
-        {id: 'southpaw', label: 'ST_Southpaw', type: 'switch', disabled: gamepadDisabled},
     ]},
     // Rows from the key list of the game, see buildKeyRows
     {id: 'keys', title: 'ST_KeyBindings', desc: 'ST_KeyBindings_Desc', icon: 'keyboard', rows: []},
@@ -132,12 +126,48 @@ var CATEGORIES = [
     ]},
 ];
 
+// Key binding tabs, with the commands of the game's key list (scripts/kb_act.lst). Strategy holds what the
+// RTS uses: the movement keys pan the camera, +zoom and +lookspin rotate it, +speed (Shift) and +duck (Ctrl)
+// are the order and selection modifiers. First person holds the Half-Life 2 keys of the legacy first person
+// mode. Actions without a label use the label of the key list. A shared action is the command of a strategy
+// action, so it has the same key. Commands of the key list without a place here go to the strategy tab.
+var KEY_TABS = [
+    {id: 'rts', title: 'ST_KeysStrategy', sections: [
+        {title: 'ST_KeysCamera', actions: [
+            {command: '+forward', label: 'ST_Key_PanUp'},
+            {command: '+back', label: 'ST_Key_PanDown'},
+            {command: '+moveleft', label: 'ST_Key_PanLeft'},
+            {command: '+moveright', label: 'ST_Key_PanRight'},
+            {command: '+zoom', label: 'ST_Key_RotateLeft'},
+            {command: '+lookspin', label: 'ST_Key_RotateRight'},
+            'cam_reset',
+        ]},
+        {title: 'ST_KeysOrders', actions: [
+            {command: '+speed', label: 'ST_Key_QueueOrders', hint: 'ST_Key_QueueOrders_Hint'},
+            {command: '+duck', label: 'ST_Key_SelectionModifier', hint: 'ST_Key_SelectionModifier_Hint'},
+        ]},
+        {title: 'ST_KeysCommunication', actions: ['+voicerecord', 'say', 'say_team', '+status_players']},
+        {title: 'ST_KeysGame', actions: ['jpeg', 'save quick', 'load quick', 'pause', 'toggleconsole',
+            'incrementvar closecaption 0 1 1', 'quit']},
+    ]},
+    {id: 'fps', title: 'ST_KeysFirstPerson', badge: 'ST_KeysLegacy', sections: [
+        {title: 'ST_KeysMovement', actions: [
+            {command: '+forward', shared: true},
+            {command: '+back', shared: true},
+            {command: '+moveleft', shared: true},
+            {command: '+moveright', shared: true},
+            {command: '+speed', shared: true},
+            {command: '+duck', shared: true},
+            '+jump', '+walk', 'impulse 50',
+        ]},
+        {title: 'ST_KeysCombat', actions: ['+attack', '+attack2', '+reload', '+use', 'phys_swap', 'impulse 100']},
+        {title: 'ST_KeysWeapons', actions: ['slot1', 'slot2', 'slot3', 'slot4', 'slot5', 'slot6', 'invnext', 'invprev', 'lastinv']},
+        {title: 'ST_KeysKeyboardLook', actions: ['+left', '+right', '+lookup', '+lookdown', '+moveup', '+movedown', '+strafe', '+klook']},
+    ]},
+];
+
 function voiceDisabled(values) {
     return !values.voice;
-}
-
-function gamepadDisabled(values) {
-    return !values.gamepad;
 }
 
 // Names of the keys for the bind command, by KeyboardEvent.code and by keyCode
@@ -198,6 +228,12 @@ class SettingsController {
         $scope.values = {};
         $scope.saved = {};
         $scope.listening = null;
+        // Key bindings that lost their key to another action: {id: {key, action}}
+        $scope.moved = {};
+        $scope.keyTabs = [];
+        $scope.keyTab = null;
+        // Label of each key binding, on the strategy tab if it's on both
+        var keyLabels = {};
         $scope.showSaved = false;
         $scope.restartNeeded = false;
         $scope.testingMicrophone = false;
@@ -230,17 +266,100 @@ class SettingsController {
             $scope.values.resolution = (fitting.length ? fitting[fitting.length - 1] : options[0]).value;
         }
 
+        // The rows of the key binding tabs, from KEY_TABS and the actions of the game's key list
         function buildKeyRows(settings) {
-            var rows = [];
-            settings.keys.forEach(function(section, i) {
-                rows.push({type: 'header', text: section.title, hint: i === 0 ? 'ST_Keys_Hint' : ''});
+            // Labels of the key list, the first one of a command listed twice
+            var listLabels = {};
+            settings.keys.forEach(function(section) {
                 section.actions.forEach(function(action) {
-                    rows.push({id: 'key:' + action.command, text: action.label, type: 'bind', command: action.command});
+                    if( !listLabels[action.command] ) {
+                        listLabels[action.command] = action.label;
+                    }
                 });
             });
-            rows.push({id: 'defaultkeys', label: 'ST_DefaultKeys', hint: 'ST_DefaultKeys_Hint', type: 'action', action: 'ST_UseDefaults'});
-            CATEGORIES.filter(function(category) { return category.id === 'keys'; })[0].rows = rows;
+            var placed = {};
+            keyLabels = {};
+
+            function actionRow(entry) {
+                var action = typeof entry === 'string' ? {command: entry} : entry;
+                var id = 'key:' + action.command;
+                var text = action.label ? translate(action.label) : listLabels[action.command];
+                if( !(id in settings.values) ) {
+                    return null;
+                }
+                placed[action.command] = true;
+                if( !keyLabels[id] ) {
+                    keyLabels[id] = text;
+                }
+                return {id: id, text: text, hint: action.hint || '', type: 'bind', command: action.command,
+                    sharedWith: action.shared ? keyLabels[id] : ''};
+            }
+
+            $scope.keyTabs = KEY_TABS.map(function(tab) {
+                var sections = tab.sections.map(function(section) {
+                    return {title: section.title, rows: section.actions.map(actionRow).filter(Boolean)};
+                });
+                return {id: tab.id, title: tab.title, badge: tab.badge, sections: sections};
+            });
+
+            // Actions of the key list without a place on the tabs
+            var other = [];
+            settings.keys.forEach(function(section) {
+                section.actions.forEach(function(action) {
+                    if( !placed[action.command] ) {
+                        other.push(actionRow(action.command));
+                    }
+                });
+            });
+            if( other.length ) {
+                $scope.keyTabs[0].sections.push({title: 'ST_KeysOther', rows: other});
+            }
+
+            var allRows = [];
+            $scope.keyTabs.forEach(function(tab) {
+                tab.rows = [];
+                tab.sections.filter(function(section) { return section.rows.length; }).forEach(function(section, i) {
+                    tab.rows.push({type: 'header', label: section.title, hint: i === 0 ? 'ST_Keys_Hint' : ''});
+                    tab.rows = tab.rows.concat(section.rows);
+                });
+                tab.count = tab.rows.filter(function(row) { return row.type === 'bind'; }).length;
+                tab.rows.push({id: 'defaultkeys', label: 'ST_DefaultKeys', hint: 'ST_DefaultKeys_Hint', type: 'action', action: 'ST_UseDefaults'});
+                allRows = allRows.concat(tab.rows);
+            });
+            $scope.keyTab = $scope.keyTabs[0];
+            // Both tabs, for the unsaved changes of the category
+            CATEGORIES.filter(function(category) { return category.id === 'keys'; })[0].rows = allRows;
         }
+
+        $scope.selectKeyTab = function(tab) {
+            stopListening();
+            $scope.keyTab = tab;
+            var rows = $document[0].querySelector('.st-rows');
+            if( rows ) {
+                rows.scrollTop = 0;
+            }
+        };
+
+        $scope.isTabDirty = function(tab) {
+            return tab.rows.some($scope.isDirty);
+        };
+
+        // The rows of the category, of the selected tab for the key bindings
+        $scope.categoryRows = function() {
+            return $scope.category.id === 'keys' ? $scope.keyTab.rows : $scope.category.rows;
+        };
+
+        // A hint, or where the key of a binding went, or the strategy action with the same key
+        $scope.hintText = function(row) {
+            var moved = $scope.moved[row.id];
+            if( moved ) {
+                return translate('ST_KeyMoved', {key: moved.key, action: moved.action});
+            }
+            if( row.sharedWith ) {
+                return translate('ST_KeySharedHint', {action: row.sharedWith});
+            }
+            return row.hint ? translate(row.hint) : '';
+        };
 
         function load() {
             gamesettings.get(function(settings) {
@@ -366,6 +485,7 @@ class SettingsController {
                         $scope.values[id] = (defaultkeys[id.slice(4)] || '').toUpperCase();
                     }
                 });
+                $scope.moved = {};
                 changed();
             } else if( row.id === 'testmicrophone' ) {
                 toggleMicrophoneTest();
@@ -425,13 +545,15 @@ class SettingsController {
             if( !key ) {
                 return;
             }
-            // A key does one action, other actions lose it
+            // A key does one action, other actions lose it and say where it went
             Object.keys($scope.values).forEach(function(other) {
-                if( other.indexOf('key:') === 0 && $scope.values[other] === key ) {
+                if( other !== id && other.indexOf('key:') === 0 && $scope.values[other] === key ) {
                     $scope.values[other] = '';
+                    $scope.moved[other] = {key: key, action: keyLabels[id]};
                 }
             });
             $scope.values[id] = key;
+            delete $scope.moved[id];
             changed();
         }
 
@@ -502,6 +624,7 @@ class SettingsController {
         $scope.revert = function() {
             stopListening();
             $scope.values = angular.copy($scope.saved);
+            $scope.moved = {};
             updateResolutions();
         };
 
@@ -523,6 +646,7 @@ class SettingsController {
                 $scope.$applyAsync(function() {
                     $scope.applying = false;
                     $scope.saved = angular.copy($scope.values);
+                    $scope.moved = {};
                     $scope.restartNeeded = !!(result && result.restart);
                     $scope.showSaved = true;
                     if( savedTimer ) {

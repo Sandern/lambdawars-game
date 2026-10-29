@@ -38,11 +38,6 @@ SETTING_CONVARS = {
     'ordersounds': 'cl_unit_disable_order_sounds',
     'voicethreshold': 'voice_threshold',
     'console': 'con_enable',
-    'gamepad': 'joystick',
-    'joyyaw': 'joy_yawsensitivity',
-    'joypitch': 'joy_pitchsensitivity',
-    'joyinvert': 'joy_inverty',
-    'southpaw': 'joy_movement_stick',
     'landiscovery': 'net_allow_multicast',
     'customcontent': 'cl_downloadfilter',
     'colorblind': 'cl_colorblind',
@@ -199,11 +194,6 @@ class WebSettings(WebViewComponent):
         values['reversemouse'] = ConVar('m_pitch').GetFloat() < 0
         values['mousefilter'] = ConVar('m_filter').GetBool()
         values['console'] = ConVar('con_enable').GetBool()
-        values['gamepad'] = ConVar('joystick').GetBool()
-        values['joyyaw'] = round(-ConVar('joy_yawsensitivity').GetFloat(), 1)
-        values['joypitch'] = round(ConVar('joy_pitchsensitivity').GetFloat(), 1)
-        values['joyinvert'] = ConVar('joy_inverty').GetBool()
-        values['southpaw'] = ConVar('joy_movement_stick').GetBool()
 
         # Multiplayer
         values['landiscovery'] = ConVar('net_allow_multicast').GetBool()
@@ -384,18 +374,6 @@ class WebSettings(WebViewComponent):
             ConVar('m_filter').SetValue(bool(values['mousefilter']))
         if changed('console'):
             ConVar('con_enable').SetValue(bool(values['console']))
-        if changed('gamepad'):
-            # Enables or disables the gamepad controls
-            engine.ClientCmd_Unrestricted('exec 360controller_pc.cfg' if values['gamepad'] else 'exec undo360controller.cfg')
-            ConVar('joystick').SetValue(bool(values['gamepad']))
-        if changed('joyyaw'):
-            ConVar('joy_yawsensitivity').SetValue(-float(values['joyyaw']))
-        if changed('joypitch'):
-            ConVar('joy_pitchsensitivity').SetValue(float(values['joypitch']))
-        if changed('joyinvert'):
-            ConVar('joy_inverty').SetValue(bool(values['joyinvert']))
-        if changed('southpaw'):
-            ConVar('joy_movement_stick').SetValue(bool(values['southpaw']))
 
         # Key bindings: the old key of each changed action is unbound first, so keys can be swapped
         keychanges = [(setting[4:], values[setting]) for setting in changes if setting.startswith('key:') and changed(setting)]

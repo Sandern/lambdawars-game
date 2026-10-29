@@ -1699,6 +1699,115 @@
 	}
 }
 
+// Key binding tabs: strategy and the legacy first person keys
+
+.st-tabs {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	margin-top: 1.6rem;
+	border-bottom: 1px solid $lb-border;
+}
+
+.st-tab {
+	display: flex;
+	align-items: center;
+	height: 4.8rem;
+	margin: 0 3.6rem -1px 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid transparent;
+	outline: none;
+	@include lb-caps(1.5rem, 0.2rem);
+	color: $ui-text-muted;
+	cursor: pointer;
+	transition: color .15s, border-color .15s;
+
+	&:hover {
+		color: $white;
+	}
+
+	&.active {
+		border-bottom-color: $orange;
+		color: $ui-text;
+	}
+
+	.st-dot {
+		margin-left: 1rem;
+	}
+}
+
+.st-tab-count {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.4rem;
+	height: 2rem;
+	margin-left: 1rem;
+	padding: 0 0.7rem;
+	background: rgba($white, 0.08);
+	border-radius: 1rem;
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.2rem;
+	letter-spacing: 0;
+	color: $ui-text-soft;
+}
+
+.st-tab-badge {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+	margin-left: 1rem;
+	padding: 0 0.6rem;
+	border: 1px solid rgba($white, 0.18);
+	border-radius: 0.3rem;
+	@include lb-caps(1.1rem, 0.16rem);
+	color: $ui-text-muted;
+}
+
+.st-note {
+	display: flex;
+	align-items: flex-start;
+	flex-shrink: 0;
+	margin-top: 1.6rem;
+	padding: 1.4rem 1.6rem;
+	background: rgba($white, 0.03);
+	border: 1px solid $lb-border;
+	border-left: 2px solid $ui-text-muted;
+	border-radius: 0.4rem;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin: 0.3rem 1.2rem 0 0;
+		color: $ui-text-soft;
+	}
+
+	p {
+		margin: 0;
+		font-size: 1.5rem;
+		line-height: 1.5;
+		color: $ui-text-soft;
+	}
+}
+
+.st-note-title {
+	color: $ui-text;
+}
+
+.st-shared {
+	margin-left: 0.8rem;
+	@include lb-caps(1.1rem, 0.18rem);
+	color: $ui-blue;
+}
+
+.st-hint.st-hint-moved {
+	color: $orange;
+}
+
 .st-rows {
 	flex: 1;
 	min-height: 0;
