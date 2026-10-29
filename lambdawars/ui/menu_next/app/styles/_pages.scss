@@ -3437,6 +3437,45 @@ button.wp-preview-none {
 	}
 }
 
+.lb-btn.wp-minimap-generate {
+	align-self: flex-start;
+	margin-top: 1.4rem;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.8rem;
+	}
+}
+
+// Current and generated minimap side by side, in the dialog
+.wp-minimap-compare {
+	display: flex;
+	margin-top: 2rem;
+}
+
+.wp-minimap-compare-item {
+	display: flex;
+	flex-direction: column;
+
+	& + & {
+		margin-left: 3.2rem;
+	}
+
+	.wp-minimap-image {
+		width: 38rem;
+		height: 38rem;
+		margin: 0.4rem;
+	}
+
+	@media (max-height: 820px) {
+		.wp-minimap-image {
+			width: 30rem;
+			height: 30rem;
+		}
+	}
+}
+
 .wp-preview-actions {
 	display: flex;
 	flex-wrap: wrap;

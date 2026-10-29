@@ -118,6 +118,7 @@ RegisterGamePackage(
         'gamerules.base',
         'gamerules.sandbox',
         'gamerules.mission',
+        'gamerules.minimapgen',
         'gamerules',
         
         # Buildings
@@ -233,5 +234,12 @@ if isserver:
             
             SetNextLevelGamerules('mission')
             engine.ServerCommand('%s %s reserved\n' % (mapcommand, mission))
-            
+
+            return True
+
+        if mode == 'minimapgen':
+            # Loads a map to generate its minimap, see core.gamerules.minimapgen
+            SetNextLevelGamerules('minimapgen')
+            engine.ServerCommand('%s %s reserved\n' % (mapcommand, game.get('mission', '')))
+
             return True

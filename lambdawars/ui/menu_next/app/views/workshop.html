@@ -153,6 +153,11 @@
 								<div><dt>{{ 'WS_MinimapImage' | translate }}</dt><dd class="ws-mono" ng-class="{'ws-error': minimap.state === 'missing'}">{{ minimap.image }}<span ng-if="minimap.state === 'missing'"> &middot; {{ 'WS_MinimapNotFound' | translate }}</span></dd></div>
 								<div ng-if="minimap.state === 'ok' && minimap.positions.length"><dt>{{ 'WS_MinimapPositions' | translate }}</dt><dd>{{ minimap.positions.length }}</dd></div>
 							</dl>
+							<!-- Loads the map to capture the minimap from above, then comes back here to approve it -->
+							<button type="button" class="lb-btn lb-btn-small wp-minimap-generate" ng-if="minimapState() !== 'nomap'"
+								ng-disabled="!canGenerateMinimap()" ng-click="confirmGenerateMinimap()">
+								<wars-icon name="map"></wars-icon>{{ (minimapState() === 'ok' ? 'WS_RegenerateMinimap' : 'WS_GenerateMinimap') | translate }}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -180,6 +185,68 @@
 			</button>
 		</footer>
 	</section>
+
+	<!-- Generating the minimap: confirm loading the map, then approve or discard the result -->
+	<div class="ws-dialog-backdrop" ng-if="minimapDialog" ng-switch="minimapDialog">
+		<div class="ws-dialog" role="dialog" aria-modal="true" aria-labelledby="wp-minimap-title" ng-class="{'ws-dialog-wide': minimapDialog === 'review'}">
+			<span class="pg-eyebrow" ng-class="{'ws-error': minimapDialog === 'failed'}">{{ ('WS_MinimapKicker_' + minimapDialog) | translate }}</span>
+			<h2 class="ws-dialog-title" id="wp-minimap-title">{{ ('WS_MinimapTitle_' + minimapDialog) | translate:{map: (generated ? generated.mapname : selected.map.name)} }}</h2>
+
+			<div ng-switch-when="confirm">
+				<p class="ws-dialog-note">{{ 'WS_MinimapConfirmText' | translate }}</p>
+				<p class="ws-dialog-message ws-error" role="alert" ng-if="minimapError"><wars-icon name="close"></wars-icon>{{ minimapError }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="closeMinimapDialog()">{{ 'Dialog_Cancel' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canGenerateMinimap()" ng-click="generateMinimap()">{{ 'WS_GenerateMinimapButton' | translate }}</button>
+				</div>
+			</div>
+
+			<div ng-switch-when="review">
+				<div class="wp-minimap-compare">
+					<div class="wp-minimap-compare-item">
+						<span class="wp-label">{{ 'WS_MinimapCurrent' | translate }}</span>
+						<figure class="wp-minimap-image" ng-class="{'ms-hatch': minimapState() !== 'ok'}">
+							<div ng-if="minimapState() === 'ok'">
+								<img ng-src="{{ minimap.src }}" alt="{{ 'WS_MinimapCurrent' | translate }}" />
+								<span class="wp-minimap-spawn" ng-repeat="position in minimap.positions track by $index"
+									ng-style="{left: (100 * position[0]) + '%', top: (100 * position[1]) + '%'}">{{ $index + 1 }}</span>
+							</div>
+							<span class="wp-minimap-none" ng-if="minimapState() !== 'ok'"><wars-icon name="map"></wars-icon>{{ 'WS_MinimapPlaceholder_none' | translate }}</span>
+						</figure>
+					</div>
+					<div class="wp-minimap-compare-item">
+						<span class="wp-label">{{ 'WS_MinimapGenerated' | translate }}</span>
+						<figure class="wp-minimap-image">
+							<div>
+								<img ng-src="{{ generated.src }}" alt="{{ 'WS_MinimapGenerated' | translate }}" />
+								<span class="wp-minimap-spawn" ng-repeat="position in generated.positions track by $index"
+									ng-style="{left: (100 * position[0]) + '%', top: (100 * position[1]) + '%'}">{{ $index + 1 }}</span>
+								<i class="lb-corner lb-corner-tl"></i>
+								<i class="lb-corner lb-corner-tr"></i>
+								<i class="lb-corner lb-corner-bl"></i>
+								<i class="lb-corner lb-corner-br"></i>
+							</div>
+						</figure>
+					</div>
+				</div>
+				<p class="ws-dialog-note">{{ 'WS_MinimapReviewText' | translate:{map: generated.mapname} }}</p>
+				<p class="ws-dialog-message ws-error" role="alert" ng-if="minimapError"><wars-icon name="close"></wars-icon>{{ minimapError }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-disabled="savingMinimap" ng-click="discardMinimap()">{{ 'WS_DiscardMinimap' | translate }}</button>
+					<button type="button" class="lb-btn" ng-disabled="savingMinimap || !canGenerateMinimap()" ng-click="generateMinimap()">{{ 'WS_RegenerateMinimap' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="savingMinimap" ng-click="approveMinimap()">{{ 'WS_ApproveMinimap' | translate }}</button>
+				</div>
+			</div>
+
+			<div ng-switch-when="failed">
+				<p class="ws-dialog-message ws-error" role="alert"><wars-icon name="close"></wars-icon>{{ 'WS_MinimapFailed' | translate }} {{ minimapError }}</p>
+				<div class="ws-dialog-actions">
+					<button type="button" class="lb-btn" ng-click="discardMinimap()">{{ 'WS_Close' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canGenerateMinimap()" ng-click="generateMinimap()">{{ 'WS_TryAgain' | translate }}</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- Confirming a new map, reviewing an update, the upload and its result -->
 	<div class="ws-dialog-backdrop" ng-if="dialogOpen && dialogPhase()" ng-switch="dialogPhase()">

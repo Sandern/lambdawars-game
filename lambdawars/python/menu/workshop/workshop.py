@@ -17,11 +17,16 @@ import shutil
 import hashlib
 import time
 import base64
+import re
 
+from srcbase import KeyValues
 from cef import WebViewComponent, jsbind
+import matchmaking
 from srcbuiltins import RegisterTickMethod, UnregisterTickMethod, IsTickMethodRegistered
 import kvdict
 import readmap
+
+from . import minimapgen
 
 try:
     import _workshop
@@ -158,12 +163,20 @@ def GetMapMinimap(mapname):
         info['state'] = 'missing'
         return info
     info['state'] = 'ok'
-    info['src'] = 'vtf://%s.vtf' % material
-
+    # The file may be replaced by a generated minimap, so the menu shouldn't use a cached image
+    info['src'] = 'vtf://%s.vtf?v=%d' % (material, int(os.path.getmtime(os.path.join('materials', material + '.vtf'))))
     try:
-        size = float(kvres.get('scale', 1.0)) * 1024.0
-        pos_x = float(kvres.get('pos_x', -512.0))
-        pos_y = float(kvres.get('pos_y', -512.0))
+        info['positions'] = GetStartPositions(mapname, float(kvres.get('pos_x', -512.0)),
+                                              float(kvres.get('pos_y', -512.0)), float(kvres.get('scale', 1.0)))
+    except ValueError as e:
+        PrintWarning('Workshop: invalid minimap values in %s: %s\n' % (respath, e))
+    return info
+
+
+def GetStartPositions(mapname, pos_x, pos_y, scale):
+    """ The start positions of a map on its minimap (0 to 1), ordered by position number. """
+    try:
+        size = scale * 1024.0
         blocks, blocksbyclass = readmap.ParseMapEntitiesToBlocks(os.path.join('maps', mapname + '.bsp'))
         positions = {}
         for startent in blocksbyclass['info_start_wars']:
@@ -173,10 +186,63 @@ def GetMapMinimap(mapname):
             if position not in positions:
                 origin = list(map(float, startent['origin'][0].split()))
                 positions[position] = [(origin[0] - pos_x) / size, (pos_y - origin[1]) / size]
-        info['positions'] = [positions[position] for position in sorted(positions)]
+        return [positions[position] for position in sorted(positions)]
     except (OSError, ValueError, IndexError, ZeroDivisionError) as e:
         PrintWarning('Workshop: could not read the start positions of %s: %s\n' % (mapname, e))
-    return info
+        return []
+
+
+def IsLocalMap(mapname):
+    """ A map name (not a path) of a map in the maps folder. """
+    return os.path.basename(mapname) == mapname and os.path.isfile(os.path.join('maps', mapname + '.bsp'))
+
+
+#: Material of a generated minimap, like the official ones
+MINIMAP_VMT = '''"UnlitGeneric"\r
+{\r
+	"$translucent" "1"\r
+	"$basetexture" "%s"\r
+	"$vertexcolor" "1"\r
+	"$vertexalpha" "1"\r
+	"$no_fullbright" "1"\r
+	"$ignorez" "1"\r
+}\r
+'''
+
+#: Minimap values written to the res file of a map, with the format of the official res files
+MINIMAP_RES_KEYS = [('material', '%s'), ('pos_x', '%.0f'), ('pos_y', '%.0f'), ('scale', '%.3f'), ('rotate', '%d'), ('zoom', '%.1f')]
+
+
+def WriteMinimapRes(mapname, values):
+    """ Sets the minimap values in maps/<map>.res, keeping the other keys and comments of the file.
+        Creates the res file if the map has none. """
+    respath = os.path.join('maps', mapname + '.res')
+    lines = []
+    newline = '\r\n'
+    if os.path.isfile(respath):
+        with open(respath, 'rb') as f:
+            data = f.read().decode('utf-8', errors='replace')
+        newline = '\r\n' if '\r\n' in data else '\n'
+        lines = data.replace('\r\n', '\n').split('\n')
+    if not any(line.strip().startswith('{') for line in lines):
+        lines = ['"%s"' % mapname, '{', '}', '']
+
+    for key, fmt in MINIMAP_RES_KEYS:
+        if key not in values:
+            continue
+        value = fmt % values[key]
+        pattern = re.compile(r'^(\s*"%s"\s+)"[^"]*"' % key, re.IGNORECASE)
+        for i, line in enumerate(lines):
+            if pattern.match(line):
+                lines[i] = pattern.sub(lambda m: '%s"%s"' % (m.group(1), value), line, count=1)
+                break
+        else:
+            # Before the closing brace of the file
+            close = max(i for i, line in enumerate(lines) if line.strip().startswith('}'))
+            lines.insert(close, '\t"%s"\t\t"%s"' % (key, value))
+
+    with open(respath, 'wb') as f:
+        f.write(newline.join(lines).encode('utf-8'))
 
 
 class WebWorkshop(WebViewComponent):
@@ -344,10 +410,82 @@ class WebWorkshop(WebViewComponent):
             Args: map name
         """
         mapname = methodargs[0]
-        # Only map names, not paths
-        if os.path.basename(mapname) != mapname or not os.path.isfile(os.path.join('maps', mapname + '.bsp')):
+        if not IsLocalMap(mapname):
             return [None]
         return [GetMapMinimap(mapname)]
+
+    @jsbind(hascallback=True)
+    def generateminimap(self, methodargs):
+        """ Loads a local map to generate its minimap (see minimapgen). The game returns to the menu after
+            capturing it, then the menu asks for approval.
+
+            Args: map name
+            Callback args: error message, empty if the map is loading
+        """
+        mapname = methodargs[0]
+        if not IsLocalMap(mapname):
+            return ['This map is not in your maps folder.']
+        if self.publishjob:
+            return ['Wait until the upload is done.']
+
+        minimapgen.Request(mapname)
+        sessiondata = KeyValues('Session')
+        sessiondata.SetString('system/network', 'offline')
+        sessiondata.SetString('game/mode', 'minimapgen')
+        sessiondata.SetString('game/mission', mapname)
+        matchmaking.CreateSession(sessiondata)
+        matchmaking.matchsession.Command(KeyValues('Start'))
+        return ['']
+
+    @jsbind(hascallback=True)
+    def getgeneratedminimap(self, methodargs):
+        """ Returns the generated minimap waiting for approval {mapname, success, error, src, positions},
+            or None. """
+        info = minimapgen.generated
+        if not info:
+            return [None]
+        result = {'mapname': info['mapname'], 'success': info['success'], 'error': info['error'],
+                  'src': '', 'positions': []}
+        if info['success']:
+            result['src'] = 'vtf://%s.vtf' % info['file']
+            result['positions'] = GetStartPositions(info['mapname'], info['pos_x'], info['pos_y'], info['scale'])
+        return [result]
+
+    @jsbind(hascallback=True)
+    def approveminimap(self, methodargs):
+        """ Uses the generated minimap as the minimap of its map: materials/overviews/<map>.vtf, with the
+            minimap values in the res file of the map. Always the map's own material, so a minimap of
+            another map named in the res file isn't overwritten.
+
+            Args: map name
+            Callback args: error message (empty if saved), the new minimap (see GetMapMinimap)
+        """
+        mapname = methodargs[0]
+        info = minimapgen.generated
+        if not info or not info['success'] or info['mapname'] != mapname:
+            return ['There is no generated minimap for this map.', None]
+
+        material = 'overviews/%s' % mapname
+        try:
+            vtfpath = os.path.join('materials', material + '.vtf')
+            os.makedirs(os.path.dirname(vtfpath), exist_ok=True)
+            shutil.copyfile(minimapgen.GetGeneratedPath(info), vtfpath)
+            vmtpath = os.path.join('materials', material + '.vmt')
+            if not os.path.isfile(vmtpath):
+                with open(vmtpath, 'wb') as f:
+                    f.write((MINIMAP_VMT % material).encode('utf-8'))
+            WriteMinimapRes(mapname, {'material': material, 'pos_x': info['pos_x'], 'pos_y': info['pos_y'],
+                                      'scale': info['scale'], 'rotate': 0})
+        except OSError as e:
+            return ["The minimap couldn't be saved: %s" % e, None]
+
+        minimapgen.DiscardGenerated()
+        return ['', GetMapMinimap(mapname)]
+
+    @jsbind()
+    def discardminimap(self, methodargs):
+        """ Removes the generated minimap without using it. """
+        minimapgen.DiscardGenerated()
 
     @jsbind()
     def openlegalagreement(self, methodargs):

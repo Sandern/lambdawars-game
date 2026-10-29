@@ -8,7 +8,7 @@ const VISIBILITY_PRIVATE = 2;
 // new map" and the player's Workshop items; updates are reviewed in a dialog before uploading.
 class WorkshopController {
     /*@ngInject*/
-    constructor($scope, $timeout, $routeParams, $filter) {
+    constructor($scope, $rootScope, $timeout, $routeParams, $filter) {
         $scope.pageID = 'page';
         var translate = $filter('translate');
 
@@ -120,6 +120,86 @@ class WorkshopController {
                     }
                     $scope.minimapLoading = false;
                     $scope.minimap = minimap;
+                });
+            });
+        }
+
+        // Generating the minimap: the map is loaded to capture it from above, then the game returns to this page
+        // (see menu/workshop/minimapgen.py). minimapDialog is confirm, review (approve or discard) or failed.
+        $scope.minimapDialog = null;
+        $scope.generated = null;
+        $scope.minimapError = '';
+        $scope.savingMinimap = false;
+
+        $scope.canGenerateMinimap = function() {
+            return $scope.available && $scope.selected.map && !$scope.publishing && !$scope.linking;
+        };
+
+        $scope.confirmGenerateMinimap = function() {
+            if( $scope.canGenerateMinimap() ) {
+                $scope.minimapError = '';
+                $scope.minimapDialog = 'confirm';
+            }
+        };
+
+        $scope.generateMinimap = function() {
+            var map = $scope.selected.map;
+            if( !$scope.canGenerateMinimap() ) {
+                return;
+            }
+            // The unsaved details come back with the page after leaving the map (see workshop:minimapgenerated)
+            $rootScope.workshopDraft = {mapname: map.name, form: angular.copy($scope.form)};
+            workshop.generateminimap(map.name, function(error) {
+                $timeout(function() {
+                    if( error ) {
+                        $rootScope.workshopDraft = null;
+                        $scope.minimapError = error;
+                    }
+                });
+            });
+        };
+
+        $scope.closeMinimapDialog = function() {
+            $scope.minimapDialog = null;
+        };
+
+        $scope.discardMinimap = function() {
+            workshop.discardminimap();
+            $scope.generated = null;
+            $scope.minimapDialog = null;
+        };
+
+        $scope.approveMinimap = function() {
+            if( !$scope.generated || $scope.savingMinimap ) {
+                return;
+            }
+            $scope.savingMinimap = true;
+            workshop.approveminimap($scope.generated.mapname, function(error, minimap) {
+                $timeout(function() {
+                    $scope.savingMinimap = false;
+                    if( error ) {
+                        $scope.minimapError = error;
+                        return;
+                    }
+                    $scope.generated = null;
+                    $scope.minimapDialog = null;
+                    if( $scope.selected.map && $scope.selected.map.name === minimapMapName ) {
+                        $scope.minimap = minimap;
+                    }
+                });
+            });
+        };
+
+        // Coming back from generating: show the result for approval
+        function showGeneratedMinimap() {
+            workshop.getgeneratedminimap(function(generated) {
+                $timeout(function() {
+                    if( !generated ) {
+                        return;
+                    }
+                    $scope.generated = generated;
+                    $scope.minimapError = generated.success ? '' : generated.error;
+                    $scope.minimapDialog = generated.success ? 'review' : 'failed';
                 });
             });
         }
@@ -278,6 +358,35 @@ class WorkshopController {
         function selectPendingItem() {
             if( pendingItem && selectEntryById(pendingItem) ) {
                 pendingItem = null;
+                restoreDraft();
+            }
+        }
+
+        // ?map=<name> selects a local map, as a new map or as its Workshop item
+        var pendingMap = $routeParams.map;
+        function selectPendingMap() {
+            var map = pendingMap ? $scope.maps.find(function(m) { return m.name === pendingMap; }) : null;
+            pendingMap = null;
+            if( !map ) {
+                return;
+            }
+            if( map.publishedfileid ) {
+                pendingItem = map.publishedfileid;
+                selectPendingItem();
+                return;
+            }
+            $scope.selectNew();
+            $scope.selected.map = map;
+            $scope.selectMap();
+            restoreDraft();
+        }
+
+        // The details entered before generating a minimap
+        function restoreDraft() {
+            var draft = $rootScope.workshopDraft;
+            if( draft && $scope.selected.map && draft.mapname === $scope.selected.map.name ) {
+                $scope.form = draft.form;
+                $rootScope.workshopDraft = null;
             }
         }
 
@@ -551,9 +660,13 @@ class WorkshopController {
         // The browser opens an item of the player with ?item=<id>, which may only be known after loading the items.
         // With ?progress=1 the upload is shown, when opened from the upload status of the browser.
         $scope.refresh(function() {
+            selectPendingMap();
             selectPendingItem();
             if( $scope.publishing && $routeParams.progress ) {
                 $scope.dialogOpen = true;
+            }
+            if( $routeParams.minimap ) {
+                showGeneratedMinimap();
             }
             if( $scope.available ) {
                 $scope.loadMyItems();

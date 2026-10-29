@@ -74,6 +74,12 @@ function AppController($scope, $location, gameservice, gamelobbymanager, chatlob
             }
         }
     });
+
+    // Back from generating the minimap of a map: the publish page shows it for approval.
+    // The time makes it a new route, so the page loads again when it is already shown.
+    $scope.$on('workshop:minimapgenerated', function(event, mapname) {
+        $location.url('/WorkshopPublish?map=' + encodeURIComponent(mapname) + '&minimap=1&t=' + Date.now());
+    });
     
     $scope.$on('menu:host_numplayers', function(event, numplayers) {
         $scope.host_numplayers = numplayers;

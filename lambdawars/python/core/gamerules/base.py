@@ -126,7 +126,11 @@ def ClientHideTimer(**kwargs):
     panel.visible = False
 @usermessage()
 def ClientChangeTimer(time, **kwargs):
-    panel = GameRules().hudrefs['HudTimer'].Get()
+    # Gamerules without the timer hud, like generating a minimap
+    ref = gamerules.GetHudPanel('HudTimer')
+    if not ref:
+        return
+    panel = ref.Get()
     panel.gametime = True
     panel.time = time
 

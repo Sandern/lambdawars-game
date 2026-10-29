@@ -331,6 +331,13 @@ class CefMainMenu(WebView, MainMenuPersonaStateChangeCallback, GameLobbyJoinRequ
         else:
             # Make sure the regular main menu view is shown
             self.AngularJsBroadcast('user:ingame', [False, False, False])
+
+            # Back from generating a minimap: the publish page shows it for approval
+            if WebWorkshop:
+                from .workshop import minimapgen
+                mapname = minimapgen.TakeReturnMap()
+                if mapname:
+                    self.AngularJsBroadcast('workshop:minimapgenerated', [mapname])
       
     def OnGameUIHidden(self):
         """ Called when the gameui is being hidden. """
