@@ -41,9 +41,7 @@ class HomeController {
         $scope.lastMission = recent.lastMission();
         $scope.missionImage = '';
         if( $scope.lastMission ) {
-            // Mission_Easy, Mission_Normal or Mission_Hard
-            var difficulty = $scope.lastMission.difficulty || 'normal';
-            $scope.lastMissionDifficulty = 'Mission_' + difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            $scope.lastMissionDifficulty = missions.difficultyLabel($scope.lastMission.difficulty);
         }
 
         missions.update(function() {

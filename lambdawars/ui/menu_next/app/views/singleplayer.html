@@ -1,33 +1,104 @@
-<section class="content content-menu" id="content-singleplayer">
-    <main class="rounded">
-        <h1>{{ 'SP_HeadLine' | translate }}</h1>
-        <ul class="menu submenu" id="submenu-singleplayer">
-            <li>
-                <a href="#!/Missions">
-                    {{ 'SP_Missions' | translate }}
-                    <p>{{ 'SP_Missions_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a href="#!/Gamelobby?lobbytype=offline">
-                    {{ 'SP_AISkirmish' | translate }}
-                    <p>{{ 'SP_AISkirmish_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a href ng-click="playtutorial()">
-                    {{ 'SP_Tutorial' | translate }}
-                    <p>{{ 'SP_Tutorial_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li ng-if="beta === 'dev'">
-                <a href="#!/LoadGame">
-                    {{ 'LG_LoadMenu' | translate }}
-                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>
-                </a>
-            </li>
-        </ul>
-    </main>
-</section>
+<div class="pg-page pg-offline">
+	<header class="pg-heading">
+		<span class="pg-eyebrow">{{ 'MenuOffline' | translate }}</span>
+		<h1 class="pg-title">{{ 'OF_Title' | translate }}</h1>
+		<p class="pg-status">{{ 'OF_Status' | translate }}</p>
+	</header>
 
-<span global-chat/>
+	<div class="pg-cards">
+		<a href="#!/Missions" class="pg-card pg-card-hot hm-mission-card" ng-style="missionImage ? {'background-image': 'url(' + missionImage + ')'} : {}">
+			<span class="hm-mission-shade"></span>
+			<span class="pg-card-corner"></span>
+			<span class="pg-eyebrow">{{ 'HM_SinglePlayer' | translate }}</span>
+			<span class="pg-card-title">{{ 'SP_Missions' | translate }}</span>
+			<span class="pg-card-text">{{ 'SP_Missions_Desc' | translate }}</span>
+			<span class="pg-card-footer">
+				<span>{{ missions.length }} {{ 'OF_MissionsCount' | translate }}</span>
+				<wars-icon name="arrow-right"></wars-icon>
+			</span>
+		</a>
+		<a href="#!/Gamelobby?lobbytype=offline" class="pg-card">
+			<wars-icon name="users" class="pg-card-icon"></wars-icon>
+			<span class="pg-card-title">{{ 'SP_AISkirmish' | translate }}</span>
+			<span class="pg-card-text">{{ 'SP_AISkirmish_Desc' | translate }}</span>
+			<span class="pg-card-footer">
+				<span>{{ 'OF_Skirmish_Footer' | translate }}</span>
+				<wars-icon name="arrow-right"></wars-icon>
+			</span>
+		</a>
+		<a href class="pg-card" ng-click="playtutorial()">
+			<wars-icon name="tutorial" class="pg-card-icon"></wars-icon>
+			<span class="pg-card-title">{{ 'SP_Tutorial' | translate }}</span>
+			<span class="pg-card-text">{{ 'SP_Tutorial_Desc' | translate }}</span>
+			<span class="pg-card-footer">
+				<span>{{ 'OF_Tutorial_Footer' | translate }}</span>
+				<wars-icon name="arrow-right"></wars-icon>
+			</span>
+		</a>
+	</div>
+
+	<div class="pg-lower">
+		<section class="pg-section pg-grow">
+			<div class="pg-section-header">
+				<h2>{{ 'MS_Missions' | translate }}</h2>
+				<a href="#!/Missions" class="pg-link">{{ 'OL_ViewAll' | translate }} {{ missions.length }}<wars-icon name="chevron-right"></wars-icon></a>
+			</div>
+			<ul class="pg-rows">
+				<li class="pg-row" ng-repeat="mission in missions track by mission.mapname">
+					<span class="of-thumb ms-item-image" ng-class="{'ms-hatch': !mission.image}">
+						<img ng-if="mission.image" ng-src="{{ mission.image }}" />
+						<wars-icon ng-if="!mission.image" name="image"></wars-icon>
+					</span>
+					<span class="hm-row-text">
+						<span class="pg-row-name">{{ mission.title }}</span>
+						<span class="hm-row-meta">{{ (mission.workshop ? 'MS_Workshop' : 'MS_Official') | translate }} &middot; {{ mission.mapname }}</span>
+					</span>
+					<button type="button" class="lb-btn lb-btn-small lb-btn-outline" ng-click="selectMission(mission)">{{ 'OF_Select' | translate }}</button>
+				</li>
+			</ul>
+			<p class="pg-empty" ng-if="!loaded">{{ 'OF_Loading' | translate }}</p>
+			<p class="pg-empty" ng-if="loaded && !missions.length">{{ 'OF_NoMissions' | translate }}</p>
+		</section>
+
+		<div class="pg-section pg-side" ng-if="lastMission || lastSkirmish || beta === 'dev'">
+			<section class="hm-side-section" ng-if="lastMission">
+				<div class="pg-section-header">
+					<h2>{{ 'OF_PlayAgain' | translate }}</h2>
+				</div>
+				<div class="hm-host-again">
+					<span class="of-thumb ms-item-image" ng-class="{'ms-hatch': !lastMission.image}">
+						<img ng-if="lastMission.image" ng-src="{{ lastMission.image }}" />
+						<wars-icon ng-if="!lastMission.image" name="image"></wars-icon>
+					</span>
+					<span class="hm-host-again-text">
+						<span class="hm-host-again-title">{{ lastMission.title }}</span>
+						<span class="hm-row-meta">{{ lastMission.mapname }} &middot; {{ lastMissionDifficulty | translate }}</span>
+					</span>
+				</div>
+				<button type="button" class="lb-btn hm-host-again-btn" ng-disabled="launching" ng-click="playAgain()">
+					<wars-icon name="refresh"></wars-icon>{{ (launching ? 'MS_Loading' : 'OF_LaunchAgain') | translate }}
+				</button>
+			</section>
+
+			<section class="hm-side-section" ng-if="lastSkirmish">
+				<div class="pg-section-header">
+					<h2>{{ 'OF_SkirmishAgain' | translate }}</h2>
+				</div>
+				<div class="hm-host-again">
+					<span class="pg-thumb hm-thumb-large"><img ng-if="lastSkirmish.overviewsrc" ng-src="{{ lastSkirmish.overviewsrc }}.vtf" /></span>
+					<span class="hm-host-again-text">
+						<span class="hm-host-again-title">{{ lastSkirmishTitle }}</span>
+						<span class="hm-row-meta">
+							{{ lastSkirmish.map }} &middot;
+							<span ng-if="!lastSkirmish.nummodifiers">{{ 'HM_NoModifiers' | translate }}</span>
+							<span ng-if="lastSkirmish.nummodifiers">{{ lastSkirmish.nummodifiers }} {{ 'HM_Modifiers' | translate }}</span>
+						</span>
+					</span>
+				</div>
+				<a href="#!/Gamelobby?preset=last&amp;lobbytype=offline" class="lb-btn hm-host-again-btn"><wars-icon name="refresh"></wars-icon>{{ 'HM_CreateWithLastSettings' | translate }}</a>
+			</section>
+
+			<a href="#!/LoadGame" class="pg-link pg-dev-link" ng-if="beta === 'dev'">{{ 'LG_LoadMenu' | translate }}<wars-icon name="chevron-right"></wars-icon></a>
+		</div>
+	</div>
+</div>

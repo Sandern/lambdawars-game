@@ -3,13 +3,6 @@
 import menuModule from './module';
 
 var DIFFICULTIES = ['easy', 'normal', 'hard'];
-// Defaults of GetMissions in mainmenu.py when the map resource doesn't have them
-var DEFAULT_NAME = 'Unknown map';
-var DEFAULT_DESCRIPTION = 'No description';
-
-function difficultyLabel(difficulty) {
-    return 'Mission_' + difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
-}
 
 class MissionsController {
     /*@ngInject*/
@@ -32,19 +25,9 @@ class MissionsController {
 
         var lastMission = recent.lastMission();
         $scope.difficulties = DIFFICULTIES.map(function(id) {
-            return {id: id, label: difficultyLabel(id)};
+            return {id: id, label: missions.difficultyLabel(id)};
         });
         $scope.difficulty = lastMission && DIFFICULTIES.indexOf(lastMission.difficulty) !== -1 ? lastMission.difficulty : 'normal';
-
-        function describe(mission) {
-            return {
-                mapname: mission.mapname,
-                title: mission.name && mission.name !== DEFAULT_NAME ? mission.name : mission.mapname,
-                description: mission.description && mission.description !== DEFAULT_DESCRIPTION ? mission.description : '',
-                image: mission.image || '',
-                workshop: !!mission.workshop,
-            };
-        }
 
         function updateVisible() {
             $scope.visible = $scope.missions.filter(function(mission) {
@@ -80,7 +63,7 @@ class MissionsController {
         };
 
         $scope.difficultyLabel = function() {
-            return difficultyLabel($scope.difficulty);
+            return missions.difficultyLabel($scope.difficulty);
         };
 
         $scope.launch = function() {
@@ -96,7 +79,7 @@ class MissionsController {
         missions.update(function() {
             $scope.$applyAsync(function() {
                 $scope.loaded = true;
-                $scope.missions = (missions.missions || []).map(describe);
+                $scope.missions = (missions.missions || []).map(missions.describe);
                 updateVisible();
                 var selected = $scope.missions[missions.missions_index];
                 if( !selected && lastMission ) {

@@ -213,6 +213,8 @@
 	flex-shrink: 0;
 	width: 44rem;
 	margin-left: 5.6rem;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .pg-section-header {
@@ -543,8 +545,12 @@
 	}
 }
 
-.hm-mission-shade {
+// The shade and the corner stay positioned over the image
+.hm-mission-shade, .hm-mission-card > .pg-card-corner {
 	position: absolute;
+}
+
+.hm-mission-shade {
 	top: 0;
 	left: 0;
 	right: 0;
@@ -1460,5 +1466,22 @@
 
 	.lb-btn-launch.ms-launch-btn {
 		height: 5.2rem;
+	}
+}
+
+// Offline: missions, skirmish and tutorial
+
+.of-thumb {
+	flex: 0 0 6.4rem;
+	height: 3.6rem;
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+
+	.hm-host-again & {
+		flex-basis: 9.6rem;
+		height: 5.4rem;
 	}
 }

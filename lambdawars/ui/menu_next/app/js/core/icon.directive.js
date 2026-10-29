@@ -26,7 +26,8 @@ var ICONS = {
     'arrow-left': '<path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/>',
     'chevron-right': '<path d="M9 6l6 6-6 6"/>',
     'image': '<rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/>',
-    'wrench':'<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
+    'tutorial': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/>',
+    'wrench': '<path d="M15 4a5 5 0 0 0-4.6 6.9L4 17.3V20h2.7l6.4-6.4A5 5 0 0 0 20 9l-3 1-2-2 1-3z"/>',
 };
 
 /*@ngInject*/
