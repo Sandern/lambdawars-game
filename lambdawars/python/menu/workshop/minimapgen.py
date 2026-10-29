@@ -26,6 +26,8 @@ RESOLUTION = 1024
 CAPTURE_DELAY = 2.0
 #: Seconds after which the capture is given up
 CAPTURE_TIMEOUT = 30.0
+#: Space around the playable area on each side. From about 0.21 all of it fits in the round HUD minimap.
+DEFAULT_MARGIN = 0.24
 
 #: The map whose minimap is being generated: {mapname, file, path}, or None
 request = None
@@ -41,13 +43,17 @@ _capturing = False
 _started = False
 
 
-def Request(mapname):
-    """ Remembers which map is generated, before the map is loaded. """
+def Request(mapname, margin=DEFAULT_MARGIN):
+    """ Remembers which map is generated, before the map is loaded.
+
+        margin is the space around the playable area on each side, in parts of its size (0 to 1).
+    """
     global request, generated
     DiscardGenerated()
     name = '%s_%d' % (mapname, int(time.time()))
     request = {
         'mapname': mapname,
+        'margin': max(0.0, min(1.0, margin)),
         'file': '%s/%s' % (GENERATED_FOLDER, name),
         'path': os.path.abspath(os.path.join('materials', GENERATED_FOLDER, name + '.vtf')),
     }
@@ -95,7 +101,7 @@ def _OnTick():
     if not _capturing:
         if now - _starttime < CAPTURE_DELAY:
             return
-        if not _workshop or not _workshop.StartMinimapCapture(request['path'], RESOLUTION):
+        if not _workshop or not _workshop.StartMinimapCapture(request['path'], RESOLUTION, request['margin']):
             result = _workshop.GetMinimapCaptureResult() if _workshop else None
             _Finish(False, result['error'] if result else 'Capturing the minimap is not available.')
             _Leave()

@@ -194,6 +194,14 @@
 
 			<div ng-switch-when="confirm">
 				<p class="ws-dialog-note">{{ 'WS_MinimapConfirmText' | translate }}</p>
+				<div class="wp-field wp-minimap-margin">
+					<span class="wp-label">{{ 'WS_MinimapMargin' | translate }}</span>
+					<span class="st-slider">
+						<input type="range" min="0" max="50" step="1" settings-range="minimapMargin" settings-change="setMinimapMargin($value)" />
+						<span class="st-slider-value">{{ minimapMargin }}%</span>
+					</span>
+					<span class="wp-hint">{{ 'WS_MinimapMarginHint' | translate }}</span>
+				</div>
 				<p class="ws-dialog-message ws-error" role="alert" ng-if="minimapError"><wars-icon name="close"></wars-icon>{{ minimapError }}</p>
 				<div class="ws-dialog-actions">
 					<button type="button" class="lb-btn" ng-click="closeMinimapDialog()">{{ 'Dialog_Cancel' | translate }}</button>
@@ -233,7 +241,7 @@
 				<p class="ws-dialog-message ws-error" role="alert" ng-if="minimapError"><wars-icon name="close"></wars-icon>{{ minimapError }}</p>
 				<div class="ws-dialog-actions">
 					<button type="button" class="lb-btn" ng-disabled="savingMinimap" ng-click="discardMinimap()">{{ 'WS_DiscardMinimap' | translate }}</button>
-					<button type="button" class="lb-btn" ng-disabled="savingMinimap || !canGenerateMinimap()" ng-click="generateMinimap()">{{ 'WS_RegenerateMinimap' | translate }}</button>
+					<button type="button" class="lb-btn" ng-disabled="savingMinimap || !canGenerateMinimap()" ng-click="confirmGenerateMinimap()">{{ 'WS_RegenerateMinimap' | translate }}</button>
 					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="savingMinimap" ng-click="approveMinimap()">{{ 'WS_ApproveMinimap' | translate }}</button>
 				</div>
 			</div>
@@ -242,7 +250,7 @@
 				<p class="ws-dialog-message ws-error" role="alert"><wars-icon name="close"></wars-icon>{{ 'WS_MinimapFailed' | translate }} {{ minimapError }}</p>
 				<div class="ws-dialog-actions">
 					<button type="button" class="lb-btn" ng-click="discardMinimap()">{{ 'WS_Close' | translate }}</button>
-					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canGenerateMinimap()" ng-click="generateMinimap()">{{ 'WS_TryAgain' | translate }}</button>
+					<button type="button" class="lb-btn lb-btn-launch ws-dialog-launch" ng-disabled="!canGenerateMinimap()" ng-click="confirmGenerateMinimap()">{{ 'WS_TryAgain' | translate }}</button>
 				</div>
 			</div>
 		</div>

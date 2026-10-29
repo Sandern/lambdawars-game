@@ -419,7 +419,7 @@ class WebWorkshop(WebViewComponent):
         """ Loads a local map to generate its minimap (see minimapgen). The game returns to the menu after
             capturing it, then the menu asks for approval.
 
-            Args: map name
+            Args: map name, margin around the playable area on each side in percent of its size
             Callback args: error message, empty if the map is loading
         """
         mapname = methodargs[0]
@@ -428,7 +428,11 @@ class WebWorkshop(WebViewComponent):
         if self.publishjob:
             return ['Wait until the upload is done.']
 
-        minimapgen.Request(mapname)
+        try:
+            margin = float(methodargs[1]) / 100.0
+        except (IndexError, TypeError, ValueError):
+            margin = minimapgen.DEFAULT_MARGIN
+        minimapgen.Request(mapname, margin)
         sessiondata = KeyValues('Session')
         sessiondata.SetString('system/network', 'offline')
         sessiondata.SetString('game/mode', 'minimapgen')

@@ -131,6 +131,29 @@ class WorkshopController {
         $scope.minimapError = '';
         $scope.savingMinimap = false;
 
+        // Space around the playable area on each side, in percent of its size. Remembered for the next minimap.
+        // From about 21% all of the playable area fits in the round minimap of the HUD.
+        var MINIMAP_MARGIN_KEY = 'lambdawars.minimapmargin';
+        var DEFAULT_MINIMAP_MARGIN = 24;
+        $scope.minimapMargin = DEFAULT_MINIMAP_MARGIN;
+        try {
+            var storedMargin = parseInt(localStorage.getItem(MINIMAP_MARGIN_KEY), 10);
+            if( storedMargin >= 0 && storedMargin <= 50 ) {
+                $scope.minimapMargin = storedMargin;
+            }
+        } catch( e ) {
+            // Keeps the default
+        }
+
+        $scope.setMinimapMargin = function(value) {
+            $scope.minimapMargin = value;
+            try {
+                localStorage.setItem(MINIMAP_MARGIN_KEY, String(value));
+            } catch( e ) {
+                // Not remembered
+            }
+        };
+
         $scope.canGenerateMinimap = function() {
             return $scope.available && $scope.selected.map && !$scope.publishing && !$scope.linking;
         };
@@ -149,7 +172,7 @@ class WorkshopController {
             }
             // The unsaved details come back with the page after leaving the map (see workshop:minimapgenerated)
             $rootScope.workshopDraft = {mapname: map.name, form: angular.copy($scope.form)};
-            workshop.generateminimap(map.name, function(error) {
+            workshop.generateminimap(map.name, $scope.minimapMargin, function(error) {
                 $timeout(function() {
                     if( error ) {
                         $rootScope.workshopDraft = null;
@@ -159,8 +182,9 @@ class WorkshopController {
             });
         };
 
+        // Cancelling generating again goes back to the minimap that was generated
         $scope.closeMinimapDialog = function() {
-            $scope.minimapDialog = null;
+            $scope.minimapDialog = $scope.generated && $scope.generated.success ? 'review' : null;
         };
 
         $scope.discardMinimap = function() {
