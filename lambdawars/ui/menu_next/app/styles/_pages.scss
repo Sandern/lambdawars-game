@@ -120,11 +120,11 @@
 
 // The main action of a page
 .pg-card-hot {
-	background: rgba($orange, 0.07);
+	background-color: rgba($orange, 0.07);
 	border-color: rgba($orange, 0.55);
 
 	&:hover {
-		background: rgba($orange, 0.12);
+		background-color: rgba($orange, 0.12);
 		border-color: $lightorange;
 	}
 
@@ -528,8 +528,6 @@
 .hm-mission-card {
 	overflow: hidden;
 	background-color: $ui-panel-solid;
-	background-position: center;
-	background-size: cover;
 
 	> * {
 		position: relative;
@@ -545,9 +543,24 @@
 	}
 }
 
-// The shade and the corner stay positioned over the image
-.hm-mission-shade, .hm-mission-card > .pg-card-corner {
+// The image, the shade and the corner stay positioned over the card
+.hm-mission-image, .hm-mission-shade, .hm-mission-card > .pg-card-corner {
 	position: absolute;
+}
+
+// Zooms in slightly when hovering the card
+.hm-mission-image {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-position: center;
+	background-size: cover;
+	transition: transform .6s ease-out;
+
+	.hm-mission-card:hover & {
+		transform: scale(1.05);
+	}
 }
 
 .hm-mission-shade {

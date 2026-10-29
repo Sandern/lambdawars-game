@@ -41,7 +41,8 @@
 					<wars-icon name="arrow-right"></wars-icon>
 				</span>
 			</a>
-			<a href="#!/Missions" class="pg-card hm-mission-card" ng-style="missionImage ? {'background-image': 'url(' + missionImage + ')'} : {}">
+			<a href="#!/Missions" class="pg-card hm-mission-card">
+				<span class="hm-mission-image" ng-if="missionImage" ng-style="{'background-image': 'url(' + missionImage + ')'}"></span>
 				<span class="hm-mission-shade"></span>
 				<span class="pg-eyebrow">{{ 'HM_SinglePlayer' | translate }}</span>
 				<span class="pg-card-title">{{ 'HM_PlayMission' | translate }}</span>
