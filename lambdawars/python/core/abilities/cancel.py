@@ -1,3 +1,8 @@
+"""Cancel ability for canceling unit actions and construction.
+
+Provides an ability that allows players to cancel ongoing actions of selected
+units, such as construction of buildings or other unit activities.
+"""
 from .instant import AbilityInstant
 
 class AbilityCancel(AbilityInstant): 

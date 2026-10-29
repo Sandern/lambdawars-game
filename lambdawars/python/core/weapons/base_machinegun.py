@@ -1,10 +1,19 @@
+"""Machine gun weapon classes for Lambda Wars.
+
+Provides base classes for machine gun weapons with automatic fire capabilities.
+"""
 from srcbase import MAX_TRACE_LENGTH
 from .base import WarsWeaponBase as BaseClass
 from entities import WeaponSound, FireBulletsInfo_t, Activity
 
 class WarsWeaponMachineGun(BaseClass):
-    """ Weapon base for machine gun like weapons. """
+    """Base class for machine gun-like weapons.
+    
+    Machine guns typically have spread and can start shooting earlier
+    due to their cone of fire.
+    """
     class AttackPrimary(BaseClass.AttackRange):
+        """Primary attack configuration for machine guns."""
         # Most machines guns have some spread, so we can start shooting earlier
         cone = BaseClass.AttackRange.DOT_6DEGREE
 

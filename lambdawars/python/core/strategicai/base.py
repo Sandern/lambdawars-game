@@ -1,3 +1,8 @@
+"""Base strategic AI classes for Lambda Wars.
+
+Provides base classes for the strategic AI system that controls CPU players,
+including building construction, unit management, and decision making.
+"""
 import random
 import traceback
 from operator import attrgetter
@@ -28,11 +33,21 @@ wars_strategicai_debug = ConVar('wars_strategicai_debug', '0', FCVAR_CHEAT)
 wars_strategicai_debug_rules = ConVar('wars_strategicai_debug_rules', '0', FCVAR_CHEAT)
 
 def SAIMsg(msg, verbose=1):
+    """Print strategic AI debug message if verbosity level is met.
+    
+    Args:
+        msg (str): Message to print.
+        verbose (int): Required verbosity level.
+    """
     if wars_strategicai_debug.GetInt() >= verbose:
         print(msg)
 
 class StrategicAIDefault(StrategicAIInfo):
-    """ Default base Strategic AI. """
+    """Default base Strategic AI.
+    
+    Provides the core strategic AI implementation for CPU players,
+    including building management, unit production, and tactical decisions.
+    """
     destroying = False
     
     name = 'cpu_wars_default'
@@ -42,6 +57,12 @@ class StrategicAIDefault(StrategicAIInfo):
     accumulatingrequisition = False
     
     def __init__(self, ownernumber, difficulty='medium'):
+        """Initialize the strategic AI.
+        
+        Args:
+            ownernumber (int): Owner number for this AI player.
+            difficulty (str): Difficulty level ('easy', 'medium', 'hard').
+        """
         super().__init__()
         
         if difficulty == None:
@@ -68,6 +89,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.difficulty = difficulty
 
     def Initialize(self):
+        """Initialize the strategic AI and connect to game signals."""
         SAIMsg('SAI#%d Initialize' % (self.ownernumber))
     
         # Use think rates as an indirect way to slow down decision making
@@ -93,6 +115,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.RecalcPendingPopulationCount()
         
     def Shutdown(self):
+        """Shutdown the strategic AI and clean up resources."""
         SAIMsg('SAI#%d Shutdown' % (self.ownernumber))
         
         self.destroying = True
@@ -122,7 +145,7 @@ class StrategicAIDefault(StrategicAIInfo):
         self.groups = set([])
         
     def OnRestore(self):
-        ''' Called after restoring the cpu player from a save file. '''
+        """Called after restoring the CPU player from a save file."""
         pass
         
     __difficulty = None
@@ -166,6 +189,7 @@ class StrategicAIDefault(StrategicAIInfo):
         
     # Initializing
     def RebuildBuildingList(self):
+        """Rebuild the internal set of constructed buildings for this AI."""
         SAIMsg('SAI#%d RebuildBuildingList len=%d' % (self.ownernumber, len(buildinglist[self.ownernumber])))
         for b in buildinglist[self.ownernumber]:
             if not b.isconstructed:
@@ -173,12 +197,14 @@ class StrategicAIDefault(StrategicAIInfo):
             self.OnBuildingConstructed(b)
             
     def RebuildUnitList(self):
+        """Iterate existing units and (re)assign them to appropriate AI groups."""
         for unit in unitlist[self.ownernumber]:
             if unit.sai_group and unit.sai_group.sai == self:
                 continue
             self.OnUnitSpawned(unit)
             
     def RecalcPendingPopulationCount(self):
+        """Recompute population that will be provided by buildings still under construction."""
         self.pendingpopulationcount = 0
         for b in buildinglist[self.ownernumber]:
             if b.isconstructed:
@@ -225,6 +251,14 @@ class StrategicAIDefault(StrategicAIInfo):
         self.RecomputeIncomeRate()
         
     def OnAddNewUnit(self, unit):
+        """Handle a newly spawned or transferred unit and assign it to a group.
+
+        Skips units that are inactive, owned by another player, or already
+        assigned to one of this AI's groups.
+
+        Args:
+            unit: Unit entity that should be considered by the AI.
+        """
         try:
             if not unit.handlesactive:
                 return
@@ -243,6 +277,14 @@ class StrategicAIDefault(StrategicAIInfo):
     
     # Groups management
     def FindGroupForUnit(self, unit):
+        """Find an existing or new group for the given unit.
+
+        Tries to add the unit to suitable existing groups first; if none accept
+        it, optionally creates a new group of the best matching group type.
+
+        Args:
+            unit: Unit entity that requires a group assignment.
+        """
         if self.destroying:
             return
         
@@ -277,6 +319,17 @@ class StrategicAIDefault(StrategicAIInfo):
         return not groupcls.category or groupcls.category not in self.excludegroupcats
             
     def FindNewGroupForUnit(self, unit):
+        """Create candidate group instances and select the best match for a unit.
+
+        Instantiates each registered group type, filters those that match the
+        unit, and returns the highest-priority group (randomised among ties).
+
+        Args:
+            unit: Unit entity to test against group types.
+
+        Returns:
+            GroupBase | None: New group instance or None if no match was found.
+        """
         bestgroup = None
     
         groupsinfo = []
@@ -314,6 +367,7 @@ class StrategicAIDefault(StrategicAIInfo):
             
     # Ability rules (i.e. decide on what ability to execute)
     def BuildAbilityRules(self, unit):
+        """Instantiate all ability rules that apply to the given unit."""
         abirules = []
         for rule in dbabilityrules.values():
             try:
@@ -325,6 +379,7 @@ class StrategicAIDefault(StrategicAIInfo):
         return abirules
         
     def GetAbilityRules(self, unit):
+        """Return (and cache) the list of ability rules for a unit."""
         # Get rules
         sai_abirules = getattr(unit, 'sai_abirules', None)
         if not sai_abirules:
@@ -333,6 +388,15 @@ class StrategicAIDefault(StrategicAIInfo):
         return sai_abirules
 
     def FindRuleAndAdd(self, unit, rules):
+        """Pick the best rule for a unit and add it to the execution queue.
+
+        Populates `unit.sai_abilities`, updates rule priorities, and then
+        selects the first rule that reports a viable action.
+
+        Args:
+            unit: Unit entity the rules operate on.
+            rules (list[AbilityRuleBase]): Rule instances to consider.
+        """
         # Copy keys of abilities, used for filtering
         unit.sai_abilities = set(unit.abilities.values())
         
@@ -357,6 +421,7 @@ class StrategicAIDefault(StrategicAIInfo):
         
     # Main functions
     def UpdateHintUnitCounts(self):
+        """Rebuild unit hint counts for this AI player (used by rules)."""
         self.hintunitcounts.clear()
         
         for unittype, l in unitlistpertype[self.ownernumber].items():
@@ -367,6 +432,7 @@ class StrategicAIDefault(StrategicAIInfo):
                 self.hintunitcounts[hint] += len(l)
                 
     def UpdateGroupCounts(self):
+        """Rebuild counts of active groups per group type."""
         self.groupcounts.clear()
         
         for g in self.groups:
@@ -465,6 +531,17 @@ class StrategicAIDefault(StrategicAIInfo):
             
     # Useful methods
     def FindNearest(self, classnames, origin, filter=None):
+        """Find the nearest entity of one of the given class names.
+
+        Args:
+            classnames (str | list[str]): Single classname or list of names.
+            origin: World-space position to measure distances from.
+            filter (callable | None): Optional predicate taking an entity and
+                returning True if it is allowed.
+
+        Returns:
+            entity | None: Nearest reachable entity or None if none found.
+        """
         classnames = [classnames] if type(classnames) == str else classnames
         for classname in classnames:
             cur = entitylist.FindEntityByClassname(None, classname) 

@@ -16,7 +16,7 @@ class PyInterpreterEntry(TextEntry):
         if code == ButtonCode_t.KEY_ENTER or code == ButtonCode_t.KEY_PAD_ENTER:
             self.GetParent().history.InsertColorChange( Color( 255, 255, 255, 255 ) )
             self.GetParent().history.InsertString( '>>> ' + self.GetText() + '\n' )
-            engine.ClientCommand( 'cl_py_run ' + self.GetText() )
+            engine.ClientCommand( 'cl_py_run ' + self.GetText() )  # No such command as cl_py_run, but there is cl_py_runfile
             self.SetText( "" )
         else:
             super(PyInterpreterEntry, self).OnKeyCodeTyped( code )

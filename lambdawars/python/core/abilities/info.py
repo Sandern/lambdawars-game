@@ -1,3 +1,10 @@
+"""Ability information and technology system.
+
+Defines the AbilityInfo class which stores metadata about abilities including
+costs, requirements, display information, and technology dependencies. The
+tech system tracks which abilities are available and enabled for each player,
+handling prerequisites and dependencies between abilities.
+"""
 import traceback
 import ast
 
@@ -40,6 +47,15 @@ active_abilities = set()
 
 # Tech system
 def GetTechNode(info, ownernumber):
+    """Get or create a tech node for an ability and owner.
+    
+    Args:
+        info (AbilityInfo|str): Ability info object or ability name.
+        ownernumber (int): Owner number.
+        
+    Returns:
+        BaseTechNode: The tech node for this ability and owner.
+    """
     if isinstance(info, str):
         abiname = info
         info = GetAbilityInfo(abiname)
@@ -57,10 +73,21 @@ def GetTechNode(info, ownernumber):
     return technode
 
 class BaseTechNode(object):
+    """Base class for technology nodes.
+    
+    Tech nodes track the availability and enabled state of abilities for
+    each owner. They handle tech requirements and dependencies.
+    """
     # Default values changed if this is False. Used for deciding if to send data to a newly connected client.
     pristine = True
 
     def __init__(self, info, ownernumber):
+        """Initialize a tech node.
+        
+        Args:
+            info (AbilityInfo): Ability info this tech node belongs to.
+            ownernumber (int): Owner number.
+        """
         super().__init__()
         
         self.info = info
@@ -98,6 +125,11 @@ class BaseTechNode(object):
     # Server only methods. 
     if isserver:
         def RecomputeAvailable(self):
+            """Recompute whether this tech node is available.
+            
+            Checks if the node is locked and if all tech requirements
+            are enabled.
+            """
             if not self.info:
                 return
             
@@ -113,15 +145,29 @@ class BaseTechNode(object):
             self.available = available
             
         def OnRequiredNodeChanged(self, technode):
+            """Called when a required tech node changes state.
+            
+            Args:
+                technode: The tech node that changed.
+            """
             self.RecomputeAvailable()
             
         def FullUpdateClient(self, client):
+            """Send full tech state update to a client.
+            
+            Args:
+                client: Client entity to send update to.
+            """
             filter = CSingleUserRecipientFilter(client)
             filter.MakeReliable()
             ClientFullUpdateTechState(self.name, self.ownernumber, self.available, self.techenabled,
                                       self.showonunavailable, self.successorability, filter=filter)
             
     def OnTechEnabledChanged(self):
+        """Called when the tech enabled state changes.
+        
+        Updates all units for this owner to refresh their abilities.
+        """
         from core.units import unitlist
         
         for unit in unitlist[self.ownernumber]:
@@ -258,7 +304,13 @@ class BaseTechNode(object):
 
 
 class FallbackTechNode(BaseTechNode):
+    """Fallback tech node used when an invalid ability is requested.
+    
+    Always returns True for availability and enabled state to prevent
+    errors when looking up invalid abilities.
+    """
     def __init__(self):
+        """Initialize the fallback tech node."""
         super(BaseTechNode, self).__init__() # Skip BaseTechNode
         
         self.info = None
@@ -269,18 +321,22 @@ class FallbackTechNode(BaseTechNode):
         
     @property
     def available(self):
+        """Always returns True for fallback node."""
         return True
     
     @property
     def techenabled(self):
+        """Always returns True for fallback node."""
         return True
     
     @property
     def showonunavailable(self):
+        """Always returns False for fallback node."""
         return False
     
     @property
     def successorability(self):
+        """Always returns None for fallback node."""
         return None
 
 
@@ -291,6 +347,7 @@ fallbacktechnode = FallbackTechNode()
 # Base entry for ability info
 #
 class AbilityInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass for AbilityInfo that sets up ability UIDs and images."""
     def __c_mul(a, b):
         return ast.literal_eval(hex((a * b) & 0xFFFFFFFF)[:-1])
     
@@ -336,7 +393,16 @@ class AbilityInfoMetaClass(gamemgr.BaseInfoMetaclass):
 
 
 class CostListField(ListField):
+    """Field for ability costs that converts various formats to C objects."""
     def ToValue(self, rawvalue):
+        """Convert raw cost value to C object format.
+        
+        Args:
+            rawvalue: Cost value in various formats (string, list, C object).
+            
+        Returns:
+            C: Cost object.
+        """
         if type(rawvalue) == str:
             rawvalue = ast.literal_eval(rawvalue)
         if type(rawvalue) != C:
@@ -352,7 +418,14 @@ class CostListField(ListField):
 
 
 class TechReqListField(ListField):
+    """Field for tech requirements that updates tech nodes when changed."""
     def Set(self, clsorinst, value):
+        """Set tech requirements and update dependent tech nodes.
+        
+        Args:
+            clsorinst: Class or instance to set value on.
+            value: New tech requirements list.
+        """
         oldtechinfo = clsorinst.techinfo
     
         super().Set(clsorinst, value)
@@ -467,6 +540,15 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
     
     @staticmethod
     def FilterSelection(abiname, units):
+        """Filter units to only those that have a specific ability.
+        
+        Args:
+            abiname (str): Ability name to filter by.
+            units (list): List of units to filter.
+            
+        Returns:
+            list: Filtered list of units that have the ability.
+        """
         newunits = []
         for unit in units:
             if abiname in unit.abilitiesbyname:
@@ -475,6 +557,18 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
     
     @classmethod
     def GetRequirementsUnits(info, player, units=None):
+        """Get requirements for an ability across multiple units.
+        
+        Returns the intersection of requirements for all units, meaning
+        all units must satisfy all requirements.
+        
+        Args:
+            player: Player entity.
+            units (list, optional): List of units. If None, uses player's selection.
+            
+        Returns:
+            set: Set of requirement strings that must be satisfied.
+        """
         if units is None:
             units = info.FilterSelection(info.name, player.GetSelection())
             
@@ -539,7 +633,17 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
         
     @classmethod    
     def ShouldShowAbility(info, unit):
-        """ Allows to hide an ability for a specific unit. """
+        """Check if an ability should be shown for a specific unit.
+        
+        Allows hiding an ability for specific units based on tech state
+        or construction state.
+        
+        Args:
+            unit: Unit entity.
+            
+        Returns:
+            bool: True if the ability should be shown, False otherwise.
+        """
         # Don't show if technode says so
         technode = GetTechNode(info.name, unit.GetOwnerNumber())
         if not technode.available and not technode.showonunavailable:
@@ -552,9 +656,18 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
     
     @classmethod    
     def CanDoAbility(info, player, unit):
-        """ Check for the given unit if it can do this ability.
-            This is mainly done by calling GetRequirements and check if
-            the returned set is empty."""
+        """Check if a unit can execute this ability.
+        
+        This is mainly done by calling GetRequirements and checking if
+        the returned set is empty.
+        
+        Args:
+            player: Player entity.
+            unit: Unit entity.
+            
+        Returns:
+            bool: True if the unit can execute the ability, False otherwise.
+        """
         requirements = info.GetRequirements(player, unit)
         return len(requirements) == 0
         
@@ -567,7 +680,14 @@ class AbilityInfo(gamemgr.BaseInfo, metaclass=AbilityInfoMetaClass):
 # Misc
 #
 def GetAbilityInfo(abi_name):
-    """ Returns the ability info class. Returns None if the ability does not exists. """
+    """Get ability info by name.
+    
+    Args:
+        abi_name (str): Ability name.
+        
+    Returns:
+        AbilityInfo: The ability info class, or None if the ability does not exist.
+    """
     return dbabilities.get(abi_name, None)
 
 # Shutdown/new clients
@@ -588,7 +708,12 @@ def AbilitiesShutdown(sender, **kwargs):
 if isserver:
     @receiver(clientactive)
     def AbilitiesClientActive(sender, client, **kwargs):
-        """ Gives a full update of the tech tree to the new client. """
+        """Give a full update of the tech tree to a newly connected client.
+        
+        Args:
+            sender: Signal sender.
+            client: Newly connected client entity.
+        """
         for info in dbabilities.values():
             if info.TechNode and info.techglobal:
                 for ti in info.techinfo.values():
@@ -618,7 +743,14 @@ if isserver:
             
 @usermessage(messagename='_uts')
 def ClientUpdateTechState(type, info, ownernumber, *args, **kwargs):
-    """ Updates a single property of a technode. """
+    """Update a single property of a tech node on the client.
+    
+    Args:
+        type (int): Message type indicating which property to update.
+        info (str): Ability name.
+        ownernumber (int): Owner number.
+        *args: Additional arguments depending on message type.
+    """
     technode = GetTechNode(info, ownernumber)
     if type == MSG_TECH_SETAVAILABLE:
         technode.available = True
@@ -639,7 +771,18 @@ def ClientUpdateTechState(type, info, ownernumber, *args, **kwargs):
         
 @usermessage(messagename='_futs')
 def ClientFullUpdateTechState(name, ownernumber, available, techenabled, showonunavailable, successorability, *args, **kwargs):
-    """ Intended for usage when client (re)connects. """
+    """Perform a full update of tech node state on the client.
+    
+    Intended for usage when client (re)connects to sync all tech state.
+    
+    Args:
+        name (str): Ability name.
+        ownernumber (int): Owner number.
+        available (bool): Whether the ability is available.
+        techenabled (bool): Whether the tech is enabled.
+        showonunavailable (bool): Whether to show when unavailable.
+        successorability (str): Name of successor ability, if any.
+    """
     technode = GetTechNode(name, ownernumber)
     technode.available = available
     technode.techenabled = techenabled
@@ -648,10 +791,24 @@ def ClientFullUpdateTechState(name, ownernumber, available, techenabled, showonu
     
 @usermessage()
 def ClientSetTechNodeLocked(info, ownernumber, state, *args, **kwargs):
+    """Set the locked state of a tech node on the client.
+    
+    Args:
+        info (str): Ability name.
+        ownernumber (int): Owner number.
+        state (bool): Locked state.
+    """
     technode = GetTechNode(info, ownernumber)
     technode.locked = state
         
 @usermessage()
 def ClientSetTechNodeNoCosts(info, ownernumber, state, *args, **kwargs):
+    """Set the no-costs state of a tech node on the client.
+    
+    Args:
+        info (str): Ability name.
+        ownernumber (int): Owner number.
+        state (bool): No-costs state.
+    """
     technode = GetTechNode(info, ownernumber)
     technode.nocosts = state

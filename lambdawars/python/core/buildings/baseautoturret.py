@@ -1,3 +1,8 @@
+"""Auto turret building classes for Lambda Wars.
+
+Provides base classes for automatic turrets that can either be controlled
+by a player or operate autonomously.
+"""
 from srcbase import *
 from vmath import Vector, QAngle, AngleVectors, DotProduct, VectorNormalize
 from .baseturret import UnitBaseTurret, UnitBaseTurretAnimState
@@ -5,7 +10,14 @@ from entities import networked
 from utils import UTIL_PlayerByIndex
 
 class UnitAutoTurretAnimState(UnitBaseTurretAnimState):
+    """Animation state for auto turrets that can be player-controlled."""
     def Update(self, eyeyaw, eyepitch):
+        """Update turret animation state based on controller or target.
+        
+        Args:
+            eyeyaw (float): Eye yaw angle.
+            eyepitch (float): Eye pitch angle.
+        """
         if not self.outer.controllerplayer:
             return super().Update(eyeyaw, eyepitch)
             
@@ -22,7 +34,16 @@ class UnitAutoTurretAnimState(UnitBaseTurretAnimState):
             
 @networked
 class UnitBaseAutoTurret(UnitBaseTurret):
+    """Base class for auto turret building entities.
+    
+    Can operate autonomously or be controlled by a player.
+    """
     def CreateAnimState(self):
+        """Create the animation state for this auto turret.
+        
+        Returns:
+            UnitAutoTurretAnimState: Animation state instance.
+        """
         return UnitAutoTurretAnimState(self)
         
     if isserver:

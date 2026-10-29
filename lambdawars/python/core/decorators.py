@@ -1,6 +1,16 @@
-'''
-Decorators for various purposes.
-'''
+"""Decorators for client/server-side code execution control.
+
+Provides decorators to mark functions that should only execute on the
+client or server side. This is essential for Source Engine games where
+code runs on both server and client, but certain operations should only
+happen on one side.
+
+Decorators include:
+- clientonly: Silently does nothing on server
+- clientonly_assert: Asserts if called on server
+- serveronly: Silently does nothing on client
+- serveronly_assert: Asserts if called on client
+"""
 
 def clientonly(fn):
     ''' Methods with this decorator are only executed on the client.

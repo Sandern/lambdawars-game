@@ -82,7 +82,8 @@ class UnitCombine(BaseClass):
                     self.SetGrenadeClass(abi.grenadeclsname)
 
                 startpos = Vector()
-                unit.GetAttachment("lefthand", startpos)
+                if not unit.GetAttachment("lefthand", startpos):
+                    unit.GetAttachment("anim_attachment_RH", startpos)
 
                 targetpos = abi.throwtarget.GetAbsOrigin() if abi.throwtarget else abi.throwtargetpos
 
@@ -257,8 +258,6 @@ class UnitCombine(BaseClass):
 class UnitCombineSniper(UnitCombine):
     canshootmove = False
     insteadyposition = BooleanField(value=False, networked=True)
-    maxhealth = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
-    health = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
     
     def OnInCoverChanged(self):
         super().OnInCoverChanged()
@@ -340,8 +339,18 @@ class CombineHPUpgrade(AbilityUpgradeValue):
     description = '#CombineHPUpgrade_Description'
     buildtime = 90.0
     costs = [[('requisition', 30), ('power', 30)], [('kills', 50)]]
-    upgradevalue = 240
+    upgradevalue = 40
     image_name = 'vgui/combine/abilities/combine_hp_upgrade'
+    
+    def OnUpgraded(self):
+        super().OnUpgraded()
+
+        ownernumber = self.ownernumber
+        from core.units.info import unitlist
+        for unit in unitlist[ownernumber]:
+            if not unit.IsAlive():
+                continue
+            unit.ApplyHealthUpgrades()
 
 class ArmyCombine_Tier3(AbilityUpgradeValue):
     name = 'armycombine_tier_3'
@@ -362,8 +371,6 @@ class UnitCombineGrenadeUpgradeShared(UnitCombine):
         self.UpdateAbilities()
         
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
-    maxhealth = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
-    health = UpgradeField(abilityname='combine_hp_upgrade', cppimplemented=True)
     buildtime = UpgradeField(abilityname='armycombine_tier_3', cppimplemented=True) #TODO: 'buildtime' doesn't work with UpgradeField?
 
 class CombineInfo(CombineSharedInfo):
@@ -376,10 +383,11 @@ class CombineInfo(CombineSharedInfo):
     costs = [[('requisition', 25)], [('kills', 1)]]
     techrequirements = ['build_comb_armory']
     buildtime = 24.0
-    health = 200
+    health = 190
     maxspeed = 216.0
     viewdistance = 768
     attributes = ['medium']
+    hpupgrades = ['combine_hp_upgrade']
     sound_select = 'unit_combine_select'
     sound_move = 'unit_combine_move'
     sound_attack = 'unit_combine_attack'
@@ -444,7 +452,7 @@ class CombineAR2Info(CombineInfo):
     techrequirements = ['build_comb_armory','weaponar2_comb_unlock']
     #techrequirements = ['build_comb_armory']
     buildtime = 28.0
-    health = 200
+    health = 175
     maxspeed = 184
     sensedistance = 1024.0
     viewdistance = 832

@@ -1,3 +1,9 @@
+"""Heads-up display (HUD) registration and helper utilities for Lambda Wars.
+
+Imports and exposes the various HUD panels so they are registered on the
+client, and defines helper user-messages used to update HUD components at
+runtime.
+"""
 from core.usermessages import usermessage
 
 if isclient:
@@ -20,6 +26,7 @@ if isclient:
     
     # Used by notifications system to insert messages
     def DoInsertMessage(notification, text, icon=None, color=Color(255, 255, 0, 255)):
+        """Helper used by notifications to insert a message into the HUD."""
         if text and text[0] == '#':
             localizedtext = localize.Find(text)
                 

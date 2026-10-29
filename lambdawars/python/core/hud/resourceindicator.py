@@ -1,3 +1,8 @@
+"""Floating HUD indicators that visualize resource gains and losses.
+
+Renders small popups above world positions when the player gains or spends
+resources, animating icons and numbers so resource changes are easy to see.
+"""
 from srcbase import HIDEHUD_STRATEGIC
 from vgui import surface, GetClientMode, CHudElement, CHudElementHelper, scheme, FontDrawType_t
 from vgui.controls import Panel
@@ -6,6 +11,11 @@ from core.resources import GetResourceInfo
 
 
 class HudResourceIndicator(CHudElement, Panel):
+    """Displays resource gain popups above world positions for a short time.
+
+    Tracks active indicators, animates their movement and alpha over a fixed
+    lifetime, and draws both the resource icon and amount in screen space.
+    """
     def __init__(self):
         CHudElement.__init__(self, "HudResourceIndicator")
         Panel.__init__(self, GetClientMode().GetViewport(), "HudResourceIndicator")

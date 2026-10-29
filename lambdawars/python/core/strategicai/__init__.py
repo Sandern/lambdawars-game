@@ -1,3 +1,9 @@
+"""Strategic AI system for Lambda Wars.
+
+Provides AI systems that control CPU players, making strategic decisions about
+unit production, building placement, and combat tactics. The AI uses ability
+rules and group behaviors to execute game plans.
+"""
 import srcmgr
 srcmgr.VerifyIsServer()
 

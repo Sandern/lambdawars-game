@@ -1,3 +1,9 @@
+"""HUD minimap implementation with fog-of-war, unit tracking, and pings.
+
+Handles rendering of the strategic minimap, keeps track of unit markers,
+reacts to fog-of-war changes, and processes ping signals from the gameplay
+systems.
+"""
 from srcbase import Color
 from vmath import Vector2D, Vector
 from vgui import cursors, GetClientMode, surface, FontVertex_t, vgui_input, scheme
@@ -23,7 +29,19 @@ FOW_TILESIZE = 64
 minimapflash = Signal(providing_args=['ent', 'duration'])
 
 class BaseHudMinimap(BaseMinimap):
+    """Client minimap panel that renders units, fog-of-war, and incoming pings.
+
+    Maintains local caches of map objects, subscribes to unit spawn/remove
+    signals, responds to networked ping events, and provides helper methods
+    for translating world coordinates into minimap space.
+    """
     def __init__(self, parent):
+        """Initialize minimap state and subscribe to gameplay signals.
+
+        Args:
+            parent: Supplied by VGUI layouts but ignored because the
+                minimap always attaches to the main client viewport.
+        """
         # Vars
         self.backgroundtextureid = -1
         self.maptextureid = -1    
@@ -57,6 +75,7 @@ class BaseHudMinimap(BaseMinimap):
         self.FullUnitUpdate()
         
     def UpdateOnDelete(self):
+        """Disconnect all global signals before the panel is destroyed."""
         firedping.disconnect(self.OnPing)
         minimapflash.disconnect(self.OnMinimapFlash)
         unitspawned.disconnect(self.OnUnitSpawned)
@@ -65,6 +84,12 @@ class BaseHudMinimap(BaseMinimap):
         playerchangedownernumber.disconnect(self.OnPlayerChangedOwnernumber)
         
     def ApplySchemeSettings(self, scheme_obj):
+        """Load textures and colors from the HUD scheme.
+
+        Args:
+            scheme_obj: Source VGUI scheme that provides color tables and
+                lets us create texture IDs with the correct material paths.
+        """
         super().ApplySchemeSettings(scheme_obj)
         
         self.SetBgColor(Color(0,0,0,128))
@@ -82,6 +107,7 @@ class BaseHudMinimap(BaseMinimap):
         self.fowsizeworldhalf = (FogOfWarMgr().GetGridSize() * FogOfWarMgr().GetTileSize()) / 2.0
         
     def PerformLayout(self):
+        """Recalculate vertex positions whenever the minimap is resized."""
         super().PerformLayout()
 
         # Setup points
@@ -94,6 +120,7 @@ class BaseHudMinimap(BaseMinimap):
     
     #@profile('Minimap.OnThink')
     def OnThink(self):    
+        """Update orientation, cursor hint, and camera drag state each tick."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -106,9 +133,11 @@ class BaseHudMinimap(BaseMinimap):
         self.UpdateCursor()
     
     def Reset(self):
+        """Reset minimap state. Currently unused but kept for completeness."""
         pass
         
     def SetMap(self, mapname):   
+        """Load the overview texture referenced by the map name."""
         super().SetMap(mapname)
         
         if self.minimap_material == None:
@@ -126,6 +155,7 @@ class BaseHudMinimap(BaseMinimap):
             return
             
     def FullUnitUpdate(self):
+        """Rebuild the cached minimap icons for all existing units."""
         for owner, l in unitlist.items():
             for unit in l:
                 if not unit.handlesactive:
@@ -133,29 +163,36 @@ class BaseHudMinimap(BaseMinimap):
                 self.OnUnitSpawned(unit)
             
     def OnUnitSpawned(self, unit, **kwargs):
+        """Insert a unit's minimap icon when it enters the world."""
         info = unit.unitinfo
         if not info.minimaphalfwide or not unit.ShowOnMinimap():
             return
         self.InsertEntityObject(unit, info.minimapicon, info.minimaphalfwide, info.minimaphalftall, True, True, info.minimaplayer)
         
     def OnUnitRemoved(self, unit, **kwargs):
+        """Remove the minimap icon for a unit that just despawned."""
         self.RemoveEntityObject(unit) # Noop in case the unit is not on the minimap
         
     def OnMinimapUpdateUnit(self, unit, **kwargs):
+        """Refresh an icon when the unit changed factions/icon properties."""
         self.OnUnitRemoved(unit)
         self.OnUnitSpawned(unit)
         
     def OnPlayerChangedOwnernumber(self, player, oldownernumber, **kwargs):
+        """Rebuild icons when the local player changes teams/owner."""
         self.RemoveAllEntityObjects(unitsonly=True)
         self.FullUnitUpdate()
         
     def OnPing(self, pos, color, **kwargs):
+        """Handle network ping events fired by other clients."""
         self.Ping(color, pos=pos)
         
     def OnMinimapFlash(self, ent, duration, **kwargs):
+        """Highlight a specific entity for the requested duration."""
         self.FlashEntity(ent, duration)
             
     def Ping(self, color, pos=None, mappos=None):
+        """Queue a ping circle animation (and accompanying sound)."""
         if not mappos:
             mappos = self.MapToPanel(self.WorldToMap(pos))
         self.pings.append([
@@ -170,6 +207,7 @@ class BaseHudMinimap(BaseMinimap):
     # Paint methods
     @profile('Minimap.Paint')
     def Paint(self):
+        """Draw the minimap texture, fog, units, and pings."""
         self.DrawMapTexture(self.drawpoints)
         self.DrawFOW(self.drawpoints)
         self.DrawEntityObjects()
@@ -180,7 +218,7 @@ class BaseHudMinimap(BaseMinimap):
         super().Paint()
         
     def DrawBackground(self):
-        """ Draw that thing behind the minimap """
+        """Draw the static background texture behind the minimap."""
         if self.backgroundtextureid < 0:
             return
 
@@ -189,6 +227,7 @@ class BaseHudMinimap(BaseMinimap):
         surface().DrawTexturedRect(0, 0, self.GetWide(), self.GetTall())
         
     def DrawPings(self):
+        """Animate ping rings for player alerts."""
         scale = scheme().GetProportionalScaledValueEx(self.GetScheme(), 16)
         for i in range(len(self.pings)-1, -1, -1):
             p = self.pings[i]
@@ -200,6 +239,7 @@ class BaseHudMinimap(BaseMinimap):
             surface().DrawOutlinedCircle(p[1], p[2], int(alive * scale), 128)
             
     def DrawFOW(self, points):
+        """Composite the fog-of-war texture over the minimap vertices."""
         if not sv_fogofwar.GetBool():
             return
 
@@ -237,7 +277,7 @@ class BaseHudMinimap(BaseMinimap):
         surface().DrawTexturedPolygon( points_coords )
 
     def DrawMapTexture(self, points):
-        """ Draw the map """
+        """Draw the overview map texture or a fallback background."""
         if self.maptextureid < 0:
             self.DrawBackground()
             return
@@ -301,6 +341,7 @@ class BaseHudMinimap(BaseMinimap):
         # surface().DrawLine( int(point2D4.x), int(point2D4.y), int(point2D1.x), int(point2D1.y) )
         
     def DrawMapBoundaries(self):
+        """Render collision boundary boxes so players see play-space limits."""
         surface().DrawSetColor(0, 0, 255, 200)
         
         boundary = GetMapBoundaryList()
@@ -339,6 +380,12 @@ class BaseHudMinimap(BaseMinimap):
             boundary = boundary.GetNext()
         
     def GetMouseDataAt(self):
+        """Convert the current mouse position to world coordinates.
+
+        Returns:
+            MouseTraceData: Structure filled with the trace results that
+            gameplay orders expect when the user clicks the minimap.
+        """
         from core.ents import FuncMapBoundary # FIXME
         
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
@@ -370,6 +417,7 @@ class BaseHudMinimap(BaseMinimap):
         return mousedata
     
     def OnMousePressed(self, code):
+        """Handle left/right minimap clicks for camera drag, pings, and orders."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -398,6 +446,7 @@ class BaseHudMinimap(BaseMinimap):
             vgui_input().SetMouseCaptureEx(self.GetVPanel(), code)
 
     def OnMouseReleased(self, code):
+        """Release captured mouse buttons and finalize orders/direct move."""
         self.UpdateCursor()
     
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
@@ -418,11 +467,13 @@ class BaseHudMinimap(BaseMinimap):
                 player.SimulateOrderUnits(self.GetMouseDataAt())
                 
     def OnCursorMoved(self, x, y):
+        """Update the cursor each time the mouse moves across the minimap."""
         super().OnCursorMoved(x, y)
         
         self.UpdateCursor()
             
     def UpdateCursor(self):
+        """Switch cursors depending on whether the player is abilities-only."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -433,6 +484,7 @@ class BaseHudMinimap(BaseMinimap):
             self.SetCursor(cursors.GetCursor("resource/arrows/default_cursor.cur"))
                 
     def UpdateToMinimapPosition(self):
+        """Snap the RTS camera to the position under the mouse cursor."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return

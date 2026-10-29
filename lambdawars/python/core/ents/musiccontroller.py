@@ -10,15 +10,21 @@ else:
         base=['Targetname', 'Parentname', 'Angles', 'Wars'],
         iconsprite='editor/wars_music_controller.vmt')
 class EntMusicController(CPointEntity):
-    ''' This entity allows you to manipulate the background music. '''
+    """Entity that controls background music playback for the match.
+
+    Can stop music entirely, resume default playlists, or play a specific
+    custom track defined by map logic.
+    """
     def UpdateTransmitState(self):
         return self.SetTransmitState(FL_EDICT_ALWAYS)
         
     def OnCustomTrackChanged(self):
+        """Client callback that switches to the configured custom track (or clears it)."""
         # In case path is empty, clears the active custom song and returns to default tracks
         musicmanager.PlayCustomTrack(self.customtrack)
         
     def OnMusicStateChanged(self):
+        """Client callback that toggles the global music active flag."""
         musicmanager.active = self.musicenabled
         
     @input(inputname='StopMusic', helpstring='Stops any music from being played')

@@ -1,3 +1,9 @@
+"""Weapon system for Lambda Wars.
+
+Provides base classes for different weapon types including machine guns,
+melee weapons, and special weapons like flamers. Handles weapon firing,
+projectile creation, damage calculation, and weapon-specific behaviors.
+"""
 from vmath import vec3_origin, Vector
 from . base import WarsWeaponBase
 from . base_machinegun import WarsWeaponMachineGun

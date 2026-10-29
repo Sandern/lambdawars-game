@@ -314,6 +314,36 @@ if isserver:
 
         s_nExplosionCount = 0
         
+        def ProjectileThink(self):
+            self.UpdateLastKnowOrigin()
+            origin = self.GetAbsOrigin()
+            dir = self.lastorigin - origin
+            dist = VectorNormalize(dir)
+            
+            traveldist = self.velocity * self.thinkfreq
+            if dist < traveldist:
+                traveldist = dist
+            self.SetAbsOrigin(origin + (dir * traveldist))
+            
+            angles = QAngle()
+            VectorAngles(dir, Vector(0, 0, 1), angles)
+            self.SetAbsAngles(angles)
+
+            if self.died:
+                return
+
+            if (self.GetAbsOrigin() - self.lastorigin).Length() < 1.0:
+                self.OnReachEndDestination()
+                self.ProjectileImpact(self.projtarget)
+                return
+
+            if self.dietime and self.dietime < gpGlobals.curtime:
+                self.OnReachEndDestination()
+                self.ProjectileDie()
+                return
+
+            self.SetNextThink(gpGlobals.curtime + self.thinkfreq)
+        
         def Explode(self):
             self.SetSolid( SOLID_NONE )
 

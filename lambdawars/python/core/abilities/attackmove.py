@@ -1,3 +1,9 @@
+"""Attack-move order ability.
+
+Allows players to order units to move to a location while automatically
+attacking any enemies encountered along the way. Units will engage targets
+as they move rather than just moving to the destination.
+"""
 from .target import AbilityTargetGroup
 from core.units.orders import GroupMoveOrder
 

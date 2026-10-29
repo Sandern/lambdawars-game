@@ -1,3 +1,8 @@
+"""Entity definitions for Lambda Wars core.
+
+Imports and registers various map entities used by the game, such as
+ability managers, CPU players, triggers, and helper entities.
+"""
 from . import cpuplayer
 from . import event_building_listener
 from . import filters
