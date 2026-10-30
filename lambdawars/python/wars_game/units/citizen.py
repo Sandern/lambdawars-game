@@ -5,7 +5,7 @@ from core.units import (UnitInfo, UnitBaseCombatHuman as BaseClass, EventHandler
 from fields import UpgradeField, BooleanField, FloatField
 from entities import entity, Activity
 from unit_helper import UnitAnimConfig, LegAnimType_t
-from gameinterface import CPASAttenuationFilter, modelinfo
+from gameinterface import CPASAttenuationFilter
 from core.units.abilities import AbilityTransformUnit
 
 if isserver:
@@ -115,39 +115,63 @@ class UnitCitizen(BaseClass):
             cls.PrecacheScriptSound(info.sound_attack_f)
         if hasattr(info, 'sound_death_f'):
             cls.PrecacheScriptSound(info.sound_death_f)
-        
+
+    # Gender detection must work on server (death) and client (orders/abilities).
+    # Source may return lowercased or mixed-case model paths, so match case-insensitively.
+    citizenmodelname = None
+    citizenfmatcher = re.compile(r'models[/\\]humans[/\\].+[/\\]female_\d+\.mdl', re.I)
+
+    @property
+    def isfemale(self):
+        """ True when this unit is using a female citizen/rebel model. """
+        if not self.citizenmodelname:
+            self.citizenmodelname = str(self.GetModelName() or '')
+        return bool(self.citizenfmatcher.match(self.citizenmodelname))
+
+    def GetGenderSound(self, male_sound, female_sound):
+        """ Picks the female soundscript when applicable, otherwise the male one.
+
+            Args:
+                male_sound (str): Default/male soundscript name.
+                female_sound (str): Female soundscript name (may be empty).
+
+            Returns:
+                str: Soundscript to play, or empty string if neither is set.
+        """
+        if self.isfemale and female_sound:
+            return female_sound
+        return male_sound or ''
+
+    def DeathSound(self):
+        """ Plays the gender-matching death soundscript on the server. """
+        soundscript = self.GetGenderSound(self.unitinfo.sound_death,
+                                          getattr(self.unitinfo, 'sound_death_f', ''))
+        if soundscript:
+            self.EmitSound(soundscript)
+
     if isclient:
-        citizenmodelname = None
-        citizenfmatcher = re.compile('models/Humans/.+/female_\d+.mdl')
-        
-        @property
-        def isfemale(self):
-            if not self.citizenmodelname:
-                self.citizenmodelname = modelinfo.GetModelName(modelinfo.GetModel(self.GetModelIndex()))
-            return bool(self.citizenfmatcher.match(self.citizenmodelname))
-    
         def PlaySelectedSound(self):
             """ Plays selected soundscript using the setting from the info class. """
-            soundscript = self.unitinfo.sound_select_f if self.isfemale else self.unitinfo.sound_select
+            soundscript = self.GetGenderSound(self.unitinfo.sound_select,
+                                              getattr(self.unitinfo, 'sound_select_f', ''))
             if not soundscript or self.order_sounds_disabled:
                 return
 
             if UnitBaseShared.nextplayselectsound < gpGlobals.curtime:
                 self.EmitAmbientSound(-1, self.GetAbsOrigin(), soundscript)
                 UnitBaseShared.nextplayselectsound = gpGlobals.curtime + 6.0
-        
-        def MoveSound(self):
-            self.PlayOrderSound(self.unitinfo.sound_move_f if self.isfemale else self.unitinfo.sound_move)
-            
-        def AttackSound(self):
-            self.PlayOrderSound(self.unitinfo.sound_attack_f if self.isfemale else self.unitinfo.sound_attack)
 
-        def DeathSound(self):
-            self.PlayOrderSound(self.unitinfo.sound_death_f if self.isfemale else self.unitinfo.sound_death)
-            
+        def MoveSound(self):
+            self.PlayOrderSound(self.GetGenderSound(self.unitinfo.sound_move,
+                                                    getattr(self.unitinfo, 'sound_move_f', '')))
+
+        def AttackSound(self):
+            self.PlayOrderSound(self.GetGenderSound(self.unitinfo.sound_attack,
+                                                    getattr(self.unitinfo, 'sound_attack_f', '')))
+
     def GetAbilitySound(self, soundscriptdesired):
         """ Translates soundscript symbol to desired soundscript.
-            This is used in case different units should use a different soundscript. 
+            This is used in case different units should use a different soundscript.
         """
         abilitysounds = self.abilitysounds_f if self.isfemale else self.abilitysounds
         return abilitysounds.get(soundscriptdesired, '')
