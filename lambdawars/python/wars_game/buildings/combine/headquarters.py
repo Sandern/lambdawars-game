@@ -17,19 +17,19 @@ class CombineHQ(BaseClass):
         if not hqunits or not hqunits[0] == self:
             return False
         return super().CanGenerateResources(resourcetype, amount)
-        
+
     if isclient:
         def OnBuildStateChanged(self):
             super().OnBuildStateChanged()
-            
+
             if self.isproducing:
                 self.StartWorkParticals()
             else:
                 self.StopWorkParticals()
-                
+
         def UpdateOnRemove(self):
             super().UpdateOnRemove()
-            
+
             self.StopWorkParticals()
 
         def StartWorkParticals(self):
@@ -37,7 +37,7 @@ class CombineHQ(BaseClass):
                 self.workparticalsfx = self.ParticleProp().Create("pg_blue_flash", PATTACH_POINT_FOLLOW, 'light')
             if not self.workparticalsfx2:
                 self.workparticalsfx2 = self.ParticleProp().Create("pg_blue_strom02", PATTACH_POINT_FOLLOW, 'top')
-            
+
         def StopWorkParticals(self):
             if self.workparticalsfx:
                 self.ParticleProp().StopEmission(self.workparticalsfx)
@@ -45,23 +45,23 @@ class CombineHQ(BaseClass):
             if self.workparticalsfx2:
                 self.ParticleProp().StopEmission(self.workparticalsfx2)
                 self.workparticalsfx2 = None
-            
+
     else:
         def Precache(self):
             super().Precache()
-            
-            PrecacheParticleSystem( "pg_blue_flash" )
-            PrecacheParticleSystem( "pg_blue_strom02" )
-    
+
+            PrecacheParticleSystem("pg_blue_flash")
+            PrecacheParticleSystem("pg_blue_strom02")
+
     # Settings
     autoconstruct = False
     customeyeoffset = Vector(0, 0, 150)
-    
+
     workparticalsfx = None
     workparticalsfx2 = None
-    #buildingsolidmode = SOLID_BBOX
-    
-    
+    # buildingsolidmode = SOLID_BBOX
+
+
 # Normal gamemode
 class CombineHQInfo(WarsBuildingInfo):
     name = 'build_comb_hq'
@@ -98,17 +98,18 @@ class CombineHQInfo(WarsBuildingInfo):
     }
     population = 0
     providespopulation = 9
-    generateresources = {'type' : 'requisition', 'amount' : 1.0, 'interval' : 1.0}
+    generateresources = {'type': 'requisition', 'amount': 1.0, 'interval': 1.0}
     sound_select = 'build_comb_hq'
     sound_death = 'build_comb_hq_destroy'
     explodeparticleeffect = 'pg_combine_HQ_explosion'
-    explodeshake = (10, 100, 5, 6000) # Amplitude, frequence, duration, radius
-    sai_hint = WarsBuildingInfo.sai_hint | set(['sai_building_hq','sai_scrap_collection'])
-    
+    explodeshake = (10, 100, 5, 6000)  # Amplitude, frequence, duration, radius
+    sai_hint = WarsBuildingInfo.sai_hint | set(['sai_building_hq', 'sai_scrap_collection'])
+
     placerestrictions = [
-        {'unittype' : 'scrap_marker', 'radius' : 180.0},
-        {'unittype' : 'scrap_marker_small', 'radius' : 180.0},
+        {'unittype': 'scrap_marker', 'radius': 180.0},
+        {'unittype': 'scrap_marker_small', 'radius': 180.0},
     ]
+
 
 class CombPopUpgrade1(AbilityUpgradePopCap):
     name = 'comb_popupgrade1'
@@ -120,6 +121,7 @@ class CombPopUpgrade1(AbilityUpgradePopCap):
     providespopulation = 11
     costs = [('requisition', 40)]
 
+
 class CombPopUpgrade2(AbilityUpgradePopCap):
     name = 'comb_popupgrade2'
     displayname = '#CombPopUpgr2_Name'
@@ -129,6 +131,7 @@ class CombPopUpgrade2(AbilityUpgradePopCap):
     buildtime = 0.0
     providespopulation = 20
     costs = [('requisition', 70)]
+
 
 class CombPopUpgrade3(AbilityUpgradePopCap):
     name = 'comb_popupgrade3'
@@ -140,6 +143,7 @@ class CombPopUpgrade3(AbilityUpgradePopCap):
     providespopulation = 30
     costs = [('requisition', 125)]
 
+
 class CombPopUpgrade4(AbilityUpgradePopCap):
     name = 'comb_popupgrade4'
     displayname = '#CombPopUpgr4_Name'
@@ -148,7 +152,26 @@ class CombPopUpgrade4(AbilityUpgradePopCap):
     buildtime = 0.0
     providespopulation = 30
     costs = [('requisition', 125)]
-    
+
+
+class DestroyHQCombineHQInfo(CombineHQInfo):
+    name = 'build_comb_hq_destroyhq'
+    health = 4000
+    abilities = {
+        0: 'unit_stalker_destroy_hq',
+        1: 'unit_combine_citizen',
+        3: SubMenu(name='combine_faction_abilities',
+                   displayname='#AbilityHQCombineFactionMenu_Name',
+                   description='#AbilityHQCombineFactionMenu_Description',
+                   image_name="VGUI/combine/abilities/combine_faction_abilities",
+                   abilities={0: 'dropsoldiers',
+                              11: 'menuup',
+                              }),
+        8: 'cancel',
+        11: 'comb_popupgrade1',
+    }
+
+
 # OVERRUN version
 class OverrunCombineHQInfo(CombineHQInfo):
     name = 'overrun_build_comb_hq'
@@ -157,47 +180,47 @@ class OverrunCombineHQInfo(CombineHQInfo):
     health = 4000
     abilities = {
         0: 'overrun_unit_stalker',
-        1 : 'overrun_dropsoldiers',
+        1: 'overrun_dropsoldiers',
         8: 'or_tier2_research',
         3: SubMenu(name='combine_t1_units',
                    displayname='#Tier1MenuUnits_Name',
                    description='#Tier1MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_1_menu",
                    abilities={
-                              0: 'overrun_unit_manhack',
-                              1: 'overrun_unit_metropolice',
-                              2: 'overrun_unit_metropolice_smg1',
-                              3: 'overrun_unit_metropolice_riot',
-                              11: 'menuup',
-                              }),
+                       0: 'overrun_unit_manhack',
+                       1: 'overrun_unit_metropolice',
+                       2: 'overrun_unit_metropolice_smg1',
+                       3: 'overrun_unit_metropolice_riot',
+                       11: 'menuup',
+                   }),
         7: SubMenu(name='combine_t2_units',
                    displayname='#Tier2MenuUnits_Name',
                    description='#Tier2MenuUnits_Description',
                    image_name="VGUI/combine/abilities/tier_2_menu",
                    abilities={
-                              0: 'overrun_unit_combine',
-                              1: 'overrun_unit_combine_sg',
-                              2: 'overrun_unit_combine_ar2',
-                              3: 'overrun_unit_rollermine',
-                              4: 'overrun_unit_scanner',
-                              11: 'menuup',
-                              }),
+                       0: 'overrun_unit_combine',
+                       1: 'overrun_unit_combine_sg',
+                       2: 'overrun_unit_combine_ar2',
+                       3: 'overrun_unit_rollermine',
+                       4: 'overrun_unit_scanner',
+                       11: 'menuup',
+                   }),
         11: SubMenu(name='combine_t3_units',
-                   displayname='#Tier3MenuUnits_Name',
-                   description='#Tier3MenuUnits_Description',
-                   image_name="VGUI/combine/abilities/tier_3_menu",
-                   abilities={
-                              0: 'overrun_unit_combine_heavy',
-                              1: 'overrun_unit_combine_elite',
-                              2: 'overrun_unit_combine_sniper',
-                              3: 'overrun_unit_hunter',
-                              4: 'overrun_unit_mortar_synth',
-                              5: 'overrun_unit_crab_synth',
-                              6: 'overrun_unit_strider',
-                              7: 'overrun_unit_observer',
-                              8: 'overrun_unit_clawscanner',
-                              11: 'menuup',
-                              }),
+                    displayname='#Tier3MenuUnits_Name',
+                    description='#Tier3MenuUnits_Description',
+                    image_name="VGUI/combine/abilities/tier_3_menu",
+                    abilities={
+                        0: 'overrun_unit_combine_heavy',
+                        1: 'overrun_unit_combine_elite',
+                        2: 'overrun_unit_combine_sniper',
+                        3: 'overrun_unit_hunter',
+                        4: 'overrun_unit_mortar_synth',
+                        5: 'overrun_unit_crab_synth',
+                        6: 'overrun_unit_strider',
+                        7: 'overrun_unit_observer',
+                        8: 'overrun_unit_clawscanner',
+                        11: 'menuup',
+                    }),
     }
     providespopulation = 50
-    generateresources = {'type' : 'kills', 'amount' : 1.0, 'interval' : 2.0}
+    generateresources = {'type': 'kills', 'amount': 1.0, 'interval': 2.0}

@@ -297,6 +297,8 @@ class HudBuildSingleUnit(BaseHudSingleUnit):
         """Make resource-left label visible only for generators with tracking."""
         super().OnShowHud()
     
+        self.resourcesleft.SetVisible(False)
+    
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player or player.CountUnits() != 1:
             return

@@ -73,6 +73,7 @@ class AbilityTransformUnit(AbilityInstant):
                 unit.Weapon_Equip(w)
 
         def PostTransform(self, unit):
+            unit.UpdateMaxHealth()
             if self.replaceweapons:
                 self.ReplaceWeapons(unit)
         

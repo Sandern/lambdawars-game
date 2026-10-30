@@ -26,7 +26,7 @@ class WeaponSGUnlock(AbilityUpgrade):
     description = '#WeaponSGUnlock_Description'
     image_name = "vgui/abilities/weaponsg_unlock"
     #techrequirements = ['rebel_upgrade_tier_mid']
-    buildtime = 45.0
+    buildtime = 55.0
     costs = [[('kills', 5)], [('requisition', 15), ('scrap', 10)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
 

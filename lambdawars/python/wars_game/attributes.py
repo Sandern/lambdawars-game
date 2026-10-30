@@ -44,8 +44,9 @@ class SynthAttributeInfo(AttributeInfo):
 
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.25),
-        #'buckshot': ScaleBonusDamage(0.25),
+        'buckshot': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.25),
+        'ar2': ScaleBonusDamage(0.25),
         'ar1': ScaleBonusDamage(0.25),
     }
 
@@ -57,8 +58,9 @@ class MetalAttributeInfo(AttributeInfo):
 
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.25),
-        #'buckshot': ScaleBonusDamage(0.25),
+        'buckshot': ScaleBonusDamage(0.25),
         'pulse': ScaleBonusDamage(0.25),
+        'ar2': ScaleBonusDamage(0.25),
         'ar1': ScaleBonusDamage(0.25),
     }
 
@@ -121,7 +123,9 @@ class AidAttributeInfo(AttributeInfo):
         'explosive': ScaleBonusDamage(0.4),
         'plasma': ScaleBonusDamage(0.4),
         'bullet': ScaleBonusDamage(0.4),
+        'buckshot': ScaleBonusDamage(0.4),
         'pulse': ScaleBonusDamage(0.5),
+        'ar2': ScaleBonusDamage(0.5),
         'pulse_elite': ScaleBonusDamage(0.5),
     }
 
@@ -191,9 +195,9 @@ class BuckShotAttribute(AttributeInfo):
     name = 'buckshot'
 
     dmgmodifiers = {
-        'light': ScaleBonusDamage(4),
-        'creature': ScaleBonusDamage(4),
-        'medium': ScaleBonusDamage(2.4),
+        'light': ConstantBonusDamage(40),
+        'creature': ConstantBonusDamage(40),
+        'medium': ConstantBonusDamage(10),
     }
 
 class WinchesterAttribute(AttributeInfo):
@@ -224,6 +228,14 @@ class PulseAttribute(AttributeInfo):
     dmgmodifiers = {
         'light': ConstantBonusDamage(4),
         'medium': ConstantBonusDamage(5),
+    }
+
+class Ar2Attribute(AttributeInfo):
+    name = 'ar2'
+
+    dmgmodifiers = {
+        'light': ConstantBonusDamage(4),
+        'medium': ConstantBonusDamage(1),
     }
 
 class AR1Attribute(AttributeInfo):
@@ -526,6 +538,7 @@ class CharBossAttribute(AttributeInfo):
 
     dmgrecvmodifiers = {
         'bullet': ScaleBonusDamage(0.5),
+        'buckshot': ScaleBonusDamage(0.5),
         'dps': ScaleBonusDamage(0.8),
         'energyball': ScaleBonusDamage(0.33),
         'rpg': ScaleBonusDamage(1.5),
