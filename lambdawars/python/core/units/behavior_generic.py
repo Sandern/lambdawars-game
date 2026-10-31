@@ -1,3 +1,7 @@
+"""Generic behavior system for Lambda Wars units.
+
+Provides the default behavior system that covers moving and attacking for units.
+"""
 from srcbase import FL_FLY, MASK_NPCSOLID
 from vmath import vec3_origin, Vector, QAngle, VectorAngles, AngleDiff, VectorNormalize
 import random
@@ -12,20 +16,28 @@ from navmesh import NavMeshGetPositionNearestNavArea
 
 
 class BehaviorGeneric(BaseBehavior):
-    """ Defines a single behavior that covers moving and attacking. """
-
+    """Defines a single behavior that covers moving and attacking.
+    
+    This is the default behavior system for combat units, providing
+    actions for idle, movement, attacking, and order execution.
+    """
     class ActionIdle(BaseBehavior.ActionInterruptible, BaseAction):
-        """ Idle action of the unit. The unit starts with this action.
+        """Idle action of the unit. The unit starts with this action.
 
-            The idle action will listen to events like new orders and new enemies.
+        The idle action will listen to events like new orders and new enemies.
         """
 
         def Init(self, updateidleposition=True):
+            """Initialize the idle action.
+            
+            Args:
+                updateidleposition (bool): Whether to update the idle position.
+            """
             super().Init()
             self.updateidleposition = updateidleposition
 
         def OnStart(self):
-            """ Starts the idle action. Checks for orders and enemies. """
+            """Start the idle action. Checks for orders and enemies."""
             outer = self.outer
             if self.updateidleposition:
                 outer.lastidleposition = outer.GetAbsOrigin()

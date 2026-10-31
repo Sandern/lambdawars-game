@@ -1,3 +1,10 @@
+"""Ability system for Lambda Wars.
+
+Provides the base classes and infrastructure for game abilities including
+unit production, upgrades, orders, and special actions. Abilities can be
+instant (execute immediately), targeted (require a target), or menu-based
+(sub-menus for organizing abilities).
+"""
 from .base import AbilityBase, StopInit, PrecacheAbility, CreateAbility, DoAbility, DoAbilitySimulated, SendAbilityMenuChanged, GetAbilityByID
 from .info import (GetTechNode, BaseTechNode, AbilityInfo, GetAbilityInfo)
 if isclient:

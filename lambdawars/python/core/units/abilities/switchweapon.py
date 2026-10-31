@@ -1,12 +1,16 @@
+"""Switch weapon ability for Lambda Wars units.
+
+Provides ability for units to switch between their available weapons.
+"""
 from core.abilities.instant import AbilityInstant
 if isserver:
     from core.units.behavior_generic import BaseAction, BehaviorGeneric
 
 
 class AbilitySwitchWeapon(AbilityInstant):
-    """ Switches all units in the selection with this ability
-        to the specified weapon. """
+    """Switches all units in the selection with this ability to the specified weapon."""
     def DoAbility(self):
+        """Execute the switch weapon ability on all selected units."""
         # Just do the ability on creation ( == when you click the ability slot )
         self.SelectGroupUnits()
 
@@ -16,10 +20,15 @@ class AbilitySwitchWeapon(AbilityInstant):
                               ability=self)
 
     def OnAllUnitsCleared(self):
+        """Complete the ability when all units are done."""
         self.Completed()
 
     def SwitchWeapon(self, unit):
-        """ Switches the weapon and completes the ability. """
+        """Switch the weapon and complete the ability.
+        
+        Args:
+            unit: Unit entity to switch weapon for.
+        """
         self.SetRecharge(unit)
         unit.Weapon_Switch(unit.Weapon_OwnsThisType(self.weapon))
         

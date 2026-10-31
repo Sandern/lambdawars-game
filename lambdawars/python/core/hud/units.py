@@ -1,3 +1,9 @@
+"""HUD panels for unit selection grids, portraits, and garrison displays.
+
+Contains the button and container widgets that render selected units,
+including health bars, ability hooks, garrison/transport information, and
+interaction handling (dragging, selection, context menus).
+"""
 from srcbase import Color, IN_DUCK
 from vgui import cursors, surface, AddTickSignal, HudIcons, scheme, vgui_input, images
 from vgui.controls import Panel, Label, TextEntry
@@ -13,10 +19,25 @@ from input import MOUSE_RIGHT
 from operator import attrgetter
 
 class UnitButton(AbilityButton):
-    """ Button that represents an unit. """
+    """Button that represents a unit in the selection grid.
+    
+    Displays unit icon, health bar, and handles unit selection interactions.
+    Shows ability information on hover and supports double-click selection.
+    """
     def GetHealth(self):
+        """Get the current health value (0.0 to 1.0).
+        
+        Returns:
+            float: Health value between 0.0 and 1.0.
+        """
         return self._health
+        
     def SetHealth(self, health):
+        """Set the unit health and update health bar display.
+        
+        Args:
+            health (float): Health value between 0.0 and 1.0.
+        """
         if health == self._health:
             return
         self._health = health
@@ -25,6 +46,12 @@ class UnitButton(AbilityButton):
     health = property(GetHealth, SetHealth)
     
     def CalculateHealthBar(self):
+        """Calculate health bar position, size, and color.
+        
+        Determines the health bar rectangle coordinates and color based on
+        current health percentage. Health bar color transitions from green
+        to red as health decreases.
+        """
         # Calculate pos, size and colors
         red = 230 - int(self._health * 230.0)
         green = int(self._health * 230.0)
@@ -68,6 +95,11 @@ class UnitButton(AbilityButton):
             self.smallIcon.DrawSelf(0, 0, w*0.2, h*0.2, whitecolor)
 
     def UpdateCursor(self):
+        """Update the mouse cursor based on player state.
+        
+        Shows ability cursor if player has an active ability, otherwise
+        shows the default cursor.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -88,6 +120,11 @@ class UnitButton(AbilityButton):
         self.UpdateCursor()
         
     def ShowAbility(self):
+        """Show ability information panel when hovering over this unit button.
+        
+        Displays the ability info panel at the cursor position with details
+        about the unit's abilities.
+        """
         if self.info:
             infopanel = self.GetParent().infopanel
             # for some reason LocalToScreen doesn't works like it should, so just use GetCursorPosition
@@ -101,11 +138,23 @@ class UnitButton(AbilityButton):
             infopanel.ShowAbility(self.info, contextpanel=self)
 
     def HideAbility(self):
+        """Hide the ability information panel.
+        
+        Called when mouse cursor leaves the unit button.
+        """
         infopanel = self.GetParent().infopanel
         infopanel.HideAbility()
         infopanel.unit = None
         
     def OnMouseDoublePressed(self, code):
+        """Handle double mouse button press.
+        
+        On left double-click, selects all units of the same type.
+        Other buttons are handled as single press.
+        
+        Args:
+            code: Mouse button code.
+        """
         if code != ButtonCode_t.MOUSE_LEFT:
             self.OnMousePressed(code)
             return
@@ -113,6 +162,11 @@ class UnitButton(AbilityButton):
         self.GetParent().OnUnitDoublePressed(self.unit)
         
 class AttributeLabel(Label):
+    """Label widget for displaying unit attributes in the HUD.
+    
+    Shows attribute information and displays detailed attribute info
+    when hovered over.
+    """
     def OnCursorEntered(self):
         super().OnCursorEntered()
         self.ShowAbility()
@@ -122,6 +176,11 @@ class AttributeLabel(Label):
         self.HideAbility()
         
     def ShowAbility(self):
+        """Show attribute information panel when hovering over this label.
+        
+        Displays the attribute info panel at the cursor position with
+        details about the unit attribute.
+        """
         if self.info:
             infopanel = self.GetParent().attrinfopanel
             # for some reason LocalToScreen doesn't works like it should, so just use GetCursorPosition
@@ -135,6 +194,10 @@ class AttributeLabel(Label):
             infopanel.ShowAbility(self.info, contextpanel=self)
 
     def HideAbility(self):
+        """Hide the attribute information panel.
+        
+        Called when mouse cursor leaves the label.
+        """
         infopanel = self.GetParent().attrinfopanel
         infopanel.HideAbility()
         infopanel.unit = None
@@ -143,7 +206,12 @@ class AttributeLabel(Label):
     info = None
     
 class BaseHudUnits(Panel):
-    """ Panel used for showing multiple selected units. """
+    """Base panel for displaying multiple selected units in a grid.
+    
+    Shows unit buttons in a grid layout, handles unit selection, double-click
+    selection of all units of the same type, and displays unit information
+    panels on hover.
+    """
     def __init__(self, parent, config):
         super().__init__(parent, "BaseHudUnits")
         
@@ -194,20 +262,28 @@ class BaseHudUnits(Panel):
         self.infopanel = UnitHudInfo()
         
     def UpdateOnDelete(self):
+        """Destroy the tooltip panel when this HUD block is removed."""
         if self.infopanel:
             self.infopanel.HideAbility()
             self.infopanel.DeletePanel()
             self.infopanel = None
         
     def SetVisible(self, visible):
+        """Hide the tooltip whenever the unit grid is hidden."""
         super().SetVisible(visible)
         if not visible and self.infopanel:
             self.infopanel.HideAbility()
             
     def OnShowHud(self):
+        """Hook for derived classes to react when the grid becomes visible."""
         pass
             
     def Update(self):
+        """Update unit button health bars.
+        
+        Refreshes the health bar display for all visible unit buttons
+        based on their current unit's health.
+        """
         # Update health
         for i in range(0, self.neededslots):
             slot = self.slots[i]
@@ -217,7 +293,11 @@ class BaseHudUnits(Panel):
             slot.health = unit.HealthFraction()
 
     def PerformLayout(self):
-        """ Setup the unit buttons """
+        """Setup the unit button grid layout.
+        
+        Calculates optimal grid dimensions based on available space and
+        number of units, then positions all unit buttons in the grid.
+        """
         super().PerformLayout()
 
         spacingx = scheme().GetProportionalScaledValueEx(self.GetScheme(), self.spacingx) 
@@ -288,7 +368,13 @@ class BaseHudUnits(Panel):
             yrow += 1'''
             
     def OnCommand(self, command):
+        """Handle unit button click commands.
         
+        Routes left and right click commands to appropriate handlers.
+        
+        Args:
+            command (str): Command string in format 'unitslot_N' or 'unitslotright_N'.
+        """
         splitted = command.split('_')
         if splitted[0] == 'unitslot':
             idx = int(splitted[1])
@@ -301,6 +387,15 @@ class BaseHudUnits(Panel):
         raise Exception('Unknown command ' + command)
         
     def OnSlotLeftClick(self, slot):
+        """Handle left mouse click on a unit slot.
+        
+        If player has an active ability, uses the unit as a target.
+        Otherwise, selects the unit type (or all units of that type
+        if control is held).
+        
+        Args:
+            slot: UnitButton that was clicked.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         unit = slot.unit
 
@@ -326,6 +421,14 @@ class BaseHudUnits(Panel):
             player.MakeSelection([unit for unit in selection if unit.GetUnitType() == unittype])
             
     def OnSlotRightClick(self, slot):
+        """Handle right mouse click on a unit slot.
+        
+        Removes the unit from selection, or removes all units of the
+        same type if control is held.
+        
+        Args:
+            slot: UnitButton that was clicked.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer() 
         unit = slot.unit
         ctrldown = player.buttons & IN_DUCK
@@ -342,6 +445,14 @@ class BaseHudUnits(Panel):
             player.MakeSelection([unit for unit in selection if unit.GetUnitType() != unittype])
             
     def OnUnitDoublePressed(self, unit):
+        """Handle double-click on a unit button.
+        
+        Selects all units of the same type as the double-clicked unit,
+        replacing the current selection.
+        
+        Args:
+            unit: Unit entity that was double-clicked.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -351,6 +462,15 @@ class BaseHudUnits(Panel):
         engine.ServerCommand('player_addunit %d' % unit.entindex())
         
     def UpdateUnits(self, units):
+        """Update the unit buttons with the current unit selection.
+        
+        Updates button visibility, icons, and health bars for all units
+        in the selection. Recalculates layout if the number of units
+        changes significantly.
+        
+        Args:
+            units: List of unit entities in the current selection.
+        """
         # Update amount of visible slots if needed
         unitcount = len(units)
         if self.neededslots != unitcount:
@@ -396,6 +516,11 @@ class BaseHudUnits(Panel):
     buttonwideratio = 0.875
     
 class BaseHudGarrisonUnits(BaseHudUnits):
+    """HUD panel for displaying garrisoned units in a building.
+    
+    Extends BaseHudUnits to show garrisoned units with health and
+    population information. Updates when garrison changes.
+    """
     def __init__(self, parent, config={}):    
         super().__init__(parent, config)
         
@@ -457,19 +582,45 @@ class BaseHudGarrisonUnits(BaseHudUnits):
         self.building = building
         
     def OnGarrisonChanged(self, building, **kwargs):
+        """Handle when garrisoned units change in a building.
+        
+        Updates the unit display when units enter or exit the garrison.
+        
+        Args:
+            building: Building entity whose garrison changed.
+        """
         self.UpdateUnits(building.units)
         
     def OnSlotLeftClick(self, slot):
+        """Handle left click on a garrisoned unit slot.
+        
+        Ungarrisons the unit from the building.
+        
+        Args:
+            slot: UnitButton representing the garrisoned unit.
+        """
         if not self.building:
             return
         engine.ServerCommand('player_ungarrison_unit %d' % (slot.unit.entindex()))
         
     def OnSlotRightClick(self, slot):
+        """Handle right click on a garrisoned unit slot.
+        
+        Ungarrisons the unit from the building.
+        
+        Args:
+            slot: UnitButton representing the garrisoned unit.
+        """
         if not self.building:
             return
         engine.ServerCommand('player_ungarrison_unit %d' % (slot.unit.entindex()))
         
     def OnUnitDoublePressed(self, unit):
+        """Handle double-click on a garrisoned unit (no-op).
+        
+        Args:
+            unit: Unit entity that was double-clicked.
+        """
         pass
         
     building = None
@@ -503,6 +654,7 @@ class BaseHudSingleUnit(Panel):
         self.energy.EnableSBuffer(False)
         
     def ApplySchemeSettings(self, schemeobj):
+        """Apply HUD fonts/colors to the name, attribute, and stat labels."""
         super().ApplySchemeSettings(schemeobj)
         
         self.name.SetBgColor(Color(200,200,200,0))
@@ -518,6 +670,7 @@ class BaseHudSingleUnit(Panel):
         self.energy.SetFgColor(Color(0,0,255,255))
 
     def PerformLayout(self):
+        """Lay out name/attribute/attack/health labels proportionally."""
         super().PerformLayout()
         
         fonth = scheme().GetProportionalScaledValueEx(self.GetScheme(), 15)
@@ -540,6 +693,7 @@ class BaseHudSingleUnit(Panel):
         self.energy.SetSize(int(w*1.0), fonth)
         
     def OnShowHud(self):
+        """Populate attribute/attack text when the panel becomes visible."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player or player.CountUnits() != 1:
             return
@@ -584,6 +738,7 @@ class BaseHudSingleUnit(Panel):
         self.attacks.SetText(attackstext)
                      
     def Update(self):
+        """Refresh health/energy readouts for the currently selected unit."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player or player.CountUnits() != 1:
             return
@@ -602,21 +757,29 @@ class BaseHudSingleUnit(Panel):
             self.energy.SetVisible(False)
             
     def OnSelectionChanged(self, player, **kwargs):
+        """Trigger an Update whenever the player's single selection changes."""
         self.Update()
 
 class BaseHudSingleUnitCombat(BaseHudSingleUnit):
+    """HUD panel for displaying single combat unit information.
+    
+    Extends BaseHudSingleUnit to show kill count statistics for
+    combat units.
+    """
     def __init__(self, parent, config={}):  
         super().__init__(parent, config)
         
         self.kills = Label(self, "Kills", "")
 
     def ApplySchemeSettings(self, schemeobj):
+        """Color the combat-specific kill counter using the HUD scheme."""
         super().ApplySchemeSettings(schemeobj)
 
         self.kills.SetFgColor(Color(255,255,255,255))
         self.kills.SetBgColor(Color(200,200,200,0))
         
     def PerformLayout(self):
+        """Position the kill counter underneath the base stat labels."""
         super().PerformLayout()
         
         x, y = self.GetPos()
@@ -626,6 +789,7 @@ class BaseHudSingleUnitCombat(BaseHudSingleUnit):
         self.kills.SetSize(int(w*1.0), int(h*0.1))
         
     def Update(self):
+        """Update base stats and refresh the displayed kill count."""
         super().Update()
         
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
@@ -636,8 +800,12 @@ class BaseHudSingleUnitCombat(BaseHudSingleUnit):
         self.kills.SetText('Kills: %d' % (unit.kills))
             
 class HudUnitsContainer(Panel):
-    """ Container for the units section in the hud.
-        Shows a different panel depending on the selected units."""
+    """Container for the units section in the HUD.
+    
+    Manages which unit panel to display based on selection (single unit,
+    multiple units, garrison, etc.). Switches between different panel
+    types automatically as selection changes.
+    """
     def __init__(self, parent, infopanel, config={}):
         super().__init__(parent, "HudUnitsContainer")
         
@@ -660,11 +828,13 @@ class HudUnitsContainer(Panel):
         self.OnRefreshHud()
 
     def UpdateOnDelete(self):
+        """Disconnect HUD signals when this container is destroyed."""
         refreshhud.disconnect(self.OnRefreshHud)
         selectionchanged.disconnect(self.OnSelectionChanged)
         
     #@profile('HudUnitsContainer.OnTick')
     def OnTick(self):
+        """Forward tick events to whichever subpanel is currently active."""
         if not self.IsVisible():
             return
 
@@ -673,6 +843,12 @@ class HudUnitsContainer(Panel):
             curpanel.Update()
             
     def RecalculateUnitPanel(self):
+        """Recalculate which unit panel should be displayed.
+        
+        Determines the appropriate panel type based on selection
+        (single unit, multiple units, garrison, etc.) and switches
+        to it if different from the current panel.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -704,6 +880,7 @@ class HudUnitsContainer(Panel):
         self.unitpanels[self.curunitpanelclass].Update()
                 
     def PerformLayout(self):
+        """Resize the container and update all child panel bounds."""
         super().PerformLayout()
         
         wide, tall = self.GetSize()
@@ -714,12 +891,14 @@ class HudUnitsContainer(Panel):
             v.SetSize(wide, tall)
         
     def OnRefreshHud(self, **kwargs):
+        """Handle resource/tech refresh events by re-evaluating the panel."""
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
         self.OnSelectionChanged(player)
          
     def OnSelectionChanged(self, player, **kwargs):
+        """Swap in the correct panel and forward the selection event."""
         self.RecalculateUnitPanel()
         if self.unitpanels[self.curunitpanelclass]:
             self.unitpanels[self.curunitpanelclass].OnSelectionChanged(player)

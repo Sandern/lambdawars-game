@@ -1,4 +1,4 @@
-''' Util for testing balance '''
+"""Utility routines for executing balance-test packages and producing reports."""
 import gamemgr
 from gamedb import dbgamepackages
 from srcbuiltins import DictToKeyValues, RegisterPerFrameMethod, UnregisterPerFrameMethod
@@ -20,6 +20,11 @@ balancetestsdone = []
 balancetestsresults = []
 
 def UpdateBalanceTest():
+    """Advance the currently active balance test by one step per frame.
+
+    Pops completed tests off the queue, performs cleanup, and triggers the
+    end-of-run report once all queued tests have finished executing.
+    """
     global balancetestsleft, balancetestsdone
     
     try:
@@ -28,7 +33,7 @@ def UpdateBalanceTest():
             EndBalanceTest()
             
             return
-            
+        
         activetest = balancetestsleft[0]
         if activetest.UpdateSteps():
             return
@@ -40,10 +45,22 @@ def UpdateBalanceTest():
         traceback.print_exc()
         EndBalanceTest()
         
+
 def RunBalanceTest(name, balancetestinfo):
+    """Placeholder hook for running a named balance test package.
+
+    The current implementation simply logs the package that would run; it can
+    be extended to support ad-hoc execution or debugging of individual tests.
+    """
     print('Running balance test package %s' % (name))
     
+
 def EndBalanceTest():
+    """Clean up after balance tests finish and emit the HTML report.
+
+    Unregisters the per-frame runner, writes the aggregated HTML report, and
+    restores the server timescale back to the default value.
+    """
     # Unregister the updater
     UnregisterPerFrameMethod(UpdateBalanceTest)
 
@@ -54,7 +71,15 @@ def EndBalanceTest():
     # Change back host timescale
     engine.ServerCommand('host_timescale 1\n')
 
+
 def RunBalanceTester(singletest=''):
+    """Queue balance tests, adjust timescale, and register the per-frame runner.
+
+    Args:
+        singletest (str): Optional filename within ``scripts/balancetests`` to
+            run exclusively. When omitted, every definition file in the
+            directory is processed.
+    """
     global balancetestsleft, balancetestsdone
     
     balancetestsleft = []

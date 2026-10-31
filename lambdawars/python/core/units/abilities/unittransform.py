@@ -1,3 +1,7 @@
+"""Unit transform ability for Lambda Wars.
+
+Provides ability for units to transform into another unit type.
+"""
 from core.abilities.instant import AbilityInstant
 if isserver:
     from entities import CreateEntityByName, DispatchSpawn
@@ -5,16 +9,19 @@ if isserver:
 
 
 class AbilityTransformUnit(AbilityInstant):
-    """ Transforms an unit into another unit type 
-        Note: Does not change the instance data of the unit.
-              It mainly changes what is displayed in the hud.
+    """Transforms a unit into another unit type.
+    
+    Note: Does not change the instance data of the unit.
+    It mainly changes what is displayed in the hud.
     """
     interruptible = False
 
     def OnAllUnitsCleared(self):
+        """Complete the ability when all units are done."""
         self.Completed()
 
     def DoAbility(self):
+        """Execute the transform ability on selected units."""
         self.SelectGroupUnits()
 
         if isserver:
@@ -33,14 +40,29 @@ class AbilityTransformUnit(AbilityInstant):
 
     if isserver:
         def Transform(self, unit):
+            """Transform a unit to the new unit type.
+            
+            Args:
+                unit: Unit entity to transform.
+            """
             self.PreTransform(unit)
             unit.SetUnitType(self.transform_type)
             self.PostTransform(unit)
 
         def PreTransform(self, unit):
+            """Called before transforming a unit.
+            
+            Args:
+                unit: Unit entity to transform.
+            """
             pass
 
         def ReplaceWeapons(self, unit):
+            """Replace all weapons on a unit with weapons from the new unit type.
+            
+            Args:
+                unit: Unit entity to replace weapons for.
+            """
             unit.RemoveAllWeapons()
             for weapon in unit.unitinfo.weapons:
                 w = CreateEntityByName(weapon)

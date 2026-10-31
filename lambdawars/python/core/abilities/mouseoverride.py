@@ -1,9 +1,18 @@
+"""Abilities that override player mouse input.
+
+Provides a base class for abilities that need complete control over mouse
+input, intercepting all mouse button events and suppressing normal player
+behavior.
+"""
 from .base import AbilityBase
 
 
 class AbilityMouseOverride(AbilityBase):
-    """ Defines an ability that overrides the mouse of the player completely.
-        The ability is completed on mouse lost."""
+    """Base class for abilities that override player mouse input completely.
+    
+    The ability intercepts all mouse button events and suppresses normal
+    player behavior. The ability is completed when mouse focus is lost.
+    """
 
     def Init(self):
         """ Initializes the ability. Adds this ability to the players 

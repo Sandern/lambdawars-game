@@ -1,3 +1,9 @@
+"""Ability for throwing objects (grenades, projectiles, etc).
+
+Provides a targeted ability that allows units to throw objects at targets
+or positions. Handles range checking, line of sight validation, and
+trajectory calculation for thrown projectiles.
+"""
 from vmath import VectorNormalize, Vector, QAngle, vec3_origin, vec3_angle
 from .target import AbilityTarget
 from fields import FloatField, StringField, BooleanField, VectorField
@@ -11,7 +17,18 @@ if isserver:
     from core.units import BaseBehavior
         
     class ActionThrowObject(BaseBehavior.ActionAbility):
+        """Action for executing throw object ability.
+        
+        Handles unit movement into range, facing the target, and executing
+        the throw animation. Manages the throw timing and object creation.
+        """
         def Update(self):
+            """Update the throw action, checking range and facing requirements.
+            
+            Moves the unit into range if needed, ensures it's facing the target,
+            then triggers the throw animation. Handles both animation event-based
+            and delay-based throw timing.
+            """
             outer = self.outer
             abi = self.order.ability
             throwrange = abi.throwrange
@@ -45,6 +62,11 @@ if isserver:
             return self.SuspendFor(self.behavior.ActionWait, 'Executing attack', abi.throwdelay)
             
         def OnEnd(self):
+            """Called when the throw action ends.
+            
+            Cleans up the throw ability reference and cancels the ability
+            to ensure proper cleanup even if already completed.
+            """
             super().OnEnd()
             
             self.outer.throwability = None
@@ -53,6 +75,12 @@ if isserver:
             self.order.ability.Cancel()
 
         def OnResume(self):
+            """Called when the throw action resumes after being suspended.
+            
+            If the object was already thrown (animation completed), actually
+            throws the object and removes the order. Otherwise resumes normal
+            behavior.
+            """
             self.changetoidleonlostorder = True
             if self.throwedobject:
                 abi = self.order.ability
@@ -99,6 +127,11 @@ class AbilityThrowObject(AbilityTarget):
             UTIL_PrecacheOther(info.objectclsname)
     
         def DoAbility(self):
+            """Execute the throw object ability.
+            
+            Handles cheat mode instant throws or queues throw orders for
+            selected units. Validates resources and sets up throw targets.
+            """
             data = self.mousedata
             
             if self.ischeat:
@@ -133,13 +166,38 @@ class AbilityThrowObject(AbilityTarget):
                                       ability=self)
 
         def DoThrowAnimation(self, unit):
+            """Play the throw animation on a unit.
+            
+            Args:
+                unit: Unit entity to play the animation on.
+            """
             unit.throwability = self
             unit.DoAnimation(getattr(unit, self.throwanimation), data=round(self.throw_anim_speed * 255))
                         
         def SetupObject(self, throwobject):
+            """Setup the thrown object after creation.
+            
+            Override this method to customize the thrown object's properties
+            such as damage, owner, or other attributes.
+            
+            Args:
+                throwobject: The entity that was thrown.
+            """
             pass
 
         def GetTossStartAndEnd(self, unit):
+            """Calculate the start and end positions for the throw.
+            
+            Determines the throw start position from unit attachment or center,
+            and the end position from target entity or target position. Optionally
+            predicts target movement if enabled.
+            
+            Args:
+                unit: Unit performing the throw.
+                
+            Returns:
+                tuple: (startpos, endpos) Vector positions for the throw.
+            """
             if self.throwstartattachment:
                 startpos = Vector()
                 unit.GetAttachment(self.throwstartattachment, startpos)
@@ -157,6 +215,14 @@ class AbilityThrowObject(AbilityTarget):
             return startpos, endpos
             
         def ThrowObject(self, unit):
+            """Execute the throw for a unit.
+            
+            Calculates throw trajectory, creates and tosses the object,
+            then calls OnObjectThrowed for customization.
+            
+            Args:
+                unit: Unit performing the throw.
+            """
             startpos, endpos = self.GetTossStartAndEnd(unit)
 
             throwobj = self.TossObject(unit, startpos, endpos, unit.CalculateIgnoreOwnerCollisionGroup())
@@ -167,12 +233,33 @@ class AbilityThrowObject(AbilityTarget):
                 throwobj.SetVelocity(throwobj.GetAbsVelocity(), Vector(0, 0, 0))
             
         def OnObjectThrowed(self, unit, throwobject):
+            """Called after an object has been successfully thrown.
+            
+            Sets up the object, applies recharge time, and completes the ability.
+            Override to add custom behavior after throwing.
+            
+            Args:
+                unit: Unit that threw the object.
+                throwobject: The entity that was thrown.
+            """
             self.throwobject = throwobject
             self.SetupObject(throwobject)
             self.SetRecharge(unit)
             self.Completed()
 
         def InRangeLOSCheck(self, testpos, target=None):
+            """Check if a throw trajectory is valid from the test position.
+            
+            Validates that a valid throw vector can be calculated from the
+            unit's position to the target, ensuring the throw is possible.
+            
+            Args:
+                testpos (Vector): Position to test from (unused, uses unit position).
+                target: Target entity (unused, uses ability target).
+                
+            Returns:
+                bool: True if a valid throw trajectory exists, False otherwise.
+            """
             unit = self.unit
             startpos, endpos = self.GetTossStartAndEnd(unit)
 

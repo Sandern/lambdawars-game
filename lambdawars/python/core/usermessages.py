@@ -1,3 +1,14 @@
+"""User message system for server-to-client communication.
+
+Provides decorators and infrastructure for sending messages from the server
+to clients (or vice versa) using Source Engine's user message system or
+Steam P2P networking. Messages are automatically serialized and dispatched
+to registered handlers on the receiving side.
+
+The system supports both one-way messages (server->client) and shared
+messages that execute on both server and client. Messages can be sent to
+specific players using recipient filters or broadcast to all players.
+"""
 from collections import defaultdict
 from . dispatch import Signal
 
@@ -11,6 +22,11 @@ else:
 
 # Reliable version of CSingleUserRecipientFilter
 class CReliableSingleUserRecipientFilter(CSingleUserRecipientFilter):
+    """Recipient filter for a single user with reliable delivery.
+    
+    Automatically marks messages as reliable when created, ensuring
+    guaranteed delivery to the target player.
+    """
     def __init__(self, *args, **kwargs):
         super(CReliableSingleUserRecipientFilter, self).__init__(*args, **kwargs)
         self.MakeReliable()

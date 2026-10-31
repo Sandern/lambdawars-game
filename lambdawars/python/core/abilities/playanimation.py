@@ -17,6 +17,13 @@ class AbilityPlayAnimation(AbilityInstant):
         self.Completed()
 
     def PlayAnimation(self, units):
+        """Play the animation on a list of units.
+        
+        Queues animation orders for each unit in the provided list.
+        
+        Args:
+            units: List of unit entities to play the animation on.
+        """
         for unit in units:
             unit.AbilityOrder(ability=self)
 

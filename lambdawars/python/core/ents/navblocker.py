@@ -15,6 +15,11 @@ else:
         clstype='@SolidClass',
         base=['Targetname', 'Parentname', 'Origin', 'RenderFields', 'Global', 'Inputfilter', 'EnableDisable', 'Shadow', 'Wars'])
 class FuncNavBlocker(CBaseEntity):
+    """Brush helper that blocks or unblocks navmesh areas for pathfinding.
+
+    Wraps Recast to insert/remove a box obstacle that AI navigation treats
+    as non-traversable while the blocker is enabled.
+    """
     def __init__(self):
         super().__init__()
         
