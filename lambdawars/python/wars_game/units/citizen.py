@@ -5,7 +5,7 @@ from core.units import (UnitInfo, UnitBaseCombatHuman as BaseClass, EventHandler
 from fields import UpgradeField, BooleanField, FloatField
 from entities import entity, Activity
 from unit_helper import UnitAnimConfig, LegAnimType_t
-from gameinterface import CPASAttenuationFilter
+from gameinterface import CPASAttenuationFilter, modelinfo
 from core.units.abilities import AbilityTransformUnit
 
 if isserver:
@@ -115,17 +115,36 @@ class UnitCitizen(BaseClass):
             cls.PrecacheScriptSound(info.sound_attack_f)
         if hasattr(info, 'sound_death_f'):
             cls.PrecacheScriptSound(info.sound_death_f)
+        if getattr(info, 'sound_hurt', None):
+            cls.PrecacheScriptSound(info.sound_hurt)
+        if getattr(info, 'sound_hurt_f', None):
+            cls.PrecacheScriptSound(info.sound_hurt_f)
 
-    # Gender detection must work on server (death) and client (orders/abilities).
+    # Gender detection must work on server (death/hurt) and client (orders/abilities).
     # Source may return lowercased or mixed-case model paths, so match case-insensitively.
     citizenmodelname = None
     citizenfmatcher = re.compile(r'models[/\\]humans[/\\].+[/\\]female_\d+\.mdl', re.I)
+
+    def _GetCitizenModelName(self):
+        """ Resolve this unit's model path for gender checks.
+
+            Client entities often need modelinfo + model index; the server can use
+            GetModelName() directly. The old client-only path used modelinfo and
+            worked for select/move/attack VO.
+        """
+        if isclient:
+            model = modelinfo.GetModel(self.GetModelIndex())
+            if model:
+                name = modelinfo.GetModelName(model)
+                if name:
+                    return str(name)
+        return str(self.GetModelName() or '')
 
     @property
     def isfemale(self):
         """ True when this unit is using a female citizen/rebel model. """
         if not self.citizenmodelname:
-            self.citizenmodelname = str(self.GetModelName() or '')
+            self.citizenmodelname = self._GetCitizenModelName()
         return bool(self.citizenfmatcher.match(self.citizenmodelname))
 
     def GetGenderSound(self, male_sound, female_sound):
@@ -141,6 +160,19 @@ class UnitCitizen(BaseClass):
         if self.isfemale and female_sound:
             return female_sound
         return male_sound or ''
+
+    def PlayHurtSound(self):
+        """ Plays the gender-matching hurt soundscript. """
+        soundscript = self.GetGenderSound(getattr(self.unitinfo, 'sound_hurt', ''),
+                                          getattr(self.unitinfo, 'sound_hurt_f', ''))
+        if soundscript:
+            self.EmitSound(soundscript)
+
+    def OnTakeDamage(self, dmginfo):
+        """ Play a hurt VO when this living unit takes damage. """
+        if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
+            self.PlayHurtSound()
+        return super().OnTakeDamage(dmginfo)
 
     def DeathSound(self):
         """ Plays the gender-matching death soundscript on the server. """
@@ -653,6 +685,7 @@ class CitizenInfo(UnitInfo):
     sound_move_f = ''
     sound_attack_f = ''
     sound_death_f = ''
+    sound_hurt_f = ''
 
 class Bullseye(CitizenInfo):
     name = 'unit_bullseye'

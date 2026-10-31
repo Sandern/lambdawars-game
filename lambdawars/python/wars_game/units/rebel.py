@@ -81,14 +81,8 @@ class UnitRebel(UnitCitizen):
     if isserver:
         def Precache(self):
             super().Precache()
-
-            self.PrecacheScriptSound("unit_rebel_hurt")
             #  PrecacheParticleSystem('wars_levelup')
 
-    def OnTakeDamage(self, dmginfo):
-        if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
-            self.EmitSound('unit_rebel_hurt')
-        return super().OnTakeDamage(dmginfo)
 @entity('unit_rebel_csm', networked=True)
 class UnitRebelCSM(UnitRebel):
     canshootmove = True
@@ -249,6 +243,7 @@ class RebelShared(UnitInfo):
     sound_death_f = 'unit_rebel_f_death'
     sound_flamer_ignited = 'unit_rebel_flamer_ignited'
     sound_hurt = 'unit_rebel_hurt'
+    sound_hurt_f = 'unit_rebel_f_hurt'
     cantakecover = True
     sai_hint = set(['sai_unit_combat'])
 
@@ -415,18 +410,6 @@ class UnitRebelGrenadeUpgradeShared(UnitCitizen):
         self.UpdateTranslateActivityMap()
         self.UpdateAbilities()
 
-    if isserver:
-        def Precache(self):
-            super().Precache()
-
-            self.PrecacheScriptSound("unit_rebel_hurt")
-
-    def OnTakeDamage(self, dmginfo):
-        if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
-
-            self.EmitSound('unit_rebel_hurt')
-        return super().OnTakeDamage(dmginfo)
-        
     maxhealth = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
     health = UpgradeField(abilityname='rebel_hp_upgrade', cppimplemented=True)
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
@@ -860,22 +843,12 @@ class UnitCitizenBase(UnitCitizen):
         self.insteadyposition = self.in_cover
 
     if isserver:
-        def Precache(self):
-            super().Precache()
-
-            self.PrecacheScriptSound("unit_rebel_hurt")
         class BehaviorGenericClass(BaseClass.BehaviorGenericClass):
             class ActionHideSpot(BaseClass.BehaviorGenericClass.ActionHideSpot):
                 # Don't break cover when targeting an enemy
                 def OnNewOrder(self, order):
                     if order.type == order.ORDER_ENEMY:
                         return self.SuspendFor(self.behavior.ActionHideSpotAttack, 'Attacking enemy on order from cover/hold spot', order.target)
-
-    def OnTakeDamage(self, dmginfo):
-        if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
-
-            self.EmitSound('unit_rebel_hurt')
-        return super().OnTakeDamage(dmginfo)
 
 
 class RebelVeteran(RebelShared):
@@ -1488,18 +1461,6 @@ class UnitCharRebelFlamer(UnitRebel):
 
 @entity('char_rebel_soldier', networked=True)
 class CharacterUnitCanShootMove(UnitCitizen):
-    if isserver:
-        def Precache(self):
-            super().Precache()
-
-            self.PrecacheScriptSound("unit_rebel_hurt")
-
-    def OnTakeDamage(self, dmginfo):
-        if self.lasttakedamage and self.health > 0 and dmginfo.GetDamage() > 0:
-
-            self.EmitSound('unit_rebel_hurt')
-        return super().OnTakeDamage(dmginfo)
-
     # Settings
     canshootmove = True
 

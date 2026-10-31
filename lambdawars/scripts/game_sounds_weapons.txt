@@ -1346,8 +1346,24 @@
 
 	"rndwave"
 	{
-	      "wave"	"^explosions\grenade01.wav"
-	      "wave"	"^explosions\grenade02.wav"			
+	      "wave"	"^weapons\explode3.wav"
+	      "wave"	"^weapons\explode4.wav"	
+		  "wave"	"^weapons\explode5.wav"
+	}
+
+}
+
+"BaseASWExplosionEffect.Sound"
+{
+	"channel"		"CHAN_STATIC"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_120dB"
+	"pitch"			"75, 85"
+
+	"rndwave"
+	{
+	      "wave"	"^explosions\stungrenade01.wav"
+	      "wave"	"^explosions\stungrenade02.wav"
 	}
 
 }
