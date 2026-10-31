@@ -1,3 +1,7 @@
+"""Vehicle unit classes for Lambda Wars.
+
+Provides base classes for vehicle units that use VPhysics for movement.
+"""
 from vmath import Vector, DotProduct, AngleVectors
 from entities import entity, networked
 from core.units import UnitInfo, UnitBaseCombat as BaseClass
@@ -10,6 +14,11 @@ if isserver:
     
 @networked
 class UnitBaseVehicle(BaseClass):
+    """Base class for vehicle unit entities.
+    
+    Vehicles use VPhysics for movement and have special handling for
+    engine sounds and wheel animations.
+    """
     #: Animation State class component
     AnimStateClass = UnitVehicleAnimState
     if isserver:
@@ -18,33 +27,52 @@ class UnitBaseVehicle(BaseClass):
         
     if isclient:
         def OnDataUpdateCreated(self):
+            """Start engine sound when vehicle is created on client."""
             super().OnDataUpdateCreated()
             
             self.StartEngine()
             
     def UpdateOnRemove(self):
+        """Stop engine sound when vehicle is removed."""
         super().UpdateOnRemove()
         
         self.StopEngine()
             
     def PostOnNewModel(self):
+        """Recalculate wheel data after model change."""
         super().PostOnNewModel()
         
         self.animstate.CalcWheelData()
         
     def GetDriver(self):
+        """Get the driver of the vehicle.
+        
+        Returns:
+            None: Not implemented yet.
+        """
         return None # TODO?
         
     def VehicleAngleVectors(self, angles, forward, right, up):
-        ''' AngleVectors equivalent that accounts for the hacked 90 degree rotation of vehicles. 
-            BUGBUG: VPhysics is hardcoded so that vehicles must face down Y instead of X like everything else.'''
+        """AngleVectors equivalent that accounts for the hacked 90 degree rotation of vehicles.
+        
+        BUGBUG: VPhysics is hardcoded so that vehicles must face down Y instead of X like everything else.
+        
+        Args:
+            angles (QAngle): Vehicle angles.
+            forward: Forward vector output.
+            right: Right vector output.
+            up: Up vector output.
+        """
         AngleVectors(angles, right, forward, up)
         if forward:
             forward *= -1
         
     def IsOverturned(self):
-        ''' Tells whether or not the car has been overturned.
-            Returns true on success, false on failure. '''
+        """Check if the vehicle has been overturned.
+        
+        Returns:
+            bool: True if overturned, False otherwise.
+        """
         up = Vector()
         self.VehicleAngleVectors(self.GetAbsAngles(), None, None, up)
 
@@ -57,12 +85,19 @@ class UnitBaseVehicle(BaseClass):
         return False;
             
     def StartEngine(self):
+        """Start the vehicle engine sound."""
         self.PlayLoopingSound('ATV_engine_idle')
         
     def StopEngine(self):
+        """Stop the vehicle engine sound."""
         self.StopLoopingSound()
         
     def StopLoopingSound(self, fadetime=0.0):
+        """Stop the current looping sound with optional fade out.
+        
+        Args:
+            fadetime (float): Fade out time in seconds.
+        """
         controller = CSoundEnvelopeController.GetController()
         if self.statesoundfade:
             controller.SoundDestroy(self.statesoundfade)
@@ -74,6 +109,11 @@ class UnitBaseVehicle(BaseClass):
             controller.SoundFadeOut(self.statesoundfade, fadetime, False)
         
     def PlayLoopingSound(self, soundname):
+        """Play a looping sound for the vehicle.
+        
+        Args:
+            soundname (str): Name of the sound to play.
+        """
         controller = CSoundEnvelopeController.GetController()
         
         filter = CPASAttenuationFilter(self)
@@ -94,6 +134,7 @@ class UnitBaseVehicle(BaseClass):
             controller.Play(self.statesound, 1.0, 100)
         
     def CreateComponents(self):
+        """Create vehicle components (locomotion and animation state)."""
         self.locomotion = self.LocomotionClass(self)
         self.animstate = self.AnimStateClass(self)
 

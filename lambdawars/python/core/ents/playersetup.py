@@ -14,7 +14,11 @@ factionchoices = [
         base=['Targetname', 'Parentname', 'Angles'],
         iconsprite='editor/wars_player_setup.vmt')
 class EntPlayerRelation(CPointEntity):
+    """Entity that preconfigures a player's faction and team color.
 
+    Can apply settings automatically at map start or on demand via inputs,
+    and broadcasts the updated player info to all clients.
+    """
     # Spawnflags
     spawnflags = FlagsField(keyname='spawnflags', flags=
         [('PLAYER_SETUP_APPLY_AT_START', ( 1 << 0 ), False, 'Apply at start')], # Apply at start.

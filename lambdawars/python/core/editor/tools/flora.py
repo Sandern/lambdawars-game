@@ -1,3 +1,4 @@
+"""Editor tool for painting and removing flora props within the VMF."""
 from srcbase import IN_DUCK, MASK_NPCSOLID, MASK_SOLID_BRUSHONLY, KeyValues
 from vmath import Vector, QAngle
 from .placetool import PlaceTool
@@ -10,6 +11,7 @@ from entities import CWarsFlora
 import filesystem
 
 class FloraTool(PlaceTool):
+    """Tool that scatters CWarsFlora entities or removes them in an area."""
     name = 'editor_tool_flora'
     hidden = True
     
@@ -21,9 +23,11 @@ class FloraTool(PlaceTool):
         return Vector(1, 0, 0) if isremoving else Vector(0, 1, 0)
     
     def IsValidAsset(self, asset):
+        """Return True if the given filesystem path points to a model file."""
         return filesystem.FileExists(asset) and not filesystem.IsDirectory(asset)
         
     def FindFloraPosition(self, flora):
+        """Compute a valid placement spot for the flora entity within the brush."""
         placeorigin = self.GetPlaceOrigin()
         
         success, mins, maxs = flora.ComputeEntitySpaceHitboxSurroundingBox()
@@ -48,6 +52,7 @@ class FloraTool(PlaceTool):
     
     @serveronly
     def DoPlace(self):
+        """Either remove or spawn flora depending on the input state."""
         placeorigin = self.GetPlaceOrigin()
         if self.player.buttons & IN_DUCK:
             self.tobeplaced += self.ticksignal * self.density * 10

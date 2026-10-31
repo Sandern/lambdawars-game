@@ -1,3 +1,9 @@
+"""UI panels and user messages for the game frontend (CEF and VGUI).
+
+Registers the set of CEF-based HUD panels, wires their user-message hooks,
+provides helper functions for showing results panels, and plays victory or
+loss feedback based on gamerule events.
+"""
 from vmath import Vector
 from core.usermessages import usermessage
 from core.factions import GetFactionInfo

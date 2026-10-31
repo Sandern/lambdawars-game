@@ -1,3 +1,8 @@
+"""Base game rules for Lambda Wars.
+
+Provides core game rules functionality including player management,
+game state, statistics, and UI coordination.
+"""
 from srcbase import FL_FROZEN, MAX_PLAYERS, Color, MOVETYPE_STRATEGIC, MOVETYPE_OBSERVER, TEAM_SPECTATOR, TEAM_UNASSIGNED
 from vmath import Vector, QAngle, vec3_origin, AngleVectors
 import sys
@@ -57,15 +62,23 @@ PANEL_SCOREBOARD = "scores"
 
 @usermessage()
 def FirePing(pos, color, **kwargs):
+    """Fire a ping signal at a position.
+    
+    Args:
+        pos (Vector): Ping position.
+        color: Ping color.
+    """
     FireSignalRobust(firedping, pos=pos, color=color)
 
 @usermessage()
 def ClientFOWResetExplored(**kwargs):
+    """Reset fog of war explored state on client."""
     DevMsg(1, 'Resetting Fog of War explored state\n')
     FogOfWarMgr().ResetExplored()
 
 @usermessage()
 def ClientShowWaitingForPlayers(**kwargs):
+    """Show waiting for players panel on client."""
     panel = gamerules.GetHudPanel('CefWaitingForPlayers')
     if not panel:
         return
@@ -74,6 +87,12 @@ def ClientShowWaitingForPlayers(**kwargs):
 
 @usermessage()
 def ClientUpdateWaitingForPlayers(wfptimeout, gameplayers, **kwargs):
+    """Update waiting for players panel with current state.
+    
+    Args:
+        wfptimeout: Timeout value.
+        gameplayers: Number of game players.
+    """
     panel = gamerules.GetHudPanel('CefWaitingForPlayers')
     if not panel:
         return
@@ -83,6 +102,7 @@ def ClientUpdateWaitingForPlayers(wfptimeout, gameplayers, **kwargs):
 
 @usermessage()
 def ClientHideWaitingForPlayers(**kwargs):
+    """Hide waiting for players panel on client."""
     panel = gamerules.GetHudPanel('CefWaitingForPlayers')
     if not panel:
         return
@@ -90,6 +110,7 @@ def ClientHideWaitingForPlayers(**kwargs):
     panel.visible = False
 @usermessage()
 def ClientShowTimer(**kwargs):
+    """Show timer panel on client."""
     panel = gamerules.GetHudPanel('HudTimer')
     if not panel:
         return
@@ -97,6 +118,7 @@ def ClientShowTimer(**kwargs):
     panel.visible = True
 @usermessage()
 def ClientHideTimer(**kwargs):
+    """Hide timer panel on client."""
     panel = gamerules.GetHudPanel('HudTimer')
     if not panel:
         return

@@ -22,6 +22,7 @@ ai_inhibit_spawners = ConVar("ai_inhibit_spawners", "0", FCVAR_CHEAT)
 
 @entity('info_npc_spawn_destination')
 class CNPCSpawnDestination(CPointEntity):
+    """Helper entity that marks valid destinations for spawned NPCs."""
     reusedelay = FloatField(keyname='ReuseDelay')
     renamenpc = StringField(keyname='RenameNPC')
     timenextavailable = FloatField() # TODO: Add a time field
@@ -51,6 +52,11 @@ class CNPCSpawnDestination(CPointEntity):
         self.timenextavailable = gpGlobals.curtime + self.reusedelay
 
 class CBaseNPCMaker(CBaseEntity):
+    """Base class for entities that spawn NPCs/units over time.
+    
+    Tracks how many children can be spawned, enforces spawn frequency and
+    visibility rules, and exposes inputs to start/stop or adjust limits.
+    """
     maxnumnpcs = IntegerField(keyname='MaxNPCCount')
     maxlivechildren = IntegerField(keyname='MaxLiveChildren')
     spawnfrequency = IntegerField(keyname='SpawnFrequency')
@@ -82,6 +88,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Spawn
     #-----------------------------------------------------------------------------
     def Spawn(self):
+        """Initialize spawner state and start thinking when enabled."""
         self.SetSolid(SOLID_NONE)
         self.livechildren = 0
         self.Precache()
@@ -103,6 +110,7 @@ class CBaseNPCMaker(CBaseEntity):
     # used to validate spawn destinations.
     #-----------------------------------------------------------------------------
     def HumanHullFits(self, vecLocation):
+        """Return True if a human hull can stand at the given location."""
         tr = trace_t()
         UTIL_TraceHull(vecLocation,
                        vecLocation + Vector(0, 0, 1),
@@ -122,6 +130,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Returns whether or not it is OK to make an NPC at self instant.
     #-----------------------------------------------------------------------------
     def CanMakeNPC(self, bIgnoreSolidEntities=False):
+        """Check whether spawning a new NPC is allowed right now."""
         if ai_inhibit_spawners.GetBool():
             return False
 
@@ -181,6 +190,7 @@ class CBaseNPCMaker(CBaseEntity):
     #			been created.
     #-----------------------------------------------------------------------------
     def IsDepleted(self):
+        """Return True if this maker has exhausted its finite child count."""
         if (self.GetSpawnFlags() & self.SF_NPCMAKER_INF_CHILD) or self.maxnumnpcs > 0:
             return False
         return True
@@ -189,6 +199,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Toggle the spawner's state
     #-----------------------------------------------------------------------------
     def Toggle(self):
+        """Toggle between enabled and disabled spawning states."""
         if self.disabled:
             self.Enable()
         else:
@@ -198,6 +209,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Start the spawner
     #-----------------------------------------------------------------------------
     def Enable(self):
+        """Enable periodic NPC spawning unless the maker is depleted."""
         # can't be enabled once depleted
         if self.IsDepleted():
             return
@@ -210,6 +222,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Stop the spawner
     #-----------------------------------------------------------------------------
     def Disable(self):
+        """Disable spawning and stop the think loop."""
         self.disabled = True
         self.SetThink ( None )
 
@@ -218,6 +231,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='Spawn')
     def InputSpawnNPC(self, inputdata):
+        """Spawn a single NPC immediately if allowed."""
         if not self.IsDepleted():
             self.MakeNPC()
 
@@ -226,6 +240,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='Enable')
     def InputEnable(self, inputdata):
+        """Input handler to enable the spawner."""
         self.Enable()
 
     #-----------------------------------------------------------------------------
@@ -233,6 +248,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='Disable')
     def InputDisable(self, inputdata):
+        """Input handler to disable the spawner."""
         self.Disable()
 
     #-----------------------------------------------------------------------------
@@ -240,6 +256,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='Toggle')
     def InputToggle(self, inputdata):
+        """Input handler to toggle the spawner enabled/disabled."""
         self.Toggle()
 
     #-----------------------------------------------------------------------------
@@ -247,6 +264,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='SetMaxChildren', fieldtype=fieldtypes.FIELD_INTEGER)
     def InputSetMaxChildren(self, inputdata):
+        """Set the maximum number of NPCs this maker may spawn."""
         self.maxnumnpcs = inputdata.value.Int()
 
     #-----------------------------------------------------------------------------
@@ -254,6 +272,7 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='AddMaxChildren', fieldtype=fieldtypes.FIELD_INTEGER)
     def InputAddMaxChildren(self, inputdata):
+        """Increase the remaining max children count by the given amount."""
         self.maxnumnpcs += inputdata.value.Int()
 
     #-----------------------------------------------------------------------------
@@ -261,10 +280,12 @@ class CBaseNPCMaker(CBaseEntity):
     #-----------------------------------------------------------------------------
     @input(inputname='SetMaxLiveChildren', fieldtype=fieldtypes.FIELD_INTEGER)
     def InputSetMaxLiveChildren(self, inputdata):
+        """Set how many children are allowed to be alive at once."""
         self.maxlivechildren = inputdata.value.Int()
 
     @input(inputname='SetSpawnFrequency', fieldtype=fieldtypes.FIELD_FLOAT)
     def InputSetSpawnFrequency(self, inputdata):
+        """Adjust how often the maker tries to spawn a child (seconds)."""
         self.spawnfrequency = inputdata.value.Float()
         
     def ChildPreSpawn(self, pChild):
@@ -293,6 +314,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Purpose: Creates a new NPC every so often.
     #-----------------------------------------------------------------------------
     def MakerThink(self):
+        """Periodic think function that attempts to spawn NPCs."""
         self.SetNextThink( gpGlobals.curtime + self.spawnfrequency )
 
         self.MakeNPC()
@@ -302,6 +324,7 @@ class CBaseNPCMaker(CBaseEntity):
     # Input  : *pVictim - 
     #-----------------------------------------------------------------------------
     def DeathNotice(self, pVictim):
+        """Called when a child NPC dies; fires outputs when all are gone."""
         # ok, we've gotten the deathnotice from our child, now clear out its owner if we don't want it to fade.
         self.livechildren -= 1
 
@@ -330,6 +353,7 @@ class CNPCMaker(CBaseNPCMaker):
     # Constructor
     #-----------------------------------------------------------------------------
     def __init__(self):
+        """Initialize default equipment string and base maker state."""
         super().__init__()
         
         self.spawnequipment = ''
@@ -338,6 +362,7 @@ class CNPCMaker(CBaseNPCMaker):
     # Purpose: Precache the target NPC
     #-----------------------------------------------------------------------------
     def Precache(self):
+        """Precache the configured unit type (unit classname) to spawn."""
         super().Precache()
 
         unitname = self.npcclassname
@@ -350,6 +375,7 @@ class CNPCMaker(CBaseNPCMaker):
     # Purpose: Creates the NPC.
     #-----------------------------------------------------------------------------
     def MakeNPC(self):
+        """Create and place a unit instance according to maker settings."""
         if not self.CanMakeNPC(True):
             return
             

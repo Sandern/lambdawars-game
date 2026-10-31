@@ -1,17 +1,31 @@
+"""Overrun behavior system for Lambda Wars units.
+
+Provides behavior system for units in overrun mode that automatically
+target and attack enemy buildings and units.
+"""
 from core.units import unitlist
 from entities import gEntList, D_HT
 import playermgr
 import random
 
 def CreateBehaviorOverrun(BaseClass):
+    """Create an overrun behavior class.
+    
+    Args:
+        BaseClass: Base behavior class to inherit from.
+        
+    Returns:
+        BehaviorOverrun: Overrun behavior class.
+    """
     class BehaviorOverrun(BaseClass):
-        """ Behavior made for overrun, but not restricted to that gamemode.
-            Instead of taking orders, this behavior will pick a goal and do an attack
-            move on that goal.
+        """Behavior made for overrun, but not restricted to that gamemode.
+        
+        Instead of taking orders, this behavior will pick a goal and do an attack
+        move on that goal.
         """
         class ActionIdle(BaseClass.ActionIdle):
-            """ The Overrun idle action searches for buildings and enemies to attacks and then
-                issue's an attack move order.
+            """The Overrun idle action searches for buildings and enemies to attack and then
+            issues an attack move order.
             """
             # Always chase enemies directly, otherwise might wait in unreachable positions
             idlewaitmoveuntilunderattack = False 

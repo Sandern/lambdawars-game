@@ -1,3 +1,8 @@
+"""Patrol order ability.
+
+Allows players to set up patrol routes for units. Units will move between
+patrol points in a loop, attacking enemies encountered along the way.
+"""
 from srcbase import IN_SPEED
 from .target import AbilityTargetGroup
 from core.units.orders import GroupMoveOrder

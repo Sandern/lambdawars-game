@@ -1,9 +1,15 @@
+"""Trigger entities for Lambda Wars.
+
+Contains trigger classes used for various map logic, such as disallowing
+building placement in specific areas.
+"""
 from entities import entity, CBaseTrigger
 if isserver:
     from entities import FL_EDICT_ALWAYS
     
 @entity('trigger_nobuildings', networked=True)
 class TriggerNoBuildings(CBaseTrigger):
+    """Trigger that indicates an area where buildings cannot be placed."""
     if isclient:
         def __init__(self):
             super().__init__()

@@ -1,3 +1,7 @@
+"""Melee weapon classes for Lambda Wars.
+
+Provides base classes for melee weapons that use close-range attacks.
+"""
 from srcbase import MAX_TRACE_LENGTH, DMG_CLUB, MASK_ALL, MASK_SHOT_HULL, COLLISION_GROUP_NONE, CONTENTS_WATER, CONTENTS_SLIME
 from vmath import Vector, vec3_origin, VectorNormalize
 from .base import WarsWeaponBase as BaseClass
@@ -12,8 +16,12 @@ if isserver:
 FX_WATER_IN_SLIME = 0x1
 
 class WarsWeaponMelee(BaseClass):
-    """ Weapon base for melee like weapons. """
+    """Base class for melee-like weapons.
+    
+    Melee weapons use close-range attacks with hull traces for hit detection.
+    """
     class AttackPrimary(BaseClass.AttackMelee):
+        """Primary attack configuration for melee weapons."""
         damage = 5.0
         maxrange = 32.0
     
@@ -23,13 +31,20 @@ class WarsWeaponMelee(BaseClass):
     bludgeonmaxs = Vector(BLUDGEON_HULL_DIM,BLUDGEON_HULL_DIM,BLUDGEON_HULL_DIM)
 
     def PrimaryAttack(self):
+        """Perform primary melee attack."""
         self.Swing(False)
 
     def SecondaryAttack(self):
+        """Perform secondary melee attack."""
         self.Swing(True)
 
     def Hit(self, traceHit, nHitActivity):
-        """ Implement impact function """
+        """Implement impact function for melee hits.
+        
+        Args:
+            traceHit: Trace result containing hit information.
+            nHitActivity: Activity to play for the hit.
+        """
         owner = self.GetOwner()
         
         #Do view kick
@@ -94,9 +109,18 @@ class WarsWeaponMelee(BaseClass):
         return ACT_VM_HITCENTER
 
     def ImpactWater(self, start, end):
-        #FIXME: This doesn't handle the case of trying to splash while being underwater, but that's not going to look good
-        #		 right now anyway...
+        """Check if melee attack hit water and create splash effect.
         
+        FIXME: This doesn't handle the case of trying to splash while being underwater,
+        but that's not going to look good right now anyway.
+        
+        Args:
+            start (Vector): Start position of the swing.
+            end (Vector): End position of the swing.
+            
+        Returns:
+            bool: True if water splash was created, False otherwise.
+        """
         # We must start outside the water
         if UTIL_PointContents(start, MASK_ALL) & (CONTENTS_WATER|CONTENTS_SLIME):
             return False
@@ -129,6 +153,11 @@ class WarsWeaponMelee(BaseClass):
         return True
 
     def ImpactEffect(self, traceHit):
+        """Apply impact effect for melee hit.
+        
+        Args:
+            traceHit: Trace result containing hit information.
+        """
         # See if we hit water (we don't do the other impact effects in this case)
         if self.ImpactWater(traceHit.startpos, traceHit.endpos):
             return
@@ -137,9 +166,10 @@ class WarsWeaponMelee(BaseClass):
         UTIL_ImpactTrace(traceHit, DMG_CLUB)
     
     def Swing(self, bIsSecondary):
-        """ Starts the swing of the weapon and determines the animation 
-            input:
-            bIsSecondary - is this a secondary attack?
+        """Start the swing of the weapon and determine the animation.
+        
+        Args:
+            bIsSecondary (bool): Is this a secondary attack?
         """
         
         traceHit = trace_t()

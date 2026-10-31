@@ -1,13 +1,25 @@
-''' Defines the rally line class, used for displaying lines between orders. 
-'''
+"""Rally line classes for Lambda Wars.
 
+Defines the rally line class, used for displaying lines between orders.
+"""
 from srcbase import Color
 from vmath import Vector, VectorNormalize, DotProduct, CrossProduct
 from te import ClientSideEffect, MeshBuilder, MeshRallyLine, MATERIAL_QUADS, MeshVertex
 import ndebugoverlay
 
 class FXRallyLine(ClientSideEffect):
+    """Client-side effect for rendering rally lines between orders."""
     def __init__(self, material, color, point1, point2, ent1=None, ent2=None):
+        """Initialize a rally line effect.
+        
+        Args:
+            material (str): Material name for the line.
+            color: Color vector for the line.
+            point1 (Vector): First point of the line.
+            point2 (Vector): Second point of the line.
+            ent1: Optional first entity to attach line to.
+            ent2: Optional second entity to attach line to.
+        """
         super().__init__('FXQuad')
         
         self.material = material
@@ -23,9 +35,18 @@ class FXRallyLine(ClientSideEffect):
         self.CreateLine()
         
     def VectorToColor(self, v):
+        """Convert a vector to a color.
+        
+        Args:
+            v (Vector): Color vector (0-1 range).
+            
+        Returns:
+            Color: Color object.
+        """
         return Color(int(v.x*255), int(v.y*255), int(v.z*255), 255)
         
     def CreateLine(self):
+        """Create the mesh for the rally line."""
         flSize = 8.0
         mesh = None
         

@@ -1,3 +1,7 @@
+"""Flamer weapon for Lambda Wars.
+
+Provides flamethrower weapon with particle effects and fire damage.
+"""
 from srcbase import *
 from vmath import *
 from entities import CShotManipulator
@@ -16,8 +20,10 @@ else:
     from sound import CSoundEnvelopeController
 
 class WeaponFlamer(BaseClass):
+    """Flamethrower weapon with particle effects and fire damage."""
     if isserver:
         def Precache(self):
+            """Precache models, sounds, and particle systems for the flamer."""
             self.PrecacheModel( "swarm/sprites/whiteglow1.vmt" )
             self.PrecacheModel( "swarm/sprites/greylaser1.vmt" )
             self.PrecacheScriptSound("ASW_Flamer.ReloadA")
@@ -29,6 +35,11 @@ class WeaponFlamer(BaseClass):
             super().Precache()
 
     def OnDataChanged(self, updateType):
+        """Handle data updates for client-side effects.
+        
+        Args:
+            updateType: Type of data update.
+        """
         super().OnDataChanged( updateType )
 
         if updateType == DATA_UPDATE_CREATED:
@@ -46,6 +57,7 @@ class WeaponFlamer(BaseClass):
             self.pilotlight.SetControlPoint(1, Vector(iPilot, 0, 0))
 
     def UpdateOnRemove(self):
+        """Clean up particle effects when weapon is removed."""
         super().UpdateOnRemove()
 
         if self.pilotlight:
@@ -56,6 +68,7 @@ class WeaponFlamer(BaseClass):
             self.StopFlamerLoop()
 
     def ClientThink(self):
+        """Client-side think for managing particle effects."""
         super().ClientThink()
 
         if self.isfiring:
@@ -77,11 +90,13 @@ class WeaponFlamer(BaseClass):
                 self.extinguisheffect = None
 
     def ClearIsFiring(self):
+        """Clear firing state."""
         super().ClearIsFiring()
 
         self.issecondaryfiring = False
 
     def ItemPostFrame(self):
+        """Handle post-frame updates."""
         super().ItemPostFrame()
 
         pOwner = self.GetOwner()
@@ -96,6 +111,11 @@ class WeaponFlamer(BaseClass):
             #self.issecondaryfiring = False
             
     def GetWeaponDamage(self):
+        """Get weapon damage value.
+        
+        Returns:
+            float: Weapon damage.
+        """
         #float flDamage = 35.0
         flDamage = self.AttackPrimary.damage
         

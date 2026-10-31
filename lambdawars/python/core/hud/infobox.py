@@ -1,3 +1,9 @@
+"""Information panels for the HUD: ability/unit descriptions, stats, and resources.
+
+Provides helper widgets and objects used by HUD panels to render rich
+information about abilities, units, factions, and resources, including
+formatted labels and dynamic descriptions.
+"""
 from srcbase import Color
 from vgui import scheme, GetClientMode, surface, scheme, AddTickSignal, RemoveTickSignal, vgui_input, localize
 from vgui.controls import Panel, Label, TextEntry
@@ -12,6 +18,11 @@ from gamerules import GameRules
 
 
 class Description(TextEntry):
+    """Text entry widget for displaying ability/unit descriptions.
+    
+    Styled text entry that displays formatted descriptions with
+    appropriate fonts and colors.
+    """
     def ApplySchemeSettings(self, schemobj):
         super().ApplySchemeSettings(schemobj)
 
@@ -24,6 +35,11 @@ class Description(TextEntry):
 
 
 class InfoLabel(Label):
+    """Label widget for displaying information in HUD info panels.
+    
+    Provides consistent styling and sizing for information labels
+    used in ability/unit info displays.
+    """
     def __init__(self, parent, panelname, text, fontcolor=None):
         super().__init__(parent, panelname, text)
         
@@ -49,6 +65,12 @@ class InfoLabel(Label):
 
 
 class InfoObject(object):
+    """Object representing a header-value pair in info displays.
+    
+    Contains a header label and an info label that can be positioned
+    and styled together. Used for displaying structured information
+    in ability/unit info panels.
+    """
     def __init__(self, parent, name, headertext, attribute=None, fontcolor=None):
         super().__init__()
         
@@ -57,6 +79,17 @@ class InfoObject(object):
         self.attribute = attribute
         
     def UpdateLayout(self, xindent, cury, xwidth, ysize):
+        """Update the layout position of header and info labels.
+        
+        Args:
+            xindent (int): X position offset.
+            cury (int): Current Y position.
+            xwidth (int): Available width (unused).
+            ysize (int): Height of each line.
+            
+        Returns:
+            int: New Y position after this object.
+        """
         if self.header.IsVisible():
             self.header.SetPos(xindent, cury)
             wide = self.header.GetWide()
@@ -65,17 +98,37 @@ class InfoObject(object):
         return cury
         
     def SetText(self, text):
+        """Set the info text value.
+        
+        Args:
+            text (str): Text to display in the info label.
+        """
         self.info.SetText(text)
         
     def SetVisible(self, vis):
+        """Set visibility of both header and info labels.
+        
+        Args:
+            vis (bool): True to show, False to hide.
+        """
         self.header.SetVisible(vis)
         self.info.SetVisible(vis)
         self.vis = vis
         
     def IsVisible(self):
+        """Check if this info object is visible.
+        
+        Returns:
+            bool: True if visible, False otherwise.
+        """
         return self.vis
         
     def SetColor(self, color):
+        """Set the text color for both header and info labels.
+        
+        Args:
+            color: Color object to apply.
+        """
         self.header.SetFgColor(color)
         self.info.SetFgColor(color)
         self.header.fontcolor = color
@@ -85,6 +138,12 @@ class InfoObject(object):
 
 
 class InfoGenRequirement(object):
+    """Object representing a requirement in ability info displays.
+    
+    Displays requirement information such as tech prerequisites,
+    resource costs, or unit limits. Used for showing what is needed
+    to use an ability.
+    """
     def __init__(self, parent, name, header_text, attribute=None, fontcolor=None):
         super().__init__()
 
@@ -94,6 +153,17 @@ class InfoGenRequirement(object):
         self.attribute = attribute
         
     def UpdateLayout(self, xindent, cury, xwidth, ysize):
+        """Update the layout position of the requirement header.
+        
+        Args:
+            xindent (int): X position offset.
+            cury (int): Current Y position.
+            xwidth (int): Available width (unused).
+            ysize (int): Height of each line.
+            
+        Returns:
+            int: New Y position after this object.
+        """
         if self.header.IsVisible():
             self.header.SetPos(xindent, cury)
             self.header.SetSize(scheme().GetProportionalScaledValueEx(self.header.GetScheme(), 100),
@@ -102,13 +172,28 @@ class InfoGenRequirement(object):
         return cury
         
     def SetVisible(self, vis):
+        """Set visibility of the requirement header.
+        
+        Args:
+            vis (bool): True to show, False to hide.
+        """
         self.header.SetVisible(vis)
         self.vis = vis
         
     def IsVisible(self):
+        """Check if this requirement is visible.
+        
+        Returns:
+            bool: True if visible, False otherwise.
+        """
         return self.vis
         
     def SetColor(self, color):
+        """Set the text color for the requirement header.
+        
+        Args:
+            color: Color object to apply.
+        """
         self.header.SetFgColor(color)
         self.header.fontcolor = color
 
@@ -116,7 +201,20 @@ class InfoGenRequirement(object):
 
 
 class InfoUnitLimitRequirement(InfoGenRequirement):
+    """Requirement display for unit production limits.
+    
+    Shows the current count and maximum limit for units that have
+    production limits (e.g., only 3 of this unit type allowed).
+    """
     def CustomUpdate(self, color):
+        """Update the unit limit requirement display.
+        
+        Checks the current unit count against the limit and displays
+        the requirement with appropriate color.
+        
+        Args:
+            color: Color to use for the display.
+        """
         abi_info = self.parent.showability
 
         unit_limit = getattr(getattr(GameRules(), 'info', object), 'unit_limits', {}).get(abi_info.name, None)
@@ -167,6 +265,13 @@ class InfoList(object):
 
 
 class BaseHudInfo(Panel):
+    """Base tooltip/info panel for abilities, units, and resources.
+
+    Hosts shared layout logic for displaying ability titles, descriptions,
+    costs, requirements, and contextual metadata. Derived HUD panels extend
+    this class to render custom sections while reusing positioning, signals,
+    and timeout handling.
+    """
     def __init__(self, 
             showhotkey=True, 
             showrechargetime=True, 
@@ -226,6 +331,14 @@ class BaseHudInfo(Panel):
         self.autocast.SetVisible(False)
         
     def ApplySchemeSettings(self, schemobj):
+        """Configure fonts, borders, and colors pulled from the VGUI scheme.
+
+        Args:
+            schemobj: The Source VGUI scheme handle that exposes themed
+                fonts, colors, and borders defined in the `.res` files.
+                Using it keeps this tooltip visually consistent with the
+                rest of the HUD skin.
+        """
         super().ApplySchemeSettings(schemobj)
         
         self.SetBgColor(self.GetSchemeColor("ObjElement.BgColor", self.GetBgColor(), schemobj))
@@ -249,6 +362,12 @@ class BaseHudInfo(Panel):
         self.autocast.SetFont(hfontnormal)  
 
     def PerformLayout(self):
+        """Lay out visible subsections and resize/position the panel.
+
+        Calculates proportional offsets so the info card anchors above the
+        main HUD strip, then delegates to `PerformLayoutElements` so derived
+        classes can inject their own label groups.
+        """
         super().PerformLayout()
         
         # To position ourself above the mainhud we need to know the height of the main hud.
@@ -310,16 +429,30 @@ class BaseHudInfo(Panel):
         self.SetTall(tall)
         
     def MoveTo(self, x, y, up=False):
+        """Move the info panel next to the cursor or world-space projection.
+
+        Args:
+            x (int): Screen-space X coordinate to anchor to.
+            y (int): Screen-space Y coordinate to anchor to.
+            up (bool): When True, offsets upward so the card does not obscure
+                the hovered control (used when attaching to a queue slot).
+        """
         self.posup = up
         self.curx = x
         self.cury = y
         self.defaultpos = False
             
     def MoveToDefault(self):
+        """Reset panel position so it auto-snaps during the next layout pass."""
         self.defaultpos = True
         self.posup = False
 
     def OnTick(self):
+        """Handle hover timeout logic and refresh dynamic labels.
+
+        Keeps the tooltip alive while the mouse is still over the originating
+        panel and forces a hide after `TIMEOUT` so stale info vanishes quickly.
+        """
         if not self.IsVisible():
             return
             
@@ -339,6 +472,16 @@ class BaseHudInfo(Panel):
     # Changing the ability shown
     showability = None
     def ShowAbility(self, showability, slot=-1, unittype=None, contextpanel=None):
+        """Populate the info panel with a new ability or hide it entirely.
+
+        Args:
+            showability: Ability info dataclass to visualize.
+            slot (int): HUD slot index so we can show the configured hotkey.
+            unittype (str): Optional unit type override when the current
+                selection differs from the hovered control.
+            contextpanel: VGUI panel that triggered the tooltip; used to
+                detect when the cursor leaves the originating widget.
+        """
         if not showability:
             self.ClearInfoPanel()
             return
@@ -386,26 +529,32 @@ class BaseHudInfo(Panel):
         self.OnTick()
         
     def ClearInfoPanel(self):
+        """Hide the panel and unregister tick/update callbacks."""
         self.showability = None
         self.contextpanel = None
         self.SetVisible(False)
         RemoveTickSignal(self.GetVPanel())
         
     def GetColorBasedOnRequirements(self, requirements, name):
+        """Return requirement color (met vs unmet) for the provided identifier."""
         return self.requiredcolor if name in requirements else self.normalcolor
         
     def PerformLayoutElements(self, xindent, cury, xwidth, ysize):
+        """Hook for derived classes to lay out custom info subsections."""
         return cury
         
     def UpdateElements(self):
+        """Virtual update hook that derived panels override."""
         pass
             
     def OnShowElements(self):
+        """Called when an ability is shown so derived classes can refresh data."""
         pass
         
     TIMEOUT = 0.05
 
     def HideAbility(self, timeout=TIMEOUT):
+        """Schedule the info panel to hide after a short timeout."""
         self.showtimeout = gpGlobals.curtime + timeout
 
     # Default settings
@@ -426,6 +575,12 @@ class BaseHudInfo(Panel):
 
 
 class AbilityHudInfo(BaseHudInfo):
+    """Ability tooltip that explains costs, tech requirements, and autocast.
+
+    Extends `BaseHudInfo` with Source RTS–specific metadata such as
+    resource costs, recharge times, required upgrades, and autocast state
+    so designers can surface all prerequisites in a single popup.
+    """
     def __init__(self):
         super().__init__(showhotkey=True)
         
@@ -475,6 +630,7 @@ class AbilityHudInfo(BaseHudInfo):
     requirements = "#HUD_Requirements"
 
     def PerformLayoutElements(self, xindent, cury, xwidth, ysize):
+        """Lay out cost rows, generic stats, and tech requirements."""
         if self.costheader.IsVisible():
             self.costheader.SetPos(xindent, cury)
             cury += ysize
@@ -510,6 +666,11 @@ class AbilityHudInfo(BaseHudInfo):
         return cury
         
     def HasUnitAutocastOn(self, info, units):
+        """Check if any selected unit currently has autocast enabled.
+
+        Returns True as soon as one unit reports the ability's autocast
+        flag, allowing the tooltip to show the `Autocast On/Off` label.
+        """
         for unit in units:
             if info.name not in unit.abilitiesbyname:
                 continue
@@ -518,6 +679,12 @@ class AbilityHudInfo(BaseHudInfo):
         return False
         
     def OnShowElements(self):
+        """Populate widgets with static ability data such as costs and tech.
+
+        Runs whenever a new ability is displayed so we can rebuild the
+        resource cost rows, upgrade requirements, and other metadata that
+        do not change during the tooltip's lifetime.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -609,6 +776,12 @@ class AbilityHudInfo(BaseHudInfo):
         self.autocast.SetVisible(info.supportsautocast)
             
     def UpdateElements(self):
+        """Refresh status colors, recharge timers, and autocast text.
+
+        Called each tick while the tooltip is visible so dynamic elements
+        (resource availability, recharge progress, autocast state) react
+        to changes in the player's selection or economy.
+        """
         player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
         if not player:
             return
@@ -661,6 +834,11 @@ class AbilityHudInfo(BaseHudInfo):
 
 
 class UnitHudInfo(BaseHudInfo):
+    """Info card that surfaces the selected unit's core statistics.
+
+    Displays health and energy reserves for whichever unit the player is
+    examining in the HUD grid, providing quick insight into combat status.
+    """
     def __init__(self):
         super().__init__(showhotkey=False)
         
@@ -668,6 +846,7 @@ class UnitHudInfo(BaseHudInfo):
         self.energy = InfoObject(self, "InfoEnergy", self.strenergy, fontcolor=self.energycolor)
         
     def PerformLayoutElements(self, xindent, cury, xwidth, ysize):
+        """Lay out health and energy rows when those stats exist."""
         if self.health.IsVisible():
             cury = self.health.UpdateLayout(xindent, cury, xwidth, ysize)
         if self.energy.IsVisible():
@@ -675,10 +854,12 @@ class UnitHudInfo(BaseHudInfo):
         return cury
         
     def OnShowElements(self):
+        """Toggle stat rows depending on whether the unit exposes them."""
         self.health.SetVisible(self.unit.maxhealth > 0)
         self.energy.SetVisible(self.unit.maxenergy > 0)
         
     def UpdateElements(self):
+        """Update text values for health/energy as the unit changes."""
         if not self.unit:
             return
             
@@ -695,19 +876,27 @@ class UnitHudInfo(BaseHudInfo):
 
 
 class QueueUnitHudInfo(BaseHudInfo):
+    """Info panel displayed for build-queue slots inside the HUD.
+
+    Shows the production timer for the queued unit/building the player is
+    hovering, helping them gauge how soon the construction will finish.
+    """
     def __init__(self):
         super().__init__(showhotkey=False)
 
         self.buildtime = InfoObject(self, "InfoBuildTime", "#HUD_UnitBuildTime")
         
     def PerformLayoutElements(self, xindent, cury, xwidth, ysize):
+        """Position the build-time label beneath the standard headers."""
         if self.buildtime.IsVisible(): cury = self.buildtime.UpdateLayout(xindent, cury, xwidth, ysize)
         return cury
         
     def OnShowElements(self):
+        """Only show build-time text when we have an associated unit."""
         self.buildtime.SetVisible(self.unit != None)
         
     def UpdateElements(self):
+        """Update progress text using the unit's build progress."""
         if not self.unit:
             return
             
@@ -717,10 +906,16 @@ class QueueUnitHudInfo(BaseHudInfo):
 
 
 class AttributeUnitHudInfo(BaseHudInfo):
+    """Info panel that lists the active attribute modifiers on a unit.
+
+    Used for hero/sandbox scenarios where designers tweak attributes;
+    renders the localized descriptions so testers understand the buffs.
+    """
     def __init__(self):
         super().__init__(showhotkey=False)
         
     def OnShowElements(self):
+        """Render the concatenated attribute descriptions for the unit."""
         attributedesc = ''
         unit = self.unit
         attributes = unit.GetActiveAttributes()

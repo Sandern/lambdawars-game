@@ -1,4 +1,9 @@
-""" Maps an attribute name to a class. """
+"""Unit attribute system.
+
+Maps attribute names to classes that modify unit damage dealing and receiving.
+Attributes can modify damage against specific target types or from specific
+damage sources.
+"""
 import gamemgr
 import random
 from fields import LocalizedStringField
@@ -11,6 +16,7 @@ dbattributes.priority = 2 # Increase priority to ensure it registered before the
 
 # Attribute info entry
 class AttributeInfoMetaClass(gamemgr.BaseInfoMetaclass):
+    """Metaclass for AttributeInfo that builds descriptions from damage modifiers."""
     def __new__(cls, name, bases, dct):
         newcls = gamemgr.BaseInfoMetaclass.__new__(cls, name, bases, dct)
         
@@ -31,6 +37,12 @@ class AttributeInfoMetaClass(gamemgr.BaseInfoMetaclass):
 
 
 class AttributeInfo(gamemgr.BaseInfo, metaclass=AttributeInfoMetaClass):
+    """Base class for unit attributes.
+    
+    Attributes modify how units deal and receive damage. They can apply
+    damage modifiers when attacking specific target types or when receiving
+    damage from specific sources.
+    """
     id = dbid
     
     #: Name shown in hud.
@@ -52,6 +64,11 @@ class AttributeInfo(gamemgr.BaseInfo, metaclass=AttributeInfoMetaClass):
     order = 1000
     
     def __init__(self, unit):
+        """Initialize attribute for a unit.
+        
+        Args:
+            unit: The unit entity this attribute belongs to.
+        """
         super().__init__()
         
         self.owner = unit
@@ -116,6 +133,7 @@ def RandomBonusDamage(dmgmin, dmgmax):
 
 # Core attributes
 class BuildingAttributeInfo(AttributeInfo):
+    """Attribute for buildings that reduces damage from most weapon types."""
     name = 'building'
     
     dmgrecvmodifiers = { 
@@ -130,6 +148,7 @@ class BuildingAttributeInfo(AttributeInfo):
     }
 
 class DefenceBuildingAttributeInfo(AttributeInfo):
+    """Attribute for defensive buildings with enhanced damage reduction."""
     name = 'defence'
     
     dmgrecvmodifiers = { 
@@ -143,6 +162,7 @@ class DefenceBuildingAttributeInfo(AttributeInfo):
     }
 
 class CoverAttributeInfo(AttributeInfo):
+    """Attribute for cover that provides general damage reduction."""
     name = 'cover'
     
     dmgrecvmodifiers = { 
@@ -150,9 +170,20 @@ class CoverAttributeInfo(AttributeInfo):
     }
 
 class CoverDirectionalAttributeInfo(AttributeInfo):
+    """Attribute for directional cover that reduces damage from the front.
+    
+    Only provides protection when the damage is coming from the direction
+    the cover is facing.
+    """
     name = 'cover_front'
 
     def ApplyToReceiver(self, receiver, dmg_info):
+        """Apply directional cover damage reduction.
+        
+        Args:
+            receiver: The unit receiving damage.
+            dmg_info: Damage information object.
+        """
         # Get the cover spot
         cover_spot = receiver.cover_spot
 

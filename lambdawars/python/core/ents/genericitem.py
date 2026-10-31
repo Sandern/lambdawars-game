@@ -219,6 +219,7 @@ class GenericItem(UnitBase):
             
         @input(inputname='EnableForPickup', helpstring='Enable for pickup')
         def InputEnableForPickup(self, inputdata):
+            """Allow units to start picking up this item (and arm trigger touch)."""
             if self.enabledforpickup:
                 return
             
@@ -229,6 +230,7 @@ class GenericItem(UnitBase):
                 
         @input(inputname='EnableForPickup', helpstring='Enable for pickup')
         def InputDisableForPickup(self, inputdata):
+            """Disable pickup so units can no longer acquire this item."""
             if not self.enabledforpickup:
                 return
             

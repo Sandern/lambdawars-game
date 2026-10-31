@@ -1,5 +1,12 @@
-"""
-Game signals.
+"""Game-wide signal system for event dispatching.
+
+Provides a centralized event system using signals that can be connected to
+and disconnected from throughout the game code. Signals are used to notify
+listeners about various game events such as level initialization, player
+spawning, unit actions, resource changes, and more.
+
+The signal system supports both immediate and delayed firing, with robust
+error handling that prints warnings for exceptions in signal receivers.
 """
 from .dispatch import Signal
 from collections import defaultdict

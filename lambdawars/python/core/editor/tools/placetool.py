@@ -1,3 +1,4 @@
+"""Base ability implementation for editor tools that place entities or props."""
 from srcbase import IN_DUCK
 from srcbuiltins import Color
 from vmath import Vector
@@ -10,6 +11,7 @@ if isclient:
     from particles import CNewParticleEffect
 
 class PlaceTool(AbilityBase):
+    """Shared logic for editor painting tools that place or remove objects."""
     def Init(self):
         super().Init()
         
@@ -116,20 +118,25 @@ class PlaceTool(AbilityBase):
             self.DoPlace()
         
     def DoPlace(self):
+        """Override in subclasses to execute the placement logic."""
         pass
         
     def IsValidAsset(self, asset):
+        """Return True if the provided asset reference is usable by the tool."""
         return True
         
     def AddPlaceToolAsset(self, asset):
+        """Register a new asset (model/material) for this tool to place."""
         if not self.IsValidAsset(asset):
             return
         self.assets.add(asset)
         
     def RemovePlaceToolAsset(self, asset):
+        """Remove an asset from the set of placeable resources."""
         self.assets.discard(asset)
         
     def SetPlaceToolDensity(self, density):
+        """Adjust the spawn density (entities per tick) used while painting."""
         self.density = density
         
     # Allowing multiple tools active at once
