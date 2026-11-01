@@ -431,6 +431,9 @@ class WarsBaseGameRules(CHL2WarsGameRules):
             playerdata = {
                 'steamid' : steamid,
                 'state' : gp.get('state', ''),
+                'team' : gp.get('team', 0),
+                'iscpu' : bool(gp.get('iscpu', False)),
+                'ownernumber' : gp.get('ownernumber', 0),
             }
             if not steamid:
                 playerdata['playername'] = gp.get('playername', '')

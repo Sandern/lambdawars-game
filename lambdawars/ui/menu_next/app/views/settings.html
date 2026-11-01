@@ -1,39 +1,119 @@
-<section class="content content-menu" id="content-settings">
-    <main>
-        <h1>{{ 'Settings_Headline' | translate }}</h1>
-        <ul class="menu submenu" id="submenu-settings">
-            <li>
-                <a href ng-click="video()">
-                    {{ 'Settings_Video' | translate }}
-                    <p>{{ 'Settings_Video_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a href ng-click="brightness()">
-                    {{ 'Settings_Brightness' | translate }}
-                    <p>{{ 'Settings_Brightness_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a href ng-click="audio()">
-                    {{ 'Settings_Sound' | translate }}
-                    <p>{{ 'Settings_Sound_Desc' | translate }}</p>
-                </a>
-            </li>
-             <li>
-                <a href ng-click="keyboardmouse()">
-                    {{ 'Settings_KeyboardMouse' | translate }}
-                    <p>{{ 'Settings_KeyboardMouse_Desc' | translate }}</p>
-                </a>
-            </li>
-             <li>
-                <a href ng-click="multiplayer()">
-                    {{ 'Settings_Multiplayer' | translate }}
-                    <p>{{ 'Settings_Multiplayer_Desc' | translate }}</p>
-                </a>
-            </li>
-        </ul>
-    </main>
-</section>
+<div class="pg-page st-page">
+	<nav class="st-nav">
+		<h1 class="st-nav-title">{{ 'Settings_Headline' | translate }}</h1>
+		<ul class="st-categories">
+			<li ng-repeat="cat in categories track by cat.id">
+				<button type="button" class="st-category" ng-class="{active: cat === category}" ng-click="selectCategory(cat)">
+					<wars-icon name="{{ cat.icon }}"></wars-icon>
+					<span class="st-category-text">
+						<span class="st-category-title">{{ cat.title | translate }}</span>
+						<span class="st-category-desc">{{ cat.desc | translate }}</span>
+					</span>
+					<span class="st-dot" ng-if="isCategoryDirty(cat)"></span>
+				</button>
+			</li>
+		</ul>
+	</nav>
 
-<span global-chat/>
+	<div class="st-main">
+		<header class="pg-heading st-heading">
+			<span class="pg-eyebrow">{{ 'MenuSettings' | translate }}</span>
+			<h2 class="pg-title">{{ category.title | translate }}</h2>
+			<p class="pg-status">{{ category.desc | translate }}</p>
+		</header>
+
+		<div class="st-calibration" ng-if="loaded && category.id === 'brightness'">
+			<span class="st-calibration-symbols">
+				<span class="st-calibration-logo" ng-repeat="opacity in calibration() track by $index" ng-style="{opacity: opacity}">
+					<img ng-src="images/lw-logo.png" alt="" />
+				</span>
+			</span>
+			<p>{{ 'ST_Brightness_Calibrate' | translate }}</p>
+		</div>
+
+		<div class="st-tabs" role="tablist" ng-if="loaded && category.id === 'keys'">
+			<button type="button" class="st-tab" role="tab" ng-repeat="tab in keyTabs track by tab.id" aria-selected="{{ tab === keyTab }}"
+				ng-class="{active: tab === keyTab}" ng-click="selectKeyTab(tab)">
+				{{ tab.title | translate }}
+				<span class="st-tab-count">{{ tab.count }}</span>
+				<span class="st-tab-badge" ng-if="tab.badge">{{ tab.badge | translate }}</span>
+				<span class="st-dot" ng-if="isTabDirty(tab)"></span>
+			</button>
+		</div>
+
+		<div class="st-note" ng-if="loaded && category.id === 'keys' && keyTab.id === 'fps'">
+			<wars-icon name="info"></wars-icon>
+			<p><span class="st-note-title">{{ 'ST_KeysLegacyNoteTitle' | translate }}</span> {{ 'ST_KeysLegacyNote' | translate }}</p>
+		</div>
+
+		<p class="pg-empty" ng-if="!loaded">{{ 'ST_Loading' | translate }}</p>
+
+		<div class="st-rows" ng-if="loaded">
+			<div ng-repeat="row in categoryRows()" ng-if="isShown(row)" ng-switch="row.type">
+				<div class="st-header" ng-switch-when="header">
+					<h3>{{ row.text || (row.label | translate) }}</h3>
+					<span class="st-hint" ng-if="row.hint">{{ row.hint | translate }}</span>
+				</div>
+
+				<div class="st-row" ng-switch-default ng-class="{disabled: isDisabled(row)}">
+					<span class="st-label">
+						<span class="st-label-text">
+							{{ row.text || (row.label | translate) }}
+							<span class="st-shared" ng-if="row.sharedWith">{{ 'ST_KeyShared' | translate }}</span>
+							<span class="st-changed" ng-if="isDirty(row)">{{ 'ST_Changed' | translate }}</span>
+						</span>
+						<span class="st-hint" ng-class="{'st-hint-moved': moved[row.id]}" ng-if="hintText(row)">{{ hintText(row) }}</span>
+					</span>
+
+					<span class="st-control" ng-switch="row.type">
+						<span class="lb-select-wrap st-select" ng-switch-when="select">
+							<select class="lb-select" ng-model="values[row.id]" ng-options="option.value as option.text for option in options[row.id]"
+								ng-change="changed(row)" ng-disabled="isDisabled(row)"></select>
+							<wars-icon name="chevron-down"></wars-icon>
+						</span>
+
+						<span class="lb-segmented st-seg" ng-switch-when="seg">
+							<button type="button" ng-repeat="option in options[row.id]" ng-class="{active: values[row.id] === option.value}"
+								ng-click="set(row, option.value)" ng-disabled="isDisabled(row)">{{ option.text }}</button>
+						</span>
+
+						<button type="button" class="lb-switch" role="switch" aria-checked="{{ !!values[row.id] }}" ng-switch-when="switch"
+							ng-class="{on: values[row.id]}" ng-click="toggle(row)" ng-disabled="isDisabled(row)">
+							{{ (values[row.id] ? 'ST_On' : 'ST_Off') | translate }}
+							<span class="lb-switch-track"><span class="lb-switch-knob"></span></span>
+						</button>
+
+						<span class="st-slider" ng-switch-when="slider">
+							<input type="range" min="{{ row.min }}" max="{{ row.max }}" step="{{ row.step }}" settings-range="values[row.id]"
+								settings-change="slide(row, $value)" ng-disabled="isDisabled(row)" />
+							<span class="st-slider-value">{{ formatSlider(row) }}</span>
+						</span>
+
+						<button type="button" class="st-key" ng-switch-when="bind" ng-class="{listening: listening === row.id}" ng-click="listen(row)">
+							{{ listening === row.id ? ('ST_PressKey' | translate) : (values[row.id] || '&mdash;') }}
+						</button>
+
+						<span class="st-action" ng-switch-when="action">
+							<span class="st-mic-level" ng-if="row.id === 'testmicrophone' && testingMicrophone">
+								<span ng-style="{width: (micLevel * 100) + '%'}"></span>
+							</span>
+							<button type="button" class="lb-btn lb-btn-small" ng-click="runAction(row)" ng-disabled="isDisabled(row)">{{ actionLabel(row) | translate }}</button>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="st-bar" ng-if="dirtyCategories().length">
+			<span class="st-dot"></span>
+			<span class="st-bar-title">{{ 'ST_Unsaved' | translate }}</span>
+			<span class="st-bar-summary">{{ dirtySummary() }}</span>
+			<button type="button" class="lb-btn" ng-click="revert()">{{ 'ST_Revert' | translate }}</button>
+			<button type="button" class="lb-btn st-apply" ng-click="apply()" ng-disabled="applying">{{ 'ST_Apply' | translate }}</button>
+		</div>
+		<div class="st-saved" ng-if="showSaved && !dirtyCategories().length">
+			<wars-icon name="check"></wars-icon>
+			{{ (restartNeeded ? 'ST_SavedRestart' : 'ST_Saved') | translate }}
+		</div>
+	</div>
+</div>

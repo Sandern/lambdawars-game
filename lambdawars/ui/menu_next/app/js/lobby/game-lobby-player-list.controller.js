@@ -46,9 +46,63 @@ class GamelobbyPlayerListController {
 		};
 		
 		$scope.isPlayerReady = function(){
-			return $scope.isPlayerReadyByID($scope.localslotid); 
+			return $scope.isPlayerReadyByID($scope.localslotid);
 		}
-		
+
+        $scope.hasLocalSlot = function() {
+            return $scope.localslotid !== undefined && $scope.localslotid !== null;
+        };
+
+        $scope.toggleReady = function() {
+            if( !$scope.hasLocalSlot() ) {
+                return;
+            }
+            $scope.updatePlayerData('ready', $scope.isPlayerReady() ? '0' : '1', $scope.localslotid);
+        };
+
+        $scope.numSlots = function() {
+            return $scope.slots ? $scope.slots.length : 0;
+        };
+
+        $scope.numFilledSlots = function(slots) {
+            return (slots || []).filter(function(slot) { return slot.type === 'player'; }).length;
+        };
+
+        $scope.connectionClass = function(slot) {
+            var member = slot.player ? $scope.lobbymembers[slot.player.steamid] : undefined;
+            if( !member || member.connectstate === undefined ) {
+                return '';
+            }
+            return member.connectstate ? 'lb-conn-good' : 'lb-conn-bad';
+        };
+
+        // Same rule as IsEverybodyReady in the Python lobby: CPUs are always ready
+        $scope.isEverybodyReady = function() {
+            return ($scope.slots || []).every(function(slot) {
+                return slot.type !== 'player' || slot.iscpu || $scope.isPlayerReadyByID(slot.slotid);
+            });
+        };
+
+        // Explains why the game can't be launched yet, as translation key. Other problems, like not
+        // enough players for the game mode, are reported in the lobby chat when launching.
+        $scope.launchHint = function() {
+            if( $scope.state !== 'lobbying' || !$scope.lobbytype || $scope.lobbytype.value === 'offline' ) {
+                return '';
+            }
+            var localReady = !$scope.hasLocalSlot() || $scope.isPlayerReady();
+            if( !$scope.islobbyowner ) {
+                return localReady ? 'GL_HintWaitingForHost' : 'GL_HintReadyUpForHost';
+            }
+            if( !localReady ) {
+                return 'GL_HintReadyUp';
+            }
+            return $scope.isEverybodyReady() ? '' : 'GL_HintWaitingForPlayers';
+        };
+
+        $scope.canLaunch = function() {
+            return $scope.state === 'lobbying' && !$scope.launchHint();
+        };
+
         $scope.updateFromSlotSettings = function(settings) {
             if( !angular.equals($scope.availablefactions, settings.availablefactions ) ) {
                 $scope.availablefactions = settings.availablefactions;
@@ -83,23 +137,20 @@ class GamelobbyPlayerListController {
                             }
                         }
                     }
-                    curSlots.push({
-                        slotid: slot.slotid,
-                        team: slot.team
-                    });
+                    curSlots.push(slot);
                     if( i === slots.length -1 || (i < slots.length -1 && slot.team !== slots[i+1].team) ) {
                         teamSlots.push({
                             'header' : slot.team === 0 ? translations.GL_FreeForAll : translations.GL_Team + ' ' + (slot.team - 1),
+                            'team' : slot.team,
                             'slots' : curSlots,
                         });
                         curSlots = [];
                     }
                 }
-                
+
+                // The slots are tracked by id in the view, so only changed slots are redrawn
                 $scope.slots = slots;
-                if( !angular.equals($scope.teamSlots, teamSlots) ) {
-                    $scope.teamSlots = teamSlots;
-                }
+                $scope.teamSlots = teamSlots;
             });
             
         };
