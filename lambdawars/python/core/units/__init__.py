@@ -32,4 +32,6 @@ if isserver:
     from .behavior_generic import BehaviorGeneric
     from .behavior_overrun import CreateBehaviorOverrun
     from .intention import BaseAction, BaseBehavior
+else:
+    from . import unitglow
 
