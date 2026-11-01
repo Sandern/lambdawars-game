@@ -1596,6 +1596,15 @@ class UnitBaseCombat(BaseClass):
             
     else:
         def EnableGlow(self, enable=True):
+            # Keeper / non-team paths still use direct studio glow.
+            # Combat team-color glow goes through EnableTeamColorGlow → unitglow.
+            if getattr(self, '_unitglow_wanted', False):
+                if enable:
+                    self.EnableTeamColorGlow()
+                else:
+                    self.DisableTeamColorGlow()
+                return
+
             if self.glowidx != None:
                 glowobjectmanager.UnregisterGlowObject(self.glowidx)
                 self.glowidx = None

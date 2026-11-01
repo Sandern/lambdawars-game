@@ -477,6 +477,8 @@ class UnitBaseShared(object):
             self.ClearSelectionCircle()
             self.HideBars()
             self.HideChannelBar()
+            if getattr(self, '_unitglow_wanted', False):
+                self.DisableTeamColorGlow()
             
         # ALWAYS CHAIN BACK!
         super().UpdateOnRemove()
@@ -1526,6 +1528,15 @@ class UnitBaseShared(object):
                 return False
                 
             return True
+
+        def EnableTeamColorGlow(self):
+            """Overrides C++ team glow with FOW/off-screen culling + army-count sprites."""
+            from .unitglow import SetWanted
+            SetWanted(self, True)
+
+        def DisableTeamColorGlow(self):
+            from .unitglow import SetWanted
+            SetWanted(self, False)
             
         def UpdateTeamColorGlow(self):
             if self.UseTeamColorGlow():
