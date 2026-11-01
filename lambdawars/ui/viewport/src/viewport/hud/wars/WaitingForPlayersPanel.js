@@ -16,29 +16,6 @@ export class WaitingForPlayersPanel extends ViewportElement {
 				.on('selectstart', false);
 	}
 
-	updateBanner(bannerurl) {
-		if( this.bannerurl != bannerurl ) {
-			this.bannerurl = bannerurl;
-			
-			const banner = $(this.content.find('#wars_waitingforplayers_banner'));
-			banner.html('<div id="wars_waitingforplayers_banner"><iframe sandbox src="' + bannerurl + '" width="100%" height="100%" scrolling="no" seamless="seamless" frameBorder="0"></iframe></div>');
-		}
-	}
-
-	updateBannerFromContent(bannercontent) {
-		if( this.bannercontent === bannercontent ) {
-			return;
-		}
-		this.bannercontent = bannercontent;
-		const banner = $(this.content.find('#wars_waitingforplayers_banner'));
-		banner.html(''); // Clear any old banner
-		const bannercontainer = $('<div id="wars_waitingforplayers_banner"></div>')
-		const banneriframe = $('<iframe sandbox width="100%" height="100%" scrolling="no" seamless="seamless" frameBorder="0"></iframe></div>');
-		banneriframe.attr('srcdoc', bannercontent);
-		bannercontainer.append(banneriframe);
-		banner.append(bannercontainer);
-	}
-
 	updateMOTD(motdurl) {
 		if( this.motdurl != motdurl ) {
 			this.motdurl = motdurl;

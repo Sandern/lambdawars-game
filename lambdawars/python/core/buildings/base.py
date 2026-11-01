@@ -1274,8 +1274,9 @@ class UnitBaseBuilding(UnitBaseBuildingShared, BaseClass):
 
             self.onconstructed.FireOutput(self, self)
 
-        self.CreateCoverSpots()
 
+        self.CreateCoverSpots()
+        
     def CheckTech(self):
         if not isserver:
             return
