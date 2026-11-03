@@ -65,13 +65,21 @@ function tooltip() {
         function detachTether() {
           if (tether) {
             tether.destroy();
+            tether = null;
           }
         }
+
+        // Opening twice (mouseenter without mouseleave, like after closing a select) would leave a tooltip behind
+        var isOpen = false;
 
         /**
          * Open the tooltip
          */
         function open() {
+          if (isOpen) {
+            return;
+          }
+          isOpen = true;
           $animate.enter(elem, null, target);
           attachTether();
         }
@@ -80,6 +88,10 @@ function tooltip() {
          * Close the tooltip
          */
         function close() {
+          if (!isOpen) {
+            return;
+          }
+          isOpen = false;
           $animate.leave(elem);
           detachTether();
         }
@@ -121,13 +133,14 @@ function tooltipDirective() {
             }, options, { tether: scope.tether }));
 
             /**
-             * Toggle the tooltip.
+             * Toggle the tooltip. $animate only adds and removes the element in a digest, so the
+             * mouse events start one.
              */
             elem.bind("mouseenter", function(){
-                tooltip.open();
+                scope.$evalAsync(tooltip.open);
             });
             elem.bind("mouseleave", function(){
-                tooltip.close();
+                scope.$evalAsync(tooltip.close);
             });
           }
         };

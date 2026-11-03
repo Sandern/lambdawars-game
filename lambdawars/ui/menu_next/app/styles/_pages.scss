@@ -1,0 +1,2466 @@
+// Full width menu pages (online, home, lobby browser, missions). The page container (#page)
+// is shared with the game lobby, see _gamelobby.scss.
+
+.pg-page {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+
+	// The smallest screens scroll instead of squeezing the page
+	@media (max-width: 1180px) {
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+}
+
+// Heading: eyebrow, title and a status line
+
+.pg-heading {
+	flex-shrink: 0;
+}
+
+.pg-eyebrow {
+	@include lb-caps(1.3rem);
+	color: $orange;
+}
+
+.pg-title {
+	margin: 0.6rem 0 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 4.4rem;
+	line-height: 5.2rem;
+	color: $white;
+}
+
+.pg-status {
+	display: flex;
+	align-items: center;
+	margin: 0.8rem 0 0;
+	font-size: 1.6rem;
+	color: $ui-text-soft;
+}
+
+.pg-pulse {
+	flex-shrink: 0;
+	width: 0.7rem;
+	height: 0.7rem;
+	margin-right: 1rem;
+	border-radius: 50%;
+	background: $ui-green;
+	animation: lb-pulse 1.8s ease-in-out infinite;
+}
+
+// Big action cards
+
+.pg-cards {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	margin: 3.6rem -1.2rem 0;
+}
+
+.pg-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+	height: 26rem;
+	margin: 0 1.2rem;
+	padding: 3.2rem;
+	background: rgba($ui-black, 0.72);
+	border: 1px solid $white10;
+	border-radius: 0.4rem;
+	outline: none;
+	font-family: 'Roboto';
+	text-align: left;
+	color: $ui-text;
+	cursor: pointer;
+	transition: border-color .15s, background-color .15s, transform .15s;
+
+	&:hover {
+		border-color: rgba($white, 0.28);
+		transform: translateY(-2px);
+	}
+}
+
+.pg-card-icon .icon {
+	width: 3.4rem;
+	height: 3.4rem;
+	color: $ui-text-soft;
+}
+
+.pg-card-title {
+	margin-top: 2.2rem;
+	@include lb-caps(2.8rem, 0.2rem);
+	color: $white;
+}
+
+.pg-card-text {
+	margin-top: 0.8rem;
+	font-size: 1.7rem;
+	line-height: 1.45;
+	color: $ui-text-muted;
+}
+
+.pg-card-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+
+	.icon {
+		width: 1.8rem;
+		height: 1.8rem;
+	}
+}
+
+// The main action of a page
+.pg-card-hot {
+	background-color: rgba($orange, 0.07);
+	border-color: rgba($orange, 0.55);
+
+	&:hover {
+		background-color: rgba($orange, 0.12);
+		border-color: $lightorange;
+	}
+
+	.pg-card-title, .pg-card-icon .icon, .pg-card-footer .icon {
+		color: $orange;
+	}
+
+	.pg-card-text {
+		color: $ui-text-soft;
+	}
+}
+
+.pg-card-corner {
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	width: 1.8rem;
+	height: 1.8rem;
+	border-left: 2px solid $orange;
+	border-top: 2px solid $orange;
+}
+
+// Smaller card with the icon on the left
+.pg-card-row {
+	flex: none;
+	flex-direction: row;
+	align-items: center;
+	height: auto;
+	margin: 1.6rem 0 0;
+	padding: 2.2rem 2.4rem;
+
+	.pg-card-icon .icon {
+		width: 3rem;
+		height: 3rem;
+	}
+
+	> wars-icon:last-child .icon {
+		width: 1.3rem;
+		height: 1.3rem;
+		color: $ui-text-muted;
+	}
+}
+
+.pg-card-row-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+	margin: 0 1.6rem 0 1.8rem;
+}
+
+.pg-card-row-title {
+	@include lb-caps(1.8rem, 0.2rem);
+	color: $white;
+}
+
+.pg-card-row-desc {
+	margin-top: 0.4rem;
+	font-size: 1.5rem;
+	line-height: 1.4;
+	color: $ui-text-muted;
+}
+
+// Lower part: a list with a side column
+
+.pg-lower {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	min-height: 0;
+	margin-top: 4rem;
+}
+
+.pg-section {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: 0;
+}
+
+.pg-grow {
+	flex: 1;
+}
+
+.pg-side {
+	flex-shrink: 0;
+	width: 44rem;
+	margin-left: 5.6rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.pg-section-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 3.2rem;
+	border-bottom: 1px solid $lb-border;
+
+	h2 {
+		margin: 0;
+		@include lb-caps(1.5rem, 0.3rem);
+		color: $ui-text;
+	}
+}
+
+.pg-link {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+	@include lb-caps(1.3rem);
+	color: $orange;
+	cursor: pointer;
+
+	.icon {
+		width: 1.2rem;
+		height: 1.2rem;
+		margin-left: 0.4rem;
+	}
+
+	&:hover {
+		color: $lightorange;
+	}
+}
+
+.pg-dev-link {
+	margin: 1.6rem 0 0;
+	color: $ui-text-muted;
+}
+
+// Lobby rows
+
+.pg-rows {
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	list-style: none;
+}
+
+.pg-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 5.8rem;
+	padding: 0 0.4rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+	transition: background-color .15s;
+
+	&:hover {
+		background: rgba($white, 0.03);
+	}
+
+	> * + * {
+		margin-left: 1.8rem;
+	}
+}
+
+// Map overview thumbnail, hatched when the map isn't installed
+.pg-thumb {
+	display: block;
+	flex-shrink: 0;
+	width: 3.6rem;
+	height: 3.6rem;
+	overflow: hidden;
+	border: 1px solid rgba($white, 0.08);
+	border-radius: 0.3rem;
+	background-color: $ui-panel-solid;
+	background-image: repeating-linear-gradient(135deg, rgba($white, 0.04) 0, rgba($white, 0.04) 6px, transparent 6px, transparent 12px);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.pg-row-name {
+	flex: 1.4 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: 500;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.pg-row-mode {
+	flex: 0 0 19rem;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.pg-row-map {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+// How full a lobby is
+.pg-fill {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	width: 12rem;
+}
+
+.pg-fill-bar {
+	width: 5.4rem;
+	height: 0.4rem;
+	overflow: hidden;
+	border-radius: 0.2rem;
+	background: $white10;
+
+	span {
+		display: block;
+		height: 100%;
+		background: $orange;
+	}
+}
+
+.pg-fill-count {
+	margin-left: 1rem;
+	font-family: Consolas, 'Courier New', monospace;
+	font-size: 1.3rem;
+	color: $ui-text-soft;
+}
+
+.pg-empty {
+	margin: 0;
+	padding: 2.4rem 0.4rem;
+	font-size: 1.5rem;
+	line-height: 1.5;
+	color: $ui-text-muted;
+}
+
+@media (max-width: 1400px) {
+	.pg-side {
+		width: 36rem;
+		margin-left: 3rem;
+	}
+
+	.pg-row-mode {
+		flex-basis: 15rem;
+	}
+}
+
+@media (max-width: 1180px) {
+	.pg-lower {
+		flex-direction: column;
+		flex: none;
+	}
+
+	.pg-rows {
+		overflow: visible;
+	}
+
+	.pg-side {
+		width: auto;
+		margin: 3rem 0 0;
+	}
+}
+
+@media (max-height: 820px) {
+	.pg-title {
+		font-size: 3.4rem;
+		line-height: 4.2rem;
+	}
+
+	.pg-cards {
+		margin-top: 2.4rem;
+	}
+
+	.pg-cards .pg-card {
+		height: 19rem;
+		padding: 2.4rem;
+	}
+
+	.pg-card-icon .icon {
+		width: 2.6rem;
+		height: 2.6rem;
+	}
+
+	.pg-card-title {
+		margin-top: 1.2rem;
+		font-size: 2.4rem;
+	}
+
+	.pg-card-text {
+		font-size: 1.5rem;
+	}
+
+	.pg-card-row {
+		padding: 1.6rem 2rem;
+	}
+
+	.pg-lower {
+		margin-top: 2.4rem;
+	}
+
+	.pg-row {
+		height: 5rem;
+	}
+}
+
+// Home dashboard: actions, lobbies and the last game on the left, the global chat docked on the right
+
+.pg-home {
+	flex-direction: row;
+}
+
+.hm-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.hm-heading {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	flex-shrink: 0;
+
+	.pg-heading {
+		flex: 1;
+		min-width: 0;
+	}
+}
+
+.hm-stats {
+	display: flex;
+	flex-direction: row;
+	padding-bottom: 0.6rem;
+}
+
+.hm-stat {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-left: 3.6rem;
+}
+
+.hm-stat-value {
+	display: flex;
+	align-items: center;
+	font-weight: 500;
+	font-size: 2.8rem;
+	color: $ui-text;
+
+	.pg-pulse {
+		margin-right: 0.8rem;
+	}
+}
+
+.hm-stat-label {
+	margin-top: 0.2rem;
+	@include lb-caps(1.2rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.pg-home {
+	.pg-cards {
+		margin-top: 2.8rem;
+	}
+
+	.pg-cards .pg-card {
+		height: 22rem;
+		padding: 2.8rem;
+	}
+
+	.pg-card-title {
+		margin-top: 1.8rem;
+		font-size: 2.6rem;
+	}
+
+	.pg-card-text {
+		font-size: 1.6rem;
+	}
+
+	.pg-lower {
+		margin-top: 3.6rem;
+	}
+
+	.pg-side {
+		margin-left: 4.8rem;
+	}
+}
+
+// Mission card with the image of the last played mission
+.hm-mission-card {
+	overflow: hidden;
+	background-color: $ui-panel-solid;
+
+	> * {
+		position: relative;
+	}
+
+	.pg-card-title {
+		margin-top: auto;
+	}
+
+	.pg-card-footer {
+		margin-top: 0.6rem;
+		color: $ui-text-soft;
+	}
+}
+
+// The image, the shade and the corner stay positioned over the card
+.hm-mission-image, .hm-mission-shade, .hm-mission-card > .pg-card-corner {
+	position: absolute;
+}
+
+// Zooms in slightly when hovering the card
+.hm-mission-image {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-position: center;
+	background-size: cover;
+	transition: transform .6s ease-out;
+
+	.hm-mission-card:hover & {
+		transform: scale(1.05);
+	}
+}
+
+.hm-mission-shade {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(180deg, rgba($ui-black, 0.15) 0%, rgba($ui-black, 0.92) 78%);
+}
+
+.hm-row-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+
+	.pg-row-name {
+		flex: none;
+	}
+}
+
+.hm-row-meta {
+	margin-top: 0.2rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.3rem;
+	color: $ui-text-muted;
+
+	.icon {
+		display: inline-block;
+		width: 1.3rem;
+		height: 1.3rem;
+		vertical-align: -0.2rem;
+	}
+}
+
+.hm-side-section + .hm-side-section {
+	margin-top: 2.8rem;
+}
+
+.hm-host-again {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-top: 1.4rem;
+}
+
+.hm-thumb-large {
+	width: 6.4rem;
+	height: 6.4rem;
+}
+
+.hm-host-again-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	margin-left: 1.4rem;
+}
+
+.hm-host-again-title {
+	font-weight: 500;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.hm-host-again-btn {
+	width: 100%;
+	height: 4rem;
+	margin-top: 1.4rem;
+}
+
+.hm-workshop-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	height: 5rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+}
+
+.hm-workshop-title {
+	font-size: 1.6rem;
+	color: $ui-text;
+}
+
+.hm-warning {
+	color: $orange;
+}
+
+.hm-chat {
+	flex: 0 0 46rem;
+	min-height: 0;
+	margin-left: 5.6rem;
+	border-radius: 0.4rem;
+
+	// No room on smaller screens, the chat opens as a drawer from the top bar instead
+	@media (max-width: 1400px) {
+		display: none;
+	}
+}
+
+@media (max-height: 820px) {
+	.pg-home {
+		.pg-cards .pg-card {
+			height: 19rem;
+			padding: 2.4rem;
+		}
+
+		.pg-card-title {
+			margin-top: 1.2rem;
+			font-size: 2.4rem;
+		}
+
+		.pg-lower {
+			margin-top: 2.4rem;
+		}
+	}
+}
+
+// Lobby browser: filters and the lobby table, details of the selected lobby on the right
+
+.pg-browser {
+	flex-direction: row;
+}
+
+.br-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.br-heading {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+	flex-shrink: 0;
+}
+
+.br-back {
+	display: inline-flex;
+	align-items: center;
+	@include lb-caps(1.3rem);
+	color: $orange;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 0.6rem;
+	}
+
+	&:hover {
+		color: $lightorange;
+	}
+}
+
+.br-updated {
+	margin-left: 0.6rem;
+	color: $ui-text-muted;
+}
+
+.br-refresh {
+	margin-left: 0.6rem;
+
+	&:hover:not(:disabled) {
+		border-color: $white20;
+		color: $white;
+	}
+}
+
+.lb-btn-launch.br-create {
+	height: 4.8rem;
+	padding: 0 2.4rem;
+	@include lb-caps(1.6rem, 0.25rem);
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+		margin: 0 1rem 0 0;
+	}
+}
+
+.br-dev-warning {
+	margin-top: 1.6rem;
+	font-size: 1.4rem;
+}
+
+.br-filters {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 2.8rem;
+	padding-bottom: 1.6rem;
+	border-bottom: 1px solid $lb-border;
+
+	> * {
+		margin-right: 2.4rem;
+	}
+
+	.lb-segmented button:first-child {
+		margin-left: 0;
+	}
+
+	.lb-switch-track {
+		margin-left: 0;
+	}
+}
+
+.br-search {
+	display: flex;
+	align-items: center;
+	width: 32rem;
+	height: 4rem;
+	padding: 0 1.2rem;
+	background: rgba($ui-black, 0.4);
+	border: 1px solid $white20;
+	border-radius: 0.2rem;
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-right: 1rem;
+		color: $ui-text-muted;
+	}
+
+	input {
+		flex: 1;
+		min-width: 0;
+		background: transparent;
+		border: none;
+		outline: none;
+		font-family: 'Roboto';
+		font-size: 1.5rem;
+		color: $ui-text;
+
+		&::placeholder {
+			color: $ui-text-muted;
+		}
+	}
+
+	&:focus-within {
+		border-color: $orange;
+	}
+}
+
+.br-switch-label {
+	margin-left: 1rem;
+}
+
+.br-sort {
+	display: flex;
+	align-items: center;
+	margin-left: auto;
+
+	&.br-sort {
+		margin-right: 0;
+	}
+}
+
+// Lobby table
+
+.br-table-header, .br-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	> * {
+		padding-right: 1.6rem;
+	}
+}
+
+.br-table-header {
+	flex-shrink: 0;
+	height: 4rem;
+	padding: 0 1.2rem;
+	border-bottom: 1px solid $lb-border;
+	@include lb-caps(1.2rem, 0.2rem);
+	color: $ui-text-muted;
+}
+
+.br-th {
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	background: transparent;
+	border: none;
+	outline: none;
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	text-align: left;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover {
+		color: $white;
+	}
+
+	&.active {
+		color: $orange;
+	}
+}
+
+.br-rows {
+	flex: 1;
+	min-height: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	outline: none;
+}
+
+.br-row {
+	width: 100%;
+	height: 5.6rem;
+	padding: 0 1.2rem 0 1rem;
+	background: transparent;
+	border: none;
+	border-left: 2px solid transparent;
+	border-bottom: 1px solid rgba($white, 0.06);
+	outline: none;
+	font-family: 'Roboto';
+	font-size: 1.5rem;
+	text-align: left;
+	color: $ui-text-soft;
+	cursor: pointer;
+	transition: background-color .15s;
+
+	&:hover {
+		background: rgba($white, 0.03);
+	}
+
+	&.selected {
+		background: rgba($orange, 0.08);
+		border-left-color: $orange;
+	}
+
+	&.full > *:not(.br-col-status) {
+		opacity: 0.62;
+	}
+}
+
+.br-col-thumb {
+	flex: 0 0 3.6rem;
+	margin-right: 1.6rem;
+
+	&.pg-thumb {
+		padding-right: 0;
+	}
+}
+
+.br-col-name {
+	flex: 1.4 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	.br-row & {
+		font-weight: 500;
+		font-size: 1.6rem;
+		color: $ui-text;
+	}
+}
+
+.br-col-mode {
+	flex: 0 0 18rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.br-col-map {
+	flex: 1 1 0;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.br-col-players {
+	flex: 0 0 13rem;
+}
+
+.br-col-status {
+	flex: 0 0 7rem;
+	text-align: right;
+
+	.br-table-header > &, .br-row > & {
+		padding-right: 0;
+	}
+
+	.br-row & {
+		@include lb-caps(1.2rem, 0.2rem);
+	}
+}
+
+.br-status-open {
+	color: $ui-green;
+}
+
+.br-status-full {
+	color: $ui-text-muted;
+}
+
+.br-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 6rem 2rem;
+	text-align: center;
+}
+
+.br-empty-title {
+	@include lb-caps(1.8rem, 0.2rem);
+	color: $ui-text;
+}
+
+.br-empty-text {
+	margin-top: 0.8rem;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+}
+
+.br-empty-actions {
+	display: flex;
+	margin-top: 2rem;
+
+	.lb-btn + .lb-btn {
+		margin-left: 1.2rem;
+	}
+}
+
+.br-tip {
+	flex-shrink: 0;
+	margin: 1.2rem 0 0;
+	font-size: 1.3rem;
+	color: $ui-text-muted;
+}
+
+// Details of the selected lobby
+
+.br-details {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 46rem;
+	min-height: 0;
+	margin-left: 4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.br-map {
+	position: relative;
+	flex-shrink: 0;
+	margin: 0.6rem 0.6rem 2rem;
+
+	.lb-map-mode, .lb-map-name {
+		display: block;
+	}
+}
+
+.br-details-name {
+	margin: 0 0 1.2rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 2.6rem;
+	color: $white;
+}
+
+.br-details-list {
+	flex-shrink: 0;
+}
+
+.br-dots {
+	display: flex;
+	flex-direction: row;
+}
+
+.br-dot {
+	width: 1.2rem;
+	height: 1.2rem;
+	margin-left: 0.6rem;
+	border: 1px solid rgba($white, 0.25);
+	border-radius: 50%;
+
+	&.taken {
+		background: $orange;
+		border-color: $orange;
+	}
+}
+
+.br-details-actions {
+	flex-shrink: 0;
+	margin-top: auto;
+	padding-top: 2.4rem;
+
+	> .lb-btn-launch {
+		width: 100%;
+		height: 6.4rem;
+	}
+
+	.lb-actions-row {
+		margin-bottom: 0;
+	}
+
+	.lb-hint {
+		margin-top: 1.2rem;
+	}
+}
+
+@media (max-width: 1400px) {
+	.br-details {
+		flex-basis: 38rem;
+		margin-left: 3rem;
+	}
+
+	.br-col-mode {
+		flex-basis: 14rem;
+	}
+
+	.br-search {
+		width: 24rem;
+	}
+}
+
+@media (max-width: 1180px) {
+	.pg-browser {
+		overflow: hidden;
+	}
+
+	.br-details {
+		flex-basis: 32rem;
+	}
+
+	.br-col-mode {
+		display: none;
+	}
+
+	// Lobby full and spectate next to each other
+	.br-details-actions .lb-actions-row .lb-btn {
+		padding: 0 1.2rem;
+		@include lb-caps(1.5rem, 0.2rem);
+	}
+}
+
+@media (max-height: 820px) {
+	.br-filters {
+		margin-top: 2rem;
+	}
+
+	.br-row {
+		height: 5rem;
+	}
+
+	.br-details-actions > .lb-btn-launch {
+		height: 5.2rem;
+	}
+}
+
+// Mission select: the missions on the left, the selected mission with briefing, preview and launch bar
+
+.pg-missions {
+	flex-direction: row;
+}
+
+.ms-list {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 44rem;
+	min-height: 0;
+	margin-right: 4.8rem;
+}
+
+.ms-list-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+	padding-bottom: 1.4rem;
+	border-bottom: 1px solid $lb-border;
+}
+
+.ms-list-title {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	@include lb-caps(1.6rem, 0.3rem);
+	color: $ui-text;
+}
+
+.ms-items {
+	flex: 1;
+	min-height: 0;
+	padding-top: 0.8rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.ms-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 1rem 1rem 1rem 1.2rem;
+	background: transparent;
+	border: none;
+	border-left: 2px solid transparent;
+	outline: none;
+	font-family: 'Roboto';
+	text-align: left;
+	cursor: pointer;
+	transition: background-color .15s;
+
+	&:hover {
+		background: rgba($white, 0.03);
+	}
+
+	&.selected {
+		background: rgba($orange, 0.08);
+		border-left-color: $orange;
+
+		.ms-item-title {
+			color: $white;
+		}
+	}
+}
+
+// Hatched area where an image is missing
+.ms-hatch {
+	background-color: $ui-panel-solid;
+	background-image: repeating-linear-gradient(135deg, rgba($white, 0.04) 0, rgba($white, 0.04) 6px, transparent 6px, transparent 12px);
+}
+
+.ms-item-image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 12.8rem;
+	height: 7.2rem;
+	overflow: hidden;
+	border: 1px solid $white10;
+	border-radius: 0.3rem;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.icon {
+		width: 2.4rem;
+		height: 2.4rem;
+		color: $ui-text-muted;
+	}
+}
+
+.ms-item-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	margin-left: 1.6rem;
+}
+
+.ms-item-title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: 500;
+	font-size: 1.8rem;
+	color: $ui-text-soft;
+}
+
+.ms-item-meta {
+	margin-top: 0.4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 1.3rem;
+	color: $ui-text-muted;
+}
+
+.ms-source {
+	@include lb-caps(1.15rem, 0.15rem);
+	color: $ui-text-soft;
+
+	&.workshop {
+		color: $orange;
+	}
+}
+
+.ms-workshop-link {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 1.6rem;
+	padding-top: 1.6rem;
+	border-top: 1px solid $lb-border;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+	}
+
+	> wars-icon:first-child {
+		margin-right: 1rem;
+	}
+
+	> wars-icon:last-child {
+		margin-left: auto;
+	}
+}
+
+.ms-main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.ms-top {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	min-height: 0;
+}
+
+.ms-info {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 30rem;
+	min-height: 0;
+	margin-right: 4rem;
+}
+
+.ms-info-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	flex-shrink: 0;
+}
+
+.ms-nav {
+	display: flex;
+
+	.lb-btn {
+		width: 3.6rem;
+		padding: 0;
+		margin-left: 0.8rem;
+
+		.icon {
+			margin: 0;
+		}
+	}
+}
+
+.ms-tags {
+	display: flex;
+	flex-wrap: wrap;
+	flex-shrink: 0;
+	margin-top: 1.4rem;
+}
+
+.ms-tag {
+	margin-right: 0.8rem;
+	padding: 0.4rem 1rem;
+	border: 1px solid rgba($white, 0.22);
+	border-radius: 0.2rem;
+	@include lb-caps(1.2rem, 0.2rem);
+	color: $ui-text-soft;
+
+	&.workshop {
+		border-color: rgba($orange, 0.6);
+		color: $orange;
+	}
+}
+
+.ms-tag-plain {
+	border-color: transparent;
+	font-family: 'Roboto';
+	font-weight: 400;
+	font-size: 1.4rem;
+	letter-spacing: 0.05rem;
+	text-transform: none;
+	color: $ui-text-muted;
+}
+
+.ms-briefing-label {
+	display: block;
+	flex-shrink: 0;
+	margin-top: 3rem;
+}
+
+.ms-briefing {
+	min-height: 0;
+	margin: 1rem 0 0;
+	overflow-y: auto;
+	font-size: 1.7rem;
+	line-height: 1.6;
+	color: $ui-text-soft;
+}
+
+// 16:9 preview, sized by its width
+.ms-preview {
+	position: relative;
+	flex: 0 0 auto;
+	align-self: flex-start;
+	width: 64rem;
+	max-width: 50%;
+	margin: 0.6rem;
+	background: $ui-panel-solid;
+	border: 1px solid $lb-border;
+
+	&::before {
+		content: "";
+		display: block;
+		padding-top: 56.25%;
+	}
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.ms-preview-none {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+
+	.icon {
+		width: 3.2rem;
+		height: 3.2rem;
+		margin-bottom: 1rem;
+	}
+}
+
+.ms-launch {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 2.4rem;
+	padding-top: 2.4rem;
+	border-top: 1px solid $lb-border;
+
+	.lb-label {
+		margin-right: 1.6rem;
+	}
+
+	.lb-segmented button:first-child {
+		margin-left: 0;
+	}
+}
+
+.ms-launch-hint {
+	flex: 1;
+	min-width: 0;
+	margin: 0 2.4rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: right;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+}
+
+.lb-btn-launch.ms-launch-btn {
+	height: 6rem;
+	padding: 0 3.6rem;
+	@include lb-caps(2rem, 0.5rem);
+}
+
+@media (max-width: 1400px) {
+	.ms-list {
+		flex-basis: 34rem;
+		margin-right: 3rem;
+	}
+
+	.ms-item-image {
+		flex-basis: 9.6rem;
+		height: 5.4rem;
+	}
+
+	.ms-info {
+		margin-right: 2.4rem;
+	}
+}
+
+// Smallest screens (1024 wide): narrower list, the preview and launch button fit next to the briefing
+@media (max-width: 1180px) {
+	.ms-list {
+		flex-basis: 30rem;
+		margin-right: 2.4rem;
+	}
+
+	.ms-item-image {
+		flex-basis: 8rem;
+		height: 4.5rem;
+	}
+
+	.ms-info {
+		min-width: 0;
+	}
+
+	.ms-launch-hint {
+		visibility: hidden;
+	}
+
+	.lb-btn-launch.ms-launch-btn {
+		padding: 0 2.4rem;
+		letter-spacing: 0.3rem;
+	}
+}
+
+@media (max-height: 820px) {
+	.ms-briefing-label {
+		margin-top: 2rem;
+	}
+
+	.ms-briefing {
+		font-size: 1.6rem;
+	}
+
+	.lb-btn-launch.ms-launch-btn {
+		height: 5.2rem;
+	}
+}
+
+// Offline: missions, skirmish and tutorial
+
+.of-thumb {
+	flex: 0 0 6.4rem;
+	height: 3.6rem;
+
+	.icon {
+		width: 1.6rem;
+		height: 1.6rem;
+	}
+
+	.hm-host-again & {
+		flex-basis: 9.6rem;
+		height: 5.4rem;
+	}
+}
+
+
+// Smallest screens: cards grow with their text instead of a fixed height, the page scrolls
+@media (max-width: 1180px) {
+	.pg-page .pg-cards .pg-card {
+		height: auto;
+		min-height: 19rem;
+	}
+}
+
+// Settings: categories on the left, the settings of the category on the right
+
+.st-page {
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.st-nav {
+	flex: 0 0 42rem;
+	display: flex;
+	flex-direction: column;
+	margin-right: 6.4rem;
+}
+
+.st-nav-title {
+	display: flex;
+	align-items: center;
+	height: 3.2rem;
+	margin: 0 0 1.2rem;
+	@include lb-caps(1.5rem, 0.27rem);
+	color: $ui-text;
+}
+
+.st-categories {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border-top: 1px solid $lb-border;
+}
+
+.st-category {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 8rem;
+	padding: 0 1.6rem 0 1.8rem;
+	background: transparent;
+	border: none;
+	border-left: 2px solid transparent;
+	border-bottom: 1px solid rgba($white, 0.06);
+	outline: none;
+	text-align: left;
+	color: inherit;
+	font-family: 'Roboto';
+	cursor: pointer;
+	transition: background-color .15s;
+
+	wars-icon {
+		display: flex;
+		flex-shrink: 0;
+		margin-right: 1.4rem;
+	}
+
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		color: $ui-text-muted;
+	}
+
+	&:hover {
+		background-color: rgba($white, 0.035);
+	}
+
+	&.active {
+		background-color: rgba($orange, 0.08);
+		border-left-color: $orange;
+
+		.icon, .st-category-title {
+			color: $orange;
+		}
+	}
+}
+
+.st-category-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.st-category-title {
+	@include lb-caps(1.7rem, 0.2rem);
+	color: $ui-text-soft;
+}
+
+.st-category-desc {
+	margin-top: 0.4rem;
+	overflow: hidden;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.st-dot {
+	flex-shrink: 0;
+	width: 0.8rem;
+	height: 0.8rem;
+	margin-left: 1.2rem;
+	border-radius: 50%;
+	background: $orange;
+}
+
+.st-main {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 0 1 90rem;
+	min-width: 0;
+}
+
+.st-heading {
+	padding-bottom: 2rem;
+	border-bottom: 1px solid $lb-border;
+
+	.pg-title {
+		font-size: 3.8rem;
+		line-height: 4.6rem;
+	}
+}
+
+.st-calibration {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-top: 2.4rem;
+	padding: 2.4rem;
+	background: $black;
+	border: 1px solid $lb-border;
+	border-radius: 0.4rem;
+
+	p {
+		max-width: 36rem;
+		margin: 0;
+		font-size: 1.5rem;
+		line-height: 1.5;
+		color: $ui-text-soft;
+	}
+}
+
+.st-calibration-symbols {
+	display: flex;
+	margin-right: 4rem;
+}
+
+// The lambda of the logo image, at its own size
+.st-calibration-logo {
+	flex-shrink: 0;
+	width: 60px;
+	height: 52px;
+	margin-right: 2.8rem;
+	overflow: hidden;
+
+	img {
+		display: block;
+		height: 52px;
+	}
+}
+
+// Key binding tabs: strategy and the legacy first person keys
+
+.st-tabs {
+	display: flex;
+	flex-direction: row;
+	flex-shrink: 0;
+	margin-top: 1.6rem;
+	border-bottom: 1px solid $lb-border;
+}
+
+.st-tab {
+	display: flex;
+	align-items: center;
+	height: 4.8rem;
+	margin: 0 3.6rem -1px 0;
+	padding: 0;
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid transparent;
+	outline: none;
+	@include lb-caps(1.5rem, 0.2rem);
+	color: $ui-text-muted;
+	cursor: pointer;
+	transition: color .15s, border-color .15s;
+
+	&:hover {
+		color: $white;
+	}
+
+	&.active {
+		border-bottom-color: $orange;
+		color: $ui-text;
+	}
+
+	.st-dot {
+		margin-left: 1rem;
+	}
+}
+
+.st-tab-count {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.4rem;
+	height: 2rem;
+	margin-left: 1rem;
+	padding: 0 0.7rem;
+	background: rgba($white, 0.08);
+	border-radius: 1rem;
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.2rem;
+	letter-spacing: 0;
+	color: $ui-text-soft;
+}
+
+.st-tab-badge {
+	display: flex;
+	align-items: center;
+	height: 2rem;
+	margin-left: 1rem;
+	padding: 0 0.6rem;
+	border: 1px solid rgba($white, 0.18);
+	border-radius: 0.3rem;
+	@include lb-caps(1.1rem, 0.16rem);
+	color: $ui-text-muted;
+}
+
+.st-note {
+	display: flex;
+	align-items: flex-start;
+	flex-shrink: 0;
+	margin-top: 1.6rem;
+	padding: 1.4rem 1.6rem;
+	background: rgba($white, 0.03);
+	border: 1px solid $lb-border;
+	border-left: 2px solid $ui-text-muted;
+	border-radius: 0.4rem;
+
+	.icon {
+		flex-shrink: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin: 0.3rem 1.2rem 0 0;
+		color: $ui-text-soft;
+	}
+
+	p {
+		margin: 0;
+		font-size: 1.5rem;
+		line-height: 1.5;
+		color: $ui-text-soft;
+	}
+}
+
+.st-note-title {
+	color: $ui-text;
+}
+
+.st-shared {
+	margin-left: 0.8rem;
+	@include lb-caps(1.1rem, 0.18rem);
+	color: $ui-blue;
+}
+
+.st-hint.st-hint-moved {
+	color: $orange;
+}
+
+.st-rows {
+	flex: 1;
+	min-height: 0;
+	margin-top: 0.8rem;
+	padding: 0 1.2rem 9.6rem 0;
+	overflow-y: auto;
+}
+
+.st-header {
+	display: flex;
+	align-items: baseline;
+	padding: 2.8rem 0 1rem;
+	border-bottom: 1px solid rgba($white, 0.1);
+
+	h3 {
+		margin: 0 1.4rem 0 0;
+		@include lb-caps(1.4rem, 0.25rem);
+		color: $orange;
+	}
+}
+
+.st-hint {
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.st-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-height: 6.6rem;
+	padding: 1rem 0;
+	border-bottom: 1px solid rgba($white, 0.06);
+
+	&.disabled .st-label {
+		opacity: 0.45;
+	}
+}
+
+.st-label {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	margin-right: 3.2rem;
+
+	.st-hint {
+		margin-top: 0.3rem;
+	}
+}
+
+.st-label-text {
+	display: flex;
+	align-items: center;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.st-changed {
+	margin-left: 0.8rem;
+	@include lb-caps(1.1rem, 0.18rem);
+	color: $orange;
+}
+
+.st-control {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex: 0 0 34rem;
+}
+
+.lb-select-wrap.st-select {
+	display: flex;
+	width: 100%;
+
+	.lb-select {
+		width: 100%;
+		height: 4rem;
+		padding: 0 3.4rem 0 1.2rem;
+		background: rgba($white, 0.03);
+		border: 1px solid rgba($white, 0.14);
+		border-radius: 0.3rem;
+
+		&:focus {
+			border-color: $orange;
+		}
+	}
+
+	.icon {
+		right: 1.2rem;
+	}
+}
+
+.lb-segmented.st-seg {
+	padding: 0.3rem;
+	border: 1px solid rgba($white, 0.1);
+	border-radius: 0.4rem;
+
+	button {
+		height: 3.2rem;
+		padding: 0 1.2rem;
+		@include lb-caps(1.4rem, 0.1rem);
+		border-radius: 0.3rem;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.st-slider {
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	input {
+		flex: 1;
+		min-width: 0;
+		margin: 0;
+		cursor: pointer;
+
+		&:disabled {
+			opacity: 0.45;
+			cursor: default;
+		}
+	}
+}
+
+// Range inputs drawn like the rest of the menu
+.st-slider input[type=range] {
+	-webkit-appearance: none;
+	height: 2rem;
+	background: transparent;
+	outline: none;
+
+	&::-webkit-slider-runnable-track {
+		height: 0.4rem;
+		background: rgba($white, 0.16);
+		border-radius: 0.2rem;
+	}
+
+	&::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 1.6rem;
+		height: 1.6rem;
+		margin-top: -0.6rem;
+		border-radius: 50%;
+		background: $orange;
+	}
+
+	&:hover:not(:disabled)::-webkit-slider-thumb, &:focus::-webkit-slider-thumb {
+		background: $lightorange;
+	}
+}
+
+.st-slider-value {
+	width: 5.6rem;
+	margin-left: 1.4rem;
+	text-align: right;
+	font-family: monospace;
+	font-size: 1.5rem;
+	color: $ui-text-soft;
+}
+
+.st-key {
+	min-width: 12rem;
+	height: 3.8rem;
+	padding: 0 1.4rem;
+	background: rgba($white, 0.04);
+	border: 1px solid rgba($white, 0.16);
+	border-radius: 0.3rem;
+	outline: none;
+	font-family: monospace;
+	font-size: 1.5rem;
+	color: $ui-text;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: border-color .15s, color .15s;
+
+	&:hover {
+		border-color: $white40;
+	}
+
+	&.listening {
+		background: rgba($orange, 0.12);
+		border-color: $orange;
+		font-family: 'Roboto';
+		text-transform: none;
+		color: $orange;
+	}
+}
+
+.st-action {
+	display: flex;
+	align-items: center;
+}
+
+.st-mic-level {
+	position: relative;
+	width: 12rem;
+	height: 0.6rem;
+	margin-right: 1.6rem;
+	overflow: hidden;
+	background: rgba($white, 0.12);
+	border-radius: 0.3rem;
+
+	span {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		background: $ui-green;
+		transition: width .1s;
+	}
+}
+
+// Unsaved changes and saved message, over the bottom of the settings
+
+.st-bar, .st-saved {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	background: #15171a;
+	border-radius: 0.4rem;
+	animation: st-up .18s ease-out;
+}
+
+.st-bar {
+	right: 1.2rem;
+	height: 6.8rem;
+	padding: 0 1.2rem 0 2.2rem;
+	border: 1px solid rgba($orange, 0.45);
+	box-shadow: 0 1.8rem 4rem rgba($black, 0.6);
+
+	.st-dot {
+		margin: 0 1.2rem 0 0;
+	}
+
+	.lb-btn {
+		margin-left: 1.2rem;
+	}
+}
+
+.st-bar-title {
+	flex-shrink: 0;
+	margin-right: 1.2rem;
+	font-size: 1.6rem;
+	color: $ui-text;
+}
+
+.st-bar-summary {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	font-size: 1.5rem;
+	color: $ui-text-muted;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.lb-btn.st-apply {
+	background: $orange;
+	border-color: $orange;
+	color: $ui-on-orange;
+
+	&:hover:not(:disabled) {
+		background: $lightorange;
+		border-color: $lightorange;
+		color: $ui-on-orange;
+	}
+}
+
+.st-saved {
+	height: 4.8rem;
+	padding: 0 1.8rem;
+	border: 1px solid rgba($ui-green, 0.4);
+	font-size: 1.5rem;
+	color: $ui-green;
+
+	.icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-right: 1rem;
+	}
+}
+
+@keyframes st-up {
+	from {
+		opacity: 0;
+		transform: translateY(1.2rem);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (max-width: 1400px) {
+	.st-nav {
+		flex-basis: 32rem;
+		margin-right: 4rem;
+	}
+
+	.st-calibration-symbols {
+		margin-right: 2.4rem;
+	}
+
+	.st-calibration-logo {
+		margin-right: 1.6rem;
+	}
+
+	.st-category {
+		height: 7rem;
+	}
+
+	.st-control {
+		flex-basis: 30rem;
+	}
+}
+
+@media (max-height: 820px) {
+	.st-category {
+		height: 6.4rem;
+	}
+
+	.st-category-desc {
+		display: none;
+	}
+
+	.st-heading {
+		padding-bottom: 1.4rem;
+
+		.pg-title {
+			font-size: 3rem;
+			line-height: 3.8rem;
+		}
+	}
+
+	.st-row {
+		min-height: 5.6rem;
+		padding: 0.6rem 0;
+	}
+}
+
+
+// In game menu: a card over the game, which stays visible behind a lighter shade
+
+#page.page-ingame::before {
+	background: radial-gradient(ellipse at 50% 45%, rgba($ui-black, 0.55), rgba($ui-black, 0.82));
+}
+
+.ig-page {
+	align-items: center;
+	overflow-y: auto;
+}
+
+.ig-card {
+	position: relative;
+	flex-shrink: 0;
+	width: 60rem;
+	margin: 6rem 0 2rem;
+	padding: 3.6rem 4rem 3.2rem;
+	background: rgba(18, 20, 22, 0.94);
+	border: 1px solid $white10;
+	border-radius: 0.4rem;
+	box-shadow: 0 3rem 8rem rgba($black, 0.65);
+	animation: st-up .18s ease-out;
+}
+
+.ig-heading {
+	display: flex;
+	align-items: center;
+}
+
+.ig-chip {
+	display: flex;
+	align-items: center;
+	height: 2.2rem;
+	margin-left: 1rem;
+	padding: 0 0.8rem;
+	border: 1px solid rgba($white, 0.14);
+	border-radius: 0.3rem;
+	@include lb-caps(1.2rem, 0.16rem);
+	color: $ui-text-soft;
+}
+
+.ig-chip-extra {
+	margin-left: 0.5rem;
+}
+
+.ig-chip-dot {
+	width: 0.6rem;
+	height: 0.6rem;
+	margin-right: 0.6rem;
+	border-radius: 50%;
+	background: $ui-green;
+}
+
+.ig-title {
+	margin: 1rem 0 0;
+	font-family: 'Roboto';
+	font-weight: 500;
+	font-size: 3.8rem;
+	line-height: 4.6rem;
+	color: $white;
+}
+
+.ig-status {
+	margin: 0.6rem 0 0;
+	font-size: 1.6rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+}
+
+.lb-btn-launch.ig-return {
+	justify-content: flex-start;
+	width: 100%;
+	height: 6.4rem;
+	margin-top: 2.8rem;
+	padding: 0 2.2rem;
+	@include lb-caps(2rem, 0.4rem);
+
+	.icon {
+		width: 2rem;
+		height: 2rem;
+		margin: 0 1.4rem 0 0;
+	}
+}
+
+.ig-key {
+	display: flex;
+	align-items: center;
+	height: 2.6rem;
+	margin-left: auto;
+	padding: 0 0.8rem;
+	border: 1px solid rgba($ui-on-orange, 0.35);
+	border-radius: 0.3rem;
+	font-family: monospace;
+	font-weight: normal;
+	font-size: 1.3rem;
+	letter-spacing: 0;
+}
+
+.ig-rows {
+	margin-top: 2rem;
+	border-top: 1px solid $lb-border;
+}
+
+.ig-row {
+	display: flex;
+	align-items: center;
+	height: 6.4rem;
+	padding: 0 0.8rem 0 0.4rem;
+	border-bottom: 1px solid rgba($white, 0.06);
+	color: $ui-text;
+	transition: background-color .15s;
+
+	&:hover {
+		background-color: rgba($white, 0.04);
+	}
+
+	> .icon, > wars-icon .icon {
+		width: 1.4rem;
+		height: 1.4rem;
+		color: $ui-text-muted;
+	}
+}
+
+.ig-row-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 3.6rem;
+	height: 3.6rem;
+	margin-right: 1.6rem;
+	background: rgba($white, 0.05);
+	border-radius: 0.3rem;
+
+	.icon {
+		width: 1.8rem;
+		height: 1.8rem;
+		color: $ui-text-soft;
+	}
+}
+
+.ig-row-text {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
+}
+
+.ig-row-title {
+	display: flex;
+	align-items: center;
+	font-size: 1.7rem;
+	color: $ui-text;
+}
+
+.ig-dev {
+	margin-left: 0.8rem;
+	@include lb-caps(1.1rem, 0.16rem);
+	color: $ui-text-muted;
+}
+
+.ig-row-desc {
+	margin-top: 0.3rem;
+	font-size: 1.4rem;
+	color: $ui-text-muted;
+}
+
+.ig-section-title {
+	margin: 2.6rem 0 1.2rem;
+	@include lb-caps(1.3rem, 0.25rem);
+	color: $ui-text-muted;
+}
+
+.ig-leave {
+	display: flex;
+	flex-direction: row;
+}
+
+.ig-leave-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	flex: 1;
+	min-width: 0;
+	min-height: 7.6rem;
+	padding: 1.2rem 1.6rem;
+	background: transparent;
+	border: 1px solid rgba($white, 0.16);
+	border-radius: 0.3rem;
+	outline: none;
+	text-align: left;
+	color: $ui-text;
+	cursor: pointer;
+	transition: background-color .15s, border-color .15s, color .15s;
+
+	& + & {
+		margin-left: 1.2rem;
+	}
+
+	&:hover {
+		border-color: $white40;
+		color: $white;
+	}
+
+	&.ig-danger {
+		border-color: rgba($lb-danger, 0.45);
+		color: $lb-danger;
+
+		.ig-leave-desc {
+			color: #b98580;
+		}
+
+		&:hover {
+			background: rgba($lb-danger, 0.1);
+			border-color: $lb-danger;
+		}
+	}
+}
+
+.ig-leave-title {
+	display: flex;
+	align-items: center;
+	@include lb-caps(1.5rem, 0.12rem);
+	white-space: nowrap;
+
+	.icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-right: 0.8rem;
+	}
+}
+
+.ig-leave-desc {
+	margin-top: 0.5rem;
+	font-family: 'Roboto';
+	font-size: 1.3rem;
+	line-height: 1.35;
+	color: $ui-text-muted;
+}
+
+.ig-confirm {
+	padding: 1.8rem 1.8rem 1.6rem;
+	background: rgba($lb-danger, 0.08);
+	border: 1px solid rgba($lb-danger, 0.45);
+	border-radius: 0.3rem;
+	animation: st-up .18s ease-out;
+}
+
+.ig-confirm-question {
+	margin: 0;
+	font-size: 1.6rem;
+	line-height: 1.45;
+	color: $white;
+}
+
+.ig-confirm-text {
+	margin: 0.4rem 0 0;
+	font-size: 1.4rem;
+	line-height: 1.45;
+	color: $ui-text-soft;
+}
+
+.ig-confirm-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1.6rem;
+
+	.lb-btn + .lb-btn {
+		margin-left: 1rem;
+	}
+}
+
+.lb-btn.ig-danger-solid {
+	background: #c9473f;
+	border-color: #c9473f;
+	color: $white;
+
+	&:hover:not(:disabled) {
+		background: #dd5a51;
+		border-color: #dd5a51;
+		color: $white;
+	}
+}
+
+@media (max-height: 820px) {
+	.ig-card {
+		margin-top: 2rem;
+		padding: 2.8rem 3.2rem 2.6rem;
+	}
+
+	.ig-title {
+		font-size: 3.2rem;
+		line-height: 4rem;
+	}
+
+	.lb-btn-launch.ig-return {
+		height: 5.6rem;
+		margin-top: 2rem;
+	}
+
+	.ig-row {
+		height: 5.6rem;
+	}
+
+	.ig-section-title {
+		margin-top: 2rem;
+	}
+}

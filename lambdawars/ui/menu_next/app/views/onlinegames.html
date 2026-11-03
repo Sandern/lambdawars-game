@@ -1,45 +1,127 @@
-<section class="content content-menu" id="content-onlinegames">
-    <main>
-		<h1>
-			<span ng-show="!lobbies.length">{{ 'OG_NoLobbies' | translate }}</span>
-			<span ng-show="lobbies.length === 1">{{ lobbies.length }} {{ 'OG_OneLobbyFound' | translate }}</span>
-			<span ng-show="lobbies.length > 1">{{ lobbies.length }} {{ 'OG_LobbiesFound' | translate }}</span>
-
-			<span class="gamesinprogress" ng-show="generalinfo.numgames === 1">{{ generalinfo.numgames }} {{ 'OG_OneGameInProgress' | translate }}</span>
-			<span class="gamesinprogress" ng-show="generalinfo.numgames > 1">{{ generalinfo.numgames }} {{ 'OG_MultipleGamesInProgress' | translate }}</span>
-		</h1>
-		<div ng-if="beta === 'dev'" class="dev-warning"><b>You are currently running the developers build and may not find games here. Opt-out of the beta to switch to the public build.</b></div>
-		<section id="onlinelobbylist">
-			<ul class="lobbylist">
-				<li class="lobby-header">
-					<div class="map-preview" />
-					<div class="lobby-name">{{ 'WFP_LobbyName' | translate }}</div>
-					<div class="lobby-map">{{ 'GL_Map' | translate }}</div>
-					<div class="lobby-mode">{{ 'GL_GameMode' | translate }}</div>
-					<div class="lobby-players">{{ 'OG_Players' | translate }}</div>
-				</li>
-				<li class="lobby" ng-repeat="lobby in lobbies">
-					<img class="map-preview" ng-src="{{ lobby.overviewsrc }}.vtf" />
-					<div class="lobby-name" ng-tooltip="{{ lobby.name }}">{{ lobby.name }}</div>
-					<div class="lobby-map"  ng-tooltip="{{ lobby.map }}">{{ lobby.map }}</div>
-					<div class="lobby-mode">{{ lobby.mode }}</div>
-					<div class="lobby-players">{{ lobby.numtakenslots }} / {{ lobby.numslots }}</span></div>
-					<a href class="lobby-join-btn btn btn-highlight" ng-click="joinlobby(lobby.steamid)" ng-tooltip="{{ 'OG_Join' | translate }}"></a>
-				</li>
-			</ul>
-		</section>
-
-		<div class="box-footer">
-			<div class="left-float">
-				<a class="btn" href="#!/Multiplayer">{{ 'OG_BackToMenu' | translate }}</a>
-				<a class="btn" href="#!/Gamelobby">{{ 'OG_CreateLobby' | translate }}</a>
+<div class="pg-page pg-browser">
+	<section class="br-main">
+		<header class="br-heading">
+			<div class="pg-heading">
+				<a href="#!/Multiplayer" class="br-back"><wars-icon name="arrow-left"></wars-icon>{{ 'MenuOnline' | translate }}</a>
+				<h1 class="pg-title">{{ 'BR_Title' | translate }}</h1>
+				<p class="pg-status">
+					{{ lobbies.length }} {{ 'OL_Lobbies' | translate }} &middot; {{ numcurplayers }} {{ 'OL_PlayersOnline' | translate }} &middot;
+					<span class="br-updated" ng-if="refreshing || !loaded">{{ 'BR_Refreshing' | translate }}</span>
+					<span class="br-updated" ng-if="!refreshing && loaded && secondsSinceUpdate < 2">{{ 'BR_UpdatedNow' | translate }}</span>
+					<span class="br-updated" ng-if="!refreshing && loaded && secondsSinceUpdate >= 2">{{ 'BR_Updated' | translate }} {{ secondsSinceUpdate }}s {{ 'BR_Ago' | translate }}</span>
+					<button type="button" class="lb-icon-btn br-refresh" ng-click="refresh()" aria-label="{{ 'OG_RefreshList' | translate }}"><wars-icon name="refresh"></wars-icon></button>
+				</p>
 			</div>
-			<div class="right-float">
-				<a class="btn btn-highlight" href="#!/OnlineGames">{{ 'OG_RefreshList' | translate }}</a>
-			</div>
+			<a href="#!/Gamelobby" class="lb-btn lb-btn-launch br-create"><wars-icon name="plus"></wars-icon>{{ 'BR_CreateLobby' | translate }}</a>
+		</header>
+
+		<p class="dev-warning br-dev-warning" ng-if="beta === 'dev'"><b>You are currently running the developers build and may not find games here. Opt-out of the beta to switch to the public build.</b></p>
+
+		<div class="br-filters">
+			<label class="br-search">
+				<wars-icon name="search"></wars-icon>
+				<input type="text" ng-model="filter.search" placeholder="{{ 'BR_Search' | translate }}" />
+			</label>
+			<span class="lb-segmented">
+				<button type="button" ng-class="{active: !filter.mode}" ng-click="setMode('')">{{ 'BR_All' | translate }}</button>
+				<button type="button" ng-repeat="mode in modes track by mode.id" ng-class="{active: filter.mode === mode.id}" ng-click="setMode(mode.id)">{{ mode.name }}</button>
+			</span>
+			<button type="button" class="lb-switch" role="switch" aria-checked="{{ filter.hideFull }}" ng-class="{on: filter.hideFull}" ng-click="toggleHideFull()">
+				<span class="lb-switch-track"><span class="lb-switch-knob"></span></span>
+				<span class="br-switch-label">{{ 'BR_HideFull' | translate }}</span>
+			</button>
+			<label class="br-sort">
+				<span class="lb-label">{{ 'BR_Sort' | translate }}</span>
+				<span class="lb-select-wrap">
+					<select class="lb-select" ng-model="filter.sort" ng-options="sort.id as (sort.label | translate) for sort in sorts"></select>
+					<wars-icon name="chevron-down"></wars-icon>
+				</span>
+			</label>
 		</div>
 
-    </main>
-</section>
+		<div class="br-table-header">
+			<span class="br-col-thumb"></span>
+			<button type="button" class="br-col-name br-th" ng-class="{active: filter.sort === 'name'}" ng-click="setSort('name')">{{ 'BR_Lobby' | translate }}</button>
+			<span class="br-col-mode">{{ 'GL_GameMode' | translate }}</span>
+			<span class="br-col-map">{{ 'GL_Map' | translate }}</span>
+			<button type="button" class="br-col-players br-th" ng-class="{active: filter.sort === 'players'}" ng-click="setSort('players')">{{ 'OG_Players' | translate }}</button>
+			<span class="br-col-status">{{ 'BR_Status' | translate }}</span>
+		</div>
 
-<span global-chat/>
+		<div class="br-rows" role="listbox" tabindex="0" ng-keydown="onListKey($event)" aria-label="{{ 'OL_Lobbies' | translate }}">
+			<button type="button" class="br-row" role="option" tabindex="-1" ng-repeat="lobby in visibleLobbies track by lobby.steamid"
+				ng-class="{selected: lobby === selected, full: lobby.isFull}" aria-selected="{{ lobby === selected }}"
+				ng-click="select(lobby)" ng-dblclick="joinlobby(lobby)">
+				<span class="br-col-thumb pg-thumb"><img ng-if="lobby.overviewsrc" ng-src="{{ lobby.overviewsrc }}.vtf" /></span>
+				<span class="br-col-name">{{ lobby.name }}</span>
+				<span class="br-col-mode">{{ lobby.modeLabel }}</span>
+				<span class="br-col-map">{{ lobby.map }}</span>
+				<span class="br-col-players pg-fill">
+					<span class="pg-fill-bar"><span ng-style="{width: lobby.fill + '%'}"></span></span>
+					<span class="pg-fill-count">{{ lobby.taken }} / {{ lobby.total }}</span>
+				</span>
+				<span class="br-col-status" ng-class="lobby.isFull ? 'br-status-full' : 'br-status-open'">{{ (lobby.isFull ? 'BR_Full' : 'BR_Open') | translate }}</span>
+			</button>
+
+			<p class="pg-empty" ng-if="!loaded">{{ 'OL_Loading' | translate }}</p>
+			<div class="br-empty" ng-if="loaded && !visibleLobbies.length">
+				<span class="br-empty-title">{{ (lobbies.length ? 'BR_NoMatches' : 'BR_NoLobbies') | translate }}</span>
+				<span class="br-empty-text">{{ (lobbies.length ? 'BR_NoMatches_Desc' : 'BR_NoLobbies_Desc') | translate }}</span>
+				<span class="br-empty-actions">
+					<button type="button" class="lb-btn" ng-if="lobbies.length" ng-click="clearFilters()">{{ 'BR_ClearFilters' | translate }}</button>
+					<a href="#!/Gamelobby" class="lb-btn lb-btn-launch">{{ 'BR_CreateLobby' | translate }}</a>
+				</span>
+			</div>
+		</div>
+		<p class="br-tip" ng-if="visibleLobbies.length > 1">{{ 'BR_Tip' | translate }}</p>
+	</section>
+
+	<aside class="br-details" ng-if="selected">
+		<figure class="br-map">
+			<i class="lb-corner lb-corner-tl"></i>
+			<i class="lb-corner lb-corner-tr"></i>
+			<i class="lb-corner lb-corner-bl"></i>
+			<i class="lb-corner lb-corner-br"></i>
+			<div class="lb-map-image">
+				<img ng-if="selected.overviewsrc" ng-src="{{ selected.overviewsrc }}.vtf" />
+				<span class="lb-map-noimage" ng-if="!selected.overviewsrc">{{ 'GL_NoOverview' | translate }}</span>
+			</div>
+			<figcaption class="lb-map-info">
+				<span class="lb-map-text">
+					<span class="lb-map-mode">{{ selected.modeLabel }}</span>
+					<span class="lb-map-name">{{ selected.map }}</span>
+				</span>
+			</figcaption>
+		</figure>
+
+		<h2 class="br-details-name">{{ selected.name }}</h2>
+
+		<ul class="lb-settings br-details-list">
+			<li ng-repeat="team in selected.teams track by team.team">
+				<span class="lb-label">{{ team.team === 0 ? ('BR_PlayersLabel' | translate) : ('GL_Team' | translate) + ' ' + (team.team - 1) }}</span>
+				<span class="br-dots" aria-label="{{ team.taken }} / {{ team.total }}">
+					<span class="br-dot" ng-repeat="taken in team.dots track by $index" ng-class="{taken: taken}"></span>
+				</span>
+			</li>
+			<li>
+				<span class="lb-label">{{ 'GL_Map' | translate }}</span>
+				<span class="lb-setting-value" ng-class="{'hm-warning': !selected.mapinstalled}">{{ (selected.mapinstalled ? 'BR_MapInstalled' : 'BR_MapMissing') | translate }}</span>
+			</li>
+		</ul>
+
+		<div class="br-details-actions">
+			<button type="button" class="lb-btn lb-btn-launch" ng-if="!selected.isFull" ng-click="joinlobby(selected)">
+				{{ 'BR_JoinLobby' | translate }}<wars-icon name="arrow-right"></wars-icon>
+			</button>
+			<div class="lb-actions-row lb-actions-main" ng-if="selected.isFull">
+				<button type="button" class="lb-btn lb-btn-launch" disabled>{{ 'BR_LobbyFull' | translate }}</button>
+				<button type="button" class="lb-btn" ng-click="joinlobby(selected)"><wars-icon name="eye"></wars-icon>{{ 'GL_Spectate' | translate }}</button>
+			</div>
+			<p class="lb-hint">
+				<span ng-if="selected.isFull">{{ 'BR_HintFull' | translate }}</span>
+				<span ng-if="!selected.isFull && !selected.mapinstalled">{{ 'BR_HintMapMissing' | translate }}</span>
+				<span ng-if="!selected.isFull && selected.mapinstalled">{{ selected.open }} {{ (selected.open === 1 ? 'BR_SlotOpen' : 'BR_SlotsOpen') | translate }}</span>
+			</p>
+		</div>
+	</aside>
+</div>

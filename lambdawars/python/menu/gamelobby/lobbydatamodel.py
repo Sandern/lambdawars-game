@@ -285,6 +285,18 @@ class LobbyGameDataModel(LobbyDataModel):
         
         self.changecallbacks['slots']()
         
+    def BuildTeamCounts(self):
+        """ Returns the taken and total number of slots per team, in team order, without reading
+            all player data. Used for lobby lists. """
+        teams = {}
+        for i in range(0, self.numslots):
+            team = self.GetLobbyData(_slotfield(i, 'team'), converter=int, default=0)
+            counts = teams.setdefault(team, {'team': team, 'taken': 0, 'total': 0})
+            counts['total'] += 1
+            if self.GetLobbyData(_slotfield(i, 'type'), default='open') == 'player':
+                counts['taken'] += 1
+        return [teams[team] for team in sorted(teams.keys())]
+
     def FindPlayerSlot(self, playersteamid, slots=None):
         """ Finds existing slot of player. None if not found. """
 

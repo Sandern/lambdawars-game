@@ -47,6 +47,10 @@ function AppController($scope, $location, gameservice, gamelobbymanager, chatlob
         gameservice.usersteamid = steamid;
     });
     
+    $scope.$on('user:name', function(event, playername) {
+        $scope.playername = playername;
+    });
+    
     $scope.$on('user:inputlanguage', function(event, localename) {
         $scope.inputlanguage = localename;
     });

@@ -2,10 +2,12 @@
 		<section ng-repeat="line in chatHistory track by line.id">
 
 			<section class="chat-line" ng-show="line.type == 'global'">
+				<span class="chat-time">{{ line.time | date:'HH:mm' }}</span>
 				<strong ng-style="chatCtrl.getChatLineStyle(line.type)" ng-bind-html="line.text"></strong>
 			</section>
 
 			<section class="chat-line" ng-show="line.type != 'global' " ng-controller="dropdownController">
+				<span class="chat-time">{{ line.time | date:'HH:mm' }}</span>
 				<img ng-show="line.type == 'admin'" src="../../../../mainmenu/smilies/special/vortalstorm_a.gif" ng-tooltip="Vortal Storm Developer"/>
 				<img ng-show="line.icon != ''" ng-src="{{line.icon}}" ng-tooltip="{{line.icontooltip}}"/>
 				<div class="inner">
@@ -18,7 +20,7 @@
 					</ul>
 				</div>
 
-				<span ng-style="chatCtrl.getChatLineStyle(line.type)" ng-click="openDropdown();" ng-bind-html="line.username"></span>
+				<span class="chat-username" ng-style="chatCtrl.getChatLineStyle(line.type)" ng-click="openDropdown();" ng-bind-html="line.username"></span>
 				<section ng-bind-html="line.text"></section>
 			</section>
 

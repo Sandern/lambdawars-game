@@ -1,0 +1,291 @@
+// The bar at the top of every page: logo, main menu, player info and quit button
+
+#top-bar {
+	position: relative;
+	z-index: 20;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	min-width: 1024px;
+	width: 100%;
+	height: $topbar-height;
+	padding: 0 4rem;
+	background: linear-gradient(to bottom, rgba($ui-black, 0.95), rgba($ui-black, 0.8));
+	border-bottom: 1px solid $white10;
+
+	@media (max-width: 1180px) {
+		padding: 0 2rem;
+	}
+}
+
+a#menu-logo {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-right: 5rem;
+	opacity: 0.9;
+	transition: opacity .2s;
+
+	&:hover {
+		opacity: 1;
+	}
+
+	img {
+		display: block;
+	}
+
+	// Only the lambda icon on small screens
+	@media (max-width: 1180px) {
+		width: 64px;
+		overflow: hidden;
+		margin-right: 2rem;
+	}
+}
+
+#main-menu {
+	display: flex;
+	flex-direction: row;
+	align-self: stretch;
+	margin: 0;
+
+	li {
+		display: flex;
+	}
+}
+
+a.menu-btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin: 0 2.2rem;
+	font-family: 'Roboto Condensed';
+	font-weight: bold;
+	font-size: 1.7rem;
+	letter-spacing: 0.3rem;
+	text-transform: uppercase;
+	white-space: nowrap;
+	color: $ui-text-muted;
+	cursor: pointer;
+	transition: color .2s;
+
+	@media (max-width: 1180px) {
+		margin: 0 1.2rem;
+		font-size: 1.4rem;
+		letter-spacing: 0.2rem;
+	}
+
+	// Underline at the bottom of the bar, grows from the center on hover
+	&::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		width: 0;
+		height: 0.3rem;
+		background: $orange;
+		transition: all .25s;
+	}
+
+	&:hover {
+		color: $white;
+
+		&::after {
+			left: 0;
+			width: 100%;
+		}
+	}
+
+	&.active {
+		color: $white;
+
+		&::after {
+			left: 0;
+			width: 100%;
+		}
+	}
+}
+
+#top-bar-right {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: auto;
+}
+
+#swarm_keeper_bonus {
+	display: block;
+	margin-right: 2rem;
+	cursor: pointer;
+}
+
+#player-info {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-family: 'Roboto';
+
+	.player-text {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		margin-right: 1.4rem;
+	}
+
+	.player-name {
+		max-width: 20rem;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: $white;
+		font-size: 1.7rem;
+		line-height: 2.2rem;
+
+		@media (max-width: 1300px) {
+			max-width: 15rem;
+		}
+	}
+
+	.player-status {
+		font-family: 'Roboto Condensed';
+		font-weight: bold;
+		font-size: 1.1rem;
+		letter-spacing: 0.2rem;
+		text-transform: uppercase;
+		color: $ui-green;
+
+		&::before {
+			content: "";
+			display: inline-block;
+			width: 0.6rem;
+			height: 0.6rem;
+			margin: 0 0.6rem 0.15rem 0;
+			border-radius: 50%;
+			background: currentColor;
+		}
+
+		&.offline {
+			color: $ui-text-muted;
+		}
+	}
+
+	.player-avatar {
+		display: block;
+		width: 4.4rem;
+		height: 4.4rem;
+		border-radius: 0.3rem;
+		border: 1px solid $white20;
+	}
+
+	&:hover .player-name {
+		color: $lightorange;
+	}
+}
+
+.top-bar-divider {
+	width: 1px;
+	height: 3.2rem;
+	margin: 0 2.4rem;
+	background: $white20;
+}
+
+#menu-quit {
+	display: flex;
+	color: $ui-text-muted;
+	transition: color .2s;
+
+	.icon {
+		width: 2.2rem;
+		height: 2.2rem;
+	}
+
+	&:hover {
+		color: $orange;
+	}
+}
+
+#dev-text {
+	position: fixed;
+	top: 0;
+	right: 65px;
+	color: red;
+	font-size: 20px;
+}
+
+// Opens the global chat drawer on pages without a chat
+#menu-chat {
+	&.active {
+		border-color: $orange;
+		color: $white;
+	}
+}
+
+.menu-chat-online {
+	margin-left: 1rem;
+	color: $ui-green;
+}
+
+#chat-drawer {
+	position: fixed;
+	top: $topbar-height;
+	right: 0;
+	bottom: 0;
+	z-index: 25;
+	display: flex;
+	flex-direction: column;
+	width: 42rem;
+	background: $ui-panel-solid;
+	border-left: 1px solid $white10;
+	box-shadow: -2.4rem 0 6rem rgba($black, 0.6);
+	animation: chat-drawer-in .18s ease-out;
+}
+
+@keyframes chat-drawer-in {
+	from { transform: translateX(4rem); opacity: 0; }
+	to { transform: none; opacity: 1; }
+}
+
+.chat-drawer-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 5.6rem;
+	padding: 0 1.2rem 0 2.4rem;
+	border-bottom: 1px solid $white10;
+
+	h2 {
+		margin: 0;
+		@include lb-caps(1.5rem, 0.3rem);
+		color: $ui-text;
+	}
+
+	.lb-icon-btn {
+		margin-left: auto;
+	}
+}
+
+.chat-drawer-online {
+	margin-left: 1rem;
+	@include lb-caps(1.3rem, 0.15rem);
+	color: $ui-green;
+}
+
+// Narrower screens: tighter spacing, so the chat button and the player fit
+@media (max-width: 1400px) {
+	a#menu-logo {
+		margin-right: 3rem;
+	}
+
+	a.menu-btn {
+		margin: 0 1.4rem;
+		letter-spacing: 0.2rem;
+	}
+
+	.top-bar-divider {
+		margin: 0 1.6rem;
+	}
+
+	.menu-chat-online {
+		display: none;
+	}
+}

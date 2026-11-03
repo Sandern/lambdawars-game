@@ -1,48 +1,70 @@
-<section class="content content-menu" id="content-ingame">
-    <main>
-        <h1>{{ 'IG_HeadLine' | translate }}</h1>
-        <ul class="menu submenu" id="submenu-ingame">
-            <li>
-                <a href ng-click="returntogame()">
-                    {{ 'IG_ReturnToGame' | translate }}
-                    <p>{{ 'IG_ReturnToGame_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li ng-if="isoffline && beta === 'dev'">
-                <a href="#!/LoadGame">
-                    {{ 'LG_LoadMenu' | translate }}
-                    <p>{{ 'LG_LoadMenu_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li ng-if="isoffline && beta === 'dev'">
-                <a href="#!/LoadGame?mode=save">
-                    {{ 'LG_SaveMenu' | translate }}
-                    <p>{{ 'LG_SaveMenu_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <a href ng-click="forfeit()">
-                    {{ 'IG_Forfeit' | translate }}
-                    <p>{{ 'IG_Forfeit_Desc' | translate }}</p>
-                </a>
-            </li>
-            <li>
-                <!-- Different description for when the player is hosting to indicate the server disconnects everybody. -->
-                <a ng-if="!ishosting" href ng-click="disconnect()">
-                    {{ 'IG_Disconnect' | translate }}
-                    <p>{{ 'IG_Disconnect_Desc' | translate }}</p>
-                </a>
-                <a ng-if="ishosting && !isoffline" href ng-click="disconnect()">
-                    {{ 'IG_Disconnect' | translate }}
-                    <p>{{ 'IG_DisconnectHost_Desc' | translate }}</p>
-                </a>
-                <a ng-if="ishosting && isoffline" href ng-click="disconnect()">
-                    {{ 'IG_Disconnect' | translate }}
-                    <p>{{ 'IG_DisconnectOffline_Desc' | translate }}</p>
-                </a>
-            </li>
-        </ul>
-    </main>
-</section>
+<div class="pg-page ig-page">
+	<section class="ig-card" aria-labelledby="ig-title">
+		<span class="pg-card-corner"></span>
 
-<span global-chat/>
+		<div class="ig-heading">
+			<span class="pg-eyebrow">{{ 'MenuInGame' | translate }}</span>
+			<span class="ig-chip" ng-if="isoffline">{{ 'IG_Offline' | translate }}</span>
+			<span class="ig-chip" ng-if="!isoffline"><span class="ig-chip-dot"></span>{{ 'IG_Online' | translate }}</span>
+			<span class="ig-chip" ng-if="ishosting && !isoffline">{{ 'IG_Hosting' | translate }}<span class="ig-chip-extra" ng-if="host_numplayers > 1">&middot; {{ host_numplayers }} {{ 'IG_Players' | translate }}</span></span>
+		</div>
+		<h1 class="ig-title" id="ig-title">{{ 'IG_Title' | translate }}</h1>
+		<p class="ig-status">{{ (isoffline ? 'IG_Status_Offline' : (ishosting ? 'IG_Status_Host' : 'IG_Status_Online')) | translate }}</p>
+
+		<button type="button" class="lb-btn lb-btn-launch ig-return" ng-click="returntogame()">
+			<wars-icon name="play"></wars-icon>
+			{{ 'IG_ReturnToGame' | translate }}
+			<span class="ig-key">ESC</span>
+		</button>
+
+		<div class="ig-rows">
+			<a href="#!/LoadGame?mode=save" class="ig-row" ng-if="isoffline && beta === 'dev'">
+				<span class="ig-row-icon"><wars-icon name="save"></wars-icon></span>
+				<span class="ig-row-text">
+					<span class="ig-row-title">{{ 'LG_SaveMenu' | translate }}<span class="ig-dev">{{ 'IG_DevBuild' | translate }}</span></span>
+					<span class="ig-row-desc">{{ 'LG_SaveMenu_Desc' | translate }}</span>
+				</span>
+				<wars-icon name="chevron-right"></wars-icon>
+			</a>
+			<a href="#!/LoadGame" class="ig-row" ng-if="isoffline && beta === 'dev'">
+				<span class="ig-row-icon"><wars-icon name="folder"></wars-icon></span>
+				<span class="ig-row-text">
+					<span class="ig-row-title">{{ 'LG_LoadMenu' | translate }}<span class="ig-dev">{{ 'IG_DevBuild' | translate }}</span></span>
+					<span class="ig-row-desc">{{ 'LG_LoadMenu_Desc' | translate }}</span>
+				</span>
+				<wars-icon name="chevron-right"></wars-icon>
+			</a>
+			<a href="#!/Settings" class="ig-row">
+				<span class="ig-row-icon"><wars-icon name="settings"></wars-icon></span>
+				<span class="ig-row-text">
+					<span class="ig-row-title">{{ 'MenuSettings' | translate }}</span>
+					<span class="ig-row-desc">{{ 'IG_Settings_Desc' | translate }}</span>
+				</span>
+				<wars-icon name="chevron-right"></wars-icon>
+			</a>
+		</div>
+
+		<h2 class="ig-section-title">{{ 'IG_LeaveGame' | translate }}</h2>
+
+		<div class="ig-leave" ng-if="!confirming">
+			<button type="button" class="ig-leave-btn" ng-click="forfeit()">
+				<span class="ig-leave-title"><wars-icon name="flag"></wars-icon>{{ 'IG_Forfeit' | translate }}</span>
+				<span class="ig-leave-desc">{{ 'IG_Forfeit_Desc' | translate }}</span>
+			</button>
+			<button type="button" class="ig-leave-btn ig-danger" ng-click="leave()">
+				<span class="ig-leave-title"><wars-icon name="leave"></wars-icon>{{ (isoffline ? 'IG_EndGame' : 'IG_Disconnect') | translate }}</span>
+				<span class="ig-leave-desc">{{ (isoffline ? 'IG_DisconnectOffline_Desc' : (ishosting ? 'IG_DisconnectHost_Desc' : 'IG_Disconnect_Desc')) | translate }}</span>
+			</button>
+		</div>
+
+		<!-- Hosting with players connected: confirm in the card -->
+		<div class="ig-confirm" role="alertdialog" ng-if="confirming">
+			<p class="ig-confirm-question">{{ 'IG_ConfirmEnd' | translate:{count: host_numplayers - 1} }}</p>
+			<p class="ig-confirm-text">{{ 'IG_DisconnectHostConfirm' | translate }}</p>
+			<div class="ig-confirm-buttons">
+				<button type="button" class="lb-btn lb-btn-small" ng-click="cancelLeave()">{{ 'Dialog_Cancel' | translate }}</button>
+				<button type="button" class="lb-btn lb-btn-small ig-danger-solid" ng-click="endGame()">{{ 'IG_EndForEveryone' | translate }}</button>
+			</div>
+		</div>
+	</section>
+</div>

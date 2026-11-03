@@ -1,89 +1,386 @@
-#wars_waitingforplayers_container
-{
-	font-family: 'Open Sans', Arial, sans-serif;
+/* Waiting for players: the panel shown while players load into a match */
+
+@font-face {
+	font-family: 'WFP Roboto';
+	font-weight: 400;
+	src: url('../../fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'WFP Roboto';
+	font-weight: 500;
+	src: url('../../fonts/roboto-v20-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-500.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'WFP Roboto Condensed';
+	font-weight: 700;
+	src: url('../../fonts/roboto-condensed-v18-vietnamese_latin-ext_latin_greek-ext_greek_cyrillic-ext_cyrillic-700.woff2') format('woff2');
+}
+
+#wars_waitingforplayers_container {
 	position: absolute;
-	top: calc(50% - 290px);
-	left: calc(50% - 302px);
-	background: rgba(39, 39, 39, 0.6);
-	border-radius: 0px;
-	color: #FFFFFF;
-	width: 605px;
-	height: 580px;
-	border-radius: 25px;
+	top: 8vh;
+	left: calc(50% - 330px);
+	width: 660px;
 	overflow: hidden;
+	background: rgba(18, 20, 22, 0.94);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 4px;
+	box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+	font-family: 'WFP Roboto', Arial, sans-serif;
+	color: #ece9e2;
+	text-align: left;
+	animation: wfp-in .2s ease-out;
 }
 
-#wars_waitingforplayers_container h1 {
-	font-family: 'Open Sans', Arial;
-	margin-left:auto;
-	margin-right:auto;
-	font-size: 20px;
-	font-weight: bold;
-	line-height: 24px;
-	padding: 10px 20px;
-	margin: 0 0 20px;
-	background: rgba(39, 39, 39, 0.8);
-	color: white;
+@keyframes wfp-in {
+	from { opacity: 0; transform: translateY(-8px); }
+	to { opacity: 1; transform: none; }
+}
+
+.wfp-caps {
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
 	text-transform: uppercase;
-	background-color: #cf880d;
 }
 
-#wars_waitingforplayers_container h1 span {
-	color: white;
+.wfp-corner {
+	position: absolute;
+	z-index: 1;
+	left: -1px;
+	top: -1px;
+	width: 22px;
+	height: 22px;
+	border-left: 2px solid #cf880d;
+	border-top: 2px solid #cf880d;
 }
 
-#wars_waitingforplayers_banner {
-	margin-left:auto;
-	margin-right:auto;
-	overflow: hidden;
-	width: 605px;
-	height: 122px;
-	background-image:  url(../images/waitingforplayers_banner.png);
+/* Banner, fading into the panel */
+.wfp-banner {
+	position: relative;
+	height: 133px;
+	background: url(../images/waitingforplayers_banner.png) center / cover no-repeat;
 }
 
-h1 span#wars_waitingforplayers_lobbyname {
-	color: #fff;
+.wfp-banner-shade {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 48px;
+	background: linear-gradient(180deg, rgba(18, 20, 22, 0) 0%, rgba(18, 20, 22, 0.94) 100%);
 }
 
-#wars_waitingforplayers_countdown {
-	display: inline-block;
-	float: right;
+/* Lobby name, mode and map, countdown */
+.wfp-heading {
+	display: flex;
+	align-items: flex-start;
+	padding: 18px 36px 24px;
 }
 
-#wars_waitingforplayers_playerlist {
-	z-index: 10;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: block;
-} 
-
-#wars_waitingforplayers_playerlist li {
-    margin: 0;
-    padding: 4px 20px;
-	display: block;
-	border-bottom: 0px solid rgba(255, 255, 255, 0.1);
+.wfp-heading-text {
+	flex: 1;
+	min-width: 0;
 }
 
-#wars_waitingforplayers_container ul li {
-	font-size: 20px;
-	font-weight: bold;
-	color: rgba(255, 255, 255, 0.8);
-}
-
-#wars_waitingforplayers_container ul li span {
+.wfp-eyebrow {
+	display: flex;
+	align-items: center;
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 13px;
+	letter-spacing: 2.3px;
+	text-transform: uppercase;
 	color: #cf880d;
-	font-weight: normal;
+}
+
+.wfp-dot {
+	width: 7px;
+	height: 7px;
+	margin-right: 8px;
+	border-radius: 50%;
+	background: #cf880d;
+	animation: wfp-pulse 1.6s ease-in-out infinite;
+}
+
+.wfp.wfp-starting .wfp-dot {
+	background: #5cc28b;
+	animation: none;
+}
+
+@keyframes wfp-pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: .35; }
+}
+
+.wfp-title {
+	margin: 8px 0 0;
+	overflow: hidden;
+	font-weight: 500;
+	font-size: 34px;
+	line-height: 42px;
+	color: #ffffff;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.wfp-subtitle {
+	margin: 4px 0 0;
+	font-size: 15px;
+	color: #a3a7a9;
+}
+
+.wfp-subtitle:empty {
+	display: none;
+}
+
+.wfp-timer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	flex-shrink: 0;
+	margin-left: 24px;
+}
+
+.wfp-timer-label {
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #8f897f;
+}
+
+.wfp-countdown {
+	margin-top: 4px;
+	font-family: Consolas, monospace;
+	font-size: 40px;
+	line-height: 44px;
+	color: #ece9e2;
+}
+
+.wfp.wfp-starting .wfp-countdown {
+	color: #5cc28b;
+}
+
+/* Loading progress */
+.wfp-progress {
+	padding: 0 36px 22px;
+}
+
+.wfp-progress-row {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	font-size: 15px;
+	color: #d9d6cf;
+}
+
+.wfp-progress-count {
+	font-family: Consolas, monospace;
+	font-size: 14px;
+	color: #a3a7a9;
+}
+
+.wfp-progress-bar {
+	height: 4px;
+	margin-top: 10px;
+	overflow: hidden;
+	border-radius: 2px;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.wfp-progress-fill {
+	height: 4px;
+	width: 0;
+	background: #cf880d;
+	transition: width .3s;
+}
+
+.wfp.wfp-starting .wfp-progress-fill {
+	background: #5cc28b;
+}
+
+/* Players, a column per team */
+.wfp-teams {
+	display: flex;
+	padding: 20px 36px 24px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wfp-team {
+	flex: 1;
+	min-width: 0;
+}
+
+.wfp-team + .wfp-team {
+	margin-left: 28px;
+}
+
+.wfp-team h2 {
+	margin: 0 0 6px;
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 13px;
+	letter-spacing: 2.3px;
+	text-transform: uppercase;
+	color: #a3a7a9;
+}
+
+.wfp-team ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wfp-player {
+	display: flex;
+	align-items: center;
+	height: 48px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.wfp-color {
+	flex-shrink: 0;
+	width: 12px;
+	height: 12px;
+	margin-right: 12px;
+	border-radius: 50%;
+	background: #8f897f;
+	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.wfp-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	font-size: 16px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.wfp-tag {
+	margin-left: 8px;
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 11px;
+	letter-spacing: 1.8px;
+	text-transform: uppercase;
+	color: #8f897f;
+}
+
+.wfp-tag-you {
+	color: #cf880d;
+}
+
+.wfp-state {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	margin-left: 12px;
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: 1.7px;
+	text-transform: uppercase;
+}
+
+.wfp-state svg {
+	width: 13px;
+	height: 13px;
+	margin-right: 6px;
+}
+
+.wfp-state-loading {
+	color: #deb062;
+}
+
+.wfp-state-loading svg {
+	animation: wfp-spin 1s linear infinite;
+}
+
+.wfp-state-connected {
+	color: #5cc28b;
+}
+
+.wfp-state-disconnected {
+	color: #e0645c;
+}
+
+.wfp-player-disconnected .wfp-name {
+	color: #8f897f;
+}
+
+@keyframes wfp-spin {
+	to { transform: rotate(360deg); }
+}
+
+/* Message from the server (motd), html from the server in a frame */
+.wfp-motd-section {
+	display: none;
+	padding: 18px 36px 22px;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(0, 0, 0, 0.18);
+}
+
+.wfp.wfp-has-motd .wfp-motd-section {
+	display: block;
+}
+
+.wfp-motd-section h2 {
+	margin: 0;
+	font-family: 'WFP Roboto Condensed', Arial, sans-serif;
+	font-weight: 700;
+	font-size: 12px;
+	letter-spacing: 2.2px;
+	text-transform: uppercase;
+	color: #8f897f;
 }
 
 #wars_waitingforplayers_motd {
-	font-family: 'Open Sans';
-	font-size: 16px;
+	height: 64px;
+	margin-top: 8px;
 	overflow: hidden;
-	margin-top: 12px;
-	padding: 0 20px;
-	margin-left:auto;
-	margin-right:auto;
-	width: 1076px;
-	height: 538px;
+}
+
+#wars_waitingforplayers_motd iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+/* Short screens (768 high): less banner and spacing, the hud at the bottom stays visible */
+@media (max-height: 820px) {
+	#wars_waitingforplayers_container {
+		top: 3vh;
+	}
+
+	.wfp-banner {
+		height: 96px;
+	}
+
+	.wfp-heading {
+		padding-top: 12px;
+		padding-bottom: 16px;
+	}
+
+	.wfp-progress {
+		padding-bottom: 16px;
+	}
+
+	.wfp-teams {
+		padding-top: 14px;
+		padding-bottom: 16px;
+	}
+
+	.wfp-player {
+		height: 42px;
+	}
+
+	.wfp-motd-section {
+		padding-top: 14px;
+		padding-bottom: 16px;
+	}
 }

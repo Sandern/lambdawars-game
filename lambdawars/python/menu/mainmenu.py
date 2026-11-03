@@ -1,6 +1,6 @@
 from .lobby import WebLobby
 from .gamelobby import WebGameLobby
-from .settings import WebVideoSettings
+from .settings import WebSettings
 from .savedgames import WebSavedGames
 try:
     from .workshop import WebWorkshop
@@ -98,7 +98,7 @@ class CefMainMenu(WebView, MainMenuPersonaStateChangeCallback, GameLobbyJoinRequ
         
         self.components.append(self.chatlobby)
         self.components.append(self.gamelobby)
-        self.components.append(WebVideoSettings(self))
+        self.components.append(WebSettings(self))
         self.components.append(WebSavedGames(self))
         if WebWorkshop:
             self.components.append(WebWorkshop(self))

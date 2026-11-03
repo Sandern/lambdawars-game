@@ -1,5 +1,6 @@
 'use strict';
 
+import './chat-drawer.service';
 import './gamelobby-list.service';
 import './home.controller';
 import './ingame.controller';
