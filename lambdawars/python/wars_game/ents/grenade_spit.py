@@ -156,9 +156,14 @@ class GrenadeSpit(BaseClass):
             self.takedamage = DAMAGE_NO
 
             self.EmitSound("GrenadeSpit.Hit")
-
-            info = CTakeDamageInfo(self, self.GetThrower(), self.damage, self.damagetype)
-            info.attributes = {AcidAttribute.name: AcidAttribute(self.GetThrower())}
+            
+            thrower = self.GetThrower()
+            attributes = {}
+            if thrower:
+                for attr in thrower.unitinfo.attributes:
+                    attributes[attr.name] = attr(thrower)
+            info = CTakeDamageInfo(self, thrower, self.damage, self.damagetype)
+            info.attributes = attributes
             RadiusDamage(info, self.GetAbsOrigin(), self.damageradius, Class_T.CLASS_NONE, self.GetOwnerEntity())
 
             # Stop our hissing sound

@@ -1088,15 +1088,31 @@ class UnitBaseShared(object):
             if inflictor and inflictor.IsUnit():
                 FireSignalRobust(unitkilled_by_inflictor[inflictor.unitinfo.name], unit=self, dmginfo=info)
             if gamerules.info.name == 'overrun':
-                if gamerules.modificator_suiciders and self.spawnsuiciders:
-                    if gamerules.modificator_suiciders == 1:
-                        a = CreateUnitFancy('unit_antlionsuicider', self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=OWNER_ENEMY, fnprespawn=self.PreSuiciderSpawn)
+                if gamerules.modificator_suiciders and self.spawnsuiciders and not self.isbuilding:
+                    if gamerules.modificator_suiciders == 1 and self.GetOwnerNumber() == OWNER_ENEMY:
+                        if gamerules.wave >= 10:
+                            suicider = 'unit_antlionsuicider'
+                        else:
+                            suicider = 'overrun_unit_antlionsuicider_small'
+                        a = CreateUnitFancy(suicider, self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=OWNER_ENEMY, fnprespawn=self.PreSuiciderSpawn)
                         if a:
                             a.spawnsuiciders = False
-                    elif gamerules.modificator_suiciders == 2:
+                    elif gamerules.modificator_suiciders == 2 and self.GetOwnerNumber() not in (OWNER_ENEMY, OWNER_LAST+14):
                         a = CreateUnitFancy('unit_antlionsuicider', self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=OWNER_LAST+10, fnprespawn=self.PreSuiciderSpawn)
                         if a:
                             a.spawnsuiciders = False
+                    elif gamerules.modificator_suiciders == 3:
+                        suicider_owner = self.GetOwnerNumber()
+                        if suicider_owner not in (OWNER_ENEMY, OWNER_LAST+14):
+                            suicider_owner = OWNER_LAST+10
+                        if gamerules.wave <= 10 and suicider_owner in (OWNER_ENEMY, OWNER_LAST+14):
+                            suicider = 'overrun_unit_antlionsuicider_small'
+                        else:
+                            suicider = 'unit_antlionsuicider'
+                        a = CreateUnitFancy(suicider, self.GetAbsOrigin(), angles=self.GetAbsAngles(), owner_number=suicider_owner, fnprespawn=self.PreSuiciderSpawn)
+                        if a:
+                            a.spawnsuiciders = False
+                        
         def PreSuiciderSpawn(self, a):
             a.BehaviorGenericClass = a.BehaviorOverrunClass
         

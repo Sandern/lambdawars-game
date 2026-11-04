@@ -610,6 +610,8 @@ class OverrunCombineInfo(CombineInfo):
     costs = [('kills', 5)]
     abilities = {
         0: 'overrun_grenade',
+        5: 'overrun_combine_transform_sg',
+        6: 'overrun_combine_transform_ar2',
         7: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
@@ -718,6 +720,20 @@ class TransformToCombineAR2(AbilityTransformUnit):
     #techrequirements = ['build_comb_armory']
     costs = [('power', 10)]
     activatesoundscript = 'ability_combine_ar2_upgrade'
+
+class OverrunTransformToCombineSG(TransformToCombineSG):
+    name = 'overrun_combine_transform_sg'
+    transform_type = 'overrun_unit_combine_sg'
+    transform_time = 0
+    techrequirements = []
+    costs = [('kills', 2)]
+
+class OverrunTransformToCombineAR2(TransformToCombineAR2):
+    name = 'overrun_combine_transform_ar2'
+    transform_type = 'overrun_unit_combine_ar2'
+    transform_time = 0
+    techrequirements = []
+    costs = [('kills', 4)]
 
 # Mission Versions
 class MissionCombineInfo(CombineInfo):

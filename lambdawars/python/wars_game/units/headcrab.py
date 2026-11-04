@@ -691,12 +691,14 @@ class BlackHeadcrabBossInfo(BlackHeadcrabInfo):
     displayname = '#ZomHeadcrabPoisonBoss_Name'
     description = '#ZomHeadcrabPoisonBoss_Description'
     health = 1500
-    attributes = ['heavy', 'acid']
+    attributes = ['heavy', 'acid', 'boss_spit']
     scrapdropchance = 0.0
     scale = 6.0
     scalebounds = 0.5 # Scale down bounds to make navigation easier on some maps
     maxspeed = 400.0
     turnspeed = 80
+    viewdistance = 1200
+    sensedistance = 1328.0
     
     class AttackRange(UnitInfo.AttackRange):
         maxrange = 1024.0
@@ -719,7 +721,7 @@ class BlackHeadcrabBossInfo(BlackHeadcrabInfo):
         
     class AttackSpit(UnitInfo.AttackBase):
         cone = 0.7
-        damage = 35
+        damage = 15
         attackspeed = 1.0
         minrange = 256.0
         maxrange = 1200.0
@@ -735,7 +737,7 @@ class BlackHeadcrabBossInfo(BlackHeadcrabInfo):
             return self.unit.CanRangeAttack(enemy)
 
         def Attack(self, enemy, action):
-            self.nextattacktime = gpGlobals.curtime + 0.5
+            self.nextattacktime = gpGlobals.curtime + self.attackspeed
             return self.unit.ThrowSpit()
             
     # TODO: adjust leap attack into something cools
