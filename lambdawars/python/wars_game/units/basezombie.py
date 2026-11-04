@@ -96,8 +96,8 @@ class UnitBaseZombie(BaseClass):
         #
         vecMins = self.WorldAlignMins()
         vecMaxs = self.WorldAlignMaxs()
-        vecMins.z = vecMins.x
-        vecMaxs.z = vecMaxs.x
+        vecMins.z = -24
+        vecMaxs.z = 24
 
         '''
         pHurt = None
