@@ -624,16 +624,23 @@ class UnitBaseCombat(BaseClass):
         
         self.PerformSensing()
         self.UpdateActiveEnemy()
-                
-        if self.controllerplayer is None:
-            if not self.unit_ai_disable.GetBool():
+
+        # Possession skips the combat AI. An ability order still has to advance,
+        # otherwise the cast sits in the queue until the player lets go of the unit.
+        casting = self.DirectControlCasting()
+        if self.directcontrolcasting != casting:
+            self.directcontrolcasting = casting
+
+        if self.controllerplayer is None or casting:
+            if self.controllerplayer is None and not self.unit_ai_disable.GetBool():
                 self.RunBehaviors()
-                
-            # Update abilities if they want to be updated
+            elif casting:
+                self.RunBehaviors()
+
             for abi in self.checkabilities:
                 abi.OnUnitThink(self)
-                
-            # Update navigation and movement
+
+            # Navigator owns the body for the cast. UserCmd stays out of the way.
             self.fn_perform_navigation()
             self.fn_perform_movement()
 
@@ -770,7 +777,24 @@ class UnitBaseCombat(BaseClass):
     #
     # User control
     #
+    def DirectControlCasting(self):
+        """True when a possessed unit's current order is an ability cast."""
+        if not self.controllerplayer:
+            return False
+        order = self.curorder
+        return bool(order and order.type == order.ORDER_ABILITY)
+
     def UserCmd(self, cmd):
+        # directcontrolcasting is networked so the client locks as soon as the
+        # server snapshot arrives. The server also checks the order itself, so
+        # the lock starts on the same tick the cast is queued.
+        if self.directcontrolcasting or (isserver and self.DirectControlCasting()):
+            self.mv.forwardmove = 0.0
+            self.mv.sidemove = 0.0
+            self.mv.upmove = 0.0
+            self.mv.jump = False
+            return
+
         self.mv.forwardmove = cmd.forwardmove
         self.mv.sidemove = cmd.sidemove
         self.mv.upmove = cmd.upmove
@@ -805,7 +829,8 @@ class UnitBaseCombat(BaseClass):
 
     def OnUserLeftControl(self, player):
         super().OnUserLeftControl(player)
-        
+
+        self.directcontrolcasting = False
         self.RebuildAttackInfo()
     
         self.SetMoveType(MOVETYPE_STEP)
@@ -1131,6 +1156,10 @@ class UnitBaseCombat(BaseClass):
         
         if o.ability:
             o.ability.attachedtoorder = True
+
+        # Lock player movement as soon as this cast is the order being carried out.
+        if self.controllerplayer and self.curorder is o:
+            self.directcontrolcasting = True
             
         return o
             
@@ -1880,6 +1909,8 @@ class UnitBaseCombat(BaseClass):
     
     #: True if garrisoned inside a building
     garrisoned = BooleanField(value=False)
+    #: Possessed unit is playing an ability. Networked so the client stops feeding UserCmd.
+    directcontrolcasting = BooleanField(value=False, networked=True)
     #: Handle to garrisoned building
     garrisoned_building = EHandleField(value=None, cppimplemented=True)
     #: Amount of hp repaired per second

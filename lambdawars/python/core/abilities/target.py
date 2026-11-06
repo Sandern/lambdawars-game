@@ -5,7 +5,7 @@ Provides base classes for abilities that require the player to select a target
 and target validation.
 """
 from srcbase import Color, EF_NOSHADOW
-from vmath import Vector, vec3_angle, vec3_origin, matrix3x4_t, AngleMatrix, VectorRotate
+from vmath import Vector, QAngle, vec3_angle, vec3_origin, matrix3x4_t, AngleMatrix, VectorRotate
 from .base import StopInit, AbilityBase
 from utils import UTIL_CalculateDirection
 from gameinterface import engine
@@ -60,6 +60,8 @@ class AbilityTarget(AbilityBase):
             self.CreateVisuals()
                 
         self.StartAbility()
+        # Possession has no cursor click. The crosshair trace is the target.
+        self.CastAtControlledAim()
                 
         super().Init()
         
@@ -69,6 +71,37 @@ class AbilityTarget(AbilityBase):
     def StartAbility(self): 
         """ Start/do the ability directly when the player activates the ability."""
         pass
+
+    def CastAtControlledAim(self):
+        """Cast immediately at the possessed unit's crosshair.
+
+        Targeted abilities normally wait for a left click. While this player is
+        controlling the unit that will cast, the view ray is already the aim
+        point, including thirdpersonshoulder. One keypress casts once.
+        """
+        if self.stopped or not self.player:
+            return False
+
+        try:
+            controlled = self.player.GetControlledUnit()
+        except AttributeError:
+            return False
+        if not controlled:
+            return False
+        if not any(unit.entindex() == controlled.entindex() for unit in self.units):
+            return False
+
+        self.mousedata = self.player.GetMouseData()
+        if not self.mousedata:
+            return False
+
+        if self.requirerotation:
+            eyes = self.player.EyeAngles()
+            self.targetangle = QAngle(0, eyes.y, 0)
+
+        self.allowcontinueability = False
+        self.DoAbilityInternal()
+        return True
         
     def ComputeUnitCost(self, unit):
         if self.targetpos == vec3_origin:
