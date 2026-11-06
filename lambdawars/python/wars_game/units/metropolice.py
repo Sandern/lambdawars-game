@@ -690,6 +690,10 @@ class MetroPoliceInfo(UnitInfo):
     useshield = False
     cantakecover = True
 
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
+
 
 class MetroPoliceSMG1Info(MetroPoliceInfo):
     name = 'unit_metropolice_smg1'

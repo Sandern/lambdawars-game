@@ -24,6 +24,7 @@ if isserver:
 
 sv_gravity = ConVarRef('sv_gravity')
 
+
 @networked
 @entity('bounce_bomb')
 @entity('combine_bouncemine')
@@ -1032,6 +1033,7 @@ class BounceBomb(BaseClass):
     cloakenergydrain = 0
     cloakupgrade = UpgradeField(value=0.0, abilityname='combinemine_upgrade')
 
+
 @entity('combine_mine_cloaked')
 class BounceBombCloaked(BounceBomb):
     def Spawn(self):
@@ -1044,6 +1046,7 @@ class BounceBombCloaked(BounceBomb):
     BOUNCEBOMB_DETONATE_RADIUS = 96.0
     BOUNCEBOMB_WARN_RADIUS = 192.0
     BOUNCEBOMB_ACTIVATION_TIME = 0.25
+
 
 class AbilityDetonateMine(AbilityInstant):
     name = 'detonatemine'
@@ -1062,6 +1065,7 @@ class AbilityDetonateMine(AbilityInstant):
             
             self.unit.ExplodeThink()
             self.Completed()
+
 
 class CombMineUpgrade(AbilityUpgradeValue):
     name = 'combinemine_upgrade'
@@ -1082,6 +1086,7 @@ class CombMineUpgrade(AbilityUpgradeValue):
         units = (list(unitlistpertype[self.ownernumber].get('combine_mine', [])) + list(unitlistpertype[self.ownernumber].get('overrun_combine_mine', [])))
         for unit in units:
             unit.Cloak()
+
 
 class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
     name = "combine_mine"
@@ -1114,7 +1119,8 @@ class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
     if isserver:
         from entities import DispatchSpawn
         from core.units import BaseBehavior
-        
+
+
         class ActionPlaceChannelMine(BaseBehavior.ActionAbility):
             def UpdatePlacement(self):
                 outer = self.outer
@@ -1190,10 +1196,27 @@ class AbilityCombineMine(AbilityPlaceObjectShared, UnitInfo):
             object.purchasecosts = self.resourcestaken
         return objects
 
+
+class AbilityCombineMineNoTarget(AbilityCombineMine):
+    if isserver:
+        from entities import DispatchSpawn
+        from core.units import BaseBehavior
+
+        def UpdatePlacement(self):
+            super().UpdatePlacement()
+
+            # instantly drop mines when ability is used
+            abi = self.order.ability
+            trans = self.SuspendFor(self.behavior.ActionChanneling, 'Placing mine', abi.placetime)
+            self.placingaction = self.nextaction
+            return trans
+        
+
 class AbilityCombineMineCloaked(AbilityCombineMine):
     name = "combine_mine_cloaked"
     cls_name = "combine_mine_cloaked"
     bounce = False
+
 
 class AbilityCombineMineUnlock(AbilityUpgrade):
     name = 'combine_mine_unlock'
@@ -1203,12 +1226,14 @@ class AbilityCombineMineUnlock(AbilityUpgrade):
     buildtime = 60.0
     costs = [[('kills', 4)], [('requisition', 4)]]
 
+
 class OverrunAbilityCombineMine(AbilityCombineMine):
     name = 'overrun_combine_mine'
     hidden = True
     techrequirements = []
     rechargetime = 30.0
     costs = []
+
 
 class AbilityRebelMineUnlock(AbilityUpgrade):
 	name = 'rebel_mine_unlock'
@@ -1218,6 +1243,7 @@ class AbilityRebelMineUnlock(AbilityUpgrade):
 	buildtime = 90.0
 	#techrequirements = ['build_reb_specialops']
 	costs = [('requisition', 30), ('scrap', 30)]
+
 
 class DestroyHQSaboteurMine(AbilityCombineMine):
     def __init__(self):
@@ -1232,8 +1258,14 @@ class DestroyHQSaboteurMine(AbilityCombineMine):
     costs = [('requisition', 15)]
     #mineskin = random.randint(1, 3)
 
+
 class AbilityCombineMineChar(AbilityCombineMine):
     name = 'char_combine_mine'
     costs = []
     techrequirements = []
     rechargetime = 15.0
+
+
+class AbilityCptCombineMine(AbilityCombineMineChar):
+    name = 'cpt_combine_mine'
+    techrequirements = ['build_comb_mech_factory', 'build_comb_armory']

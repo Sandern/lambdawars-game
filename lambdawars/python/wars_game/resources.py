@@ -54,4 +54,16 @@ class ResPowerCharInfo(ResourceInfo):
     nocapoverflow = True
     displayname = '#ResPower_Name'
 
-    
+
+# Frontline faction points (UI names). Personal balances are tracked per-player
+# in wars_game.frontline.faction_points — do not rely on shared owner pools alone.
+class ResLambdaPointsInfo(ResourceInfo):
+    name = 'lambda'
+    iconname = 'vgui/icons/icon_requisition'  # TODO: dedicated icon
+    displayname = '#ResLambda_Name'
+
+
+class ResOverwatchPointsInfo(ResourceInfo):
+    name = 'overwatch'
+    iconname = 'vgui/icons/icon_requisition'  # TODO: dedicated icon
+    displayname = '#ResOverwatch_Name'

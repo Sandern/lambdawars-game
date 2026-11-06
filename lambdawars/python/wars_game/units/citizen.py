@@ -625,10 +625,9 @@ class CitizenInfo(UnitInfo):
     scrapdropchance = 0.0
     cantakecover = False
 
-    sound_select_f = ''
-    sound_move_f = ''
-    sound_attack_f = ''
-    sound_death_f = ''
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
 
 class Bullseye(CitizenInfo):
     name = 'unit_bullseye'

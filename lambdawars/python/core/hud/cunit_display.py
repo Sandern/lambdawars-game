@@ -10,6 +10,8 @@ from vgui.controls import Panel
 from utils import UTIL_EntitiesInSphere, ScreenWidth, ScreenHeight
 from entities import C_HL2WarsPlayer
 from core.signals import playercontrolunit, playerleftcontrolunit
+from input import input
+
 
 class HudUnitDisplayHealth(CHudElement, Panel):
     """Displays a health bar for the unit the player has direct control over.
@@ -47,6 +49,8 @@ class HudUnitDisplayHealth(CHudElement, Panel):
         if player != C_HL2WarsPlayer.GetLocalHL2WarsPlayer():
             return
         self.SetPaintEnabled(True)
+        input().CAM_ToThirdPerson()
+        unit.UpdateVisibility()
         self.controlledunit = unit
         
     def OnPlayerLeftControlUnit(self, player, unit, **kwargs):

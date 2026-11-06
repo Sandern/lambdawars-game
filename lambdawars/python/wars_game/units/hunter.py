@@ -1011,6 +1011,10 @@ class CombineHunterInfo(UnitInfo):
         9 : 'holdposition',
         10 : 'patrol',
     }
+
+    shoulder_height = 30.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 40.0
     
     class AttackMelee(UnitInfo.AttackMelee):
         damage = 100

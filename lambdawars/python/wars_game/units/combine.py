@@ -325,6 +325,10 @@ class CombineSharedInfo(UnitInfo):
     infest_zombietype = 'unit_zombine' # For headcrab_infest ability
     cantakecover = True
 
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
+
 class MechanicsCombine_Tier6(AbilityUpgradeValue): #TODO: replace with T1 upgrade
     name = 'mechanicscombine_tier_6'
     displayname = '#ArmyCombineT6Upgr_Name'

@@ -506,6 +506,10 @@ class StalkerShared(UnitInfo):
     sai_hint = set(['sai_unit_builder'])
     infest_zombietype = ''
 
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
+
     class AttackRange(UnitInfo.AttackRange):
         damage = 10
         damagetype = DMG_SHOCK

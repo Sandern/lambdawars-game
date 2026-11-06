@@ -1,4 +1,6 @@
 from core.abilities import AbilityTarget
+from gameinterface import engine
+
         
 class AbilityControlUnit(AbilityTarget):
     name = "controlunit"
@@ -17,5 +19,6 @@ class AbilityControlUnit(AbilityTarget):
                 self.Cancel()
                 return
             self.player.SetControlledUnit(ent)
+            engine.ClientCommand(self.player, 'thirdpersonshoulder')
             self.Completed()    
         
