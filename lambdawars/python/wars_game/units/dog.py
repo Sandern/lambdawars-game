@@ -206,7 +206,8 @@ class UnitDog(BaseClass):
         dmg_info = CTakeDamageInfo(self, self, vec3_origin, origin, 180, 0)
         dmg_info.attributes = {DogSlamImpactAttribute.name: DogSlamImpactAttribute(self)}
 
-        RadiusDamage(dmg_info, origin, dmg_radius, CLASS_NONE, None)
+        # Ignore Dog. The slam origin is inside his hull, and the impact attribute stuns whoever it hits.
+        RadiusDamage(dmg_info, origin, dmg_radius, CLASS_NONE, self)
 
         vec_radius = Vector(dmg_radius, dmg_radius, dmg_radius)
         enemies = UTIL_EntitiesInBox(32, origin-vec_radius, origin+vec_radius, FL_NPC)
@@ -420,6 +421,7 @@ class DogInfo(UnitInfo):
     shoulder_height = 30.0
     shoulder_aimdist = 400.0
     shoulder_offset = 40.0
+    shoulder_dist = 30.0
 
     class AttackMelee(UnitInfo.AttackMelee):
         damage = 80

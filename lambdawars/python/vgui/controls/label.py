@@ -157,7 +157,7 @@ class Label(Panel):
             text = ""
 
         if text and text[0] == '#':
-            text = localize.Find(text)
+            text = localize.Find(text) or ""
 
         # let the text image do the translation itself
         self._textimage.SetText(text)

@@ -1128,6 +1128,11 @@ class StriderInfo(UnitInfo):
     ability_9 = 'holdposition'
     ability_10 = 'patrol'
 
+    shoulder_height = 25.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 0.0
+    shoulder_dist = 30.0
+
     class AttackRange(UnitInfo.AttackRange):
         damage = 4
         minrange = 0.0

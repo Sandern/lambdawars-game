@@ -509,6 +509,7 @@ class StalkerShared(UnitInfo):
     shoulder_height = 5.0
     shoulder_aimdist = 400.0
     shoulder_offset = 20.0
+    shoulder_dist = 10.0
 
     class AttackRange(UnitInfo.AttackRange):
         damage = 10

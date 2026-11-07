@@ -72,23 +72,18 @@ class AbilityTarget(AbilityBase):
         """ Start/do the ability directly when the player activates the ability."""
         pass
 
+    def IsUnitControlled(self):
+        controlled = self.player.GetControlledUnit()
+        return controlled and any(unit.entindex() == controlled.entindex() for unit in self.units)
+
     def CastAtControlledAim(self):
         """Cast immediately at the possessed unit's crosshair.
 
         Targeted abilities normally wait for a left click. While this player is
         controlling the unit that will cast, the view ray is already the aim
-        point, including thirdpersonshoulder. One keypress casts once.
+        point. One keypress casts once.
         """
-        if self.stopped or not self.player:
-            return False
-
-        try:
-            controlled = self.player.GetControlledUnit()
-        except AttributeError:
-            return False
-        if not controlled:
-            return False
-        if not any(unit.entindex() == controlled.entindex() for unit in self.units):
+        if self.stopped or not self.player or not self.IsUnitControlled():
             return False
 
         self.mousedata = self.player.GetMouseData()
@@ -147,7 +142,7 @@ class AbilityTarget(AbilityBase):
     def OnLeftMouseButtonReleased(self):
         """ Implements ability target left mouse released behavior. """
         assert(not self.stopped)
-        
+
         if not self.leftpressedonce:
             return
         # This can happen if you go into the main menu. Pressing the resume
@@ -203,10 +198,25 @@ class AbilityTarget(AbilityBase):
         
     def OnRightMouseButtonPressed(self):
         """ Returns True to prevent default right mouse pressed behavior. """
+        def ControlledUnitRightPressed():
+            player.CAM_ToFirstPerson()
+            self.oldfov = player.GetFOV()
+            player.SetFOV(60)
+            return
+
+        if self.IsUnitControlled():
+            ControlledUnitLeftPressed()
+
         return True    
  
     def OnRightMouseButtonReleased(self):
         """ Cancels the ability if cancelonrightrelease is True/ """
+
+        if self.IsUnitControlled():
+            player.CAM_ToThirdPersonShoulder()
+            player.CAM_SetFOV(self.oldfov)
+            ControlledUnitLeftPressed()
+
         if isserver and self.cancelonrightrelease:
             self.Cancel(debugmsg='right mouse button released')
         return True  

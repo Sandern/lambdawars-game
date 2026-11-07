@@ -19,6 +19,8 @@ class AbilityControlUnit(AbilityTarget):
                 self.Cancel()
                 return
             self.player.SetControlledUnit(ent)
-            engine.ClientCommand(self.player, 'thirdpersonshoulder')
+            engine.ClientCommand(self.player, "c_thirdpersonshoulderoffset %s" % (ent.unitinfo.shoulder_offset))
+            engine.ClientCommand(self.player, "c_thirdpersonshoulderaimdist %s" % (ent.unitinfo.shoulder_aimdist))
+            engine.ClientCommand(self.player, "c_thirdpersonshoulderheight %s" % (ent.unitinfo.shoulder_height))
             self.Completed()    
         

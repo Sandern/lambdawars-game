@@ -254,6 +254,11 @@ class RebelShared(UnitInfo):
     cantakecover = True
     sai_hint = set(['sai_unit_combat'])
 
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
+    shoulder_dist = 10.0
+
 
 class RebelScoutInfo(RebelShared):
     name = 'unit_rebel_scout'

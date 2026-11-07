@@ -328,6 +328,8 @@ class CombineSharedInfo(UnitInfo):
     shoulder_height = 5.0
     shoulder_aimdist = 400.0
     shoulder_offset = 20.0
+    shoulder_dist = 10.0
+
 
 class MechanicsCombine_Tier6(AbilityUpgradeValue): #TODO: replace with T1 upgrade
     name = 'mechanicscombine_tier_6'
