@@ -923,9 +923,22 @@ class VortigauntInfo(UnitInfo):
         9 : 'holdposition',
         10 : 'patrol',
     }
+    abilitiesfps = {
+        0: 'vortattack',
+        1: 'dispel',
+        2: 'inwardfocus',
+        4: 'bugbait',
+        5: 'bugbaitrecall',
+        6: 'larvalextract',
+    }
     attacks = VortAttack
     sai_hint = set(['sai_unit_combat'])
     infest_zombietype = ''
+
+    shoulder_height = 5.0
+    shoulder_aimdist = 400.0
+    shoulder_offset = 20.0
+    shoulder_dist = 10.0
     
 class OverrunVortigauntInfo(VortigauntInfo):
     name = 'overrun_unit_vortigaunt'
@@ -945,5 +958,11 @@ class OverrunVortigauntInfo(VortigauntInfo):
         9 : 'holdposition',
         10 : 'patrol',
     }
-    
-    
+    abilitiesfps = {
+        0: 'vortattack',
+        1: 'dispel',
+        2: 'inwardfocus',
+        4: 'bugbait',
+        5: 'bugbaitrecall',
+        6: 'overrun_larvalextract',
+    }

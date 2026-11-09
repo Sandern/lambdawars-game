@@ -54,10 +54,12 @@ class AbilityMenuBase(AbilityBase):
     def Init(self):
         super().Init()
         
-        try:
-            self.player.hudabilitiesmap.append(self.abilities)
-        except AttributeError:
-            self.player.hudabilitiesmap = [self.abilities]
+        for attr in ('hudabilitiesmap', 'hudabilitiesfpsmap'):
+            mapped = getattr(self.player, attr, None)
+            if mapped is None:
+                mapped = []
+                setattr(self.player, attr, mapped)
+            mapped.append(self.abilities)
 
         SendAbilityMenuChanged()
         
@@ -85,10 +87,11 @@ class AbilityMenuUp(AbilityBase):
     def Init(self):
         super().Init()
         
-        try:
-            self.player.hudabilitiesmap.pop()
-        except AttributeError:
-            pass
+        for mapped in [self.player.hudabilitiesmap, self.player.hudabilitiesfpsmap]:
+            try:
+                mapped.pop()
+            except (AttributeError, IndexError):
+                pass
             
         SendAbilityMenuChanged()
     

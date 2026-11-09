@@ -2,12 +2,13 @@ from srcbase import HIDEHUD_STRATEGIC, Color
 from vgui import CHudElement, GetClientMode, scheme, XRES, YRES, HudIcons, surface, AddTickSignal, GetAnimationController
 from vgui.controls import Panel
 from core.hud import HudInfo
+from entities import C_HL2WarsPlayer
 
 # Hud default main parts
 from core.hud import AbilityHudInfo
 
 from .warshud import (HudMinimapSection, HudPopulationAndResourceSection, HudAbilitiesSection,
-                     HudUnitsSection, HudGroups)
+                     HudAbilitiesFPSSection, HudUnitsSection, HudGroups)
 
 class HudCombineMinimapSection(HudMinimapSection):
     backgroundtexture = 'hud_combine_minimap'
@@ -33,6 +34,9 @@ class HudCombineAbilitiesSection(HudAbilitiesSection):
     bottommargin = 10
     leftmargin = 15
     rightmargin = 5
+
+class HudCombineAbilitiesFPSSection(HudAbilitiesFPSSection):
+    pass
     
 class HudCombineUnitsSection(HudUnitsSection):
     backgroundtexture = 'hud_combine_units'
@@ -73,6 +77,7 @@ class HudCombine(CHudElement, Panel):
         self.abilities = HudCombineAbilitiesSection(viewport, self.infobox, self.config)
         self.units = HudCombineUnitsSection(viewport, self.infobox, self.config)
         self.groups = HudGroups(viewport, self.config)
+        self.abilities_fps = HudCombineAbilitiesFPSSection(viewport, self.infobox, self.config)
         
         self.groups.buttontexture = 'hud_combine_groupbutton'
         
@@ -85,6 +90,7 @@ class HudCombine(CHudElement, Panel):
             'abilities' : self.abilities,
             'units' : self.units,
             'groups' : self.groups,
+            'abilities_fps' : self.abilities_fps,
         }
         
     def UpdateOnDelete(self):
@@ -130,6 +136,16 @@ class HudCombine(CHudElement, Panel):
                      scheme().GetProportionalScaledValueEx(self.GetScheme(), 480-141+1))
         self.abilities.SetSize(abilitieswide,
                      scheme().GetProportionalScaledValueEx(self.GetScheme(), 141))
+
+        cell = 32
+        fpswide = scheme().GetProportionalScaledValueEx(self.GetScheme(), 200)
+        fpstall = scheme().GetProportionalScaledValueEx(self.GetScheme(), 2 * cell)
+        barmargin = scheme().GetProportionalScaledValueEx(self.GetScheme(), 20)
+        barheight = scheme().GetProportionalScaledValueEx(self.GetScheme(), 32)
+        gap = scheme().GetProportionalScaledValueEx(self.GetScheme(), 2)
+        self.abilities_fps.SetSize(fpswide, fpstall)
+        self.abilities_fps.SetPos(self.screenwidth - fpswide - barmargin,
+                    self.screenheight - barheight - barmargin - fpstall - gap)
 
         if self.aspect > 1.7:
             # 16:9
@@ -182,9 +198,19 @@ class HudCombine(CHudElement, Panel):
         
     def SetVisible(self, visible):
         super(HudCombine, self).SetVisible(visible)
+        player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
+        controlling = bool(player and player.GetControlledUnit())
         for name, panel in self.subpanels.items():
-            if panel and name not in ['infobox']:
-                panel.SetVisible(visible)
+            if not panel or name in ['infobox']:
+                continue
+            if name in ['minimapsection', 'populationandresource']:
+                panel.SetVisible(visible or controlling)
+                continue
+            # Draw only when controlling a unit
+            if name == 'abilities_fps':
+                panel.SetVisible(controlling)
+                continue
+            panel.SetVisible(visible)
                 
     subpanels = {}
         

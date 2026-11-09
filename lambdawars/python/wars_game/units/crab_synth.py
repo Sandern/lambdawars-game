@@ -230,6 +230,8 @@ class UnitCrabSynth(BaseClass):
     repairable = True
     constructors = SetField(networked=True, save=False)
     constructability = 'combine_repair'
+
+
 class CrabSynthInfo(UnitInfo):
     name = 'unit_crab_synth'
     cls_name = 'unit_crab_synth'
@@ -263,6 +265,7 @@ class CrabSynthInfo(UnitInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {}
     class AttackRange(UnitInfo.AttackRange):
         cone = 0.7
         damage = 20.0
@@ -271,6 +274,8 @@ class CrabSynthInfo(UnitInfo):
         maxrange = 768.0
     attacks = ['AttackRange']
     sai_hint = set(['sai_unit_combat'])
+
+
 class OverrunCrabSynthInfo(CrabSynthInfo):
 	name = 'overrun_unit_crab_synth'
 	costs = [('kills', 40)]

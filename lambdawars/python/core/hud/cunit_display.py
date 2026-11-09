@@ -5,7 +5,7 @@ status information for the unit currently being directly controlled by the
 player.
 """
 from srcbase import Color, HIDEHUD_UNIT
-from vgui import CHudElement, scheme, GetClientMode, CHudElementHelper, surface
+from vgui import CHudElement, scheme, GetClientMode, CHudElementHelper, surface, FontDrawType_t
 from vgui.controls import Panel
 from utils import UTIL_EntitiesInSphere, ScreenWidth, ScreenHeight
 from entities import C_HL2WarsPlayer
@@ -39,14 +39,19 @@ class HudUnitDisplayHealth(CHudElement, Panel):
     def UpdateOnDelete(self):
         playercontrolunit.disconnect(self.OnPlayerControlUnit)
         playerleftcontrolunit.disconnect(self.OnPlayerLeftControlUnit)
-        
+
+    def ApplySchemeSettings(self, schemeobj):
+        super().ApplySchemeSettings(schemeobj)
+        self.hfontsmall = schemeobj.GetFont("DefaultSmall")
+
     def PerformLayout(self):
         super().PerformLayout()
-        
-        self.SetSize( scheme().GetProportionalScaledValueEx( self.GetScheme(), 200 ),
-                scheme().GetProportionalScaledValueEx( self.GetScheme(), 30 ) )
-        self.SetPos( scheme().GetProportionalScaledValueEx( self.GetScheme(), 20 ),
-                scheme().GetProportionalScaledValueEx( self.GetScheme(), 420 ) )
+        schemeobj = scheme()
+        width = schemeobj.GetProportionalScaledValueEx(self.GetScheme(), 200)
+        height = schemeobj.GetProportionalScaledValueEx(self.GetScheme(), 32)
+        margin = schemeobj.GetProportionalScaledValueEx(self.GetScheme(), 20)
+        self.SetSize(width, height)
+        self.SetPos(ScreenWidth() - width - margin, ScreenHeight() - height - margin)
                 
     def OnPlayerControlUnit(self, player, unit, **kwargs):
         if player != C_HL2WarsPlayer.GetLocalHL2WarsPlayer():
@@ -67,6 +72,8 @@ class HudUnitDisplayHealth(CHudElement, Panel):
             return
         self.SetPaintEnabled(False)
         input().CAM_ToThirdPerson()
+        player.ClearSelection(False)
+        engine.ServerCommand("player_clearselection")
         player.MakeSelection(self.selections)
         unit.UpdateVisibility()
         self.controlledunit = None
@@ -76,29 +83,49 @@ class HudUnitDisplayHealth(CHudElement, Panel):
         super().Paint()
 
         unit = self.controlledunit
-        if not unit:
+        if not unit or not getattr(self, 'hfontsmall', None):
             return
 
         width, tall = self.GetSize()
-        # bar value template
-        bar = scheme().GetProportionalScaledValueEx(self.GetScheme(), 30)
-        left = int(w_health*width)
+        bar = scheme().GetProportionalScaledValueEx(self.GetScheme(), 16)
+        s = surface()
 
         # Draw both hp and energy bars
         # TODO: maybe in a better way?
         maxhealth = max(1, max(unit.maxhealth, unit.health))
         healthweight = float(unit.health) / maxhealth
-        surface().DrawSetColor(Color(255 - int(healthweight * 255), int(healthweight * 255), 0, 255))
-        surface().DrawFilledRect(0, 0, int(healthweight * width), bar)
-        surface().DrawSetColor(Color(255, 255, 255, 255))
-        surface().DrawOutlinedRect(0, 0, width, bar)
-        
+        s.DrawSetColor(Color(
+            255 - int(healthweight * 255), 
+            int(healthweight * 168), 
+            int(healthweight * 60), 
+            255 - int(healthweight * 128)
+            ))
+        s.DrawFilledRect(0, 0, int(healthweight * width), bar)
+        s.DrawSetColor(Color(255, 255, 255, 255))
+        s.DrawOutlinedRect(0, 0, width, bar)
+        self.DrawBarText('%d / %d' % (unit.health, unit.maxhealth), 0, bar, width)
+
         if unit.maxenergy > 0:
             y = bar + 4
-            energyweight = float(unit.energy) / unit.maxenergy
-            surface().DrawSetColor(Color(0, 80, 255, 255))
-            surface().DrawFilledRect(0, y, int(energyweight * width), y + bar)
-            surface().DrawSetColor(Color(255, 255, 255, 255))
-            surface().DrawOutlinedRect(0, y, width, y + bar)      
+            maxenergy = max(1, max(unit.maxenergy, unit.energy))
+            energyweight = float(unit.energy) / maxenergy
+            s.DrawSetColor(Color(
+                0, 
+                int(energyweight * 80), 
+                int(energyweight * 255), 
+                255 - int(energyweight * 64)
+                ))
+            s.DrawFilledRect(0, y, int(energyweight * width), y + bar - 2)
+            s.DrawSetColor(Color(255, 255, 255, 255))
+            s.DrawOutlinedRect(0, y, width, y + bar - 2)
+            self.DrawBarText('%d / %d' % (unit.energy, unit.maxenergy), y, bar - 2, width)
+
+    def DrawBarText(self, text, y, bar, width):
+        s = surface()
+        wide, texttall = s.GetTextSize(self.hfontsmall, text)
+        s.DrawSetTextFont(self.hfontsmall)
+        s.DrawSetTextColor(Color(255, 255, 255, 255))
+        s.DrawSetTextPos(int((width - wide) / 2), int(y + (bar - texttall) / 2))
+        s.DrawUnicodeString(text, FontDrawType_t.FONT_DRAW_DEFAULT) 
 
 hudunitdisplayhealth = CHudElementHelper( HudUnitDisplayHealth() )

@@ -258,6 +258,24 @@ class BaseHudAbilities(Panel):
                 return True
         return False
         
+    def GetAbilitiesMap(self, player, unitinfo):
+        """Return the slot map this panel should draw and cast from.
+
+        The control bar reads ``abilitiesfps``. An empty map stays empty.
+        An open submenu replaces the unit map for that panel's own stack.
+        """
+        if self.usefpsmap:
+            stack = getattr(player, 'hudabilitiesfpsmap', None)
+            if stack:
+                return stack[-1]
+            fpsmap = getattr(unitinfo, 'abilitiesfps', None)
+            return fpsmap if fpsmap is not None else {}
+
+        stack = getattr(player, 'hudabilitiesmap', None)
+        if stack:
+            return stack[-1]
+        return unitinfo.abilities
+
     def RefreshSlots(self):
         """Refresh all ability slots with current selection state.
         
@@ -275,15 +293,18 @@ class BaseHudAbilities(Panel):
         unit = units[0] if units else None #player.GetUnit(self.hlmin) if self.hlmin >= 0 else None
         self.activeownernumber = player.GetOwnerNumber()
 
-        # Hide everything if there is no unit type or if we selected another player's unit
-        if not self.activeunitinfo or not unit or not unit.CanPlayerControlUnit(player):
+        # Hide everything if there is no unit type, the entity is not a Python
+        # unit, or the player does not control it. A raw C_UnitBase has the
+        # C++ getters but not CanPlayerControlUnit.
+        controllable = getattr(unit, 'CanPlayerControlUnit', None) if unit else None
+        if not self.activeunitinfo or not unit or not controllable or not controllable(player):
             for slot in self.slots:
                 slot.SetVisible(False)
                 slot.info = None
             return
             
         # Retrieve the active hud abilities map
-        abilitiesmap = player.hudabilitiesmap[-1] if getattr(player, 'hudabilitiesmap', None) else self.activeunitinfo.abilities
+        abilitiesmap = self.GetAbilitiesMap(player, self.activeunitinfo)
             
         # Set abilities
         for i, slot in enumerate(self.slots):
@@ -375,8 +396,11 @@ class BaseHudAbilities(Panel):
         slot = int(splitted[1])
         
         # Retrieve the active hud abilities map
-        abilitiesmap = player.hudabilitiesmap[-1] if getattr(player, 'hudabilitiesmap', None) else unitinfo.abilities
-        info = unitinfo.GetAbilityInfo(abilitiesmap[slot], unit.GetOwnerNumber())
+        abilitiesmap = self.GetAbilitiesMap(player, unitinfo)
+        try:
+            info = unitinfo.GetAbilityInfo(abilitiesmap[slot], unit.GetOwnerNumber())
+        except KeyError:
+            return
 
         if splitted[0] == 'abilityslot':
             ClientDoAbility(player, info, unitinfo.name)
@@ -401,11 +425,13 @@ class BaseHudAbilities(Panel):
             if player.GetSelectedUnitType():
                 player.SetSelectedUnitType(None)
             player.hudabilitiesmap = []
+            player.hudabilitiesfpsmap = []
             SendAbilityMenuChanged()
         else:
             if player.GetSelectedUnitType() != player.GetUnit(0).GetUnitType():
                 player.SetSelectedUnitType(player.GetUnit(0).GetUnitType())
                 player.hudabilitiesmap = []
+                player.hudabilitiesfpsmap = []
                 SendAbilityMenuChanged()
         
         self.RefreshSlots()
@@ -434,6 +460,7 @@ class BaseHudAbilities(Panel):
     
     nslotsx = 4
     nslotsy = 3
+    usefpsmap = False
     
     activeunitinfo = None
     activeownernumber = None

@@ -417,7 +417,10 @@ class DogInfo(UnitInfo):
         9: 'holdposition',
         10: 'patrol',
     }
-    
+    abilitiesfps = {
+        0: 'slamground',
+        1: 'dogjump'
+    }
     shoulder_height = 30.0
     shoulder_aimdist = 400.0
     shoulder_offset = 40.0
@@ -430,10 +433,12 @@ class DogInfo(UnitInfo):
         maxrange = 90
     attacks = 'AttackMelee'
     sai_hint = set(['sai_unit_combat', 'sai_unit_super'])
-	
+
+
 class DestroyHQDogInfo(DogInfo):
     name = 'destroyhq_unit_dog'
     techrequirements = ['build_reb_munitiondepot_destroyhq', 'build_reb_vortigauntden_destroyhq']
+
 
 class DogUnlock(AbilityUpgrade):
     name = 'dog_unlock'
@@ -444,6 +449,8 @@ class DogUnlock(AbilityUpgrade):
     buildtime = 120.0
     costs = [[('requisition', 180), ('scrap', 180)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
+
+
 class DogHPUpgrade(AbilityUpgradeValue): 
     name = 'dog_hp_upgrade'
     displayname = '#DogHPUpgrade_Name'
@@ -453,6 +460,7 @@ class DogHPUpgrade(AbilityUpgradeValue):
     upgradevalue = 3000
     image_name = 'vgui/rebels/abilities/dog_hp_upgrade'
     techrequirements = ['or_tier3_research']
+
 
 class OverrunDogInfo(DogInfo):
     #Dog is very tanky in overrun. Having him in overrun isn't half-bad for that purpose. Goal: need to make him be spawnable with a cooldown. Ability that spawns dog as an output with cooldown?
@@ -469,6 +477,13 @@ class OverrunDogInfo(DogInfo):
         0: 'slamground',
         1: 'dogjump',
         #2: 'dogcharge',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'slamground',
+        1: 'dogjump',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',

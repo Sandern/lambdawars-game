@@ -159,7 +159,9 @@ class ZombineInfo(BaseZombieInfo):
         9 : 'holdposition',
         10 : 'patrol',
     }
-    
+    abilitiesfps = {
+        0: 'pullgrenade'
+    }
     class AttackMelee(BaseZombieInfo.AttackMelee):
         maxrange = 55.0
         damage = 125

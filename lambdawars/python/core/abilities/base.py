@@ -136,6 +136,7 @@ class AbilityBase(AbilityInfo):
         """
         # Clear any sub menu
         self.player.hudabilitiesmap = []
+        self.player.hudabilitiesfpsmap = []
         SendAbilityMenuChanged()
                 
     def Init(self):

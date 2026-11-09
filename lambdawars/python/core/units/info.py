@@ -130,15 +130,19 @@ class AbilitiesDictField(DictField):
         """
         self.default = dict(self.default)
 
-        for i in range(0, 12):
-            abi_slot = 'ability_%d' % i
-            if hasattr(cls, abi_slot):
-                # None can be used to delete an ability from the parent unit definition
-                abi_name = getattr(cls, abi_slot)
-                if abi_name is not None:
-                    self.default[i] = abi_name
-                elif i in self.default:
-                    del self.default[i]
+        # ability_0 .. ability_11 belong to the RTS map only. Applying them to
+        # abilitiesfps puts hold position, patrol, and attack move back on the
+        # control bar for units that never defined abilitiesfps.
+        if name == 'abilities':
+            for i in range(0, 12):
+                abi_slot = 'ability_%d' % i
+                if hasattr(cls, abi_slot):
+                    # None can be used to delete an ability from the parent unit definition
+                    abi_name = getattr(cls, abi_slot)
+                    if abi_name is not None:
+                        self.default[i] = abi_name
+                    elif i in self.default:
+                        del self.default[i]
 
         return super().Parse(cls, name)
 
@@ -334,6 +338,8 @@ class UnitInfo(AbilityTargetGroup, metaclass=UnitInfoMetaClass):
     resource_category = 'army'
     #: Dictionary of abilities.
     abilities = AbilitiesDictField(value={})
+    #: Same as above, but for first-person/3PP control for hud purposes. Only relevant abilities are shown.
+    abilitiesfps = AbilitiesDictField(value={})
     #: Amount of population this unit takes.
     population = IntegerField(value=1)
     #: Dictionary of keyvalues inserted before spawning the unit entity class.
@@ -461,6 +467,11 @@ class UnitInfo(AbilityTargetGroup, metaclass=UnitInfoMetaClass):
     minimaphalftall = 1
     # Minimap layer. Lower layers are drawn before higher layers
     minimaplayer = 0
+    # 3PP shoulder camera settings
+    shoulder_height = FloatField(value=5.0)
+    shoulder_aimdist = FloatField(value=400.0)
+    shoulder_offset = FloatField(value=20.0)
+    shoulder_dist = FloatField(value=10.0)
     
     # Strategic AI settings
     #: Hints for strategic AI (e.g. unit is a builder). Default is combat unit.
@@ -770,7 +781,7 @@ class UnitFallBackInfo(UnitInfo):
     sai_hint = set()
 
 
-def CreateUnitNoSpawn(name, owner_number=0):
+def CreateUnitNoSpawn(name, owner_number=0, steamIdOwner=None):
     """ Creates an unit without spawning the unit into the world.
     
         Use this method in case you want to control the spawning process yourself.
@@ -800,7 +811,10 @@ def CreateUnitNoSpawn(name, owner_number=0):
         unit.KeyValue(k, v)
     unit.SetOwnerNumber(owner_number)
     unit.SetUnitType(name)
+    if steamIdOwner:  # TODO: pass in a steam ID lock in hl2wars_player.cpp
+        unit.SetSteamID(steamIdOwner)
     return unit
+
 
 def CreateUnit(name, position=vec3_origin, angles=None, owner_number=0, keyvalues=None, fnprespawn=None):
     """ Creates an unit at the specified position.
@@ -886,6 +900,64 @@ def CreateUnitFancy(name, position, owner_number=0, startradius=0, maxradius=Non
     if not info.success:
         unit.Remove()
         PrintWarning('CreateUnitFancy: failed to place unit\n')
+        return
+    position = info.position
+    unit.SetAbsOrigin(position) 
+    DispatchSpawn(unit)
+    unit.Activate() 
+    if unit.unitinfo.oncreatedroptofloor:
+        unit.SetAbsOrigin(unit.GetAbsOrigin() + Vector(0,0,64)) # Must float above the ground a bit, otherwise we might fall through the ground
+        UTIL_DropToFloor(unit, MASK_NPCSOLID_BRUSHONLY)
+    if unitinfo.zoffset:
+        unit.SetAbsOrigin(unit.GetAbsOrigin()+Vector(0,0,unit.unitinfo.zoffset))
+    return unit
+
+
+def CreateUnitFancySteamIdLock(name, position, owner_number=0, startradius=0, maxradius=None, angles=None, keyvalues=None, fnprespawn=None, steamId=None):
+    """ Same as CreateUnitFancy, but ties this specific unit to an FPS player.
+
+        The use is intended for Frontline gamerules.
+
+        Args:
+            name (str): Unit name (i.e. UnitInfo.name)
+            position (Vector): Position around which the unit will be spawned
+            steamId (str): SteamID of the player that this unit is directly tied to
+            
+        Kwargs:
+            owner_number (int): The owner of the unit
+            startradius (float): Start search radius for placing the unit around the position
+            maxradius (float): The max radius from position at which the unit can be spawned
+            angles (QAngle): The spawning angle of the unit. When None, the unit is spawned at 
+                             a random angle.
+            keyvalues (KeyValues): Optional KeyValues to be applied to the unit
+            fnprespawn (method): Optional method to be called before spawning the unit
+    """
+    if not angles:
+        angles = QAngle(0, 0, 0)
+        angles.y = random.uniform(0, 360)
+    unit = CreateUnitNoSpawn(name, owner_number)
+    if not unit:
+        return
+    if keyvalues:
+        for k, v in keyvalues.items():
+            unit.KeyValue(k, v)
+    if fnprespawn:
+        fnprespawn(unit)
+    unitinfo = unit.unitinfo
+    if unitinfo.requirerotation: unit.SetAbsAngles(angles)
+    position = Vector(position)
+    if unitinfo.placeatmins:
+        position.z += -unitinfo.mins.z + unitinfo.zoffset
+        mins = unitinfo.mins
+        maxs = unitinfo.maxs
+    else:
+        position.z += unitinfo.zoffset
+        mins = Vector(unitinfo.mins.x, unitinfo.mins.y, 0)
+        maxs = unitinfo.maxs
+    info = UTIL_FindPosition(FindPositionInfo(position, mins, maxs, startradius, maxradius, ignore=unit))
+    if not info.success:
+        unit.Remove()
+        PrintWarning('CreateUnitFancySteamIdLock: failed to place unit\n')
         return
     position = info.position
     unit.SetAbsOrigin(position) 

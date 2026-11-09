@@ -71,7 +71,7 @@ class UnitCombine(BaseClass):
                 return False
                 
             return True
-                
+
         class CombineThrowGrenade(TossGrenadeAnimEventHandler):
             def HandleEvent(self, unit, event):
                 abi = unit.grenadeability
@@ -254,6 +254,7 @@ class UnitCombine(BaseClass):
     buildtime = UpgradeField(abilityname='armycombine_tier_3', cppimplemented=True)
     energyballupgraded = UpgradeField(value=False, abilityname='combineball_upgrade')
 
+
 @entity('unit_combinesniper', networked=True)
 class UnitCombineSniper(UnitCombine):
     canshootmove = False
@@ -270,6 +271,7 @@ class UnitCombineSniper(UnitCombine):
                 def OnNewOrder(self, order):
                     if order.type == order.ORDER_ENEMY:
                         return self.SuspendFor(self.behavior.ActionHideSpotAttack, 'Attacking enemy on order from cover/hold spot', order.target)
+
 
 @entity('unit_combineheavy', networked=True)
 class UnitCombineHeavy(UnitCombine):
@@ -314,7 +316,8 @@ class UnitCombineHeavy(UnitCombine):
             super().Precache()
             
             self.PrecacheScriptSound( "combine_heavy_shield" )
-            
+
+
 # Register unit
 class CombineSharedInfo(UnitInfo):
     cls_name = 'unit_combine'
@@ -339,6 +342,8 @@ class MechanicsCombine_Tier6(AbilityUpgradeValue): #TODO: replace with T1 upgrad
     costs = [('requisition', 30), ('power', 30)]
     upgradevalue = 240
     image_name = 'vgui/combine/abilities/combine_upgrade_tier_mid'
+
+
 class CombineHPUpgrade(AbilityUpgradeValue): 
     name = 'combine_hp_upgrade'
     displayname = '#CombineHPUpgrade_Name'
@@ -358,11 +363,13 @@ class CombineHPUpgrade(AbilityUpgradeValue):
                 continue
             unit.ApplyHealthUpgrades()
 
+
 class ArmyCombine_Tier3(AbilityUpgradeValue):
     name = 'armycombine_tier_3'
     displayname = '#ArmyCombine_Tier_3_Name'
     description = '#ARmyCombine_Tier_3_Description'
     upgradevalue = 20
+
 
 @entity('unit_combine_grenade_upgrade', networked=True)
 class UnitCombineGrenadeUpgradeShared(UnitCombine):
@@ -378,6 +385,7 @@ class UnitCombineGrenadeUpgradeShared(UnitCombine):
         
     grenadeUnlocked = BooleanField(value=False, networked=True, clientchangecallback='OnGrenadeUnlockedChanged')
     buildtime = UpgradeField(abilityname='armycombine_tier_3', cppimplemented=True) #TODO: 'buildtime' doesn't work with UpgradeField?
+
 
 class CombineInfo(CombineSharedInfo):
     name = 'unit_combine'
@@ -410,7 +418,14 @@ class CombineInfo(CombineSharedInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'grenade_combine',
+        2: 'combine_transform_sg',
+        3: 'combine_transform_ar2',
+        4: 'mountturret',
+    }
     weapons = ['weapon_smg1']
+
 
 class UnlockCombTierMiddle(AbilityUpgrade):
     name = 'combine_upgrade_tier_mid'
@@ -418,6 +433,7 @@ class UnlockCombTierMiddle(AbilityUpgrade):
     description = '#CombUpTierMid_Description'
     buildtime = 60.0
     costs = [('requisition', 40), ('power', 10)]
+
 
 class CombineSGInfo(CombineInfo):
     name = 'unit_combine_sg'
@@ -446,7 +462,12 @@ class CombineSGInfo(CombineInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'grenade_combine',
+        4: 'mountturret',
+    }
     weapons = ['weapon_shotgun']
+
 
 class CombineAR2Info(CombineInfo):
     name = 'unit_combine_ar2'
@@ -478,7 +499,12 @@ class CombineAR2Info(CombineInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'grenade_combine',
+        4: 'mountturret',
+    }
     weapons = ['weapon_ar2']
+
 
 class CombineEliteUnlock(AbilityUpgrade):
     name = 'combine_elite_unlock'
@@ -487,6 +513,7 @@ class CombineEliteUnlock(AbilityUpgrade):
     image_name = "vgui/combine/abilities/combine_elite_unlock"
     buildtime = 95.0
     costs = [[('requisition', 50)], [('kills', 5)]]
+
 
 class CombineEliteInfo(CombineSharedInfo):
     name = 'unit_combine_elite'
@@ -518,9 +545,16 @@ class CombineEliteInfo(CombineSharedInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'combineball',
+        2: 'weaponswitch_ar2',
+        3: 'weaponswitch_shotgun',
+        4: 'mountturret',
+    }
     weapons = ['weapon_shotgun', 'weapon_ar2']
     #accuracy = 'medium'
     population = 2
+
 
 class CombineHeavyInfo(CombineSharedInfo):
     name = 'unit_combine_heavy'
@@ -555,6 +589,9 @@ class CombineHeavyInfo(CombineSharedInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'stungrenade'
+    }
     weapons = ['weapon_pulse_shotgun']
     #accuracy = 'medium'
     population = 2	
@@ -567,6 +604,7 @@ class CombineSniperUnlock(AbilityUpgrade):
     image_name = 'vgui/combine/abilities/combine_sniper_unlock'
     buildtime = 95.0
     costs = [[('requisition', 40)], [('kills', 4)]]
+
 
 class CombineSniperInfo(CombineSharedInfo):
     name = 'unit_combine_sniper'
@@ -600,11 +638,18 @@ class CombineSniperInfo(CombineSharedInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'marksmanshot',
+        1: 'infiltrate_comb_sniper',
+        2: 'steadyposition',
+        4: 'mountturret',
+    }
     weapons = ['weapon_sniperrifle']
     #accuracy = 'high'
     population = 2
     cantakecover = True
     sniperenemy = False
+
 
 # OVERRUN VERSIONS
 class OverrunCombineInfo(CombineInfo):
@@ -622,6 +667,11 @@ class OverrunCombineInfo(CombineInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
+    }
+
 
 class OverrunCombineSGInfo(CombineSGInfo):
     name = 'overrun_unit_combine_sg'
@@ -638,6 +688,11 @@ class OverrunCombineSGInfo(CombineSGInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
+    }
+
 
 class OverrunCombineAR2Info(CombineAR2Info):
     name = 'overrun_unit_combine_ar2'
@@ -654,6 +709,11 @@ class OverrunCombineAR2Info(CombineAR2Info):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
+    }
+
 
 class OverrunCombineHeavyInfo(CombineHeavyInfo):
     name = 'overrun_unit_combine_heavy'
@@ -668,7 +728,13 @@ class OverrunCombineHeavyInfo(CombineHeavyInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_stungrenade',
+        4: 'mountturret'
+    }
     buildtime = 0
+
+
 class OverrunCombineEliteInfo(CombineEliteInfo):
     name = 'overrun_unit_combine_elite'
     costs = [('kills', 20)]
@@ -686,6 +752,13 @@ class OverrunCombineEliteInfo(CombineEliteInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'combineball_overrun',
+        2: 'weaponswitch_ar2',
+        3: 'weaponswitch_shotgun_overrun',
+        4: 'mountturret',
+    }
+
 
 class OverrunCombineSniperInfo(CombineSniperInfo):
     name = 'overrun_unit_combine_sniper'
@@ -694,10 +767,13 @@ class OverrunCombineSniperInfo(CombineSniperInfo):
     buildtime = 0
     techrequirements = ['or_tier3_research']
     tier = 0
+
+
 class OverrunEnemyCombineSniperInfo(CombineSniperInfo):
     name = 'enemy_unit_combine_sniper'
     sniperenemy = True
-    
+
+
 # Transform abilities combine soldier
 class TransformToCombineSG(AbilityTransformUnit):
     name = 'combine_transform_sg'
@@ -712,6 +788,7 @@ class TransformToCombineSG(AbilityTransformUnit):
     costs = [('power', 5)]
     activatesoundscript = 'ability_combine_shotgun_upgrade'
 
+
 class TransformToCombineAR2(AbilityTransformUnit):
     name = 'combine_transform_ar2'
     displayname = '#CombTransAR2_Name'
@@ -724,6 +801,7 @@ class TransformToCombineAR2(AbilityTransformUnit):
     #techrequirements = ['build_comb_armory']
     costs = [('power', 10)]
     activatesoundscript = 'ability_combine_ar2_upgrade'
+
 
 # Mission Versions
 class MissionCombineInfo(CombineInfo):
@@ -788,6 +866,12 @@ class CharacterCombineSoldier(CombineInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'grenade_soldier',
+        2: 'weaponswitch_ar2_char',
+        3: 'weaponswitch_shotgun_char',
+        4: 'mountturret',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -826,6 +910,10 @@ class CharacterEliteSoldier(CombineEliteInfo):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'combineball_char',
+        4: 'mountturret',
     }
     recharge_other_abilities = {
         'char_combine_soldier',

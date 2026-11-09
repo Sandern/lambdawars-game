@@ -686,6 +686,12 @@ class MetroPoliceInfo(UnitInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'deploymanhack',
+        1: 'floor_turret',
+        2: 'comb_mp_transform_smg1',
+        4: 'mountturret'
+    }
     weapons = ['weapon_pistol']
     useshield = False
     cantakecover = True
@@ -718,6 +724,12 @@ class MetroPoliceSMG1Info(MetroPoliceInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'deploymanhack',
+        1: 'floor_turret',
+        2: 'comb_mp_transform_smg1',
+        4: 'mountturret'
+    }
 
 
 class MetroPoliceRiotInfo(MetroPoliceInfo):
@@ -744,6 +756,12 @@ class MetroPoliceRiotInfo(MetroPoliceInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'defensive_mode',
+        1: 'attack_mode',
+        2: 'riot_station',
+        4: 'mountturret'
+    }
     useshield = True
     cantakecover = False
 
@@ -765,6 +783,12 @@ class OverrunMetroPoliceInfo(MetroPoliceInfo):
         10: 'patrol',
         -2: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_deploymanhack',
+        1: 'overrun_floor_turret',
+        2: 'overrun_combine_mine',
+        4: 'mountturret'
+    }
 
 class MetroPoliceSMG1Info(MetroPoliceSMG1Info):
     name = 'overrun_unit_metropolice_smg1'
@@ -783,6 +807,13 @@ class MetroPoliceSMG1Info(MetroPoliceSMG1Info):
         10: 'patrol',
         -2: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_deploymanhack',
+        1: 'overrun_floor_turret',
+        2: 'overrun_combine_mine',
+        4: 'mountturret'
+    }
+
 
 class OverrunMetroPoliceRiotInfo(MetroPoliceRiotInfo):
     name = 'overrun_unit_metropolice_riot'
@@ -802,6 +833,15 @@ class OverrunMetroPoliceRiotInfo(MetroPoliceRiotInfo):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'overrun_deploymanhack',
+        1: 'overrun_floor_turret',
+        2: 'defensive_mode',
+        3: 'attack_mode',
+        4: 'mountturret',
+        5: 'riot_formation',
+        6: 'riot_station',
     }
 
 
@@ -923,6 +963,13 @@ class CharacterMetroPoliceSupport(MetroPoliceInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'char_deploymanhack',
+        1: 'char_floor_turret',
+        2: 'char_combine_mine',
+        3: 'build_char_comb_regenerationpost',
+        4: 'mountturret',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -938,6 +985,7 @@ class CharacterMetroPoliceSupport(MetroPoliceInfo):
         'char_rebel_soldier',
     }
     rechargetime = 180.0
+
 
 class CharacterMetroPoliceScout(MetroPoliceSMG1Info):
     name = 'char_metropolice_scout'
@@ -962,6 +1010,11 @@ class CharacterMetroPoliceScout(MetroPoliceSMG1Info):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'deployscanner',
+        1: 'scan_char',
+        4: 'mountturret',
+    }
     weapons = ['weapon_smg1']
     recharge_other_abilities = {
         'char_combine_soldier',
@@ -978,6 +1031,7 @@ class CharacterMetroPoliceScout(MetroPoliceSMG1Info):
         'char_rebel_soldier',
     }
     rechargetime = 180.0
+
 
 class CharacterMetroPoliceTank(MetroPoliceRiotInfo):
     name = 'char_metropolice_tank'
@@ -1004,6 +1058,14 @@ class CharacterMetroPoliceTank(MetroPoliceRiotInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'char_deploymanhack',
+        1: 'char_mp_transform_smg1',
+        2: 'defensive_mode',
+        3: 'attack_mode',
+        4: 'mountturret',
+        5: 'riot_station',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -1021,6 +1083,7 @@ class CharacterMetroPoliceTank(MetroPoliceRiotInfo):
     rechargetime = 180.0
     useshield = True
 
+
 class CharacterMetroPoliceTankSMG(CharacterMetroPoliceTank):
     name = 'char_metropolice_tank_smg1'
     maxspeed = 220
@@ -1035,8 +1098,14 @@ class CharacterMetroPoliceTankSMG(CharacterMetroPoliceTank):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'char_deploymanhack',
+        1: 'char_mp_transform_tank',
+        4: 'mountturret',
+    }
     weapons = ['weapon_smg1']
     useshield = True
+
 
 class TransformToMetropoliceTankSMG1(AbilityTransformUnit):
     name = 'char_mp_transform_smg1'
@@ -1049,6 +1118,7 @@ class TransformToMetropoliceTankSMG1(AbilityTransformUnit):
     costs = []
     image_name = 'vgui/combine/units/unit_metropolice_smg'
     activatesoundscript = 'ability_combine_smg1_upgrade'
+
 
 class TransformToMetropoliceTank(AbilityTransformUnit):
     name = 'char_mp_transform_tank'

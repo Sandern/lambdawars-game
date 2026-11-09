@@ -278,6 +278,10 @@ class UnitBaseShared(object):
         
         # Precache abilities
         self.PrecacheAbilities(info.abilities)
+        fpsabilities = getattr(info, 'abilitiesfps', None) or {}
+        fpsonly = {slot: name for slot, name in fpsabilities.items() if name not in info.abilities.values()}
+        if fpsonly:
+            self.PrecacheAbilities(fpsonly)
             
         for s in self.abilitysounds.values():
             self.PrecacheScriptSound(s)
@@ -525,7 +529,7 @@ class UnitBaseShared(object):
         return DoAbilitySimulated(player, abi_name, unittype=self.GetUnitType(), mouse_inputs=mouse_inputs,
                                   autocasted=autocasted, **kwargs)
                     
-    def UpdateAbilities(self, abilitiesmap=None):
+    def UpdateAbilities(self, abilitiesmap=None, skip_existing=False):
         """ Creates an optimized map of abilities.
         
             The map contains direct references to the abilities, 
@@ -536,13 +540,16 @@ class UnitBaseShared(object):
             
             Kwargs:
                 abilitiesmap (dict): used for recursive building abilities (i.e. sub menus)
+                skip_existing (bool): skip abilities already registered. Used for the
+                    control-mode map so a shared ability is not set up twice.
         """
         if not self.handlesactive:
             return
             
         unitinfo = self.unitinfo
 
-        if not abilitiesmap:
+        top = not abilitiesmap
+        if top:
             abilitiesmap = unitinfo.abilities
             self.abilities = {}
             self.abilitiesbyname = {}
@@ -565,6 +572,9 @@ class UnitBaseShared(object):
                 
             if not info.ShouldShowAbility(self):
                 continue
+
+            if skip_existing and info.name in self.abilitiesbyname:
+                continue
                 
             # Special case. Note that it just inserts all abilities
             # into our map. Sub menus only exist hud technically.
@@ -584,6 +594,11 @@ class UnitBaseShared(object):
                 
             if info.supportsautocast and info.uid not in self.abilitycheckautocast:
                 self.abilitycheckautocast[info.uid] = info.defaultautocast
+
+        if top:
+            fpsmap = getattr(unitinfo, 'abilitiesfps', None) or {}
+            if fpsmap:
+                self.UpdateAbilities(fpsmap, skip_existing=True)
 
         self.UpdateAutocastLists()
         
@@ -1781,6 +1796,11 @@ class UnitBase(UnitBaseShared, BaseClass):
             for origin in extraorigins:
                 filter.AddRecipientsByPVS(origin)
             filter.UsePredictionRules()
+            # That filter keeps players inside the strategic camera frustum.
+            # Add the controller player to the filter so they see the animation.
+            controller = self.controllerplayer
+            if controller:
+                filter.AddRecipient(controller.entindex())
             self.SendEvent(filter, animevent, data)
         self.ReceiveEvent(animevent, data)
 

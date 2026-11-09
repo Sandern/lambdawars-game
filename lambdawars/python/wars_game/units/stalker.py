@@ -562,6 +562,37 @@ class StalkerInfo(StalkerShared):
                        11: 'menuup',
                    }),
     }
+    abilitiesfps = {
+        0: 'construct',
+        1: SubMenu(name='stalker_defensemenu',
+                   displayname='#CombDefenseMenu_Name', description='#CombDefenseMenu_Description', image_name='vgui/abilities/building_defence_menu.vmt',
+                   abilities={
+                       0: 'build_comb_barricade',
+                       1: 'comb_mountableturret',
+                       2: 'build_comb_mortar',
+                       3: 'build_comb_headcrabcanisterlauncher',
+                       4: 'build_comb_shieldgen',
+                       5: 'build_comb_bunker',
+                       6: 'build_comb_regenerationpost',
+                       11: 'menuup',
+                   }),
+        2: SubMenu(name='stalker_menu',
+                   displayname='#CombMenu_Name', description='#CombMenu_Description', image_name='vgui/abilities/building_menu.vmt',
+                   abilities={
+                       0: 'build_comb_hq',
+                       1: 'build_comb_powergenerator',
+                       2: 'build_comb_energycell',
+                       3: 'build_comb_garrison',
+                       4: 'build_comb_armory',
+                       5: 'build_comb_synthfactory',
+                       6: 'build_comb_specialops',
+                       7: 'build_comb_powergenerator_scrap',
+                       8: 'build_comb_mech_factory',
+                       9: 'build_comb_tech_center',
+                       11: 'menuup',
+        }),
+        3: 'combine_repair',
+    }
 
 
 class DestroyHQStalkerInfo(StalkerInfo):
@@ -603,6 +634,37 @@ class DestroyHQStalkerInfo(StalkerInfo):
                        11: 'menuup',
                    }),
     }
+    abilitiesfps = {
+        0: 'construct',
+        1: SubMenu(name='stalker_defensemenu',
+                   displayname='#CombDefenseMenu_Name', description='#CombDefenseMenu_Description', image_name='vgui/abilities/building_defence_menu.vmt',
+                   abilities={
+                       0: 'build_comb_barricade',
+                       1: 'comb_mountableturret',
+                       2: 'build_comb_mortar',
+                       3: 'build_comb_headcrabcanisterlauncher',
+                       4: 'build_comb_shieldgen',
+                       5: 'build_comb_bunker',
+                       6: 'build_comb_regenerationpost',
+                       11: 'menuup',
+                   }),
+        2: SubMenu(name='stalker_menu',
+                   displayname='#CombMenu_Name', description='#CombMenu_Description', image_name='vgui/abilities/building_menu.vmt',
+                   abilities={
+                       0: 'build_comb_hq_destroyhq',
+                       1: 'build_comb_powergenerator',
+                       2: 'build_comb_energycell',
+                       3: 'build_comb_garrison',
+                       4: 'build_comb_armory',
+                       5: 'build_comb_synthfactory',
+                       6: 'build_comb_specialops',
+                       7: 'build_comb_powergenerator_scrap',
+                       8: 'build_comb_mech_factory',
+                       9: 'build_comb_tech_center',
+                       11: 'menuup',
+                   }),
+        0: 'combine_repair',
+    }
 
 
 class StalkerOverrunInfo(StalkerShared):
@@ -632,4 +694,21 @@ class StalkerOverrunInfo(StalkerShared):
         9: 'holdposition',
         10: 'patrol',
         11: 'construct',
+    }
+    abilitiesfps = {
+        0: 'construct',
+        1: SubMenu(name='overrun_stalker_defensemenu',
+                   displayname='#CombDefenseMenu_Name', description='#CombDefenseMenu_Description', image_name='vgui/abilities/building_defence_menu.vmt',
+                   abilities={
+                       0: 'overrun_build_comb_barricade',
+                       1: 'overrun_comb_mountableturret',
+                       2: 'overrun_build_comb_regenerationpost',
+                       3: 'overrun_build_comb_shieldgen',
+                       4: 'overrun_build_comb_bunker',
+                       5: 'overrun_build_comb_mortar',
+                       6: 'overrun_build_comb_headcrabcanisterlauncher',
+                       7: 'overrun_build_comb_armory',
+                       11: 'menuup',
+                   }),
+        2: 'combine_repair',
     }

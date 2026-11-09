@@ -858,8 +858,12 @@ class HudUnitsContainer(Panel):
         # Determine which panel we should show
         if player.CountUnits() == 1:
             unit = player.GetUnit(0)
-            unit.UpdateUnitPanelClass()
-            newunitpanelclass = unit.unitpanelclass
+            updatepanel = getattr(unit, 'UpdateUnitPanelClass', None)
+            if updatepanel:
+                updatepanel()
+                newunitpanelclass = unit.unitpanelclass
+            else:
+                newunitpanelclass = self.defaultunitpanelclass
         else:
             newunitpanelclass = self.defaultunitpanelclass
         

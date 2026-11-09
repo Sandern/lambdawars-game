@@ -286,6 +286,10 @@ class RebelScoutInfo(RebelShared):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'infiltrate_reb_scout',
+        4: 'mountturret',
+    }
     weapons = ['weapon_pistol']
     sai_hint = set(['sai_unit_scout'])
     viewdistance = 1280
@@ -319,6 +323,13 @@ class RebelSaboteurInfo(RebelShared):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'infiltrate',
+        1: 'c4explosive',
+        2: 'sabotage',
+        3: 'destroyhq_rebel_mine',
+        4: 'mountturret',
     }
     weapons = ['weapon_pistol']
     sai_hint = set([])
@@ -360,6 +371,10 @@ class RebelPartisanInfo(RebelShared):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'revolutionaryfervor',
+        4: 'mountturret',
+    }
     weapons = ['weapon_smg1']
     accuracy = 0.5
     # accuracy = 'low'
@@ -395,6 +410,12 @@ class RebelPartisanMolotovInfo(RebelPartisanInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'throwmolotov',
+        1: 'throwstinkbomb',
+        2: 'revolutionaryfervor',
+        4: 'mountturret',
     }
     sai_hint = set(['sai_unit_combat'])
 
@@ -465,6 +486,12 @@ class RebelInfo(RebelShared):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'grenade',
+        2: 'rebel_transform_sg',
+        3: 'rebel_transform_ar2',
+        4: 'mountturret',
+    }
 
 
 class DestroyHQRebelInfo(RebelInfo):
@@ -497,6 +524,10 @@ class RebelW1886Info(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'winchester_alt_fire',
+        1: 'mountturret',
+    }
     attributes = ['medium']
     maxspeed = 218.0
     viewdistance = 1024
@@ -523,7 +554,10 @@ class RebelSGInfo(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
-
+    abilitiesfps = {
+        0: 'grenade',
+        4: 'mountturret'
+    }
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_sg'
     maxspeed = 264.0
@@ -557,6 +591,10 @@ class RebelAR2Info(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'grenade',
+        4: 'mountturret'
+    }
     sensedistance = 1024.0
     attributes = ['medium']
     image_name = 'vgui/rebels/units/unit_rebel_ar2'
@@ -586,6 +624,10 @@ class RebelTauInfo(RebelInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'tau_alt_fire',
+        4: 'mountturret'
     }
     sensedistance = 1152.0
     attributes = ['heavy']
@@ -618,6 +660,10 @@ class RebelHeavyInfo(RebelInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'smokegrenade',
+        4: 'mountturret'
     }
     sensedistance = 1024.0
     attributes = ['heavy']
@@ -653,6 +699,10 @@ class RebelMedicInfo(RebelShared):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'heal',
+        4: 'mountturret'
     }
     weapons = ['weapon_pistol']
 
@@ -733,6 +783,43 @@ class RebelEngineerInfo(RebelShared):
                 11: 'menuup',
             })
     }
+    abilitiesfps = {
+        0: 'construct',
+        1: 'salvage',
+        2: SubMenu(
+            name='engie_defensemenu_fps',
+            displayname='#RebDefenseMenu_Name', description='#RebDefenseMenu_Description',
+            image_name='vgui/abilities/building_defence_menu.vmt',
+            abilities={
+                0: 'build_reb_barricade',
+                1: 'rebels_mountableturret',
+                2: 'build_reb_barreltrap',
+                3: 'build_reb_bunker',
+                4: 'build_reb_aidstation',
+                5: 'build_reb_detectiontower',
+                6: 'build_reb_teleporter',
+                11: 'menuup',
+            }),
+        3: SubMenu(
+            name='engie_menu_fps',
+            displayname='#RebMenu_Name',
+            description='#RebMenu_Description',
+            image_name='vgui/abilities/building_menu.vmt',
+            abilities={
+                0: 'build_reb_hq',
+                1: 'build_reb_billet',
+                2: 'build_reb_junkyard',
+                4: 'build_reb_barracks',
+                5: 'build_reb_specialops',
+                6: 'build_reb_vortigauntden',
+                7: 'build_reb_munitiondepot',
+                8: 'build_reb_triagecenter',
+                9: 'build_reb_techcenter',
+                11: 'menuup',
+            }),
+        4: 'mountturret',
+        5: 'repair_dog',
+    }
     weapons = ['weapon_hammer', 'weapon_pistol']
     sai_hint = set(['sai_unit_builder', 'sai_unit_salvager'])
 
@@ -776,6 +863,43 @@ class DestroyHQRebelEngineerInfo(RebelEngineerInfo):
                 9: 'build_reb_techcenter',
                 11: 'menuup',
             })
+    }
+    abilitiesfps = {
+        0: 'construct',
+        1: 'salvage',
+        2: SubMenu(
+            name='engie_defensemenu_destroyhq_fps',
+            displayname='#RebDefenseMenu_Name', description='#RebDefenseMenu_Description',
+            image_name='vgui/abilities/building_defence_menu.vmt',
+            abilities={
+                0: 'build_reb_barricade',
+                1: 'rebels_mountableturret',
+                2: 'build_reb_barreltrap',
+                3: 'build_reb_bunker',
+                4: 'build_reb_aidstation',
+                5: 'build_reb_detectiontower',
+                6: 'build_reb_teleporter',
+                11: 'menuup',
+            }),
+        3: SubMenu(
+            name='engie_menu_destroyhq_fps',
+            displayname='#RebMenu_Name',
+            description='#RebMenu_Description',
+            image_name='vgui/abilities/building_menu.vmt',
+            abilities={
+                0: 'build_reb_hq_destroyhq',
+                1: 'build_reb_billet',
+                2: 'build_reb_junkyard_destroyhq',
+                4: 'build_reb_barracks',
+                5: 'build_reb_specialops',
+                6: 'build_reb_vortigauntden',
+                7: 'build_reb_munitiondepot',
+                8: 'build_reb_triagecenter',
+                9: 'build_reb_techcenter',
+                11: 'menuup',
+            }),
+        4: 'mountturret',
+        5: 'repair_dog',
     }
 
 
@@ -846,6 +970,9 @@ class RebelRPGInfo(RebelShared):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        4: 'mountturret',
     }
     weapons = ['weapon_rpg']
     sensedistance = 1408.0
@@ -919,6 +1046,14 @@ class RebelVeteran(RebelShared):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'fireexplosivebolt',
+        1: 'smokegrenade',
+        2: 'rebel_steadyposition',
+        3: 'crossbow_attack',
+        4: 'mountturret',
+        -1: 'garrison',
+    }
     weapons = ['weapon_crossbow']
     sensedistance = 1536.0
     # techrequirements = ['rebel_veteran_unlock']
@@ -939,6 +1074,14 @@ class DestroyHQRebelVeteran(RebelVeteran):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+        -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'fireexplosivebolt_destroyhq',
+        1: 'smokegrenade',
+        2: 'rebel_steadyposition',
+        3: 'crossbow_attack',
+        4: 'mountturret',
         -1: 'garrison',
     }
 
@@ -967,6 +1110,10 @@ class RebelFlamer(RebelShared):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'smokegrenade',
+        4: 'mountturret',
     }
     weapons = ['wars_weapon_flamer']
     population = 1
@@ -1128,6 +1275,10 @@ class OverrunRebelInfo(RebelInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
+    }
 
 
 class OverrunRebelSGInfo(RebelSGInfo):
@@ -1144,6 +1295,10 @@ class OverrunRebelSGInfo(RebelSGInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
     }
 
 
@@ -1179,6 +1334,27 @@ class OverrunRebelEngineerInfo(RebelEngineerInfo):
         -1: 'garrison',
         -2: 'construct_floorturret',
     }
+    abilitiesfps = {
+        0: 'construct',
+        1: SubMenu(
+            name='overrun_engie_defensemenu',
+            displayname='#RebDefenseMenu_Name', description='#RebDefenseMenu_Description',
+            image_name='vgui/abilities/building_defence_menu.vmt',
+            abilities={
+                0: 'overrun_build_reb_barricade',
+                1: 'overrun_floor_turret',
+                2: 'overrun_reb_mountableturret',
+                3: 'overrun_build_reb_barreltrap',
+                4: 'overrun_build_reb_bunker',
+                5: 'overrun_build_reb_aidstation',
+                6: 'overrun_build_reb_munitiondepot',
+                7: 'overrun_combine_mine',
+                11: 'menuup',
+            }),
+        4: 'mountturret',
+        -1: 'garrison',
+        -2: 'construct_floorturret',
+    }
 
 
 class OverrunRebelAR2Info(RebelAR2Info):
@@ -1195,6 +1371,10 @@ class OverrunRebelAR2Info(RebelAR2Info):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'overrun_grenade',
+        4: 'mountturret',
     }
 
 
@@ -1218,6 +1398,10 @@ class OverrunRebelScoutInfo(RebelScoutInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'infiltrate',
+        4: 'mountturret',
     }
     # viewdistance = 1152
 
@@ -1245,6 +1429,12 @@ class OverrunRebelSaboteurInfo(RebelSaboteurInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'infiltrate',
+        1: 'overrun_c4explosive',
+        2: 'overrun_combine_mine',
+        4: 'mountturret',
+    }
     viewdistance = 1344
     unitenergy = 200
     unitenergy_initial = -1
@@ -1264,6 +1454,9 @@ class OverrunRebelFlamerInfo(RebelFlamer):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        4: 'mountturret',
+    }
 
 
 class OverrunRebelMedicInfo(RebelMedicInfo):
@@ -1280,6 +1473,10 @@ class OverrunRebelMedicInfo(RebelMedicInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        0: 'heal',
+        4: 'mountturret',
     }
 
 
@@ -1305,6 +1502,10 @@ class OverrunRebelTauInfo(RebelTauInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'overrun_tau_alt_fire',
+        4: 'mountturret',
+    }
     buildtime = 0
 
 
@@ -1327,6 +1528,9 @@ class OverrunRebelHeavyInfo(RebelHeavyInfo):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
+    }
+    abilitiesfps = {
+        4: 'mountturret',
     }
     buildtime = 0
 
@@ -1357,7 +1561,13 @@ class OverrunRebelVeteranInfo(RebelVeteran):
         9: 'holdposition',
         10: 'patrol',
         -1: 'garrison',
-
+    }
+    abilitiesfps = {
+        0: 'fireexplosivebolt_overrun',
+        1: 'smokegrenade',
+        2: 'rebel_steadyposition',
+        3: 'crossbow_attack',
+        4: 'mountturret',
     }
     cantakecover = True
 
@@ -1678,6 +1888,11 @@ class CharacterRebelSoldier(RebelInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'grenade_soldier',
+        1: 'stun_frag',
+        4: 'mountturret',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -1715,6 +1930,10 @@ class CharacterRebelFlamer(RebelFlamer):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'smokegrenade_char',
+        4: 'mountturret',
     }
     recharge_other_abilities = {
         'char_combine_soldier',
@@ -1759,6 +1978,12 @@ class CharacterRebelMedic(RebelMedicInfo):
         10: 'patrol',
         -1: 'garrison',
     }
+    abilitiesfps = {
+        0: 'heal_char',
+        1: 'passivehealing_indicator',
+        2: 'stun_frag',
+        4: 'mountturret',
+    }
     weapons = ['weapon_smg1']
     recharge_other_abilities = {
         'char_combine_soldier',
@@ -1777,9 +2002,6 @@ class CharacterRebelMedic(RebelMedicInfo):
     rechargetime = 180.0
 
 
-# TODO: buff the  abilities
-
-
 class CharacterRebelEngineer(RebelEngineerInfo):
     name = 'char_rebel_engineer'
     displayname = '#CharRebEngineer_Name'
@@ -1794,19 +2016,20 @@ class CharacterRebelEngineer(RebelEngineerInfo):
     attributes = ['support']
     tier = 0
     abilities = {
-        5: 'salvage',
-        6: 'mountturret',
+        0: 'build_char_barricade',
+        1: 'char_mountableturret',  # TODO: allow to be used by all members
+        2: 'build_reb_char_barreltrap',
+        4: 'mountturret',
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
         11: 'construct',
-        3: SubMenu(name='engie_defensemenu_char', displayname='#RebDefenseMenu_Name', description='#RebDefenseMenu_Description',
-                   image_name='vgui/abilities/building_menu.vmt', abilities={
-                0: 'build_char_barricade',
-                1: 'char_mountableturret',  # TODO: allow to be used by all members
-                2: 'build_reb_char_barreltrap',
-                11: 'menuup',
-            })
+    }
+    abilitiesfps = {
+        0: 'build_char_barricade',
+        1: 'char_mountableturret',
+        2: 'build_reb_char_barreltrap',
+        4: 'mountturret',
     }
     weapons = ['weapon_hammer', 'weapon_shotgun']
     recharge_other_abilities = {
@@ -1850,6 +2073,12 @@ class CharacterRebelVeteran(RebelVeteran):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'fireexplosivebolt_char',
+        1: 'rebel_steadyposition',
+        2: 'crossbow_attack',
+        4: 'mountturret',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -1892,6 +2121,12 @@ class CharacterRebelScout(RebelScoutInfo):
         9: 'holdposition',
         10: 'patrol',
     }
+    abilitiesfps = {
+        0: 'infiltrate_char',
+        1: 'stab',
+        2: 'c4explosive_char',
+        4: 'mountturret',
+    }
     recharge_other_abilities = {
         'char_combine_soldier',
         'char_combine_elite',
@@ -1928,6 +2163,10 @@ class CharacterRebelRPG(RebelRPGInfo):
         8: 'attackmove',
         9: 'holdposition',
         10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'char_throwstinkbomb',
+        4: 'mountturret',
     }
     recharge_other_abilities = {
         'char_combine_soldier',

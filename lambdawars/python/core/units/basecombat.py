@@ -646,6 +646,14 @@ class UnitBaseCombat(BaseClass):
 
         self.StatusEffectsThink(self.think_freq)
 
+        # ActionStunned is what clears the networked stun flag, and behaviors
+        # do not run while this unit is possessed. Keep the flag on the effect
+        # itself so it ends when the timer ends.
+        if self.controllerplayer is not None:
+            stunned = self.IsStatusEffectActive('stunned')
+            if self.stunned != stunned:
+                self.stunned = stunned
+
         # Update energy if any
         if self.maxenergy > 0:
             self.UpdateEnergy(self.think_freq)
@@ -774,11 +782,8 @@ class UnitBaseCombat(BaseClass):
     def CanMeleeAttack(self, target):
         return True
             
-    #
-    # User control
-    #
     def DirectControlCasting(self):
-        """True when a possessed unit's current order is an ability cast."""
+        """True when a player possessed unit's current order is an ability cast."""
         if not self.controllerplayer:
             return False
         order = self.curorder
@@ -788,7 +793,24 @@ class UnitBaseCombat(BaseClass):
         # directcontrolcasting is networked so the client locks as soon as the
         # server snapshot arrives. The server also checks the order itself, so
         # the lock starts on the same tick the cast is queued.
+        pressed = cmd.buttons & ~getattr(self, '_controlbuttons', 0)
+        self._controlbuttons = cmd.buttons
+        if self.stunned:
+            self.mv.forwardmove = 0.0
+            self.mv.sidemove = 0.0
+            self.mv.upmove = 0.0
+            self.mv.jump = False
+            self.mv.interval = gpGlobals.frametime
+            if self.locomotion:
+                self.locomotion.PerformMovement(self.mv)
+            return
         if self.directcontrolcasting or (isserver and self.DirectControlCasting()):
+            if isserver and (pressed & IN_ATTACK):
+                ability = self.curorder.ability if self.curorder else None
+                if not ability or ability.interruptible:
+                    self.ClearAllOrders(dispatchevent=True)
+                    self.directcontrolcasting = False
+                    return
             self.mv.forwardmove = 0.0
             self.mv.sidemove = 0.0
             self.mv.upmove = 0.0
@@ -799,8 +821,8 @@ class UnitBaseCombat(BaseClass):
         self.mv.sidemove = cmd.sidemove
         self.mv.upmove = cmd.upmove
         self.mv.idealviewangles = cmd.viewangles
-        self.mv.jump = ((cmd.buttons & IN_JUMP) != 0) #and ((cmd.oldbuttons & IN_JUMP) == 0)
-        
+        self.mv.jump = ((cmd.buttons & IN_JUMP) != 0)
+
         if not self.canjump and self.mv.jump:
             self.mv.upmove = 500.0
         
@@ -1149,19 +1171,20 @@ class UnitBaseCombat(BaseClass):
         if not alwaysqueue and ability and ability.player and not (ability.player.buttons & IN_SPEED):
             self.ClearAllOrders(True, dispatchevent=False) # Don't dispatch an event, since insert order will already do so (if desired)
             
-        o = OrderAbility(type=Order.ORDER_ABILITY, position=position, angle=angle, 
+        order = OrderAbility(type=Order.ORDER_ABILITY, position=position, angle=angle, 
                        target=target, repeat=repeat)
-        o.ability = ability
-        self.InsertOrder(o, idx=idx, notifyclient=notifyclient, dispatchevent=dispatchevent)
+        order.ability = ability
+        self.InsertOrder(order, idx=idx, notifyclient=notifyclient, dispatchevent=dispatchevent)
         
-        if o.ability:
-            o.ability.attachedtoorder = True
+        if order.ability:
+            order.ability.attachedtoorder = True
 
-        # Lock player movement as soon as this cast is the order being carried out.
-        if self.controllerplayer and self.curorder is o:
+        # When under direct player control, lock movement 
+        # as soon as this cast is the order being carried out.
+        if self.controllerplayer and self.curorder is order:
             self.directcontrolcasting = True
             
-        return o
+        return order
             
     @classmethod
     def SpreadUnits(cls, units, clearorders=True):

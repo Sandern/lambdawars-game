@@ -13,7 +13,7 @@ from gameinterface import ConVarRef
 from core.hud import AbilityHudInfo
 
 from .warshud import (HudMinimapSection, HudPopulationSection, HudResourceSection, HudAbilitiesSection,
-                     HudUnitsSection, HudGroups)
+                     HudAbilitiesFPSSection, HudUnitsSection, HudGroups)
                      
 class HudRebelsMinimapSection(HudMinimapSection):
     backgroundtexture = 'hud_rebels_minimap'
@@ -28,6 +28,9 @@ class HudRebelsResourceSection(HudResourceSection):
 
 class HudRebelsAbilitiesSection(HudAbilitiesSection):
     backgroundtexture = 'hud_rebels_abilities'
+
+class HudRebelsAbilitiesFPSSection(HudAbilitiesFPSSection):
+    pass
     
 class HudRebelsUnitsSection(HudUnitsSection):
     backgroundtexture = 'hud_rebels_units'
@@ -54,6 +57,7 @@ class HudRebels(CHudElement, Panel):
         self.abilities = HudRebelsAbilitiesSection(viewport, self.infobox, self.config)
         self.units = HudRebelsUnitsSection(viewport, self.infobox, self.config)
         self.groups = HudGroups(viewport, self.config)
+        self.abilities_fps = HudRebelsAbilitiesFPSSection(viewport, self.infobox, self.config)
         
         # Create a list for easy access
         # TODO: Consider removed attributes above?
@@ -65,6 +69,7 @@ class HudRebels(CHudElement, Panel):
             'abilities' : self.abilities,
             'units' : self.units,
             'groups' : self.groups,
+            'abilities_fps' : self.abilities_fps,
         }
         
     def UpdateOnDelete(self):
@@ -115,6 +120,16 @@ class HudRebels(CHudElement, Panel):
         self.abilities.SetSize(abilitieswide,
                      scheme().GetProportionalScaledValueEx(self.GetScheme(), 135))
 
+        cell = 32
+        fpswide = scheme().GetProportionalScaledValueEx(self.GetScheme(), 200)
+        fpstall = scheme().GetProportionalScaledValueEx(self.GetScheme(), 2 * cell)
+        barmargin = scheme().GetProportionalScaledValueEx(self.GetScheme(), 20)
+        barheight = scheme().GetProportionalScaledValueEx(self.GetScheme(), 32)
+        gap = scheme().GetProportionalScaledValueEx(self.GetScheme(), 2)
+        self.abilities_fps.SetSize(fpswide, fpstall)
+        self.abilities_fps.SetPos(self.screenwidth - fpswide - barmargin,
+                    self.screenheight - barheight - barmargin - fpstall - gap)
+
         if self.aspect > 1.7:
             # 16:9
             unitswide = scheme().GetProportionalScaledValueEx(self.GetScheme(), 341)
@@ -151,9 +166,19 @@ class HudRebels(CHudElement, Panel):
         
     def SetVisible(self, visible):
         super(HudRebels, self).SetVisible(visible)
+        player = C_HL2WarsPlayer.GetLocalHL2WarsPlayer()
+        controlling = bool(player and player.GetControlledUnit())
         for name, panel in self.subpanels.items():
-            if panel and name not in ['infobox']:
-                panel.SetVisible(visible)
+            if not panel or name in ['infobox']:
+                continue
+            if name in ['minimapsection', 'population', 'resource']:
+                panel.SetVisible(visible or controlling)
+                continue
+            # Draw only when controlling a unit
+            if name == 'abilities_fps':
+                panel.SetVisible(controlling)
+                continue
+            panel.SetVisible(visible)
                 
     subpanels = {}
                 

@@ -1011,6 +1011,10 @@ class CombineHunterInfo(UnitInfo):
         9 : 'holdposition',
         10 : 'patrol',
     }
+    abilitiesfps = {
+        0: 'chargehunter',
+        1: 'hunter_jump'
+    }
 
     shoulder_height = 30.0
     shoulder_aimdist = 400.0

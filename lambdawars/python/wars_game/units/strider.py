@@ -953,7 +953,6 @@ class UnitStrider(BaseClass):
     constructors = SetField(networked=True, save=False)
     constructability = 'combine_repair'
 
-
     class LocomotionClass(UnitBaseAirLocomotion):
         def CalcFootPosHeight(self, footposparam):
             outer = self.outer
@@ -1073,6 +1072,7 @@ class UnitStrider(BaseClass):
     STRIDERFX_BIG_SHOT_TIME = 1.25
     STRIDERFX_END_ALL_TIME = 4.0
 
+
 class StriderUnlock(AbilityUpgrade):
     name = 'strider_unlock'
     displayname = '#CombStriderUnlock_Name'
@@ -1082,7 +1082,8 @@ class StriderUnlock(AbilityUpgrade):
     buildtime = 90.0
     costs = [[('requisition', 150), ('power', 300)], [('kills', 5)]]
     sai_hint = AbilityUpgrade.sai_hint | set(['sai_unit_unlock'])
-    
+
+
 class StriderMaxEnergyUpgrade(AbilityUpgradeValue):
     name = 'strider_maxenergy_upgrade'
     displayname = '#StriderMaxEnUpgr_Name'
@@ -1094,7 +1095,8 @@ class StriderMaxEnergyUpgrade(AbilityUpgradeValue):
     upgradevalue = 150
     image_name = 'vgui/combine/abilities/combine_strider_energy_unlock'
     sai_hint = AbilityUpgradeValue.sai_hint | set(['sai_grenade_upgrade'])
-    
+
+
 class StriderInfo(UnitInfo):
     name = 'unit_strider'
     cls_name = 'unit_strider'
@@ -1121,12 +1123,19 @@ class StriderInfo(UnitInfo):
     sound_move = 'unit_strider_move'
     sound_attack = 'unit_strider_attack'
     #tier =3
-    ability_0 = 'impale'
-    ability_1 = 'stridercannon'
-    ability_2 = 'striderspeed'
-    ability_8 = 'attackmove'
-    ability_9 = 'holdposition'
-    ability_10 = 'patrol'
+    abilities = {
+        0: 'impale',
+        1: 'stridercannon',
+        2: 'striderspeed',
+        8: 'attackmove',
+        9: 'holdposition',
+        10: 'patrol',
+    }
+    abilitiesfps = {
+        0: 'impale',
+        1: 'stridercannon',
+        2: 'striderspeed'
+    }
 
     shoulder_height = 25.0
     shoulder_aimdist = 400.0
@@ -1145,6 +1154,8 @@ class StriderInfo(UnitInfo):
         maxresttime = 1.25
     attacks = 'AttackRange'
     sai_hint = set(['sai_unit_combat', 'sai_unit_super'])
+
+
 class OverrunStriderInfo(StriderInfo):
     name = 'overrun_unit_strider'
     displayname = '#CombStrider_Name'

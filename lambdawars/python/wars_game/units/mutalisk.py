@@ -47,6 +47,7 @@ class MutaliskInfo(AntlionWorkerInfo):
         8 : 'attackmove',
         9 : 'holdposition',
     }
+    abilitiesfps = {}
     image_name = 'vgui/units/unit_antlion_worker.vmt'
     image_dis_name = 'vgui/units/unit_antlion_worker_dis.vmt'
     portrait = 'resource/portraits/antlionWorkerPortrait.bik'

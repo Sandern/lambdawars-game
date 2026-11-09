@@ -8,7 +8,7 @@ from vgui import surface, GetClientMode, CHudElement, CHudElementHelper, scheme,
 from vgui.controls import Panel
 from gameinterface import engine, PlayerInfo
 from utils import GetVectorInScreenSpace, ScreenWidth, ScreenHeight
-from entities import PlayerResource
+from entities import PlayerResource, C_HL2WarsPlayer
 from core.units import unitlist
 from core.signals import playercontrolunit, playerleftcontrolunit
 import playermgr
@@ -53,10 +53,14 @@ class HudPlayerNames(CHudElement, Panel):
         self.hfontsmall = schemeobj.GetFont('FriendsMedium')
         
     def OnPlayerControlUnit(self, player, unit, **kwargs):
+        if player == C_HL2WarsPlayer.GetLocalHL2WarsPlayer():
+            return
         self.controlledunits.append(unit)
         self.SetPaintEnabled(True)
         
     def OnPlayerLeftControlUnit(self, player, unit, **kwargs):
+        if player == C_HL2WarsPlayer.GetLocalHL2WarsPlayer():
+            return
         self.controlledunits.remove(unit)
         if not self.controlledunits:
             self.SetPaintEnabled(False)

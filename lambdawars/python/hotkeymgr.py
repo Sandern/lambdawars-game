@@ -143,9 +143,19 @@ class GridHotkeySystem(BaseHotkeySystem):
         
         abislot = self.gridhotkeys_char_to_slot[self.activehotkey]
         
-        # Retrieve the active hud abilities map
-        abilitiesmap = player.hudabilitiesmap[-1] if getattr(player, 'hudabilitiesmap', None) else unitinfo.abilities
-            
+        # While controlling a unit, the key grid follows abilitiesfps.
+        if player.GetControlledUnit():
+            stack = getattr(player, 'hudabilitiesfpsmap', None)
+            if stack:
+                abilitiesmap = stack[-1]
+            else:
+                abilitiesmap = getattr(unitinfo, 'abilitiesfps', None)
+                if abilitiesmap is None:
+                    abilitiesmap = {}
+        else:
+            stack = getattr(player, 'hudabilitiesmap', None)
+            abilitiesmap = stack[-1] if stack else unitinfo.abilities
+
         # Must be in the map
         if abislot not in abilitiesmap:
             return None, None
