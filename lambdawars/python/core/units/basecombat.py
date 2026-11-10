@@ -54,6 +54,21 @@ ROUND_TO_TICKS = lambda t: gpGlobals.interval_per_tick * TIME_TO_TICKS(t)
 
 unitcombatdebugoverlays = 0
 
+def during_predicted_usercmd(fn):
+    """Set the predicted-command flag for the whole call.
+
+    DoAnimation reads it so an event the possessing client already played is
+    not delivered again. The flag is cleared on every exit.
+    """
+    def call(self, *args, **kwargs):
+        self._inpredictedusercmd = True
+        try:
+            return fn(self, *args, **kwargs)
+        finally:
+            self._inpredictedusercmd = False
+    call.__name__ = fn.__name__
+    return call
+
 @networked
 class UnitBaseCombat(BaseClass):
     """Base class for movable/attackable units with simple animations/attacks.
@@ -789,6 +804,7 @@ class UnitBaseCombat(BaseClass):
         order = self.curorder
         return bool(order and order.type == order.ORDER_ABILITY)
 
+    @during_predicted_usercmd
     def UserCmd(self, cmd):
         # directcontrolcasting is networked so the client locks as soon as the
         # server snapshot arrives. The server also checks the order itself, so
@@ -825,13 +841,13 @@ class UnitBaseCombat(BaseClass):
 
         if not self.canjump and self.mv.jump:
             self.mv.upmove = 500.0
-        
+
         #self.eyepitch = cmd.viewangles.x
         self.eyeyaw = cmd.viewangles.y
-        
+
         self.mv.interval = gpGlobals.frametime
         self.locomotion.PerformMovement(self.mv)
-        
+
         if self.nextattacktime < gpGlobals.curtime:
             if (cmd.buttons & IN_ATTACK):
                 if len(self.attacks) > 0:

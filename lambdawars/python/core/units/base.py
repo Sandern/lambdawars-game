@@ -1796,10 +1796,15 @@ class UnitBase(UnitBaseShared, BaseClass):
             for origin in extraorigins:
                 filter.AddRecipientsByPVS(origin)
             filter.UsePredictionRules()
-            # That filter keeps players inside the strategic camera frustum.
-            # Add the controller player to the filter so they see the animation.
+            # The pawn sits at the strategic camera, outside this unit's PVS,
+            # so the possessor would otherwise never receive the event.
+            # Skip that add while their own predicted command is running: the
+            # client already played the event, and a second copy restarts the
+            # main sequence on top of the movement sequence. Singleplayer does
+            # not predict, so the event still has to be delivered there.
             controller = self.controllerplayer
-            if controller:
+            predicted = gpGlobals.maxClients > 1 and getattr(self, '_inpredictedusercmd', False)
+            if controller and not predicted:
                 filter.AddRecipient(controller.entindex())
             self.SendEvent(filter, animevent, data)
         self.ReceiveEvent(animevent, data)
