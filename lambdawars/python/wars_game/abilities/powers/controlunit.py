@@ -22,5 +22,6 @@ class AbilityControlUnit(AbilityTarget):
             engine.ClientCommand(self.player, "c_thirdpersonshoulderoffset %s" % (ent.unitinfo.shoulder_offset))
             engine.ClientCommand(self.player, "c_thirdpersonshoulderaimdist %s" % (ent.unitinfo.shoulder_aimdist))
             engine.ClientCommand(self.player, "c_thirdpersonshoulderheight %s" % (ent.unitinfo.shoulder_height))
+            engine.ClientCommand(self.player, "c_thirdpersonshoulderdist %s" % (ent.unitinfo.shoulder_height))
             self.Completed()    
         

@@ -1019,6 +1019,8 @@ class CombineHunterInfo(UnitInfo):
     shoulder_height = 30.0
     shoulder_aimdist = 400.0
     shoulder_offset = 30.0
+    shoulder_dist = 30.0
+
     
     class AttackMelee(UnitInfo.AttackMelee):
         damage = 100

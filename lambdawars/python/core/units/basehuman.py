@@ -74,22 +74,17 @@ class UnitBaseCombatHuman(BaseClass):
         self.Weapon_FrameUpdate()
     
     def UserCmd(self, cmd):
+        if self.controlledbyplayer:
+            # First-person view angles. The shoulder camera is offset from the
+            # eyes, so a trace from that camera does not match where the shot goes.
+            # Set these before the attack, which runs inside the base command.
+            self.eyeyaw = cmd.viewangles.y
+            self.eyepitch = cmd.viewangles.x
+
         super().UserCmd(cmd)
         
         if isclient:
             self.Weapon_FrameUpdate()
-        
-        if self.controlledbyplayer:
-            player = UTIL_PlayerByIndex(self.controlledbyplayer)
-            
-            end = player.GetMouseData().endpos
-            dir = end - self.Weapon_ShootPosition() 
-            dist = VectorNormalize(dir)
-
-            angle = QAngle()
-            VectorAngles(dir, angle)
-            self.eyeyaw = self.EyeAngles().y
-            self.eyepitch = angle.x
             
     def Mount(self):
         """Mark the unit as mounted (holsters weapon and updates animations)."""

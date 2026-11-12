@@ -699,6 +699,7 @@ class MetroPoliceInfo(UnitInfo):
     shoulder_height = 5.0
     shoulder_aimdist = 400.0
     shoulder_offset = 20.0
+    shoulder_dist = 40.0
 
 
 class MetroPoliceSMG1Info(MetroPoliceInfo):

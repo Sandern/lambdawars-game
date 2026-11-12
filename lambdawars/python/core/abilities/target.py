@@ -198,24 +198,12 @@ class AbilityTarget(AbilityBase):
         
     def OnRightMouseButtonPressed(self):
         """ Returns True to prevent default right mouse pressed behavior. """
-        def ControlledUnitRightPressed():
-            player.CAM_ToFirstPerson()
-            self.oldfov = player.GetFOV()
-            player.SetFOV(60)
-            return
-
-        if self.IsUnitControlled():
-            ControlledUnitLeftPressed()
-
+        # Holding right mouse while possessing zooms the shoulder camera.
+        # That is handled by the client camera, not by leaving third person.
         return True    
  
     def OnRightMouseButtonReleased(self):
         """ Cancels the ability if cancelonrightrelease is True/ """
-
-        if self.IsUnitControlled():
-            player.CAM_ToThirdPersonShoulder()
-            player.CAM_SetFOV(self.oldfov)
-            ControlledUnitLeftPressed()
 
         if isserver and self.cancelonrightrelease:
             self.Cancel(debugmsg='right mouse button released')
